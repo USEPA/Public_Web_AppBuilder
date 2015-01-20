@@ -1,0 +1,171 @@
+<div style="width:100%;height:auto;">
+	<table style="width:100%;" cellspacing="0">
+		<tbody>			
+			<tr>
+				<td nowrap style="width:100px;">
+					<span nowrap class="jimu-ellipsis">${nls.routeUrl}</span>
+				</td>
+				<td class="route-td">
+					<input data-dojo-attach-point="routeUrl" data-dojo-type="jimu/dijit/URLInput" type="text" style="width:100%;" />
+				</td>
+			</tr>
+			<tr>
+				<td nowrap style="width:100px;">
+					<span nowrap class="jimu-ellipsis">${nls.locatorUrl}</span>
+				</td>
+				<td class="locator-td">
+					<input data-dojo-attach-point="locatorUrl" data-dojo-type="jimu/dijit/URLInput" type="text" style="width:100%;" />
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<span style="margin:10px 0 5px 0;display:inline-block;font-weight:bold;">${nls.geocoderOptions}</span>
+	<table style="width:100%;" cellspacing="0">
+		<tbody>
+			<tr>
+				<td style="width:50%;">
+					<span>${nls.autoComplete}</span>
+					<input data-dojo-attach-point="autoComplete" type="checkbox" />
+				</td>
+				<td style="width:50%;">
+					<table style="width:100%;" cellspacing="0">
+						<tbody>
+							<tr>
+								<td style="width:200px;">
+									<span class="search-delay">${nls.searchDelay}</span>
+								</td>
+								<td style="width:auto;">
+									<input data-dojo-attach-point="searchDelay" data-dojo-type="dijit/form/NumberSpinner" data-dojo-props='required:true,value:350,smallDelta:1,largeDelta:10,constraints:{min:10},intermediateChanges:true' type="text" style="width:220px;" />
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td style="width:50%;">
+					<table style="width:100%;" cellspacing="0">
+						<tbody>
+							<tr>
+								<td style="width:200px;">
+									<span class="jimu-ellipsis">${nls.maxLocations}</span>
+								</td>
+								<td style="width:auto;">
+									<input data-dojo-attach-point="maxLocations" data-dojo-type="dijit/form/NumberSpinner" data-dojo-props='required:true,value:6,smallDelta:1,largeDelta:1,constraints:{min:1},intermediateChanges:true' type="text" style="width:220px;" />
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</td>
+				<td style="width:50%;">
+					<table style="width:100%;" cellspacing="0">
+						<tbody>
+							<tr>
+								<td style="width:200px;">
+									<span class="min-characters jimu-ellipsis">${nls.minCharacters}</span>
+								</td>
+								<td style="width:auto;">
+									<input data-dojo-attach-point="minCharacters" data-dojo-type="dijit/form/NumberSpinner" data-dojo-props='required:true,value:3,smallDelta:1,largeDelta:1,constraints:{min:3},intermediateChanges:true' type="text" style="width:220px;" />
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<table style="width:100%;" cellspacing="0">
+						<tbody>
+							<tr>
+								<td style="width:200px;">
+									<span>${nls.placeholder}</span>
+								</td>
+								<td style="width:auto;">
+									<input data-dojo-attach-point="placeholder" data-dojo-type="dijit/form/ValidationTextBox" type="text" style="width:220px;" />
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<span style="margin:10px 0 5px 0px;display:inline-block;font-weight:bold;">${nls.routeOptions}</span>
+	<table style="width:100%;" cellspacing="0">
+		<tbody>
+			<tr>
+				<td style="width:50%;">
+					<table style="width:100%;" cellspacing="0">
+						<tbody>
+							<tr>
+								<td nowrap style="width:200px;">
+									<span nowrap class="jimu-ellipsis">${nls.directionsLanguage}</span>
+								</td>
+								<td style="width:auto;">
+									<input data-dojo-attach-point="directionsLanguage" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props='required:true' style="width:220px;" />
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</td>
+				<td style="width:50%;">
+					<table  style="width:100%;" cellspacing="0">
+						<tbody>
+							<tr>
+								<td nowrap style="width:200px">
+									<span class="length-units jimu-ellipsis" nowrap>${nls.directionsLengthUnits}</span>
+								</td>
+								<td style="width:auto;">
+									<select data-dojo-attach-point="directionsLengthUnits" data-dojo-type="dijit/form/Select" style="width:220px;height:30px;">
+										<option value="esriFeet">${nls.feet}</option>
+										<option value="esriKilometers" selected>${nls.kilometers}</option>
+										<option value="esriMeters">${nls.meters}</option>
+										<option value="esriMiles">${nls.miles}</option>
+										<option value="esriNauticalMiles">${nls.nauticalMiles}</option>
+										<option value="esriYards">${nls.yards}</option>
+									</select>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td style="width:50%;">
+					<table style="width:100%;" cellspacing="0">
+						<tbody>
+							<tr>
+								<td nowrap style="width:200px;">
+									<span nowrap class="jimu-ellipsis">${nls.directionsOutputType}</span>
+								</td>
+								<td style="width:auto;">
+									<select data-dojo-attach-point="directionsOutputType" data-dojo-type="dijit/form/Select" style="width:220px;height:30px;">
+										<option value="standard" selected>${nls.standard}</option>
+										<option value="complete">${nls.complete}</option>
+										<option value="complete-no-events">${nls.completeNoEvents}</option>
+										<option value="instructions-only">${nls.instructionsOnly}</option>
+										<option value="summary-only">${nls.summaryOnly}</option>
+									</select>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</td>
+				<td style="width:50%;">
+					<table style="width:100%;" cellspacing="0">
+						<tbody>
+							<tr>
+								<td nowrap style="width:200px;">
+									<span class="impedance-attribute jimu-ellipsis" nowrap>${nls.impedanceAttribute}</span>
+								</td>
+								<td style="width:auto;">
+									<input data-dojo-attach-point="impedanceAttribute" data-dojo-type="dijit/form/ValidationTextBox"  style="width:220px;" />
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>

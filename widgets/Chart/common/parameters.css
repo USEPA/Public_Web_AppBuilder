@@ -1,0 +1,123 @@
+.jimu-widget-chart-parameters{
+	position: relative;
+}
+
+.jimu-widget-chart-parameters .setting-item{
+	margin-bottom: 10px;
+}
+
+.jimu-widget-chart-parameters .setting-item label{
+	margin-left: 5px;
+}
+
+.jimu-rtl .jimu-widget-chart-parameters .setting-item label{
+	margin-left: 0;
+	margin-right: 5px;
+}
+
+.jimu-widget-chart-parameters .color-tip{
+	margin-bottom: 10px;
+}
+
+.jimu-widget-chart-parameters .single-color-section{
+	width: 220px;
+}
+
+.jimu-widget-chart-parameters .single-color-div{
+	height: 30px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	-ms-border-radius: 5px;
+	-o-border-radius: 5px;
+	border-radius: 5px;
+	margin-bottom: 15px;
+}
+
+.jimu-widget-chart-parameters .multi-color-section{
+	width: 210px;
+	max-height: 300px;
+	overflow: auto;
+}
+
+.jimu-widget-chart-parameters .multi-color-section .multi-color{
+	width: 180px;
+	height: 30px;
+	background-repeat: no-repeat;
+	background-position: center center;
+	cursor: pointer;
+}
+
+.jimu-widget-chart-parameters .multi-color-section .c1{
+	background-image: url(images/c1.png);
+}
+
+.jimu-widget-chart-parameters .multi-color-section .c2{
+	background-image: url(images/c2.png);
+}
+
+.jimu-widget-chart-parameters .multi-color-section .c3{
+	background-image: url(images/c3.png);
+}
+
+.jimu-widget-chart-parameters .multi-color-section .c4{
+	background-image: url(images/c4.png);
+}
+
+.jimu-widget-chart-parameters .multi-color-section .g1{
+	background-image: url(images/g1.png);
+}
+
+.jimu-widget-chart-parameters .multi-color-section .g2{
+	background-image: url(images/g2.png);
+}
+
+.jimu-widget-chart-parameters .multi-color-section .g3{
+	background-image: url(images/g3.png);
+}
+
+.jimu-widget-chart-parameters .multi-color-section .g4{
+	background-image: url(images/g4.png);
+}
+
+.jimu-widget-chart-parameters .multi-color-section .g5{
+	background-image: url(images/g5.png);
+}
+
+.jimu-widget-chart-parameters .multi-color-section .g6{
+	background-image: url(images/g6.png);
+}
+
+.jimu-widget-chart-parameters .multi-color-section .g7{
+	background-image: url(images/g7.png);
+}
+
+.jimu-widget-chart-parameters .multi-color-section .g8{
+	background-image: url(images/g8.png);
+}
+
+.jimu-widget-chart-parameters .multi-color-section .g9{
+	background-image: url(images/g9.png);
+}
+
+.jimu-widget-chart-parameters .multi-color-section .g10{
+	background-image: url(images/g10.png);
+}
+
+.jimu-widget-chart-parameters .multi-color-section .g11{
+	background-image: url(images/g11.png);
+}
+
+.jimu-widget-chart-parameters .multi-color-section .g12{
+	background-image: url(images/g12.png);
+}
+
+.jimu-widget-chart-parameters .multi-color-section .selected{
+	border: 2px solid #f4c6af;
+}
+
+.jimu-widget-chart-parameters .shelter{
+	display: none;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+}

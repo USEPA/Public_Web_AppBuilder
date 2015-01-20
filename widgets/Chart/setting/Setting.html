@@ -1,0 +1,21 @@
+<div>
+	<div class="chart-list">
+		<div class="chart-list-head" style="overflow:hidden;">
+			<div class="jimu-float-leading">${nls.charts}</div>
+			<div class="jimu-float-trailing">
+				<div class="add-with-icon enable" data-dojo-attach-event="onclick:_onAddNewClicked">
+					<span class="add-icon"></span>
+					<span class="add-label" title="${nls.addNewTip}">${nls.addNew}</span>
+				</div>
+			</div>
+		</div>
+		<div class="chart-list-content">
+			<div class="chart-list-table" data-dojo-type="jimu/dijit/SimpleTable" data-dojo-attach-point="chartList" data-dojo-attach-event="row-delete:_onChartItemRemoved,row-select:_onChartItemSelected" data-dojo-props='autoHeight:false,selectable:true,fields:[{name:"name", title:"${nls.name}", width:"auto", type:"text", editable:false}, {name:"actions", title:"", width:"70px", type:"actions", actions:["up","down","delete"]}]' style="position:absolute; top:0; bottom:10px;"></div>
+			<div class="preview-div" data-dojo-attach-point="previewDiv">
+			</div>
+		</div>
+	</div>
+	<div class="single-chart-container" data-dojo-attach-point="singleChartContainer">
+	</div>
+	<div data-dojo-attach-point="shelter" data-dojo-type="jimu/dijit/LoadingShelter" data-dojo-props='hidden:true'></div>
+</div>

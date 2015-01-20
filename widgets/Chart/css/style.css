@@ -1,0 +1,269 @@
+@import url("preview.css");
+@import url("../common/parameters.css");
+
+.jimu-widget-chart{
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-width: 222px;
+  min-height: 237px;
+  overflow-x: hidden;
+}
+
+.jimu-widget-chart .chart-widget-content{
+  position: absolute;
+  width: 100%;
+  left: 0;
+  right: 0;
+  height: auto;
+  top: 0;
+  bottom: 0;
+}
+
+.jimu-widget-chart .chart-step{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+}
+
+/* css for chart-list */
+.jimu-widget-chart .chart-list{
+  left: 0;
+}
+
+.jimu-widget-chart .chart-list .charts{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  overflow-y: auto;
+}
+
+.jimu-widget-chart .chart-list .charts .execute-tip{
+  line-height: 20px;
+  color: #66696c;
+  font-size: 14px;
+}
+
+.jimu-widget-chart .chart-list .charts .charts-table-container{
+  width: 100%;
+  margin-top: 15px;
+}
+
+.jimu-widget-chart .chart-list .charts .charts-table{
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.jimu-widget-chart .chart-list .charts .charts-table td{
+  height: 30px;
+  line-height: 30px;
+  cursor: pointer;
+}
+
+.jimu-widget-chart .chart-list .charts .charts-table tr *{
+  cursor: pointer;
+}
+
+.jimu-widget-chart .chart-list .charts .charts-table .second-td{
+  color: #686868;
+  font-size: 12px;
+}
+
+.jimu-widget-chart .chart-list .charts .charts-table .chart-name-div{
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  height: 100%;
+}
+
+.jimu-widget-chart .chart-list .charts .charts-table .third-td .arrow{
+  background-repeat: no-repeat;
+  background-position: center;
+  background-image: url(images/arrow_right1.png);
+  width: 100%;
+  height: 100%;
+}
+
+.jimu-rtl .jimu-widget-chart .chart-list .charts .charts-table .third-td .arrow{
+  background-image: url(images/rtl_arrow_right1.png);
+}
+
+.jimu-widget-chart .chart-list .charts .charts-table>tbody>tr.selected td{
+  background: #d9dde0;
+}
+
+.jimu-widget-chart .chart-list .charts .charts-table>tbody>tr:hover td{
+  background: #d9dde0;
+  border-top: 1px solid #ffffff;
+}
+
+.jimu-widget-chart .chart-list .charts .charts-table>tbody>tr.selected .third-td .arrow{
+  background-image: url(images/arrow_right2.png);
+}
+
+.jimu-rtl .jimu-widget-chart .chart-list .charts .charts-table>tbody>tr.selected .third-td .arrow{
+  background-image: url(images/rtl_arrow_right2.png);
+}
+
+.jimu-widget-chart .chart-list .charts .charts-table>tbody>tr:hover .third-td .arrow{
+  background-image: url(images/arrow_right2.png);
+}
+
+.jimu-rtl .jimu-widget-chart .chart-list .charts .charts-table>tbody>tr:hover .third-td .arrow{
+  background-image: url(images/rtl_arrow_right2.png);
+}
+
+.jimu-widget-chart .chart-list .invalid-config{
+  display: none;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+}
+
+.jimu-widget-chart .chart-list .no-chart-tip{
+  display: none;
+  line-height: 20px;
+  color: #66696c;
+  font-size: 14px;
+}
+
+/* css for header */
+.jimu-widget-chart .step-head{
+  position: relative;
+  width: 100%;
+  height: 30px;
+  line-height: 30px;
+}
+
+.jimu-widget-chart .step-title{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  text-align: center;
+  font-size: 14px;
+  color: #86909c;
+}
+
+.jimu-widget-chart .step-head .operations{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  right: 0;
+  top: 0;
+}
+
+.jimu-widget-chart .step-head .operations .params-back{
+  color: blue;
+  cursor: pointer;
+  height: 100%;
+}
+
+.jimu-widget-chart .step-head .operations .params-back .back-icon{
+  width: 8px;
+  height: 100%;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-image: url(images/arrow_left.png);
+  margin-right: 5px;
+}
+
+.jimu-rtl .jimu-widget-chart .step-head .operations .params-back .back-icon{
+  background-image: url(images/rtl_arrow_left.png);
+  margin-right: 0;
+  margin-left: 5px;
+}
+
+.jimu-widget-chart .step-head .operations .params-back .back-tip{
+  height: 100%;
+  color: #51b1fe;
+}
+
+/* css for chart-params */
+.jimu-widget-chart .chart-params{
+  left: 100%;
+}
+
+.jimu-widget-chart .chart-params-head .operations .apply{
+  cursor: pointer;
+  height: 100%;
+  color: #51b1fe;
+}
+
+.jimu-widget-chart .params-container{
+  position: absolute;
+  width: 100%;
+  left: 0;
+  top: 40px;
+  bottom: 0;
+  overflow-y: auto;
+}
+
+.jimu-widget-chart .chart-params table.current-view{
+  width: auto;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.jimu-widget-chart .chart-params table.current-view td{
+  vertical-align: top;
+}
+
+.jimu-widget-chart .chart-params .draw-graphic{
+  margin-top: 5px;
+}
+
+.jimu-widget-chart .chart-params .select-spatial{
+  margin-left: 7px;
+  margin-top: 7px;
+}
+
+.jimu-rtl .jimu-widget-chart .chart-params .select-spatial{
+  margin-left: 0;
+  margin-right: 7px;
+}
+
+.jimu-widget-chart .chart-params .current-extent-td{
+  padding-left: 8px;
+}
+
+.jimu-rtl .jimu-widget-chart .chart-params .current-extent-td{
+  padding-left: 0;
+  padding-right: 8px;
+}
+
+.jimu-widget-chart .chart-params .draw-graphic-tr td{
+  padding-top: 5px;
+}
+
+.jimu-widget-chart .chart-params .draw-graphic-td{
+  padding-left: 8px;
+}
+
+.jimu-rtl .jimu-widget-chart .chart-params .draw-graphic-td{
+  padding-left: 0;
+  padding-right: 8px;
+}
+
+/* css for chart-results */
+.jimu-widget-chart .chart-results{
+  left: 200%;
+}
+
+.jimu-widget-chart .chart-results .results-container{
+  position: absolute;
+  width: 100%;
+  left: 0;
+  top: 50px;
+  bottom: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+}

@@ -1,0 +1,165 @@
+<div class="gis_PrintDijit">
+    <div class="formContainer">
+        <div data-dojo-type="dijit/form/Form" data-dojo-attach-point="printSettingsFormDijit">
+            <table cellspacing="5" style="width:100%;">
+                <tr>
+                    <td style="width:65px;">
+                        ${nls.title}:
+                    </td>
+                    <td>
+                        <input type="text" data-dojo-attach-point="titleNode" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props="name:'title',trim:true,required:true,style:'width:100%;'" />
+                    </td>
+                </tr>
+                <tr style="display: none">
+                    <td>
+                        ${nls.layout}:
+                    </td>
+                    <td>
+                        <input type="select" data-dojo-type="dijit/form/Select" data-dojo-props="name:'layout',style:'width:100%;'"
+                        data-dojo-attach-point="layoutDijit" />
+                    </td>
+                </tr>
+                <tr style="display: none">
+                    <td>
+                        ${nls.format}:
+                    </td>
+                    <td>
+                        <input type="select" data-dojo-type="dijit/form/Select" data-dojo-props="name:'format',style:'width:100%;'"
+                        data-dojo-attach-point="formatDijit" />
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="buttonActionBar jimu-align-trailing">
+        <div data-dojo-type="dijit/form/DropDownButton" data-dojo-attach-point="advancedButtonDijit" data-dojo-props="iconClass:'settingsIcon',showLabel:true" style="display: none">
+            <span>
+                ${nls.settings}
+            </span>
+            <div data-dojo-type="dijit/TooltipDialog" class="gis_PrintDijit">
+                <div style="width:250px;">
+                    <div style="font-weight:bold;">
+                        ${nls.mapScaleExtent}:
+                    </div>
+                    <div data-dojo-type="dijit/form/Form" data-dojo-attach-point="preserveFormDijit">
+                        <table cellspacing="5">
+                            <tr>
+                                <td style="vertical-align:middle;">
+                                    ${nls.preserve}:
+                                </td>
+                                <td>
+                                    <input type="radio" data-dojo-type="dijit/form/RadioButton" data-dojo-props="name:'preserveScale',checked:true,value:'true'"
+                                    />
+                                    ${nls.mapScale}&nbsp;&nbsp;
+                                    <input type="radio" data-dojo-type="dijit/form/RadioButton" data-dojo-props="name:'preserveScale',value:'false'"
+                                    />
+                                    ${nls.mapExtent}
+                                </td>
+                                <tr>
+                                    <td>
+                                        ${nls.forceScale}:
+                                    </td>
+                                    <td>
+                                        <input type="radio" data-dojo-type="dijit/form/RadioButton" data-dojo-props="name:'preserveScale',value:'force',checked:false"/> <input type="text" data-dojo-type="dijit/form/NumberTextBox" data-dojo-props="name:'forcedScale',required:false,style:'width:100px;'" data-dojo-attach-point="forceScaleNTB"/> <a href="#" data-dojo-attach-event="click:getCurrentMapScale">${nls.getCurrentScale}</a>
+                                    </td>
+                                </tr>
+                            </tr>
+                        </table>
+                    </div>
+                    <div style="font-weight:bold;">
+                        ${nls.mapMetadata}:
+                    </div>
+                    <div data-dojo-type="dijit/form/Form" data-dojo-attach-point="layoutMetadataDijit">
+                        <table cellspacing="5" style="width:100%;">
+                            <tr>
+                                <td>
+                                    ${nls.author}:
+                                </td>
+                                <td>
+                                    <input type="text" data-dojo-attach-point="authorNode" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props="name:'author',trim:true,required:false,style:'width:100%;'" data-dojo-attach-point="authorTB"
+                                    />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    ${nls.copyright}:
+                                </td>
+                                <td>
+                                    <input type="text" data-dojo-attach-point="copyrightNode" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props="name:'copyright',trim:true,required:false,style:'width:100%;'" />
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div data-dojo-type="dijit/form/Form" data-dojo-attach-point="layoutFormDijit">
+                        <table cellspacing="5">
+                            <tr>
+                                <td>
+                                    ${nls.lncludeLegend}:
+                                </td>
+                                <td>
+                                    <input type="checkbox" data-dojo-type="dijit/form/CheckBox" data-dojo-props="name:'legend',value:true,checked:true"
+                                    />
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div style="font-weight:bold;">
+                        ${nls.mapOnlyOptions}:
+                    </div>
+                    <div data-dojo-type="dijit/form/Form" data-dojo-attach-point="mapOnlyFormDijit">
+                        <table cellspacing="5">
+                            <tr>
+                                <td>
+                                    ${nls.width}:
+                                </td>
+                                <td>
+                                    <input type="text" data-dojo-type="dijit/form/NumberTextBox" data-dojo-props="name:'width',required:true,value:3300,style:'width:100px;'"
+                                    />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    ${nls.height}:
+                                </td>
+                                <td>
+                                    <input type="text" data-dojo-type="dijit/form/NumberTextBox" data-dojo-props="name:'height',required:true,value:2550,style:'width:100px;'"
+                                    />
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div style="font-weight:bold;">
+                        ${nls.printQualityOptions}:
+                    </div>
+                    <div data-dojo-type="dijit/form/Form" data-dojo-attach-point="mapQualityFormDijit">
+                        <table cellspacing="5">
+                            <tr>
+                                <td>
+                                    ${nls.dpi}:
+                                </td>
+                                <td>
+                                    <input type="text" data-dojo-type="dijit/form/NumberTextBox" data-dojo-props="name:'dpi',required:true,value:300,style:'width:100px;'"
+                                    />
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div data-dojo-type="dijit/form/Button" data-dojo-props="busyLabel:'printing',iconClass:'printIcon'"
+        data-dojo-attach-event="onClick:print" data-dojo-attach-point="printButtonDijit">
+            ${nls.print}
+        </div>
+    </div>
+    <!-- <hr calss="spacer"> -->
+    <div data-dojo-attach-point="printResultsNode" class="resultsContainer">
+    </div>
+    <div data-dojo-attach-point="clearActionBarNode" class="buttonActionBar"
+    style="display:none;padding:0;">
+        <div data-dojo-type="dijit/form/Button" data-dojo-props="iconClass:'clearIcon'"
+        data-dojo-attach-event="onClick:clearResults">
+            ${nls.clearList}
+        </div>
+    </div>
+</div>

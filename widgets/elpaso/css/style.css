@@ -1,0 +1,47 @@
+/* title props from orig widget */
+.dojoxFloatingPaneTitle {
+    color: #fff;
+    font-family: "helvetica neue",helvetica,arial,sans-serif;
+    font-size: 12pt;
+    font-weight: bold;
+    padding-left: 8px;
+}
+
+.dojoxFloatingPaneTitle {
+    background: url("../images/blue/toolbar_bg.png") repeat-x scroll 0 0 #6788a2;
+}
+
+.dojoxFloatingPaneTitle {
+    border: 1px solid #bfbfbf;
+    cursor: pointer;   
+    white-space: nowrap;
+}
+
+.dojoxFloatingPaneContent {
+    font-family: "helvetica neue",helvetica,arial,sans-serif;
+    font-size: 8pt;
+    font-weight: bold;
+}
+
+
+/* set height 100% to fill pane */
+.dojoxFloatingPaneContent {
+    font-family: "helvetica neue",helvetica,arial,sans-serif;
+    font-size: 8pt;
+    font-weight: bold;
+    height: 100%;
+    overflow: hidden;
+    padding-bottom: 4px;
+}
+
+/* close button placement */
+
+.closeClass {
+    position: absolute;
+    right: 4px;
+    top: 1px;
+}
+.closeClass img {
+    border: medium none;
+}
+}

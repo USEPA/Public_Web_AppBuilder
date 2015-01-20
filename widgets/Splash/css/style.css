@@ -1,0 +1,192 @@
+.jimu-widget-splash{
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  z-index: 999;
+}
+.jimu-widget-splash .overlay{
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background-color:#fff;
+  opacity: 0.1;
+  filter: Alpha(opacity=10);
+  -ms-filter: "Alpha(opacity=10)";
+}
+.jimu-widget-splash-desktop .envelope{
+  min-height: 300px;
+  max-height: 500px;
+  min-width: 350px;
+  max-width: 800px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+}
+.jimu-widget-splash-desktop .splash-container{
+  min-width: 350px;
+  max-width: 800px;
+  position: absolute;
+  display: inline-block;
+  background-color: #485566;
+  box-shadow: 0 0 4px rgba(160, 160, 160, 0.4);
+}
+.jimu-widget-splash-desktop .splash-container .default-content{
+  height: 183px;
+  /* width: 100%; */
+  line-height: 183px;
+  margin: 20px 40px;
+  overflow: hidden;
+}
+.jimu-widget-splash-desktop .splash-container .default-content .logo{
+  background: url('images/logo.png') no-repeat center center;
+  width: 130px;
+  height: 183px;
+  float: left;
+  display: inline-block;
+}
+.jimu-widget-splash-desktop .default-content .welcome{
+  color: #fff;
+  font-size: 24px;
+  font-weight: bold;
+}
+.jimu-widget-splash-desktop .custom-content{
+  width: 560px;
+  margin: 20px 40px;
+  overflow: auto;
+  color: #fff;
+  max-height: 388px;
+}
+.jimu-widget-splash-desktop .splash-container .footer{
+  margin: 0 30px 10px 40px;
+  position: relative;
+  max-width: 560px;
+  overflow: hidden;
+}
+.jimu-widget-splash-desktop .splash-container .jimu-checkbox{
+  font-size: 14px;
+  color: #fff;
+  margin-bottom: 15px;
+}
+.jimu-widget-splash-desktop .splash-container .jimu-checkbox .checkbox{
+  background-color: #fff;
+}
+.jimu-widget-splash-desktop .splash-container .jimu-checkbox .label{
+  white-space: normal;
+  text-indent: 5px;
+  float: none !important;
+  display: inline;
+}
+.jimu-widget-splash-desktop .splash-container .jimu-btn{
+  height: 33px;
+  padding: 0;
+  width: 60px;
+  line-height: 33px;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+}
+.jimu-rtl .jimu-widget-splash-desktop .splash-container .jimu-btn{
+  left: 0;
+  right: auto;
+}
+.jimu-widget-splash-desktop .splash-container .enable-btn{
+  background-color: #518dca;
+}
+.jimu-widget-splash-desktop .splash-container .disable-btn{
+  background-color: #a0acbf;
+}
+
+/*mobile*/
+.jimu-widget-splash-mobile .envelope{
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  background-color: #485566;
+  box-shadow: 0 0 4px rgba(160, 160, 160, 0.4);
+}
+.jimu-widget-splash-mobile .splash-container{
+  /* width: 100%; */
+  height: 100%;
+  position: relative;
+  display: block;
+  padding: 10px;
+}
+.jimu-widget-splash-mobile .splash-container .default-content,
+.jimu-widget-splash-mobile .splash-container .custom-content{
+  position: absolute;
+  top: 0;
+  color: #fff;
+  margin-bottom: 10px;
+  left: 10px;
+  right: 10px;
+  overflow: auto;
+}
+.jimu-widget-splash-mobile .splash-container .default-content .logo{
+  background: url('images/logo.png') no-repeat center center;
+  width: 130px;
+  height: 183px;
+  margin: 42% auto 50px auto;
+}
+.jimu-widget-splash-mobile .default-content .welcome{
+  color: #fff;
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+}
+.jimu-widget-splash-mobile .splash-container .footer{
+  position: absolute;
+  /*height: 62px;*/
+  bottom: 10px;
+  left: 10px;
+  right: 10px;
+}
+.jimu-widget-splash-mobile .splash-container .jimu-checkbox{
+  font-size: 14px;
+  color: #fff;
+  margin-bottom: 8px;
+}
+.jimu-widget-splash-mobile .splash-container .jimu-checkbox .checkbox{
+  background-color: #fff;
+}
+.jimu-widget-splash-mobile .splash-container .jimu-checkbox .label{
+  display: inline;
+  white-space: normal;
+  text-indent: 5px;
+  float: none !important;
+}
+.jimu-widget-splash-mobile .splash-container .jimu-btn{
+  height: 33px;
+  padding: 0;
+  width: 60px;
+  line-height: 33px;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+}
+.jimu-rtl .jimu-widget-splash-mobile .splash-container .jimu-btn{
+  left: 0;
+  right: auto;
+}
+.jimu-widget-splash-mobile .splash-container .enable-btn{
+  background-color: #518dca;
+}
+.jimu-widget-splash-mobile .splash-container .disable-btn{
+  background-color: #a0acbf;
+}

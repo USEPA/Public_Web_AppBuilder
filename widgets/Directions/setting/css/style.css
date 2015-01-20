@@ -1,0 +1,59 @@
+.jimu-widget-directions-setting > table > tbody > tr > td{
+  padding:5px 0;
+}
+
+.jimu-widget-directions-setting .route-td{
+	padding-left: 10px;
+}
+
+.jimu-rtl .jimu-widget-directions-setting .route-td{
+	padding-left: 0;
+	padding-right: 10px;
+}
+
+.jimu-widget-directions-setting .locator-td{
+	padding-left: 10px;
+}
+
+.jimu-rtl .jimu-widget-directions-setting .locator-td{
+	padding-left: 0;
+	padding-right: 10px;
+}
+
+.jimu-widget-directions-setting .search-delay{
+	margin-left: 20px;
+}
+
+.jimu-rtl .jimu-widget-directions-setting .search-delay{
+	margin-left: 0;
+	margin-right: 20px;
+}
+
+.jimu-widget-directions-setting .min-characters{
+	margin-left:20px;
+}
+
+.jimu-rtl .jimu-widget-directions-setting .min-characters{
+	margin-left: 0;
+	margin-right: 20px;
+}
+
+.jimu-widget-directions-setting .length-units{
+	white-space: nowrap;
+	margin-left: 20px;
+}
+
+.jimu-rtl .jimu-widget-directions-setting .length-units{
+	margin-left: 0;
+	margin-right: 20px;
+}
+
+.jimu-widget-directions-setting .impedance-attribute{
+	white-space: nowrap;
+	margin-left: 20px;
+}
+
+.jimu-rtl .jimu-widget-directions-setting .impedance-attribute{
+	margin-left: 0;
+	margin-right: 20px;
+}

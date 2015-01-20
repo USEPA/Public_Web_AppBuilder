@@ -1,0 +1,12 @@
+{
+"viewobject" : {
+        "gstreet": { "desc": "Google Street View", "baseurl": "googlestreetview.html?", "width": 404, "height": 340, "top": 50, "left": 300, "pid": 0, "visible": true, "linkurl": "" }
+          , "gimage": { "desc": "Google Imagery by Year", "baseurl": "googleimage.html?", "width": 400, "height": 370, "top": 50, "left": 720, "pid": 1, "visible": false, "linkurl": "" }
+          , "birdeye": { "desc": "Bing Maps Bird's Eye", "baseurl": "bingbirdeye.html?", "width": 404, "height": 340, "top": 420, "left": 720, "pid": 2, "visible": false, "linkurl": "" }
+          , "bingimage": { "desc": "Bing Maps Aerial", "baseurl": "bingimage.html?", "width": 410, "height": 340, "top": 420, "left": 300, "pid": 3, "visible": false, "linkurl": "" }
+          , "esriimage": { "desc": "ESRI Imagery", "baseurl": "esriimage.html?", "width": 410, "height": 340, "top": 50, "left": 1140, "pid": 4, "visible": false, "linkurl": "http://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer" }
+          , "usgsimage1m": { "desc": "USGS Imagery 1-meter", "baseurl": "usgsimage.html?itype=image1m&", "width": 410, "height": 340, "top": 50, "left": 1140, "pid": 5, "visible": false, "linkurl": "http://raster.nationalmap.gov/arcgis/rest/services/Orthoimagery/USGS_EROS_Ortho_NAIP/ImageServer" }
+          , "usgsimag1ft": { "desc": "USGS Imagery 1-foot", "baseurl": "usgsimage.html?itype=image1ft&", "width": 410, "height": 340, "top": 50, "left": 1140, "pid": 6, "visible": false, "linkurl": "http://raster.nationalmap.gov/arcgis/rest/services/Orthoimagery/USGS_EROS_Ortho_1Foot/ImageServer" }
+}
+}
+

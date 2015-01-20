@@ -1,0 +1,16 @@
+{
+  "name": "Simple",
+  "platform": "HTML",
+  "version": "1.1",
+  "wabVersion": "1.1",
+  "author": "Esri R&D Center Beijing",
+  "description": "This is a very simple widget",
+  "copyright": "",
+  "license": "http://www.apache.org/licenses/LICENSE-2.0",
+  "properties": {
+    "hasConfig": false,
+    "hasStyle": false,
+    "hasLocale": false,
+    "hasUIFile": false
+  }
+}

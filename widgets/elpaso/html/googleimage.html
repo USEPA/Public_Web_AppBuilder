@@ -1,0 +1,139 @@
+﻿<!--
+You are free to copy and use this sample in accordance with the terms of the
+Apache license (http://www.apache.org/licenses/LICENSE-2.0.html)
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <title>Google Earth API Sample</title>
+    <link rel="stylesheet" type="text/css" href="../css/view.css" />
+    <script src="//www.google.com/jsapi?key=ABQIAAAAuPsJpk3MBtDpJ4G8cqBnjRRaGTYH6UMl8mADNa0YKuWNNa8VNxQCzVBXTx2DYyXGsTOxpWhvIG7Djw" type="text/javascript"></script>
+    
+    <script src="//earth-api-utility-library.googlecode.com/svn/trunk/extensions/dist/extensions.pack.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        var lat = getQueryVariable("lat");
+        if (!(lat) || lat == "") lat = "47.6215";
+        var lon = getQueryVariable("lon");
+        if (!(lon) || lon == "") lon = "-122.349329";
+        function getQueryVariable(variable) {
+            var query = window.location.search.substring(1);
+            var vars = query.split("&");
+            for (var i = 0; i < vars.length; i++) {
+                var pair = vars[i].split("=");
+                if (pair[0].toLowerCase() == variable.toLowerCase()) {
+                    return pair[1];
+                }
+            }
+        }         
+        function addSampleButton(caption, clickHandler) {
+            var btn = document.createElement('input');
+            btn.type = 'button';
+            btn.value = caption;
+
+            if (btn.attachEvent)
+                btn.attachEvent('onclick', clickHandler);
+            else
+                btn.addEventListener('click', clickHandler, false);
+
+            // add the button to the Sample UI
+            document.getElementById('sample-ui').appendChild(btn);
+        }
+
+        function addSampleUIHtml(html) {
+            document.getElementById('sample-ui').innerHTML += html;
+        }
+    </script>
+    <script type="text/javascript">
+        //Demonstrating access to Historical Imagery
+        //set some global variables
+        var ge;
+        var gex;
+        google.load("earth", "1");
+
+        function initCallback(instance) {
+            base_setup(instance);
+
+//            addPlacemark([37.7755, -122.4242], '1988');
+//            addPlacemark([37.7792, -122.4226], '1995');
+//            addPlacemark([37.7792, -122.4210], '2012');
+
+            //add buttons and textbox
+//            jumpHtml = '<input id="inputTime" type="text">';
+//            document.getElementById('sample-ui').innerHTML += jumpHtml;
+//            addSampleButton('Set time', setTime);
+//            addSampleButton('Set current time', setCurrentTime);
+//            add Time Machine buttons
+//            addSampleButton('Enable TM', enableTimeMachine);
+//            addSampleButton('Disable TM', disableTimeMachine);
+//            add UI buttons
+//            addSampleButton('Enable UI', enableUI);
+//            addSampleButton('Disable UI', disableUI);
+
+            enableTimeMachine();
+
+            var la = ge.createLookAt('');
+            la.set(parseFloat(lat), parseFloat(lon), 0, ge.ALTITUDE_RELATIVE_TO_GROUND, 29, 35, 1500);
+            ge.getView().setAbstractView(la);
+        }
+
+        function addPlacemark(latLon, selectedTime) {
+            //create placemark using extension library
+            pm = gex.dom.addPointPlacemark(latLon, { name: selectedTime });
+            //create timestamp and set time primitive on placemark
+            ts = ge.createTimeStamp('');
+            ts.getWhen().set(selectedTime);
+            pm.setTimePrimitive(ts);
+        }
+
+        function setTime() {
+            var timeText = document.getElementById('inputTime').value;
+            var gts = ge.createTimeStamp('');
+            gts.getWhen().set(timeText);
+            ge.getTime().setTimePrimitive(gts);
+        }
+
+        function setCurrentTime() {
+            var gts = ge.getTime().getSystemTime();
+            ge.getTime().setTimePrimitive(gts);
+        }
+
+        function base_setup(instance) {
+            ge = instance;
+            ge.getWindow().setVisibility(true);
+            gex = new GEarthExtensions(ge);
+            document.getElementById('installed-plugin-version').innerHTML = ge.getPluginVersion().toString();
+        }
+
+        function init() {
+            google.earth.createInstance('map3d', initCallback, failureCallback);
+        }
+
+        function failureCallback(errorCode) { }
+
+
+        function enableTimeMachine() {
+            ge.getTime().setHistoricalImageryEnabled(true);
+        }
+
+        function disableTimeMachine() {
+            ge.getTime().setHistoricalImageryEnabled(false);
+        }
+
+        function enableUI() {
+            ge.getTime().getControl().setVisibility(true);
+        }
+
+        function disableUI() {
+            ge.getTime().getControl().setVisibility(false);
+        }
+    
+    </script>
+  </head>
+  <body onload="init()" style="font-family: arial, sans-serif; font-size: 13px; border: 0;">
+    <div id="sample-ui"></div>
+    <div id="map3d" style="width: 98%; height: 94%;"></div>
+   
+    <div>Installed Plugin Version: <span id="installed-plugin-version" style="font-weight: bold;">Loading...</span></div>
+  </body>
+</html>
