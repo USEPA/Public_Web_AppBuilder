@@ -1,0 +1,46 @@
+.dtc-mensuration {
+
+}
+
+.dtc-mensuration > .head3 {
+	font-size: 1.4em;
+	font-weight: bold;
+}
+
+.dtc-mensuration > .infoBox {
+	font-size:1em; 
+	padding-top: 10px;
+}
+
+.dtc-mensuration > .infoBox > table {
+	width: 100%;
+	text-align: right 
+}
+
+.dtc-mensuration > .infoBox > table > td {
+	width:50%;
+}
+
+.dtc-mensuration .unitsSelect {
+	width:100%
+}
+
+.smaller {
+	font-size: smaller
+}
+
+.iconBaseTop {
+    background: url("../images/BaseTop.png") no-repeat scroll center center transparent;
+    height: 32px;
+    width: 32px;
+}
+.iconBaseTopShadow {
+    background: url("../images/BaseTopShadow.png") no-repeat scroll center center transparent;
+    height: 32px;
+    width: 32px;
+}
+.iconTopTopShadow {
+    background: url("../images/TopTopShadow.png") no-repeat scroll center center transparent;
+    height: 32px;
+    width: 32px;
+}

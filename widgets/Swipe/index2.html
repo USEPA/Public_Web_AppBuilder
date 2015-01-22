@@ -1,0 +1,232 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+<title>LayerSwipe Dijit</title>
+<link rel="stylesheet" type="text/css" href="http://js.arcgis.com/3.9/js/esri/css/esri.css">
+<link rel="stylesheet" type="text/css" href="http://js.arcgis.com/3.9/js/dojo/dijit/themes/claro/claro.css">
+<link rel="stylesheet" type="text/css" href="css/LayerSwipe.css">
+<style>
+    html{
+        margin: 0;
+        padding: 0;
+    }
+    body{
+        margin:0 40px;
+        padding:0 20px;
+    }
+    .container{
+        position:relative;
+        padding: 10px;
+        border: 1px solid #eee;
+        -webkit-border-radius: 3px;
+        border-radius: 3px;
+        margin-bottom:20px;
+    }
+    #map{
+        width:100%;
+        height: 500px;
+        position: relative;
+    }
+    .toggle-items{
+        margin: 0 0 10px 0;
+        padding: 0;
+        list-style: none;
+        height: 30px;
+    }
+    .toggle-items:after{
+        clear: both;
+    }
+    .toggle-items li{
+        float: left;
+        margin-right: 10px;
+        padding: 5px 10px;
+        cursor: pointer;
+        -moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
+        -webkit-box-shadow:inset 0px 1px 0px 0px #ffffff;
+        box-shadow:inset 0px 1px 0px 0px #ffffff;
+        background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ededed), color-stop(1, #dfdfdf) );
+        background:-moz-linear-gradient( center top, #ededed 5%, #dfdfdf 100% );
+        filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ededed', endColorstr='#dfdfdf');
+        background-color:#ededed;
+        -webkit-border-top-left-radius:6px;
+        -moz-border-radius-topleft:6px;
+        border-top-left-radius:6px;
+        -webkit-border-top-right-radius:6px;
+        -moz-border-radius-topright:6px;
+        border-top-right-radius:6px;
+        -webkit-border-bottom-right-radius:6px;
+        -moz-border-radius-bottomright:6px;
+        border-bottom-right-radius:6px;
+        -webkit-border-bottom-left-radius:6px;
+        -moz-border-radius-bottomleft:6px;
+        border-bottom-left-radius:6px;
+        text-indent:0;
+        border:1px solid #dcdcdc;
+        color:#777777;
+        font-family:arial;
+        font-size:15px;
+        font-weight:bold;
+        font-style:normal;
+        text-decoration:none;
+        text-align:center;
+        text-shadow:1px 1px 0px #ffffff;
+    }
+    .toggle-items li:hover{
+        background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #dfdfdf), color-stop(1, #ededed) );
+        background:-moz-linear-gradient( center top, #dfdfdf 5%, #ededed 100% );
+        filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#dfdfdf', endColorstr='#ededed');
+        background-color:#dfdfdf;
+    }
+    .toggle-items li:active{
+        position:relative;
+	   top:1px;
+    }
+    .clear{
+        clear: both;
+    }
+    #verticalItems, #horizontalItems{
+        display: none;
+    }
+</style>
+</head>
+<body class="claro">
+<h1>LayerSwipe Dijit</h1>
+<div id="log"></div>
+<h2>Scope with 2 Graphics Layers</h2>
+<div class="container">
+	<div id="map" class="map">
+		<div id="LayerSwipe">
+		</div>
+	</div>
+</div>
+<h2>Change Properties</h2>
+<h3>Type</h3>
+<ul class="toggle-items">
+    <li id="toggleVertical">Vertical</li>
+    <li id="toggleHorizontal">Horizontal</li>
+    <li id="toggleScope">Scope</li>
+</ul>
+<div class="clear"></div>
+<h3>Other</h3>
+<ul class="toggle-items">
+    <li id="toggleinvertPlacement">invertPlacement</li>
+    <li id="toggleLayer">Visibility</li>
+    <li id="toggleEnabled">Enabled/Disabled</li>
+    <li id="toggleStartup">Destroy</li>
+</ul>
+<div class="clear"></div>
+<h2>Other Examples</h2>
+<p><a href="index.html">TiledLayer</a></p>
+<h2>All Options</h2>
+<script src="https://gist.github.com/driskull/5995582.js"></script>
+<script type="text/javascript">
+    var package_path = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/'));
+    var dojoConfig = {
+        // The locationPath logic below may look confusing but all its doing is
+        // enabling us to load the api from a CDN and load local modules from the correct location.
+        packages: [{
+            name: "application",
+            location: package_path + '/js'
+        }]
+    };
+</script>
+<script src="http://js.arcgis.com/3.9/" type="text/javascript"></script>
+<script type="text/javascript">
+        var swipeWidget, map;
+        require(["dojo/_base/lang", "esri/map", "application/LayerSwipe", "esri/arcgis/utils", "dojo/on", "dojo/dom", "dojo/query", "dojo/dom-style"], function(lang, Map, LayerSwipe, arcgisUtils, on, dom, query, domStyle){
+            arcgisUtils.createMap('1966ef409a344d089b001df85332608f', "map", {
+                mapOptions: {
+                    //Optionally define additional map config here for example you can
+                    //turn the slider off, display info windows, disable wraparound 180, slider position and more.
+                }
+            }).then(lang.hitch(this, function (response) {
+                map = response.map;
+                // getting layer id by title
+                var title = "Fun";
+                var title2 = "Food";
+                var id, id2;
+                var layers = response.itemInfo.itemData.operationalLayers;
+                if (layers.length) {
+                    for (var i = 0; i < layers.length; i++) {
+                        if (layers[i].title === title) {
+                            id = layers[i].id;
+                            if(layers[i].featureCollection && layers[i].featureCollection.layers.length){
+                                id = layers[i].featureCollection.layers[0].id;
+                            }
+                        }
+                        if (layers[i].title === title2) {
+                            id2 = layers[i].id;
+                            if(layers[i].featureCollection && layers[i].featureCollection.layers.length){
+                                id2 = layers[i].featureCollection.layers[0].id;
+                            }
+                        }
+                    }
+                }
+                // get layer by id
+                var layer = map.getLayer(id);
+                swipeWidget = new LayerSwipe({
+                    type: "scope",
+                    map: map,
+                    layers: [layer, id2]
+                }, "LayerSwipe");
+                swipeWidget.startup();
+
+                on(dom.byId('toggleinvertPlacement'), 'click', function(){
+                    swipeWidget.set("invertPlacement", !swipeWidget.get("invertPlacement"));
+                });
+                on(dom.byId('toggleLayer'), 'click', function(){
+                    layer.setVisibility(!layer.visible);
+                });
+                on(dom.byId('toggleEnabled'), 'click', function(){
+                    swipeWidget.set("enabled", !swipeWidget.get("enabled"));
+                });
+                on(dom.byId("toggleVertical"), 'click', function(evt){
+                    swipeWidget.set("type", "vertical");
+                });
+                on(dom.byId("toggleHorizontal"), 'click', function(evt){
+                    swipeWidget.set("type", "horizontal");
+                });
+                on(dom.byId("toggleScope"), 'click', function(evt){
+                    swipeWidget.set("type", "scope");
+                });
+
+                on(dom.byId('toggleStartup'), 'click', function(){
+                    if(swipeWidget){
+                        swipeWidget.destroy();
+                        swipeWidget = null;
+                    }
+                    else{
+                        swipeWidget = new LayerSwipe({
+                            type: "vertical",
+                            map: map,
+                            layers: [layer]
+                        }, "LayerSwipe");
+                        swipeWidget.startup();
+                    }
+                });
+
+                on(swipeWidget, 'swipe', function(obj){
+                    var info = obj.layers[0];
+                    dom.byId('log').innerHTML = 'clip:rect(' + info.top + 'px,' + info.right + 'px,' + info.bottom + 'px,' + info.left + 'px)';
+                });
+
+
+
+
+            }), lang.hitch(this, function (error) {
+                //an error occurred - notify the user. In this example we pull the string from the
+                //resource.js file located in the nls folder because we've set the application up
+                //for localization. If you don't need to support mulitple languages you can hardcode the
+                //strings here and comment out the call in index.html to get the localization strings.
+                if (this.config && this.config.i18n) {
+                    alert(this.config.i18n.map.error + ": " + error.message);
+                } else {
+                    alert("Unable to create map: " + error.message);
+                }
+            }));
+        });
+    </script>
+</body>
+</html>

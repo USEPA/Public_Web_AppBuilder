@@ -1,0 +1,90 @@
+<div>
+  <div class="chart-widget-content">
+    <div data-dojo-attach-point="chartList" class="chart-step chart-list">
+      <div data-dojo-attach-point="chartsNode" class="charts">
+        <div class="execute-tip">
+          ${nls.executeChartTip}
+        </div>
+        <div class="charts-table-container">
+          <table data-dojo-attach-event="onclick:_onChartListClicked" cellpadding="0" cellspacing="0" class="charts-table" onselectstart="return false;">
+            <colgroup>
+              <col width="14px"></col>
+              <col width="auto"></col>
+              <col width="30px"></col>
+            </colgroup>
+            <tbody data-dojo-attach-point="chartsTbody">
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div data-dojo-attach-point="invalidConfigNode" class="invalid-config">
+        <div class="error">
+          ${nls.invalidConfig}
+        </div>
+      </div>
+      <div data-dojo-attach-point="noChartTipSection" class="no-chart-tip">
+        ${nls.noneChartTip}
+      </div>
+    </div>
+
+    <div data-dojo-attach-point="chartParams" class="chart-step chart-params">
+      <div class="step-head chart-params-head">
+        <div class="step-title params-title">${nls.chartParams}</div>
+        <div class="operations">
+          <div class="params-back jimu-float-leading" data-dojo-attach-event="onclick:_onBtnParamsBackClicked">
+            <div class="back-icon jimu-float-leading"></div>
+            <div class="back-tip jimu-float-leading">${nls.charts}</div>
+          </div>
+          <div class="apply jimu-float-trailing" data-dojo-attach-point="btnApply" data-dojo-attach-event="onclick:_onBtnApplyClicked">${nls.apply}</div>
+        </div>
+      </div>
+      <div class="params-container" data-dojo-attach-point="paramsContainer">
+        <div class="spatial-section" style="margin-top:20px; margin-bottom:20px;">
+          <div>
+            <input type="checkbox" checked="false" data-dojo-attach-point="cbxUseSpatial" data-dojo-attach-event="onclick: _onCbxUseSpatialClicked" />
+            <label data-dojo-attach-point="labelUseSpatial">${nls.useSpatialFilter}</label>
+          </div>
+          <div data-dojo-attach-point="selectSpatialDiv" class="select-spatial">
+            <table class="current-view" valign="top" cellpadding="0" cellspacing="0">
+              <tbody>
+                <tr class="current-extent-tr">
+                  <td>
+                    <input type="radio" data-dojo-attach-point="cbxUseMapExtent" checked data-dojo-attach-event="onclick:_onCbxUseMapExtentClicked" />  
+                  </td>
+                  <td class="current-extent-td">
+                    <label data-dojo-attach-point="labelUseMapExtent" class="map-extent-tip">${nls.useCurrentMapExtent}</label>
+                  </td>
+                </tr>
+                <tr class="draw-graphic-tr">
+                  <td>
+                    <input type="radio" data-dojo-attach-point="cbxDrawGraphic" data-dojo-attach-event="onclick:_onCbxDrawGraphicClicked" />
+                  </td>
+                  <td class="draw-graphic-td">
+                    <label data-dojo-attach-point="labelDrawGraphic" class="draw-graphic-tip">${nls.drawGraphicOnMap}</label>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="draw-graphic" data-dojo-attach-point="drawBoxDiv"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div data-dojo-attach-point="chartResults" class="chart-step chart-results">
+      <div class="step-head chart-results-head">
+        <div class="step-title results-title">${nls.chartResults}</div>
+        <div class="operations">
+          <div class="params-back jimu-float-leading" data-dojo-attach-event="onclick:_onBtnResultsBackClicked">
+            <div class="back-icon jimu-float-leading"></div>
+            <div class="back-tip jimu-float-leading" data-dojo-attach-point="btnResultsBack">${nls.chartParams}</div>
+          </div>
+        </div>      
+      </div>
+      <div class="results-container" data-dojo-attach-point="resultsContainer">
+      </div>
+    </div>
+  </div>
+  
+  <div data-dojo-attach-point="shelter" data-dojo-type="jimu/dijit/LoadingShelter" data-dojo-props='hidden:true'></div>
+</div>

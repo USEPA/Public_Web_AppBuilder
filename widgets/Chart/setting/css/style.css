@@ -1,0 +1,298 @@
+@import url("../../css/preview.css");
+@import url("../../common/parameters.css");
+
+.jimu-widget-chart-setting{
+  margin: 0;
+  padding: 0;
+  font-size: 14px;
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.jimu-widget-chart-setting .chart-list{
+  position: absolute;
+  width: 270px;
+  height: 100%;
+  left: 0;
+}
+
+.jimu-rtl .jimu-widget-chart-setting .chart-list{
+  left: auto;
+  right: 0;
+}
+
+.jimu-widget-chart-setting .chart-list-content{
+  position: absolute;
+  width: 100%;
+  top: 40px;
+  bottom: 5px;
+}
+
+.jimu-widget-chart-setting .single-chart-container{
+  position: absolute;
+  left: 300px;
+  right: 0;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.jimu-rtl .jimu-widget-chart-setting .single-chart-container{
+  left: 0;
+  right: 300px;
+}
+
+.jimu-widget-singlechart-setting{
+  width: 98%;
+}
+
+.jimu-widget-singlechart-setting .text-middle{
+  vertical-align: middle;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.jimu-widget-singlechart-setting .url-text-box input.dijitInputInner{
+  width: 340px !important;
+  text-overflow: ellipsis;
+}
+
+.jimu-widget-singlechart-setting .part-setting-title{
+  color: #596679;
+  margin-top:20px;
+}
+
+.jimu-widget-singlechart-setting .btn-data-source{
+  max-width: 120px;
+  padding: 0 10px;
+  line-height: 30px;
+  height: 30px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.jimu-widget-singlechart-setting .url-text-box input.dijitInputInner{
+  margin-left: 10px !important;
+}
+
+.jimu-widget-singlechart-setting .filter-icon{
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 4px;
+  width: 14px;
+  height: 14px;
+  margin-top: auto;
+  margin-bottom: auto;
+  cursor: pointer;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+.jimu-rtl .jimu-widget-singlechart-setting .filter-icon{
+  left: auto;
+  right: 4px;
+}
+
+.jimu-widget-singlechart-setting .sort-icon{
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 14px;
+  height: 14px;
+  margin-top: auto;
+  margin-bottom: auto;
+  cursor: pointer;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+.jimu-rtl .jimu-widget-singlechart-setting .sort-icon{
+  right: auto;
+  left: 0;
+}
+
+.jimu-widget-singlechart-setting .filter-icon{
+  background-image: url(images/filter3.png);
+}
+
+.jimu-widget-singlechart-setting .filter-icon:hover{
+  background-image: url(images/filter4.png);
+}
+
+.jimu-widget-singlechart-setting .sort-icon{
+  background-image: url(images/sort1.png);
+}
+
+.jimu-widget-singlechart-setting .sort-icon:hover{
+  background-image: url(images/sort2.png);
+}
+
+.jimu-widget-singlechart-setting .part-setting-table{
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.jimu-widget-singlechart-setting .part-setting-table > tbody > tr > td{
+  padding-top: 3px;
+  padding-bottom: 3px;
+}
+
+.jimu-widget-singlechart-setting .details-table > tbody > tr{
+  display: none;
+}
+
+.jimu-widget-singlechart-setting .details-table > tbody > .show-tr{
+  display: table-row;
+}
+
+.jimu-widget-singlechart-setting .details-table .chart-types-tr > td{
+  height: 30px;
+  line-height: 30px;
+}
+
+.jimu-widget-singlechart-setting .details-table .colors-tr > td{
+  height: 30px;
+}
+
+.jimu-widget-singlechart-setting .charts-td{
+  cursor: default;
+}
+
+.jimu-widget-singlechart-setting .charts-td > div{
+  display: inline-block;
+}
+
+.jimu-widget-singlechart-setting .charts-td span{
+  margin-left: 3px;
+}
+
+.jimu-rtl .jimu-widget-singlechart-setting .charts-td span{
+  margin-left: 0;
+  margin-right: 3px;
+}
+
+.jimu-widget-singlechart-setting .charts-td .edit-div{
+  display: none;
+  cursor: pointer;
+  width: 14px;
+  height: 14px;
+  margin-left: 3px;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-image: url(images/edit1.png);
+}
+
+.jimu-widget-singlechart-setting .charts-td .edit-div:hover{
+  background-image: url(images/edit2.png);
+}
+
+.jimu-widget-singlechart-setting .charts-td .edit-div.selected{
+  background-image: url(images/edit2.png);
+}
+
+.jimu-rtl .jimu-widget-singlechart-setting .charts-td .edit-div{
+  margin-left: 0;
+  margin-right: 3px;
+}
+
+.jimu-widget-singlechart-setting .charts-td .gray{
+  color: #bdc1c8;
+}
+
+.jimu-widget-singlechart-setting .preview-div{
+  overflow: hidden;
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 10px;
+}
+
+.jimu-widget-chart-setting-data-fields{
+  position: relative;
+  width: 100%;
+  min-height: 90px;
+}
+
+.jimu-widget-chart-setting-data-fields .fields-content{
+  width: 483px;
+  max-height: 120px;
+  overflow-y: auto;
+  display: inline-block;
+  border: 1px solid #ccc;
+}
+
+.jimu-widget-chart-setting-data-fields .field-item{
+  height: 20px;
+  line-height: 20px;
+  font-size: 12px;
+}
+
+.jimu-widget-chart-setting-data-fields .field-item.selected{
+  background: #e3ecf2;
+}
+
+.jimu-widget-chart-setting-data-fields .field-item input{
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.jimu-widget-chart-setting-data-fields .operation{
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 14px;
+  height: 50px;
+}
+
+.jimu-rtl .jimu-widget-chart-setting-data-fields .operation{
+  right: auto;
+  left: 0;
+}
+
+.jimu-widget-chart-setting-data-fields .operation div{
+  cursor: pointer;
+  width: 100%;
+  height: 14px;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+.jimu-widget-chart-setting-data-fields .up-icon{
+  background-image: url(images/up1.png);
+}
+
+.jimu-widget-chart-setting-data-fields .up-icon.high-light{
+  background-image: url(images/up2.png);
+}
+
+.jimu-widget-chart-setting-data-fields .down-icon{
+  background-image: url(images/down1.png);
+  margin-top: 10px;
+}
+
+.jimu-widget-chart-setting-data-fields .down-icon.high-light{
+  background-image: url(images/down2.png);
+}
+
+.jimu-widget-singlechart-setting .symbol-tip{
+  margin-right:20px;
+}
+
+.jimu-rtl .jimu-widget-singlechart-setting .symbol-tip{
+  margin-right: 0;
+  margin-left: 20px;
+}
+
+.jimu-widget-singlechart-setting .hightlight-tip{
+  margin-right:20px;
+}
+
+.jimu-rtl .jimu-widget-singlechart-setting .hightlight-tip{
+  margin-right: 0;
+  margin-left: 20px;
+}

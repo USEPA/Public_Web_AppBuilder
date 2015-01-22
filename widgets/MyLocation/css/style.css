@@ -1,0 +1,6 @@
+.jimu-widget-mylocation .LocateButton .zoomLocateButton{
+  background-color: rgba(0,0,0,0.2);
+}
+.jimu-widget-mylocation .LocateButton .zoomLocateButton:hover{
+  background-color: rgba(0,0,0,0.4);
+}

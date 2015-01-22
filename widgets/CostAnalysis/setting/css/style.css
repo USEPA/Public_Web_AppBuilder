@@ -1,0 +1,45 @@
+.jimu-widget-cost-analysis-setting{
+  margin:0;
+  padding:0;
+  font-size:15px;
+}
+.jimu-widget-cost-analysis-setting .editable{
+  width: 100px;
+}
+.jimu-widget-cost-analysis-setting .update{
+  width: 200px;
+}
+.jimu-widget-cost-analysis-setting .setting-table > thead > tr > th,
+.jimu-widget-cost-analysis-setting .setting-table > tbody > tr > td{
+  height:40px;
+  line-height:40px;
+  vertical-align:middle;
+}
+
+.jimu-widget-cost-analysis-setting .input-table > tbody > tr > .first{
+  width:auto;
+  text-align: right;
+  padding-right:15px;
+}
+
+.jimu-widget-cost-analysis-setting .input-table > tbody > tr > .second{
+  width:500px;
+}
+
+.jimu-widget-cost-analysis-setting .dijitArrowButtonContainer{
+  width: 17px;
+}
+.jimu-widget-cost-analysis-setting .dijitSelect{
+  height: 30px;
+  width: 100%;
+}
+
+.hide {
+  display: none;
+}
+
+.claro .dijitTextBox .dijitInputInner {
+  line-height: 0px !important;
+}
+
+

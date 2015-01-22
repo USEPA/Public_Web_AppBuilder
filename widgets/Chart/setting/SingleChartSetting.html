@@ -1,0 +1,201 @@
+<div>
+	<div data-dojo-attach-point="tabDiv">
+		<div data-dojo-attach-point="settingsTabNode">
+			<!--general settings-->
+			<div class="part-setting-title">${nls.generalSettingsTip}</div>
+			<table class="part-setting-table gereral-table" cellpadding="0" cellspacing="0">
+				<colgroup>
+					<col width="10px;"></col>
+					<col width="116px" align="left"></col>
+					<col width="auto"></col>
+				</colgroup>
+				<tbody>
+					<tr>
+						<td></td>
+						<td class="text-middle" style="vertical-align: top;">
+							<span style="line-height:30px;" title="${nls.dataSource}">${nls.dataSource}</span>
+						</td>
+						<td>
+							<div style="position:relative;overflow:hidden;width:100%;height:30px;">
+								<div class="url-text-box" data-dojo-attach-point="urlTextBox" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props='required:true,trim:true,disabled:true' style="display:inline-block;width:380px;min-width:380px;height:100%;"></div>
+								<div class="filter-icon" title="${nls.addFilterTip}" data-dojo-attach-point="filterIcon"></div>
+								<div class="jimu-btn btn-data-source jimu-float-trailing" data-dojo-attach-point="btnSetSource" data-dojo-attach-event="onclick:_onBtnSetClicked" title="${nls.set}">${nls.set}</div>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td></td>
+						<td class="text-middle">
+							<span title="${nls.chartTitle}">${nls.chartTitle}</span>
+						</td>
+						<td>
+							<div data-dojo-attach-point="chartNameTextBox" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props='required:true,trim:true' data-dojo-attach-event="change:_onChartNameChanged" style="width:100%;"></div>
+						</td>
+					</tr>
+					<tr>
+						<td></td>
+						<td class="text-middle">
+							<span title="${nls.description}">${nls.description}</span>
+						</td>
+						<td>
+							<textarea data-dojo-attach-point="descriptionTA" style="width:100%;height:34px;resize:none;"></textarea>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+
+
+			<!--chart mode setting-->
+			<div class="part-setting-title">${nls.chartModeSettingTip}</div>
+			<table class="part-setting-table chart-mode-table" cellpadding="0" cellspacing="0">
+				<colgroup>
+					<col width="10px"></col>
+					<col width="116px" align="left"></col>
+					<col width="auto"></col>
+				</colgroup>
+				<tbody>
+					<tr>
+						<td></td>
+						<td class="text-middle">
+							<span title="${nls.chartingMode}">${nls.chartingMode}</span>
+						</td>
+						<td>
+							<select data-dojo-attach-point="chartModeSelect" data-dojo-type="dijit/form/Select" data-dojo-attach-event="change:_onChartModeChnaged" style="width:100%;">
+							</select>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+
+
+			<!--detail setting-->
+			<div class="part-setting-title" style="margin-bottom:15px;">${nls.detailsSettingTip}</div>
+			<table data-dojo-attach-point="detailsTable" class="part-setting-table details-table" cellpadding="0" cellspacing="0">
+			  <colgroup>
+				<col width="10px"></col>
+				<col width="116px" align="left"></col>
+				<col width="auto"></col>
+			  </colgroup>
+			  <tbody calss="details-tbody">
+			   <tr class="detail-tr category-tr count-tr">
+				  	<td></td>
+				  	<td class="text-middle">
+				  		<span title="${nls.categoryField}">${nls.categoryField}</span>
+				  	</td>
+				  	<td>
+				  		<div style="position:relative;overflow:hidden;width:100%;height:30px;">
+				  			<select data-dojo-attach-point="categoryFieldSelect" data-dojo-type="dijit/form/Select" style="width:485px;height:100%;">
+				  			</select>
+				  			<div class="sort-icon" title="${nls.sortOrder}" data-dojo-attach-point="categorySortOrderIcon"></div>
+				  		</div>
+				  	</td>
+				 </tr>
+
+				 <tr class="detail-tr feature-tr category-tr field-tr">
+				  	<td></td>
+				  	<td class="text-middle" style="vertical-align:top;">
+				  		<span style="line-height:30px;" title="${nls.valueFields}">${nls.valueFields}</span>
+				  	</td>
+				  	<td>
+				  		<div data-dojo-attach-point="dataFieldsDiv"></div>
+				  	</td>
+				 </tr>
+
+				 <tr class="detail-tr feature-tr">
+				 	<td></td>
+				 	<td class="text-middle">
+				 		<span title="${nls.axisLabel}">${nls.axisLabel}</span>
+				 	</td>
+				 	<td>
+				 		<div style="position:relative;overflow:hidden;width:100%;height:30px;">
+				  			<select data-dojo-attach-point="featureAxisLabelSelect" data-dojo-type="dijit/form/Select" style="width:485px;height:100%;">
+				  			</select>
+				  			<div class="sort-icon" title="${nls.sortOrder}" data-dojo-attach-point="featureSortOrderIcon"></div>
+				  		</div>
+				 	</td>
+				 </tr>
+
+				 <tr class="detail-tr category-tr">
+				  	<td></td>
+				  	<td class="text-middle">
+				  		<span title="${nls.operation}">${nls.operation}</span>
+				  	</td>
+				  	<td>
+				  		<select data-dojo-attach-point="categoryOperationSelect" data-dojo-type="dijit/form/Select" style="width:100%;">
+				  			<option value="sum">${nls.sumOption}</option>
+				  			<option value="average">${nls.averageOption}</option>
+				  			<option value="min">${nls.minOption}</option>
+				  			<option value="max">${nls.maxOption}</option>
+				  		</select>
+				  	</td>
+				 </tr>
+
+				 <tr class="detail-tr field-tr">
+				  	<td></td>
+				  	<td class="text-middle">
+				  		<span title="${nls.operation}">${nls.operation}</span>
+				  	</td>
+				  	<td>
+				  		<select data-dojo-attach-point="fieldOperationSelect" data-dojo-type="dijit/form/Select" style="width:100%;">
+				  			<option value="sum">${nls.sumOption}</option>
+				  			<option value="average">${nls.averageOption}</option>
+				  			<option value="min">${nls.minOption}</option>
+				  			<option value="max">${nls.maxOption}</option>
+				  		</select>
+				  	</td>
+				 </tr>
+
+				 <tr class="detail-tr feature-tr category-tr count-tr field-tr chart-types-tr">
+				  	<td></td>
+				  	<td class="text-middle">
+				  		<span title="${nls.chartType}">${nls.chartType}</span>
+				  	</td>
+				  	<td class="charts-td">
+				  		<div class="jimu-trailing-margin1">
+				  			<input type="checkbox" data-dojo-attach-point="columnCbx" />
+				  			<label data-dojo-attach-point="columnLabel">${nls.column}</label>
+				  			<div class="edit-div" data-dojo-attach-point="columnEdit"></div>
+				  		</div>
+
+				  		<div class="jimu-trailing-margin1">
+				  			<input type="checkbox" data-dojo-attach-point="pieCbx" />
+				  			<label data-dojo-attach-point="pieLabel">${nls.pie}</label>
+				  			<div class="edit-div" data-dojo-attach-point="pieEdit"></div>
+				  		</div>
+
+				  		<div class="jimu-trailing-margin1">
+				  			<input type="checkbox" data-dojo-attach-point="barCbx" />
+				  			<label data-dojo-attach-point="barLabel">${nls.bar}</label>
+				  			<div class="edit-div" data-dojo-attach-point="barEdit"></div>
+				  		</div>
+
+				  		<div>
+				  			<input type="checkbox" data-dojo-attach-point="lineCbx" />
+				  			<label data-dojo-attach-point="lineLabel">${nls.line}</label>
+				  			<div class="edit-div" data-dojo-attach-point="lineEdit"></div>
+				  		</div>
+				  	</td>
+				 </tr>
+			  </tbody>
+			</table>
+
+
+			<!--symbol setting-->
+			<div class="part-setting-title">${nls.symbolSettingTip}</div>
+			<div style="margin-left:10px;">
+				<div style="margin-top:20px;overflow:hidden;">
+					<div class="jimu-float-leading symbol-tip">${nls.setSymbol}:</div>
+					<div data-dojo-attach-point="symbolPicker" data-dojo-type="jimu/dijit/SymbolPicker"></div>
+				</div>
+				<div style="margin-top:30px;overflow:hidden;padding-bottom:10px;">
+					<div class="jimu-float-leading hightlight-tip">${nls.setHighLightColor}:</div>
+					<div data-dojo-attach-point="colorPicker" data-dojo-type="jimu/dijit/ColorPicker" data-dojo-props='color:"${_highLightColor}"' style="display:inline-block;width:25px;height:25px;"></div>
+				</div>
+			</div>
+		</div>
+		<div data-dojo-attach-point="previewTabNode">
+			<div data-dojo-attach-point="previewDiv" class="preview-div"></div>
+		</div>
+	</div>
+	<div data-dojo-attach-point="shelter" data-dojo-type="jimu/dijit/LoadingShelter" data-dojo-props="hidden:true"></div>
+</div>

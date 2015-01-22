@@ -1,0 +1,8 @@
+{
+    "configText": "",
+    "mainURL": "http://riptide/arcgis/rest/services/Prototypes/Coverage/MapServer/0",
+    "queryFields": "GRIDCODE,ID",
+    "SymbolIn": {},
+    "SymbolOut": {},
+    "outCSV" : true
+}

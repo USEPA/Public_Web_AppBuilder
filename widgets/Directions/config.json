@@ -1,0 +1,17 @@
+{
+  "routeTaskUrl": "",
+  "geocoderOptions": {
+    "autoComplete": true,
+    "maxLocations": 6,
+    "minCharacters": 3,
+    "searchDelay": 350,
+    "arcgisGeocoder": false,
+    "geocoders": []
+  },
+  "routeOptions": {
+    "directionsLanguage": "",
+    "directionsLengthUnits": "esriKilometers",
+    "directionsOutputType": "standard",
+    "impedanceAttribute": ""
+  }
+}

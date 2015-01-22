@@ -1,0 +1,171 @@
+{
+  "geometryServiceURL": "http://tasks.arcgisonline.com/ArcGIS/rest/services/Geometry/GeometryServer",
+  "editor": {
+    "enableUndoRedo": true,
+    "toolbarVisible": true,
+    "toolbarOptions": {
+      "mergeVisible": true,
+      "cutVisible": true,
+      "reshapeVisible": true
+    },
+    "layerInfos": [
+      {
+        "editable": true,
+        "featureLayer": {
+          "url": "http://services2.arcgis.com/PWJUSsdoJDp7SgLj/arcgis/rest/services/CostEstimateInternet/FeatureServer/3",
+          "name": "Polygon Cost"
+        },
+        "disableGeometryUpdate": false,
+        "costEqnField": "COSTEQUATION",
+        "fieldInfos": [
+          {
+            "fieldName": "OBJECTID",
+            "label": "OBJECTID",
+            "isEditable": true
+          },
+          {
+            "fieldName": "COSTTYPE",
+            "label": "Cost Type",
+            "isEditable": true
+          },
+          {
+            "fieldName": "MATERIAL",
+            "label": "Material",
+            "isEditable": true
+          },
+          {
+            "fieldName": "UNITCOST",
+            "label": "Unit Cost",
+            "isEditable": true
+          },
+          {
+            "fieldName": "COSTEQUATION",
+            "label": "Cost Equation",
+            "isEditable": true
+          },
+          {
+            "fieldName": "PROJECTID",
+            "label": "Project ID",
+            "isEditable": true
+          },
+          {
+            "fieldName": "GlobalID",
+            "label": "GlobalID",
+            "isEditable": true
+          }
+        ]
+      },
+      {
+        "editable": true,
+        "featureLayer": {
+          "url": "http://services2.arcgis.com/PWJUSsdoJDp7SgLj/arcgis/rest/services/CostEstimateInternet/FeatureServer/1",
+          "name": "Line Cost"
+        },
+        "disableGeometryUpdate": false,
+        "costEqnField": "COSTEQUATION",
+        "fieldInfos": [
+          {
+            "fieldName": "OBJECTID",
+            "label": "OBJECTID",
+            "isEditable": true
+          },
+          {
+            "fieldName": "COSTTYPE",
+            "label": "Cost Type",
+            "isEditable": true
+          },
+          {
+            "fieldName": "MATERIAL",
+            "label": "Material",
+            "isEditable": true
+          },
+          {
+            "fieldName": "UNITCOST",
+            "label": "Unit Cost",
+            "isEditable": true
+          },
+          {
+            "fieldName": "COSTEQUATION",
+            "label": "Cost Equation",
+            "isEditable": true
+          },
+          {
+            "fieldName": "PROJECTID",
+            "label": "Project ID",
+            "isEditable": true
+          },
+          {
+            "fieldName": "GlobalID",
+            "label": "GlobalID",
+            "isEditable": true
+          }
+        ]
+      },
+      {
+        "editable": true,
+        "featureLayer": {
+          "url": "http://services2.arcgis.com/PWJUSsdoJDp7SgLj/arcgis/rest/services/CostEstimateInternet/FeatureServer/0",
+          "name": "Point Cost"
+        },
+        "disableGeometryUpdate": false,
+        "costEqnField": "COSTEQUATION",
+        "fieldInfos": [
+          {
+            "fieldName": "OBJECTID",
+            "label": "OBJECTID",
+            "isEditable": true
+          },
+          {
+            "fieldName": "COSTTYPE",
+            "label": "Cost Type",
+            "isEditable": true
+          },
+          {
+            "fieldName": "MATERIAL",
+            "label": "Material",
+            "isEditable": true
+          },
+          {
+            "fieldName": "UNITCOST",
+            "label": "Unit Cost",
+            "isEditable": true
+          },
+          {
+            "fieldName": "COSTEQUATION",
+            "label": "Cost Equation",
+            "isEditable": true
+          },
+          {
+            "fieldName": "PROJECTID",
+            "label": "Project ID",
+            "isEditable": true
+          },
+          {
+            "fieldName": "GlobalID",
+            "label": "GlobalID",
+            "isEditable": true
+          }
+        ]
+      }
+    ]
+  },
+  "lengthUnit": {
+    "value": "UNIT_FOOT",
+    "label": "Feet (ft)"
+  },
+  "arealUnit": {
+    "value": "UNIT_SQUARE_FEET",
+    "label": "Square Feet (ft^2)"
+  },
+  "currencyUnit": "$",
+  "cHullBufferDistance": "5",
+  "projectLayer": {
+    "editable": false,
+    "featureLayer": {
+      "url": "http://services2.arcgis.com/PWJUSsdoJDp7SgLj/arcgis/rest/services/CostEstimateInternet/FeatureServer/2",
+      "name": "Cost Project"
+    },
+    "disableGeometryUpdate": false,
+    "costEqnField": ""
+  }
+}

@@ -1,0 +1,17 @@
+<div>
+	<span class="head3">${nls.imageInfoTitle}</span>
+	<button name="btnIdentify" data-dojo-attach-point="btnIdentify" data-dojo-type="dijit/form/ToggleButton" baseClass="esriButton" data-dojo-props="iconClass:'iconIdentify'"></button>
+    <label for="btnIdentify">${nls.selectImage}</label>
+	<!--
+		This is a button for copy/download.  At this point, we're not going to implement it (browser/File API support limitations)
+	<button data-dojo-attach-point="btnCopy" data-dojo-type="dijit/form/Button" data-dojo-props="iconClass:'dijitEditorIcon dijitEditorIconCopy',title:'Copy to Clipboard'"></button>
+	-->
+	<br />
+	<input type="checkbox" data-dojo-type="dijit/form/CheckBox" data-dojo-attach-point="chkAutoUpdate" name="chkAutoUpdate" checked="checked" />
+	<label for="chkAutoUpdate">${nls.useMapCenter}</label>
+	<br/>
+	<input type="checkbox" data-dojo-type="dijit/form/CheckBox" data-dojo-attach-point="chkFootprint" name="chkFootprint" />
+	<label for="chkFootprint">${nls.showFootprint}</label>
+	<div class="imageDetails" data-dojo-attach-point="imageDetails">
+	</div>
+</div>

@@ -1,0 +1,10 @@
+{
+  "name": "CostAnalysis",
+  "type": "Widget",
+  "platform": "HTML",
+  "version": "0.0.1",
+  "author": "Esri, Inc.",
+  "description": "Widget for WebApp Builder beta 2 to estimate costs for created features.",
+  "copyright": "Copyright (c) 2014 Esri",
+  "license": "http://www.apache.org/licenses/LICENSE-2.0"
+}

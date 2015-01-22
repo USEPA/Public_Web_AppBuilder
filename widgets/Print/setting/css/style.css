@@ -1,0 +1,28 @@
+/* jimu-widget-coordinate-setting */
+.jimu-widget-print-setting{
+  margin:0;
+  padding:0;
+  font-size:15px;
+}
+.jimu-widget-print-setting .dijitArrowButtonContainer{
+  width: 17px;
+}
+
+.jimu-widget-print-setting .setting-table > thead > tr > th,
+.jimu-widget-print-setting .setting-table > tbody > tr > td{
+  height:40px;
+  line-height:40px;
+  vertical-align:middle;
+}
+
+.jimu-widget-print-setting .input-table > tbody > tr > .first{
+  width:auto;
+  text-align: right;
+  padding-right:15px;
+  min-width: 200px;
+}
+
+.jimu-widget-print-setting .input-table > tbody > tr > .second{
+  width:650px;
+}
+

@@ -1,0 +1,32 @@
+<div onselectstart="return false;">
+	<div class="chart-content" data-dojo-attach-point="content">
+		<div class="chart-tab-node" data-dojo-attach-point="selectTabNode">
+			<div class="layer-section">
+				<div>${nls.selectLayer}</div>
+				<select data-dojo-type="dijit/form/Select" data-dojo-attach-point="layerSelect" style="width:96%;height:30px;margin-top:10px;"></select>
+			</div>
+			<div data-dojo-attach-point="drawBox" data-dojo-type="jimu/dijit/DrawBox" data-dojo-props='types:["polygon"],showClear:true' style="margin-top:20px;"></div>
+			<div class="error-section" data-dojo-attach-point="errorSection"></div>
+		</div>
+		<div class="chart-tab-node" data-dojo-attach-point="resultsTabNode">
+			<div data-dojo-attach-point="progressBar" data-dojo-type="dijit/ProgressBar" data-dojo-props='indeterminate:true' style="display:none;"></div>
+			<div class="results-section" data-dojo-attach-point="resultsSection" style="display:none;">
+				<div class="results-header">
+					<div class="chart-title" data-dojo-attach-point="chartTitle"></div>
+					<div class="paging-section">
+						<ul data-dojo-attach-point="pagingUl"></ul>
+					</div>
+				</div>
+				<div class="chart-section">
+					<div class="chart-section-item left-arrow arrow" data-dojo-attach-point="leftArrow"></div>
+					<div class="chart-section-item chart-container" data-dojo-attach-point="chartContainer"></div>
+					<div class="chart-section-item right-arrow arrow" data-dojo-attach-point="rightArrow"></div>
+				</div>
+				<div data-dojo-attach-point="description" style="margin-top:20px;"></div>
+			</div>
+			<div class="noresults-section" data-dojo-attach-point="noresultsSection">
+				${nls.noresult}
+			</div>
+		</div>
+	</div>
+</div>

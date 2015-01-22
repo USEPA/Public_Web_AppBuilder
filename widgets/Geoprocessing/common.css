@@ -1,0 +1,75 @@
+.jimu-gp-editor-base{
+  display: inline-block;
+}
+.jimu-gp-editor-multivalue{
+
+}
+
+.jimu-gp-editor-multivalue .single-input{
+  margin-top: 5px;
+}
+.jimu-gp-editor-multivalue .remove{
+  background-color: #24B9F0;
+  width: 20px;
+  height: 20px;
+  border-radius: 10px;
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+  line-height: 19px;
+  margin-left: 10px;
+  display: inline-block;
+  cursor: pointer; 
+  text-align: center;
+}
+.jimu-gp-editor-multivalue .add-input{
+  text-align: right;
+}
+.jimu-gp-editor-multivalue .add-input .add-btn{
+  background-color: #24B9F0;
+  width: 20px;
+  height: 20px;
+  border-radius: 10px;
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+  line-height: 19px;
+  margin-left: 10px;
+  display: inline-block;
+  cursor: pointer;
+  text-align: center;
+}
+
+.jimu-gp-editor-sffl{
+  height: 30px;
+  position: relative;
+}
+.jimu-gp-editor-sffl .layer-name{
+  height: 30px;
+  line-height: 30px;
+  width: 100%;
+  border: solid 1px rgba(0,0,0,0.1);
+  cursor: pointer;
+}
+.jimu-gp-editor-sffl .drop-select{
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 30px;
+  height: 30px;
+  background: center center no-repeat url(images/v01.png);
+  cursor: pointer;
+}
+.jimu-gp-editor-sffl .drop-select:hover{
+  background: center center no-repeat url(images/v02.png);
+}
+.jimu-gp-editor-sffl .layer-chooser{
+  position: absolute;
+  width: 100%;
+  top: 30px;
+  left: 0;
+  height: 200px;
+  z-index: 1000;
+  overflow: auto;
+  border: 1px solid rgba(0,0,0,0.2);
+}
