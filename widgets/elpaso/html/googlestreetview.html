@@ -1,0 +1,52 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Street View service</title>
+    <link rel="stylesheet" type="text/css" href="../css/view.css" />   
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+    <script>
+        var lat = getQueryVariable("lat");
+        if (!(lat) || lat == "") lat = "47.6215";
+        var lon = getQueryVariable("lon");
+        if (!(lon) || lon == "") lon = "-122.349329";
+        function getQueryVariable(variable) {
+            var query = window.location.search.substring(1);
+            var vars = query.split("&");
+            for (var i = 0; i < vars.length; i++) {
+                var pair = vars[i].split("=");
+                if (pair[0].toLowerCase() == variable.toLowerCase()) {
+                    return pair[1];
+                }
+            }
+        }         
+function initialize() {
+    var fenway = new google.maps.LatLng(parseFloat(lat), parseFloat(lon));
+  var mapOptions = {
+    center: fenway,
+    zoom: 14
+  };
+  var map = new google.maps.Map(
+      document.getElementById('map-canvas'), mapOptions);
+  var panoramaOptions = {
+    position: fenway,
+    pov: {
+      heading: 34,
+      pitch: 10
+    }
+  };
+  var panorama = new  google.maps.StreetViewPanorama(document.getElementById('pano'),panoramaOptions);
+  map.setStreetView(panorama);
+}
+
+google.maps.event.addDomListener(window, 'load', initialize);
+
+    </script>
+  </head>
+  <body>
+    <div id="map-canvas" style="width: 400px; height: 300px; display:none"></div>
+    <div id="pano" style="position:absolute; left:0px; top: 0px; width: 100%; height: 94%;"></div>
+    <div class="note" style="position: absolute; left: 0px; top: 94%;">Note: No date information available</div>  
+  </body>
+</html>
+
