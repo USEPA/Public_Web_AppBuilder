@@ -1,0 +1,251 @@
+.jimu-widget-bombThreat {
+    margin: -14px -14px 10px -14px;
+}
+
+.jimu-widget-bombThreat .dijitArrowButtonContainer {
+    width: 30px;
+}
+
+.jimu-widget-bombThreat .play-section {
+    overflow: hidden;
+    margin-top: 20px;
+}
+
+.jimu-widget-bombThreat .searchFeaturesIcon {
+    width: 40px;
+    height: 40px;
+    background-repeat: no-repeat;
+    /*text-align: "center";*/
+    margin: 10px 11px 12px 0px;
+}
+
+.jimu-widget-bombThreat .searchFeaturesIcon:hover {
+    background-color: #C0C0C0;
+}
+
+.jimu-widget-bombThreat .searchPoint {
+    background-image: url("../images/point.png");
+}
+
+.jimu-widget-bombThreat .bombThreatControls {
+    margin-top: 10px;
+    height: 30px;
+    width: 100%;
+}
+
+.jimu-widget-bombThreat .jimu-btn {
+    float: none;
+    margin: auto;
+    width: 150px;
+}
+
+.jimu-widget-bombThreat .btnWindDirection {
+    margin-top: 10px;
+    height: 40px;
+}
+
+.jimu-widget-bombThreat .bombThreatTabs {
+    padding: 14px;
+}
+
+.jimu-widget-bombThreat .chart-tab-node {
+    position: absolute !important;
+    width: 100% !important;
+    height: auto !important;
+    top: 0 !important;
+    bottom: 0 !important;
+}
+
+.jimu-widget-bombThreat .results-section {
+    width: 100%;
+}
+
+.jimu-widget-bombThreat .noresults-section {
+    width: 100%;
+}
+
+.jimu-widget-bombThreat .results-header {
+    width: 100%;
+    height: 30px;
+}
+
+.jimu-widget-bombThreat .chart-title {
+    float: left;
+    height: 100%;
+}
+
+.jimu-widget-bombThreat .paging-section {
+    float: right;
+    height: 100%;
+}
+
+.jimu-widget-bombThreat .paging-section ul {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    list-style: none;
+}
+
+.jimu-widget-bombThreat .paging-section ul li {
+    float: left;
+    height: 100%;
+}
+
+.jimu-widget-bombThreat .paging-section ul li a {
+    display: block;
+    width: 5px;
+    height: 100%;
+    padding: 0 5px;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-image: url(../images/dot1.png);
+    cursor: pointer;
+}
+
+.jimu-widget-bombThreat .paging-section ul li a:hover, .jimu-widget-bombThreat .paging-section ul li.selected a {
+    background-image: url(../images/dot2.png);
+}
+
+.jimu-widget-bombThreat .chart-section {
+    position: relative;
+    width: 100%;
+    height: 280px;
+}
+
+.jimu-widget-bombThreat .chart-section .chart-section-item {
+    position: absolute;
+    height: 100%;
+    top: 0;
+}
+
+.jimu-widget-bombThreat .chart-section .arrow {
+    width: 10%;
+    background-repeat: no-repeat;
+    background-position: center center;
+    cursor: pointer;
+}
+
+.jimu-widget-bombThreat .chart-section .arrow:hover {
+    background-color: #cccccc;
+}
+
+.jimu-widget-bombThreat .chart-section .left-arrow {
+    left: 0;
+    background-image: url(../images/left.png);
+}
+
+.jimu-widget-bombThreat .chart-section .chart-container {
+    left: 11%;
+    width: 78%;
+    margin: 0 auto;
+}
+
+.jimu-widget-bombThreat .chart-section .right-arrow {
+    right: 0;
+    background-image: url(../images/right.png);
+}
+
+.jimu-widget-bombThreat .chart-content {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.jimu-widget-bombThreat .zoomBtnContainer {
+    text-align: right;
+}
+
+.jimu-widget-bombThreat .featureList {
+    /*border-top:1px solid #6d7685;*/
+    color: #6d7685;
+    font-style: italic;
+}
+
+.jimu-widget-bombThreat .zoomToBtn {
+    cursor: pointer;
+    display: inline-block;
+    padding: 6px;
+    text-align: center;
+    vertical-align: middle;
+    color: #888888;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -o-border-radius: 5px;
+    -ms-border-radius: 5px;
+    border-radius: 5px;
+}
+
+.jimu-widget-bombThreat .zoomToBtn:hover {
+    background: #528cc9;
+    color: #ffffff;
+}
+
+.jimu-widget-bombThreat .resultsList {
+    width: 100%;
+    height: 100%;
+}
+
+.jimu-widget-bombThreat .buttonContainer {
+    text-align: center;
+    margin: 10px;
+}
+
+.jimu-widget-bombThreat .resultsList .layerTitle {
+    font-size: 105%;
+    font-weight: bolder;
+    margin-bottom: 5px;
+    font-style: italic;
+}
+
+.jimu-widget-bombThreat .featureView {
+    font-size: 100%;
+    font-weight: normal;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 5px;
+    margin-top: 5px;
+    padding: 3px;
+    border: 1px solid #b5bcc7;
+    background-color: #d3d3d3;
+    border-radius: 5px;
+}
+
+.jimu-widget-bombThreat .featureView .over {
+    background-color: #d9dde0;
+}
+
+.jimu-widget-bombThreat .layerSelect {
+    width: 100%;
+}
+
+.jimu-widget-bombThreat .resultRow {
+    margin-top: 10px;
+}
+
+.jimu-widget-bombThreat .resultRow:hover {
+    background-color: #7b7b7b;
+}
+
+.jimu-widget-bombThreat .fieldValue {
+    display: inline-block;
+}
+
+.jimu-widget-bombThreat .fieldName {
+    display: inline-block;
+    color: #888888
+}
+
+.jimu-widget-bombThreat .resultTitle {
+    font-size: 110%;
+    font-weight: bold;
+    border-bottom: 1px solid #ccc;
+    margin-top: 10px;
+    margin-bottom: 3px;
+}
+
+.jimu-widget-Identify .resultsList .layerTitle {
+    font-size: 105%;
+    font-weight: bolder;
+    margin-bottom: 5px;
+    font-style: italic;
+}

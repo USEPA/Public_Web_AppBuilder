@@ -1,0 +1,21 @@
+{
+    "routeTaskUrl":"http://route.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World",
+    "locatorUrl":"http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer",
+    "closestFacilityUrl":"http://route.arcgis.com/arcgis/rest/services/World/ClosestFacility/NAServer/ClosestFacility_World",
+    "geocoderOptions": {
+        "autoComplete":true,
+        "maxLocations":6,
+        "minCharacters":3,
+        "searchDelay":350,
+        "arcgisGeocoder": {
+            "placeholder": "Search address or place"
+        }
+    },
+    "routeOptions":{
+        "directionsLanguage":"en_US",
+        "directionsLengthUnits":"esriMiles",
+        "directionsOutputType":"standard",
+        "impedanceAttribute":""
+    },
+    "evacuationAreas":"http://clt-gonzagok7l:6080/arcgis/rest/services/DefenseSolutions/EvacAreas/MapServer/0"
+}

@@ -1,0 +1,71 @@
+{
+    "editor": {
+        "enableUndoRedo": true,
+        "toolbarVisible": true,
+        "toolbarOptions": {
+            "mergeVisible": true,
+            "cutVisible": true,
+            "reshapeVisible": true
+        },
+        "layerInfos": [
+            {
+                "featureLayer": {
+                    "url": "http://sampleserver6.arcgisonline.com/arcgis/rest/services/Wildfire/FeatureServer/0"
+                },
+                "disableGeometryUpdate": true,
+                "fieldInfos": [
+                    {
+                        "fieldName": "rotation",
+                        "isEditable": false
+                    },
+                    {
+                        "fieldName": "description",
+                        "isEditable": true
+                    },
+                    {
+                        "fieldName": "eventdate",
+                        "label": "Event Date",
+                        "isEditable": false
+                    },
+                    {
+                        "fieldName": "eventtype",
+                        "label": "Event Type",
+                        "isEditable": false
+                    }
+                ]
+            },
+            {
+                "featureLayer": {
+                    "url": "http://sampleserver6.arcgisonline.com/arcgis/rest/services/Wildfire/FeatureServer/1"
+                },
+                "disableGeometryUpdate": true,
+                "fieldInfos": [
+                    {
+                        "fieldName": "symbolid",
+                        "isEditable": false
+                    },
+                    {
+                        "fieldName": "description",
+                        "isEditable": true
+                    }
+                ]
+            },
+            {
+                "featureLayer": {
+                    "url": "http://sampleserver6.arcgisonline.com/arcgis/rest/services/Wildfire/FeatureServer/2"
+                },
+                "disableGeometryUpdate": true,
+                "fieldInfos": [
+                    {
+                        "fieldName": "symbolid",
+                        "isEditable": false
+                    },
+                    {
+                        "fieldName": "description",
+                        "isEditable": true
+                    }
+                ]
+            }
+        ]
+    }
+}

@@ -1,0 +1,47 @@
+<div style="width:100%; height:100%; min-width:280px;min-width:240px;">
+  <div data-dojo-attach-point="selectWithSection" style="width:100%;margin-top:5px;">
+
+    <table class="jimu-table" style="margin-bottom: 10px">
+      <tbody><tr>
+        <td>${nls.polylines}</td>
+        <td class="count" data-dojo-attach-point="polylineCount">0</td>
+      </tr>
+      <tr>
+        <td>${nls.polygons}</td>
+        <td class="count" data-dojo-attach-point="polygonCount">0</td>
+      </tr>
+      <tr>
+        <td>${nls.points}</td>
+        <td class="count" data-dojo-attach-point="pointCount">0</td>
+      </tr>
+      <tr>
+        <td>${nls.totalLengthIn}
+          <div class="inline" data-dojo-attach-point="lengthUnitDiv">
+        </td>
+        <td class="count" data-dojo-attach-point="totalLength">0.00</td>
+      </tr>
+      <tr>
+        <td>${nls.totalAreaIn}
+          <div class="inline" data-dojo-attach-point="arealUnitDiv"></div>
+        </td>
+        <td class="count" data-dojo-attach-point="totalArea">0.00</td>
+      </tr>
+      <tr>
+        <td>${nls.totalCostIn}
+          <div class="inline" data-dojo-attach-point="currencyUnitDiv">
+          </div>
+        </td>
+        <td class="count" data-dojo-attach-point="totalCost">0.00</td>
+      </tr>
+    </tbody></table>
+
+    <div class="jimu-btn jimu-state-disabled" style="margin-bottom:10px" data-dojo-attach-point="clearSessionBtn" data-dojo-attach-event="click:onClearClick">${nls.clearSession}</div>
+
+    <div class="jimu-btn jimu-state-disabled" style="margin-bottom:10px" data-dojo-attach-point="saveBtn" data-dojo-attach-event="click:onSaveClick">${nls.save}</div>
+
+    <div id="panelLoadingIcon" class="loading hide" style="margin-bottom:10px;"></div>
+
+    <div data-dojo-attach-point="editorWidgetDiv" style="margin-bottom: 10px">
+    </div>
+  </div>
+</div>

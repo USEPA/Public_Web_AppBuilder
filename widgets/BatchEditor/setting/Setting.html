@@ -1,0 +1,70 @@
+<div style="width:100%;height:100%;">
+    <table class="settings-section">
+      <div class="settings-subheading">${nls.layers}</div>
+      <tbody>
+        <tr>
+          <td>${nls.selectFromLayer}</td>
+          <td>
+            <div>
+              <select style="margin-left: 10px;" data-dojo-attach-point="selectFromLayerSelect" data-dojo-type="dijit/form/Select">
+                <option value="" selected="true">${nls.noneSelectOption}</option>
+              </select>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>${nls.selectWithLayer}</td>
+          <td>
+            <div>
+              <select style="margin-left: 10px;" data-dojo-attach-point="selectWithLayerSelect" data-dojo-type="dijit/form/Select">
+                <option value="" selected="true">${nls.noneSelectOption}</option>
+              </select>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td>${nls.spatialRelationship}</td>
+          <td>
+            <div>
+              <select style="margin-left: 10px;" data-dojo-attach-point="spatialRelChooser" data-dojo-type="dijit/form/Select">
+                <option value="SPATIAL_REL_INTERSECTS" selected="true">${nls.intersects}</option>
+                <option value="SPATIAL_REL_CONTAINS">${nls.contains}</option>
+                <option value="SPATIAL_REL_CROSSES">${nls.crosses}</option>
+                <option value="SPATIAL_REL_OVERLAPS">${nls.overlaps}</option>
+                <option value="SPATIAL_REL_TOUCHES">${nls.touches}</option>
+                <option value="SPATIAL_REL_WITHIN">${nls.within}</option>
+              </select>
+
+            </div>
+          </td>
+      </tbody>
+    </table>
+
+    <!-- Highlight Symbol Selection start -->
+    <div data-dojo-attach-point="settingHighlight" style="width:100%;">
+      <div class="settings-subheading">${nls.highlightSymbol}</div>
+      <div class="point-section hide" data-dojo-attach-point="pointHighlightSection">
+        <div data-dojo-attach-point="pointHighlightChooser" data-dojo-type="jimu/dijit/SymbolChooser" data-dojo-props='type:"marker"'></div>
+      </div>
+
+      <div class="line-section hide" data-dojo-attach-point="lineHighlightSection">
+        <div data-dojo-attach-point="lineHighlightChooser" data-dojo-type="jimu/dijit/SymbolChooser" data-dojo-props='type:"line"'></div>
+      </div>
+
+      <div class="polygon-section hide" data-dojo-attach-point="fillHighlightSection">
+        <div data-dojo-attach-point="fillHighlightChooser" data-dojo-type="jimu/dijit/SymbolChooser" data-dojo-props='type:"fill"'></div>
+      </div>
+    </div><!-- Highlight Symbol Selection end -->
+
+    <!-- Draw Symbol Selection start -->
+    <div data-dojo-attach-point="settingDraw" style="width:100%;">
+      <div class="settings-subheading">${nls.drawSymbol}</div>
+      <div class="polygon-section" data-dojo-attach-point="fillDrawSection">
+        <div data-dojo-attach-point="fillDrawChooser" data-dojo-type="jimu/dijit/SymbolChooser" data-dojo-props='type:"fill"'></div>
+      </div>
+    </div>
+    <!-- Draw Symbol Selection end -->
+</div>
+
+

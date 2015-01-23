@@ -1,0 +1,85 @@
+{
+    "ERGChemicalGPServiceURL" : "http://arcgis-emergencymanagement-2057568539.us-east-1.elb.amazonaws.com/arcgis/rest/services/COP/ERGByChemical/GPServer/ERG%20By%20Chemical",
+    "ERGPlacardGPServiceURL" : "http://arcgis-emergencymanagement-2057568539.us-east-1.elb.amazonaws.com/arcgis/rest/services/COP/ERGByPlacard/GPServer/ERG%20By%20Placard",
+    "FindNearestWSServiceURL" : "http://arcgis-emergencymanagement-2057568539.us-east-1.elb.amazonaws.com/arcgis/rest/services/COP/FindNearestWS/GPServer/FindNearestWeatherStation",
+    "WindDirectionLayerURL": "http://arcgis-emergencymanagement-2057568539.us-east-1.elb.amazonaws.com/arcgis/rest/services/COP/EmergencyOperations/MapServer/11",
+    "WindDirectionField": "WindDirection",
+    "StationNameField": "StationName",
+    "DateTimeField": "UTC_DateTime",
+    "FacilitiesLayerURL": "http://arcgis-emergencymanagement-2057568539.us-east-1.elb.amazonaws.com/arcgis/rest/services/COP/EmergencyOperations/MapServer/0",
+    "FacilitiesFields":["NAME","FEATURECODE","FULLADDR"],
+    "FacilitiesSummaryField":"FEATURECODE",
+    "infrastructureLayer": {
+        "url": "http://arcgis-emergencymanagement-2057568539.us-east-1.elb.amazonaws.com/arcgis/rest/services/COP/EmergencyOperations/MapServer/0",
+        "labelField": "NAME",
+        "fields": ["NAME", "FEATURECODE", "STATE"]
+    },
+    "demographicLayer": {
+        "label": "Age under 5",
+        "url": "http://sampleserver6.arcgisonline.com/ArcGIS/rest/services/Demographics/ESRI_Census_USA/MapServer/2",
+        "labelField": "NAME",
+        "fields": ["*"],
+        "medias": [
+            {
+                "chartField": "POP2007",
+                "title": "2007 Total Population",
+                "type": "columnschart"
+            },
+            {
+                "chartField": "AGE_UNDER5",
+                "title": "2007 Total Population",
+                "type": "columnschart"
+            },
+            {
+                "chartField": "AGE_5_17",
+                "title": "Population Under 5 Years",
+                "type": "columnschart"
+            },
+            {
+                "chartField": "AGE_18_21",
+                "title": "Population Ages 18 through 21",
+                "type": "columnschart"
+            },
+            {
+                "chartField": "AGE_22_29",
+                "title": "Population Ages 22 through 29",
+                "type": "columnschart"
+            },
+            {
+                "chartField": "AGE_30_39",
+                "title": "Population Ages 30 through 39",
+                "type": "columnschart"
+            },
+            {
+                "chartField": "AGE_40_49",
+                "title": "Population Ages 40 through 49",
+                "type": "columnschart"
+            },
+            {
+                "chartField": "AGE_50_64",
+                "title": "Population Ages 50 through 64",
+                "type": "columnschart"
+            },
+            {
+                "chartField": "AGE_65_UP",
+                "title": "Population Ages 64 and up",
+                "type": "columnschart"
+            },
+            {
+                "chartField": "MALES",
+                "title": "Population of Males",
+                "type": "columnschart"
+            },
+            {
+                "chartField": "FEMALES",
+                "title": "Population Females",
+                "type": "columnschart"
+            },
+            {
+                "chartField": "HOUSEHOLDS",
+                "title": "Number of Households",
+                "type": "columnschart"
+            }
+        ]
+    }
+}

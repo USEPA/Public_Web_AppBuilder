@@ -1,0 +1,128 @@
+.jimu-widget-chart{
+  position: relative;
+  width:100%;
+  height:100%;
+  min-width:270px;
+  min-height:330px;
+}
+
+.jimu-widget-chart .chart-content{
+  position: relative;
+  width:100%;
+  height:100%;
+}
+
+.jimu-widget-chart>.jimu-tab>.control{
+  margin:-14px -14px 0 -14px;
+}
+
+.jimu-widget-chart>.jimu-tab>.jimu-viewstack{
+  position: absolute !important;
+  top: 45px !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  height: auto !important;
+  margin-bottom:-14px;
+}
+
+.jimu-widget-chart .chart-tab-node{
+  position: absolute !important;
+  width: 100% !important;
+  height: auto !important;
+  top:0 !important;
+  bottom: 0 !important;
+}
+
+.jimu-widget-chart .results-section{
+  width:100%;
+}
+
+.jimu-widget-chart .noresults-section{
+  width:100%;
+}
+
+.jimu-widget-chart .results-header{
+  width:100%;
+  height:30px;
+}
+
+.jimu-widget-chart .chart-title{
+  float:left;
+  height:100%;
+}
+
+.jimu-widget-chart .paging-section{
+  float:right;
+  height:100%;
+}
+
+.jimu-widget-chart .paging-section ul{
+  margin:0;
+  padding:0;
+  height:100%;
+  list-style:none;
+}
+
+.jimu-widget-chart .paging-section ul li{
+  float:left;
+  height:100%;
+}
+
+.jimu-widget-chart .paging-section ul li a{
+  display: block;
+  width:5px;
+  height:100%;
+  padding:0 5px;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-image:url(../images/dot1.png);
+  cursor:pointer;
+}
+
+.jimu-widget-chart .paging-section ul li a:hover,.jimu-widget-chart .paging-section ul li.selected a{
+  background-image:url(../images/dot2.png);
+}
+
+.jimu-widget-chart .chart-section{
+  position:relative;
+  width:100%;
+  height:280px;
+}
+
+.jimu-widget-chart .chart-section .chart-section-item{
+  position:absolute;
+  height:100%;
+  top:0;
+}
+
+.jimu-widget-chart .chart-section .arrow{
+  width:10%;
+  background-repeat: no-repeat;
+  background-position: center center;
+  cursor:pointer;
+}
+
+.jimu-widget-chart .chart-section .arrow:hover{
+  background-color:#cccccc;
+}
+
+.jimu-widget-chart .chart-section .left-arrow{
+  left:0;
+  background-image:url(../images/left.png);
+}
+
+.jimu-widget-chart .chart-section .chart-container{
+  left:11%;
+  width:78%;
+  margin:0 auto;
+}
+
+.jimu-widget-chart .chart-section .right-arrow{
+  right:0;
+  background-image:url(../images/right.png);
+}
+
+.TabTheme .jimu-widget-chart .jimu-tab>.control>.tab.jimu-state-selected{
+  border-top: 0;
+}

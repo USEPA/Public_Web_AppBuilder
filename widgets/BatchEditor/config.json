@@ -1,0 +1,11 @@
+{
+  "layers": {
+    "selectWith": {
+      "name": "Reporting.DBO.Feeders"
+    },
+    "selectFrom": {
+      "name": "Reporting.DBO.JointUseSurvey"
+    }
+  },
+  "spatialRel": "SPATIAL_REL_INTERSECTS"
+}

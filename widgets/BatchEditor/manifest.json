@@ -1,0 +1,10 @@
+{
+    "name": "BatchEditor",
+    "title" : "Batch Editor",
+    "platform": "HTML",
+    "version": "0.8.0.0",
+    "author": "Esri, Inc.",
+    "description": "A widget to modify a series of features at the same time.  User can select features by a shape or an exisiting feature.",
+    "copyright": "Esri, Inc.",
+    "license": "http://www.apache.org/licenses/LICENSE-2.0"
+}

@@ -1,0 +1,65 @@
+<div style="height:100%;">
+    <div class="item" style="width:100%;height:100%;background-color:white;">
+        <div class="content" style="...">
+            <div data-dojo-attach-point="tabBT">
+                <div data-dojo-attach-point="tabNode1" class="bombThreatTabs">
+                    <!-- Bomb Type dropdown -->
+                    <div>
+                        <label>${nls.selectType}</label><br/>
+                        <select class="bombThreatControls"
+                                data-dojo-attach-point="bombType"
+                                data-dojo-type="dijit/form/Select"></select>
+                    </div>
+                    <!-- Draw bomb location -->
+                    <br/><br/>
+
+                    <div data-dojo-attach-point="drawSpillInfo">
+                        <label>${nls.drawPoint}</label>
+
+                        <div id="Point" title="${nls.drawPoint}" class="searchFeaturesIcon searchPoint"></div>
+                    </div>
+
+                    <br/>
+                    <!-- BUTTONS -->
+                    <div class="jimu-r-row play-section">
+                        <div class="col-1-2">
+                            <div class="jimu-btn btn-solve" data-dojo-attach-point="btnSearch"
+                                 data-dojo-attach-event="onclick:onSolve">${nls.labelSolve}
+                            </div>
+                        </div>
+                        <div class="col-1-2">
+                            <div class="jimu-btn btn-clear" data-dojo-attach-point="btnClear"
+                                 data-dojo-attach-event="onclick:onClearBtnClicked">${nls.labelClear}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div data-dojo-attach-point="tabNode2" class="bombThreatTabs">
+                    <div data-dojo-attach-point="progressBar" data-dojo-type="dijit/ProgressBar" data-dojo-props='indeterminate:true' style="display:none;"></div>
+                    <div class="results-section" data-dojo-attach-point="resultsSection" style="display:none;">
+                        <div class="results-header">
+                            <div class="chart-title" data-dojo-attach-point="chartTitle"></div>
+                            <div class="paging-section">
+                                <ul data-dojo-attach-point="pagingUl"></ul>
+                            </div>
+                        </div>
+                        <div class="chart-section">
+                            <div class="chart-section-item left-arrow arrow" data-dojo-attach-point="leftArrow"></div>
+                            <div class="chart-section-item chart-container" data-dojo-attach-point="chartContainer"></div>
+                            <div class="chart-section-item right-arrow arrow" data-dojo-attach-point="rightArrow"></div>
+                        </div>
+                        <div data-dojo-attach-point="description" style="margin-top:20px;"></div>
+                    </div>
+                    <div class="noresults-section" data-dojo-attach-point="noresultsSection">
+                        ${nls.noresult}
+                    </div>
+                </div>
+                <div data-dojo-attach-point="tabNode3" class="bombThreatTabs">
+                    <div class="resultsList" data-dojo-attach-point="facilitiesListSection" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
