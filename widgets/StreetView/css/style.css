@@ -1,0 +1,54 @@
+.widget-street-view{
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.widget-street-view .centerdiv{
+  width: 40px;
+  height: 40px;
+}
+
+.widget-street-view .gsviconnormal{
+  width: 40px;
+  height: 40px;
+  background-repeat: no-repeat;
+  text-align: center;
+  background-image: url("images/gsv_button_norm.png");
+  position: absolute;
+  margin: 0 0 0 -20px;
+  left: 50%;
+}
+
+.widget-street-view .gsviconplaced{
+  width: 40px;
+  height: 40px;
+  background-repeat: no-repeat;
+  text-align: center;
+  background-image: url("images/gsv_button_down.png");
+  position: absolute;
+  margin: 0 0 0 -20px;
+  left: 50%;
+}
+
+.widget-street-view .gsviconplaced:hover{
+  width: 40px;
+  height: 40px;
+  background-repeat: no-repeat;
+  text-align: center;
+  background-image: url("images/gsv_button_over.png");
+  position: absolute;
+  margin: 0 0 0 -20px;
+  left: 50%;
+}
+
+.widget-street-view .gsviconnormal:hover{
+  width: 40px;
+  height: 40px;
+  background-repeat: no-repeat;
+  text-align: center;
+  background-image: url("images/gsv_button_over.png");
+  position: absolute;
+  margin: 0 0 0 -20px;
+  left: 50%;
+}

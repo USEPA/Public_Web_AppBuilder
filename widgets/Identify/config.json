@@ -1,0 +1,298 @@
+{
+  "identifylayeroption": "visible",
+  "identifytolerance": 5,
+  "defaultzoomscale": 5000,
+  "keepidentifyactive": true,
+  "returngeometryforzoom": true,
+  "enablelineselect": true,
+  "enablefreehandlineselect": true,
+  "enablepolylineselect": true,
+  "enableextentselect": true,
+  "enabletriangleselect": false,
+  "enablepolyselect": true,
+  "enablefreehandpolyselect": true,
+  "enablecircleselect": true,
+  "enableellipseselect": true,
+  "enablegraphicclickinfo": true,
+  "usemaptime": false,
+  "infoautoclosemilliseconds": 2000,
+  "autoactivatedtool": "point",
+  "disablelayerdropdown": false,
+  "disablealllayerschoice": false,
+  "replacenullswithemptystring": true,
+  "enablemouseoverrecordinfo": true,
+  "enablemouseovergraphicsinfo": true,
+  "layers": {
+    "onlythese": false,
+    "layer": [
+      {
+        "name": "Zoning",
+        "id": 2,
+        "url": "http://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Louisville/LOJIC_LandRecords_Louisville/MapServer",
+        "fields": {
+          "field": [
+            {
+              "name": "ZONING_NAME",
+              "alias": "Zoning Name"
+            },
+            {
+              "name": "ZONING_TYPE",
+              "alias": "Zoning Type",
+              "popuponly": true
+            }
+          ]
+        },
+        "links": {},
+        "zoomscale": 1500,
+        "forcescale": true
+      },
+      {
+        "name": "Land Use",
+        "id": 1,
+        "url": "http://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Louisville/LOJIC_LandRecords_Louisville/MapServer",
+        "fields": {
+          "field": [
+            {
+              "name": "LANDUSE_NAME",
+              "alias": "Landuse Name"
+            }
+          ]
+        },
+        "links": {},
+        "zoomscale": 1500,
+        "forcescale": true
+      },
+      {
+        "name": "Traffic Cameras",
+        "url": "http://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Louisville/LOJIC_PublicSafety_Louisville/MapServer",
+        "id": 2,
+        "zoomscale": "2000",
+        "forcescale": true,
+        "fields": {
+          "all": false,
+          "field": [
+            {
+              "name": "URL",
+              "alias": "URL"
+            },
+            {
+              "name": "ONLINE",
+              "alias": "ONLINE"
+            },
+            {
+              "name": "DESCRIPTION",
+              "alias": "DESCRIPTION"
+            },
+            {
+              "name": "LAST_UPDATED",
+              "alias": "LAST_UPDATED",
+              "isdate": true
+            }
+          ]
+        },
+        "links": {
+          "link": [
+            {
+              "alias": "View Traffic Image",
+              "disablelinksifnull": true,
+              "disableinpopup": false,
+              "popuptype": "image",
+              "content": "{URL}",
+              "icon": "http://help.arcgis.com/en/webapps/flexviewer/live/assets/images/i_camera.png"
+            }
+          ]
+        }
+      },
+      {
+        "name": "Police Stations",
+        "url": "http://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Louisville/LOJIC_PublicSafety_Louisville/MapServer",
+        "id": 3,
+        "zoomscale": "2000",
+        "forcescale": true,
+        "fields": {
+          "all": false,
+          "field": [
+            {
+              "name": "PD_NAME",
+              "alias": "NAME"
+            },
+            {
+              "name": "ADDRESS",
+              "alias": "ADDRESS"
+            }
+          ]
+        },
+        "links": {}
+      },
+      {
+        "name": "Emergency Sirens",
+        "url": "http://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Louisville/LOJIC_PublicSafety_Louisville/MapServer",
+        "id": 0,
+        "zoomscale": "2000",
+        "forcescale": true,
+        "fields": {
+          "all": false,
+          "field": [
+            {
+              "name": "SILOCAL",
+              "alias": "LOCAL"
+            },
+            {
+              "name": "SIADDRESS",
+              "alias": "ADDRESS"
+            }
+          ]
+        },
+        "links": {}
+      },
+      {
+        "name": "Fire Stations",
+        "url": "http://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Louisville/LOJIC_PublicSafety_Louisville/MapServer",
+        "id": 1,
+        "zoomscale": "2000",
+        "forcescale": true,
+        "fields": {
+          "all": false,
+          "field": [
+            {
+              "name": "LFD_DIST",
+              "alias": "Louiseville Fire District",
+              "isnumber": true
+            },
+            {
+              "name": "ADDRESS",
+              "alias": "ADDRESS"
+            },
+            {
+              "name": "NAME",
+              "alias": "NAME"
+            }
+          ]
+        },
+        "links": {}
+      }
+    ],
+    "excludelayer": [
+      {
+        "name": "Condos"
+      },
+      {
+        "url": "http://services.arcgisonline.com/arcgis/rest/services/Reference/World_Transportation/MapServer"
+      },
+      {
+        "url": "http://services.arcgisonline.com/arcgis/rest/services/Reference/World_Reference_Overlay/MapServer"
+      },
+      {
+        "url": "http://services.arcgisonline.com/arcgis/rest/services/Reference/World_Boundaries_and_Places/MapServer"
+      },
+      {
+        "url": "http://services.arcgisonline.com/arcgis/rest/services/Reference/World_Boundaries_and_Places_Alternate/MapServer"
+      },
+      {
+        "url": "http://services.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Reference/MapServer"
+      },
+      {
+        "url": "http://services.arcgisonline.com/arcgis/rest/services/Canvas/World_Dark_Gray_Reference/MapServer"
+      },
+      {
+        "url": "http://services.arcgisonline.com/arcgis/rest/services/NatGeo_World_Map/MapServer"
+      },
+      {
+        "url": "http://services.arcgisonline.com/arcgis/rest/services/Ocean_Basemap/MapServer"
+      },
+      {
+        "url": "http://services.arcgisonline.com/arcgis/rest/services/USA_Topo_Maps/MapServer"
+      },
+      {
+        "url": "http://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer"
+      },
+      {
+        "url": "http://services.arcgisonline.com/arcgis/rest/services/World_Physical_Map/MapServer"
+      },
+      {
+        "url": "http://services.arcgisonline.com/arcgis/rest/services/World_Shaded_Relief/MapServer"
+      },
+      {
+        "url": "http://services.arcgisonline.com/arcgis/rest/services/World_Street_Map/MapServer"
+      },
+      {
+        "url": "http://services.arcgisonline.com/arcgis/rest/services/World_Terrain_Base/MapServer"
+      },
+      {
+        "url": "http://services.arcgisonline.com/arcgis/rest/services/World_Topo_Map/MapServer"
+      },
+      {
+        "url": "http://services.arcgisonline.com/arcgis/rest/services/Canvas/World_Light_Gray_Base/MapServer"
+      },
+      {
+        "url": "http://services.arcgisonline.com/arcgis/rest/services/Canvas/World_Dark_Gray_Base/MapServer"
+      }
+    ]
+  },
+  "symbols": {
+    "simplemarkersymbol": {
+      "color": [
+        68,
+        140,
+        203,
+        153
+      ],
+      "size": 8,
+      "angle": 0,
+      "xoffset": 0,
+      "yoffset": 0,
+      "type": "esriSMS",
+      "style": "esriSMSCircle",
+      "outline": {
+        "color": [
+          255,
+          255,
+          255,
+          153
+        ],
+        "width": 1,
+        "type": "esriSLS",
+        "style": "esriSLSSolid"
+      }
+    },
+    "picturemarkersymbol": {
+      "url": "/widgets/Identify/images/i_info.png",
+      "height": "20",
+      "width": "20",
+      "type": "esriPMS",
+      "angle": "0"
+    },
+    "simplelinesymbol": {
+      "type": "esriSLS",
+      "style": "esriSLSSolid",
+      "color": [
+        68,
+        140,
+        203,
+        153
+      ],
+      "width": 2
+    },
+    "simplefillsymbol": {
+      "color": [
+        68,
+        140,
+        203,
+        153
+      ],
+      "outline": {
+        "color": [
+          68,
+          140,
+          203,
+          153
+        ],
+        "width": 2,
+        "type": "esriSLS",
+        "style": "esriSLSSolid"
+      },
+      "type": "esriSFS",
+      "style": "esriSFSSolid"
+    }
+  }
+}

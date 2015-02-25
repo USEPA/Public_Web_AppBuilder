@@ -1,0 +1,341 @@
+{
+  "layers": [
+    {
+      "name": "Louisville Zoning",
+      "url": "http://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Louisville/LOJIC_LandRecords_Louisville/MapServer/2",
+      "definitionexpression": "ZONING_TYPE = 'RESIDENTIAL'",
+      "spatialsearchlayer": true,
+      "expressions": {
+        "expression": [
+          {
+            "alias": "Zoning Type",
+            "textsearchlabel": "Search by Zoning Type",
+            "values": {
+              "value": [
+                {
+                  "fieldObj": {
+                    "name": "ZONING_TYPE",
+                    "label": "ZONING_TYPE",
+                    "shortType": "string",
+                    "type": "esriFieldTypeString"
+                  },
+                  "valueObj": {
+                    "value": ""
+                  },
+                  "prompt": "Zoning Type is",
+                  "textsearchhint": "Example: RESIDENTIAL",
+                  "sqltext": "ZONING_TYPE = '[value]'",
+                  "operation": "stringOperatorIs",
+                  "uniquevalsfromfield": "ZONING_TYPE"
+                },
+                {
+                  "fieldObj": {
+                    "name": "ZONING_NAME",
+                    "label": "ZONING_NAME",
+                    "shortType": "string",
+                    "type": "esriFieldTypeString"
+                  },
+                  "valueObj": {
+                    "value": ""
+                  },
+                  "prompt": "Zoning Name is",
+                  "textsearchhint": "Example: RES SINGLE FAMILY",
+                  "sqltext": "ZONING_NAME = '[value]'",
+                  "operation": "stringOperatorIs",
+                  "uniquevalsfromfield": "ZONING_NAME",
+                  "operator": "AND"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "titlefield": "ZONING_NAME",
+      "fields": {
+        "all": false,
+        "field": [
+          {
+            "name": "ZONING_NAME",
+            "alias": "ZONING_NAME"
+          },
+          {
+            "name": "ZONING_CODE",
+            "alias": "ZONING_CODE"
+          },
+          {
+            "name": "ZONING_TYPE",
+            "alias": "ZONING_TYPE"
+          }
+        ]
+      },
+      "showattachments": false,
+      "layersymbolfrom": "config"
+    },
+    {
+      "name": "Traffic Cameras",
+      "url": "http://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Louisville/LOJIC_PublicSafety_Louisville/MapServer/2",
+      "definitionexpression": "",
+      "spatialsearchlayer": true,
+      "expressions": {
+        "expression": [
+          {
+            "alias": "Traffic Camera Description",
+            "textsearchlabel": "Search Traffic Cameras by Location...",
+            "values": {
+              "value": [
+                {
+                  "fieldObj": {
+                    "name": "DESCRIPTION",
+                    "label": "DESCRIPTION",
+                    "shortType": "string",
+                    "type": "esriFieldTypeString"
+                  },
+                  "valueObj": {},
+                  "prompt": "DESCRIPTION starts with",
+                  "textsearchhint": "Example: I-71",
+                  "sqltext": "DESCRIPTION LIKE '[value]%'",
+                  "operation": "stringOperatorStartsWith",
+                  "userlist": "I-71,I-64"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "titlefield": "DESCRIPTION",
+      "fields": {
+        "all": false,
+        "field": [
+          {
+            "name": "DESCRIPTION",
+            "alias": "Description"
+          },
+          {
+            "name": "URL",
+            "alias": "Show Image"
+          },
+          {
+            "name": "ONLINE",
+            "alias": "Online"
+          },
+          {
+            "name": "LAST_UPDATED",
+            "alias": "Last Updated",
+            "dateformat": "MM/dd/yyyy",
+            "useutc": true,
+            "isdate": true
+          }
+        ]
+      },
+      "links": {
+        "link": [
+          {
+            "alias": "View Traffic Photo",
+            "content": "{URL}",
+            "icon": "http://resources.arcgis.com/en/help/flex-viewer/live/assets/images/i_camera.png",
+            "disablelinksifnull": true,
+            "popuptype": "image"
+          }
+        ]
+      },
+      "showattachments": false,
+      "layersymbolfrom": "server"
+    },
+    {
+      "name": "SanFransisco 311",
+      "url": "http://sampleserver3.arcgisonline.com/ArcGIS/rest/services/SanFrancisco/311Incidents/FeatureServer/0",
+      "definitionexpression": "",
+      "spatialsearchlayer": false,
+      "expressions": {
+        "expression": [
+          {
+            "alias": "Incident Status",
+            "textsearchlabel": "Search by Incident Status:",
+            "values": {
+              "value": [
+                {
+                  "fieldObj": {
+                    "name": "status",
+                    "label": "Status",
+                    "shortType": "number",
+                    "type": "esriFieldTypeSmallInteger"
+                  },
+                  "valueObj": {
+                    "value": 1
+                  },
+                  "prompt": "Status is",
+                  "textsearchhint": "Example: New",
+                  "sqltext": "status = [value]",
+                  "operation": "numberOperatorIs"
+                }
+              ]
+            }
+          },
+          {
+            "alias": "Request ID",
+            "textsearchlabel": "Search by Request ID",
+            "values": {
+              "value": [
+                {
+                  "fieldObj": {
+                    "name": "req_id",
+                    "label": "Request ID",
+                    "shortType": "string",
+                    "type": "esriFieldTypeString"
+                  },
+                  "valueObj": {
+                    "value": "508844"
+                  },
+                  "prompt": "Request ID is",
+                  "textsearchhint": "Example: 508844",
+                  "sqltext": "Upper(req_id) = Upper('[value]')",
+                  "operation": "stringOperatorIs"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "titlefield": "req_type",
+      "fields": {
+        "all": false,
+        "field": [
+          {
+            "name": "req_id",
+            "alias": "Request ID"
+          },
+          {
+            "name": "req_type",
+            "alias": "Request Type"
+          },
+          {
+            "name": "req_date",
+            "alias": "Request Date"
+          },
+          {
+            "name": "address",
+            "alias": "Address"
+          },
+          {
+            "name": "district",
+            "alias": "District"
+          },
+          {
+            "name": "status",
+            "alias": "Status",
+            "isnumber": true
+          },
+          {
+            "name": "objectid",
+            "alias": "Object ID"
+          }
+        ]
+      },
+      "showattachments": true,
+      "layersymbolfrom": "server"
+    }
+  ],
+  "zoomScale": 10000,
+  "shareResult": false,
+  "initialView": "text",
+  "multipartgraphicsearchchecked": false,
+  "addpointtolerancechecked": false,
+  "keepgraphicalsearchenabled": true,
+  "autozoomtoresults": true,
+  "toleranceforpointgraphicalselection": 6,
+  "bufferDefaults": {
+    "bufferUnits": {
+      "bufferUnit": [
+        {
+          "name": "UNIT_FOOT",
+          "label": "Feet"
+      }, {
+          "name": "UNIT_STATUTE_MILE",
+          "label": "Miles"
+      }, {
+          "name": "UNIT_METER",
+          "label": "Meter"
+      }
+    ]
+    },
+    "bufferDefaultValue": 5,
+    "bufferWKID": 102003,
+    "simplefillsymbol": {
+      "color": [
+        1,
+        185,
+        253,
+        128
+      ],
+      "outline": {
+        "color": [
+          1,
+          185,
+          253,
+          204
+        ],
+        "width": 1,
+        "type": "esriSLS",
+        "style": "esriSLSSolid"
+      },
+      "type": "esriSFS",
+      "style": "esriSFSSolid"
+    }
+  },
+  "spatialrelationships":{
+    "spatialrelationship":[
+      {
+        "name":"esriSpatialRelContains",
+        "label":"entirely contained in"
+      },{
+        "name":"esriSpatialRelIntersects",
+        "label":"intersected by"
+      },{
+        "name":"esriSpatialRelEnvelopeIntersects",
+        "label":"intersected by envelope of"
+      }
+    ]
+  },
+  "symbols": {
+    "simplemarkersymbol": null,
+    "picturemarkersymbol": {
+      "url": "/widgets/eSearch/images/i_search.png",
+      "height": "20",
+      "width": "20",
+      "type": "esriPMS",
+      "angle": "0"
+    },
+    "simplelinesymbol": {
+      "type": "esriSLS",
+      "style": "esriSLSSolid",
+      "color": [
+        255,
+        0,
+        0,
+        204
+      ],
+      "width": 2
+    },
+    "simplefillsymbol": {
+      "color": [
+        255,
+        0,
+        0,
+        128
+      ],
+      "outline": {
+        "color": [
+          255,
+          0,
+          0,
+          204
+        ],
+        "width": 2,
+        "type": "esriSLS",
+        "style": "esriSLSSolid"
+      },
+      "type": "esriSFS",
+      "style": "esriSFSSolid"
+    }
+  }
+}

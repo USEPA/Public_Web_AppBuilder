@@ -1,0 +1,15 @@
+{
+  "name": "StreetView",
+  "label": "Google Street View",
+  "type": "widget",
+  "platform": "HTML",
+  "version": "1.1.0.2",
+  "wabVersion": "1.1",
+  "author": "Robert Scheitlin",
+  "description": "Allows viewing of Google Street View in a popup window",
+  "copyright": "2015",
+  "license": "http://www.apache.org/licenses/LICENSE-2.0",
+  "properties": {
+    "hasVersionManager": false
+  }
+}

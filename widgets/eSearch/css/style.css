@@ -1,0 +1,382 @@
+.jimu-widget-search{
+  position:relative;
+  width:100%;
+  height:100%;
+  min-width:265px;
+  min-height:279px;
+}
+
+.jimu-widget-search>.jimu-tab>.control{
+  margin:-14px -14px 0 -14px;
+}
+
+.jimu-widget-search>.jimu-tab>.jimu-viewstack{
+  position: absolute !important;
+  top:45px !important;
+  left:0 !important;
+  right:0 !important;
+  bottom:0 !important;
+  height: auto;
+  margin-bottom:-14px;
+}
+
+.jimu-widget-search .search-tab-node{
+  position:absolute !important;
+  width:100% !important;
+  height:auto !important;
+  top:0 !important;
+  bottom:0 !important;
+}
+
+.jimu-widget-search .search-tab-node-hidden{
+  position:absolute !important;
+  width:100% !important;
+  height:auto !important;
+  top:0 !important;
+  bottom:0 !important;
+  display: none;
+}
+
+.jimu-widget-search .result-div{
+  font-size:14px;
+  padding-left:10px;
+  padding-bottom:5px;
+}
+
+.jimu-widget-search .btn-grasearch{
+  margin-left: auto;
+  margin-right: auto;
+  padding: 6px 12px;
+}
+
+.jimu-widget-search .dijitArrowButtonContainer{
+  width: 30px;
+}
+
+.jimu-widget-search .dijitSelect{
+  height: 30px;
+  width: 100%;
+}
+
+.jimu-widget-search .searchFeaturesIcon{
+  width: 40px;
+  height: 40px;
+  background-repeat: no-repeat;
+  text-align: center;
+  float: left;
+  margin: 10px 11px 12px 11px;
+}
+
+.jimu-widget-search .searchFeaturesIcon:hover{
+  background-color: #C0C0C0;
+}
+
+.jimu-widget-search .contain-icon {
+  background-image: url("images/contain.png");
+}
+
+.jimu-widget-search .intersect-icon {
+  background-image: url("images/intersect.png");
+}
+
+.jimu-widget-search .envintersects-icon {
+  background-image: url("images/envintersects.png");
+}
+
+.jimu-widget-search .within-icon {
+  background-image: url("images/within.png");
+}
+
+.jimu-widget-search .touches-icon {
+  background-image: url("images/touches.png");
+}
+
+.jimu-widget-search .overlaps-icon {
+  background-image: url("images/overlaps.png");
+}
+
+.jimu-widget-search .indexintersects-icon {
+  background-image: url("images/index.png");
+}
+
+.jimu-widget-search .crosses-icon {
+  background-image: url("images/crosses.png");
+}
+
+.jimu-widget-search .hcenter{
+  margin-left: auto;
+  width: 100%;
+  height: 40px;
+}
+
+.jimu-widget-search .spatial-items{
+  display: table;
+  margin: 0px auto;
+  height: 40px;
+}
+
+.jimu-widget-search .spatial-items .spatial-item {
+  width: 40px;
+  height: 40px;
+  background-repeat: no-repeat;
+  cursor: pointer;
+  margin: 0 4px;
+  float: left;
+}
+
+.jimu-widget-search .spatial-item.selected,.jimu-widget-search .spatial-item:hover{
+  background-color: #C0C0C0;
+}
+
+.jimu-widget-search .buffer-icon {
+  width: 40px;
+  height: 40px;
+  background-repeat: no-repeat;
+  text-align: center;
+  float: left;
+  margin: 7px;
+  background-image: url("images/buffer.png");
+  cursor: pointer;
+}
+
+.jimu-widget-search .buffer-icon:hover{
+  background-color: #C0C0C0;
+}
+
+.TabTheme .jimu-widget-search .jimu-tab>.control>.tab.jimu-state-selected{
+  border-top: 0;
+}
+
+.search-valign-ele{
+  line-height: 47px;
+}
+
+/*used for the controller List*/
+.search-list-container{
+  min-width: 100%;
+  height: 100%;
+  vertical-align: middle;
+  float: left;
+  position: relative;
+}
+.search-list-item{
+  line-height: 30px;
+  font-size: 12px;
+  white-space: pre;
+  position: relative;
+}
+.search-list-item .label{
+  padding-left: 40px;
+  padding-right: 10px;
+  padding-bottom: 3px;
+  cursor:default;
+}
+.search-list-item .iconDiv{
+  text-align: center;
+  position: absolute;
+  height: 100%;
+  left: 0;
+}
+.search-list-item .linksdiv{
+  text-align: center;
+  width: 100%;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+.search-list-item .linkIcon{
+  display: inline-block;
+}
+.search-list-item .iconDiv:before{
+  content: '';
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+  margin-right: -0.25em; /* Adjusts for spacing */
+}
+.search-list-item .iconDiv svg{
+  display: inline-block;
+  vertical-align: middle;
+}
+.search-list-item.alt{
+  background-color: #ebebeb;
+}
+.search-list-item.selected{
+  background-color: #d9dde0;
+}
+.search-list-item.selected.alt{
+  background-color: #d9dde0;
+}
+.search-list-item:hover{
+  background-color: #dcdcdc;
+}
+.search-list-item.alt:hover{
+  background-color: #dcdcdc;
+}
+.search-list-item.selected:hover{
+  background-color: #d9dde0;
+}
+.search-list-item.selected.alt:hover{
+  background-color: #d9dde0;
+}
+/* css for search-params */
+.jimu-widget-search .search-params{
+  left: 100%;
+}
+
+.jimu-widget-search .search-params .search-params-head{
+  position: relative;
+  width: 100%;
+  height: 30px;
+  line-height: 30px;
+}
+
+.jimu-widget-search .search-params .search-params-head .params-title{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  text-align: center;
+  font-size: 14px;
+  color: #86909c;
+}
+
+.jimu-widget-search .search-params .search-params-head .operations{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+}
+
+.jimu-widget-search .search-params .search-params-head .operations .search-back{
+  float: left;
+  text-align: left;
+  color: blue;
+  cursor: pointer;
+  height: 100%;
+}
+
+.jimu-widget-search .search-params .search-params-head .operations .params-back .back-icon{
+  float: left;
+  width: 8px;
+  height: 100%;
+  background:no-repeat no-repeat center center url(images/arrow_left.png);
+  margin-right: 5px;
+}
+
+.jimu-widget-search .search-params .search-params-head .operations .params-back .back-tip{
+  float: left;
+  height: 100%;
+  color: #51b1fe;
+  text-decoration: underline;
+}
+
+.jimu-widget-search .search-params .search-params-head .operations .apply{
+  float: right;
+  text-align: right;
+  color: blue;
+  cursor: pointer;
+  height: 100%;
+  color: #51b1fe;
+  text-decoration: underline;
+}
+
+.jimu-widget-search .search-params .params-container{
+  position: absolute;
+  width: 100%;
+  left: 0;
+  top: 40px;
+  bottom: 0;
+  overflow-y: auto;
+}
+
+.jimu-widget-search .search-params table.current-view{
+  width: auto;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.jimu-widget-search .query-search table.current-view td{
+  vertical-align: top;
+  text-align: left;
+}
+
+.jimu-widget-search .search-params table.current-view .map-extent-tip{
+  padding-left: 8px;
+}
+
+/* css for jimu-widget-search-single-parameter */
+.jimu-widget-search-single-parameter .dijit-form-Select>tbody>tr>td{
+  height: 23px;
+}
+
+.jimu-widget-search-single-parameter .dijit-form-Select>tbody>tr>td>.dijitButtonText{
+  height: 20px;
+  height: 20px !important;
+}
+
+.jimu-widget-search-single-parameter .dijit-form-FilteringSelect>div.dijitArrowButton.dijitDownArrowButton{
+  width:20px;
+  height: 100%;
+}
+
+.jimu-widget-search-single-parameter .dijit-form-FilteringSelect>div.dijitArrowButton.dijitDownArrowButton>input{
+  padding: 0;
+  border: 0;
+  display: inline-block;
+  height: 100%;
+  height: 100% !important;
+}
+
+.jimu-widget-search-single-parameter .dijit-form-FilteringSelect>div.dijitInputField>input.dijitInputInner{
+  height: 20px;
+}
+
+.jimu-widget-search-single-parameter .dijit-form-ValidationTextBox>div.dijitInputField>input.dijitInputInner{
+  margin: 0;
+  padding:0;
+  height: 100%;
+  height: 100% !important;
+}
+
+.jimu-widget-search-single-parameter .dijit-form-NumberTextBox>div.dijitInputField>input.dijitInputInner{
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  padding:0 !important;
+  height: 100% !important;
+}
+
+.jimu-widget-search-single-parameter .dijit-form-DateTextBox>.dijitRight{
+  width:17px;
+  width:17px !important;
+}
+
+.jimu-widget-search-single-parameter .dijit-form-DateTextBox>div.dijitInputField>input.dijitInputInner{
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  padding:0 !important;
+  height: 100% !important;
+}
+
+.jimu-widget-search-single-parameter .dijitSelectLabel.dijitValidationTextBoxLabel{
+  width:52px;
+  max-width:52px;
+  overflow:hidden;
+  max-width:52px !important;
+  overflow:hidden !important;
+}
+
+.jimu-widget-search-single-parameter .prompt{
+  font-size: 12px;
+  color: #686868;
+}
+
+.jimu-widget-search-single-parameter .hint{
+  font-style: italic;
+  font-size: 12px;
+  color: #d9dde0;
+  margin-top: 5px;
+}

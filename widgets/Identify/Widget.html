@@ -1,0 +1,20 @@
+<div>
+  <div data-dojo-attach-point="tabIdentify">
+    <div class="identify-tab-node" data-dojo-attach-point="tabNode1">
+      <label>${nls.descriptionlabel}</label>
+      <br>
+      <div style="width:100%;height:40px" data-dojo-attach-point="LayerDD"><label data-dojo-attach-point="identifyFromLbl" style="width:25%;margin-top:10px;margin-bottom:10px;margin-right:10px;">${nls.idfrom}</label><select style="width:75%;margin-top:10px;margin-bottom:10px;" data-dojo-attach-point="identifyLayer" data-dojo-type="dijit/form/Select"></select></div>
+      <div data-dojo-attach-point="drawBox" data-dojo-type="widgets/Identify/DrawBox" data-dojo-props='types:["point","polyline","polygon"],showClear:false' style="margin-top:5px;"></div>
+    </div>
+    <div class="identify-tab-node" data-dojo-attach-point="tabNode2">
+      <div data-dojo-attach-point="progressbar"></div>
+      <div class="result-div" data-dojo-attach-point="divResult">
+        <label data-dojo-attach-point="divResultMessage">${nls.noresultsfoundlabel}</label>
+        <a style="float:right; margin-right:10px" href="#" data-dojo-attach-point="btnClear">${nls.clear}</a>
+      </div>
+      <hr>
+      <div data-dojo-type="widgets/Identify/List" data-dojo-attach-point="list" data-dojo-attach-event="click:_selectResultItem,mouseover:_overResultItem,mouseout:_outResultItem" style="position:absolute;width:100%;height:auto;left:0;right:0;top:43px;bottom:0;overflow-x:auto;overflow-y:auto;"></div>
+    </div>
+  </div>
+  <div data-dojo-type="jimu/dijit/LoadingShelter" data-dojo-attach-point="shelter" data-dojo-props="hidden:true"></div>
+</div>
