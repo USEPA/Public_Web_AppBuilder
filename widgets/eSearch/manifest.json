@@ -1,0 +1,15 @@
+{
+  "name": "eSearch",
+  "type": "widget",
+  "label": "Enhanced Search",
+  "platform": "HTML",
+  "version": "1.1.0.3",
+  "wabVersion": "1.1",
+  "author": "Robert Scheitlin & Esri R&D Center Beijing",
+  "description": "This is the enhanced version of the esri search widget",
+  "copyright": "2015",
+  "license": "http://www.apache.org/licenses/LICENSE-2.0",
+  "properties": {
+    "hasVersionManager": false
+  }
+}

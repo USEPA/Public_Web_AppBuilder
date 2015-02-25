@@ -1,0 +1,87 @@
+<div>
+  <div data-dojo-attach-point="tabSearch">
+    <div class="search-tab-node" data-dojo-attach-point="tabNode1">
+      <div>
+        <label>${nls.searchLayer}</label>
+        <br>
+        <select  style="width:96%;margin-top:10px;" data-dojo-attach-point="selectLayerGraphical" data-dojo-type="dijit/form/Select"></select>
+      </div>
+      <br>
+      <label>${nls.selectFeaturesBy}</label>
+      <br>
+      <div data-dojo-attach-point="drawBox" data-dojo-type="jimu/dijit/DrawBox" data-dojo-props='types:["point","polyline","polygon"],showClear:false'></div>
+      <a style="float:right; margin-right:10px;padding-bottom:8px;" href="#" data-dojo-attach-point="btnClear2">${nls.clear}</a>
+      <div style="height:47px;">
+        <input type="checkbox" checked="false" data-dojo-attach-point="cbxMultiGraphic" data-dojo-attach-event="onclick: _onCbxMultiGraphicClicked"/>
+        <span class="search-valign-ele">${nls.useMultiGraphics}</span>&nbsp;
+        <div data-dojo-attach-point="btnGraSearch" data-dojo-attach-event="onclick: _onBtnGraSearchClicked" class="jimu-btn btn-grasearch" >${nls.search}</div> 
+      </div>
+      <div style="padding-bottom:8px;">
+        <input type="checkbox" checked="false" data-dojo-attach-point="cbxAddTolerance" />
+        <span>${nls.addTolerance}</span>
+      </div>
+      <div style="line-height:28px;">
+        <input type="checkbox" checked=false data-dojo-attach-point="cbxBufferGraphic"/>
+        <span style="padding-right:5px;">${nls.bufferGraphic}</span>
+        <input type="text" data-dojo-type="dijit/form/NumberTextBox" data-dojo-attach-point="txtBufferValue" data-dojo-props='"required":true,intermediateChanges:true'
+               style="width:80px;padding-right:5px;"/>
+        <select  style="width:120px;padding-right:5px;" data-dojo-attach-point="bufferUnits" data-dojo-type="dijit/form/Select"></select>
+        <a style="float:right; margin-right:10px" href="#" data-dojo-attach-point="btnClearBuffer2">${nls.clearBuffer}</a>
+      </div>
+    </div>
+    <div class="search-tab-node" data-dojo-attach-point="tabNode2">
+      <div>
+        <label>${nls.searchLayer}</label>
+        <br>
+        <select style="width:96%;margin-top:10px;margin-bottom:10px;" data-dojo-attach-point="selectLayerAttribute" data-dojo-type="dijit/form/Select"></select>
+        <label>${nls.searchType}</label>
+        <br>
+        <select style="width:96%;margin-top:10px;" data-dojo-attach-point="selectExpression" data-dojo-type="dijit/form/Select"></select>
+      </div>
+      <div class="params-container" data-dojo-attach-point="paramsContainer" style="width:96%;margin-top:10px;">
+        <div class="attributes-section" data-dojo-attach-point="parametersDiv">
+          <span style="display:block;margin-bottom:10px;">${nls.specifyParamsTip} :</span>
+        </div>
+      </div>
+      <div class="jimu-r-row play-section">
+        <div class="col-1-2">
+          <div class="jimu-btn" data-dojo-attach-point="btnSearch" data-dojo-attach-event="onclick:onSearch">${nls.search}</div>
+        </div>
+      </div>
+    </div>
+    <div class="search-tab-node-hidden" data-dojo-attach-point="tabNode3">
+      <div>
+        <label>${nls.searchDistance}</label>
+        <br>
+        <div style="line-height:50px;">
+          <div style="display: block;" title="${nls.applyBuffer}" class="spatial-item buffer-icon" data-dojo-attach-event="click:_bufferFeatures"></div>
+          <input type="text" data-dojo-type="dijit/form/NumberTextBox" data-dojo-attach-point="txtBufferValueSpat" data-dojo-props='"required":true,intermediateChanges:true'
+                 style="width:80px;padding-right:5px;"/>
+          <select  style="width:120px;padding-right:5px;" data-dojo-attach-point="bufferUnitsSpat" data-dojo-type="dijit/form/Select"></select>
+          <a style="float:right; margin-right:10px" href="#" data-dojo-attach-point="btnClearBuffer3">${nls.clearBuffer}</a>
+        </div>
+      </div>
+      <hr>
+      <div>
+        <label>${nls.searchEntities}</label>
+        <br>
+        <select style="width:96%;margin-top:10px;margin-bottom:10px;" data-dojo-attach-point="selectLayerSpatial" data-dojo-type="dijit/form/Select"></select>
+      </div>
+      <div class="hcenter">
+        <div class="spatial-items" data-dojo-attach-point="spatialItems"/>
+      </div>
+    </div>
+    <div class="search-tab-node" data-dojo-attach-point="tabNode4">
+      <div data-dojo-attach-point="progressbar"></div>
+      <div class="result-div" data-dojo-attach-point="divResult">
+        <label data-dojo-attach-point="divResultMessage">${nls.noResults}</label>
+        <a style="float:right; margin-right:10px" href="#" data-dojo-attach-point="btnClear">${nls.clear}</a>
+        <a style="float:right; margin-right:10px" href="#" data-dojo-attach-point="btnZoomAll">${nls.zoomall}</a>
+        <a style="float:right; margin-right:10px" href="#" data-dojo-attach-point="btnClearBuffer">${nls.clearBuffer}</a>
+      </div>
+      <hr>
+      <div data-dojo-type="widgets/eSearch/List" data-dojo-attach-point="list" data-dojo-attach-event="click:_selectResultItem" style="position:absolute;width:100%;height:auto;left:0;right:0;top:43px;bottom:0;overflow-x:auto;overflow-y:auto;"></div>
+    </div>
+  </div>
+  <div data-dojo-type="jimu/dijit/LoadingShelter" data-dojo-attach-point="shelter" data-dojo-props="hidden:true"></div>
+</div>

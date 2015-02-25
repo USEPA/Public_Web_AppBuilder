@@ -1,0 +1,748 @@
+textarea {
+  resize: none;
+}
+
+/*the css for DropMenu dijit*/
+.jimu-widget-search-setting .jimu-dropmenu{
+  overflow: visible;
+  padding 0 0 0 0;
+}
+.jimu-widget-search-setting .esearch-add-field-button>.esearch-add-field-icon-btn{
+  cursor: pointer;
+  display: inline-block;
+  padding: 0 15px;
+  font-size: 14px;
+  line-height: 33px;
+  text-align: center;
+  background: none repeat scroll 0% 0% #518DCA;
+  vertical-align: middle;
+  color: #FFF;
+  border-radius: 5px;
+  width:40px;
+  height:28px;
+  margin-left:5px;
+}
+.jimu-widget-search-setting .esearch-add-field-button>.esearch-add-field-icon-btn:hover{
+  cursor: pointer;
+  display: inline-block;
+  padding: 0 15px;
+  font-size: 14px;
+  line-height: 33px;
+  text-align: center;
+  background: none repeat scroll 0% 0% #15a4fa;
+  vertical-align: middle;
+  color: #FFF;
+  border-radius: 5px;
+  width:40px;
+  height:28px;
+  margin-left:5px;
+}
+.jimu-widget-search-setting .esearch-add-field-button>.drop-menu{
+  position: absolute;
+  border: 1px solid #999999;
+  background-color: #ffffff;
+  overflow-y: auto;
+}
+.jimu-widget-search-setting .esearch-add-field-button .menu-item{
+  height: 25px;
+  min-width: 50px;
+  margin: 0;
+  padding: 0 5px;
+  cursor: pointer;
+  font-size: 10;
+  white-space: nowrap;
+}
+.jimu-widget-search-setting .esearch-add-field-button .menu-item:hover{
+  color: #000000;
+  background-color: #cae7ff;
+  text-decoration:none;
+}
+.jimu-widget-search-setting .esearch-add-field-button .menu-item-line{
+  border: 1px solid #ffffff;
+  margin: 0px;
+}
+
+/* jimu-widget-search-setting */
+.jimu-widget-search-setting{
+  margin:0;
+  padding:0;
+  font-size:15px;
+}
+
+.jimu-widget-search-setting .jimu-tab{
+  height:auto;
+}
+
+.jimu-widget-search-setting .marker-section .input-table{
+  width:100%;
+}
+
+.jimu-widget-search-setting .plus-sign {
+  background:white;
+  width:4px;
+  height:12px;
+  position:relative;
+  margin-left:4px;
+}
+
+.jimu-widget-search-setting .plus-sign:before {
+  background:white;
+  content:"";
+  width:12px;
+  height:4px;
+  position:absolute;
+  top:4px;
+  left:-4px;
+}
+
+.jimu-widget-search-setting .add-button-enable{
+  cursor: pointer;
+  display: inline-block;
+  padding: 0 15px;
+  font-size: 14px;
+  line-height: 33px;
+  text-align: center;
+  background: none repeat scroll 0% 0% #518DCA;
+  vertical-align: middle;
+  color: #FFF;
+  border-radius: 5px;
+}
+
+.jimu-widget-search-setting .add-button-enable:hover{
+  cursor: pointer;
+  display: inline-block;
+  padding: 0 15px;
+  font-size: 14px;
+  line-height: 33px;
+  text-align: center;
+  background: none repeat scroll 0% 0% #15a4fa;
+  vertical-align: middle;
+  color: #FFF;
+  border-radius: 5px;
+}
+
+.jimu-widget-search-setting .help-icon{
+  cursor: pointer;
+  display: inline-block;
+  font-size: 18px;
+  line-height: 20px;
+  background: none repeat scroll 0% 0% #518DCA;
+  color: #FFF;
+  border-radius:99px;
+  -moz-border-radius:99px;
+  -webkit-border-radius:99px;
+  /*-webkit-box-shadow: 0px 2px 4px #000000;
+  -moz-box-shadow: 0px 2px 4px #000000;
+  box-shadow: 0px 2px 4px #000000;*/
+  font-weight:bold;
+}
+
+.jimu-widget-search-setting .help-icon:hover{
+  cursor: pointer;
+  display: inline-block;
+  font-size: 18px;
+  line-height: 20px;
+  background: none repeat scroll 0% 0% #15a4fa;
+  color: #FFF;
+  border-radius:99px;
+  -moz-border-radius:99px;
+  -webkit-border-radius:99px;
+  /*-webkit-box-shadow: 0px 2px 4px #000000;
+  -moz-box-shadow: 0px 2px 4px #000000;
+  box-shadow: 0px 2px 4px #000000;*/
+  font-weight:bold;
+}
+
+.jimu-widget-search-setting .marker-section .input-table > tbody > tr > td{
+  height:30px;
+  line-height: 30px;
+  vertical-align: middle;
+  padding:5px 0;
+}
+
+.jimu-widget-search-setting .jimu-tab{
+  height:auto;
+}
+
+.jimu-widget-search-setting .btn-add-section{
+  display:inline-block;
+  overflow:hidden;
+  height:24px;
+  margin-left:1px;
+  margin-bottom:3px;
+  cursor:pointer;
+  font-size:13px;
+  color:#538ec8;
+}
+
+.jimu-widget-search-setting .btn-sym-section{
+  display:inline-block;
+  overflow:hidden;
+  height:24px;
+  margin-left:1px;
+  margin-bottom:3px;
+  cursor:pointer;
+  font-size:13px;
+  color:#538ec8;
+}
+
+.jimu-widget-search-setting .btn-buffer-section{
+  display:inline-block;
+  overflow:hidden;
+  height:24px;
+  margin-left:1px;
+  margin-bottom:3px;
+  cursor:pointer;
+  font-size:13px;
+  color:#538ec8;
+}
+
+.jimu-widget-search-setting .btn-spatial-section{
+  display:inline-block;
+  overflow:hidden;
+  height:24px;
+  margin-left:1px;
+  margin-bottom:3px;
+  cursor:pointer;
+  font-size:13px;
+  color:#538ec8;
+}
+
+.jimu-widget-search-setting .btn-add-section .btn-add-icon{
+  float:left;
+  height:100%;
+  width:14px;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-image: url(images/add.png);
+}
+
+.jimu-widget-search-setting .btn-sym-section .btn-edit-icon{
+  float:left;
+  height:100%;
+  width:14px;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-image: url(images/edit.png);
+}
+
+.jimu-widget-search-setting .btn-buffer-section .btn-edit-icon{
+  float:left;
+  height:100%;
+  width:14px;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-image: url(images/edit.png);
+}
+
+.jimu-widget-search-setting .btn-spatial-section .btn-edit-icon{
+  float:left;
+  height:100%;
+  width:14px;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-image: url(images/edit.png);
+}
+
+.jimu-widget-search-setting .btn-add-section .btn-add-label{
+  float:left;
+  height:100%;
+  line-height:24px;
+  vertical-align:middle;
+  margin-left:7px;
+  text-decoration: underline;
+}
+
+.jimu-widget-search-setting .btn-sym-section .btn-edit-sym-label{
+  float:left;
+  height:100%;
+  line-height:24px;
+  vertical-align:middle;
+  margin-left:7px;
+  text-decoration: underline;
+}
+
+.jimu-widget-search-setting .btn-buffer-section .btn-edit-buffer-label{
+  float:left;
+  height:100%;
+  line-height:24px;
+  vertical-align:middle;
+  margin-left:7px;
+  text-decoration: underline;
+}
+
+.jimu-widget-search-setting .btn-spatial-section .btn-edit-spatial-label{
+  float:left;
+  height:100%;
+  line-height:24px;
+  vertical-align:middle;
+  margin-left:7px;
+  text-decoration: underline;
+}
+
+.jimu-widget-search-setting .setting-table{
+  width:100%;border-collapse:collapse;
+}
+
+.jimu-widget-search-setting .sql-setting-table{
+  width:100%;border-collapse:collapse;
+  margin-top:10px;
+}
+
+.jimu-widget-search-setting .zoom-scale-table{
+  margin-top:12px;
+}
+
+/* jimu-widget-singlesearch-setting */
+.jimu-widget-singlesearch-setting .input-table{
+  width:100%;
+}
+
+.jimu-widget-singlesearch-setting .input-table > tbody > tr > td{
+  height: 30px;
+  line-height: 30px;
+  vertical-align: middle;
+  padding:4px 0;
+}
+
+.jimu-widget-singlesearch-setting .operate-footer div{
+  float:right;
+  color:#538ec8;
+  text-decoration:underline;
+  cursor:pointer;
+  margin-left:10px;
+}
+
+/* jimu-widget-singleexpression-setting */
+.jimu-widget-singleexpression-setting .input-table{
+  width:100%;
+}
+
+.jimu-widget-singleexpression-setting .input-table > tbody > tr > td{
+  height: 30px;
+  line-height: 30px;
+  vertical-align: middle;
+  padding:4px 0;
+}
+
+.jimu-widget-singleexpression-setting .operate-footer div{
+  float:right;
+  color:#538ec8;
+  text-decoration:underline;
+  cursor:pointer;
+  margin-left:10px;
+}
+
+/* jimu-widget-defaultsym-setting */
+.jimu-widget-defaultsym-setting .input-table{
+  width:100%;
+}
+
+.jimu-widget-defaultsym-setting .input-table > tbody > tr > td{
+  height: 30px;
+  line-height: 30px;
+  vertical-align: middle;
+  padding:4px 0;
+}
+
+.jimu-widget-defaultsym-setting .operate-footer div{
+  float:right;
+  color:#538ec8;
+  text-decoration:underline;
+  cursor:pointer;
+  margin-left:10px;
+  margin-bottom:10px;
+}
+
+.jimu-widget-defaultbuffer-setting .operate-footer div{
+  float:right;
+  color:#538ec8;
+  text-decoration:underline;
+  cursor:pointer;
+  margin-left:10px;
+  margin-bottom:10px;
+}
+
+/***CSS for IncludeAllButton dijit***/
+.widgets-Search-setting-include-all-button{
+  position:relative;
+  display: inline-block;
+  background:#8c8c8c;
+  padding:5px 18px 5px 10px;
+  color:white;
+  border-radius:3px;
+  cursor: pointer;
+}
+
+.widgets-Search-setting-include-all-button.enable{
+  background: #528cc9;
+}
+
+.widgets-Search-setting-include-all-button.enable:hover{
+  background: #15a4fa;
+}
+
+.widgets-Search-setting-include-all-button .include-arrow{
+  position:absolute;
+  right:4px;
+  top:45%;
+  width:0;
+  height:0;
+  border-top:3px solid transparent;
+  border-bottom:3px solid transparent;
+  border-left:5px solid white;
+}
+
+/***CSS for IncludeButton dijit***/
+.widgets-Search-setting-include-button{
+  position:relative;
+  display: inline-block;
+  background:#8c8c8c;
+  padding:5px 18px 5px 10px;
+  color:white;
+  border-radius:3px;
+  cursor: pointer;
+}
+
+.widgets-Search-setting-includel-button.enable{
+  background: #528cc9;
+}
+
+.widgets-Search-setting-include-button.enable:hover{
+  background: #15a4fa;
+}
+
+.widgets-Search-setting-include-button .include-arrow{
+  position:absolute;
+  right:4px;
+  top:45%;
+  width:0;
+  height:0;
+  border-top:3px solid transparent;
+  border-bottom:3px solid transparent;
+  border-left:5px solid white;
+}
+
+.jimu-widget-singlevalue-setting .setting-table{
+  width:100%;
+  border-collapse: collapse;
+}
+
+.jimu-widget-singlevalue-setting .setting-table > tbody > tr > td{
+  vertical-align: top;
+}
+
+.jimu-widget-singlevalue-setting .setting-table .fields-td{
+  width:153px;
+  padding-right:10px;
+}
+
+.jimu-widget-singlevalue-setting .setting-table .operators-td{
+  width:105px;
+  padding-right:10px;
+}
+
+.jimu-widget-singlevalue-setting .setting-table .value-td{
+  /*width:270px;*/
+  width: auto;
+  padding-right:10px;
+}
+
+.jimu-widget-singlevalue-setting .setting-table .delete-td{
+  /*width:auto;*/
+  width: 30px;
+}
+
+.jimu-widget-singlevalue-setting .dijit-form-Select>tbody>tr>td{
+  height: 23px;
+}
+
+.jimu-widget-singlevalue-setting .dijit-form-Select>tbody>tr>td>.dijitButtonText{
+  height: 20px;
+  height: 20px !important;
+}
+
+.jimu-widget-singlevalue-setting .dijit-form-FilteringSelect>div.dijitArrowButton.dijitDownArrowButton{
+  width:20px;
+  height: 100%;
+}
+
+.jimu-widget-singlevalue-setting .dijit-form-FilteringSelect>div.dijitArrowButton.dijitDownArrowButton>input{
+  padding: 0;
+  border: 0;
+  display: inline-block;
+  height: 100%;
+  height: 100% !important;
+}
+
+.jimu-widget-singlevalue-setting .dijit-form-FilteringSelect>div.dijitInputField>input.dijitInputInner{
+  height: 20px;
+}
+
+.jimu-widget-singlevalue-setting .dijit-form-ValidationTextBox>div.dijitInputField>input.dijitInputInner{
+  margin: 0;
+  padding:0;
+  height: 100%;
+  height: 100% !important;
+}
+
+.jimu-widget-singlevalue-setting .dijit-form-NumberTextBox>div.dijitInputField>input.dijitInputInner{
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  padding:0 !important;
+  height: 100% !important;
+}
+
+.jimu-widget-singlevalue-setting .dijit-form-DateTextBox>.dijitRight{
+  width:17px;
+  width:17px !important;
+}
+
+.jimu-widget-singlevalue-setting .dijit-form-DateTextBox>div.dijitInputField>input.dijitInputInner{
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  padding:0 !important;
+  height: 100% !important;
+}
+
+.jimu-widget-singlevalue-setting .dijitSelectLabel.dijitValidationTextBoxLabel{
+  width:52px;
+  max-width:52px;
+  overflow:hidden;
+  max-width:52px !important;
+  overflow:hidden !important;
+}
+
+.jimu-widget-singlevalue-setting .value-container{
+  position:relative;
+  width:100%;
+}
+
+.jimu-widget-singlevalue-setting .radio-table-container{
+  position:absolute;
+  width:100%;
+  left:0;
+  top:35px;
+}
+
+.jimu-widget-singlevalue-setting .radio-table{
+  width:100%;
+  border-collapse:collapse;
+}
+
+.jimu-widget-singlevalue-setting .delete{
+  width:15px;
+  height: 15px;
+  background-repeat: no-repeat no-repeat;
+  background-position: center center;
+  background-image: url(images/delete_disabled.png);
+  margin-top:5px;
+  cursor: pointer;
+}
+
+.jimu-widget-singlevalue-setting:hover .delete{
+  background-image: url(images/delete_enabled.png);
+}
+
+.jimu-widget-singlevalue-setting .prompt{
+  margin-top:10px;
+}
+
+.jimu-widget-singlevalue-setting .askvalues .askvalues-checkbox{
+  margin-left: 1px;
+  margin-right: 8px;
+}
+
+.jimu-widget-singlevalue-setting .prompt-table{
+  display: none;
+  border-collapse: collapse;
+  margin-top: 3px;
+  margin-left: 6px;
+}
+
+.jimu-widget-singlevalue-setting .prompt-table>tbody>tr>td{
+  padding: 3px;
+}
+
+.jimu-widget-singlevalue-setting .prompt-table>tbody>tr>td.first-td{
+  width: 70px;
+}
+
+.jimu-widget-singlevalue-setting .prompt-table>tbody>tr>td.second-td{
+  width: 250px;
+}
+
+.jimu-widget-singlevalue-setting .prompt-table>tbody>tr>td.second-td-user-list{
+  width: 100%;
+}
+
+.jimu-widget-singlevalue-setting .prompt-table>tbody>tr.user-list-tr{
+  display: none;
+  width: 100%;
+}
+
+.jimu-checkbox .checkbox{
+  margin-top: 7px;
+}
+
+/***CSS for SimpleTable dijit***/
+.jimu-simple-table{
+  width:100%;
+  margin:0;
+  padding:0;
+  overflow-x:hidden;
+  overflow-y:auto;
+  min-height: 80px;
+  position: relative;
+}
+
+.jimu-simple-table .head-section{
+  width:100%;
+  height:40px;
+  overflow:hidden;
+  border-top-left-radius:5px;
+  border-top-right-radius:5px;
+}
+
+.jimu-simple-table .body-section{
+  position: absolute;
+  top: 40px;
+  bottom: 0;
+  width:100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  border-left: 1px solid #eef2f5;
+  border-right: 1px solid #eef2f5;
+  border-bottom: 1px solid #eef2f5;
+}
+
+.jimu-simple-table .body-section .table-div{
+  margin: 0;
+  min-height: 100%;
+  background-image: url(images/table_under_line.png);
+  background-repeat: repeat;
+}
+
+
+.jimu-simple-table .body-section .table{
+  margin-top:-40px;
+}
+
+.jimu-simple-table .table{
+  width:100%;
+  border-collapse:collapse;
+  table-layout:fixed;
+}
+
+.jimu-simple-table .table th.hidden-column > *,.jimu-simple-table .table td.hidden-column > *{
+  display: none;
+}
+
+/*.jimu-simple-table .table > thead{
+  border-bottom:1px solid #078bbc;
+}*/
+
+.jimu-simple-table .table > thead > tr > th,.jimu-simple-table .table > tbody > tr > td{
+  height:40px;
+  line-height:40px;
+  vertical-align:middle;
+  padding-left:8px;
+  padding-right:8px;
+  padding-top:0;
+  padding-bottom:0;
+  color:#ffffff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.jimu-simple-table .table > thead > tr > th{
+  background:#6f7e95;
+}
+
+.jimu-simple-table .table > thead > tr > th > *,.jimu-simple-table .table > tbody > tr > td > *{
+  text-overflow: ellipsis;
+}
+
+.jimu-simple-table .table > tbody > tr > td{
+  color:#7989a0;
+}
+
+.jimu-simple-table .table > tbody > tr:last-child > td{
+  border-bottom: 0;
+}
+
+.jimu-simple-table .table > tbody > tr .editable-div,.jimu-simple-table .table > tbody > tr .normal-text-div{
+  width: 100%;
+  height: 40px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.jimu-simple-table .table > tbody > tr .editable-input{
+  width:100%;
+}
+
+.jimu-simple-table .table > tbody > tr > .actions-td .action-item-parent{
+  display:inline-block;
+  vertical-align:middle;
+}
+
+.jimu-simple-table .table > tbody > tr > .actions-td .action-item{
+  width:20px;
+  height:30px;
+  background-repeat: no-repeat;
+  background-position: center center;
+  cursor:pointer;
+}
+
+.jimu-simple-table .table > tbody > tr > .actions-td .row-up-div{
+  background-image: url(images/up_enabled.png);
+}
+
+.jimu-simple-table .table > tbody > tr:first-child > .actions-td .row-up-div{
+  background-image: url(images/up_disabled.png);
+}
+
+.jimu-simple-table .table > tbody > tr > .actions-td .row-down-div{
+  background-image: url(images/down_enabled.png);
+}
+
+.jimu-simple-table .table > tbody > tr:last-child > .actions-td .row-down-div{
+  background-image: url(images/down_disabled.png);
+}
+
+.jimu-simple-table .table > tbody > tr > .actions-td .row-edit-div{
+  background-image: url(images/edit_disabled.png);
+}
+
+.jimu-simple-table .table > tbody > tr:hover > .actions-td .row-edit-div{
+  background-image: url(images/edit_enabled.png);
+}
+
+.jimu-simple-table .table > tbody > tr > .actions-td .row-delete-div{
+  background-image: url(images/delete_disabled.png);
+}
+
+.jimu-simple-table .table > tbody > tr:hover > .actions-td .row-delete-div{
+  background-image: url(images/delete_enabled.png);
+}
+
+.jimu-simple-table .table > tbody > .simple-table-tr.selected{
+  border-left: 6px solid #15a4fa;
+}
+
+.jimu-rtl .jimu-simple-table .table > tbody > .simple-table-tr.selected{
+  border-left: 0;
+  border-right: 6px solid #15a4fa;
+}
+
+.jimu-simple-table .table > tbody > .simple-table-tr.selected > td{
+  background: #e2f6ff !important;
+}
+
+.jimu-simple-table .table > tbody > tr:hover > td{
+  background:#e2f6ff;
+}

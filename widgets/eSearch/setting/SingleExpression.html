@@ -1,0 +1,68 @@
+<div style="width:100%;">
+    <div data-dojo-attach-point="singleExpressionsSection">
+      <table class="input-table" style="width:100%;" cellspacing="0">
+          <tbody>
+              <tr>
+                  <td colspan="3">
+                      <table style="width:100%;" cellspacing="0">
+                          <tr>
+                              <td style="width:50%;">
+                                  <table style="width:100%;" cellspacing="0">
+                                      <tbody>
+                                          <tr>
+                                              <td style="width:115px;text-align:left;">
+                                                  <span>${nls.expressionAlias}</span>
+                                              </td>
+                                              <td style="width:auto;">
+                                                  <input type="text" data-dojo-type="dijit/form/TextBox" data-dojo-attach-point="expressionAlias" style="width:100%;" placeHolder="Example: Parcel Number"/>
+                                              </td>
+                                          </tr>
+                                      </tbody>
+                                  </table>
+                              </td>
+                              <td style="width:50%;">
+                                  <table style="width:100%;" cellspacing="0">
+                                      <tbody>
+                                          <tr>
+                                              <td style="width:135px;text-align:left;">
+                                                  <span style="margin-left:20px;">${nls.searchLabel}</span>
+                                              </td>
+                                              <td style="width:auto;">
+                                                  <input type="text" data-dojo-type="dijit/form/TextBox" data-dojo-attach-point="searchLabel" style="width:100%;" placeHolder="Example: Search by Parcel Number"/>
+                                              </td>
+                                          </tr>
+                                      </tbody>
+                                  </table>
+                              </td>
+                          </tr>
+                      </table>
+                  </td>
+              </tr>
+              <tr>
+                  <td colspan="3">
+                      <table style="width:100%;" cellspacing="0">
+                          <tbody>
+                              <tr>
+                                <td style="width:auto;vertical-align:top;">
+                                    <div class="btn-add-section" data-dojo-attach-point="btnAddValue">
+                                        <span class="btn-add-icon"></span>
+                                        <span class="btn-add-label">${nls.addValue}</span>
+                                    </div>
+                                    <div class="values-table" style="width:100%;" data-dojo-attach-point="valuesTable" data-dojo-type="jimu/dijit/SimpleTable" data-dojo-props='fields:[{name:"operator",title:"${nls.operator}",type:"text",editable:false,width:"100px"},{name:"sqltext",title:"${nls.valuesTitle}",type:"text",editable:false},{name:"actions",width:"120px",title:"${nls.actions}",class:"actions",type:"actions",actions:["edit","delete"]}]'></div>
+                                </td>
+                              </tr>
+                          </tbody>
+                      </table>
+                  </td>
+              </tr>
+          </tbody>
+      </table>
+      <div class="operate-footer" style="margin: 10px 10px;">
+          <div data-dojo-attach-point="btnCancel">${nls.cancel}</div>
+          <div data-dojo-attach-point="btnAdd">${nls.addSearchExpr}</div>
+          <div data-dojo-attach-point="btnUpdate">${nls.updateSearchExpr}</div>
+      </div>
+    </div>
+    <div class="single-values-section" style="display:none;" data-dojo-attach-point="singleValuesSection">
+	</div>
+</div>

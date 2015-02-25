@@ -1,0 +1,67 @@
+.jimu-widget-ebasemapgallery .esriBasemapGalleryNode:hover{
+  color: #51B1FE;
+}
+
+.jimu-widget-ebasemapgallery .esriBasemapGalleryThumbnail {
+  border: 1px solid #fff; 
+  margin: 1px; 
+  -moz-box-shadow: 0px 0px 0px #000; 
+  -webkit-box-shadow: 0px 0px 0px #000; 
+  box-shadow:  0px 0px 7px #000;
+}
+.jimu-widget-ebasemapgallery .esriBasemapGallerySelectedNode{
+  /*background-color: #D9DDE0;*/
+  color: #51B1FE;
+}
+.jimu-widget-ebasemapgallery .esriBasemapGallerySelectedNode .esriBasemapGalleryLabelContainer{
+  /*background-color: #D9DDE0;*/
+}
+.jimu-widget-ebasemapgallery .esriBasemapGalleryNode{
+  width: 85px;
+}
+.jimu-widget-ebasemapgallery .esriBasemapGalleryThumbnail{
+  width: 84px;
+  height: 67px;
+}
+.jimu-widget-ebasemapgallery .esriBasemapGallerySelectedNode .esriBasemapGalleryThumbnail{
+  border-color: #51B1FE !important; 
+}
+
+.jimu-widget-ebasemapgallery .esriBasemapGalleryNode {
+  width: 85px;
+  margin: 5px 10px 0 10px;
+}
+
+.jimu-widget-ebasemapgallery .esriBasemapGalleryThumbnail {
+  display: block;
+  margin: 1px auto;
+}
+
+.ebasemapgallery-checkbox{
+  overflow: hidden;
+  display: inline-block;
+}
+.ebasemapgallery-checkbox .checkbox, .ebasemapgallery-checkbox .label{
+  float: left;
+}
+.ebasemapgallery-checkbox .checkbox{
+  width: 14px;
+  height: 14px;  
+  display: inline-block;
+  border: 1px solid #86909c;
+  cursor: pointer;
+  border-radius: 2px;
+  margin-top:1px;
+}
+.ebasemapgallery-checkbox .checkbox:hover{
+  box-shadow: 0px 0px 5px 0px rgba(81, 177, 254, 0.4);
+}
+.ebasemapgallery-checkbox .checkbox.checked{
+  background-image: url(images/checked.png);
+  border-style: none;
+}
+.ebasemapgallery-checkbox .label{
+  font-size: 14px;
+  margin-left: 5px;
+  float: left;
+}

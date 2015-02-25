@@ -1,0 +1,9 @@
+<div>
+	<div data-dojo-attach-point="basemapGalleryDiv" ></div>
+    <div data-dojo-type="widgets/eBasemapGallery/CheckBox" data-dojo-attach-point="hybridCbx" label="${nls.hybridmessage}" data-dojo-attach-event="onStateChange: _onhybridCbxChanged"/>
+    <div style="margin: 0 auto; width:100%; display: none;" data-dojo-attach-point="faderDiv">
+        <div data-dojo-attach-point="fader" data-dojo-type="dijit/form/HorizontalSlider" showbuttons="true" value="50" minimum="0" maximum="100" intermediatechanges="false" style="width:80%; margin: 0 auto;" data-dojo-attach-event="change: _onFaderChanged" >
+            <div data-dojo-type="dijit/form/HorizontalRuleLabels" data-dojo-attach-point="faderLabels" container="bottomDecoration" style="height: 1.5em; font-size: 0.8em; color: #666" labels="Basemap1,50/50,Basemap2">
+        </div>
+    </div>
+</div>

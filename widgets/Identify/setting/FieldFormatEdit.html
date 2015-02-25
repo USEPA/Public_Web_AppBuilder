@@ -1,0 +1,71 @@
+<div style="width: 100%">
+  <table class="setting-table input-table" cellspacing="10" data-dojo-attach-point="inputTable">
+      <tbody>
+        <tr class="date">
+          <td class="first">${nls.dateformat}</td>
+          <td class="second">
+            <div>
+              <select data-dojo-attach-point="selectDateFormat" data-dojo-type="dijit/form/FilteringSelect"
+                      data-dojo-props='style:{width:"200px"}'>
+                <option value="d MMM yyyy" selected="selected">${nls.dayShortMonthYear}</option>
+                <option value="EEEE, MMMM d, yyyy">${nls.longDate}</option>
+                <option value="MMMM d, yyyy">${nls.longMonthDayYear}</option>
+                <option value="MMMM yyyy">${nls.longMonthYear}</option>
+                <option value="M/d/yyyy">${nls.shortDate}</option>
+                <option value="M/d/yyyy h:mm:ss a">${nls.shortDateLongTime}</option>
+                <option value="M/d/yyyy H:mm:ss">${nls.shortDateLongTime24}</option>
+                <option value="M/d/yyyy h:mm a">${nls.shortDateShortTime}</option>
+                <option value="M/d/yyyy H:mm">${nls.shortDateShortTime24}</option>
+                <option value="MMM yyyy">${nls.shortMonthYear}</option>
+                <option value="yyyy">${nls.year}</option>
+                <option value="Custom">${nls.custom}</option>
+              </select>
+              <input type="text" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-attach-point="dateFormat" 
+                     required="false" value=${nls.friendlyDatePattern} data-dojo-props="style:{width:'200px',margin:'0 0 0 20px'},disable:true"/>
+            </div>
+          </td>
+        </tr>
+        <tr class="date">
+          <td class="first">${nls.useutc}</td>
+          <td class="second">
+            <div data-dojo-type="jimu/dijit/CheckBox" data-dojo-attach-point="utcCbx" />
+          </td>
+        </tr>
+        <tr class="numeric">
+          <td class="first">${nls.currencyfield}</td>
+          <td class="second">
+            <div data-dojo-type="jimu/dijit/CheckBox" data-dojo-attach-point="currencyCbx" />
+          </td>
+        </tr>
+        <tr class="numeric">
+          <td class="first">${nls.currencySymbol}</td>
+          <td class="second">
+            <input type="text" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-attach-point="currencySymboltxt" 
+              required="false" value=${nls.examplecurrency} data-dojo-props="style:{width:'40px'}"/>
+          </td>
+        </tr>
+        <tr class="numeric">
+          <td class="first">${nls.precision}</td>
+          <td class="second">
+            <div>
+              <div data-dojo-type="jimu/dijit/CheckBox" data-dojo-attach-point="percisionCbx"/>
+              <input data-dojo-type="dijit/form/NumberSpinner" data-dojo-attach-point="percisionSpinner" value="2" 
+                     data-dojo-props="constraints:{min:0,max:100,places:0},style:{width:'60px',margin:'0 10px 0 10px'}" />
+              <input type="text" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-attach-point="percisionSymbol" 
+                     required="false" value=${nls.exampleprecision} data-dojo-props='style:{width:"40px"}'/>
+            </div>
+          </td>
+        </tr>
+        <tr class="numeric">
+          <td class="first">${nls.usethousandssep}</td>
+          <td class="second">
+            <div>
+              <div data-dojo-type="jimu/dijit/CheckBox" data-dojo-attach-point="useThousandsCbx"/>
+              <input type="text" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-attach-point="thousandsSymbol"
+                     required="false" value=${nls.examplethousands} data-dojo-props='style:{width:"40px",margin:"0 0 0 10px"}'/>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table> 
+</div>

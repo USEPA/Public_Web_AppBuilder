@@ -1,0 +1,24 @@
+<div style="width:100%;padding-bottom:10px;">
+  <div class="error-message-div" data-dojo-attach-point="errorMessage"></div>
+  <div data-dojo-attach-point="singleExcludeSection">
+    <table class="input-table" style="width:100%;" cellspacing="0">
+      <tbody>
+        <tr>
+          <td style="width:115px;text-align:left;">${nls.identifyUrl}</td>
+          <td style="width:auto;">
+            <input type="text" data-dojo-type="jimu/dijit/ServiceURLInput" data-dojo-attach-point="layerUrl" data-dojo-props='style:{width:"100%"}' required="false"/>
+          </td>
+        </tr>
+        <tr>
+          <td style="width:115px;text-align:left;font-weight:bold;">${nls.or}</td>
+        </tr>
+        <tr>
+          <td style="width:115px;text-align:left;">${nls.layerName}</td>
+          <td style="width:auto;">
+            <input type="text" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-attach-point="layerName" required="false" data-dojo-props='style:{width:"100%"},intermediateChanges:true'/>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
