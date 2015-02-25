@@ -1,0 +1,8 @@
+{
+    "latFields": [ "lat", "latitude", "y", "ycenter", "point_y" ],
+    "longFields": [ "lon", "long", "longitude", "x", "xcenter", "point_x" ],
+    "valueOut": "Out",
+    "valueIn": "In",
+    "intersectField": "intersected"
+  
+}

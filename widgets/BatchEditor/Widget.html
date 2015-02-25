@@ -1,28 +1,27 @@
-<div style="width:100%;height:100%;min-width:270px;min-height:192px;">
+<div style="width:100%;height:100%;min-width:270px;min-height:120px;">
+    <div class="loading-indicator hide" data-dojo-attach-point="loadingImage"></div>
+    <div class="widget-intro" data-dojo-attach-point="widgetIntro"></div>
+ 
+   <div class="widget-layers-table" data-dojo-attach-point="tableLayerInfos"></div>
+    <div data-dojo-attach-point="tableLayerInfosError" class="widget-error" style="display:none">${nls.noConfiguredLayers}</div>
+   
 
-  <div data-dojo-attach-point="selectWithSection" style="width:100%;margin-top:5px;">
-  <div>
-    <div class="jimu-btn" style="width:45%" data-dojo-attach-point="selectWithLayerBtn" data-dojo-attach-event="onclick: _selectWithBtnClick">${nls.selectWithLayerBtn}</div>
-    <div class="jimu-btn" style="width:45%" data-dojo-attach-point="selectWithShapeBtn" data-dojo-attach-event="onclick: _selectWithBtnClick">${nls.selectWithShapeBtn}</div>
-  </div>
-  </div>
+    <table class="widget-controls" cellspacing="0">
+        <tbody>
+            <tr >
+                <td>
+                   <div data-dojo-attach-point="selectionTool" id="selectionTool" class="widget-draw-control"></div>
 
-  <div data-dojo-attach-point="drawingOptions" class="hide">
-    <div data-dojo-attach-point="drawBox" data-dojo-type="jimu/dijit/DrawBox" data-dojo-props='types:["polygon"],showClear:true' style="margin-top:5px;"></div>
-  </div>
+                </td>
+                <td>
+                    <div class="jimu-btn clearBtn" data-dojo-attach-point="btnClear" data-dojo-attach-event="click:_clearResults">${nls.clear}</div>
+                 
+                </td>
+               
+            </tr>
+        </tbody> 
+    </table>
 
-  <div class="hide" data-dojo-attach-point="selectWithLayerHelp" style="width:100%">
-    <ol>
-      <li>${nls.selectByLayerStep1}</li>
-      <li>${nls.selectByLayerStep2}</li>
-      <li>${nls.selectByLayerStep3}</li>
-    </ol>
-  </div>
-
-  <div data-dojo-attach-point="resultsSection" style="display:block;width:100%">
-    <div id="selectedFeaturesCount" style="margin-bottom:5px;">${nls.featuresSelectedInfo}</div>
-    <div id="maxRecordWarning" style="color:red;margin-bottom:5px;"></div>
-    <div id="updatedFeaturesCount" style="margin-bottom:5px;"></div>
-    <div id="panelLoadingIcon" class="center loading hide" style="margin-bottom:5px;"></div>
-  </div>
+    <div data-dojo-attach-point="resultsMessage" class="widget-results"></div>
+    <div data-dojo-attach-point="loading" data-dojo-type="jimu/dijit/LoadingIndicator" data-dojo-props='hidden:true'></div>
 </div>

@@ -216,8 +216,8 @@ define([
                 this.map.enableMapNavigation();
 
                 //point symbol
-                var symbol = new SimpleMarkerSymbol(this.config.symbols.simplemarkersymbol);
-                //var symbol = new PictureMarkerSymbol(this.config.symbols.picturemarkersymbol)
+                var symbol = new SimpleMarkerSymbol(this.config.bombThreat.symbols.simplemarkersymbol);
+                //var symbol = new PictureMarkerSymbol(this.config.bombThreat.symbols.picturemarkersymbol)
 
                 var attr = {"Evac": this.selectedBombType};
                 var infoTemplate = new InfoTemplate("Evacuation", "Bomb Type: ${Evac}");
@@ -308,12 +308,12 @@ define([
                 console.log(results);
                 this.bufferGraphicsLayer.clear();
 
-                var insideSymbol = new SimpleFillSymbol(this.config.symbols.insideFillSymbol);
+                var insideSymbol = new SimpleFillSymbol(this.config.bombThreat.symbols.insideFillSymbol);
                 var insideAttr = {"Evac": "Mandatory Evacuation Distance"};
                 var infoTemplate = new InfoTemplate("Evacuation Zone", "Zone: ${Evac}");
                 var insideGraphic = new Graphic(results.geometries[0], insideSymbol, insideAttr, infoTemplate);
 
-                var outsideSymbol = new SimpleFillSymbol(this.config.symbols.outsideFillSymbol);
+                var outsideSymbol = new SimpleFillSymbol(this.config.bombThreat.symbols.outsideFillSymbol);
                 var outsideAttr = {"Evac": "Shelter-in-Place Zone"};
                 var outInfoTemplate = new InfoTemplate("Evacuation Zone", "Zone: ${Evac}");
                 var outsideGraphic = new Graphic(results.geometries[1], outsideSymbol, outsideAttr, outInfoTemplate);
@@ -324,7 +324,7 @@ define([
                 this.map.setExtent(outsideGraphic.geometry.getExtent(), true);
 
                 var data = {};
-                data.layerInfo = this.config.demographicLayer;
+                data.layerInfo = this.config.bombThreat.demographicLayer;
                 data.geometry = outsideGraphic.geometry;
                 this.publishData(data);
 
@@ -340,7 +340,7 @@ define([
             onAddressReturned: function (results) {
                 this.bombLocationGraphicsLayer.clear();
                 var address = results.results.results[0];
-                var symbol = new PictureMarkerSymbol(this.config.symbols.picturemarkersymbol)
+                var symbol = new PictureMarkerSymbol(this.config.bombThreat.symbols.picturemarkersymbol)
 
                 var attr = {"Evac": this.selectedBombType};
                 var infoTemplate = new InfoTemplate("Evacuation", "Bomb Type: ${Evac}");
@@ -414,8 +414,8 @@ define([
             _doFacilitiesQuery: function(geometry) {
                 try {
                     html.setStyle(this.facilitiesListSection, 'display', 'none');
-                    if (this.config.infrastructureLayer.url) {
-                        this._doFacilitiesQueryByUrl(this.config.infrastructureLayer, geometry);
+                    if (this.config.bombThreat.infrastructureLayer.url) {
+                        this._doFacilitiesQueryByUrl(this.config.bombThreat.infrastructureLayer, geometry);
                     } else {
                         this._onQueryError("Infrastructure layer was defined incorrectly.")
                     }
@@ -508,8 +508,8 @@ define([
                     html.setStyle(this.resultsSection, 'display', 'none');
                     html.setStyle(this.noresultsSection, 'display', 'none');
 
-                    if (this.config.demographicLayer.url) {
-                        this._doQueryByUrl(this.config.demographicLayer, geometry);
+                    if (this.config.bombThreat.demographicLayer.url) {
+                        this._doQueryByUrl(this.config.bombThreat.demographicLayer, geometry);
                     } else {
                         this._onQueryError("Demographic layer was defined incorrectly");
                     }
@@ -581,8 +581,8 @@ define([
 
             _getHighLightColor:function(){
                 var color = new Color('#f5f50e');
-                if(this.config && this.config.highLightColor){
-                    color = new Color(this.config.highLightColor);
+                if(this.config && this.config.bombThreat.highLightColor){
+                    color = new Color(this.config.bombThreat.highLightColor);
                 }
                 return color;
             },
@@ -753,7 +753,7 @@ define([
                     html.setStyle(this.resultsSection, 'display', 'block');
                     html.setStyle(this.noresultsSection, 'display', 'none');
                     //this.tabContainer.selectTab(this.nls.tabDemo);
-                    var layerInfo = this.config.demographicLayer;
+                    var layerInfo = this.config.bombThreat.demographicLayer;
                     var medias = layerInfo.medias;
                     var labelField = layerInfo.labelField;
                     var box = html.getMarginBox(this.chartContainer);

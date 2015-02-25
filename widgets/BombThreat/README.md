@@ -1,5 +1,5 @@
 # Bomb Threat
-The Bomb Threat widget allows users to determine blast radius based on the type of bomb and selected location on the map. 
+The Bomb Threat widget allows users to determine blast radius based on the type of bomb and selected location on the map.
 
 ## Sections
 
@@ -13,7 +13,7 @@ The Bomb Threat widget allows users to determine blast radius based on the type 
 
 ## Features
 * Select bomb type
-* Ability to allow user select a location on the map 
+* Ability to allow user select a location on the map
 
 ## Requirements
 * ArcGIS WebApp Builder v.1.0
@@ -27,11 +27,8 @@ In order to develop and test widgets you need to deploy the BombThreat directory
 ## Contributing
 Esri welcomes contributions from anyone and everyone. Please see our [guidelines for contributing](https://github.com/esri/contributing).
 
-All web application produced follow Esri's tailcoat style guide
-http://arcgis.github.io/tailcoat/styleguides/css/
-
 If you are using [JS Hint](http://http://www.jshint.com/) there is a .jshintrc file included in the root folder which enforces this style.
-We allow for 120 characters per line instead of the highly restrictive 80. 
+We allow for 120 characters per line instead of the highly restrictive 80.
 
 ## Licensing
 Copyright 2013 Esri

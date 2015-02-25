@@ -1,0 +1,42 @@
+<div style="height:100%;width:100%;overflow:hidden">
+
+    <div data-dojo-type="dijit/layout/ContentPane" style="height:100%;width:100%">
+        <div class="widgetDescription" data-dojo-attach-point="widgetDescription"></div>
+        <form data-dojo-attach-point="inputForm">
+            <input type="file" id="csvFileInput" data-dojo-attach-point="csvFileInput" data-dojo-attach-event="change:fileSelected" accept=".csv">
+            <div class="jimu-btn" data-dojo-attach-point="showFileDialogBtn" data-dojo-attach-event="click:showFileDialog">${nls.selectCSV}</div>
+        </form>
+        <div data-dojo-attach-point="results" class="hide">
+            <table class="widgets-results-table" data-dojo-attach-point="widgetsResultsTable" cellspacing="0">
+                <tbody data-dojo-attach-point="widgetsResultsTableBody">
+
+                    <tr class="controls">
+
+                        <td>
+                            <div data-dojo-attach-point="resultsLoadingImage" id="resultsLoadingImage" class="status processing" />
+                        </td>
+                        <td>
+                            <div class="result-text" data-dojo-attach-point="resultsLoading">Loading CSV</div>
+                        </td>
+                    </tr>
+
+                    <tr class="controls">
+
+                        <td>
+                            <div data-dojo-attach-point="resultsPlottingImage" id="resultsPlottingImage" class="status processing" />
+
+                        </td>
+                        <td>
+                            <div class="result-text" data-dojo-attach-point="resultsPlotting">Ploting rows</div>
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+            <div data-dojo-attach-point="enrichErrors"></div>
+        </div>
+        <!--  </div>-->
+        <div data-dojo-attach-point="loading" data-dojo-type="jimu/dijit/LoadingIndicator" data-dojo-props='hidden:true'></div>
+    </div>
+</div>

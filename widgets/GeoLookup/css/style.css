@@ -1,0 +1,67 @@
+.jimu-widget-wireless div:first-child {
+    color: red;
+}
+
+.widgetDescription {
+    text-align: center;
+    color: black;
+    font-family: Century Gothic;
+    margin: 15px 0 15px 0;
+    font-size: 1.4em;
+}
+
+.uploadBox {
+    margin: 30px 0 15px 0;
+    float: left;
+}
+
+.hide {
+    display: none;
+}
+
+input[type="file"] {
+    position: fixed;
+    top: -1000px;
+}
+
+/*Results Table*/
+.solutions-widget-geolookup .widgets-results-table {
+    margin: 1px;
+    
+}
+
+ .controls {
+        width: 100%;
+        height: 60px;
+        line-height: 40px;
+        vertical-align: middle;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        margin-bottom: 10px;
+        margin-top: 10px;
+        font-size:1.1em;
+    }
+
+
+
+.status {
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 20px;
+    
+}
+
+.processing {
+    content: url("./images/processing.png");
+}
+
+.complete {
+    content: url("./images/complete.png");
+}
+
+.result-text {
+    margin-left:10px;
+    font-family: Century Gothic;
+}
+
+

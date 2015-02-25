@@ -1,5 +1,5 @@
 # Directions with Barriers
- 
+The Directions with Barriers widget allows users to create driving directions based on stops and barriers supplied on the map. 
 
 ## Sections
 
@@ -12,27 +12,26 @@
 * [Licensing](#licensing)
 
 ## Features
-The 
+* Allow user select a start and destination points on the map 
+* Allow user to add barriers before creating driving directions
+
+## Requirements
+* ArcGIS WebApp Builder v.1.0
 
 ## Instructions
-Deploying Widget
+In order to develop and test widgets you need to deploy the CI/KR directory to the stemapp/widgets directory in your WebApp Builder installation.
 
 ## Issues
-
 * Find a bug or want to request a new feature?  Please let us know by submitting an issue.
 
 ## Contributing
 
 Esri welcomes contributions from anyone and everyone. Please see our [guidelines for contributing](https://github.com/esri/contributing).
 
-All web application produced follow Esri's tailcoat style guide
-http://arcgis.github.io/tailcoat/styleguides/css/
-
 If you are using [JS Hint](http://http://www.jshint.com/) there is a .jshintrc file included in the root folder which enforces this style.
-We allow for 120 characters per line instead of the highly restrictive 80. 
+We allow for 120 characters per line instead of the highly restrictive 80.
 
 ## Licensing
-
 Copyright 2013 Esri
 
 Licensed under the Apache License, Version 2.0 (the "License");

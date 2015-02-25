@@ -1,5 +1,5 @@
 # Image Properties
-The Image Properties widget allows standard display properties like band combination, Gamma, and DRA to be set on an image. 
+The Image Properties widget allows standard display properties like band combination, Gamma, and DRA to be set on an image.
 
 This widget is in Beta.
 
@@ -12,7 +12,7 @@ This widget is in Beta.
 * [Licensing](#licensing)
 
 ## Features
-The Image Properties widget allows standard display properties like band combination, Gamma, and DRA to be set on an image. 
+The Image Properties widget allows standard display properties like band combination, Gamma, and DRA to be set on an image.
 
 
 ## Issues
@@ -23,11 +23,8 @@ The Image Properties widget allows standard display properties like band combina
 
 Esri welcomes contributions from anyone and everyone. Please see our [guidelines for contributing](https://github.com/esri/contributing).
 
-All web application produced follow Esri's tailcoat style guide
-http://arcgis.github.io/tailcoat/styleguides/css/
-
 If you are using [JS Hint](http://http://www.jshint.com/) there is a .jshintrc file included in the root folder which enforces this style.
-We allow for 120 characters per line instead of the highly restrictive 80. 
+We allow for 120 characters per line instead of the highly restrictive 80.
 
 ## Licensing
 

@@ -1,7 +1,7 @@
-# Batch Attribute Editor 
-The Batch Attribute Editor widget allows users to select a set features, by either using shapes or another layer, and edit all their attributes at once. 
+# Batch Attribute Editor
+The Batch Attribute Editor widget allows users to select a set features, by either using shapes or another layer, and edit all their attributes at once.
 
-Usage examples: 
+Usage examples:
 * electric company wants to assign a set of poles in an area to be maintained by a particular work crew.
 * gas company wants to assign a set of meters in an area to be inspected by a particular work crew.
 * water company wants to assign a set of hydrants in an area to be serviced by a particular work crew.
@@ -39,7 +39,7 @@ In order to develop and test widgets you need to deploy the BatchEditor folder t
 2. Close Open the Repository in Windows Explorer
 3. Close Github for Windows
 4. Cut and paste the entire BatchEditor folder into the stemapp/widgets folder
-5. Launch Github for Windows and choose the option to locate the repository. This will change the location on disk to the new location. 
+5. Launch Github for Windows and choose the option to locate the repository. This will change the location on disk to the new location.
 
 ### General Help
 [New to Github? Get started here.](http://htmlpreview.github.io/?https://github.com/Esri/esri.github.com/blob/master/help/esri-getting-to-know-github.html)
@@ -56,11 +56,8 @@ In order to develop and test widgets you need to deploy the BatchEditor folder t
 
 Esri welcomes contributions from anyone and everyone. Please see our [guidelines for contributing](https://github.com/esri/contributing).
 
-All web application produced follow Esri's tailcoat style guide
-http://arcgis.github.io/tailcoat/styleguides/css/
-
 If you are using [JS Hint](http://http://www.jshint.com/) there is a .jshintrc file included in the root folder which enforces this style.
-We allow for 120 characters per line instead of the highly restrictive 80. 
+We allow for 120 characters per line instead of the highly restrictive 80.
 
 ## Licensing
 

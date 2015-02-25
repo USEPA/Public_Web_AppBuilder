@@ -1,9 +1,0 @@
-{
-    "name": "GeoEnrich",
-    "platform": "HTML",
-    "version": "1.0.0",
-    "author": "ESRI",
-    "description": "A Web Application Builder Widget allowing for custom GeoEnrichment of a local .csv file.",
-    "copyright": "",
-    "license": "http://www.apache.org/licenses/LICENSE-2.0"
-}
