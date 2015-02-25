@@ -1,0 +1,107 @@
+
+/*Shared Page*/
+.settings-heading {
+    font-size: 1.35em;
+    margin-top: 15px;
+}
+
+.settings-description {
+    font-size: 1.1em;
+    margin-top: 15px;
+}
+
+.settings-error {
+    font-size: 1.1em;
+    color: orangered;
+}
+
+.hide {
+    display: none;
+}
+
+/*Layer Table*/
+.solutions-widget-geolookup-setting .setting-layer-table {
+    margin: 15px;
+    padding-right: 15px;
+}
+
+.solutions-widget-geolookup-setting .enrich {
+    width: 100px;
+}
+
+.solutions-widget-geolookup-setting .fieldselector {
+    width: 140px;
+}
+
+/*SymbolArea*/
+.solutions-widget-geolookup-setting .settings-symbol-area > tbody > tr > td {
+    vertical-align: top;
+    font-size: 1em;
+}
+
+.settings-symbol-area {
+    overflow: hidden;
+    width: 100%;
+    margin: 5px 15px 15px 15px;
+    vertical-align: top !important;
+}
+
+.symbolItemleft {
+    width: 50%;
+    float: left;
+    vertical-align: top;
+}
+/*Fields Table*/
+.solutions-widget-geolookup-setting .appended {
+    width: 100px;
+}
+
+/*Adv Settings*/
+.solutions-widget-geolookup-setting .setting-adv-table {
+    margin-left: 15px;
+   
+    width:95%;
+}
+
+.controlsMulti {
+    width: 100%;
+    height: 130px;
+    vertical-align: middle;
+}
+
+.controls {
+    width: 100%;
+    vertical-align: middle;
+}
+
+.solutions-widget-geolookup-setting .setting-adv-table > tbody > tr > td > span {
+    margin-left: 20px;
+}
+
+.solutions-widget-geolookup-setting .setting-adv-table > tbody > tr > td > input {
+    margin-left: 5px;
+}
+
+.solutions-widget-geolookup-setting .setting-adv-table > thead > tr > th,
+.solutions-widget-geolookup-setting .setting-adv-table > tbody > tr > td {
+    height: 40px;
+    line-height: 40px;
+    vertical-align: middle;
+    font-size: 1em;
+}
+
+.textArea {
+    height: 100px;
+    float: right;
+    min-height: 100px;
+    resize: none;
+    width: auto;
+    font-size: 1em;
+}
+
+.textBox {
+    float: right;
+    width: auto;
+    margin-left: 5px;
+    font-size: 1em;
+}

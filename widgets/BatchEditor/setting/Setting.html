@@ -1,70 +1,119 @@
-<div style="width:100%;height:100%;">
-    <table class="settings-section">
-      <div class="settings-subheading">${nls.layers}</div>
-      <tbody>
-        <tr>
-          <td>${nls.selectFromLayer}</td>
-          <td>
-            <div>
-              <select style="margin-left: 10px;" data-dojo-attach-point="selectFromLayerSelect" data-dojo-type="dijit/form/Select">
-                <option value="" selected="true">${nls.noneSelectOption}</option>
-              </select>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td>${nls.selectWithLayer}</td>
-          <td>
-            <div>
-              <select style="margin-left: 10px;" data-dojo-attach-point="selectWithLayerSelect" data-dojo-type="dijit/form/Select">
-                <option value="" selected="true">${nls.noneSelectOption}</option>
-              </select>
-            </div>
-          </td>
-        </tr>
+<div style="width:100%;">
 
-        <tr>
-          <td>${nls.spatialRelationship}</td>
-          <td>
-            <div>
-              <select style="margin-left: 10px;" data-dojo-attach-point="spatialRelChooser" data-dojo-type="dijit/form/Select">
-                <option value="SPATIAL_REL_INTERSECTS" selected="true">${nls.intersects}</option>
-                <option value="SPATIAL_REL_CONTAINS">${nls.contains}</option>
-                <option value="SPATIAL_REL_CROSSES">${nls.crosses}</option>
-                <option value="SPATIAL_REL_OVERLAPS">${nls.overlaps}</option>
-                <option value="SPATIAL_REL_TOUCHES">${nls.touches}</option>
-                <option value="SPATIAL_REL_WITHIN">${nls.within}</option>
-              </select>
+    <div data-dojo-attach-point="firstPageDiv">
+        <div class="settings-heading" data-dojo-attach-point="tableToolHeader">${nls.page1.selectToolHeader}</div>
+        <div class="settings-description" data-dojo-attach-point="tableToolDescription">${nls.page1.selectToolDesc}</div>
 
-            </div>
-          </td>
-      </tbody>
-    </table>
+        <table class="setting-tool-table" cellspacing="0">
+            <tbody>
 
-    <!-- Highlight Symbol Selection start -->
-    <div data-dojo-attach-point="settingHighlight" style="width:100%;">
-      <div class="settings-subheading">${nls.highlightSymbol}</div>
-      <div class="point-section hide" data-dojo-attach-point="pointHighlightSection">
-        <div data-dojo-attach-point="pointHighlightChooser" data-dojo-type="jimu/dijit/SymbolChooser" data-dojo-props='type:"marker"'></div>
-      </div>
+                <tr class="controls">
 
-      <div class="line-section hide" data-dojo-attach-point="lineHighlightSection">
-        <div data-dojo-attach-point="lineHighlightChooser" data-dojo-type="jimu/dijit/SymbolChooser" data-dojo-props='type:"line"'></div>
-      </div>
+                    <td>
+                        <span>${nls.page1.selectByShape}</span>
+                        <input type="radio" data-dojo-attach-point="selectByShape"
+                               data-dojo-type="dijit/form/RadioButton" checked="checked" value="selectByShape" />
+                    </td>
+                </tr>
+                <tr class="controls">
+                    <td >
+                        <span >${nls.page1.selectBySpatQuery}</span>
+                        <input  type="radio" data-dojo-attach-point="selectByFeature"
+                               data-dojo-type="dijit/form/RadioButton" value="selectByFeature" />
 
-      <div class="polygon-section hide" data-dojo-attach-point="fillHighlightSection">
-        <div data-dojo-attach-point="fillHighlightChooser" data-dojo-type="jimu/dijit/SymbolChooser" data-dojo-props='type:"fill"'></div>
-      </div>
-    </div><!-- Highlight Symbol Selection end -->
+                    </td>
+                </tr>
+                <tr class="controls">
+                    <td >
+                        <span >${nls.page1.selectByAttQuery}</span>
+                        <input type="radio" data-dojo-attach-point="selectByFeatureQuery"
+                               data-dojo-type="dijit/form/RadioButton" value="selectByFeatureQuery" />
 
-    <!-- Draw Symbol Selection start -->
-    <div data-dojo-attach-point="settingDraw" style="width:100%;">
-      <div class="settings-subheading">${nls.drawSymbol}</div>
-      <div class="polygon-section" data-dojo-attach-point="fillDrawSection">
-        <div data-dojo-attach-point="fillDrawChooser" data-dojo-type="jimu/dijit/SymbolChooser" data-dojo-props='type:"fill"'></div>
-      </div>
+                    </td>
+                </tr>
+                <tr class="controls">
+                    <td>
+                        <span>${nls.page1.selectByQuery}</span>
+                        <input type="radio" data-dojo-attach-point="selectByQuery"
+                               data-dojo-type="dijit/form/RadioButton" value="selectByQuery" />
+                    </td>
+                </tr>
+            </tbody>
+        </table><br />
+
+        <table class="settings-navigation-table" data-dojo-attach-point="pageOneControls" cellspacing="0">
+            <tbody>
+
+                <tr class="controls">
+
+                    <td>
+                        <div class="jimu-btn" data-dojo-attach-event="click:page1ToPage2">${nls.next}</div>
+                        <span class="settings-error" data-dojo-attach-point="settingsFirstPageError" style="display:none">${nls.page1.toolNotSelected}</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <span class="settings-error" data-dojo-attach-point="settingsFirstPageSaveError" style="display:none">${nls.errorOnOk}</span>
     </div>
-    <!-- Draw Symbol Selection end -->
+    <div data-dojo-attach-point="secondPageDiv" style="display:none">
+
+
+        <div class="settings-heading" data-dojo-attach-point="layersToolHeader">${nls.page2.layersToolHeader}</div>
+        <div class="settings-description" data-dojo-attach-point="layersToolDesc">${nls.page2.layersToolDesc}</div>
+
+        <div class="setting-layer-table" data-dojo-attach-point="tableLayerInfos"></div><br />
+    
+        <div data-dojo-attach-point="tableLayerInfosError" class="settings-error" style="display:none">${nls.page2.noEditableLayers}</div><br />
+        <table class="settings-navigation-table" data-dojo-attach-point="pageTwoControls" cellspacing="0">
+            <tbody>
+
+                <tr class="controls">
+
+                    <td>
+                        <div class="jimu-btn" data-dojo-attach-event="click:page2ToPage1">${nls.back}</div>
+                        <div class="jimu-btn" data-dojo-attach-event="click:page2ToPage3">${nls.next}</div>
+                        <span class="settings-error" data-dojo-attach-point="settingsSecondPageError" style="display:none">${nls.page2.noLayersSelected}</span>
+
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <span class="settings-error" data-dojo-attach-point="settingsSecondPageSaveError" style="display:none">${nls.errorOnOk}</span>
+
+    </div>
+    <div data-dojo-attach-point="thirdPageDiv" style="display:none">
+
+        <div class="settings-heading" data-dojo-attach-point="tableCommonFieldHeader">${nls.page3.commonFieldsHeader}</div>
+        <div class="settings-description" data-dojo-attach-point="tableCommonFieldDesc">${nls.page3.commonFieldsDesc}</div>
+
+        <div class="setting-common-fields-table" data-dojo-attach-point="tableCommonFields"></div><br />           
+        <div data-dojo-attach-point="tableCommonFieldsError" class="settings-error" style="display:none">${nls.page3.noCommonFields}</div><br />
+        <table class="settings-navigation-table" data-dojo-attach-point="pageThreeControls" cellspacing=" 0">
+            <tbody>
+                <tr class="controls">
+                    <td>
+                        <div class="jimu-btn" data-dojo-attach-event="click:page3ToPage2">${nls.back}</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <span class="settings-error" data-dojo-attach-point="settingsThirdPageSaveError" style="display:none">${nls.errorOnOk}</span>
+    </div>
+
+    <div data-dojo-attach-point="symbolPage" style="display:none">
+        <div data-dojo-attach-point="symbolPageHeader"></div>
+        <div data-dojo-attach-point="symbolSelector" data-dojo-type="jimu/dijit/SymbolChooser"></div>
+        <table class="settings-navigation-table" data-dojo-attach-point="symgolSelectorControls" cellspacing="0">
+            <tbody>
+                <tr class="controls">
+                    <td>
+                        <div class="jimu-btn" data-dojo-attach-event="click:saveSymbol">${nls.save}</div>
+                        <div class="jimu-btn" data-dojo-attach-event="click:cancelSymbol">${nls.cancel}</div>
+
+
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
-
-

@@ -1,5 +1,5 @@
 # Image Select
-The Image Select widget is used with other image widgets to set the active image layer. 
+The Image Select widget is used with other image widgets to set the active image layer.
 
 This widget is in Beta.
 ## Sections
@@ -11,7 +11,7 @@ This widget is in Beta.
 * [Licensing](#licensing)
 
 ## Features
-The Image Select widget is used with other image widgets to set the active image layer. 
+The Image Select widget is used with other image widgets to set the active image layer.
 
 
 ## Issues
@@ -22,11 +22,8 @@ The Image Select widget is used with other image widgets to set the active image
 
 Esri welcomes contributions from anyone and everyone. Please see our [guidelines for contributing](https://github.com/esri/contributing).
 
-All web application produced follow Esri's tailcoat style guide
-http://arcgis.github.io/tailcoat/styleguides/css/
-
 If you are using [JS Hint](http://http://www.jshint.com/) there is a .jshintrc file included in the root folder which enforces this style.
-We allow for 120 characters per line instead of the highly restrictive 80. 
+We allow for 120 characters per line instead of the highly restrictive 80.
 
 ## Licensing
 

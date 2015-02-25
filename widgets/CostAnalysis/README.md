@@ -1,7 +1,7 @@
 # Cost Analysis
-The Cost Analysis widget allows users to select a draw a series of features and display an acumlated cost for those features.  Feature templates are used to provide the cost per measurement or cost per asset.   
+The Cost Analysis widget allows users to select a draw a series of features and display an acumlated cost for those features.  Feature templates are used to provide the cost per measurement or cost per asset.
 
-Usage examples: 
+Usage examples:
 * gas utility wants to generate a rough cost for connecting a new customer.
 * developer needs to estimate the cost of the sewer infrastructure for a new subdivision
 
@@ -36,7 +36,7 @@ In order to develop and test widgets you need to deploy the BatchEditor folder t
 2. Close Open the Repository in Windows Explorer
 3. Close Github for Windows
 4. Cut and paste the entire BatchEditor folder into the stemapp/widgets folder
-5. Launch Github for Windows and choose the option to locate the repository. This will change the location on disk to the new location. 
+5. Launch Github for Windows and choose the option to locate the repository. This will change the location on disk to the new location.
 
 ### General Help
 [New to Github? Get started here.](http://htmlpreview.github.io/?https://github.com/Esri/esri.github.com/blob/master/help/esri-getting-to-know-github.html)
@@ -53,11 +53,8 @@ In order to develop and test widgets you need to deploy the BatchEditor folder t
 
 Esri welcomes contributions from anyone and everyone. Please see our [guidelines for contributing](https://github.com/esri/contributing).
 
-All web application produced follow Esri's tailcoat style guide
-http://arcgis.github.io/tailcoat/styleguides/css/
-
 If you are using [JS Hint](http://http://www.jshint.com/) there is a .jshintrc file included in the root folder which enforces this style.
-We allow for 120 characters per line instead of the highly restrictive 80. 
+We allow for 120 characters per line instead of the highly restrictive 80.
 
 ## Licensing
 

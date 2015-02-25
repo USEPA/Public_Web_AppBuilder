@@ -1,7 +1,7 @@
 # WAMI Video Player
 The WAMI Video player is a widget for interacting with Wide Area Motion Imagery (WAMI) in an Image Service Layer. This data has sub-second refresh and this widget is set up to make it easier to navigate the video.
 
-Important: This widget is under active development and not yet fully functional. 
+Important: This widget is under active development and not yet fully functional.
 
 ## Sections
 
@@ -27,11 +27,8 @@ Deploying Widget
 
 Esri welcomes contributions from anyone and everyone. Please see our [guidelines for contributing](https://github.com/esri/contributing).
 
-All web application produced follow Esri's tailcoat style guide
-http://arcgis.github.io/tailcoat/styleguides/css/
-
 If you are using [JS Hint](http://http://www.jshint.com/) there is a .jshintrc file included in the root folder which enforces this style.
-We allow for 120 characters per line instead of the highly restrictive 80. 
+We allow for 120 characters per line instead of the highly restrictive 80.
 
 ## Licensing
 
