@@ -1,0 +1,28 @@
+<div>
+  <div class="error-message-div" data-dojo-attach-point="errorMessage"></div>
+  <div class="url-section">
+    <div class="label jimu-float-leading" title="${nls.taskUrl}">${nls.taskUrl}</div>
+    <div class="service-browser jimu-float-trailing">
+      <table cellpadding="0" cellspacing="0" style="width:100%;border-collapse:collapse;">
+        <tbody>
+          <tr>
+            <td style="width:auto;">
+              <input type="text" data-dojo-type="jimu/dijit/ServiceURLInput" data-dojo-attach-point="urlTextBox" data-dojo-props='style:{width:"100%"}' required="true"/>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div data-dojo-attach-point="_chartNode" class="widget-elevation-profile-ChartNode"></div>
+  <div style="margin-top:20px;">
+    <div class="btn-chart-props-section" data-dojo-attach-point="btnChartProps" style="margin-right:10px;">
+        <span class="btn-edit-icon"></span>
+        <span class="btn-edit-label">${nls.editChartProperties}</span>
+    </div>
+    <div class="btn-sym-section" data-dojo-attach-point="btnSymLine" style="margin-right:10px;">
+      <span class="btn-edit-icon"></span>
+      <span class="btn-edit-label">${nls.editDefaultSym}</span>
+    </div>
+  </div>
+</div>
