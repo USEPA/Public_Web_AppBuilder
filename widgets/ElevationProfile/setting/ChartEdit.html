@@ -1,0 +1,125 @@
+<div style="width:100%;">
+  <div>
+    <div style="width:50%;float:left;" class="chart-section">
+      <div class="label jimu-float-leading" title="${nls.measureunits}">${nls.measureunits}</div>
+      <div>
+        <select data-dojo-attach-point="selectScalebarUnits" data-dojo-type="dijit/form/Select" data-dojo-props='style:{width:"200px"}'>
+          <option value="feet" selected="selected">${nls.feet}</option>
+          <option value="metric">${nls.metric}</option>
+        </select>
+      </div>
+    </div>
+    <div style="width:50%;float:left;" class="chart-section">
+      <div class="label jimu-float-leading" style="width: 200px;">${nls.chart.chartTitleFontSize}</div>
+      <div >
+        <input type="text" data-dojo-attach-point="ChartTitleFontSize" data-dojo-type="dijit/form/NumberTextBox" data-dojo-props='style:{width:"266px"},required:true,value:13,constraints:{min:4,max:24,places:0}' />
+      </div>
+    </div>
+  </div>
+  <div>
+    <div style="width:50%;float:left;" class="chart-section">
+      <div class="label jimu-float-leading" style="width: 150px;">${nls.chart.axisTitleFontSize}</div>
+      <div >
+        <input type="text" data-dojo-attach-point="AxisTitleFontSize" data-dojo-type="dijit/form/NumberTextBox" data-dojo-props='style:{width:"266px"},required:true,value:11,constraints:{min:4,max:24,places:0}' />
+      </div>
+    </div>
+    <div style="width:50%;float:left;" class="chart-section">
+      <div class="label jimu-float-leading" style="width: 200px;">${nls.chart.axisLabelFontSize}</div>
+      <div >
+        <input type="text" data-dojo-attach-point="AxisLabelFontSize" data-dojo-type="dijit/form/NumberTextBox" data-dojo-props='style:{width:"266px"},required:true,value:9,constraints:{min:4,max:24,places:0}' />
+      </div>
+    </div>
+  </div>
+  <div>
+    <div style="width:50%;float:left;" class="chart-section">
+      <div class="label jimu-float-leading" style="width: 150px;">${nls.chart.indicatorFontColor}</div>
+      <div >
+        <div data-dojo-attach-point="indicatorFontColorPicker" data-dojo-type="jimu/dijit/ColorPicker" data-dojo-props='color:"${_indicatorFontColor}"' style="display:inline-block;width:25px;height:25px;"></div>
+      </div>
+    </div>
+    <div style="width:50%;float:left;" class="chart-section">
+      <div class="label jimu-float-leading" style="width: 200px;">${nls.chart.indicatorFillColor}</div>
+      <div >
+        <div data-dojo-attach-point="indicatorFillColorPicker" data-dojo-type="jimu/dijit/ColorPicker" data-dojo-props='color:"${_indicatorFillColor}"' style="display:inline-block;width:25px;height:25px;"></div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div style="width:50%;float:left;" class="chart-section">
+      <div class="label jimu-float-leading" style="width: 150px;">${nls.chart.titleFontColor}</div>
+      <div >
+        <div data-dojo-attach-point="titleFontColorPicker" data-dojo-type="jimu/dijit/ColorPicker" data-dojo-props='color:"${_titleFontColor}"' style="display:inline-block;width:25px;height:25px;"></div>
+      </div>
+    </div>
+    <div style="width:50%;float:left;" class="chart-section">
+      <div class="label jimu-float-leading" style="width: 200px;">${nls.chart.axisFontColor}</div>
+      <div >
+        <div data-dojo-attach-point="axisFontColorPicker" data-dojo-type="jimu/dijit/ColorPicker" data-dojo-props='color:"${_axisFontColor}"' style="display:inline-block;width:25px;height:25px;"></div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div style="width:50%;float:left;" class="chart-section">
+      <div class="label jimu-float-leading" style="width: 150px;">${nls.chart.axisMajorTickColor}</div>
+      <div >
+        <div data-dojo-attach-point="axisMajorTickColorPicker" data-dojo-type="jimu/dijit/ColorPicker" data-dojo-props='color:"${_axisMajorTickColor}"' style="display:inline-block;width:25px;height:25px;"></div>
+      </div>
+    </div>
+    <div style="width:50%;float:left;" class="chart-section">
+      <div class="label jimu-float-leading" style="width: 200px;">${nls.chart.skyTopColor}</div>
+      <div >
+        <div data-dojo-attach-point="skyTopColorPicker" data-dojo-type="jimu/dijit/ColorPicker" data-dojo-props='color:"${_skyTopColor}"' style="display:inline-block;width:25px;height:25px;"></div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div style="width:50%;float:left;" class="chart-section">
+      <div class="label jimu-float-leading" style="width: 150px;">${nls.chart.skyBottomColor}</div>
+      <div >
+        <div data-dojo-attach-point="skyBottomColorPicker" data-dojo-type="jimu/dijit/ColorPicker" data-dojo-props='color:"${_skyBottomColor}"' style="display:inline-block;width:25px;height:25px;"></div>
+      </div>
+    </div>
+    <div style="width:50%;float:left;" class="chart-section">
+      <div class="label jimu-float-leading" style="width: 200px;">${nls.chart.waterLineColor}</div>
+      <div >
+        <div data-dojo-attach-point="waterLineColorPicker" data-dojo-type="jimu/dijit/ColorPicker" data-dojo-props='color:"${_waterLineColor}"' style="display:inline-block;width:25px;height:25px;"></div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div style="width:50%;float:left;" class="chart-section">
+      <div class="label jimu-float-leading" style="width: 150px;">${nls.chart.waterTopColor}</div>
+      <div >
+        <div data-dojo-attach-point="waterTopColorPicker" data-dojo-type="jimu/dijit/ColorPicker" data-dojo-props='color:"${_waterTopColor}"' style="display:inline-block;width:25px;height:25px;"></div>
+      </div>
+    </div>
+    <div style="width:50%;float:left;" class="chart-section">
+      <div class="label jimu-float-leading" style="width: 200px;">${nls.chart.waterBottomColor}</div>
+      <div >
+        <div data-dojo-attach-point="waterBottomColorPicker" data-dojo-type="jimu/dijit/ColorPicker" data-dojo-props='color:"${_waterBottomColor}"' style="display:inline-block;width:25px;height:25px;"></div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div style="width:50%;float:left;" class="chart-section">
+      <div class="label jimu-float-leading" style="width: 150px;">${nls.chart.elevationLineColor}</div>
+      <div >
+        <div data-dojo-attach-point="elevationLineColorPicker" data-dojo-type="jimu/dijit/ColorPicker" data-dojo-props='color:"${_elevationLineColor}"' style="display:inline-block;width:25px;height:25px;"></div>
+      </div>
+    </div>
+    <div style="width:50%;float:left;" class="chart-section">
+      <div class="label jimu-float-leading" style="width: 200px;">${nls.chart.elevationTopColor}</div>
+      <div >
+        <div data-dojo-attach-point="elevationTopColorPicker" data-dojo-type="jimu/dijit/ColorPicker" data-dojo-props='color:"${_elevationTopColor}"' style="display:inline-block;width:25px;height:25px;"></div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div style="width:50%;float:left;" class="chart-section">
+      <div class="label jimu-float-leading" style="width: 150px;">${nls.chart.elevationBottomColor}</div>
+      <div >
+        <div data-dojo-attach-point="elevationBottomColorPicker" data-dojo-type="jimu/dijit/ColorPicker" data-dojo-props='color:"${_elevationBottomColor}"' style="display:inline-block;width:25px;height:25px;"></div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,137 @@
+@import url("../../common.css");
+
+.widget-setting-elevation-profile{
+  height: 100%;
+  overflow: hidden;
+  font-size: 14px;
+}
+
+.widget-setting-elevation-profile .url-section {
+  position: relative;
+  height: 40px;
+}
+
+.widget-setting-elevation-profile .url-section .label {
+  left: 0;
+  top:5px;
+  height:32px;
+  width: 110px;
+  position: relative;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+.widget-setting-elevation-profile .service-browser{
+  width: 850px;
+}
+
+.widget-setting-elevation-profile .error-message-div {
+  border: 0px solid;
+  font-size: 11px;
+  color: red;
+  margin-left: 126px;
+}
+
+.widget-elevation-profile-ChartNode {
+  height: 83%;
+  width: 100%;
+  min-height: 200px;
+  overflow: hidden;
+}
+
+.widget-elevation-profile-Label {
+  color: #000;
+  font-weight: bolder;
+  font-size: 0.8em;
+  line-height: 1.0em;
+}
+
+.widget-setting-elevation-profile .btn-sym-section,
+.widget-setting-elevation-profile .btn-chart-props-section{
+  display:inline-block;
+  overflow:hidden;
+  height:24px;
+  margin-left:1px;
+  margin-bottom:3px;
+  cursor:pointer;
+  font-size:13px;
+  color:#6f7e95;
+  position: relative;
+}
+
+.widget-setting-elevation-profile .btn-sym-section .btn-edit-icon,
+.widget-setting-elevation-profile .btn-chart-props-section .btn-edit-icon{
+  float:left;
+  height:100%;
+  width:14px;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-image: url(images/edit_enabled.png);
+}
+
+.widget-setting-elevation-profile .btn-sym-section .btn-edit-label,
+.widget-setting-elevation-profile .btn-chart-props-section .btn-edit-label{
+  float:left;
+  height:100%;
+  line-height:24px;
+  vertical-align:middle;
+  margin-left:7px;
+  text-decoration: underline;
+}
+
+.symbology-edit .help-icon {
+  cursor: pointer;
+  display: inline-block;
+  font-size: 18px;
+  line-height: 20px;
+  background: none repeat scroll 0% 0% #518DCA;
+  color: #FFF;
+  border-radius:99px;
+  -moz-border-radius:99px;
+  -webkit-border-radius:99px;
+  /*-webkit-box-shadow: 0px 2px 4px #000000;
+  -moz-box-shadow: 0px 2px 4px #000000;
+  box-shadow: 0px 2px 4px #000000;*/
+  font-weight:bold;
+}
+
+.symbology-edit .help-icon:hover {
+  cursor: pointer;
+  display: inline-block;
+  font-size: 18px;
+  line-height: 20px;
+  background: none repeat scroll 0% 0% #15a4fa;
+  color: #FFF;
+  border-radius:99px;
+  -moz-border-radius:99px;
+  -webkit-border-radius:99px;
+  /*-webkit-box-shadow: 0px 2px 4px #000000;
+  -moz-box-shadow: 0px 2px 4px #000000;
+  box-shadow: 0px 2px 4px #000000;*/
+  font-weight:bold;
+}
+
+.chart-edit{
+  height: 100%;
+  overflow: hidden;
+  font-size: 14px;
+}
+
+.chart-edit .chart-section{
+  position: relative;
+  height: 40px;
+}
+
+.chart-edit .chart-section .label{
+  left: 0;
+  top:5px;
+  height:32px;
+  width: 110px;
+  position: relative;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
