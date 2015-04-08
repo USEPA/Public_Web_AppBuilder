@@ -51,11 +51,12 @@
     specifyParamsTip: "Specificaţi parametri pentru această operaţie",
     useSpatialFilter: "Utilizare filtru spaţial pentru limitarea obiectelor spaţiale",
     useCurrentMapExtent: "Numai obiectele spaţiale care ating extinderea curentă a hărţii",
-    drawGraphicOnMap: "Numai obiectele spaţiale care ating o suprafaţă definită de utilizator",
+    drawGraphicOnMap: "Numai obiectele spaţiale care ating suprafaţa definită de utilizator",
     specifySpatialFilterMsg: "Specificaţi filtrul spaţial pentru această operaţie.",
     clearResults: "Golire rezultate",
     operationalTip: 'Având această opţiune bifată, rezultatele vor fi păstrate pe hartă până când se face clic pe butonul „${clearResults}”.',
     noneQueryTip: "Nu este disponibilă nicio activitate de interogare.",
-    noPermissionsMsg: "Nu deţineţi permisiuni pentru accesarea acestui serviciu."
+    noPermissionsMsg: "Nu deţineţi permisiuni pentru accesarea acestui serviciu.",
+    attributesFromRelationship: "Atribute din tabelul asociat"
   })
 );

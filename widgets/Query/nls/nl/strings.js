@@ -56,6 +56,7 @@
     clearResults: "Resultaten wissen",
     operationalTip: 'Als deze optie aangevinkt is, worden de resultaten op de kaart gehandhaafd totdat op de knop \"${clearResults}\" wordt geklikt.',
     noneQueryTip: "Er zijn geen vooraf gedefinieerde query-taken beschikbaar.",
-    noPermissionsMsg: "U hebt geen toestemming voor toegang tot deze service."
+    noPermissionsMsg: "U hebt geen toestemming voor toegang tot deze service.",
+    attributesFromRelationship: "Attributen van gerelateerde tabel"
   })
 );

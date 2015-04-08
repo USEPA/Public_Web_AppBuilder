@@ -51,11 +51,12 @@
     specifyParamsTip: "Bu görev için parametreleri belirle",
     useSpatialFilter: "Özellikleri sınırlandırmak için mekansal filtre kullan",
     useCurrentMapExtent: "Yalnızca detaylar geçerli harita yayılımına temas eder",
-    drawGraphicOnMap: "Yalnızca özellikler kullanıcı tanımlı bir alana temas eder",
+    drawGraphicOnMap: "Yalnızca kullanıcı tanımlı alana temas eden detaylar",
     specifySpatialFilterMsg: "Bu görev için mekansal filtreyi belirtin.",
     clearResults: "Sonuçları Temizle",
-    operationalTip: 'Bu seçenek işaretlendiğinde, \"${clearResults}\" düğmesi tıklanana kadar sonuçlar haritada kalır.',
+    operationalTip: 'Bu seçenek işaretlendiğinde, "${clearResults}" düğmesi tıklanana kadar sonuçlar haritada kalır.',
     noneQueryTip: "Önceden yapılandırılmış sorgu görevi yok.",
-    noPermissionsMsg: "Bu servise erişmek için izniniz yok."
+    noPermissionsMsg: "Bu servise erişmek için izniniz yok.",
+    attributesFromRelationship: "İlgili tablodan gelen öznitelikler"
   })
 );

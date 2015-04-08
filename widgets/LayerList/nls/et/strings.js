@@ -13,6 +13,9 @@
     itemDesc: "Kirjeldus",
     itemDownload: "Laadi alla",
     itemToAttributeTable: "Ava atribuudi tabel",
-    itemShowItemDetails: "Näita sisuobjekti detaile"
+    itemShowItemDetails: "Näita sisuobjekti detaile",
+    empty: "tühi",
+    removePopup: "Eemalda hüpikaken",
+    enablePopup: "Luba hüpikaken"
   })
 );

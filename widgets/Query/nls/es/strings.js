@@ -51,11 +51,12 @@
     specifyParamsTip: "Especificar parámetros para esta tarea",
     useSpatialFilter: "Usar filtro espacial para limitar las entidades",
     useCurrentMapExtent: "Solo entidades que toquen la extensión de mapa actual",
-    drawGraphicOnMap: "Solo entidades que toquen un área definida por el usuario",
+    drawGraphicOnMap: "Solo entidades que toquen el área definida por el usuario",
     specifySpatialFilterMsg: "Especifica un filtro espacial para esta tarea.",
     clearResults: "Borrar resultados",
     operationalTip: 'Con esta opción seleccionada, los resultados se conservarán en el mapa hasta que se haga clic en el botón "${clearResults}".',
     noneQueryTip: "No hay ninguna tarea de consulta preconfigurada disponible.",
-    noPermissionsMsg: "No tienes permisos para acceder a este servicio."
+    noPermissionsMsg: "No tienes permisos para acceder a este servicio.",
+    attributesFromRelationship: "Atributos de la tabla asociada"
   })
 );

@@ -56,6 +56,7 @@
     clearResults: "Tyhjennä tulokset",
     operationalTip: 'Kun tämä vaihtoehto on valittuna, tulokset näkyvät kartassa, kunnes painiketta ${clearResults} napsautetaan.',
     noneQueryTip: "Käytettävissä ei ole ennalta määritettyjä kyselytehtäviä.",
-    noPermissionsMsg: "Sinulla ei ole palvelun käyttöoikeutta."
+    noPermissionsMsg: "Sinulla ei ole palvelun käyttöoikeutta.",
+    attributesFromRelationship: "Liittyvän taulun ominaisuustiedot"
   })
 );

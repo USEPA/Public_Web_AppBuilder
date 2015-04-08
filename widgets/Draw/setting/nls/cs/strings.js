@@ -21,6 +21,18 @@
     squareFeet: "Čtvereční stopy",
     squareYards: "Čtvereční yardy",
     distance: "Vzdálenosti",
-    area: "Plochy"
+    area: "Plochy",
+    kilometersAbbreviation: "km",
+    milesAbbreviation: "míle",
+    metersAbbreviation: "m",
+    feetAbbreviation: "stopy",
+    yardsAbbreviation: "yd",
+    squareKilometersAbbreviation: "čtver. km",
+    squareMilesAbbreviation: "čtver. míl.",
+    acresAbbreviation: "akr",
+    hectaresAbbreviation: "ha",
+    squareMetersAbbreviation: "čtver. m",
+    squareFeetAbbreviation: "čtver. stopy",
+    squareYardsAbbreviation: "čtver. yd."
   })
 );

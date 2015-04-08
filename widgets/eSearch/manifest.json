@@ -3,10 +3,10 @@
   "type": "widget",
   "label": "Enhanced Search",
   "platform": "HTML",
-  "version": "1.1.0.3",
+  "version": "1.1.3",
   "wabVersion": "1.1",
   "author": "Robert Scheitlin & Esri R&D Center Beijing",
-  "description": "This is the enhanced version of the esri search widget",
+  "description": "This enhanced search widget offers the ability to search by a string, geometry and spatial relationship.",
   "copyright": "2015",
   "license": "http://www.apache.org/licenses/LICENSE-2.0",
   "properties": {

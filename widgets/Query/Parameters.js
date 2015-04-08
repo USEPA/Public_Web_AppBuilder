@@ -23,14 +23,14 @@ define([
   'dojo/_base/lang',
   'dojo/_base/html',
   'dojo/_base/array',
-  'dojo/on',
   'dojo/query',
   'dijit/registry',
   'jimu/filterUtils',
+  'jimu/utils',
   './SingleParameter'
 ],
   function(declare, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, template, lang,
-  html, array, on, query, registry, filterUtils, SingleParameter) {/*jshint unused: false*/
+  html, array, query, registry, filterUtils, jimuUtils, SingleParameter) {
     return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
       baseClass: 'jimu-widget-query-parameters',
       templateString: template,
@@ -76,6 +76,7 @@ define([
             }
           }
         }
+        this._filterUtils.isHosted = jimuUtils.isHostedService(this.url);
         var expr = this._filterUtils.getExprByFilterObj(newPartsObj);
         return expr;
       },
@@ -100,7 +101,6 @@ define([
         this.layerInfo = lang.mixin({},layerInfo);
         var interactiveSPA = this._getAllIntractiveSinglePartArray(partsObj);
         array.forEach(interactiveSPA,lang.hitch(this,function(singlePart){
-          var strTr = "<tr><td></td></tr>";
           var tr = html.create('tr',{innerHTML:'<td></td>'},this.tbody);
           var td = query('td',tr)[0];
           var fieldName = singlePart.fieldObj.name;

@@ -15,14 +15,11 @@
 ///////////////////////////////////////////////////////////////////////////
 
 define(['dojo/_base/declare',
-  'dojo/_base/lang',
-  'dojo/_base/html',
   'dojo/_base/array',
-  'dojo/on',
   'dijit/_WidgetBase',
   'jimu/dijit/SimpleTable'
 ],
-function(declare, lang, html, array, on, _WidgetBase, SimpleTable) {
+function(declare, array, _WidgetBase, SimpleTable) {
   return declare([_WidgetBase], {
     baseClass: 'jimu-widget-setting-gp-layer-order',
 
@@ -65,7 +62,14 @@ function(declare, lang, html, array, on, _WidgetBase, SimpleTable) {
       if(this.config.layerOrder){
         layerOrder = this.config.layerOrder;
       }else{
-        //input is on the above most
+        //out put is on the above most
+        array.forEach(this.config.outputParams, function(param){
+          if(param.dataType === 'GPFeatureRecordSetLayer'){
+            layerOrder.push(param.name);
+          }
+        }, this);
+
+        //input is under the output
         array.forEach(this.config.inputParams, function(param){
           if(param.dataType === 'GPFeatureRecordSetLayer'){
             layerOrder.push(param.name);
@@ -73,13 +77,6 @@ function(declare, lang, html, array, on, _WidgetBase, SimpleTable) {
         }, this);
 
         layerOrder.push('Operational Layers');
-
-        //out put is on the low most
-        array.forEach(this.config.outputParams, function(param){
-          if(param.dataType === 'GPFeatureRecordSetLayer'){
-            layerOrder.push(param.name);
-          }
-        }, this);
       }
       array.forEach(layerOrder, function(paramName){
         this.table.addRow({

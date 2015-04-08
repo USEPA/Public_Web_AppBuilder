@@ -31,6 +31,10 @@
 		setFilterTip: "Angi filteret på riktig måte.",
 		ok: "OK",
 		cancel: "Avbryt",
-		noFilterTip: "Uten noe definert filteruttrykk viser denne spørringoppgaven alle geoobjekter i den angitte datakilden."
+		noFilterTip: "Uten noe definert filteruttrykk viser denne spørringoppgaven alle geoobjekter i den angitte datakilden.",
+    relationships: "Relasjonstabell",
+    addRelationshipLayer: "Legg til ny relasjon",
+    relatedTo: "Gjelder",
+    selectOption: "Du må velge..."
   })
 );

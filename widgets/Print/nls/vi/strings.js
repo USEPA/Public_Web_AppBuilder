@@ -30,8 +30,8 @@
     width: "Chiều rộng (px)",
     height: "Chiều cao (px)",
     print: "In",
-    clearList: "Xóa bản in",
-    creatingPrint: "Tạo bản in",
+    clearList: "Xóa Bản in",
+    creatingPrint: "Tạo Bản in",
     printError: "Lỗi, thử lại"
   })
 );

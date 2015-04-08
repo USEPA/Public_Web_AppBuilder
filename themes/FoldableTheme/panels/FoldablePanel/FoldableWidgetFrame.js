@@ -15,11 +15,10 @@
 ///////////////////////////////////////////////////////////////////////////
 
 define(['dojo/_base/declare',
-  'dojo/_base/lang',
   'dojo/_base/html',
   'jimu/BaseWidgetFrame',
   './FoldableDijit'],
-  function(declare, lang, html, BaseWidgetFrame, FoldableDijit){
+  function(declare, html, BaseWidgetFrame, FoldableDijit){
   return declare([BaseWidgetFrame, FoldableDijit], {
     baseClass: 'jimu-widget-frame jimu-foldable-dijit foldable-widget-frame',
 

@@ -1,7 +1,7 @@
 define({
   root: ({
     _widgetLabel: "Query",
-    executeQueryTip: "Click one of the following task items to execute query.",
+    executeQueryTip: "Click one of the following task items to execute the query.",
     invalidConfig: "Invalid configuration. Please use Query setting page to get correct configuration.",
     queryParams: "Options",
     parameters: "OPTIONS",
@@ -51,17 +51,19 @@ define({
     specifyParamsTip: "Specify parameters for this task",
     useSpatialFilter: "Use spatial filter to limit features",
     useCurrentMapExtent: "Only features touching the current map extent",
-    drawGraphicOnMap: "Only features touching a user defined area",
+    drawGraphicOnMap: "Only features touching the user-defined area",
     specifySpatialFilterMsg: "Please specify spatial filter for this task.",
     clearResults: "Clear Results",
     operationalTip: 'With this option checked, results will be kept on the map until the "${clearResults}" button clicked.',
     noneQueryTip: "No preconfigured query tasks available.",
-    noPermissionsMsg: "You do not have permissions to access this service."
+    noPermissionsMsg: "You do not have permissions to access this service.",
+    attributesFromRelationship: "Attributes from related table"
   }),
   "ar": 1,
   "cs": 1,
   "da": 1,
   "de": 1,
+  "el": 1,
   "es": 1,
   "et": 1,
   "fi": 1,

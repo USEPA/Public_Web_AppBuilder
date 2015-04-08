@@ -42,7 +42,7 @@ function(declare, lang, html, array, on, query, template, _WidgetBase, _Template
 
     postCreate: function(){
       this.inherited(arguments);
-      
+
       this.paramSetting = new ParamSetting({
         map: this.map,
         nls: this.nls
@@ -98,7 +98,9 @@ function(declare, lang, html, array, on, query, template, _WidgetBase, _Template
         });
         return false;
       }
-      this.paramSetting.acceptValue();
+      if(this.paramSetting.param){
+        this.paramSetting.acceptValue();
+      }
       this.layerOrder.acceptValue();
       this.options.acceptValue();
       return this.config;
@@ -119,7 +121,7 @@ function(declare, lang, html, array, on, query, template, _WidgetBase, _Template
       this.config.inputParams = [];
       this.config.outputParams = [];
       array.forEach(taskInfo.parameters, function(param){
-        
+
         //////////
         param.label = param.displayName;
         delete param.displayName;
@@ -155,7 +157,7 @@ function(declare, lang, html, array, on, query, template, _WidgetBase, _Template
 
     _initNavPane: function(){
       html.empty(this.navPaneNode);
-      
+
       this._createParamsSection('input');
       this._createParamsSection('output');
       this._createLayerOrderNode();
@@ -163,9 +165,7 @@ function(declare, lang, html, array, on, query, template, _WidgetBase, _Template
 
       this.layerOrder.setConfig(this.config);
       this.options.setConfig(this.config);
-
-      //the paramSetting needs inputParams because that the editor chooser needs the inputParams
-      this.paramSetting.setInputParams(this.config.inputParams);
+      this.paramSetting.setConfig(this.config);
     },
 
     _onParamClick: function(param, direction, evt){
@@ -174,6 +174,8 @@ function(declare, lang, html, array, on, query, template, _WidgetBase, _Template
       if(this.paramSetting.param){
         this.paramSetting.acceptValue();
       }
+      this.layerOrder.acceptValue();
+      this.options.acceptValue();
 
       if(html.getStyle(this.viewStack.domNode, 'display') === 'none'){
         html.setStyle(this.viewStack.domNode, 'display', '');
@@ -207,16 +209,18 @@ function(declare, lang, html, array, on, query, template, _WidgetBase, _Template
         //select the first one by default
         if(this.hasInputParam && i === 0 && direction === 'input' || //first input param
           this.hasInputParam === false && i === 0 && direction === 'output'){//first output param
-          if(node.click){
-            node.click();
-          }else{
-            on.emit(node, 'click', {
-              cancelable: true,
-              bubble: true
-            });
-          }
+          setTimeout(function(){
+            if(node.click){
+              node.click();
+            }else{
+              on.emit(node, 'click', {
+                cancelable: true,
+                bubble: true
+              });
+            }
+          }, 100);
         }
-        
+
       }, this);
     },
 
@@ -247,6 +251,10 @@ function(declare, lang, html, array, on, query, template, _WidgetBase, _Template
         innerHTML: this.nls.layerOrder
       }, this.navPaneNode);
       this.own(on(node, 'click', lang.hitch(this, function(){
+        this.options.acceptValue();
+        if(this.paramSetting.param){
+          this.paramSetting.acceptValue();
+        }
         this._setActiveLinkNode(node);
         this.viewStack.switchView(this.layerOrder);
       })));
@@ -258,6 +266,10 @@ function(declare, lang, html, array, on, query, template, _WidgetBase, _Template
         innerHTML: this.nls.options
       }, this.navPaneNode);
       this.own(on(node, 'click', lang.hitch(this, function(){
+        if(this.paramSetting.param){
+          this.paramSetting.acceptValue();
+        }
+        this.layerOrder.acceptValue();
         this._setActiveLinkNode(node);
         this.viewStack.switchView(this.options);
       })));

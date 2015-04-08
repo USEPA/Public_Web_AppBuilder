@@ -1,0 +1,182 @@
+<div style="width:100%;height:auto;">
+	<table style="width:100%;" cellspacing="0">
+		<tbody>			
+			<tr>
+				<td nowrap style="width:100px;">
+					<span nowrap class="jimu-ellipsis">${nls.geomServiceUrl}</span>
+				</td>
+				<td class="route-td">
+					<input data-dojo-attach-point="geomServiceUrl" data-dojo-type="jimu/dijit/URLInput" data-dojo-props='required:true,value:"http://tasks.arcgisonline.com/ArcGIS/rest/services/Geometry/GeometryServer"' type="text" style="width:100%;" />
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<span style="margin:10px 0 5px 0;display:inline-block;font-weight:bold;width:50%;">${nls.streetviewOptions}</span> 
+	<span style="margin:10px 0 5px 0px;display:inline-block;font-weight:bold;">${nls.symbolOptions}</span>
+	<table style="width:100%;" cellspacing="0">
+		<tbody>
+			<tr>
+				<td colspan="3">
+					<table style="width:100%;" cellspacing="0">
+					    <tr>
+							<td style="width:50%;">
+								<table style="width:100%;" cellspacing="0">
+									<tbody>
+										<tr>
+											<td style="width:200px;">
+												<span class="formating jimu-ellipsis">${nls.popWidth}</span>
+											</td>
+											<td style="width:auto;">
+												<input data-dojo-attach-point="popWidth" data-dojo-type="dijit/form/NumberSpinner" data-dojo-props='required:true,value:800,smallDelta:1,largeDelta:1,constraints:{min:1},intermediateChanges:true' type="text" style="width:220px;" />
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</td>
+							<td style="width:50%;">
+								<table  style="width:100%;" cellspacing="0">
+									<tbody>
+										<tr>
+											<td nowrap style="width:200px">
+												<span class="formating jimu-ellipsis" nowrap>${nls.symbolStyle}</span>
+											</td>
+											<td style="width:auto;">
+												<select data-dojo-attach-point="symbolStyle" data-dojo-type="dijit/form/Select" style="width:220px;height:30px;">
+													<option value="diamond" selected>${nls.diamond}</option>
+													<option value="circle">${nls.circle}</option>
+													<option value="cross">${nls.cross}</option>
+													<option value="square">${nls.square}</option>
+												</select>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="3">
+					<table style="width:100%;" cellspacing="0">
+						<tr>
+							<td style="width:50%;">
+								<table style="width:100%;" cellspacing="0">
+									<tbody>
+										<tr>
+											<td style="width:200px;">
+												<span class="formating jimu-ellipsis">${nls.popHeight}</span>
+											</td>
+											<td style="width:auto;">
+												<input data-dojo-attach-point="popHeight" data-dojo-type="dijit/form/NumberSpinner" data-dojo-props='required:true,value:500,smallDelta:1,largeDelta:1,constraints:{min:3},intermediateChanges:true' type="text" style="width:220px;" />
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</td>
+							<td style="width:50%;">
+								<table style="width:100%;" cellspacing="0">
+									<tbody>
+										<tr>
+											<td nowrap style="width:200px">
+												<span class="formating jimu-ellipsis" nowrap>${nls.symbolColor}</span>
+											</td>
+											<td style="width:auto;">
+												<select data-dojo-attach-point="symbolColor" data-dojo-type="dijit/form/Select" style="width:220px;height:30px;">
+													<option value="red" selected>${nls.red}</option>
+													<option value="yellow" >${nls.yellow}</option>
+													<option value="blue">${nls.blue}</option>
+													<option value="green">${nls.green}</option>
+												</select>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<!-- <tr>
+				<td style="width:100%;">
+					<span>${nls.pMap}</span>
+					<input data-dojo-attach-point="pMap" type="checkbox" value="m"  />
+					<span>${nls.pStreetView}</span>
+					<input data-dojo-attach-point="pStreetView" type="checkbox" value="s"  />
+					<span>${nls.pBirdseye}</span>
+					<input data-dojo-attach-point="pBirdseye" type="checkbox" value="b"  />
+					<span>${nls.pInfo}</span>
+					<input data-dojo-attach-point="pInfo" type="checkbox" value="i" /> -->
+					<!--  <div data-dojo-type="dijit/form/Form" data-dojo-attach-point="symFormDijit">
+                            <input data-dojo-type="dijit/form/RadioButton" data-dojo-attach-point="pMap"
+                                   data-dojo-props="name:'symRadioGroup',checked:true,value:'m'" />&nbsp;${nls.pMap}&nbsp;&nbsp;
+                            <input data-dojo-type="dijit/form/RadioButton" data-dojo-attach-point="pStreetView"
+                                   data-dojo-props="name:'symRadioGroup',value:'s'" />&nbsp;${nls.pStreetView}
+                    </div>
+				</td>
+			</tr> -->
+			<tr>
+				<td colspan="3">
+					<table style="width:100%;" cellspacing="0">
+						<tr>
+							<td style="width:50%;">
+								<table  style="width:100%;" cellspacing="0">
+									<tbody>
+										<tr>
+											<td nowrap style="width:200px">
+												<span class="formating jimu-ellipsis" nowrap>${nls.googleMapType}</span>
+											</td>
+											<td style="width:auto;">
+												<select data-dojo-attach-point="googleMapType" data-dojo-type="dijit/form/Select" style="width:220px;height:30px;">
+													<option value="0" selected>${nls.gRoadMap}</option>
+													<option value="1">${nls.gSatellite}</option>
+													<option value="2">${nls.gHybrid}</option>
+													<option value="3">${nls.gTerrain}</option>
+												</select>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</td>
+							<td style="width:50%;">
+								<table style="width:100%;" cellspacing="0">
+									<tbody>
+										<tr>
+											<td style="width:200px;">
+												<span class="formating jimu-ellipsis">${nls.symbolSize}</span>
+											</td>
+											<td style="width:auto;">
+												<input data-dojo-attach-point="symbolSize" data-dojo-type="dijit/form/NumberSpinner" data-dojo-props='required:true,value:20,smallDelta:1,largeDelta:1,constraints:{min:3},intermediateChanges:true' type="text" style="width:220px;" />
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td style="width:50%;">
+					<table  style="width:100%;" cellspacing="0">
+						<tbody>
+							<tr>
+								<td nowrap style="width:200px">
+									<span class="formating jimu-ellipsis" nowrap>${nls.markerImage}</span>
+								</td>
+								<td style="width:auto;">
+									<select data-dojo-attach-point="markerImage" data-dojo-type="dijit/form/Select" style="width:220px;height:30px;">
+										<option value="1" selected>${nls.red}</option>
+										<option value="2">${nls.green}</option>
+										<option value="3">${nls.yellow}</option>
+										<option value="4">${nls.blue}</option>
+									</select>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>

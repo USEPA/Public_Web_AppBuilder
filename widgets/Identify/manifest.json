@@ -5,7 +5,7 @@
   "3D":false,
   "type": "widget",
   "platform": "HTML",
-  "version": "1.1",
+  "version": "1.1.1",
   "wabVersion": "1.1",
   "author": "Robert Scheitlin",
   "description": "This widget allows identifing feature on the map",

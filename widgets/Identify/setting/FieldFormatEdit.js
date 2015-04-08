@@ -86,8 +86,8 @@ define(
               })
             });
           } else {
-            this.selectDateFormat.set('value', 'M/D/YYYY');
-            this.dateFormat.set('value', 'M/D/YYYY');
+            this.selectDateFormat.set('value', 'd MMM yyyy');
+            this.dateFormat.set('value', 'd MMM yyyy');
           }
           this.utcCbx.setValue(fieldInfo.useutc || false);
         }else if (fieldInfo.isnumber || this._isNumberType(fieldInfo.type)){
@@ -122,9 +122,23 @@ define(
             this.formatArray = this.formatString.split('|');
             this.currencyCbx.set('disabled', true);
             this.currencySymboltxt.set('disabled', true);
-            this.percisionSpinner.set('value', parseInt(this.formatArray[0]));
-            this.percisionSymbol.set('value', this.formatArray[2]);
-            this.thousandsSymbol.set('value', this.formatArray[1]);
+            //this.percisionSpinner.set('value', parseInt(this.formatArray[0]));
+            //this.percisionSymbol.set('value', this.formatArray[2]);
+            //this.thousandsSymbol.set('value', this.formatArray[1]);
+            if (this.formatArray[0] !== ''){
+              this.percisionSpinner.set('disabled', false);
+              this.percisionCbx.setValue(true);
+              this.percisionSpinner.set('value', parseInt(this.formatArray[0]));
+            }
+            if (this.formatArray[1]){
+              this.useThousandsCbx.setValue(true);
+              this.thousandsSymbol.set('disabled', false);
+              this.thousandsSymbol.set('value', this.formatArray[1]);
+            }
+            if (this.formatArray[2]){
+              this.percisionSymbol.set('disabled', false);
+              this.percisionSymbol.set('value', this.formatArray[2]);
+            }
           }
         }
       },

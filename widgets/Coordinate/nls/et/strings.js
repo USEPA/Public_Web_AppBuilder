@@ -1,7 +1,7 @@
 ﻿define(
    ({
     _widgetLabel: "Koordinaat",
-    hintMessage: "Klikkige koordinaatide saamiseks kaardile",
+    hintMessage: "Klikkige koordinaatide hankimiseks kaardile",
     defaultLabel: "Vaikimisi",
     realtimeLabel: "Koordinaatide hankimiseks liigutage kursorit",
     computing: "Arvutamine...",

@@ -6,7 +6,7 @@ Usage examples:
 * gas company wants to assign a set of meters in an area to be inspected by a particular work crew.
 * water company wants to assign a set of hydrants in an area to be serviced by a particular work crew.
 
-Important Note: These widgets are only tested with the Beta 1 release of or ArcGIS WebApp Builder. All the Widgets in this repo should be considered Beta (or possibly untested) until the final release of Web AppBuilder for ArcGIS.
+Important Note: These widgets are only tested with the Decemeber 2014 release of ArcGIS WebApp Builder Developers Editions.
 ## Sections
 
 * [Features](#features)
@@ -19,27 +19,21 @@ Important Note: These widgets are only tested with the Beta 1 release of or ArcG
 
 ## Features
 
-* Select by Polygon Layer.
-* Select by Shape.
-* Ability to select from any type of feature class.
-* Ability to select type of spatial relationship between features and user selection..
-* Set style of symbol for drawn shape.
-* Set style of symbol for selected features.
+* Create selection set for updating by one of the following methods
+  * Select by Feature.
+  * Select by Shape.  
+  * Select by Feature and related data.
+  * Select by attribute.
+
 
 ## Requirements
-* ArcGIS WebApp Builder Beta 1.
+* ArcGIS WebApp Builder decemember 2014 Developer Edition.
 
 ## Instructions
 Deploying Widget
 
-Setting Up Repository for Development
-In order to develop and test widgets you need to deploy the BatchEditor folder to the stemapp/widgets directory in your WebApp Builder installation. If you use Github for windows this can be accomplished using the following steps.
-
-1. Sync the repository to your local machine.
-2. Close Open the Repository in Windows Explorer
-3. Close Github for Windows
-4. Cut and paste the entire BatchEditor folder into the stemapp/widgets folder
-5. Launch Github for Windows and choose the option to locate the repository. This will change the location on disk to the new location.
+1. Download and extract the developers edition of the Web AppBuilder
+2. Copy and paste the entire BatchEditor folder into the stemapp/widgets folder
 
 ### General Help
 [New to Github? Get started here.](http://htmlpreview.github.io/?https://github.com/Esri/esri.github.com/blob/master/help/esri-getting-to-know-github.html)

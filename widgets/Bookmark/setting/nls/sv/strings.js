@@ -11,6 +11,6 @@
     errorNameNull: "Ogiltigt namn på bokmärke!",
     addBookmark: "Skapa ett nytt bokmärke",
     thumbnail: "Miniatyrbild",
-    thumbnailHint: "Klicka på bilden för att uppdatera"
+    thumbnailHint: "Klicka på bilden för att uppdatera den"
   })
 );

@@ -31,6 +31,10 @@
 		setFilterTip: "Ange filtret korrekt.",
 		ok: "OK",
 		cancel: "Avbryt",
-		noFilterTip: "Om inget filteruttryck definierats visar denna frågeuppgift en lista med alla geoobjekt i den angivna datakällan."
+		noFilterTip: "Om inget filteruttryck definierats visar denna frågeuppgift en lista med alla geoobjekt i den angivna datakällan.",
+    relationships: "Relationstabell",
+    addRelationshipLayer: "Lägg till ny relation",
+    relatedTo: "Relaterat till",
+    selectOption: "Välj..."
   })
 );

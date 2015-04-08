@@ -14,11 +14,11 @@
 // limitations under the License.
 ///////////////////////////////////////////////////////////////////////////
 
-define(['dojo/_base/declare',
+define([
   'dojo/_base/array',
   'dojo/Deferred'
 ],
-function(declare, array, Deferred) {
+function(array, Deferred) {
   var mo = {};
 
   mo.promisifyGetValue = function(inputEditor){

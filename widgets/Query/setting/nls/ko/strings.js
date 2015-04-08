@@ -31,6 +31,10 @@
 		setFilterTip: "필터를 올바르게 설정하세요.",
 		ok: "확인",
 		cancel: "취소",
-		noFilterTip: "필터 식이 정의되지 않으면 이 쿼리 작업은 지정된 데이터 원본의 모든 피처를 나열합니다."
+		noFilterTip: "필터 식이 정의되지 않으면 이 쿼리 작업은 지정된 데이터 원본의 모든 피처를 나열합니다.",
+    relationships: "릴레이션쉽 테이블",
+    addRelationshipLayer: "새 릴레이션쉽 추가",
+    relatedTo: "릴레이트됨",
+    selectOption: "선택하세요."
   })
 );

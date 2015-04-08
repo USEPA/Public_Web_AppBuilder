@@ -23,26 +23,23 @@ define([
   'dojo/_base/lang',
   'dojo/_base/array',
   'dojo/_base/html',
-  'dojo/_base/query',
   'dojo/on',
   'dojo/Evented',
-  'dijit/form/ValidationTextBox',
   'jimu/utils',
-  'jimu/dijit/Filter',
   'jimu/dijit/TabContainer3',
-  'jimu/dijit/Popup',
   'jimu/dijit/Message',
-  'jimu/dijit/LoadingShelter',
-  'jimu/dijit/SymbolPicker',
   'jimu/dijit/_FeaturelayerSourcePopup',
   './PopupConfig',
   'esri/request',
-  'esri/symbols/jsonUtils'
+  'esri/symbols/jsonUtils',
+  'jimu/dijit/Filter',
+  'jimu/dijit/SymbolPicker',
+  'jimu/dijit/LoadingShelter',
+  'dijit/form/ValidationTextBox'
 ],
 function(declare, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, template, lang,
-  array, html, query, on, Evented, ValidationTextBox, jimuUtils, Filter, TabContainer3,
-  Popup, Message, LoadingShelter, SymbolPicker, _FeaturelayerSourcePopup, PopupConfig,
-  esriRequest, esriSymbolJsonUtils) {/*jshint unused: false*/
+  array, html, on, Evented, jimuUtils, TabContainer3, Message, _FeaturelayerSourcePopup,
+  PopupConfig, esriRequest, esriSymbolJsonUtils, Filter) {
   return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, Evented], {
     baseClass: 'jimu-widget-single-query-setting',
     templateString: template,
@@ -176,7 +173,7 @@ function(declare, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, templat
       }
 
       this.tr._layerDefinition = this._layerDefinition;
-      
+
       return config;
     },
 
@@ -217,8 +214,18 @@ function(declare, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, templat
     },
 
     _initSelf: function(){
+      this._initFilter();
       this._initPopupConfig();
       this._initTabs();
+    },
+
+    _initFilter: function(){
+      this.filter = new Filter({
+        enableAskForValues: true,
+        noFilterTip: this.nls.noFilterTip,
+        style: "width:100%;margin-top:22px;"
+      });
+      this.filter.placeAt(this.filterDiv);
     },
 
     _initTabs: function(){
@@ -338,7 +345,7 @@ function(declare, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, templat
         title: popupTitle,
         fields: fields
       });
-      
+
       //reset symbol
       var geoType = jimuUtils.getTypeByGeometryType(layerInfo.geometryType);
       var symType = '';
@@ -419,7 +426,6 @@ function(declare, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, templat
         fields: fields
       });
 
-
       //reset symbol
       var sym1 = esriSymbolJsonUtils.fromJson(config.resultsSymbol);
       this.layerSymbolPicker.showBySymbol(sym1);
@@ -428,6 +434,6 @@ function(declare, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, templat
     _isObject:function(o){
       return o && typeof o === 'object';
     }
-    
+
   });
 });

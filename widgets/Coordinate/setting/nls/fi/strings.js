@@ -22,6 +22,7 @@
     units: "Näyttöyksiköt: ",
     datum: "Datumin transformaatio",
     tName: "Transformaation nimi",
+    tWKIDPlaceHolder: "Transformaation WKID",
     forward: "Käytä transformaatiota eteenpäin",
     ok: "OK",
     cancel: 'Peruuta',

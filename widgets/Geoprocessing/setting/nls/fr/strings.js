@@ -30,6 +30,7 @@
     popup: "Fenêtre contextuelle",
     setTask: "Définir",
     setTaskTitle: "Définir une tâche de géotraitement",
-    enablePopup: "Activer la fenêtre contextuelle"
+    enablePopup: "Activer la fenêtre contextuelle",
+    unSupportGeometryType: "Impossible de définir le moteur de rendu, car le type de géométrie est inconnu."
   })
 );

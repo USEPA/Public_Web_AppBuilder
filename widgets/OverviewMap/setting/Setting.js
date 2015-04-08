@@ -18,22 +18,48 @@ define([
     'dojo/_base/declare',
     'jimu/BaseWidgetSetting',
     'dijit/_WidgetsInTemplateMixin',
+    'dijit/registry',
     'dojo/_base/lang',
     'dojo/on',
-    "dojo/dom-style",
-    'dijit/form/NumberTextBox',
-    'dijit/form/CheckBox'
+    'dojo/query',
+    'jimu/dijit/CheckBox',
+    'jimu/dijit/RadioBtn'
   ],
   function(
     declare,
     BaseWidgetSetting,
     _WidgetsInTemplateMixin,
+    registry,
     lang,
     on,
-    domStyle) {
+    query,
+    CheckBox) {
     return declare([BaseWidgetSetting, _WidgetsInTemplateMixin], {
 
       baseClass: 'jimu-widget-overviewmap-setting',
+
+      _selectedAttachTo: "",
+
+      postCreate: function() {
+        this.expandBox = new CheckBox({
+          label: this.nls.expandText,
+          checked: false
+        }, this.expandBox);
+        this.expandBox.startup();
+
+        this.own(on(this.topLeftNode, 'click', lang.hitch(this, function() {
+          this._selectItem('top-left');
+        })));
+        this.own(on(this.topRightNode, 'click', lang.hitch(this, function() {
+          this._selectItem('top-right');
+        })));
+        this.own(on(this.bottomLeftNode, 'click', lang.hitch(this, function() {
+          this._selectItem('bottom-left');
+        })));
+        this.own(on(this.bottomRightNode, 'click', lang.hitch(this, function() {
+          this._selectItem('bottom-right');
+        })));
+      },
 
       startup: function() {
         this.inherited(arguments);
@@ -41,53 +67,60 @@ define([
           this.config.overviewMap = {};
         }
         this.setConfig(this.config);
-        this.own(on(this.minWidth, 'change', lang.hitch(this, this.onTextBoxChange, "minWidth")));
-        this.own(on(this.minHeight, 'change', lang.hitch(this, this.onTextBoxChange, "minHeight")));
-        this.own(on(this.maxWidth, 'change', lang.hitch(this, this.onTextBoxChange, "maxWidth")));
-        this.own(on(this.maxHeight, 'change', lang.hitch(this, this.onTextBoxChange, "maxHeight")));
-      },
-
-      onTextBoxChange: function(type, newValue){
-        if(!newValue){
-          newValue = 0;
-        }
-        if(type === "minWidth"){
-          domStyle.set(this.minDiv, "width", newValue + "px");
-        }else if(type === "minHeight"){
-          domStyle.set(this.minDiv, "height", newValue + "px");
-        }else if(type === "maxWidth"){
-          domStyle.set(this.maxDiv, "width", newValue + "px");
-        }else if(type === "maxHeight"){
-          domStyle.set(this.maxDiv, "height", newValue + "px");
-        }
       },
 
       setConfig: function(config) {
         this.config = config;
-        this.visibleCheckbox.set('checked', config.overviewMap.visible);
-        if (config.minWidth) {
-          this.minWidth.set('value', config.minWidth);
-        }
-        if (config.minHeight) {
-          this.minHeight.set('value', config.minHeight);
-        }
-        if (config.maxWidth) {
-          this.maxWidth.set('value', config.maxWidth);
-        }
-        if (config.maxHeight) {
-          this.maxHeight.set('value', config.maxHeight);
+        this.expandBox.setValue(config.overviewMap.visible);
+        if (this.config.overviewMap.attachTo) {
+          this._selectItem(this.config.overviewMap.attachTo);
+        } else {
+          var _attachTo = "";
+          if (this.position) {
+            if (this.position.top !== undefined && this.position.left !== undefined) {
+              _attachTo = !window.isRTL ? "top-left" : "top-right";
+            } else if (this.position.top !== undefined && this.position.right !== undefined) {
+              _attachTo = !window.isRTL ? "top-right" : "top-left";
+            } else if (this.position.bottom !== undefined && this.position.left !== undefined) {
+              _attachTo = !window.isRTL ? "bottom-left" : "bottom-right";
+            } else if (this.position.bottom !== undefined && this.position.right !== undefined) {
+              _attachTo = !window.isRTL ? "bottom-right" : "bottom-left";
+            }
+          } else {
+            _attachTo = !window.isRTL ? "top-right" : "top-left";
+          }
+          this._selectItem(_attachTo);
         }
       },
 
+      _selectItem: function(attachTo) {
+        var _selectedNode = null;
+        if (attachTo === 'top-left') {
+          _selectedNode = this.topLeftNode;
+        } else if (attachTo === 'top-right') {
+          _selectedNode = this.topRightNode;
+        } else if (attachTo === 'bottom-left') {
+          _selectedNode = this.bottomLeftNode;
+        } else if (attachTo === 'bottom-right') {
+          _selectedNode = this.bottomRightNode;
+        }
+        var _radio = registry.byNode(query('.jimu-radio', _selectedNode)[0]);
+        _radio.check(true);
+
+        this._selectedAttachTo = attachTo;
+      },
+
+      _getSelectedAttachTo: function() {
+        return this._selectedAttachTo;
+      },
+
       getConfig: function() {
-        this.config.overviewMap.visible = this.visibleCheckbox.checked;
-        this.config.minWidth = parseInt(this.minWidth.get('value'), 10);
-        this.config.minHeight = parseInt(this.minHeight.get('value'), 10);
-        this.config.maxWidth = parseInt(this.maxWidth.get('value'), 10);
-        this.config.maxHeight = parseInt(this.maxHeight.get('value'), 10);
+        this.config.overviewMap.visible = this.expandBox.checked;
+        this.config.overviewMap.attachTo = this._getSelectedAttachTo();
+        var _hasMaximizeButton = 'maximizeButton' in this.config.overviewMap;
+        this.config.overviewMap.maximizeButton = _hasMaximizeButton ?
+          this.config.overviewMap.maximizeButton : true;
         return this.config;
       }
-
-
     });
   });

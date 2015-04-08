@@ -1,6 +1,6 @@
 ﻿define(
    ({
-    state: "Varsayılan olarak koordinatlar geçerli haritanın koordinat sisteminde görüntülenecek. Diğer koordinat sistemlerindeki koordinatları almak için bunları ek olarak eklemeniz ve uygun dönüşümleri belirtmeniz gerekiyor.",
+    state: "Varsayılan olarak koordinatlar geçerli haritanın koordinat sisteminde görüntülenecek. Diğer koordinat sistemlerindeki koordinatları almak için bunları eklemeniz ve uygun dönüşümleri belirtmeniz gerekir.",
     outputUnit: "Çıktı Birimi",
     wkid: "Çıktı WKID\'si",
     label: "Çıktı Koordinat Sistemi Adı",
@@ -22,6 +22,7 @@
     units: "Görüntüleme Birimleri: ",
     datum: "Datum Dönüştürme",
     tName: "Dönüştürme Adı",
+    tWKIDPlaceHolder: "Dönüşüm WKID\'si",
     forward: "İleri dönüştürme kullan",
     ok: "Tamam",
     cancel: 'İptal',

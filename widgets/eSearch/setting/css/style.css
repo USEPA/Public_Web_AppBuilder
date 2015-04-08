@@ -3,11 +3,11 @@ textarea {
 }
 
 /*the css for DropMenu dijit*/
-.jimu-widget-search-setting .jimu-dropmenu{
+.widget-esearch-setting .jimu-dropmenu{
   overflow: visible;
   padding 0 0 0 0;
 }
-.jimu-widget-search-setting .esearch-add-field-button>.esearch-add-field-icon-btn{
+.esearch-add-field-button>.esearch-add-field-icon-btn{
   cursor: pointer;
   display: inline-block;
   padding: 0 15px;
@@ -22,7 +22,7 @@ textarea {
   height:28px;
   margin-left:5px;
 }
-.jimu-widget-search-setting .esearch-add-field-button>.esearch-add-field-icon-btn:hover{
+.esearch-add-field-button>.esearch-add-field-icon-btn:hover{
   cursor: pointer;
   display: inline-block;
   padding: 0 15px;
@@ -37,13 +37,14 @@ textarea {
   height:28px;
   margin-left:5px;
 }
-.jimu-widget-search-setting .esearch-add-field-button>.drop-menu{
+.esearch-add-field-button>.drop-menu{
   position: absolute;
   border: 1px solid #999999;
   background-color: #ffffff;
   overflow-y: auto;
+  max-height: 150px;
 }
-.jimu-widget-search-setting .esearch-add-field-button .menu-item{
+.esearch-add-field-button .menu-item{
   height: 25px;
   min-width: 50px;
   margin: 0;
@@ -52,32 +53,28 @@ textarea {
   font-size: 10;
   white-space: nowrap;
 }
-.jimu-widget-search-setting .esearch-add-field-button .menu-item:hover{
+.esearch-add-field-button .menu-item:hover{
   color: #000000;
   background-color: #cae7ff;
   text-decoration:none;
 }
-.jimu-widget-search-setting .esearch-add-field-button .menu-item-line{
+.esearch-add-field-button .menu-item-line{
   border: 1px solid #ffffff;
   margin: 0px;
 }
 
-/* jimu-widget-search-setting */
-.jimu-widget-search-setting{
+/* widget-esearch-setting */
+.widget-esearch-setting{
   margin:0;
   padding:0;
   font-size:15px;
 }
 
-.jimu-widget-search-setting .jimu-tab{
+.widget-esearch-setting .jimu-tab{
   height:auto;
 }
 
-.jimu-widget-search-setting .marker-section .input-table{
-  width:100%;
-}
-
-.jimu-widget-search-setting .plus-sign {
+.plus-sign {
   background:white;
   width:4px;
   height:12px;
@@ -85,7 +82,7 @@ textarea {
   margin-left:4px;
 }
 
-.jimu-widget-search-setting .plus-sign:before {
+.plus-sign:before {
   background:white;
   content:"";
   width:12px;
@@ -95,7 +92,7 @@ textarea {
   left:-4px;
 }
 
-.jimu-widget-search-setting .add-button-enable{
+.widget-esearch-setting .add-button-enable{
   cursor: pointer;
   display: inline-block;
   padding: 0 15px;
@@ -108,7 +105,7 @@ textarea {
   border-radius: 5px;
 }
 
-.jimu-widget-search-setting .add-button-enable:hover{
+.widget-esearch-setting .add-button-enable:hover{
   cursor: pointer;
   display: inline-block;
   padding: 0 15px;
@@ -121,7 +118,8 @@ textarea {
   border-radius: 5px;
 }
 
-.jimu-widget-search-setting .help-icon{
+.eSearch-default-symbol-setting .help-icon,
+.widget-esearch-singlelink-setting .help-icon{
   cursor: pointer;
   display: inline-block;
   font-size: 18px;
@@ -137,7 +135,8 @@ textarea {
   font-weight:bold;
 }
 
-.jimu-widget-search-setting .help-icon:hover{
+.eSearch-default-symbol-setting .help-icon:hover,
+.widget-esearch-singlelink-setting .help-icon:hover{
   cursor: pointer;
   display: inline-block;
   font-size: 18px;
@@ -153,18 +152,22 @@ textarea {
   font-weight:bold;
 }
 
-.jimu-widget-search-setting .marker-section .input-table > tbody > tr > td{
+.widget-esearch-setting .marker-section .input-table > tbody > tr > td{
   height:30px;
   line-height: 30px;
   vertical-align: middle;
   padding:5px 0;
 }
 
-.jimu-widget-search-setting .jimu-tab{
+.widget-esearch-setting .jimu-tab{
   height:auto;
 }
 
-.jimu-widget-search-setting .btn-add-section{
+.widget-esearch-setting .btn-add-section,
+.widget-esearch-singlesearch-setting .btn-add-section,
+.widget-esearch-singleexpression-setting .btn-add-section,
+.widget-esearch-singlevalue-setting .btn-add-section,
+.widget-esearch-defaultbuffer-setting .btn-add-section{
   display:inline-block;
   overflow:hidden;
   height:24px;
@@ -175,7 +178,7 @@ textarea {
   color:#538ec8;
 }
 
-.jimu-widget-search-setting .btn-sym-section{
+.widget-esearch-setting .btn-sym-section{
   display:inline-block;
   overflow:hidden;
   height:24px;
@@ -186,7 +189,7 @@ textarea {
   color:#538ec8;
 }
 
-.jimu-widget-search-setting .btn-buffer-section{
+.widget-esearch-setting .btn-buffer-section{
   display:inline-block;
   overflow:hidden;
   height:24px;
@@ -197,7 +200,7 @@ textarea {
   color:#538ec8;
 }
 
-.jimu-widget-search-setting .btn-spatial-section{
+.widget-esearch-setting .btn-spatial-section{
   display:inline-block;
   overflow:hidden;
   height:24px;
@@ -208,7 +211,11 @@ textarea {
   color:#538ec8;
 }
 
-.jimu-widget-search-setting .btn-add-section .btn-add-icon{
+.widget-esearch-setting .btn-add-section .btn-add-icon,
+.widget-esearch-singlesearch-setting .btn-add-section .btn-add-icon,
+.widget-esearch-singleexpression-setting .btn-add-section .btn-add-icon,
+.widget-esearch-singlevalue-setting .btn-add-section .btn-add-icon,
+.widget-esearch-defaultbuffer-setting .btn-add-section .btn-add-icon{
   float:left;
   height:100%;
   width:14px;
@@ -217,7 +224,8 @@ textarea {
   background-image: url(images/add.png);
 }
 
-.jimu-widget-search-setting .btn-sym-section .btn-edit-icon{
+.widget-esearch-setting .btn-sym-section .btn-edit-icon,
+.widget-esearch-singlesearch-setting .btn-sym-section .btn-edit-icon{
   float:left;
   height:100%;
   width:14px;
@@ -226,7 +234,8 @@ textarea {
   background-image: url(images/edit.png);
 }
 
-.jimu-widget-search-setting .btn-buffer-section .btn-edit-icon{
+.widget-esearch-setting .btn-buffer-section .btn-edit-icon,
+.widget-esearch-singlesearch-setting .btn-buffer-section .btn-edit-icon{
   float:left;
   height:100%;
   width:14px;
@@ -235,7 +244,14 @@ textarea {
   background-image: url(images/edit.png);
 }
 
-.jimu-widget-search-setting .btn-spatial-section .btn-edit-icon{
+.widget-esearch-singlesearch-setting .error-message-div {
+  border: 0px solid;
+  font-size: 11px;
+  color: red;
+  margin-left: 126px;
+}
+
+.widget-esearch-setting .btn-spatial-section .btn-edit-icon{
   float:left;
   height:100%;
   width:14px;
@@ -244,7 +260,11 @@ textarea {
   background-image: url(images/edit.png);
 }
 
-.jimu-widget-search-setting .btn-add-section .btn-add-label{
+.widget-esearch-setting .btn-add-section .btn-add-label,
+.widget-esearch-singlesearch-setting .btn-add-section .btn-add-label,
+.widget-esearch-singleexpression-setting .btn-add-section .btn-add-label,
+.widget-esearch-singlevalue-setting .btn-add-section .btn-add-label,
+.widget-esearch-defaultbuffer-setting .btn-add-section .btn-add-label{
   float:left;
   height:100%;
   line-height:24px;
@@ -253,7 +273,7 @@ textarea {
   text-decoration: underline;
 }
 
-.jimu-widget-search-setting .btn-sym-section .btn-edit-sym-label{
+.widget-esearch-setting .btn-sym-section .btn-edit-sym-label{
   float:left;
   height:100%;
   line-height:24px;
@@ -262,7 +282,7 @@ textarea {
   text-decoration: underline;
 }
 
-.jimu-widget-search-setting .btn-buffer-section .btn-edit-buffer-label{
+.widget-esearch-setting .btn-buffer-section .btn-edit-buffer-label{
   float:left;
   height:100%;
   line-height:24px;
@@ -271,7 +291,7 @@ textarea {
   text-decoration: underline;
 }
 
-.jimu-widget-search-setting .btn-spatial-section .btn-edit-spatial-label{
+.widget-esearch-setting .btn-spatial-section .btn-edit-spatial-label{
   float:left;
   height:100%;
   line-height:24px;
@@ -280,87 +300,39 @@ textarea {
   text-decoration: underline;
 }
 
-.jimu-widget-search-setting .setting-table{
+.widget-esearch-singlevalue-setting .setting-table{
   width:100%;border-collapse:collapse;
 }
 
-.jimu-widget-search-setting .sql-setting-table{
+.widget-esearch-singlevalue-setting .sql-setting-table{
   width:100%;border-collapse:collapse;
   margin-top:10px;
 }
 
-.jimu-widget-search-setting .zoom-scale-table{
+.widget-esearch-setting .zoom-scale-table{
   margin-top:12px;
 }
 
-/* jimu-widget-singlesearch-setting */
-.jimu-widget-singlesearch-setting .input-table{
+.widget-esearch-singleexpression-setting .input-table,
+.widget-esearch-defaultbuffer-setting .input-table,
+.widget-esearch-singlesearch-setting .input-table,
+.eSearch-default-symbol-setting .input-table,
+.widget-esearch-setting .marker-section .input-table,
+.widget-esearch-singlelink-setting .input-table,
+.widget-esearch-singlevalue-setting .input-table{
   width:100%;
 }
 
-.jimu-widget-singlesearch-setting .input-table > tbody > tr > td{
+.widget-esearch-singleexpression-setting .input-table > tbody > tr > td,
+.widget-esearch-singlesearch-setting .input-table > tbody > tr > td,
+.widget-esearch-defaultbuffer-setting .input-table > tbody > tr > td,
+.eSearch-default-symbol-setting .input-table > tbody > tr > td,
+.widget-esearch-singlelink-setting .input-table > tbody > tr > td,
+.widget-esearch-singlevalue-setting .input-table > tbody > tr > td{
   height: 30px;
   line-height: 30px;
   vertical-align: middle;
   padding:4px 0;
-}
-
-.jimu-widget-singlesearch-setting .operate-footer div{
-  float:right;
-  color:#538ec8;
-  text-decoration:underline;
-  cursor:pointer;
-  margin-left:10px;
-}
-
-/* jimu-widget-singleexpression-setting */
-.jimu-widget-singleexpression-setting .input-table{
-  width:100%;
-}
-
-.jimu-widget-singleexpression-setting .input-table > tbody > tr > td{
-  height: 30px;
-  line-height: 30px;
-  vertical-align: middle;
-  padding:4px 0;
-}
-
-.jimu-widget-singleexpression-setting .operate-footer div{
-  float:right;
-  color:#538ec8;
-  text-decoration:underline;
-  cursor:pointer;
-  margin-left:10px;
-}
-
-/* jimu-widget-defaultsym-setting */
-.jimu-widget-defaultsym-setting .input-table{
-  width:100%;
-}
-
-.jimu-widget-defaultsym-setting .input-table > tbody > tr > td{
-  height: 30px;
-  line-height: 30px;
-  vertical-align: middle;
-  padding:4px 0;
-}
-
-.jimu-widget-defaultsym-setting .operate-footer div{
-  float:right;
-  color:#538ec8;
-  text-decoration:underline;
-  cursor:pointer;
-  margin-left:10px;
-  margin-bottom:10px;
-}
-
-.jimu-widget-defaultbuffer-setting .operate-footer div{
-  float:right;
-  color:#538ec8;
-  text-decoration:underline;
-  cursor:pointer;
-  margin-left:10px;
-  margin-bottom:10px;
 }
 
 /***CSS for IncludeAllButton dijit***/
@@ -404,7 +376,7 @@ textarea {
   cursor: pointer;
 }
 
-.widgets-Search-setting-includel-button.enable{
+.widgets-Search-setting-include-button.enable{
   background: #528cc9;
 }
 
@@ -423,51 +395,51 @@ textarea {
   border-left:5px solid white;
 }
 
-.jimu-widget-singlevalue-setting .setting-table{
+.widget-esearch-singlevalue-setting .setting-table{
   width:100%;
   border-collapse: collapse;
 }
 
-.jimu-widget-singlevalue-setting .setting-table > tbody > tr > td{
+.widget-esearch-singlevalue-setting .setting-table > tbody > tr > td{
   vertical-align: top;
 }
 
-.jimu-widget-singlevalue-setting .setting-table .fields-td{
-  width:153px;
+.widget-esearch-singlevalue-setting .setting-table .fields-td{
+  width:200px;
   padding-right:10px;
 }
 
-.jimu-widget-singlevalue-setting .setting-table .operators-td{
+.widget-esearch-singlevalue-setting .setting-table .operators-td{
   width:105px;
   padding-right:10px;
 }
 
-.jimu-widget-singlevalue-setting .setting-table .value-td{
+.widget-esearch-singlevalue-setting .setting-table .value-td{
   /*width:270px;*/
   width: auto;
   padding-right:10px;
 }
 
-.jimu-widget-singlevalue-setting .setting-table .delete-td{
+.widget-esearch-singlevalue-setting .setting-table .delete-td{
   /*width:auto;*/
   width: 30px;
 }
 
-.jimu-widget-singlevalue-setting .dijit-form-Select>tbody>tr>td{
+.widget-esearch-singlevalue-setting .dijit-form-Select>tbody>tr>td{
   height: 23px;
 }
 
-.jimu-widget-singlevalue-setting .dijit-form-Select>tbody>tr>td>.dijitButtonText{
+.widget-esearch-singlevalue-setting .dijit-form-Select>tbody>tr>td>.dijitButtonText{
   height: 20px;
   height: 20px !important;
 }
 
-.jimu-widget-singlevalue-setting .dijit-form-FilteringSelect>div.dijitArrowButton.dijitDownArrowButton{
+.widget-esearch-singlevalue-setting .dijit-form-FilteringSelect>div.dijitArrowButton.dijitDownArrowButton{
   width:20px;
   height: 100%;
 }
 
-.jimu-widget-singlevalue-setting .dijit-form-FilteringSelect>div.dijitArrowButton.dijitDownArrowButton>input{
+.widget-esearch-singlevalue-setting .dijit-form-FilteringSelect>div.dijitArrowButton.dijitDownArrowButton>input{
   padding: 0;
   border: 0;
   display: inline-block;
@@ -475,18 +447,18 @@ textarea {
   height: 100% !important;
 }
 
-.jimu-widget-singlevalue-setting .dijit-form-FilteringSelect>div.dijitInputField>input.dijitInputInner{
+.widget-esearch-singlevalue-setting .dijit-form-FilteringSelect>div.dijitInputField>input.dijitInputInner{
   height: 20px;
 }
 
-.jimu-widget-singlevalue-setting .dijit-form-ValidationTextBox>div.dijitInputField>input.dijitInputInner{
+.widget-esearch-singlevalue-setting .dijit-form-ValidationTextBox>div.dijitInputField>input.dijitInputInner{
   margin: 0;
   padding:0;
   height: 100%;
   height: 100% !important;
 }
 
-.jimu-widget-singlevalue-setting .dijit-form-NumberTextBox>div.dijitInputField>input.dijitInputInner{
+.widget-esearch-singlevalue-setting .dijit-form-NumberTextBox>div.dijitInputField>input.dijitInputInner{
   margin: 0;
   padding: 0;
   height: 100%;
@@ -494,12 +466,12 @@ textarea {
   height: 100% !important;
 }
 
-.jimu-widget-singlevalue-setting .dijit-form-DateTextBox>.dijitRight{
+.widget-esearch-singlevalue-setting .dijit-form-DateTextBox>.dijitRight{
   width:17px;
   width:17px !important;
 }
 
-.jimu-widget-singlevalue-setting .dijit-form-DateTextBox>div.dijitInputField>input.dijitInputInner{
+.widget-esearch-singlevalue-setting .dijit-form-DateTextBox>div.dijitInputField>input.dijitInputInner{
   margin: 0;
   padding: 0;
   height: 100%;
@@ -507,7 +479,7 @@ textarea {
   height: 100% !important;
 }
 
-.jimu-widget-singlevalue-setting .dijitSelectLabel.dijitValidationTextBoxLabel{
+.widget-esearch-singlevalue-setting .dijitSelectLabel.dijitValidationTextBoxLabel{
   width:52px;
   max-width:52px;
   overflow:hidden;
@@ -515,24 +487,29 @@ textarea {
   overflow:hidden !important;
 }
 
-.jimu-widget-singlevalue-setting .value-container{
+.widget-esearch-singlevalue-setting .value-container{
   position:relative;
   width:100%;
 }
 
-.jimu-widget-singlevalue-setting .radio-table-container{
+.widget-esearch-singlevalue-setting .radio-table-container{
   position:absolute;
   width:100%;
   left:0;
   top:35px;
 }
 
-.jimu-widget-singlevalue-setting .radio-table{
+.widget-esearch-singlevalue-setting .radio-table{
   width:100%;
   border-collapse:collapse;
 }
 
-.jimu-widget-singlevalue-setting .delete{
+.widget-esearch-singlevalue-setting .radio-table > tbody > tr > td{
+  width: 33%;
+  text-align: center;
+}
+
+.widget-esearch-singlevalue-setting .delete{
   width:15px;
   height: 15px;
   background-repeat: no-repeat no-repeat;
@@ -542,43 +519,43 @@ textarea {
   cursor: pointer;
 }
 
-.jimu-widget-singlevalue-setting:hover .delete{
+.widget-esearch-singlevalue-setting:hover .delete{
   background-image: url(images/delete_enabled.png);
 }
 
-.jimu-widget-singlevalue-setting .prompt{
+.widget-esearch-singlevalue-setting .prompt{
   margin-top:10px;
 }
 
-.jimu-widget-singlevalue-setting .askvalues .askvalues-checkbox{
+.widget-esearch-singlevalue-setting .askvalues .askvalues-checkbox{
   margin-left: 1px;
   margin-right: 8px;
 }
 
-.jimu-widget-singlevalue-setting .prompt-table{
+.widget-esearch-singlevalue-setting .prompt-table{
   display: none;
   border-collapse: collapse;
   margin-top: 3px;
   margin-left: 6px;
 }
 
-.jimu-widget-singlevalue-setting .prompt-table>tbody>tr>td{
+.widget-esearch-singlevalue-setting .prompt-table>tbody>tr>td{
   padding: 3px;
 }
 
-.jimu-widget-singlevalue-setting .prompt-table>tbody>tr>td.first-td{
+.widget-esearch-singlevalue-setting .prompt-table>tbody>tr>td.first-td{
   width: 70px;
 }
 
-.jimu-widget-singlevalue-setting .prompt-table>tbody>tr>td.second-td{
-  width: 250px;
+.widget-esearch-singlevalue-setting .prompt-table>tbody>tr>td.second-td{
+  width: 400px;
 }
 
-.jimu-widget-singlevalue-setting .prompt-table>tbody>tr>td.second-td-user-list{
+.widget-esearch-singlevalue-setting .prompt-table>tbody>tr>td.second-td-user-list{
   width: 100%;
 }
 
-.jimu-widget-singlevalue-setting .prompt-table>tbody>tr.user-list-tr{
+.widget-esearch-singlevalue-setting .prompt-table>tbody>tr.user-list-tr{
   display: none;
   width: 100%;
 }
@@ -745,4 +722,9 @@ textarea {
 
 .jimu-simple-table .table > tbody > tr:hover > td{
   background:#e2f6ff;
+}
+
+.claro .dijitTextBox .dijitInputField {
+    padding: 1px 10px;
+    height: 26px;
 }

@@ -299,6 +299,7 @@
 
 .jimu-widget-query .query-results .results-table>tbody>tr.query-result-item>td{
   padding-left: 15px;
+  padding-right: 15px;
   padding-top: 12px;
   padding-bottom: 12px;
   cursor: pointer;
@@ -327,11 +328,13 @@
 
 .jimu-widget-query .query-results .results-table>tbody>tr.query-result-item>td .feature-attributes{
   margin-top: 4px;
+  width: 100%;
 }
 
 .jimu-widget-query .query-results .query-result-item td.attr-name{
   padding: 2px 5px 5px 2px;
   color: #888888;
+  width: 40%;
 }
 
 .jimu-widget-query .query-results .query-result-item td.attr-value{
@@ -340,6 +343,65 @@
 
 .jimu-rtl .jimu-widget-query .query-results .query-result-item td.attr-value{
   padding: 2px 2px 5px 0;
+}
+
+/* css for relationship fields*/
+.jimu-widget-query .relationship-attr.dijitTitlePane {
+  margin: 0 auto;
+  width: 100%;
+}
+
+.jimu-widget-query .relationship-attr.dijitTitlePane .dijitTitlePaneTitle {
+  font-size: 12px;
+  color: #686868;
+  border: none;
+  background-image: none;
+  width: 100%;
+  padding: 0;
+}
+
+.jimu-widget-query .relationship-attr.dijitTitlePane .dijitTitlePaneTitleFocus {
+  margin-top: 0;
+  padding-top: 5px;
+  padding-bottom: 3px;
+}
+
+.jimu-widget-query .query-result-item.even .relationship-attr.dijitTitlePane .dijitTitlePaneTitleClosed {
+  background-color: #f0f0f0;
+}
+
+.jimu-widget-query .query-result-item.even:hover .relationship-attr.dijitTitlePane .dijitTitlePaneTitleClosed {
+  background-color: #f0f0f0;
+}
+
+.jimu-widget-query .query-result-item.odd .relationship-attr.dijitTitlePane .dijitTitlePaneTitleClosed {
+  background-color: #ffffff;
+}
+
+.jimu-widget-query .query-result-item.selected .relationship-attr.dijitTitlePane .dijitTitlePaneTitleClosed {
+  background-color: #d9dde0 !important;
+}
+
+.jimu-widget-query .query-result-item:hover .relationship-attr.dijitTitlePane .dijitTitlePaneTitleClosed {
+  background-color: #d9dde0 !important;
+}
+
+.jimu-widget-query .relationship-attr.dijitTitlePane .dijitTitlePaneTitleOpen {
+  background-color: #B5DDE9;
+}
+
+.jimu-widget-query .relationship-attr.dijitTitlePane .dijitTitlePaneContentOuter {
+  border: 2px solid #B5DDE9;
+}
+
+.jimu-widget-query .relationship-attr.dijitTitlePane .dijitTitlePaneContentInner {
+  font-size: 10px;
+  color: #686868;
+}
+
+.jimu-widget-query .relationship-attr.dijitTitlePane .dijitTitlePaneContentInner span {
+  margin-top: 4px;
+  display: inline-block;
 }
 
 /* css for jimu-widget-query-single-parameter */
@@ -417,4 +479,31 @@
   font-size: 12px;
   color: #d9dde0;
   margin-top: 5px;
+}
+
+/* css for query popup */
+.query-popup-title{
+  height: 20px;
+}
+
+.query-popup .header{
+  font-weight: bold;
+}
+
+.query-popup .hzLine{
+  border-top: 1px solid #333333;
+  margin-top: 6px;
+  margin-bottom: 6px;
+}
+
+.query-popup .query-popup-table{
+  border-collapse: collapse;
+}
+
+.query-popup .query-popup-table td{
+  padding:2px 2px 5px 2px;
+}
+
+.query-popup .query-popup-table .attr-name{
+  color: #888888;
 }

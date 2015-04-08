@@ -21,6 +21,18 @@
     squareFeet: "제곱피트",
     squareYards: "제곱야드",
     distance: "거리",
-    area: "면적"
+    area: "면적",
+    kilometersAbbreviation: "km",
+    milesAbbreviation: "mi",
+    metersAbbreviation: "m",
+    feetAbbreviation: "ft",
+    yardsAbbreviation: "yd",
+    squareKilometersAbbreviation: "sq km",
+    squareMilesAbbreviation: "sq mi",
+    acresAbbreviation: "ac",
+    hectaresAbbreviation: "ha",
+    squareMetersAbbreviation: "sq m",
+    squareFeetAbbreviation: "sq ft",
+    squareYardsAbbreviation: "sq yd"
   })
 );

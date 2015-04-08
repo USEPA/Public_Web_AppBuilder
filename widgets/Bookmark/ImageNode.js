@@ -21,10 +21,10 @@ define([
   'dijit/_WidgetBase',
   'dijit/_TemplatedMixin',
   'dojo/on',
-  'dojo/mouse',
-  'dojo/query'
+  'dojo/query',
+  'dojo/mouse'
 ],
-function (declare, lang, html, _WidgetBase, _TemplatedMixin, on, mouse, query) {
+function (declare, lang, html, _WidgetBase, _TemplatedMixin, on, query) {
   return declare([_WidgetBase, _TemplatedMixin], {
     templateString: '<div class="jimu-img-node"></div>',
     /**

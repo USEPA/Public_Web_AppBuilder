@@ -22,7 +22,7 @@
     unitsMeters: "Metri",
     unitsFeet: "Piedi",
     unitsYards: "Iarde",
-    unitsNauticalMiles: "Miglia marine",
+    unitsNauticalMiles: "Miglia nautiche",
     lncludeLegend: "Includi legenda",
     printQualityOptions: "Qualità di stampa",
     dpi: "DPI",

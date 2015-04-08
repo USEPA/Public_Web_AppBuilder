@@ -1,7 +1,7 @@
 ﻿define(
    ({
     _widgetLabel: "Editar",
-    title: "Seleccionar plantilla para crear entidad",
+    title: "Seleccionar una plantilla para crear entidades",
     pressStr: "Pulsa ",
     ctrlStr: " CTRL ",
     snapStr: " para activar la alineación"

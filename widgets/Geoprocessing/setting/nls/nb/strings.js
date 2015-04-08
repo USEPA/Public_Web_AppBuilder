@@ -30,6 +30,7 @@
     popup: "Sprettoppvindu",
     setTask: "Angi",
     setTaskTitle: "Angi GP-oppgave:",
-    enablePopup: "Aktiver sprettoppvindu"
+    enablePopup: "Aktiver sprettoppvindu",
+    unSupportGeometryType: "Kan ikke angi opptegning på grunn av ukjent geometritype."
   })
 );

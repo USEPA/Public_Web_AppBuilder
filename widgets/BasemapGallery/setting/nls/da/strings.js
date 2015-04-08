@@ -21,7 +21,7 @@
     ok: "OK",
     cancel: "Annuller",
     result: "Gemt",
-    spError: "Alle baggrundskort, der er føjet til galleriet, kræver samme  spatiale referencer.",
+    spError: "Alle baggrundskort, der er føjet til galleriet, skal have de samme  spatiale referencer.",
     invalidTitle1:"Et baggrundskort '",
     invalidTitle2:"' findes i forvejen. Vælg en anden titel.",
     invalidBasemapUrl1: "Denne type lag kan ikke bruges som baggrundskort.",

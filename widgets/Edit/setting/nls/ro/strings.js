@@ -16,6 +16,6 @@
     editpageAlias: "Pseudonim",
     editpageVisible: "Vizibil",
     editpageEditable: "Editabil",
-    noLayers: "Nu există straturi tematice de obiecte spaţiale editabile disponibile"
+    noLayers: "Nu sunt disponibile straturi tematice de obiecte spaţiale editabile"
   })
 );

@@ -31,8 +31,9 @@ define([
     'jimu/dijit/Popup',
     './Edit',
     'esri/request',
-    'jimu/dijit/CheckBox',
-    'jimu/portalUtils'
+    'jimu/portalUtils',
+    '../utils',
+    'dojo/NodeList-dom'
   ],
   function(
     declare,
@@ -51,8 +52,8 @@ define([
     Popup,
     Edit,
     esriRequest,
-    CheckBox,
-    portalUtils) {
+    portalUtils,
+    utils) {
     return declare([BaseWidgetSetting, _WidgetsInTemplateMixin], {
       //these two properties is defined in the BaseWidget
       baseClass: 'jimu-widget-geocoder-setting',
@@ -61,6 +62,7 @@ define([
       popup: null,
       popupState: "", // ADD or EDIT
       editTr: null,
+      hardcodeRegExp: /geocode(.){0,3}\.arcgis.com\/arcgis\/rest\/services\/World\/GeocodeServer/g,
 
       startup: function() {
         this.inherited(arguments);
@@ -68,6 +70,20 @@ define([
           this.config.geocoder = {};
         }
 
+        this._createAddressTable();
+
+        this.shelter = new LoadingShelter({
+          hidden: true
+        });
+
+        this.shelter.placeAt(this.domNode);
+        this.shelter.startup();
+        this.shelter.show();
+
+        this._preProcessConfig();
+      },
+
+      _createAddressTable: function() {
         var fields = [{
           name: 'url',
           title: this.nls.url,
@@ -105,47 +121,44 @@ define([
           fields: fields,
           selectable: false
         };
-        this.displayFieldsTable = new Table(args);
-        this.displayFieldsTable.placeAt(this.tableGeocoders);
-        this.own(on(this.displayFieldsTable, 'actions-edit', lang.hitch(this, '_onEditClick')));
-        this.displayFieldsTable.startup();
-
-        this.shelter = new LoadingShelter({
-          hidden: true
-        });
-
-        this.shelter.placeAt(this.domNode);
-        this.shelter.startup();
-        this.shelter.show();
-
-        this._preProcessConfig();
+        this.addressGeocoderTable = new Table(args);
+        this.addressGeocoderTable.placeAt(this.tableGeocoders);
+        this.own(on(this.addressGeocoderTable, 'actions-edit', lang.hitch(this, '_onEditClick')));
+        this.own(on(
+          this.addressGeocoderTable, 'BeforeRowDelete',
+          lang.hitch(this, '_onDeleteClick')
+        ));
+        this.addressGeocoderTable.startup();
       },
 
       setConfig: function(config) {
         this.config = config;
-        this.displayFieldsTable.clear();
+        this.addressGeocoderTable.clear();
 
         if (config.geocoder.geocoders) {
           var json = [];
           var len = config.geocoder.geocoders.length;
           for (var i = 0; i < len; i++) {
-            json.push({
-              url: config.geocoder.geocoders[i].url,
-              name: config.geocoder.geocoders[i].name,
-              singleLineFieldName: config.geocoder.geocoders[i].singleLineFieldName,
-              placeholder: config.geocoder.geocoders[i].placeholder
-            });
+            var _geocoder = config.geocoder.geocoders[i];
+            if (!_geocoder.type) {
+              json.push({
+                url: _geocoder.url,
+                name: _geocoder.name,
+                singleLineFieldName: _geocoder.singleLineFieldName,
+                placeholder: _geocoder.placeholder
+              });
+            }
           }
-          this.displayFieldsTable.addRows(json);
+          this.addressGeocoderTable.addRows(json);
         }
       },
 
       _preProcessConfig: function() {
-        if (this.config.geocoder.geocoders && this.config.geocoder.geocoders.length) {
+        if (utils.isConfigured(this.config)) {
           this.setConfig(this.config);
           this.shelter.hide();
         } else {
-          this._addGeocodersFromProtal(this.appConfig.portalUrl);
+          this._processConfigInfo(this.appConfig.portalUrl);
         }
       },
 
@@ -155,10 +168,22 @@ define([
       },
 
       _onEditClick: function(tr) {
-        var geocode = this.displayFieldsTable.getRowData(tr);
+        var geocode = this.addressGeocoderTable.getRowData(tr);
         this.popupState = "EDIT";
         this.editTr = tr;
         this._openEdit(this.nls.edit, geocode);
+      },
+
+      _onDeleteClick: function() {
+        var rows = this.addressGeocoderTable.getData();
+        if (rows.length === 1) {
+          new Message({
+            message: this.nls.deleteLastGeocoderError
+          });
+          return false;
+        }
+
+        return true;
       },
 
       _openEdit: function(title, geocode) {
@@ -202,6 +227,9 @@ define([
 
         if (geocode.singleLineFieldName) {
           def.resolve(geocode);
+        } else if (this.hardcodeRegExp.test(geocode.url)) {
+          geocode.singleLineFieldName = 'SingleLine';
+          def.resolve(geocode);
         } else {
           esriRequest({
             url: geocode.url,
@@ -227,7 +255,7 @@ define([
         return def;
       },
 
-      _addGeocodersFromProtal: function(portalUrl) {
+      _processConfigInfo: function(portalUrl) {
         var def = portalUtils.getPortalSelfInfo(portalUrl);
         def.then(lang.hitch(this, function(response) {
           var geocoders = response.helperServices && response.helperServices.geocode;
@@ -251,9 +279,10 @@ define([
                     placeholder: geocode.placeholder ||
                       geocode.name || this._getGeocodeName(geocode.url)
                   };
-                  this.displayFieldsTable.addRow(json);
+                  this.addressGeocoderTable.addRow(json);
                 }
               }
+
               this.shelter.hide();
             }));
           }
@@ -277,9 +306,9 @@ define([
           return;
         }
         if (this.popupState === "ADD") {
-          editResult = this.displayFieldsTable.addRow(json);
+          editResult = this.addressGeocoderTable.addRow(json);
         } else if (this.popupState === "EDIT") {
-          editResult = this.displayFieldsTable.editRow(this.editTr, json);
+          editResult = this.addressGeocoderTable.editRow(this.editTr, json);
         }
 
         if (editResult.success) {
@@ -302,7 +331,7 @@ define([
       },
 
       getConfig: function() {
-        var data = this.displayFieldsTable.getData();
+        var data = this.addressGeocoderTable.getData();
         var json = [];
         var len = data.length;
 

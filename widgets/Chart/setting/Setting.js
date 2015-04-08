@@ -18,26 +18,21 @@ define([
   'dojo/_base/declare',
   'dojo/_base/lang',
   'dojo/_base/array',
-  'dojo/_base/html',
-  'dojo/_base/query',
-  'dojo/_base/Color',
-  'dojo/json',
   'dojo/on',
   'dijit/_WidgetsInTemplateMixin',
   'jimu/BaseWidgetSetting',
-  'jimu/dijit/TabContainer',
-  'jimu/dijit/SimpleTable',
-  'jimu/dijit/ColorPicker',
   'jimu/dijit/_FeaturelayerSourcePopup',
-  'jimu/dijit/Message',
+  'jimu/utils',
+  'jimu/filterUtils',
   './SingleChartSetting',
-  'dijit/form/TextBox',
+  'jimu/dijit/SimpleTable',
+  'jimu/dijit/TabContainer',
+  'jimu/dijit/ColorPicker',
   'dijit/form/Select',
-  'esri/request'
+  'dijit/form/TextBox'
 ],
-function(declare, lang, array, html, query, Color, json, on, _WidgetsInTemplateMixin,
-  BaseWidgetSetting, TabContainer, SimpleTable, ColorPicker, _FeaturelayerSourcePopup,
-  Message, SingleChartSetting, TextBox, Select, esriRequest) {/* jshint unused: false */
+function(declare, lang, array, on, _WidgetsInTemplateMixin, BaseWidgetSetting,
+  _FeaturelayerSourcePopup, jimuUtils,  FilterUtils, SingleChartSetting) {
   return declare([BaseWidgetSetting, _WidgetsInTemplateMixin], {
     baseClass: 'jimu-widget-chart-setting',
     currentSCS: null,
@@ -55,6 +50,9 @@ function(declare, lang, array, html, query, Color, json, on, _WidgetsInTemplateM
       this.nls.color = this.nls.color || "Color";
       this.nls.colorful = this.nls.colorful || "Colorful";
       this.nls.monochromatic = this.nls.monochromatic || "Monochromatic";
+      if(this.config){
+        this._updateConfig();
+      }
     },
 
     postCreate: function(){
@@ -62,6 +60,27 @@ function(declare, lang, array, html, query, Color, json, on, _WidgetsInTemplateM
 
       if(this.config){
         this.setConfig(this.config);
+      }
+    },
+
+    _updateConfig: function() {
+      if (this.config && this.config.charts && this.config.charts.length > 0) {
+        array.forEach(this.config.charts, lang.hitch(this, function(singleConfig) {
+          this._rebuildFilter(singleConfig.url, singleConfig.filter);
+        }));
+      }
+    },
+
+    _rebuildFilter: function(url, filter) {
+      try {
+        if (filter) {
+          delete filter.expr;
+          var filterUtils = new FilterUtils();
+          filterUtils.isHosted = jimuUtils.isHostedService(url);
+          filterUtils.getExprByFilterObj(filter);
+        }
+      } catch (e) {
+        console.log(e);
       }
     },
 

@@ -13,6 +13,9 @@
     itemDesc: "Kuvaus",
     itemDownload: "Lataa",
     itemToAttributeTable: "Avaa ominaisuustietotaulu",
-    itemShowItemDetails: "Näytä kohteen tiedot"
+    itemShowItemDetails: "Näytä kohteen tiedot",
+    empty: "tyhjä",
+    removePopup: "Poista ponnahdusikkuna",
+    enablePopup: "Ota ponnahdusikkunat käyttöön"
   })
 );

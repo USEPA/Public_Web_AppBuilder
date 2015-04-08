@@ -17,9 +17,6 @@
 define(['dojo/_base/declare',
     'dojo/_base/lang',
     'dojo/_base/html',
-    'dojo/_base/array',
-    'dojo/_base/fx',
-    'dojo/on',
     'dojo/topic',
     'dijit/_TemplatedMixin',
     'dojo/text!./Panel.html',
@@ -29,7 +26,7 @@ define(['dojo/_base/declare',
     'require'
   ],
   function(
-    declare, lang, html, array, baseFx, on, topic,
+    declare, lang, html, topic,
     _TemplatedMixin, template, BaseWidgetPanel, LoadingIndicator, utils, require
   ) {
 

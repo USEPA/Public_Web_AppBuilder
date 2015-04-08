@@ -30,6 +30,7 @@
     popup: "Açılır Menü",
     setTask: "Ayarla",
     setTaskTitle: "GP Görevi Belirle",
-    enablePopup: "Açılan pencereyi etkinleştir"
+    enablePopup: "Açılan pencereyi etkinleştir",
+    unSupportGeometryType: "Bilinmeyen geometri türü nedeniyle işleyici ayarlanamıyor."
   })
 );

@@ -23,10 +23,9 @@ define([
     'jimu/portalUtils',
     'jimu/dijit/Message',
     'esri/dijit/Scalebar',
-    'esri/units',
+    "dojo/dom-style",
     'dojo/query',
-    'dojo/NodeList-dom',
-    "dojo/dom-style"
+    'dojo/NodeList-dom'
   ],
   function(
     declare,
@@ -37,10 +36,8 @@ define([
     PortalUtils,
     Message,
     Scalebar,
-    esriUnits,
-    query,
-    NodeListDom,
-    domStyle) {
+    domStyle,
+    query) {
     var clazz = declare([BaseWidget], {
 
       name: 'Scalebar',

@@ -30,6 +30,7 @@
     popup: "Pop-up",
     setTask: "Setare",
     setTaskTitle: "Setare operaţie GP",
-    enablePopup: "Activare pop-up"
+    enablePopup: "Activare pop-up",
+    unSupportGeometryType: "Nu se poate seta autorul reproducerii deoarece tipul de geometrie este necunoscut."
   })
 );

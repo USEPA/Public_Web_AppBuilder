@@ -37,6 +37,8 @@
     hectares: "הקטרים",
     squareMeters: "מ' מרובע",
     squareFeet: "רגל מרובע",
-    squareYards: "יארדים מרובעים"
+    squareYards: "יארדים מרובעים",
+    undo: "בטל",
+    redo: "בצע מחדש"
   })
 );

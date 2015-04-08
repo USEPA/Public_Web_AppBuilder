@@ -16,12 +16,13 @@ define({
     editpageAlias: "Alias",
     editpageVisible: "Visible",
     editpageEditable: "Editable",
-    noLayers: "No editable feature layers available"
+    noLayers: "No editable feature layers are available"
   }),
   "ar": 1,
   "cs": 1,
   "da": 1,
   "de": 1,
+  "el": 1,
   "es": 1,
   "et": 1,
   "fi": 1,

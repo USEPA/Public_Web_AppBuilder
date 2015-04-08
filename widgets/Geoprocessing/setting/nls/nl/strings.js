@@ -30,6 +30,7 @@
     popup: "Popup",
     setTask: "Instellen",
     setTaskTitle: "GP-taak instellen",
-    enablePopup: "Pop-up inschakelen"
+    enablePopup: "Pop-up inschakelen",
+    unSupportGeometryType: "Kan geen renderer instellen vanwege onbekend geometrietype."
   })
 );

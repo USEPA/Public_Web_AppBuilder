@@ -4,15 +4,11 @@ define(
     "dojo/_base/array",
     'dojo/_base/html',
     "dojo/on",
-    "dojo/dom-style",
     "dojo/dom-attr",
     "dojo/query",
-    "dijit/_WidgetBase",
-    "dijit/_TemplatedMixin",
     "dijit/_WidgetsInTemplateMixin",
     "dijit/registry",
     "jimu/BaseWidgetSetting",
-    "jimu/dijit/Message",
     'jimu/dijit/ImageChooser',
     "dojo/text!./Edit.html",
     "jimu/dijit/ServiceURLInput",
@@ -26,15 +22,11 @@ define(
     array,
     html,
     on,
-    domStyle,
     domAttr,
     query,
-    _WidgetBase,
-    _TemplatedMixin,
     _WidgetsInTemplateMixin,
     registry,
     BaseWidgetSetting,
-    Message,
     ImageChooser,
     template,
     ServiceURLInput,
@@ -84,17 +76,11 @@ define(
             thumbnailUrl = jimuUtils.processUrlInWidgetConfig(this.basemap.thumbnailUrl,
                                                               this.folderUrl);
           }
-          // else if(this.basemap.thumbnailUrl.startWith('/') ||
-          //   this.basemap.thumbnailUrl.startWith('data')){
-          //   thumbnailUrl = this.basemap.thumbnailUrl;
-          // }else{
-          //   //if path is relative, relative to widget's folder
-          //   thumbnailUrl = this.appUrl + this.basemap.thumbnailUrl;
-          // }
         } else {
           thumbnailUrl = this.folderUrl + "images/default.jpg";
         }
         domAttr.set(this.showImageChooser, 'src', thumbnailUrl);
+        this.imageChooser.imageData = thumbnailUrl;
 
         if (this.basemap && this.basemap.layers){
           if(utils.isNoUrlLayerMap(this.basemap)) {

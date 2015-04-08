@@ -13,7 +13,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 ///////////////////////////////////////////////////////////////////////////
-/*global define, dojo, dijit, require, esri, console, setTimeout*/
+/*global define, console*/
 define(['dojo/_base/declare',
   'dijit/form/FilteringSelect',
   'dojo/_base/lang',
@@ -118,7 +118,7 @@ function(declare, FilteringSelect, lang, html, array, Deferred, esriRequest, Mem
         item.displayName = item.alias + " (" + a + ")";
         return item;
       }));
-      
+
       if(data.length > 0){
         var store = new Memory({data:data});
         this.fieldsSelect.set('store',store);
@@ -128,7 +128,7 @@ function(declare, FilteringSelect, lang, html, array, Deferred, esriRequest, Mem
       this.fieldsSelect.focusNode.blur();
       //this._onFieldsSelectChange();
     },
-    
+
     _getShortTypeByFieldType:function(fieldType){
       if(fieldType === this.stringFieldType){
         return 'string';

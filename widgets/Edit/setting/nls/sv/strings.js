@@ -16,6 +16,6 @@
     editpageAlias: "Alias",
     editpageVisible: "Synlig",
     editpageEditable: "Redigerbar",
-    noLayers: "Det finns inga redigerbara objektlager tillgängliga"
+    noLayers: "Inga redigerbara geoobjektslager är tillgängliga"
   })
 );

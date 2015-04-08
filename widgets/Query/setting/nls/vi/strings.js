@@ -31,6 +31,10 @@
 		setFilterTip: "Vui lòng thiết lập bộ lọc chính xác.",
 		ok: "OK",
 		cancel: "Hủy",
-		noFilterTip: "Nếu biểu thức bộ lọc không được xác định, tác vụ truy vấn này sẽ liệt kê tất cả các đối tượng trong nguồn dữ liệu đã chỉ định."
+		noFilterTip: "Nếu biểu thức bộ lọc không được xác định, tác vụ truy vấn này sẽ liệt kê tất cả các đối tượng trong nguồn dữ liệu đã chỉ định.",
+    relationships: "Bảng mối quan hệ",
+    addRelationshipLayer: "Thêm Mối Quan hệ Mới",
+    relatedTo: "Liên quan đến",
+    selectOption: "Vui lòng chọn.."
   })
 );

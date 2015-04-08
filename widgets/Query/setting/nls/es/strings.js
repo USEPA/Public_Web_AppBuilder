@@ -31,6 +31,10 @@
 		setFilterTip: "Define el filtro correctamente.",
 		ok: "Aceptar",
 		cancel: "Cancelar",
-		noFilterTip: "Sin expresión de filtro definida, esta tarea de consulta enumerará todas las entidades de la fuente de datos especificada."
+		noFilterTip: "Sin expresión de filtro definida, esta tarea de consulta enumerará todas las entidades de la fuente de datos especificada.",
+    relationships: "Tabla de relaciones",
+    addRelationshipLayer: "Agregar nueva relación",
+    relatedTo: "Relacionado con",
+    selectOption: "Selecciona..."
   })
 );

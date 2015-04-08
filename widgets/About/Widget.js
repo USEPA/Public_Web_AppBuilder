@@ -15,16 +15,12 @@
 ///////////////////////////////////////////////////////////////////////////
 
 define(['dojo/_base/declare',
-    'dojo/_base/lang',
     'dojo/_base/html',
-    'dojo/on',
-    'dojo/json',
     'dojo/query',
-    'dojo/cookie',
     'dijit/_WidgetsInTemplateMixin',
     'jimu/BaseWidget'
   ],
-  function(declare, lang, html, on, dojoJson, query, cookie, _WidgetsInTemplateMixin, BaseWidget) {
+  function(declare, html, query, _WidgetsInTemplateMixin, BaseWidget) {
     var clazz = declare([BaseWidget, _WidgetsInTemplateMixin], {
       baseClass: 'jimu-widget-about',
       // clasName: 'esri.widgets.About',

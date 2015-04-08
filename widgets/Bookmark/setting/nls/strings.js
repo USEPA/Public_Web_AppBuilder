@@ -11,12 +11,13 @@ define({
     errorNameNull: "Invalid bookmark name!",
     addBookmark: "Create a New Bookmark",
     thumbnail: "Thumbnail",
-    thumbnailHint: "Click image to update"
+    thumbnailHint: "Click the image to update"
   }),
   "ar": 1,
   "cs": 1,
   "da": 1,
   "de": 1,
+  "el": 1,
   "es": 1,
   "et": 1,
   "fi": 1,

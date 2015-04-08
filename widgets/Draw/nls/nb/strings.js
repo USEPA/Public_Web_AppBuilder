@@ -37,6 +37,8 @@
     hectares: "Hektar",
     squareMeters: "Kvadratmeter",
     squareFeet: "Kvadratfot",
-    squareYards: "Kvadratyard"
+    squareYards: "Kvadratyard",
+    undo: "Angre",
+    redo: "Gjør om"
   })
 );

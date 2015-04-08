@@ -39,7 +39,6 @@ define([
     'dojox/charting/plot2d/ClusteredColumns',
     'dojox/charting/plot2d/ClusteredBars',
     'dojox/charting/action2d/Tooltip',
-    'dojox/charting/action2d/MouseIndicator',
     'dojox/charting/action2d/Highlight',
     'dojox/charting/action2d/MoveSlice',
     'dojox/charting/action2d/Magnify',
@@ -48,14 +47,15 @@ define([
     'esri/graphic',
     'esri/graphicsUtils',
     'jimu/utils',
+    './common/Parameters',
     'jimu/dijit/LoadingIndicator',
-    './common/Parameters'
+    'dojox/charting/action2d/MouseIndicator'
   ],
   function(declare, lang, array, html, query, Color, on, has, _WidgetBase, _TemplatedMixin,
     _WidgetsInTemplateMixin, TooltipDialog, dojoPopup, template, Chart, DefaultAxis, InvisibleAxis,
-    Columns, Bars, Lines, Pie, ClusteredColumns, ClusteredBars, Tooltip, MouseIndicator, Highlight,
+    Columns, Bars, Lines, Pie, ClusteredColumns, ClusteredBars, Tooltip, Highlight,
     MoveSlice, Magnify, SimpleTheme, symbolJsonUtils, Graphic, graphicsUtils, jimuUtils,
-    LoadingIndicator, Parameters) {
+    Parameters) {
     return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
       baseClass: 'jimu-widget-chart-preview',
       templateString: template,
@@ -327,7 +327,7 @@ define([
       },
 
       _recreateChart: function(index){
-        //should not execute _showChart method in _recreateChart method 
+        //should not execute _showChart method in _recreateChart method
         //because _showChart maybe execute _recreateChart
         if(index < 0){
           return null;
@@ -347,7 +347,7 @@ define([
         var chartBox = this._calculateChartBox();
         html.setStyle(chartDiv, 'width', chartBox.w+'px');
         html.setStyle(chartDiv, 'height', chartBox.h+'px');
-       
+
         var createSelf = this.charts[index].createSelf;
         this.charts[index].createSelf = null;
         this.charts[index].destroy();
@@ -376,7 +376,7 @@ define([
           this.currentChartIndex = index;
           html.setStyle(chartDiv, 'display', 'block');
         }
-        
+
         var li = lis[index];
         if (li) {
           html.addClass(li, 'selected');
@@ -555,7 +555,7 @@ define([
                   this.map.centerAt(centerPoint);
                 }));
               });
-              
+
               if(geometry.type === 'point'){
                 singlePointFlow(geometry);
               }
@@ -969,7 +969,7 @@ define([
         var data = [];//[{category:'a',valueFields:[10,100,2],dataFeatures:[f1,f2...]}]
 
         var operation = args.config.operation;
-        
+
         var uniqueValuesHash = {}; //{a:{valueFields:[10,100,2], dataFeatures:[f1,f2...]}}
 
         array.forEach(args.featureSet.features, lang.hitch(this, function(feature) {
@@ -988,7 +988,7 @@ define([
             uniqueValuesHash[category] = categoryObj;
           }
         }));
-        
+
         var categoryObj = null;
         for (var uniqueValue in uniqueValuesHash) {
           if(this._isNumberField(categoryField)){
@@ -1401,6 +1401,7 @@ define([
         var seriesArray = [];
         var sums = [];
         array.forEach(valueFields, lang.hitch(this, function(dataFieldName, index){
+          /*jshint unused: false*/
           seriesArray.push([]);
           var sum = 0.0;
           array.forEach(data, lang.hitch(this, function(item){
@@ -1534,7 +1535,7 @@ define([
             }
           });
         }
-        
+
         array.forEach(types, lang.hitch(this, function(type, i){
           try {
             var chartDiv = chartDivs[i];
@@ -1653,7 +1654,7 @@ define([
           },
           fill: colors[0]
         });
-        
+
         new MoveSlice(columnChart, "default");
         new Highlight(columnChart, "default");
         new Tooltip(columnChart, "default");
@@ -1753,7 +1754,7 @@ define([
 
         var labels = [];//{value,text}
         var series = [];
-        
+
         array.forEach(data, lang.hitch(this, function(item, index){
           var num = item.count;
           var fieldValue = item.fieldValue;
@@ -1764,7 +1765,7 @@ define([
             value: index + 1,
             text: text
           });
-          
+
           series.push({
             y: num,
             text: '',
@@ -2067,7 +2068,7 @@ define([
           },
           fill: colors[0]
         });
-        
+
         new MoveSlice(columnChart, "default");
         new Highlight(columnChart, "default");
         new Tooltip(columnChart, "default");

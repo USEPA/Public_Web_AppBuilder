@@ -1,11 +1,17 @@
 define({
   root: ({
-    _widgetLabel: "Geocoder"
+    _widgetLabel: "Geocoder",
+    locationTitle: "Location",
+    notFound: "Location '${LOCATION}' could not be found.",
+    currentLocation: "Current location",
+    notWhatYouWanted: "Not what you wanted?",
+    selectAnother: "Select another location"
   }),
   "ar": 1,
   "cs": 1,
   "da": 1,
   "de": 1,
+  "el": 1,
   "es": 1,
   "et": 1,
   "fi": 1,

@@ -13,10 +13,10 @@
     restore: "Khôi phục về giá trị mặc định",
     ok: "OK",
     result: "Đã lưu thành công",
-    warning: "Chọn để hiển thị lớp này trong bảng trên cùng.",
+    warning: "Chọn để hiển thị lớp trong bảng đầu tiên.",
     fieldCheckWarning: "Phải chọn ít nhất một trường.",
     unsupportQueryWarning: "Lớp cần hỗ trợ hoạt động truy vấn để hiển thị trong tiện ích Bảng Thuộc tính. Đảm bảo khả năng truy vấn trong dịch vụ được bật.",
-    unsupportQueryLayers: "Các lớp sau cần hỗ trợ hoạt động truy vấn để hiển thị trong tiện ích Bảng Thuộc tính. Đảm bảo khả năng truy vấn trong dịch vụ được bật.",
+    unsupportQueryLayers: "Lớp sau cần hỗ trợ hoạt động truy vấn để hiển thị trong tiện ích Bảng Thuộc tính. Chắc chắn rằng khả năng truy vấn trong dịch vụ đã được bật.",
 
     fieldName: "Tên",
     fieldAlias: "Bí danh",

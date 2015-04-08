@@ -23,21 +23,15 @@ define([
   'dojo/_base/lang',
   'dojo/_base/html',
   'dojo/_base/array',
-  'dojo/json',
-  'dojo/on',
-  'dojo/query',
-  'dojo/Deferred',
+  'dojo/store/Memory',
+  'jimu/utils',
   'dijit/form/FilteringSelect',
   'dijit/form/ValidationTextBox',
   'dijit/form/DateTextBox',
-  'dijit/form/NumberTextBox',
-  'dojo/store/Memory',
-  'esri/request',
-  'jimu/utils'
+  'dijit/form/NumberTextBox'
 ],
-  function(declare, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, template, lang,
-  html, array, json, on, query, Deferred, FilteringSelect, ValidationTextBox, DateTextBox,
-  NumberTextBox, Memory, esriRequest, jimuUtils) {/*jshint unused: false*/
+  function(declare, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, template,
+    lang, html, array, Memory, jimuUtils) {
     return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
       baseClass: 'jimu-widget-query-single-parameter',
       templateString: template,
@@ -212,6 +206,7 @@ define([
       },
 
       _buildString: function(fieldInfo, part) {
+        /*jshint unused: false*/
         html.setStyle(this.stringTextBoxContainer, 'display', 'block');
         html.setStyle(this.numberTextBoxContainer, 'display', 'none');
         html.setStyle(this.dateTextBoxContainer, 'display', 'none');
@@ -306,6 +301,7 @@ define([
       },
 
       _buildNumber: function(fieldInfo, part){
+        /*jshint unused: false*/
         html.setStyle(this.stringTextBoxContainer,'display','none');
         html.setStyle(this.numberTextBoxContainer,'display','block');
         html.setStyle(this.dateTextBoxContainer,'display','none');
@@ -413,7 +409,8 @@ define([
         }
       },
 
-      _buildDate: function(fieldInfo, part){/*jshint unused: false*/
+      _buildDate: function(fieldInfo, part){
+        /*jshint unused: false*/
         html.setStyle(this.stringTextBoxContainer,'display','none');
         html.setStyle(this.numberTextBoxContainer,'display','none');
         html.setStyle(this.dateTextBoxContainer,'display','block');

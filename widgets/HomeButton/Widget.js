@@ -58,9 +58,9 @@ define([
       },
 
       onAppConfigChanged: function(appConfig, reason, changedData) {
-        if (reason === "mapChange" && changedData &&
-          changedData.mapOptions && changedData.mapOptions.extent) {
-          var extent = new Extent(changedData.mapOptions.extent);
+        if (reason === "mapOptionsChange" && changedData && appConfig &&
+          changedData.extent) {
+          var extent = new Extent(changedData.extent);
           this.homeDijit.set("extent", extent);
         }
       }

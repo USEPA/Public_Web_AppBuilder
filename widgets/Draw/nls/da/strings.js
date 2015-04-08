@@ -37,6 +37,8 @@
     hectares: "Hektar",
     squareMeters: "Kvadratmeter",
     squareFeet: "Square feet",
-    squareYards: "Square yards"
+    squareYards: "Square yards",
+    undo: "Fortryd",
+    redo: "Annullér Fortryd"
   })
 );

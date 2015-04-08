@@ -1,19 +1,7 @@
 ///////////////////////////////////////////////////////////////////////////
-// Copyright © 2014 Esri. All Rights Reserved.
-//
-// Licensed under the Apache License Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//    http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
+// Robert Scheitlin WAB eSearch Widget
 ///////////////////////////////////////////////////////////////////////////
-/*global define, dojo, dijit, require, esri, console, setTimeout*/
+/*global define, dojo, setTimeout*/
 define([
   'dojo/_base/declare',
   'dojo/_base/lang',
@@ -25,9 +13,9 @@ define([
   'dijit/_WidgetsInTemplateMixin',
   'jimu/BaseWidgetSetting',
   'jimu/dijit/SimpleTable',
-  './SingleSearch',
-  './DefaultSearchSym',
-  './DefaultSearchBuffer',
+  './SingleSearchEdit',
+  './DefaultSearchSymEdit',
+  './DefaultBufferEdit',
   './SpatialRelationshipsEdit',
   'jimu/dijit/Message',
   'jimu/dijit/Popup',
@@ -39,17 +27,24 @@ define([
   'dojo/dom-attr'
 ],
 function(declare, lang, array, html, query, on,json, _WidgetsInTemplateMixin,BaseWidgetSetting,
-          SimpleTable,SingleSearch,DefaultSearchSym,DefaultSearchBuffer,SpatialRelationshipsEdit,
+          SimpleTable,SingleSearchEdit,DefaultSearchSymEdit,DefaultBufferEdit,SpatialRelationshipsEdit,
           Message,Popup,keys,NumberTextBox,TextBox,Select,esriRequest,domAttr) {/*jshint unused: false*/
   return declare([BaseWidgetSetting,_WidgetsInTemplateMixin], {
-    baseClass: 'jimu-widget-search-setting',
+    baseClass: 'widget-esearch-setting',
     ds: null,
     layerUniqueCache: null,
     layerInfoCache: null,
     bufferDefaults:null,
     spatialrelationships:null,
     popup: null,
+    popup2: null,
+    popup3: null,
+    popup4: null,
+    popup5: null,
     popupSRedit: null,
+    defaultBufferedit: null,
+    defaultSingleSearchedit: null,
+    defaultSearchSymedit: null,
 
     postCreate:function(){
       this.inherited(arguments);
@@ -66,7 +61,7 @@ function(declare, lang, array, html, query, on,json, _WidgetsInTemplateMixin,Bas
         helpLink[0].href = 'http://gis.calhouncounty.org/WAB/V1.1/widgets/eSearch/help/eSearch_Help.htm';
         html.setStyle(helpLink[0],'display','block');
       },600);
-      this._showSearchesSection();
+
       this.config = config;
       this.reset();
       if(!this.config){
@@ -95,15 +90,7 @@ function(declare, lang, array, html, query, on,json, _WidgetsInTemplateMixin,Bas
 
     getConfig:function(){
       var config = {};
-      var allSingleSearches = this._getAllSingleSearches();
-      var valid = this.validate();
-      if(!valid){
-        return false;
-      }
-      var layers = array.map(allSingleSearches,lang.hitch(this,function(item){
-        return item.getConfig();
-      }));
-      config.layers = layers;
+      config.layers = this._getAllLayers();
       config.zoomScale = parseInt(this.zoomScale.get('value'),10);
       config.shareResult = this.shareCbx.checked;
       config.initialView = this.selectInitialView.get('value');
@@ -121,10 +108,18 @@ function(declare, lang, array, html, query, on,json, _WidgetsInTemplateMixin,Bas
       this.config = lang.mixin({},config);
       return config;
     },
-    
-    _onEditOk: function() {
+
+    _getAllLayers: function () {
+      var trs = this.searchesTable._getNotEmptyRows();
+      var allLayers = array.map(trs, lang.hitch(this, function (item) {
+        return item.singleSearch;
+      }));
+      return allLayers;
+    },
+
+    _onSREditOk: function() {
       var SRs = this.popupSRedit.getConfig();
-      
+
       if (SRs.length < 0) {
         new Message({
           message: this.nls.warning
@@ -134,21 +129,21 @@ function(declare, lang, array, html, query, on,json, _WidgetsInTemplateMixin,Bas
       var obj = {};
       obj.spatialrelationship = SRs;
       this.spatialrelationships = obj;
-      this.popup.close();
+      this.popup2.close();
     },
 
-    _onEditClose: function() {
+    _onSREditClose: function() {
       this.popupSRedit = null;
-      this.popup = null;
+      this.popup2 = null;
     },
-    
-    _openEdit: function(title, spatrels) {
+
+    _openSREdit: function(title, spatrels) {
       this.popupSRedit = new SpatialRelationshipsEdit({
         nls: this.nls,
         config: spatrels || {}
       });
 
-      this.popup = new Popup({
+      this.popup2 = new Popup({
         titleLabel: title,
         autoHeight: true,
         content: this.popupSRedit,
@@ -158,15 +153,166 @@ function(declare, lang, array, html, query, on,json, _WidgetsInTemplateMixin,Bas
         buttons: [{
           label: this.nls.ok,
           key: keys.ENTER,
-          onClick: lang.hitch(this, '_onEditOk')
+          onClick: lang.hitch(this, '_onSREditOk')
         }, {
           label: this.nls.cancel,
           key: keys.ESCAPE
         }],
-        onClose: lang.hitch(this, '_onEditClose')
+        onClose: lang.hitch(this, '_onSREditClose')
       });
-      html.addClass(this.popup.domNode, 'widget-setting-popup');
+      html.addClass(this.popup2.domNode, 'widget-setting-popup');
       this.popupSRedit.startup();
+    },
+
+    _onBufferEditOk: function() {
+      var bConfig = this.defaultBufferedit.getConfig();
+
+      if (bConfig.length < 0) {
+        new Message({
+          message: this.nls.warning
+        });
+        return;
+      }
+      this.config.bufferDefaults = bConfig;
+      this.popup3.close();
+    },
+
+    _onBufferEditClose: function() {
+      this.defaultBufferedit = null;
+      this.popup3 = null;
+    },
+
+    _openBufferEdit: function(title, dBuffer) {
+      this.defaultBufferedit = new DefaultBufferEdit({
+        nls: this.nls,
+        config: dBuffer || {}
+      });
+
+      this.popup3 = new Popup({
+        titleLabel: title,
+        autoHeight: true,
+        content: this.defaultBufferedit,
+        container: 'main-page',
+        height: 485,
+        buttons: [{
+          label: this.nls.ok,
+          key: keys.ENTER,
+          onClick: lang.hitch(this, '_onBufferEditOk')
+        }, {
+          label: this.nls.cancel,
+          key: keys.ESCAPE
+        }],
+        onClose: lang.hitch(this, '_onBufferEditClose')
+      });
+      html.addClass(this.popup3.domNode, 'widget-setting-popup');
+      this.defaultBufferedit.startup();
+    },
+
+    _onSymbolEditOk: function() {
+      var sConfig = this.defaultSearchSymedit.getConfig();
+
+      if (sConfig.length < 0) {
+        new Message({
+          message: this.nls.warning
+        });
+        return;
+      }
+      this.config.symbols = sConfig;
+      this.popup4.close();
+    },
+
+    _onSymbolEditClose: function() {
+      this.defaultSearchSymedit = null;
+      this.popup4 = null;
+    },
+
+    _openSymbolEdit: function(title, dSym) {
+      this.defaultSearchSymedit = new DefaultSearchSymEdit({
+        nls: this.nls,
+        config: dSym || {}
+      });
+
+      this.popup4 = new Popup({
+        titleLabel: title,
+        autoHeight: true,
+        content: this.defaultSearchSymedit,
+        container: 'main-page',
+        buttons: [{
+          label: this.nls.ok,
+          key: keys.ENTER,
+          onClick: lang.hitch(this, '_onSymbolEditOk')
+        }, {
+          label: this.nls.cancel,
+          key: keys.ESCAPE
+        }],
+        onClose: lang.hitch(this, '_onSymbolEditClose')
+      });
+      html.addClass(this.popup4.domNode, 'widget-setting-popup');
+      this.defaultSearchSymedit.startup();
+    },
+
+    _onSingleSearchEditOk: function() {
+      var sConfig = this.defaultSingleSearchedit.getConfig();
+
+      if (sConfig.length < 0) {
+        new Message({
+          message: this.nls.warning
+        });
+        return;
+      }
+
+      if(this.popupState === 'ADD'){
+        this.searchesTable.editRow(this.defaultSingleSearchedit.tr, {
+          name: sConfig.name
+        });
+        this.defaultSingleSearchedit.tr.singleSearch = sConfig;
+        this.popupState = '';
+      }else{
+        this.searchesTable.editRow(this.defaultSingleSearchedit.tr, {
+          name: sConfig.name
+        });
+        this.defaultSingleSearchedit.tr.singleSearch = sConfig;
+      }
+
+      this.popup5.close();
+      this.popupState = '';
+    },
+
+    _onSingleSearchEditClose: function() {
+      if(this.popupState === 'ADD'){
+        this.searchesTable.deleteRow(this.defaultSingleSearchedit.tr);
+      }
+      this.defaultSearchSymedit = null;
+      this.popup5 = null;
+    },
+
+    _openSingleSearchEdit: function(title, tr) {
+      this.defaultSingleSearchedit = new SingleSearchEdit({
+        nls: this.nls,
+        config: tr.singleSearch || {},
+        searchSetting: this,
+        layerUniqueCache: this.layerUniqueCache,
+        layerInfoCache: this.layerInfoCache,
+        tr: tr
+      });
+
+      this.popup5 = new Popup({
+        titleLabel: title,
+        autoHeight: true,
+        content: this.defaultSingleSearchedit,
+        container: 'main-page',
+        buttons: [{
+          label: this.nls.ok,
+          key: keys.ENTER,
+          onClick: lang.hitch(this, '_onSingleSearchEditOk')
+        }, {
+          label: this.nls.cancel,
+          key: keys.ESCAPE
+        }],
+        onClose: lang.hitch(this, '_onSingleSearchEditClose')
+      });
+      html.addClass(this.popup5.domNode, 'widget-setting-popup');
+      this.defaultSingleSearchedit.startup();
     },
 
     _bindEvents:function(){
@@ -174,59 +320,27 @@ function(declare, lang, array, html, query, on,json, _WidgetsInTemplateMixin,Bas
         var args = {
           config:null
         };
+        this.popupState = 'ADD';
         var tr = this._createSingleSearch(args);
         if(tr){
-          var ss = tr.singleSearch;
-          this._showSingleSearchSection(ss);
+          this._showSingleSearchEdit(tr);
         }
       })));
       this.own(on(this.btnSymSearch,'click',lang.hitch(this,function(){
-        var args = {
-          config:this.config
-        };
-        if(this.ds){
-          this._showDefaultSymbologySection();
-        }else{
-          this.ds = this._createSearchDefaultSym(args);
-          this._showDefaultSymbologySection();
-        }
+        this._openSymbolEdit(this.nls.editDefaultSym, this.config);
       })));
       this.own(on(this.btnBufferSearch,'click',lang.hitch(this,function(){
-        var args = {
-          config:this.config
-        };
-        if(this.bs){
-          this._showDefaultBufferSection();
-        }else{
-          this.bs = this._createSearchDefaultBuffer(args);
-          this._showDefaultBufferSection();
-        }
+        this._openBufferEdit(this.nls.updateBuffer, this.config);
       })));
       this.own(on(this.btnSpatialSearch,'click',lang.hitch(this,function(){
-        console.info(this.spatialrelationships);
-        this._openEdit(this.nls.addspatalrelationships, this.spatialrelationships.spatialrelationship);
+        this._openSREdit(this.nls.addspatalrelationships, this.spatialrelationships.spatialrelationship);
       })));
       this.own(on(this.searchesTable,'actions-edit',lang.hitch(this,function(tr){
-        var singleSearch = tr.singleSearch;
-        if(singleSearch){
-          this._showSingleSearchSection(singleSearch);
-        }
+        this.popupState = 'EDIT';
+        this._showSingleSearchEdit(tr);
       })));
       this.own(on(this.searchesTable,'row-delete',lang.hitch(this,function(tr){
-        var singleSearch = tr.singleSearch;
-        if(singleSearch){
-          singleSearch.destroy();
-        }
         delete tr.singleSearch;
-      })));
-      this.own(on(this.searchesTable,'rows-clear',lang.hitch(this,function(trs){
-        array.forEach(trs,lang.hitch(this,function(tr){
-          var singleSearch = tr.singleSearch;
-          if(singleSearch){
-            singleSearch.destroy();
-          }
-          delete tr.singleSearch;
-        }));
       })));
     },
 
@@ -235,159 +349,32 @@ function(declare, lang, array, html, query, on,json, _WidgetsInTemplateMixin,Bas
       this.searchesTable.clear();
     },
 
-    validate:function(){
-      if(!this.zoomScale.validate()){
-        return false;
-      }
-      var allSingleSearches = this._getAllSingleSearches();
-      var valid = array.every(allSingleSearches,lang.hitch(this,function(item){
-        return item.validate(false);
-      }));
-      return valid;
-    },
-
-    _showSearchesSection:function(){
-      html.setStyle(this.searchesSection,'display','block');
-      html.setStyle(this.defaultSymSection,'display','none');
-      html.setStyle(this.singleSearchSection,'display','none');
-      html.setStyle(this.defaultBufferSection,'display','none');
-    },
-
-    _showSingleSearchSection:function(singleSearch){
-      this._hideSingleSearches(singleSearch);
-      html.setStyle(this.searchesSection,'display','none');
-      html.setStyle(this.defaultSymSection,'display','none');
-      html.setStyle(this.singleSearchSection,'display','block');
-      html.setStyle(this.defaultBufferSection,'display','none');
-    },
-    
-    _showDefaultSymbologySection:function(){
-      html.setStyle(this.searchesSection,'display','none');
-      html.setStyle(this.defaultSymSection,'display','block');
-      html.setStyle(this.singleSearchSection,'display','none');
-      html.setStyle(this.defaultBufferSection,'display','none');
-    },
-    
-    _showDefaultBufferSection:function(){
-      html.setStyle(this.searchesSection,'display','none');
-      html.setStyle(this.defaultSymSection,'display','none');
-      html.setStyle(this.singleSearchSection,'display','none');
-      html.setStyle(this.defaultBufferSection,'display','block');
+    _showSingleSearchEdit: function (tr) {
+      this._openSingleSearchEdit(this.nls.updateSearch, tr);
     },
 
     _initSearchesTable:function(){
       this.searchesTable.clear();
       var layers = this.config && this.config.layers;
       array.forEach(layers, lang.hitch(this, function(layerConfig, index) {
-        var args = {
+        /*var args = {
           config:layerConfig,
           layerindex: index
-        };
-        this._createSingleSearch(args);
+        };*/
+        this._createSingleSearch(layerConfig);
       }));
     },
 
     _createSingleSearch:function(args){
-      args.searchSetting = this;
-      args.nls = this.nls;
-      args.layerUniqueCache = this.layerUniqueCache;
-      args.layerInfoCache = this.layerInfoCache;
       var rowData = {
-        name: (args.config && args.config.name)||''
+        name: (args && args.name)||''
       };
       var result = this.searchesTable.addRow(rowData);
       if(!result.success){
         return null;
       }
-      var singleSearch = new SingleSearch(args);
-      singleSearch.placeAt(this.singleSearchSection);
-      singleSearch.startup();
-      html.setStyle(singleSearch.domNode,'display','none');
-      result.tr.singleSearch = singleSearch;
-      this.own(on(singleSearch,'Add',lang.hitch(this,function(config){
-        var name = config.name||'';
-        this.searchesTable.editRow(result.tr,{name:name});
-        this._showSearchesSection();
-      })));
-      this.own(on(singleSearch,'Update',lang.hitch(this,function(config){
-        var name = config.name||'';
-        this.searchesTable.editRow(result.tr,{name:name});
-        this._showSearchesSection();
-      })));
-      this.own(on(singleSearch,'AddCancel',lang.hitch(this,function(){
-        delete result.tr.singleSearch;
-        this.searchesTable.deleteRow(result.tr);
-        singleSearch.destroy();
-        this._showSearchesSection();
-      })));
-      this.own(on(singleSearch,'UpdateCancel',lang.hitch(this,function(){
-        this._showSearchesSection();
-      })));
+      result.tr.singleSearch = args;
       return result.tr;
-    },
-    
-    _createSearchDefaultSym:function(args){
-      args.searchSetting = this;
-      args.nls = this.nls;
-      var defaultSearchSym = new DefaultSearchSym(args);
-      defaultSearchSym.placeAt(this.defaultSymSection);
-      defaultSearchSym.startup();
-      this.own(on(defaultSearchSym,'Add',lang.hitch(this,function(config){
-        this.config.symbols = config.symbols;
-        this._showSearchesSection();
-      })));
-      this.own(on(defaultSearchSym,'Update',lang.hitch(this,function(config){
-        this.config.symbols = config.symbols;
-        this._showSearchesSection();
-      })));
-      this.own(on(defaultSearchSym,'AddCancel',lang.hitch(this,function(){
-        this._showSearchesSection();
-      })));
-      this.own(on(defaultSearchSym,'UpdateCancel',lang.hitch(this,function(){
-        this._showSearchesSection();
-      })));
-      return defaultSearchSym;
-    },
-    
-    _createSearchDefaultBuffer:function(args){
-      args.searchSetting = this;
-      args.nls = this.nls;
-      var defaultSearchBuffer = new DefaultSearchBuffer(args);
-      defaultSearchBuffer.placeAt(this.defaultBufferSection);
-      defaultSearchBuffer.startup();
-      this.own(on(defaultSearchBuffer,'Add',lang.hitch(this,function(config){
-        this.config.bufferDefaults = config.bufferDefaults;
-        this._showSearchesSection();
-      })));
-      this.own(on(defaultSearchBuffer,'Update',lang.hitch(this,function(config){
-        this.config.bufferDefaults = config.bufferDefaults;
-        this._showSearchesSection();
-      })));
-      this.own(on(defaultSearchBuffer,'AddCancel',lang.hitch(this,function(){
-        this._showSearchesSection();
-      })));
-      this.own(on(defaultSearchBuffer,'UpdateCancel',lang.hitch(this,function(){
-        this._showSearchesSection();
-      })));
-      return defaultSearchBuffer;
-    },
-
-    _hideSingleSearches:function(ignoredSingleSearch){
-      var allSingleSearches = this._getAllSingleSearches();
-      array.forEach(allSingleSearches,lang.hitch(this,function(item){
-        html.setStyle(item.domNode,'display','none');
-      }));
-      if(ignoredSingleSearch){
-        html.setStyle(ignoredSingleSearch.domNode,'display','block');
-      }
-    },
-
-    _getAllSingleSearches:function(){
-      var trs = this.searchesTable._getNotEmptyRows();
-      var allSingleSearches = array.map(trs,lang.hitch(this,function(item){
-        return item.singleSearch;
-      }));
-      return allSingleSearches;
     }
   });
 });

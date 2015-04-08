@@ -13,6 +13,9 @@
     itemDesc: "Descriere",
     itemDownload: "Descărcare",
     itemToAttributeTable: "Deschidere tabel de atribute",
-    itemShowItemDetails: "Afişare detalii element"
+    itemShowItemDetails: "Afişare detalii element",
+    empty: "gol",
+    removePopup: "Eliminare pop-up",
+    enablePopup: "Activare pop-up"
   })
 );

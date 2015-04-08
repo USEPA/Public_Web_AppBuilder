@@ -124,8 +124,19 @@
   -webkit-transform: translateY(-50%);
   transform: translateY(-50%);
 }
+.jimu-widget-setting-gp .common-property .field label.visibleLabel{
+  position: relative;
+  top: 20%;
+  -ms-transform: translateY(-50%);
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
 .jimu-widget-setting-gp .common-property .jimu-checkbox{
   width: 115px;
+}
+.jimu-widget-setting-gp .common-property .jimu-checkbox.visibleCheck{
+  width: 20px;
+  margin-left:0;
 }
 .jimu-widget-setting-gp .common-property .field .common-input{
   position: absolute;
@@ -225,7 +236,7 @@
   height: 105px;
   line-height: 105px;
   border: 1px solid #D4DCE3;
-  text-align: center;  
+  text-align: center;
   position: relative;
   cursor: pointer;
 }

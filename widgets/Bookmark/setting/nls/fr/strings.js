@@ -11,6 +11,6 @@
     errorNameNull: "Nom de géosignet non valide !",
     addBookmark: "Créer un géosignet",
     thumbnail: "Miniature",
-    thumbnailHint: "Cliquez sur l’image pour la modifier"
+    thumbnailHint: "Cliquez sur l\'image pour la mettre à jour"
   })
 );

@@ -1,6 +1,6 @@
 ﻿define(
    ({
-    state: "Koordinaterne vises som standard i det aktuelle korts koordinatsystem. Hvis du ønsker koordinater i andre koordinatsystemer, skal du tilføje dem separat og angive passende transformationer.",
+    state: "Koordinaterne vises som standard i det aktuelle korts koordinatsystem. Hvis du vil have koordinaterne vist i andre koordinatsystemer, skal du tilføje dem og angive passende transformationer.",
     outputUnit: "Output-enhed",
     wkid: "Output-WKID",
     label: "Oplys navnet på koordinatsystemet",
@@ -22,6 +22,7 @@
     units: "Enheder for visning: ",
     datum: "Datotransformation",
     tName: "Transformationsnavn",
+    tWKIDPlaceHolder: "WKID for transformationen",
     forward: "Brug transformation fremad",
     ok: "OK",
     cancel: 'Annuller',

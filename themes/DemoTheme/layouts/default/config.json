@@ -19,7 +19,6 @@
     }, {
       "label": "Coordinate",
       "uri": "widgets/Coordinate/Widget",
-      "inPanel": false,
       "position": {
         "left": 200,
         "bottom": 20
@@ -27,7 +26,6 @@
     }, {
       "label": "Select a basemap",
       "uri": "widgets/BasemapGallery/Widget",
-      "inPanel": true,
       "position": {
         "left": 45,
         "top": 5,

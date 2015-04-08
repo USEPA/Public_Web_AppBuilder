@@ -13,7 +13,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 ///////////////////////////////////////////////////////////////////////////
-
+/*global define, window*/
 define(['dojo/_base/declare',
     'dijit/_WidgetBase',
     'dijit/_TemplatedMixin',
@@ -192,7 +192,7 @@ define(['dojo/_base/declare',
                 width = item.width;
               }
             }
-            
+
             html.create('col', {width:width} ,this.colgroup);
             var th = html.create('th', {
               innerHTML: item.title,
@@ -202,7 +202,7 @@ define(['dojo/_base/declare',
             if(item.hidden){
               html.addClass(th, 'hidden-column');
             }
-            
+
             if (item['class']) {
               html.addClass(th, item['class']);
             }
@@ -543,9 +543,9 @@ define(['dojo/_base/declare',
               this._setRowOdevity();
               this._updateUI();
             })));
-//my change            
+//my change
           } else if (item === 'edit' && (rowData.isnumber || rowData.isdate)) {
-//end my change 
+//end my change
             var editDiv = html.create('div', {
               'class': 'action-item jimu-float-leading row-edit-div'
             }, actionItemParent);

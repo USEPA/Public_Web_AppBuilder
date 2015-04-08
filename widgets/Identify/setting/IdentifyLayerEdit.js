@@ -56,8 +56,7 @@ define(
     Popup,
     FieldFormatEdit,
     LinkEdit,
-    keys,
-    CheckBox) {
+    keys) {
     return declare([BaseWidgetSetting, _WidgetsInTemplateMixin], {
       baseClass: 'identify-layer-edit',
       templateString: template,
@@ -134,6 +133,9 @@ define(
           }
           if (item.isdate) {
             retVal.isdate = true;
+          }
+          if (item.popuponly) {
+            retVal.popuponly = true;
           }
           return retVal;
         }));
@@ -253,7 +255,7 @@ define(
         //console.info(fieldInfo);
         var isNumeric = (this._isNumberType(fieldInfo.type) || fieldInfo.isnumber);
         var rowData = {
-          name: fieldInfo.alias || fieldInfo.name,
+          name: (this.adding) ? fieldInfo.alias : fieldInfo.name,
           alias: fieldInfo.alias || fieldInfo.name,
           popuponly: fieldInfo.popuponly,
           isnumber: isNumeric,
@@ -352,6 +354,12 @@ define(
         })));
         this.own(on(this.linksTable, 'row-delete', lang.hitch(this, function (tr) {
           delete tr.singleLink;
+        })));
+        this.own(on(this.layerUrl, 'keydown', lang.hitch(this, function(evt){
+          var keyNum = evt.keyCode !== undefined ? evt.keyCode : evt.which;
+          if (keyNum === 13) {
+            this.layerUrl._onServiceUrlChange(this.layerUrl.get('value'));
+          }
         })));
       },
 

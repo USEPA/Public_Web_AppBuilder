@@ -30,6 +30,7 @@
     popup: "Iškylantis langas",
     setTask: "Nustatyti",
     setTaskTitle: "Nustatyti GP užduotį",
-    enablePopup: "Įgalinti informacinį langą"
+    enablePopup: "Įgalinti informacinį langą",
+    unSupportGeometryType: "Negalima nustatyti vaizdavimo dėl nežinomo geometrijos tipo."
   })
 );

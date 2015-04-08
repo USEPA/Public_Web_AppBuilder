@@ -1,6 +1,6 @@
 ﻿define(
    ({
-    state: "Ve výchozím nastavení se souřadnice zobrazí v souřadnicovém systému aktuální mapy. Chcete-li souřadnice zobrazovat v jiných souřadnicových systémech, je nutné je dodatečně nastavit spolu s příslušnými transformacemi.",
+    state: "Ve výchozím nastavení se souřadnice zobrazí v souřadnicovém systému aktuální mapy. Chcete-li souřadnice zobrazovat v jiných souřadnicových systémech, je nutné je nastavit spolu s příslušnými transformacemi.",
     outputUnit: "Výstupní jednotka",
     wkid: "Výstupní WKID",
     label: "Výstupní souřadnicový systém",
@@ -22,6 +22,7 @@
     units: "Jednotky zobrazení: ",
     datum: "Transformace data",
     tName: "Název transformace",
+    tWKIDPlaceHolder: "WKID transformace",
     forward: "Použít transformaci blíž",
     ok: "OK",
     cancel: 'Storno',

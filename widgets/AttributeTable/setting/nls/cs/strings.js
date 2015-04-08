@@ -16,7 +16,7 @@
     warning: "Zaškrtněte, pokud chcete, aby se v tabulce tato vrstva zobrazovala jako první.",
     fieldCheckWarning: "Musí být vybráno nejméně jedno pole.",
     unsupportQueryWarning: "Vrstva musí podporovat operace založené na dotazu, aby bylo možné ji zobrazovat ve widgetu Atributová tabulka. Ujistěte se, že je ve službě aktivní možnost dotazování.",
-    unsupportQueryLayers: "Následující vrstvy musí podporovat operace na základě dotazu, aby bylo možné je zobrazovat ve widgetu Atributová tabulka. Ujistěte se, že je ve službě povolena možnost dotazování.",
+    unsupportQueryLayers: "Následující vrstva musí podporovat operace na základě dotazu, aby bylo možné ji zobrazovat ve widgetu Atributová tabulka. Ujistěte se, že je ve službě povolena možnost dotazování.",
 
     fieldName: "Název",
     fieldAlias: "Přezdívka",

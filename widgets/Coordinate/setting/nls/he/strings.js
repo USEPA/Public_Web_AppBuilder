@@ -22,6 +22,7 @@
     units: "יחידות תצוגה: ",
     datum: "דטום המרה",
     tName: "שם המרה",
+    tWKIDPlaceHolder: "WKID של ההמרה",
     forward: "השתמש בהמרה לאחור",
     ok: "אישור",
     cancel: 'ביטול',

@@ -30,6 +30,7 @@
     popup: "팝업",
     setTask: "설정",
     setTaskTitle: "GP 작업 설정",
-    enablePopup: "팝업 사용"
+    enablePopup: "팝업 사용",
+    unSupportGeometryType: "알 수 없는 지오메트리 유형으로 인해 렌더러를 설정할 수 없습니다."
   })
 );

@@ -1,34 +1,11 @@
-///////////////////////////////////////////////////////////////////////////
-// Copyright © 2014 Esri. All Rights Reserved.
-//
-// Licensed under the Apache License Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//    http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-///////////////////////////////////////////////////////////////////////////
 define(
   ["dojo/_base/declare",
     "dojo/_base/lang",
-    "dojo/_base/array",
     'dojo/_base/html',
     "dojo/on",
-    "dojo/dom-style",
     "dojo/dom-attr",
-    "dojo/query",
-    "dijit/_WidgetBase",
-    "dijit/_TemplatedMixin",
     "dijit/_WidgetsInTemplateMixin",
-    "dijit/registry",
     "jimu/BaseWidgetSetting",
-    "jimu/dijit/Message",
-    'esri/SpatialReference',
     'esri/geometry/Extent',
     'jimu/dijit/ImageChooser',
     'jimu/dijit/ExtentChooser',
@@ -38,19 +15,11 @@ define(
   function(
     declare,
     lang,
-    array,
     html,
     on,
-    domStyle,
     domAttr,
-    query,
-    _WidgetBase,
-    _TemplatedMixin,
     _WidgetsInTemplateMixin,
-    registry,
     BaseWidgetSetting,
-    Message,
-    SpatialReference,
     Extent,
     ImageChooser,
     ExtentChooser,
@@ -69,8 +38,8 @@ define(
         this.inherited(arguments);
         this.imageChooser = new ImageChooser({
           displayImg: this.showImageChooser,
-          goldenWidth: 155,
-          goldenHeight: 95
+          goldenWidth: 100,
+          goldenHeight: 60
         });
         this.own(on(this.name, 'Change', lang.hitch(this, '_onNameChange')));
         html.addClass(this.imageChooser.domNode, 'img-chooser');
@@ -85,6 +54,7 @@ define(
         if (bookmark.thumbnail){
           var thumbnailValue = utils.processUrlInWidgetConfig(bookmark.thumbnail, this.folderUrl);
           html.setAttr(this.showImageChooser, 'src', thumbnailValue);
+          this.imageChooser.imageData = thumbnailValue;
         }
         if (bookmark.extent){
           this.extentChooser = new ExtentChooser({
@@ -106,11 +76,11 @@ define(
         var bookmark = {
           name: this.name.get("value"),
           extent: this.extentChooser.getExtent(),
-          thumbnail: this.showImageChooser.src
+          thumbnail: this.imageChooser.imageData
         };
         return bookmark;
       },
-      
+
       _onNameChange: function(){
         this._checkRequiredField();
       },

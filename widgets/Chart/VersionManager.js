@@ -66,8 +66,13 @@ function(BaseVersionManager) {
             };
           }
         }
-        
+
         return newConfig;
+      }
+    }, {
+      version: '1.2',
+      upgrader: function(oldConfig){
+        return oldConfig;
       }
     }];
   }

@@ -13,12 +13,16 @@ define({
     itemDesc: "Description",
     itemDownload: "Download",
     itemToAttributeTable: "Open Attribute Table",
-    itemShowItemDetails: "Show Item Details"
+    itemShowItemDetails: "Show Item Details",
+    empty: "empty",
+    removePopup: "Remove Pop-up",
+    enablePopup: "Enable Pop-up"
   }),
   "ar": 1,
   "cs": 1,
   "da": 1,
   "de": 1,
+  "el": 1,
   "es": 1,
   "et": 1,
   "fi": 1,
@@ -39,5 +43,6 @@ define({
   "sv": 1,
   "th": 1,
   "tr": 1,
-  'zh-cn': 1
+  "vi": 1,
+  "zh-cn": 1
 });

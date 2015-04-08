@@ -7,7 +7,7 @@
 		name: "名前",
 		querySource: "データ ソース",
 		queryName: "タスク名",
-		queryDefinition: "フィルタ定義",
+		queryDefinition: "フィルター定義",
 		resultsSetting: "結果の設定",
 		symbolSetting: "シンボル設定",
 		resultSettingTip: "どの出力結果をどのように表示するかを定義します。",
@@ -23,14 +23,18 @@
 		link: "リンク",
 		image: "画像",
 		noField: "フィールドがありません",
-		operationalLayerTip: "操作レイヤとして結果を追加",
+		operationalLayerTip: "操作レイヤーとして結果を追加",
 		setLayerSymbolTip: "クエリ結果のシンボルを設定: ",
 		setSelectedSymbolTip: "選択したフィーチャのシンボルを設定します。",
-		notUseFilter: "フィルタを使用しない",
+		notUseFilter: "フィルターを使用しない",
 		setSourceTip: "クエリ ソースを設定してください。",
-		setFilterTip: "フィルタを正しく設定してください。",
+		setFilterTip: "フィルターを正しく設定してください。",
 		ok: "OK",
 		cancel: "キャンセル",
-		noFilterTip: "フィルタの条件式が定義されていない場合、このクエリ タスクは、指定したデータ ソース内のすべてのフィーチャをリストします。"
+		noFilterTip: "フィルターの条件式が定義されていない場合、このクエリ タスクは、指定したデータ ソース内のすべてのフィーチャをリストします。",
+    relationships: "リレーションシップ テーブル",
+    addRelationshipLayer: "リレーションシップを新規追加",
+    relatedTo: "関連先または元",
+    selectOption: "選択してください.."
   })
 );

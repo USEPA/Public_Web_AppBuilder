@@ -13,6 +13,9 @@
     itemDesc: "Aprašas",
     itemDownload: "Atsiųsti",
     itemToAttributeTable: "Atidaryti atributų lentelę",
-    itemShowItemDetails: "Rodyti elemento aprašą"
+    itemShowItemDetails: "Rodyti elemento aprašą",
+    empty: "tuščia",
+    removePopup: "Pašalinti iškylančius langus",
+    enablePopup: "Įjungti iškylančius langus"
   })
 );

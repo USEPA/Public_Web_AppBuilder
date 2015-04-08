@@ -56,6 +56,7 @@
     clearResults: "Išvalyti rezultatus",
     operationalTip: 'Pažymėjus šią parinktį, rezultatai bus saugomi žemėlapyje, kol paspausite mygtuką „${clearResults}“.',
     noneQueryTip: "Iš anksto sukonfigūruotų užklausų užduočių nėra.",
-    noPermissionsMsg: "Neturite teisės pasiekti šią paslaugą."
+    noPermissionsMsg: "Neturite teisės pasiekti šią paslaugą.",
+    attributesFromRelationship: "Atributai iš susijusios lentelės"
   })
 );

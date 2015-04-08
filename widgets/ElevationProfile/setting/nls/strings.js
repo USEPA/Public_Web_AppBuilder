@@ -30,7 +30,9 @@ define({
       waterBottomColor: "Water Bottom Color",
       elevationLineColor: "Elevation Line Color",
       elevationTopColor: "Elevation Top Color",
-      elevationBottomColor: "Elevation Bottom Color"
+      elevationBottomColor: "Elevation Bottom Color",
+      constrain: "Constrain profile height to 320px",
+      constraintooltip: "Use this option when placing this widget in a panel and not in a onscreen widget."
     },
     editDefaultSym: "Edit Default Line Symbol",
     editChartProperties: "Edit Chart Display Properties",

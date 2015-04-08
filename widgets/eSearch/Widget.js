@@ -1,17 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////
-// Copyright © 2014 Esri. All Rights Reserved.
-//
-// Licensed under the Apache License Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//    http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
+// Robert Scheitlin WAB eSearch Widget
 ///////////////////////////////////////////////////////////////////////////
 /*global define, dojo, console, window, setTimeout*/
 define([
@@ -23,6 +11,7 @@ define([
     './Parameters',
     'jimu/dijit/Message',
     'jimu/utils',
+    'esri/urlUtils',
     'esri/tasks/query',
     'esri/tasks/QueryTask',
     'esri/layers/CodedValueDomain',
@@ -47,6 +36,7 @@ define([
     'esri/geometry/Extent',
     'esri/symbols/SimpleFillSymbol',
     'esri/renderers/SimpleRenderer',
+    'esri/renderers/jsonUtils',
     'esri/toolbars/draw',
     'esri/dijit/PopupTemplate',
     'esri/request',
@@ -62,21 +52,22 @@ define([
     'dijit/form/Select',
     'dijit/form/TextBox',
     'dijit/form/NumberTextBox',
-    'jimu/dijit/DrawBox',
+    './DrawBox',
     'jimu/dijit/LoadingShelter',
     'dojo/io-query',
-    'esri/SpatialReference'
+    'esri/SpatialReference',
+    'dijit/registry'
   ],
   function (
-    declare, _WidgetsInTemplateMixin, BaseWidget, TabContainer, List, Parameters, Message, utils, Query, QueryTask, CodedValueDomain,
+    declare, _WidgetsInTemplateMixin, BaseWidget, TabContainer, List, Parameters, Message, utils, urlUtils, Query, QueryTask, CodedValueDomain,
     Domain, GraphicsLayer, FeatureLayer, FeatureType, Field, RangeDomain, BufferParameters, GeometryService, esriConfig, Graphic, graphicsUtils,
-    Point, SimpleMarkerSymbol, PictureMarkerSymbol, Polyline, SimpleLineSymbol, Polygon, Multipoint, Extent, SimpleFillSymbol, SimpleRenderer,
+    Point, SimpleMarkerSymbol, PictureMarkerSymbol, Polyline, SimpleLineSymbol, Polygon, Multipoint, Extent, SimpleFillSymbol, SimpleRenderer, jsonUtil,
     Draw, PopupTemplate, esriRequest, Deferred, ProgressBar, lang, on, html, array, all, date, locale, Select, TextBox, NumberTextBox, DrawBox,
-    LoadingShelter, ioquery, SpatialReference
+    LoadingShelter, ioquery, SpatialReference, registry
     ) { /*jshint unused: false*/
     return declare([BaseWidget, _WidgetsInTemplateMixin], {
       name: 'Enhanced Search',
-      baseClass: 'jimu-widget-search',
+      baseClass: 'widget-esearch',
       resultLayers: [],
       operationalLayers: [],
       graphicLayerIndex: 0,
@@ -84,7 +75,6 @@ define([
       spatialLayerIndex: 0,
       expressIndex: 0,
       progressBar: null,
-      searchResults: null,
       tabContainer: null,
       list: null,
       selTab: null,
@@ -95,9 +85,10 @@ define([
       keepgraphicalsearchenabled: false,
       layerDomainsCache: {},
       layerUniqueCache: null,
-      tempResultLayer: null,
-      graphicsLayerBuffer:null,
-      bufferWKID:null,
+      graphicsLayerBuffer: null,
+      bufferWKID: null,
+      initiator: null,
+      currentLayerIndex: null,
 
       postCreate: function () {
         this.inherited(arguments);
@@ -120,20 +111,29 @@ define([
         this.drawBox.deactivate();
         this._hideInfoWindow();
         this.inherited(arguments);
-        if(this.tempResultLayer){
-          this.tempResultLayer.hide();
-        }
         if (this.graphicsLayerBuffer){
           this.graphicsLayerBuffer.hide();
         }
       },
 
       onOpen: function(){
-        if(this.tempResultLayer){
-          this.tempResultLayer.show();
-        }
         if (this.graphicsLayerBuffer){
           this.graphicsLayerBuffer.show();
+        }
+        var widgetTitlebar = this.domNode.parentNode.parentNode.parentNode.childNodes[0];
+        if(typeof widgetTitlebar.onmousedown !== "function") {
+           this.own(on(widgetTitlebar, 'mousedown', lang.hitch(this, function(event) {
+            event.stopPropagation();
+            if(event.altKey){
+              var msgStr = this.nls.widgetverstr + ': ' + this.manifest.version;
+              msgStr += '\n' + this.nls.wabversionmsg + ': ' + this.manifest.wabVersion;
+              msgStr += '\n' + this.manifest.description;
+              new Message({
+                titleLabel: this.nls.widgetversion,
+                message: msgStr
+              });
+            }
+          })));
         }
       },
 
@@ -185,6 +185,7 @@ define([
         var valuesObj = lang.clone(this.config.layers[newValue].expressions.expression[0].values.value);
         this.paramsDijit.clear();
         this.paramsDijit.build(valuesObj, this.resultLayers[newValue], this.config.layers[newValue].url, this.config.layers[newValue].definitionexpression);
+        this.expressIndex = 0;
       },
 
       onAttributeLayerExpressionChange: function (newValue) {
@@ -225,11 +226,13 @@ define([
             'title': this.config.spatialrelationships.spatialrelationship[i].label
           }, this.spatialItems);
           html.addClass(spatButton, iClass);
-          this.own(on(spatButton, 'click', lang.hitch(this, function(event) {
-            event.stopPropagation();
-            this._intersectResults(event.target.getAttribute('data-spatialtype'));
-          })));
+          this.own(on(spatButton, 'click', lang.hitch(this, this._spatButtonOnClick)));
         }
+      },
+
+      _spatButtonOnClick: function(event) {
+        event.stopPropagation();
+        this._intersectResults(event.target.getAttribute('data-spatialtype'));
       },
 
       _intersectResults: function (dataSpatialType) {
@@ -259,8 +262,9 @@ define([
           });
           return;
         }
+        var gra;
         if (this.graphicsLayerBuffer && this.graphicsLayerBuffer.graphics.length > 0){
-          var gra = this.graphicsLayerBuffer.graphics[0];
+          gra = this.graphicsLayerBuffer.graphics[0];
           intersectGeom = gra.geometry;
           this.search(intersectGeom, this.spatialLayerIndex, null, null, dataSpatialType);
         } else if (this.currentLayerAdded &&  this.currentLayerAdded.graphics.length > 0) {
@@ -268,9 +272,11 @@ define([
           if(intersectGeom === Polygon && (intersectGeom.isSelfIntersecting(intersectGeom) || intersectGeom.rings.length > 1)){
             esriConfig.defaults.geometryService.simplify([intersectGeom], lang.hitch(this,
             function (result) {
-                this.search(result[0], this.spatialLayerIndex, null, null, dataSpatialType);
+              intersectGeom = gra.geometry;
+              this.search(result[0], this.spatialLayerIndex, null, null, dataSpatialType);
             }));
           }else{
+            intersectGeom = gra.geometry;
             this.search(intersectGeom, this.spatialLayerIndex, null, null, dataSpatialType);
           }
         }else{
@@ -411,46 +417,43 @@ define([
           this.shelter.show();
 
           var defs = array.map(this.config.layers, lang.hitch(this, function (layerConfig) {
-              var def = new Deferred();
-              var names = array.map(layerConfig.fields.field, lang.hitch(this, function (item) {
-                return item.name;
-              }));
-              if(layerConfig.fields.all === true){
-                names = ['*'];
-              }
-              var featureLayer = new FeatureLayer(layerConfig.url,{
-                mode: FeatureLayer.MODE_SELECTION,
-                outFields: names
-              });
-              if (layerConfig.definitionexpression){
-                featureLayer.setDefinitionExpression(layerConfig.definitionexpression);
-              }
-              featureLayer.on('load', lang.hitch(this, function(layer){
-                def.resolve(layer);
-              }));
-              return def.promise;
-            }));
+            return this._getLayerInfoWithRelationships(layerConfig.url);
+          }));
 
-            all(defs).then(lang.hitch(this, function (results) {
-              this.shelter.hide();
-              array.forEach(results, lang.hitch(this, function (result, j) {
-                var layerConfig = this.config.layers[j];
-                layerConfig.objectIdField = result.layer.objectIdField;
-                layerConfig.existObjectId = array.some(layerConfig.fields.field, lang.hitch(this, function(element, index, array){
-                  return element.name === layerConfig.objectIdField;
+          all(defs).then(lang.hitch(this, function (layerInfos) {
+            this.shelter.hide();
+            array.forEach(layerInfos, lang.hitch(this, function (layerInfo, j) {
+              var layerConfig = this.config.layers[j];
+              if(layerInfo.objectIdField){
+                layerConfig.objectIdField = layerInfo.objectIdField;
+              }
+              else{
+                var fields = layerInfo.fields;
+                var oidFieldInfos = array.filter(fields,lang.hitch(this,function(fieldInfo){
+                  return fieldInfo.type === 'esriFieldTypeOID';
                 }));
-                result.layer.setMaxScale(0);
-                result.layer.setMinScale(0);
-                result.layer.setVisibility(true);
-                result.layer.name = 'Search result: ' + layerConfig.name;
-                this.resultLayers.push(result.layer);
+                if(oidFieldInfos.length > 0){
+                  var oidFieldInfo = oidFieldInfos[0];
+                  layerConfig.objectIdField = oidFieldInfo.name;
+                }
+              }
+              layerConfig.existObjectId = array.some(layerConfig.fields.field, lang.hitch(this, function(element, index, array){
+                return element.name === layerConfig.objectIdField;
               }));
+              layerInfo.name = 'Search result: ' + layerConfig.name;
+              layerInfo.minScale = 0;
+              layerInfo.maxScale = 0;
+              layerInfo.effectiveMinScale = 0;
+              layerInfo.effectiveMaxScale = 0;
+              layerInfo.defaultVisibility = true;
+              this.resultLayers.push(layerInfo);
+            }));
 
             //now check if there is a url search to do
             var myObject = this.getUrlParams();
             if(myObject.esearch){
               this._queryFromURL(myObject.esearch, myObject.slayer, myObject.exprnum);
-            } else{
+            } else {
               //init the first layers paramsDijit
               this.AttributeLayerIndex = 0;
               this._initSelectedLayerExpressions();
@@ -470,6 +473,56 @@ define([
         this.own(on(this.selectLayerAttribute, "change", lang.hitch(this, this.onAttributeLayerChange)));
         this.own(on(this.selectExpression, "change", lang.hitch(this, this.onAttributeLayerExpressionChange)));
         this.own(on(this.selectLayerSpatial, "change", lang.hitch(this, this.onSpatialLayerChange)));
+      },
+
+      _getServiceUrlByLayerUrl: function(layerUrl){
+        var lastIndex = layerUrl.lastIndexOf("/");
+        var serviceUrl = layerUrl.slice(0, lastIndex);
+        return serviceUrl;
+      },
+
+      _getLayerInfoWithRelationships: function(layerUrl){
+        var def = new Deferred();
+        esriRequest({
+          url: layerUrl,
+          content: {
+            f: 'json'
+          },
+          handleAs: 'json',
+          callbackParamName: 'callback'
+        }).then(lang.hitch(this, function(layerInfo){
+          if(!layerInfo.relationships){
+            layerInfo.relationships = [];
+          }
+          var serviceUrl = this._getServiceUrlByLayerUrl(layerUrl);
+          var defs = array.map(layerInfo.relationships, lang.hitch(this, function(relationship){
+            return esriRequest({
+              url: serviceUrl + '/' + relationship.relatedTableId,
+              content: {
+                f: 'json'
+              },
+              handleAs: 'json',
+              callbackParamName: 'callback'
+            });
+          }));
+          all(defs).then(lang.hitch(this, function(results){
+            array.forEach(results, lang.hitch(this, function(relationshipInfo, index){
+              var relationship = layerInfo.relationships[index];
+              relationship.name = relationshipInfo.name;
+              //ignore shape field
+              relationship.fields = array.filter(relationshipInfo.fields,
+                lang.hitch(this, function(relationshipFieldInfo){
+                return relationshipFieldInfo.type !== 'esriFieldTypeGeometry';
+              }));
+            }));
+            def.resolve(layerInfo);
+          }), lang.hitch(this, function(err){
+            def.reject(err);
+          }));
+        }), lang.hitch(this, function(err){
+          def.reject(err);
+        }));
+        return def;
       },
 
       _queryFromURL: function(value, slayerId, exprNum) {
@@ -595,6 +648,7 @@ define([
             }
           }
         })));
+        this.own(on(this.btnExport, "click", lang.hitch(this, this.exportURL)));
         this.own(on(this.btnClear, "click", lang.hitch(this, this.clear)));
         this.own(on(this.btnClear2, "click", lang.hitch(this, this.clear)));
         this.own(on(this.btnClearBuffer, "click", lang.hitch(this, this.clearbuffer)));
@@ -607,6 +661,40 @@ define([
         html.setStyle(this.btnClearBuffer3, 'display', 'none');
         html.setStyle(this.btnClear, 'display', 'none');
         html.setStyle(this.btnClear2, 'display', 'none');
+        html.setStyle(this.btnExport, 'display', 'none');
+      },
+
+      exportURL: function(){
+        var useSeparator, eVal;
+        var url = window.location.protocol + '//' + window.location.host + window.location.pathname;
+        var urlObject = urlUtils.urlToObject(window.location.href);
+        urlObject.query = urlObject.query || {};
+        var content = this.paramsDijit.getSingleParamValues();
+        for(var s=0; s<content.length; s++){
+          eVal = content[s].value.toString();
+        }
+
+        urlObject.query.esearch = eVal;
+        urlObject.query.slayer = this.AttributeLayerIndex.toString();
+        urlObject.query.exprnum = this.expressIndex.toString();
+        // each param
+        for (var i in urlObject.query) {
+          if (urlObject.query[i] && urlObject.query[i] !== 'config') {
+            // use separator
+            if (useSeparator) {
+              url += '&';
+            } else {
+              url += '?';
+              useSeparator = true;
+            }
+            url += i + '=' + urlObject.query[i];
+          }
+        }
+        /*new Message({
+          titleLabel: "eSearch widget url search string.",
+          message: url
+        });*/
+        window.prompt(this.nls.copyurlprompt, url);
       },
 
       _bufferFeatures: function() {
@@ -816,21 +904,24 @@ define([
         }
         var content;
         var query = new Query();
-        this.list.clear();
+        this.clear();
+        this.currentLayerIndex = layerIndex;
         this.tabContainer.selectTab(this.nls.results);
 
         if (geometry) {
+          this.initiator = 'graphical';
           query.geometry = geometry;
           query.spatialRelationship = spatialRelationship || Query.SPATIAL_REL_INTERSECTS;
         } else {
           this._clearLayers();
+          this.initiator = 'attribute';
           var where = this.buildWhereClause(layerIndex, expressIndex, theValue);
           query.where = where;
           console.info(where);
         }
 
         html.setStyle(this.progressBar.domNode, 'display', 'block');
-        html.setStyle(this.divResult, 'display', 'none');
+        html.setStyle(this.divOptions, 'display', 'none');
         var fields = [];
         if (this.config.layers[layerIndex].fields.all) {
           fields[0] = "*";
@@ -839,16 +930,20 @@ define([
             fields[i] = this.config.layers[layerIndex].fields.field[i].name;
           }
         }
+        if(!this.config.layers[layerIndex].existObjectId){
+          fields.push(this.config.layers[layerIndex].objectIdField);
+        }
         var url = this.config.layers[layerIndex].url;
         var queryTask = new QueryTask(url);
         query.returnGeometry = true;
         query.outSpatialReference = this.map.spatialReference;
         query.outFields = fields;
-        var fl = this.resultLayers[layerIndex];
-        fl.queryFeatures(query, lang.hitch(this, this._onSearchFinish, layerIndex), lang.hitch(this, this._onSearchError));
+        queryTask.execute(query, lang.hitch(this, this._onSearchFinish, layerIndex), lang.hitch(this, this._onSearchError));
       },
 
       clear: function () {
+        this.currentLayerIndex = null;
+        this.initiator = null;
         this._hideInfoWindow();
         this._clearLayers();
         if(this.list.items.length > 0){
@@ -890,7 +985,7 @@ define([
           var tOperator = typeof this.config.layers[layerIndex].expressions.expression[expressIndex].values.value[s].operator !== 'undefined' ? this.config.layers[layerIndex].expressions.expression[expressIndex].values.value[s].operator : 'OR';
           var tOperation = this.config.layers[layerIndex].expressions.expression[expressIndex].values.value[s].operation;
           var queryExpr = this.config.layers[layerIndex].expressions.expression[expressIndex].values.value[s].sqltext;
-          if(!content[s].value){
+          if(content[s].value === null){
             if(content[s].value1 && content[s].value2){
               eVal1 = content[s].value1.toString();
               eVal2 = content[s].value2.toString();
@@ -968,16 +1063,16 @@ define([
             criteriaFromValue = mExpr.replace(myPattern, uList);
             expr = this.AppendTo(expr, criteriaFromValue, tOperator);
           }else if(content[s].value.toString().toLowerCase() === "allu"){
-              expr = this.AppendTo(expr, "1=1", tOperator);
-          }else if(content[s].value.toString().toLowerCase() === "null"){
-              var mExpr2 = queryExpr.substr(0, queryExpr.indexOf("=")) + " is null";
-              expr = this.AppendTo(expr, mExpr2, tOperator);
+            expr = this.AppendTo(expr, "1=1", tOperator);
+          }else if(content[s].value.toString().toLowerCase() === "null" || content[s].value.toString().toLowerCase() === "nan"){
+            var mExpr2 = queryExpr.substr(0, queryExpr.indexOf("=")) + " is null";
+            expr = this.AppendTo(expr, mExpr2, tOperator);
           }else{
-              //don't add the expression if there is no user input
-              if(eVal !== ""){
-                  criteriaFromValue = queryExpr.replace(myPattern, eVal);
-                  expr = this.AppendTo(expr, criteriaFromValue, tOperator);
-              }
+            //don't add the expression if there is no user input
+            if(eVal !== ""){
+              criteriaFromValue = queryExpr.replace(myPattern, eVal);
+              expr = this.AppendTo(expr, criteriaFromValue, tOperator);
+            }
           }
         }
         return expr;
@@ -1000,7 +1095,9 @@ define([
       },
 
       zoomall: function () {
-        var zoomScale = this.config.zoomScale;
+        var defaultZoomScale = this.config.zoomScale;
+        var layerConfig = this.config.layers[this.currentLayerIndex];
+        var zoomScale = layerConfig.zoomScale || defaultZoomScale;
         if (!this.currentLayerAdded){
           return false;
         }
@@ -1024,7 +1121,7 @@ define([
 
       _clearLayers: function () {
         array.forEach(this.resultLayers, lang.hitch(this, function (layer) {
-          if (layer) {
+          if (typeof layer === GraphicsLayer) {
             layer.clear();
           }
         }));
@@ -1032,12 +1129,13 @@ define([
         html.setStyle(this.btnZoomAll, 'display', 'none');
         html.setStyle(this.btnClear, 'display', 'none');
         html.setStyle(this.btnClear2, 'display', 'none');
+        html.setStyle(this.btnExport, 'display', 'none');
       },
 
       _onSearchError: function (error) {
         this.clear();
         html.setStyle(this.progressBar.domNode, 'display', 'none');
-        html.setStyle(this.divResult, 'display', 'block');
+        html.setStyle(this.divOptions, 'display', 'block');
         new Message({
           message: this.nls.searchError
         });
@@ -1070,22 +1168,38 @@ define([
       },
 
       _onSearchFinish: function (layerIndex, results) {
-        var currentLayer = this.resultLayers[layerIndex];
         var layerConfig = this.config.layers[layerIndex];
-        this.clear();
-        this.tabContainer.selectTab(this.nls.results);
-        html.setStyle(this.progressBar.domNode, 'display', 'none');
-        html.setStyle(this.divResult, 'display', 'block');
-        this.searchResults = results;
-
-        var title = "";
+        var currentLayer;
         var showAttachments = false;
-        var titlefield = layerConfig.titlefield;
-        var objectIdField = layerConfig.objectIdField;
-        var existObjectId = layerConfig.existObjectId;
         if('showattachments' in layerConfig && layerConfig.showattachments){
           showAttachments = true;
         }
+        var featureCollection = {
+          layerDefinition: this.resultLayers[layerIndex],
+          featureSet: null
+        };
+        var featureLayer = new FeatureLayer(featureCollection);
+        if (layerConfig.definitionexpression){
+          featureLayer.setDefinitionExpression(layerConfig.definitionexpression);
+        }
+        array.map(featureLayer.fields, lang.hitch(this, function(element, index, array){
+          element.show = false;
+          for(var f = 0; f<layerConfig.fields.field.length; f++){
+            if(layerConfig.fields.field[f].name == element.name){
+              element.show = true;
+            }
+          }
+        }));
+        currentLayer = featureLayer;
+
+        this.tabContainer.selectTab(this.nls.results);
+        html.setStyle(this.progressBar.domNode, 'display', 'none');
+        html.setStyle(this.divOptions, 'display', 'block');
+
+        var title = "";
+        var titlefield = layerConfig.titlefield;
+        var objectIdField = layerConfig.objectIdField;
+        var existObjectId = layerConfig.existObjectId;
 
         var len = results.features.length;
         if (len === 0) {
@@ -1195,14 +1309,18 @@ define([
                 }
               }
             }
-            label = label + line + this._getAlias(att, layerIndex) + ": " + value;
-            line = ", ";
+            if(this._isVisible(att, layerIndex)){
+              label = label + line + this._getAlias(att, layerIndex) + ": " + value;
+              line = ", ";
+            }
             var upperCaseFieldName = att.toUpperCase();
             if (titlefield && upperCaseFieldName === titlefield.toUpperCase()) {
               title = value;
             } else {
-              content = content + br + this._getAlias(att, layerIndex) + ": " + value;
-              br = "<br>";
+              if(this._isVisible(att, layerIndex)){
+                content = content + br + this._getAlias(att, layerIndex) + ": " + value;
+                br = "<br>";
+              }
             }
           }
           var symbol;
@@ -1252,10 +1370,37 @@ define([
             showattachments: showAttachments
           });
         }
-        this._drawResults(layerIndex, results);
+        this._drawResults(layerIndex, results, currentLayer);
         html.setStyle(this.btnZoomAll, 'display', 'block');
         html.setStyle(this.btnClear, 'display', 'block');
         html.setStyle(this.btnClear2, 'display', 'block');
+        if(this.initiator && this.initiator === 'attribute'){
+          html.setStyle(this.btnExport, 'display', 'block');
+        }
+      },
+
+      _openResultInAttributeTable: function (currentLayer, layerIndex) {
+        var layerConfig = this.config.layers[layerIndex];
+        //currentLayer.url = layerConfig.url;
+        var aLayer = {
+          layerObject: currentLayer,
+          title: currentLayer.name,
+          id: currentLayer.id,
+          url: layerConfig.url,
+          getLayerObject: function(){
+            var def = new Deferred();
+            if (this.layerObject) {
+              def.resolve(this.layerObject);
+            } else {
+              def.reject("layerObject is null");
+            }
+            return def;
+          }
+        };
+        this.publishData({
+          'target': 'AttributeTable',
+          'layer': Object.create(aLayer)
+        });
       },
 
       _getFeatureType: function (layer, typeID) {
@@ -1337,6 +1482,22 @@ define([
         return att;
       },
 
+      _isVisible: function (att, layerIndex) {
+        var field = this.config.layers[layerIndex].fields.field;
+        var item;
+        for (var i in field) {
+          item = field[i];
+          if (item.name.toLowerCase() === att.toLowerCase()) {
+            if (item.hasOwnProperty('visible') && item.visible === false) {
+              return false;
+            }else{
+              return true;
+            }
+          }
+        }
+        return true;
+      },
+
       _getDateFormat: function (att, layerIndex) {
         var field = this.config.layers[layerIndex].fields.field;
         var item;
@@ -1396,19 +1557,10 @@ define([
         return negative + (j ? i.substr(0, j) + thousand : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + thousand) + (percision ? decimal + Math.abs(value - i).toFixed(percision).slice(2) : "");
       },
 
-      _drawResults: function (layerIndex, results) {
-        var currentLayer;
-        if(this.config.shareResult){
-          if(this.currentLayerAdded && this.currentLayerAdded !== this.resultLayers[layerIndex]){
-            this.map.removeLayer(this.currentLayerAdded);
-          }
-          currentLayer = this.resultLayers[layerIndex];
-        } else {
-          if(this.currentLayerAdded ){
-            this.map.removeLayer(this.currentLayerAdded);
-          }
+      _drawResults: function (layerIndex, results, currentLayer) {
+        if(!this.config.shareResult){
           currentLayer = new GraphicsLayer();
-          currentLayer.setRenderer(this.resultLayers[layerIndex].renderer);
+          currentLayer.setRenderer(jsonUtil.fromJson(this.resultLayers[layerIndex].drawingInfo.renderer));
         }
         var features = results.features;
 
@@ -1475,8 +1627,8 @@ define([
 
           listItem.centerpoint = centerpoint;
           feature.setInfoTemplate(this._configurePopupTemplate(listItem));
-          listItem.graphic = feature;
           currentLayer.add(feature);
+          listItem.graphic = feature;
         }
         if(this.config.layers[layerIndex].layersymbolfrom === 'config'){
           currentLayer.setRenderer(renderer);
@@ -1486,6 +1638,11 @@ define([
         this.currentLayerAdded = currentLayer;
         if(this.autozoomtoresults){
           this.zoomall();
+        }
+        if(this.config.shareResult){
+          setTimeout(lang.hitch(this,function(){
+            this._openResultInAttributeTable(currentLayer, layerIndex);
+          }), 300);
         }
       },
 
@@ -1536,7 +1693,9 @@ define([
 
       _selectResultItem: function (index, item) {
         var point = this.list.items[this.list.selectedIndex].centerpoint;
-        var zoomScale = this.config.zoomScale;
+        var defaultZoomScale = this.config.zoomScale;
+        var layerConfig = this.config.layers[this.currentLayerIndex];
+        var zoomScale = layerConfig.zoomScale || defaultZoomScale;
         if (this.map.getScale() > zoomScale) {
           this.map.setScale(zoomScale).then(this.map.centerAt(point).then(lang.hitch(this, function () {
             if (this.map.infoWindow) {

@@ -1,7 +1,9 @@
 .jimu-foldable-dijit{
   position: relative;
 }
-.jimu-foldable-dijit>.title{}
+.jimu-foldable-dijit .title{
+  position: relative;
+}
 .jimu-foldable-dijit>.jimu-container{
   position: absolute;
   left: 0;
@@ -24,6 +26,12 @@
 .jimu-foldable-panel .title-label{
   height: 100%;
   font-size: 1.6em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  position: absolute;
+  left: 16px;
+  right: 80px;
 }
 .jimu-foldable-panel .close-btn,
 .jimu-foldable-panel .foldable-btn{
@@ -68,4 +76,9 @@
 }
 .foldable-widget-frame>.title>.title-label{
   font-size: 14px;
+}
+
+.jimu-rtl .jimu-foldable-panel .title-label{
+  left: 80px;
+  right: 10px;
 }

@@ -1,5 +1,5 @@
 ﻿define(
    ({
-    _widgetLabel: "Aluskaardigalerii"
+    _widgetLabel: "Aluskaardi galerii"
   })
 );

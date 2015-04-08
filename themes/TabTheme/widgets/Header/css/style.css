@@ -1,0 +1,116 @@
+.jimu-widget-header .header-section{
+  height: 100%;
+  float: left;
+}
+.jimu-widget-header .container-section{
+  height: 100%;
+  float: left;
+}
+.jimu-widget-header .logo{
+  /*float: left;*/
+  margin-left: 14px;
+  /*cursor: pointer;*/
+}
+
+.jimu-widget-header .titles{
+  /*float: left;*/
+  margin-left: 14px;
+  height: 100%;
+}
+
+.jimu-widget-header .title{
+  /*float: left;*/
+  color:#fff;
+  text-align: center;
+  height: 100%;
+  font-size: 24px;
+}
+
+.jimu-widget-header .subtitle{
+  /*float: left;*/
+  /*margin-left: 20px;*/
+  color:#6d7685;
+  font-size: 12px;
+  text-align: center;
+  height: 100%;
+  font-weight: bold;
+}
+.jimu-widget-header .links{
+  /*float: right;*/
+  height: 100%;
+  /*margin-right: 40px;*/
+}
+
+.jimu-widget-header .links .link{
+  color:#6d7685;
+  font-size: 14px;
+  font-weight: bold;
+  margin-left: 12px;
+  text-decoration: none;
+  height: 100%;
+  display: inline-block;
+}
+.jimu-widget-header .signin-section .link{
+  color: #d9dde0;
+}
+
+.jimu-widget-header .group-icon-node{
+  float: right;
+  cursor: pointer;
+  opacity: 0.4;
+  text-align: center;
+  border-right: 1px solid #323e4f;
+}
+.jimu-widget-header .group-icon-node:first-child{
+  border: none;
+}
+.jimu-widget-header .group-icon-node:hover{
+  opacity: 1;
+}
+.jimu-widget-header .group-icon-node.jimu-state-selected{
+  background-color: #697a8c;
+  opacity: 1;
+  border: none;
+  border-top: 2px solid #8491a1;
+}
+
+/**the popup link panel is not appended to container, so, don't add .jimu-widget-header here**/
+.popup-links{
+  background-color: #252824;
+}
+.popup-links .popup-title{
+
+}
+.popup-links .logo{
+  /*float: left;*/
+  /*margin-left: 14px;*/
+}
+.popup-links .title{
+  /*float: left;*/
+  color:#fff;
+  text-align: center;
+  font-size: 24px;
+  /*margin-left: 14px;*/
+}
+.popup-links .line{
+  width: 100%;
+  height: 4px;
+  border-top: 1px solid #14161a;
+  border-bottom: 1px solid #393c40;
+}
+.popup-links .link-section{
+  width: 100%;
+  height: 66px;
+  background-color: #252824; 
+}
+.popup-links a{
+  color: #6d7685;
+  margin-left: 20px;
+  font-size: 14px;
+  height: 100%;
+  width: 95%;
+  display: inline-block;
+}
+.popup-links .link-section.signin a{
+  color: #d9dde0; 
+}

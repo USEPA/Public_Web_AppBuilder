@@ -54,3 +54,14 @@
 .TabTheme .jimu-widget-geoprocessing .jimu-tab>.control>.tab.jimu-state-selected{
   border-top: 0;
 }
+
+.jimu-widget-geoprocessing li{
+  list-style: none;
+}
+
+.jimu-widget-geoprocessing .error-message{
+  text-align: left;
+  width: 100%;
+  margin-top: 10px;
+  color: #FF0000;
+}

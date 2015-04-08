@@ -44,7 +44,6 @@
 .jimu-widget-layerList .layer-row{
   background-color: #ffffff;
   height: 40px;
-  cursor: pointer;
 }
 
 .jimu-widget-layerList .layer-row-mouseover{
@@ -69,7 +68,7 @@
 
 
 .jimu-widget-layerList .col{
-  border: 0px solid #ffffff;/*remove*/
+  border: 0px solid;/*remove*/
   border-bottom: 0px solid #ffffff;
   /*************/
 }
@@ -80,10 +79,11 @@
 .jimu-widget-layerList .col2{
   width: auto;
   word-break: break-word;
+  cursor: pointer;
 }
 
 .jimu-widget-layerList .col3{
-  width: 21px;
+  width: 24px;
 }
 
 .jimu-widget-layerList .begin-blank-div{
@@ -113,6 +113,12 @@
   */
   margin-top: 4px;
   font-size: 3px;
+  padding-left: 3px;
+}
+
+.jimu-rtl .jimu-widget-layerList .showLegend-image{
+  padding-left: 0;
+  padding-right: 3px;
 }
 
 .jimu-widget-layerList  .layers-list-imageShowLegend-down{
@@ -131,6 +137,7 @@
   /*float: left;*/
   width: 33px;
   text-align: right;
+  display: none;
 }
 .jimu-widget-layerList .noLegend-image{
   display: block;
@@ -158,6 +165,10 @@
   position: relative;
   font-size: 2px;
   /*************/
+}
+
+.jimu-widget-layerList  .div-select .checkbox{
+  cursor: auto;
 }
 
 .jimu-widget-layerList .div-content{
@@ -203,19 +214,29 @@
   font-size: 11px;
 }
 
-
 .jimu-widget-layerList .layers-list-popupMenu-div{
   position: relative;
-  width: 13px;
-  height: 13px;
-  background-color: #d9dde0;
+  width: 16px;
+  height: 40px;
+  /*background-color: #d9dde0;*/
   cursor: pointer;
   border-radius: 2px;
   /*************/
   float: right;
-  margin-right: 4px;
+  /*margin-right: 4px;*/
+  padding-top: 14px;
 }
 
+.jimu-widget-layerList .layers-list-popupMenu-div .jimu-loading{
+  width: 20px;
+  height: 20px;
+  margin-top: -11px;
+  margin-left: -11px;
+}
+
+.jimu-rtl .jimu-widget-layerList .layers-list-popupMenu-div .jimu-loading{
+  margin-right: -11px;
+}
 
 .jimu-widget-layerList .layers-list-popupMenu-div-selected{
   width: 13px;
@@ -340,6 +361,11 @@
   font-size: 12px;
   z-index: 2;
   min-width: 119px;
+  right: 0px;
+}
+
+.jimu-rtl .jimu-widget-layerList .jimu-dropmenu .drop-menu{
+  left: 0px;
 }
 
 .jimu-widget-layerList .jimu-dropmenu .menu-item{

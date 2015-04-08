@@ -51,11 +51,12 @@
     specifyParamsTip: "Spécifier les paramètres de cette tâche",
     useSpatialFilter: "Utiliser un filtre spatial pour limiter les entités",
     useCurrentMapExtent: "Uniquement les entités en contact avec l’étendue courante de la carte",
-    drawGraphicOnMap: "Uniquement les entités en contact avec une zone définie par l’utilisateur",
+    drawGraphicOnMap: "Uniquement les entités en contact avec la zone définie par l\'utilisateur",
     specifySpatialFilterMsg: "Spécifiez un filtre spatial pour cette tâche.",
     clearResults: "Effacer les résultats",
     operationalTip: 'Lorsque cette option est sélectionnée, les résultats sont conservés sur la carte jusqu’à l’activation du bouton "${clearResults}".',
     noneQueryTip: "Aucune tâche de requête préconfigurée n’est disponible.",
-    noPermissionsMsg: "Vous n’êtes pas autorisé à accéder à ce service."
+    noPermissionsMsg: "Vous n’êtes pas autorisé à accéder à ce service.",
+    attributesFromRelationship: "Attributs de la table associée"
   })
 );

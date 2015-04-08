@@ -1,0 +1,40 @@
+.jimu-main-bgcolor{
+  background-color: #c92e49;
+}
+
+.TabTheme .jimu-widget-header .subtitle{
+  color: #f3cfd5;
+}
+.TabTheme .jimu-widget-header .links .link{
+  color: #f3cfd5; 
+}
+.jimu-widget-sidebar-controller .max-pane,
+.jimu-widget-sidebar-controller .tab-resizer,
+.jimu-widget-sidebar-controller .min-pane,
+.jimu-widget-sidebar-controller .other-group-pane{
+	border-style: none;
+}
+.jimu-widget-sidebar-controller .other-group-title{
+	color: #ccc;
+}
+.jimu-widget-sidebar-controller .other-group:hover{
+  background-color: #d83f59;
+}
+.jimu-widget-sidebar-controller .other-group:hover .other-group-title{
+	color: #fff;
+}
+.tab-widget-frame .title-label,
+.jimu-widget-sidebar-controller .content-title,
+.jimu-widget-sidebar-controller .other-group-pane-title .text{
+	color: #d83f59;
+}
+.popup-links {
+background-color: #c92e49;
+}
+.popup-links .link-section {
+	background-color: #c92e49;
+}
+.jimu-preload-widget-icon-panel>.title{
+  color: #fff;
+  background-color: #c92e49;
+}

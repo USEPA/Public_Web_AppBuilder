@@ -6,6 +6,12 @@
     maxWidth: "Largura Máxima",
     maxHeight: "Altura Máxima",
     minText: "Mínimo",
-    maxText: "máximo"
+    maxText: "máximo",
+    attachText: "Especifique o canto do mapa no qual este widget será anexado.",
+    expandText: "Expandir o widget inicialmente",
+    topLeft: "Superior Esquerdo",
+    topRight: "Superior Direito",
+    bottomLeft: "Inferior Esquerdo",
+    bottomRight: "Inferior Direito"
   })
 );

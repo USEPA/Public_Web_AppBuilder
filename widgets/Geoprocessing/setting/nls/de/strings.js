@@ -30,6 +30,7 @@
     popup: "Pop-up",
     setTask: "Festlegen",
     setTaskTitle: "GV-Task festlegen",
-    enablePopup: "Pop-up aktivieren"
+    enablePopup: "Pop-up aktivieren",
+    unSupportGeometryType: "Renderer kann aufgrund des unbekannten Geometrietyps nicht festgelegt werden."
   })
 );

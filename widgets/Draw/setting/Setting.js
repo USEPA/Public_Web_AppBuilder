@@ -24,12 +24,12 @@ define([
     'dijit/_WidgetsInTemplateMixin',
     'jimu/BaseWidgetSetting',
     'jimu/dijit/TabContainer',
-    'jimu/dijit/SimpleTable',
     'jimu/utils',
-    'dijit/form/Select'
+    'dijit/form/Select',
+    'jimu/dijit/SimpleTable'
   ],
   function(declare, lang, array, html, query, on, _WidgetsInTemplateMixin, BaseWidgetSetting,
-    TabContainer, SimpleTable, jimuUtils, Select) {
+    TabContainer, jimuUtils, Select) {
     return declare([BaseWidgetSetting, _WidgetsInTemplateMixin], {
       baseClass: 'jimu-widget-draw-setting',
       distanceUnits:null,

@@ -13,10 +13,10 @@
     restore: "Standaardwaarde herstellen",
     ok: "OK",
     result: "Opslaan is gelukt",
-    warning: "Selecteer dit om eerst deze kaartlaag in de tabel weer te geven.",
+    warning: "Selecteer dit om eerst de laag in de tabel weer te geven.",
     fieldCheckWarning: "Er moet minimaal één veld worden geselecteerd.",
     unsupportQueryWarning: "De laag moet querybewerking ondersteunen voor weergave in de widget Attribuattabel. Zorg ervoor dat de bevragingsmogelijkheid in de service aan is.",
-    unsupportQueryLayers: "De volgende lagen moeten querybewerking ondersteunen voor weergave in de widget Attribuattabel. Zorg ervoor dat de bevragingsmogelijkheid in de service aan is.",
+    unsupportQueryLayers: "De volgende laag moet query ondersteunen voor weergave in de widget Attribuuttabel. Zorg ervoor dat de querymogelijkheden in de service is ingeschakeld.",
 
     fieldName: "Naam",
     fieldAlias: "Alias",

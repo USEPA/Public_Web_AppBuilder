@@ -13,6 +13,9 @@
     itemDesc: "Descrição",
     itemDownload: "Descarregar",
     itemToAttributeTable: "Abrir tabela de atributos",
-    itemShowItemDetails: "Mostrar Detalhes do Item"
+    itemShowItemDetails: "Mostrar Detalhes do Item",
+    empty: "vazio",
+    removePopup: "Remover Janela Pop-up",
+    enablePopup: "Ativar Janela Pop-up"
   })
 );

@@ -17,19 +17,18 @@
 define([
   'dojo/_base/declare',
   'dojo/_base/lang',
-  'dojo/_base/array',
   'dojo/_base/html',
   'dojo/on',
   'dijit/_WidgetsInTemplateMixin',
   'jimu/BaseWidgetSetting',
-  'dijit/form/ValidationTextBox',
   'jimu/dijit/GpSource',
   'jimu/dijit/ViewStack',
   'jimu/dijit/Popup',
-  './SettingDetail'
+  './SettingDetail',
+  'dijit/form/ValidationTextBox'
 ],
-function(declare, lang, array, html, on, _WidgetsInTemplateMixin, BaseWidgetSetting,
-  ValidationTextBox, GpSource, ViewStack, Popup, SettingDetail) {
+function(declare, lang, html, on, _WidgetsInTemplateMixin, BaseWidgetSetting,
+  GpSource, ViewStack, Popup, SettingDetail) {
   return declare([BaseWidgetSetting, _WidgetsInTemplateMixin], {
     baseClass: 'jimu-widget-setting-gp',
 
@@ -41,7 +40,7 @@ function(declare, lang, array, html, on, _WidgetsInTemplateMixin, BaseWidgetSett
         nls: this.nls,
         map: this.map
       }, this.settingDetailNode);
-      
+
       this.viewStack = new ViewStack({
         viewType: 'dijit',
         views: [this.settingDetail]

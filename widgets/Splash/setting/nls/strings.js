@@ -1,6 +1,6 @@
 define({
   root: ({
-    instruction: "Define the content that will display on the splash screen of your application. The splash screen appears before the application loads. ",
+    instruction: "Define the content that displays on the splash screen of your application. The splash screen appears before the application loads. ",
     defaultContent: "Add text, links, and small graphics here.",
     requireConfirm: "Require confirmation to continue",
     confirmLabel: "Confirmation Texts: ",
@@ -10,6 +10,7 @@ define({
   "cs": 1,
   "da": 1,
   "de": 1,
+  "el": 1,
   "es": 1,
   "et": 1,
   "fi": 1,

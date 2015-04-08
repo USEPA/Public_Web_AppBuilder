@@ -1,7 +1,7 @@
 ﻿define(
    ({
     _widgetLabel: "שאילתה",
-    executeQueryTip: "לחץ על אחד מפריטי המשימה הבאים כדי לבצע שאילתה.",
+    executeQueryTip: "לחץ על אחד מפריטי המשימה הבאים כדי לבצע את השאילתא.",
     invalidConfig: "הגדרה לא תקינה. אנא השתמש בדף הגדרת שאילתא כדי לתקן את ההגדרה.",
     queryParams: "אפשרויות",
     parameters: "אפשרויות",
@@ -56,6 +56,7 @@
     clearResults: "נקה תוצאות",
     operationalTip: 'אם אפשרות זו בחורה התוצאות ישמרו על המפה עד הקלקה על כפתור "${clearResults}".',
     noneQueryTip: "פעולות תשאול מוגדרות מראש לא זמינות.",
-    noPermissionsMsg: "אין לך הרשאות לגשת לשירות זה."
+    noPermissionsMsg: "אין לך הרשאות לגשת לשירות זה.",
+    attributesFromRelationship: "מאפיינים מטבלה קשורה"
   })
 );

@@ -30,6 +30,7 @@
     popup: "Pop-up",
     setTask: "Indstil",
     setTaskTitle: "Indstil GP-opgave",
-    enablePopup: "Aktivér pop-up-vindue"
+    enablePopup: "Aktivér pop-up-vindue",
+    unSupportGeometryType: "Kan ikke indstille gengivelsesværktøj på grund af ukendt geometritype."
   })
 );

@@ -31,6 +31,10 @@
 		setFilterTip: "Legen Sie den Filter ordnungsgemäß fest.",
 		ok: "OK",
 		cancel: "Abbrechen",
-		noFilterTip: "Dieser Abfrage-Task listet alle Features in der angegebenen Datenquelle ohne definierten Filterausdruck auf."
+		noFilterTip: "Dieser Abfrage-Task listet alle Features in der angegebenen Datenquelle ohne definierten Filterausdruck auf.",
+    relationships: "Beziehungstabelle",
+    addRelationshipLayer: "Neue Beziehung hinzufügen",
+    relatedTo: "In Beziehung mit",
+    selectOption: "Wählen Sie.."
   })
 );

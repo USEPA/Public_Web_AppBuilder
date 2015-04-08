@@ -9,28 +9,28 @@
         "right": 0,
         "height": 40
       },
-      "version": "1.1"
+      "version": "1.2"
     }, {
       "uri": "widgets/Scalebar/Widget",
       "position": {
         "left": 25,
         "bottom": 25
       },
-      "version": "1.1"
+      "version": "1.2"
     }, {
       "uri": "widgets/Geocoder/Widget",
       "position": {
         "left": 45,
         "top": 5
       },
-      "version": "1.1"
+      "version": "1.2"
     }, {
       "uri": "widgets/Coordinate/Widget",
       "position": {
         "left": 200,
         "bottom": 20
       },
-      "version": "1.1"
+      "version": "1.2"
     }, {
       "position": {
         "left": 55,
@@ -58,7 +58,7 @@
         "right": 0,
         "top": 0
       },
-      "version": "1.1"
+      "version": "1.2"
     }, {
       "uri": "widgets/HomeButton/Widget",
       "inPanel": false,
@@ -66,7 +66,7 @@
         "left": 7,
         "top": 75
       },
-      "version": "1.1"
+      "version": "1.2"
     }, {
       "uri": "widgets/MyLocation/Widget",
       "inPanel": false,
@@ -74,16 +74,32 @@
         "left": 7,
         "top": 110
       },
-      "version": "1.1"
+      "version": "1.2"
     }, {
       "uri": "widgets/AttributeTable/Widget",
       "positionRelativeTo": "browser",
-      "version": "1.1"
+      "version": "1.2"
     }, {
       "uri": "widgets/Splash/Widget",
       "visible": false,
       "positionRelativeTo": "browser",
-      "version": "1.1"
+      "version": "1.2"
+    }, {
+      "uri": "widgets/TimeSlider/Widget",
+      "visible": false,
+      "position": {
+        "bottom": 55,
+        "left": 7
+      },
+      "version": "1.2"
+    }, {
+      "uri": "widgets/Swipe/Widget",
+      "visible": false,
+      "position": {
+        "top": 145,
+        "left": 7
+      },
+      "version": "1.2"
     }]
   },
 

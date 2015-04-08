@@ -21,6 +21,18 @@
     squareFeet: "Ft. la pătrat",
     squareYards: "Yd. la pătrat",
     distance: "Distanţe",
-    area: "Suprafeţe"
+    area: "Suprafeţe",
+    kilometersAbbreviation: "km",
+    milesAbbreviation: "mi",
+    metersAbbreviation: "m",
+    feetAbbreviation: "ft",
+    yardsAbbreviation: "yd",
+    squareKilometersAbbreviation: "km pătraţi",
+    squareMilesAbbreviation: "mi pătrate",
+    acresAbbreviation: "ac",
+    hectaresAbbreviation: "ha",
+    squareMetersAbbreviation: "m pătraţi",
+    squareFeetAbbreviation: "ft pătraţi",
+    squareYardsAbbreviation: "yd pătraţi"
   })
 );

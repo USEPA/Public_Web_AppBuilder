@@ -22,13 +22,7 @@ define([
   'dojo/_base/html',
   'dojo/on',
   'dojo/keys',
-  "dojo/dom-style",
-  "dojo/dom-attr",
   "dojo/query",
-  'dojo/mouse',
-  'dojo/aspect',
-  'dojo/string',
-  'esri/geometry/Extent',
   'jimu/BaseWidgetSetting',
   'jimu/dijit/Popup',
   'jimu/dijit/Message',
@@ -36,8 +30,8 @@ define([
   './Edit',
   'libs/storejs/store'
 ],
-function(declare, _WidgetsInTemplateMixin, lang, array, html, on, keys, domStyle, domAttr, query,
-  mouse, aspect, string, Extent, BaseWidgetSetting, Popup, Message, utils, Edit, store) {
+function(declare, _WidgetsInTemplateMixin, lang, array, html, on, keys, query,
+  BaseWidgetSetting, Popup, Message, utils, Edit, store) {
   //for now, this setting page suports 2D mark only
   return declare([BaseWidgetSetting,_WidgetsInTemplateMixin], {
     //these two properties is defined in the BaseWidget
@@ -200,7 +194,7 @@ function(declare, _WidgetsInTemplateMixin, lang, array, html, on, keys, domStyle
           this.displayBookmarks();
           editResult = true;
         }
-        
+
         if (editResult){
           this.popup.close();
           this.popupState = "";
@@ -229,19 +223,23 @@ function(declare, _WidgetsInTemplateMixin, lang, array, html, on, keys, domStyle
     },
 
     _createmarkItem: function(bookmark) {
-      var str = "<div class='mark-item-div jimu-float-leading jimu-leading-margin1'>" +
-      "<div class='mark-item-bg'>" +
-      "<div class='mark-item-thumbnail'></div>" + "<div class='mark-item-delete-icon'></div>" +
-      "<div class='mark-item-detail-icon'></div>" + "<span class='mark-item-title'></span>" +
+      var str = "<div class='mark-item-div jimu-float-leading jimu-leading-margin2'>" +
+        "<div class='mark-item-bg'>" +
+          "<img class='mark-item-thumbnail'>" +
+          "<div class='mark-item-delete-icon'></div>" +
+          "<div class='mark-item-detail-icon'></div>" +
+        "</div>" +
+        "<span class='mark-item-title'></span>" +
       "</div>";
       var markItem = html.toDom(str);
-      var markItemBg = query('.mark-item-bg', markItem)[0];
       var markItemThumbnail = query('.mark-item-thumbnail', markItem)[0];
       var markItemTitle = query('.mark-item-title', markItem)[0];
       var markItemDeleteIcon = query('.mark-item-delete-icon',markItem)[0];
-      this.own(on(markItemDeleteIcon, 'click', lang.hitch(this, this._onmarkItemDeleteClick)));
+      this.own(on(markItemDeleteIcon, 'click',
+        lang.hitch(this, this._onmarkItemDeleteClick, bookmark.name)));
       var markItemEditIcon = query('.mark-item-detail-icon',markItem)[0];
-      this.own(on(markItemEditIcon, 'click', lang.hitch(this, this._onmarkItemEditClick)));
+      this.own(on(markItemEditIcon, 'click',
+        lang.hitch(this, this._onmarkItemEditClick, bookmark.name)));
       markItem.item = bookmark;
       var thumbnail;
 
@@ -250,8 +248,7 @@ function(declare, _WidgetsInTemplateMixin, lang, array, html, on, keys, domStyle
       }else{
         thumbnail = this.folderUrl + 'images/thumbnail_default.png';
       }
-      html.setStyle(markItemThumbnail, 'backgroundImage', "url(" + thumbnail + ")");
-      this.own(on(markItemBg, 'click', lang.hitch(this, this._onmarkItemBgClick)));
+      html.setAttr(markItemThumbnail, 'src', thumbnail);
       markItemTitle.innerHTML = bookmark.name;
       html.setAttr(markItemTitle, 'title', bookmark.name);
       return markItem;
@@ -264,26 +261,12 @@ function(declare, _WidgetsInTemplateMixin, lang, array, html, on, keys, domStyle
       }
     },
 
-    _onmarkItemBgClick:function(event){
-      var target = event.target || event.srcElement;
-      var markItemBg = target.parentNode;
-      var markItemBgs = query('.mark-item-bg', this.domNode);
-      markItemBgs.removeClass('selected');
-      html.addClass(markItemBg, 'selected');
+    _onmarkItemEditClick:function(bookmarkName){
+      this._onEditClick(bookmarkName);
     },
 
-    _onmarkItemEditClick:function(event){
-      var target = event.target || event.srcElement;
-      var markItem = target.parentNode;
-      var titleDom = query('.mark-item-title', markItem)[0];
-      this._onEditClick(titleDom.innerHTML);
-    },
-
-    _onmarkItemDeleteClick:function(event){
-      var target = event.target || event.srcElement;
-      var markItem = target.parentNode;
-      var titleDom = query('.mark-item-title', markItem)[0];
-      this.getBookmarkByName(titleDom.innerHTML);
+    _onmarkItemDeleteClick:function(bookmarkName){
+      this.getBookmarkByName(bookmarkName);
       if (this.editIndex !== null){
         this.bookmarks.splice(this.editIndex,1);
       }

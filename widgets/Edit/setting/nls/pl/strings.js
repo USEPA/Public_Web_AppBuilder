@@ -16,6 +16,6 @@
     editpageAlias: "Alias",
     editpageVisible: "Widoczne",
     editpageEditable: "Edytowalne",
-    noLayers: "Brak dostępnych edytowalnych warstw obiektów"
+    noLayers: "Brak warstw obiektu możliwych do edycji"
   })
 );

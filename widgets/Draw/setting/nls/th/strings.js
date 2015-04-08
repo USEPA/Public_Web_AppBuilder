@@ -21,6 +21,18 @@
     squareFeet: "ตารางนิ้ว",
     squareYards: "ตารางหลา",
     distance: "ระยะทาง",
-    area: "พื้นที่"
+    area: "พื้นที่",
+    kilometersAbbreviation: "กม.",
+    milesAbbreviation: "ไมล์",
+    metersAbbreviation: "ม.",
+    feetAbbreviation: "ฟุต",
+    yardsAbbreviation: "หลา",
+    squareKilometersAbbreviation: "ตร.กม.",
+    squareMilesAbbreviation: "ตร.ไมล์",
+    acresAbbreviation: "เอซี",
+    hectaresAbbreviation: "เฮกเตอร์",
+    squareMetersAbbreviation: "ตร.ม.",
+    squareFeetAbbreviation: "ตร.ฟุต",
+    squareYardsAbbreviation: "ตร.หลา"
   })
 );

@@ -1,4 +1,9 @@
-﻿define({
-
-    title: "بيت_Select template to create feature_لاحقة"
-});
+﻿define(
+   ({
+    _widgetLabel: "سحب",
+    swipeText: " حدد الطبقة التي تريد سحبها.",
+    spyglassText: "تحديد الطبقة للظهور ضمن المنظار.",
+    disableTips: "اختر لتعطيل أداة السحب",
+    enableTips: "انقر لتمكين أداة السحب"
+  })
+);

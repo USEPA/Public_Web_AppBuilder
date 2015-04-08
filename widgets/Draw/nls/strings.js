@@ -37,12 +37,15 @@ define({
     hectares: "Hectares",
     squareMeters: "Square meters",
     squareFeet: "Square feet",
-    squareYards: "Square yards"
+    squareYards: "Square yards",
+    undo: "Undo",
+    redo: "Redo"
   }),
   "ar": 1,
   "cs": 1,
   "da": 1,
   "de": 1,
+  "el": 1,
   "es": 1,
   "et": 1,
   "fi": 1,

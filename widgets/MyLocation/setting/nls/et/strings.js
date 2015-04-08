@@ -1,6 +1,6 @@
 ﻿define(
    ({
-    timeout: "Ajalõpp",
+    timeout: "Vaheaeg",
     highlightLocation: "Tõsta asukoht esile",
     warning: "Vale sisend"
   })

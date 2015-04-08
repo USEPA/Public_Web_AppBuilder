@@ -25,7 +25,7 @@
     invalidTitle1:"Una mappa di base '",
     invalidTitle2:"' esiste già. Scegliere un altro titolo.",
     invalidBasemapUrl1: "Questo tipo di layer non può essere utilizzato come mappa di base.",
-    invalidBasemapUrl2: "Riferimento spaziale rispetto alla mappa corrente.",
+    invalidBasemapUrl2: "Riferimento spaziale diverso rispetto alla mappa corrente.",
     addBaselayer: "Aggiungi layer mappa base"
   })
 );

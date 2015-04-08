@@ -1,8 +1,11 @@
 .jimu-widget-geocoder{
-  width: 225px;
-  height: 30px;
+  width: 225px !important;
+  height: 30px !important;
   background-color: rgba(72, 85, 102, 0.5);
   border-radius: 5px;
+}
+.jimu-widget-geocoder input::-ms-clear {
+    display: none;
 }
 .jimu-widget-geocoder .simpleGeocoder .esriGeocoder {
   border: 1px solid #666;

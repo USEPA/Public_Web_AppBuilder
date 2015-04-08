@@ -30,6 +30,7 @@
     popup: "Ponnahdusikkuna",
     setTask: "Aseta",
     setTaskTitle: "Määritä geoprosessointitehtävä",
-    enablePopup: "Ota ponnahdusikkunat käyttöön"
+    enablePopup: "Ota ponnahdusikkunat käyttöön",
+    unSupportGeometryType: "Renderöintiä ei voi määrittää tuntemattoman geometriatyypin vuoksi."
   })
 );

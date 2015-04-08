@@ -13,6 +13,9 @@
     itemDesc: "Descripción",
     itemDownload: "Descargar",
     itemToAttributeTable: "Abrir tabla de atributos",
-    itemShowItemDetails: "Mostrar detalles del elemento"
+    itemShowItemDetails: "Mostrar detalles del elemento",
+    empty: "vacío",
+    removePopup: "Quitar elemento emergente",
+    enablePopup: "Habilitar elemento emergente"
   })
 );

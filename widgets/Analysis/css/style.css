@@ -1,0 +1,371 @@
+/*override analysis combobox style*/
+.esriAnalysis .dijitComboBox{
+  height: 30px !important;
+}
+
+.jimu-widget-analysis{
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-width: 300px;
+  min-height: 237px;
+  overflow-x: hidden;
+  -ms-overflow-x: hidden;
+  overflow-y: auto;
+  -ms-overflow-y: auto;
+}
+
+.jimu-widget-analysis .execute-tip{
+  font-size: 14px;
+  color: #66699c;
+  font-weight: bold;
+}
+
+.jimu-widget-analysis .tools-table-container{
+  width: 100%;
+}
+
+.jimu-widget-analysis .tools-table{
+  margin: 0 auto;
+  padding-top: 10px;
+  width: 100%;
+}
+
+.jimu-widget-analysis .tool-name{
+  font-size: 14px;
+  margin-left: 10px;
+  margin-top: 10px;
+  color: #686868;
+}
+
+.jimu-rtl .jimu-widget-analysis .tool-name{
+  margin-left: auto;
+  margin-right: 10px;
+}
+
+.jimu-widget-analysis .tools-table-tr{
+  height:107px;
+  display: block;
+  cursor: pointer;
+}
+
+.jimu-widget-analysis .tools-table-tr.even{
+  background-color: #ffffff;
+}
+
+.jimu-widget-analysis .tools-table-tr.odd{
+  background-color: #f0f0f0;
+}
+
+.jimu-widget-analysis .tools-table-tr.disabled{
+  background-color: #979797;
+  cursor: default;
+  margin-top: 1px;
+}
+
+.jimu-widget-analysis .tools-table-tr .icon-div{
+  margin: 10px;
+}
+
+.jimu-widget-analysis .tools-table-tr .icon-div .tool-icon{
+  height: 60px;
+  width: auto;
+}
+
+.jimu-widget-analysis .tools-table-tr .tooltip-td{
+  margin: 10px;
+}
+
+.jimu-widget-analysis .tooltip-icon{
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  margin-left: 30px;
+}
+
+.jimu-rtl .jimu-widget-analysis .tooltip-icon{
+  margin-left: auto;
+  margin-right: 30px;
+}
+
+.jimu-widget-analysis .tools-table-tr:hover{
+  background: #d9dde0;
+}
+
+.jimu-widget-analysis .tools-table-tr.disabled:hover{
+  background-color: #979797;
+}
+
+.jimu-widget-analysis .no-query-tip{
+  width: 100%;
+  min-height: 150px;
+  margin-top: 30px;
+  margin-left: 15px;
+  margin-right: 15px;
+  color:#ff0000;
+  font-size: 14px;
+}
+
+/*params*/
+.jimu-widget-analysis .tool-params{
+  width: 100%;
+  height: 100%;
+}
+.jimu-widget-analysis .input-header{
+  position: relative;
+  width: 100%;
+}
+
+.jimu-widget-analysis .input-header .small-icon{
+  margin-left: 15px;
+}
+
+.jimu-rtl .jimu-widget-analysis .input-header .small-icon{
+  margin-left: auto;
+  margin-right: 15px;
+}
+
+.jimu-widget-analysis .input-header .tool-title{
+  margin-left: 15px;
+  margin-bottom: 15px;
+  font-size: 16px;
+}
+
+.jimu-rtl .jimu-widget-analysis .input-header .tool-title{
+  margin-left: auto;
+  margin-right: 15px;
+}
+
+.jimu-widget-analysis .input-header .help-icon{
+  margin-top: 15px;
+  cursor: pointer;
+}
+
+.jimu-widget-analysis .input-tip{
+  width: 100%;
+  height: auto;
+  margin-top: 20px;
+  font-size: 14px;
+}
+
+.jimu-widget-analysis .layerNode{
+  position: relative;
+  width:100%;
+  margin: 0 auto;
+  margin-top: 10px;
+}
+
+.jimu-widget-analysis .layerNode .param-name{
+  margin-top: 15px;
+  margin-bottom: 10px;
+}
+
+.jimu-widget-analysis .layer-name {
+  height: 30px;
+  line-height: 30px;
+  width: 100%;
+  border: solid 1px rgba(0,0,0,0.1);
+  cursor: pointer;
+}
+
+.jimu-widget-analysis .tool-params .buttonNode{
+  width: 100%;
+  height: auto;
+  margin-top: 20px;
+  text-align: center;
+}
+
+.jimu-widget-analysis .switch-button{
+  margin-left: 20px;
+}
+
+.jimu-rtl .jimu-widget-analysis .switch-button{
+  margin-left: auto;
+  margin-right: 20px;
+}
+
+.jimu-widget-analysis .tool-panel{
+  width: 100%;
+  height: auto;
+  position: relative;
+  top:-20px;
+}
+
+.jimu-widget-analysis .tool-panel .esriAnalysisCloseIcon{
+  display:none;
+}
+
+
+.jimu-widget-analysis .jimu-btn{
+  padding: 9px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.jimu-widget-analysis .toolpanel-button{
+  text-align: center;
+}
+
+.jimu-widget-analysis .analysis-error-tip{
+  width: 100%;
+  min-height: 150px;
+  margin-top: 30px;
+  margin-left: 15px;
+  margin-right: 15px;
+  color:#ff0000;
+  font-size: 14px;
+}
+
+/*message panel*/
+.jimu-widget-analysis .message-panel{
+  width: 100%;
+  margin-bottom: 15px;
+  position: relative;
+}
+
+.jimu-widget-analysis .message-panel .message-title{
+  margin-top: 20px;
+  font-size: 14px;
+  color: #66696c;
+  font-weight: bold;
+}
+
+.jimu-widget-analysis .message-panel .message-title.outputs{
+  margin-top: 30px;
+}
+
+.jimu-widget-analysis .message-panel .job-message{
+  margin-top: 10px;
+  font-size: 12px;
+  color: #686868;
+}
+
+.jimu-widget-analysis .message-panel .job-message.outputtip{
+  margin-top: 30px;
+}
+
+.jimu-widget-analysis .message-panel .job-message.success{
+  color: #00B050;
+}
+
+.jimu-widget-analysis .message-panel .job-message.failed{
+  color:#E84B4B;
+}
+
+.jimu-widget-analysis .message-panel .job-message.cancelled{
+  color: #51B1FE;
+}
+
+.jimu-widget-analysis .message-panel .job-running-icon{
+  width: 16px;
+  height: 16px;
+  margin-left: 10px;
+}
+
+.jimu-rtl .jimu-widget-analysis .message-panel .job-running-icon{
+  margin-left: auto;
+  margin-right: 10px;
+}
+
+.jimu-widget-analysis .message-panel .job-cancel-icon{
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.jimu-rtl .jimu-widget-analysis .message-panel .job-cancel-icon{
+  margin-left: auto;
+  margin-right: 10px;
+}
+
+.jimu-widget-analysis .message-panel .output-item{
+  margin-top: 10px;
+  color: #51B1FE;
+  font-size: 12px;
+}
+
+.jimu-widget-analysis .message-panel .output-item>a{
+  color: #51B1FE;
+}
+
+.jimu-widget-analysis .message-panel .button-section{
+  width: 100%;
+  margin-top: 20px;
+}
+
+.jimu-widget-analysis .message-panel .buttonNode{
+  width: 100%;
+  height: auto;
+  margin-top: 20px;
+  text-align: center;
+}
+
+.jimu-widget-analysis .result-section{
+  width: 100%;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  font-size: 14px;
+  color: #66699c;
+}
+
+.jimu-widget-analysis .result-loading{
+  width: 100%;
+  height: 40px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  background-image: url(images/loading.gif);
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.jimu-widget-analysis .hidden{
+  display: none;
+}
+
+
+.jimu-widget-analysis .esriAnalysis .esriAnalysisSubmitButton{
+  margin-left: 0px;
+}
+
+.jimu-rtl .jimu-widget-analysis .esriAnalysis .esriAnalysisSubmitButton{
+  margin-right: 0px;
+  margin-left: auto;
+}
+
+.jimu-widget-analysis .esriAnalysis .esriAnalysisSubmitButton.dijitButton>span.dijitButtonNode{
+  cursor:pointer;
+  min-width: 70px;
+  display:inline-block;
+  padding:8px;
+  font-size:15px;
+  text-align:center;
+  background:#528cc9;
+  vertical-align:middle;
+  color:#ffffff;
+  -webkit-border-radius:5px;
+  -moz-border-radius:5px;
+  -o-border-radius:5px;
+  -ms-border-radius:5px;
+  border-radius: 5px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.jimu-widget-analysis .esriAnalysis .esriAnalysisSubmitButton.dijitButtonHover>span.dijitButtonNode{
+  background-color: #15a4fa;
+}
+
+.dijitDialog .esriAnalysis{
+  overflow: hidden;
+}
+
+.dijitDialog .esriAnalysis .esriAnalysisSubmitButton{
+  margin-left: 10px;
+}
+
+.jimu-rtl .dijitDialog .esriAnalysis .esriAnalysisSubmitButton{
+  margin-left: auto;
+  margin-right: 10px;
+}

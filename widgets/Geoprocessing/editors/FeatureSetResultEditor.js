@@ -17,7 +17,6 @@
 define(['dojo/_base/declare',
   'dojo/_base/lang',
   'dojo/_base/array',
-  'dojo/_base/html',
   'dojo/text!./FeatureSetResultEditor.html',
   'dijit/_TemplatedMixin',
   '../BaseEditor',
@@ -26,7 +25,7 @@ define(['dojo/_base/declare',
   'jimu/dijit/TabContainer',
   'jimu/dijit/CheckBox'
 ],
-function(declare, lang, array, html, template, _TemplatedMixin, BaseEditor,
+function(declare, lang, array, template, _TemplatedMixin, BaseEditor,
   FeatureSetRendererEditor, PopupConfig, TabContainer, CheckBox) {
   var clazz = declare([BaseEditor,_TemplatedMixin], {
     baseClass: 'jimu-gp-editor-base jimu-gp-editor-fsrse',

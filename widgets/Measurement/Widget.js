@@ -17,15 +17,11 @@
 define([
     'dojo/_base/declare',
     'dojo/_base/lang',
-    'dojo/on',
     'dojo/aspect',
-    'dojo/dom-style',
     'dojo/Deferred',
-    'dijit/registry',
     'dijit/_WidgetsInTemplateMixin',
     'jimu/BaseWidget',
     'jimu/portalUtils',
-    'jimu/tokenUtils',
     'jimu/dijit/Message',
     'esri/units',
     'esri/dijit/Measurement',
@@ -34,15 +30,11 @@ define([
   function(
     declare,
     lang,
-    on,
     aspect,
-    domStyle,
     Deferred,
-    registry,
     _WidgetsInTemplateMixin,
     BaseWidget,
     PortalUtils,
-    TokenUtils,
     Message,
     esriUnits,
     Measurement,
@@ -100,27 +92,11 @@ define([
       },
 
       disableWebMapPopup: function() {
-        if (this.map && this.map.webMapResponse) {
-          var handler = this.map.webMapResponse.clickEventHandle;
-          if (handler) {
-            handler.remove();
-            this.map.webMapResponse.clickEventHandle = null;
-          }
-        }
+        this.map.setInfoWindowOnClick(false);
       },
 
       enableWebMapPopup: function() {
-        if (this.map && this.map.webMapResponse) {
-          var handler = this.map.webMapResponse.clickEventHandle;
-          var listener = this.map.webMapResponse.clickEventListener;
-          if (listener && !handler) {
-            this.map.webMapResponse.clickEventHandle = on(
-              this.map,
-              'click',
-              lang.hitch(this.map, listener)
-            );
-          }
-        }
+        this.map.setInfoWindowOnClick(true);
       },
 
       onClose: function() {

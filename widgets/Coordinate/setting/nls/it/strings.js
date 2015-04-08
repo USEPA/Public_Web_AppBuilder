@@ -1,6 +1,6 @@
 ﻿define(
    ({
-    state: "Per impostazione predefinita, le coordinate verranno visualizzate nel sistema di coordinate della mappa corrente. Per ottenere le coordinate in altri sistemi di coordinate, è necessario aggiungerli e specificare le trasformazioni appropriate.",
+    state: "Per impostazione predefinita, le coordinate verranno visualizzate nel sistema di coordinate della mappa corrente. Per ottenere le coordinate in altri sistemi di coordinate, è necessario aggiungerle e specificare le trasformazioni appropriate.",
     outputUnit: "Unità di output",
     wkid: "WKID di output",
     label: "Nome sistema di coordinate di output",
@@ -22,6 +22,7 @@
     units: "Unità visualizzazione: ",
     datum: "Trasformazione riferimenti",
     tName: "Nome trasformazione",
+    tWKIDPlaceHolder: "WKID della trasformazione",
     forward: "Usa trasformazione in avanti",
     ok: "OK",
     cancel: 'Annulla',
@@ -33,7 +34,7 @@
     Foot: "Piedi",
     Yards: "Iarde",
     Miles: "Miglia",
-    Nautical_Miles: "Miglia marine",
+    Nautical_Miles: "Miglia nautiche",
     Millimeters: "Millimetri",
     Centimeters: "Centimetri",
     Meter: "Metri",

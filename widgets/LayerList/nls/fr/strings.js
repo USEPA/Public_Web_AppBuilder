@@ -13,6 +13,9 @@
     itemDesc: "Description",
     itemDownload: "Télécharger",
     itemToAttributeTable: "Ouvrir la table attributaire",
-    itemShowItemDetails: "Afficher les détails de l'élément"
+    itemShowItemDetails: "Afficher les détails de l\'élément",
+    empty: "vide",
+    removePopup: "Supprimer la fenêtre contextuelle",
+    enablePopup: "Activer la fenêtre contextuelle"
   })
 );

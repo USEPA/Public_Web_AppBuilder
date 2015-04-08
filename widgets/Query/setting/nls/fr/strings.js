@@ -31,6 +31,10 @@
 		setFilterTip: "Définissez le filtre correctement.",
 		ok: "OK",
 		cancel: "Annuler",
-		noFilterTip: "Sans expression de filtre définie, cette tâche de requête répertorie toutes les entités dans la source de données spécifiée."
+		noFilterTip: "Sans expression de filtre définie, cette tâche de requête répertorie toutes les entités dans la source de données spécifiée.",
+    relationships: "Table de relations",
+    addRelationshipLayer: "Ajouter une nouvelle relation",
+    relatedTo: "Associé à",
+    selectOption: "Sélectionnez.."
   })
 );

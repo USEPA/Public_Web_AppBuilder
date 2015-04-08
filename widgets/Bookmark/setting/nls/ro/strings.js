@@ -11,6 +11,6 @@
     errorNameNull: "Nume marcaj nevalid!",
     addBookmark: "Creare marcaj nou",
     thumbnail: "Miniatură",
-    thumbnailHint: "Pentru actualizare, faceţi clic pe imagine"
+    thumbnailHint: "Faceţi clic pe imagine pentru a o actualiza"
   })
 );

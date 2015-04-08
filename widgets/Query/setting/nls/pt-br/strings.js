@@ -31,6 +31,10 @@
 		setFilterTip: "Configure o filtro corretamente.",
 		ok: "Ok",
 		cancel: "Cancelar",
-		noFilterTip: "Sem expressão de filtro definida, esta tarefa de consulta listará todas as feições na fonte de dados especificada."
+		noFilterTip: "Sem expressão de filtro definida, esta tarefa de consulta listará todas as feições na fonte de dados especificada.",
+    relationships: "Tabela de relacionamento",
+    addRelationshipLayer: "Adicionar Novo Relacionamento",
+    relatedTo: "Relacionado Para",
+    selectOption: "Selecione.."
   })
 );

@@ -1,19 +1,11 @@
-﻿define({
-    enableUndoRedo: "Å_Enable UndoRedo_ö",
-    toolbarVisible: "Å_Toolbar Visible_ö",
-    toolbarOptions: "Å_Toolbar Options_ö",
-    mergeVisible: "Å_Merge_ö",
-    cutVisible: "Å_Cut_ö",
-    reshapeVisible: "Å_Reshape_ö",
-    back: "Å_Back_ö",
-    label: "Å_Layer_ö",
-    edit: "Å_Editable_ö",
-    update: "Å_DisableUpdateGeometry_ö",
-    fields: "Å_Fields_ö",
-    actions: "Å_Actions_ö",
-    editpageName: "Å_Name_ö",
-    editpageAlias: "Å_Alias_ö",
-    editpageVisible: "Å_Visible_ö",
-    editpageEditable: "Å_Editable_ö",
-    noLayers: "Å_No editable feature layers available_ö"
-});
+﻿define(
+   ({
+    styleText: "Välj en stil för svepverktyget",
+    vertical: "Lodrät stapel",
+    horizontal: "Vågrät stapel",
+    scope: "Kikare",
+    layerText: "Välj det lager som ska svepas som standard.",
+    spyglassText: "Välj det lager som ska visas som standard i kikaren.",
+    layerHint: "Obs! Om lagret är dolt av högre lager har det ingen effekt när du sveper."
+  })
+);

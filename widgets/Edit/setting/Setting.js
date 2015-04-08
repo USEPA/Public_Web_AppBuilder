@@ -20,6 +20,7 @@ define([
     'jimu/BaseWidgetSetting',
     'jimu/dijit/SimpleTable',
     'dojo/_base/lang',
+    'dojo/_base/html',
     'dojo/on',
     'dojo/_base/array',
     "dojo/dom-style",
@@ -31,6 +32,7 @@ define([
     BaseWidgetSetting,
     Table,
     lang,
+    html,
     on,
     array,
     domStyle,
@@ -67,6 +69,7 @@ define([
         this.mergeVisible.set('checked', this.config.editor.toolbarOptions.mergeVisible);
         this.cutVisible.set('checked', this.config.editor.toolbarOptions.cutVisible);
         this.reshapeVisible.set('checked', this.config.editor.toolbarOptions.reshapeVisible);
+        this.onToolbarSelected();
 
         var fields = [{
           name: 'edit',
@@ -172,13 +175,9 @@ define([
 
       onToolbarSelected: function() {
         if (!this.toolbarVisible.checked) {
-          this.mergeVisible.set('checked', false);
-          this.cutVisible.set('checked', false);
-          this.reshapeVisible.set('checked', false);
+          html.setStyle(this.toolbarOptionsTr, 'display', 'none');
         } else {
-          this.mergeVisible.set('checked', true);
-          this.cutVisible.set('checked', true);
-          this.reshapeVisible.set('checked', true);
+          html.setStyle(this.toolbarOptionsTr, 'display', 'table-row');
         }
       },
 

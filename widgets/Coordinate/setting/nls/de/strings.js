@@ -1,6 +1,6 @@
 ﻿define(
    ({
-    state: "Die Koordinaten werden standardmäßig im Koordinatensystem der aktuellen Karte angezeigt. Um Koordinaten in anderen Koordinatensystemen abzurufen, müssen Sie sie zusätzlich hinzufügen und entsprechende Transformationen festlegen.",
+    state: "Die Koordinaten werden standardmäßig im Koordinatensystem der aktuellen Karte angezeigt. Um Koordinaten in anderen Koordinatensystemen abzurufen, müssen Sie sie hinzufügen und entsprechende Transformationen festlegen.",
     outputUnit: "Ausgabeeinheit",
     wkid: "Ausgabe-WKID",
     label: "Name des Ausgabe-Koordinatensystems",
@@ -22,6 +22,7 @@
     units: "Anzeigeeinheiten: ",
     datum: "Datumstransformation",
     tName: "Name der Transformation",
+    tWKIDPlaceHolder: "WKID der Transformation",
     forward: "Vorwärts-Transformation verwenden",
     ok: "OK",
     cancel: 'Abbrechen',

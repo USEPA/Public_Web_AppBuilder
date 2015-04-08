@@ -1,7 +1,7 @@
 ﻿define(
    ({
     taskUrl: "Ülesande URL",
-    serviceURLPlaceholder: "Sisestage geotöötluse ülesande URL",
+    serviceURLPlaceholder: "Sisestage geotöötluse toimingu URL",
     ok: "OK",
     cancel: "Tühista",
     layer: "Kiht",
@@ -14,22 +14,23 @@
     layerOrder: "Kihi järjestus",
     options: "Valikud",
     defaultValue: "Vaikeväärtus",
-    inputFeatureBy: "Sisendobjektid järgmise järgi",
+    inputFeatureBy: "Sisendobjektid vastavalt",
     renderer: "Renderdaja",
     displayType: "Kuva tüüp",
     label: "Märgis",
     tooltip: "Kohtspikker",
     visible: "Nähtav",
     helpUrl: "Abi URL",
-    useResultMapService: "Kasutage kaarditeenuse tulemuse joonistamisvalikuid",
-    drawOnMap: "Joonistamine kaardile interaktiivselt",
-    selectLayer: "Kaardilt kihi valimine",
+    useResultMapService: "Kasutage kaarditeenuse tulemuse kuvamise valikuid",
+    drawOnMap: "Interaktiivselt kaardile joonistamine",
+    selectLayer: "Kihi valimine kaardilt",
     url: "URL",
     symbol: "Sümbol",
     shareResults: "Lisa tulemus töökihina",
-    popup: "Hüpik",
+    popup: "Hüpikaken",
     setTask: "Määra",
     setTaskTitle: "Määra GT toiming",
-    enablePopup: "Luba hüpikaken"
+    enablePopup: "Luba hüpikaken",
+    unSupportGeometryType: "Renderdajat ei saa määrata, kuna geomeetria tüüp on tundmatu."
   })
 );

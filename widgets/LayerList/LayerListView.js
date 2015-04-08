@@ -19,32 +19,39 @@ define([
   'dojo/_base/declare',
   'dojo/_base/lang',
   'dojo/_base/array',
+  'dojo/_base/html',
   'dojo/dom-construct',
-  'dojo/dom-geometry',
   'dojo/on',
-  'dojo/aspect',
   'dojo/query',
   'jimu/dijit/CheckBox',
-  'jimu/shared/basePortalUrlUtils',
   './PopupMenu',
   'dijit/_TemplatedMixin',
   'dojo/text!./LayerListView.html',
-  'esri/dijit/Legend',
-  './NlsStrings',
+  'jimu/dijit/LoadingIndicator',
   'dojo/dom-attr',
   'dojo/dom-class',
-  'dojo/dom-style'
-], function(_WidgetBase, declare, lang, array, domConstruct, domGeometry, on, aspect, query,
-  CheckBox, basePortalUrlUtils, PopupMenu, _TemplatedMixin, template, Legend, NlsStrings,
-  domAttr, domClass, domStyle) {
+  'dojo/dom-style',
+  './NlsStrings'
+], function(_WidgetBase, declare, lang, array, html, domConstruct, on, query,
+  CheckBox, PopupMenu, _TemplatedMixin, template, LoadingIndicator,
+  domAttr, domClass, domStyle, NlsStrings) {
 
   return declare([_WidgetBase, _TemplatedMixin], {
     templateString: template,
     _currentSelectedLayerRowNode: null,
 
+    postMixInProperties: function() {
+      this.inherited(arguments);
+      this.nls = NlsStrings.value;
+    },
+
     postCreate: function() {
       array.forEach(this.operLayerInfos.finalLayerInfos, function(layerInfo) {
         this.drawListNode(layerInfo, 0, this.layerListTable, true);
+      }, this);
+
+      array.forEach(this.operLayerInfos.tableInfos, function(layerInfo) {
+        this.drawListNode(layerInfo, 0, this.tableListTable, true);
       }, this);
     },
 
@@ -104,13 +111,13 @@ define([
       }
 
       imageShowLegendNode = domConstruct.create('img', {
-        'class': 'showLegend-image jimu-leading-margin1',
+        'class': 'showLegend-image',
         'src': showLegendImageSrc,
         'alt': 'l'
       }, imageShowLegendDiv);
 
       ckSelectDiv = domConstruct.create('div', {
-        'class': 'div-select jimu-float-leading jimu-leading-margin1 jimu-trailing-margin1'
+        'class': 'div-select jimu-float-leading'
       }, layerTdNode);
 
       ckSelect = new CheckBox({
@@ -122,31 +129,35 @@ define([
         'class': 'noLegend-div jimu-float-leading'
       }, layerTdNode);
 
+      var imageName;
+      if (layerInfo.isTable) {
+        imageName = 'images/table.png';
+      } else {
+        imageName = 'images/noLegend.png';
+      }
+
       imageNoLegendNode = domConstruct.create('img', {
         'class': 'noLegend-image',
-        'src': this.layerListWidget.folderUrl + 'images/noLegend.png',
+        'src': this.layerListWidget.folderUrl + imageName,
         'alt': 'l'
       }, imageNoLegendDiv);
 
-      if(layerInfo.noLegend) {
+      if(layerInfo.noLegend || layerInfo.isTable) {
         domStyle.set(imageShowLegendDiv, 'display', 'none');
-        //domStyle.set(imageShowLegendNode, 'display', 'none');
         domStyle.set(ckSelectDiv, 'display', 'none');
-      } else {
-        domStyle.set(imageNoLegendDiv, 'display', 'none');
+        domStyle.set(imageNoLegendDiv, 'display', 'block');
       }
-
 
       // set tdNode width
       domStyle.set(layerTdNode, 'width', level*12 + 35 + 'px');
 
-      layerTdNode = domConstruct.create('td', {
+      var layerTitleTdNode = domConstruct.create('td', {
         'class': 'col col2'
       }, layerTrNode);
       divLabel = domConstruct.create('div', {
         'innerHTML': layerInfo.title,
         'class': 'div-content jimu-float-leading'
-      }, layerTdNode);
+      }, layerTitleTdNode);
 
       //domStyle.set(divLabel, 'width', 263 - level*13 + 'px');
 
@@ -159,27 +170,22 @@ define([
         'class': 'layers-list-popupMenu-div'
       }, layerTdNode);
 
-
-      /***** temporary code *****/
-      var item = layerInfo.popupMenuInfo.menuItems[layerInfo.popupMenuInfo.menuItems.length - 1];
-      var itemLayerId = layerInfo._isItemLayer();
-      if(item && item.key === 'description' && itemLayerId) {
-        
-        item.label = '<a class="menu-item-description" target="_blank" href=' +
-                  basePortalUrlUtils.getItemDetailsPageUrl(this.layerListWidget.appConfig.portalUrl,
-                                                           itemLayerId) + '>' +
-                  NlsStrings.value.itemShowItemDetails + '</a>'; /*no nls*/
-      }
-      /***** temporary code end *****/
-
       popupMenu = new PopupMenu({
-        items: layerInfo.popupMenuInfo.menuItems,
-        box: this.layerListWidget.domNode.parentNode
+        //items: layerInfo.popupMenuInfo.menuItems,
+        _layerInfo: layerInfo,
+        box: this.layerListWidget.domNode.parentNode,
+        _appConfig: this.layerListWidget.appConfig
       }).placeAt(popupMenuNode);
       this.own(on(popupMenu,
                   'onMenuClick',
                   lang.hitch(this, this._onPopupMenuItemClick, layerInfo, popupMenu)));
       
+
+      popupMenu.loading = new LoadingIndicator({
+        hidden: true
+      });
+      popupMenu.loading.placeAt(popupMenuNode);
+
       //add a tr node to toTableNode.
       var trNode = domConstruct.create('tr', {
         'class': '',
@@ -196,7 +202,7 @@ define([
       }, tdNode);
 
       //bind event
-      this.own(on(layerTrNode,
+      this.own(on(layerTitleTdNode,
                   'click',
                 lang.hitch(this,
                            this._onRowTrClick,
@@ -204,6 +210,16 @@ define([
                            imageShowLegendNode,
                            layerTrNode,
                            tableNode)));
+      
+      this.own(on(imageShowLegendDiv,
+                  'click',
+                lang.hitch(this,
+                           this._onRowTrClick,
+                           layerInfo,
+                           imageShowLegendNode,
+                           layerTrNode,
+                           tableNode)));
+                           
       this.own(on(layerTrNode,
                 'mouseover',
                 lang.hitch(this, this._onLayerNodeMouseover, layerTrNode, popupMenu)));
@@ -286,6 +302,7 @@ define([
     //   true:  fold,
     //   false: unfold
     _fold: function(layerInfo, imageShowLegendNode, subNode) {
+      /*jshint unused: false*/
       /* global isRTL*/
       var state;
       if (domStyle.get(subNode, 'display')  === 'none') {
@@ -320,16 +337,31 @@ define([
     },
 
     _onPopupMenuClick: function(layerInfo, popupMenu, layerTrNode, evt) {
+      popupMenu.btnClick();
+      /*jshint unused: false*/
       this._changeSelectedLayerRow(layerTrNode);
       if (popupMenu && popupMenu.state === 'opened') {
         popupMenu.closeDropMenu();
       } else {
         //topic.publish("popupMenuAll/hide");
         this._hideCurrentPopupMenu();
+        popupMenu.loading.show();
         if (popupMenu) {
-          var def = layerInfo.getDeniedItems();
-          popupMenu.openDropMenu(def);
           this.currentPopupMenu = popupMenu;
+          popupMenu.getPopupMenuInfo().then(lang.hitch(this, function(popupMenuInfo) {
+            //handle controlPopup item.
+            var itemNode = query("[itemid=controlPopup]", popupMenu.dropMenuNode)[0];
+            if(itemNode && layerInfo.controlPopupInfo) {
+              if(layerInfo.controlPopupInfo.enablePopup) {
+                html.setAttr(itemNode, 'innerHTML', this.nls.removePopup);
+              } else {
+                html.setAttr(itemNode, 'innerHTML', this.nls.enablePopup);
+              }
+            }
+            popupMenu.openDropMenu(popupMenuInfo.getDeniedItems());
+            popupMenu.loading.hide();
+
+          }));
         }
       }
       evt.stopPropagation();
@@ -400,7 +432,7 @@ define([
     _onPopupMenuItemClick: function(layerInfo, popupMenu, item, data) {
       var evt = {
         itemKey: item.key,
-        data: data,
+        extraData: data,
         layerListWidget: this.layerListWidget,
         layerListView: this
       }, result;
@@ -413,7 +445,7 @@ define([
           popupMenu.hideTransNode();
         }
       } else {
-        result = layerInfo.onPopupMenuClick(evt);
+        result = popupMenu.popupMenuInfo.onPopupMenuClick(evt);
         if (result.closeMenu) {
           popupMenu.closeDropMenu();
         }

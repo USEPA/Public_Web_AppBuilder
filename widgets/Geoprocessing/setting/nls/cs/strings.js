@@ -30,6 +30,7 @@
     popup: "Vyskakovací okno",
     setTask: "Nastavit",
     setTaskTitle: "Nastavit GP úlohu",
-    enablePopup: "Povolit vyskakovací okna"
+    enablePopup: "Povolit vyskakovací okna",
+    unSupportGeometryType: "Vykreslovač nelze nastavit, protože je typ geometrie neznámý."
   })
 );

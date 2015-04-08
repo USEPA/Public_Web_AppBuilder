@@ -51,11 +51,12 @@
     specifyParamsTip: "Parameter für diesen Task festlegen",
     useSpatialFilter: "Räumlichen Filter zum Begrenzen von Features verwenden",
     useCurrentMapExtent: "Nur Features, die in der aktuellen Kartenausdehnung liegen",
-    drawGraphicOnMap: "Nur Features, die in einem benutzerdefinierten Bereich liegen",
+    drawGraphicOnMap: "Nur Features, die im benutzerdefinierten Bereich liegen",
     specifySpatialFilterMsg: "Geben Sie einen räumlichen Filter für diesen Task an.",
     clearResults: "Ergebnisse löschen",
     operationalTip: 'Wenn diese Option aktiviert ist, werden die Ergebnisse auf der Karte beibehalten, bis auf die Schaltfläche \"${clearResults}\" geklickt wird.',
     noneQueryTip: "Es sind keine vorkonfigurierten Abfrage-Tasks verfügbar.",
-    noPermissionsMsg: "Sie verfügen nicht über die entsprechenden Berechtigungen für den Zugriff auf diesen Service."
+    noPermissionsMsg: "Sie verfügen nicht über die entsprechenden Berechtigungen für den Zugriff auf diesen Service.",
+    attributesFromRelationship: "Attribute aus zugehöriger Tabelle"
   })
 );

@@ -22,9 +22,6 @@ define([
   'dojo/on',
   'dojo/Deferred',
   'dojo/promise/all',
-  "dojo/store/Memory",
-  'dijit/_WidgetBase',
-  'dijit/form/Select',
   'jimu/BaseWidget',
   'jimu/dijit/TabContainer',
   'jimu/dijit/LoadingIndicator',
@@ -38,7 +35,7 @@ define([
   'esri/geometry/Extent',
   'esri/graphicsUtils'
 ],
-function(declare, lang, array, html, on, Deferred, all, Memory, _WidgetBase, Select,
+function(declare, lang, array, html, on, Deferred, all,
   BaseWidget, TabContainer, LoadingIndicator, Message, editorManager, resultRendererManager,
   Geoprocessor, JobInfo, ImageParameters, esriRequest, Extent, graphicsUtils) {
   var clazz = declare([BaseWidget], {
@@ -62,7 +59,6 @@ function(declare, lang, array, html, on, Deferred, all, Memory, _WidgetBase, Sel
 
       resultRendererManager.setMap(this.map);
       resultRendererManager.setNls(this.nls);
-      resultRendererManager.setConfig(this.config);
 
       this.gp = new Geoprocessor(this.config.taskUrl);
       this.gp.setOutSpatialReference(this.map.spatialReference);
@@ -112,6 +108,7 @@ function(declare, lang, array, html, on, Deferred, all, Memory, _WidgetBase, Sel
 
       html.setAttr(this.helpLinkNode, 'href', this.config.helpUrl);
 
+      this._generateUniqueID();
       this._createInputNodes();
     },
 
@@ -145,6 +142,13 @@ function(declare, lang, array, html, on, Deferred, all, Memory, _WidgetBase, Sel
       this.jobId = '';
 
       html.removeClass(this.exeNode, 'jimu-state-disabled');
+
+      //onJobComplete is invoked even if jobStatus is STATUS_FAILED.
+      //It hides this.infoNode so user can not see the error message!
+      if(jobInfo.jobInfo.jobStatus !== JobInfo.STATUS_SUCCEEDED){
+        this._createErrorMessages(jobInfo.jobInfo.messages);
+        return;
+      }
 
       if(this.config.useResultMapServer){
         //only when GP task is async and the GP service publish the result map service,
@@ -232,6 +236,10 @@ function(declare, lang, array, html, on, Deferred, all, Memory, _WidgetBase, Sel
       this.inherited(arguments);
     },
 
+    _generateUniqueID: function(){
+      this.uniqueID = this.id.replace(/[\/\.]/g,'_');
+    },
+
     _showLoading: function(text){
       this.loading.show();
       html.setStyle(this.infoNode, 'display', 'block');
@@ -294,7 +302,9 @@ function(declare, lang, array, html, on, Deferred, all, Memory, _WidgetBase, Sel
     _clearLastResult: function(){
       array.forEach(this.resultNodes, function(node){
         html.destroy(node.labelNode);
-        node.resultRenderer.destroy();
+        if(node.resultRenderer){
+          node.resultRenderer.destroy();
+        }
         html.destroy(node);
       });
       array.forEach(this.resultLayers, function(layer){
@@ -305,8 +315,28 @@ function(declare, lang, array, html, on, Deferred, all, Memory, _WidgetBase, Sel
       this.resultLayers = [];
     },
 
+    _createErrorMessages: function(messages){
+      this.infoTextNode.innerHTML = '';
+
+      var ulNode = html.create('ul', {
+        'class': 'output-node'
+      }, this.outputSectionNode);
+
+      this.resultNodes.push(ulNode);
+
+      array.forEach(messages,lang.hitch(this,function(msg){
+        html.create('li', {
+          'class': 'error-message',
+          innerHTML: msg.description
+        }, ulNode);
+      }));
+    },
+
     _createOutputNodes: function(values){
       array.forEach(this.config.outputParams, function(param, i){
+        if(!param.visible){
+          return;
+        }
         this._createOutputNode(param, values[i]);
       }, this);
 
@@ -362,7 +392,10 @@ function(declare, lang, array, html, on, Deferred, all, Memory, _WidgetBase, Sel
         'class': 'editor-container'
       }, node);
 
-      var inputEditor = editorManager.createEditor(param, 'input', 'widget');
+      var inputEditor = editorManager.createEditor(param, 'input', 'widget', {
+        uid:this.uniqueID,
+        config: this.config
+      });
       inputEditor.placeAt(editorContainerNode);
 
       node.param = param;
@@ -397,45 +430,25 @@ function(declare, lang, array, html, on, Deferred, all, Memory, _WidgetBase, Sel
 
       var resultRenderer;
       try{
-        resultRenderer = resultRendererManager.createResultRenderer(param, value, 'widget');
+        resultRenderer = resultRendererManager.createResultRenderer(param, value, {
+          uid: this.uniqueID,
+          config: this.config
+        });
       }catch(err){
         console.error(err);
-        resultRenderer = resultRendererManager.createResultRenderer('error', value, 'widget');
+        resultRenderer = resultRendererManager.createResultRenderer('error', value, {
+          uid: this.uniqueID,
+          config: this.config
+        });
       }
-      
+
       resultRenderer.placeAt(rendererContainerNode);
       resultRenderer.startup();
       node.resultRenderer = resultRenderer;
 
-      this._reorderLayer();
       return node;
-    },
-
-    _reorderLayer: function(){
-      if(!this.config.layerOrder || this.config.layerOrder.length === 0){
-        return;
-      }
-      
-      var operationalLayersIndex = this.config.layerOrder.indexOf('Operational Layers');
-      var lastLayerIndex = this.map.graphicsLayerIds.length - 1;
-      var i, layer;
-      //put layers above operational layers
-      for(i = operationalLayersIndex - 1; i >= 0; i --){
-        layer = this.map.getLayer(this.config.layerOrder[i]);
-        if(layer){
-          this.map.reorderLayer(layer, lastLayerIndex);
-        }
-      }
-
-      //put layers under operational layers
-      for(i = operationalLayersIndex + 1; i < this.config.layerOrder.length; i ++){
-        layer = this.map.getLayer(this.config.layerOrder[i]);
-        if(layer){
-          this.map.reorderLayer(layer, 0);
-        }
-      }
     }
   });
-  
+
   return clazz;
 });

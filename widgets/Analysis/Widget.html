@@ -1,0 +1,63 @@
+<div>
+  <div data-dojo-attach-point="widgetContent" class="analysis-widget-content">
+    <div data-dojo-attach-point="toolListPanel" class="tool-list">
+      <div data-dojo-attach-point="toolsSection" class="toolsSection">
+        <div class="execute-tip">
+          ${nls.executeAnalysisTip}
+        </div>
+        <div class="tools-table-container">
+          <table cellpadding="0" cellspacing="0" class="tools-table" onselectstart="return false;">
+            <tbody data-dojo-attach-point="toolsTbody">
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div data-dojo-attach-point="noQueryTipSection" class="no-query-tip"></div>
+    </div>
+
+    <div data-dojo-attach-point="inputPanel" class="tool-params">
+      <div data-dojo-attach-point="inputHeader" class="input-header esriAnalysis">
+        <img data-dojo-attach-point="smallIcon" class="small-icon"/>
+        <span data-dojo-attach-point="toolTitle" class="tool-title"></span>
+      </div>
+      <hr>
+      <div data-dojo-attach-point="toolInputTip" class="input-tip">
+      </div>
+      <div data-dojo-attach-point="layerNodeSection" class="layerNode">
+      </div>
+      <div class="buttonNode" data-dojo-attach-point="buttonSection0">
+      </div>
+    </div>
+
+    <div data-dojo-attach-point="toolPanel" class="tool-panel">
+      <div data-dojo-attach-point="toolLoadErrorNode" class="analysis-error-tip" style="display:none">
+      </div>
+    </div>
+
+    <div data-dojo-attach-point="messagePanel" class="message-panel">
+      <div data-dojo-attach-point="inputHeader_1" class="input-header esriAnalysis">
+        <img data-dojo-attach-point="smallIcon_1" class="small-icon"/>
+        <span data-dojo-attach-point="toolTitle_1" class="tool-title"></span>
+      </div>
+      <hr>
+      <div class="message-title">${nls.messages}</div>
+      <div data-dojo-attach-point="messageSection" class='message-section'>
+      </div>
+      <div data-dojo-attach-point="resultSection" style="display:none" >
+        <div class="message-title outputs">${nls.outputs}</div>
+        <div data-dojo-attach-point="outputSection" class='result-section'>
+        </div>
+        <div class="job-message outputtip" data-dojo-attach-point="outputtip">${nls.outputtip}</div>
+      </div>
+      <div data-dojo-attach-point="resultLoading" class="result-loading" style="display:none"></div>
+      <div data-dojo-attach-point="buttonSection" style="display:none" class="buttonNode">
+        <div class="jimu-btn"
+            data-dojo-attach-event="onclick: _switchToPrevious">${nls.back}</div>
+        <div class="jimu-btn" data-dojo-attach-point="homeBtn"
+            data-dojo-attach-event="onclick: _switchToHome">${nls.home}</div>
+      </div>
+    </div>
+  </div>
+
+  <div data-dojo-attach-point="shelter" data-dojo-type="jimu/dijit/LoadingShelter" data-dojo-props='hidden:true'></div>
+</div>

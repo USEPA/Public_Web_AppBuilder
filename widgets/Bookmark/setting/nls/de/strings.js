@@ -11,6 +11,6 @@
     errorNameNull: "Ungültiger Lesezeichenname!",
     addBookmark: "Neues Lesezeichen erstellen",
     thumbnail: "Miniaturansicht",
-    thumbnailHint: "Zum Aktualisieren auf Bild klicken"
+    thumbnailHint: "Zum Aktualisieren auf das Bild klicken"
   })
 );

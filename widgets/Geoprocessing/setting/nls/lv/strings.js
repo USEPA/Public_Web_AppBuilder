@@ -30,6 +30,7 @@
     popup: "Uznirstošais logs",
     setTask: "Iestatīt",
     setTaskTitle: "Iestatīt GP uzdevumu",
-    enablePopup: "Iespējot uznirstošo logu"
+    enablePopup: "Iespējot uznirstošo logu",
+    unSupportGeometryType: "Nevar iestatīt renderētāju nezināma ģeometrijas tipa dēļ."
   })
 );

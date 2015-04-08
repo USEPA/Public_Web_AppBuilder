@@ -33,8 +33,8 @@ define([
   'dijit/form/NumberTextBox'
 ],
   function (declare, lang, array, html, on, query, _WidgetsInTemplateMixin, BaseWidgetSetting, units, LinearUnit, Color, colors, easing,
-             Chart, Default, Grid, Areas, MouseIndicator, TouchIndicator, ThreeD, esriSniff, Deferred, Measurement, SymbologyEdit,
-             ChartEdit, number, SymbolPicker, Popup, keys) {
+    Chart, Default, Grid, Areas, MouseIndicator, TouchIndicator, ThreeD, esriSniff, Deferred, Measurement, SymbologyEdit,
+    ChartEdit, number, SymbolPicker, Popup, keys) {
     return declare([BaseWidgetSetting, _WidgetsInTemplateMixin], {
       baseClass: 'widget-setting-elevation-profile',
       samplingPointCount: 199,
@@ -59,11 +59,11 @@ define([
 
       setConfig: function (config) {
         //hack the 'Learn more about this widget link'
-        setTimeout(function(){
+        setTimeout(function () {
           var helpLink = query('.help-link');
           helpLink[0].href = 'http://gis.calhouncounty.org/WAB/V1.1/widgets/ElevationProfile/help/elevationprofile_Help.htm';
-          html.setStyle(helpLink[0],'display','block');
-        },600);
+          html.setStyle(helpLink[0], 'display', 'block');
+        }, 600);
         if (config.profileTaskUrl) {
           this.urlTextBox.set('value', config.profileTaskUrl);
           this.urlTextBox.proceedValue = true;
@@ -126,14 +126,14 @@ define([
         this.urlTextBox.proceedValue = false;
         this.urlTextBox.setProcessFunction(lang.hitch(this, '_onServiceFetch', this.urlTextBox),
           lang.hitch(this, '_onServiceFetchError'));
-        this.own(on(this.btnSymLine,'click',lang.hitch(this,function(){
+        this.own(on(this.btnSymLine, 'click', lang.hitch(this, function () {
           this._openSymEdit(this.nls.editDefaultSym);
         })));
-        this.own(on(this.btnChartProps,'click',lang.hitch(this,function(){
+        this.own(on(this.btnChartProps, 'click', lang.hitch(this, function () {
           this._openChartEdit(this.nls.editChartProperties);
         })));
 
-        this.own(on(this.urlTextBox, 'keydown', lang.hitch(this, function(evt){
+        this.own(on(this.urlTextBox, 'keydown', lang.hitch(this, function (evt) {
           var keyNum = evt.keyCode !== undefined ? evt.keyCode : evt.which;
           if (keyNum === 13) {
             this.urlTextBox._onServiceUrlChange(this.urlTextBox.get('value'));
@@ -149,11 +149,12 @@ define([
           defaultLengthUnit: (this.config.scalebarUnits === "metric") ? units.KILOMETERS : units.MILES
         });
         this.measureTool.startup();
-        // ACTIVATE/DEACTIVATE DISTANCE TOOL         //
-        //   THIS WILL INITIALIZE UNITS DROPDOWN AND //
-        //   ALLOW US TO CONVERT VALUES AS NECESSARY //
-        this.measureTool.setTool('distance', true);
-        this.measureTool.setTool('distance', false);
+        //Activate then deactivate the distance tool to enable the measure units
+        on.once(this.measureTool, "tool-change", lang.hitch(this, function () {
+          this.measureTool.setTool("distance", false);
+          this.measureTool.clearResult();
+        }));
+        this.measureTool.setTool("distance", true);
 
         // SAMPLING DISTANCE //
         this.samplingDistance = new LinearUnit();
@@ -535,11 +536,11 @@ define([
       },
 
       _getDisplayValue: function (valueMeters, displayUnits) {
-        if(displayUnits === this.measureTool.units.esriMeters) {
+        if (displayUnits === this.measureTool._unitStrings.esriMeters) {
           return valueMeters;
         } else {
-          var distanceMiles = (valueMeters / this.measureTool.unitDictionary[this.measureTool.units.esriMeters]);
-          return (distanceMiles * this.measureTool.unitDictionary[displayUnits]);
+          var distanceMiles = (valueMeters / this.measureTool._unitDictionary[this.measureTool._unitStrings.esriMeters]);
+          return (distanceMiles * this.measureTool._unitDictionary[displayUnits]);
         }
       },
 
@@ -555,17 +556,17 @@ define([
       },
 
       _getDisplayUnits: function (isElevation) {
-        var displayUnits = this.measureTool.unit.label;
+        var displayUnits = this.measureTool._unitDropDown.label;
         if (isElevation) {
           switch (displayUnits) {
-          case this.measureTool.units.esriMiles:
-            displayUnits = this.measureTool.units.esriFeet;
+          case this.measureTool._unitStrings.esriMiles:
+            displayUnits = this.measureTool._unitStrings.esriFeet;
             break;
           case this.measureTool.esriYards:
             displayUnits = this.measureTool.esriFeet;
             break;
-          case this.measureTool.units.esriKilometers:
-            displayUnits = this.measureTool.units.esriMeters;
+          case this.measureTool._unitStrings.esriKilometers:
+            displayUnits = this.measureTool._unitStrings.esriMeters;
             break;
           }
         }
@@ -602,18 +603,18 @@ define([
         return Math.min.apply(Math, values);
       },
 
-      _onSymEditOk: function() {
+      _onSymEditOk: function () {
         this.config.symbols = this.popupsymedit.getConfig().symbols;
         this.popup.close();
         this.popupState = '';
       },
 
-      _onSymEditClose: function() {
+      _onSymEditClose: function () {
         this.popupsymedit = null;
         this.popup = null;
       },
 
-      _openSymEdit: function(title) {
+      _openSymEdit: function (title) {
         this.popupsymedit = new SymbologyEdit({
           nls: this.nls,
           config: this.config || {}
@@ -639,7 +640,7 @@ define([
         this.popupsymedit.startup();
       },
 
-      _onChartEditOk: function() {
+      _onChartEditOk: function () {
         var newConfig = this.popupchartedit.getConfig();
         this.chartRenderingOptions = lang.mixin({}, newConfig.chartRenderingOptions);
         this.config.scalebarUnits = newConfig.scalebarUnits;
@@ -648,12 +649,12 @@ define([
         this._updateProfileChart();
       },
 
-      _onChartEditClose: function() {
+      _onChartEditClose: function () {
         this.popupchartedit = null;
         this.popup2 = null;
       },
 
-      _openChartEdit: function(title) {
+      _openChartEdit: function (title) {
         this.popupchartedit = new ChartEdit({
           nls: this.nls,
           config: this.config || {}

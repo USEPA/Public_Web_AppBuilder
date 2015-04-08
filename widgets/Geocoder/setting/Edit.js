@@ -16,10 +16,7 @@
 define(
   ["dojo/_base/declare",
     "dojo/_base/lang",
-    "dojo/_base/array",
     "dojo/on",
-    "dijit/_WidgetBase",
-    "dijit/_TemplatedMixin",
     "dijit/_WidgetsInTemplateMixin",
     "jimu/BaseWidgetSetting",
     "jimu/dijit/Message",
@@ -30,10 +27,7 @@ define(
   function(
     declare,
     lang,
-    array,
     on,
-    _WidgetBase,
-    _TemplatedMixin,
     _WidgetsInTemplateMixin,
     BaseWidgetSetting,
     Message,

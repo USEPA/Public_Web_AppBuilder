@@ -5,7 +5,7 @@
     dual: "デュアル",
     english: "英語",
     metric: "メートル法",
-    ruler: "ルーラ",
+    ruler: "ルーラー",
     line: "ライン"
   })
 );

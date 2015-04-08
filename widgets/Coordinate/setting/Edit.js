@@ -18,29 +18,22 @@ define(
     'dojo/_base/lang',
     'dojo/_base/html',
     'dojo/_base/array',
-    'dojo/on',
-    'dijit/_WidgetBase',
-    'dijit/_TemplatedMixin',
     'dijit/_WidgetsInTemplateMixin',
     'jimu/BaseWidgetSetting',
     'jimu/dijit/CheckBox',
-    'jimu/dijit/Message',
     'dojo/text!./Edit.html',
     "jimu/SpatialReference/utils",
-    'dijit/form/ValidationTextBox'
+    'dijit/form/ValidationTextBox',
+    'dijit/form/Select'
   ],
   function(
     declare,
     lang,
     html,
     array,
-    on,
-    _WidgetBase,
-    _TemplatedMixin,
     _WidgetsInTemplateMixin,
     BaseWidgetSetting,
     CheckBox,
-    Message,
     template,
     utils
   ) {

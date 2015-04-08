@@ -1,6 +1,6 @@
 ﻿define(
    ({
-    state: "Por padrão, as coordenadas serão exibidas no sistema de coordenadas do mapa atual. Para obter as coordenadas em outros sistemas de coordenadas, é necessário adicioná-los também e especificar as transformações apropriadas.",
+    state: "Por padrão, as coordenadas serão exibidas no sistema de coordenadas do mapa atual. Para obter as coordenadas em outros sistemas de coordenadas, é necessário adicioná-los e especificar as transformações apropriadas.",
     outputUnit: "Unidade de Saída",
     wkid: "WKID de Saída",
     label: "Nome do Sistema de Coordenadas de Saída",
@@ -22,6 +22,7 @@
     units: "Unidades de Exibição: ",
     datum: "Transformação de Datum",
     tName: "Nome da Transformação",
+    tWKIDPlaceHolder: "WKID da transformação",
     forward: "Utilizar transformação direta",
     ok: "OK",
     cancel: 'Cancelar',

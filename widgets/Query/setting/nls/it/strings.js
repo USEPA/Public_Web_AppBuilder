@@ -31,6 +31,10 @@
 		setFilterTip: "Impostare il filtro correttamente.",
 		ok: "OK",
 		cancel: "Annulla",
-		noFilterTip: "Se non si definisce l\'espressione di filtro, questa attività di interrogazione restituirà tutte le feature presenti nell\'origine dati specificata."
+		noFilterTip: "Se non si definisce l\'espressione di filtro, questa attività di interrogazione restituirà tutte le feature presenti nell\'origine dati specificata.",
+    relationships: "Tabella relazioni",
+    addRelationshipLayer: "Aggiungi nuova relazione",
+    relatedTo: "Correlata a",
+    selectOption: "Selezionare..."
   })
 );

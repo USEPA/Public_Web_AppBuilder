@@ -1,3 +1,6 @@
+///////////////////////////////////////////////////////////////////////////
+// Robert Scheitlin WAB eSearch Widget
+///////////////////////////////////////////////////////////////////////////
 /*global define*/
 define(
   ["dojo/_base/declare",
@@ -46,7 +49,6 @@ define(
       tr: null,
 
       postCreate: function(){
-        console.info('fieldformatedit postCreate Start');
         this.inherited(arguments);
         this.dateFormat.set('disabled', true);
         this.percisionSpinner.set('disabled', true);
@@ -61,11 +63,9 @@ define(
         if (this.popup){
           this.popup.enableButton(0);
         }
-        console.info('fieldformatedit postCreate End');
       },
 
       setConfig: function(fieldInfo){
-        console.info('fieldformatedit setConfig');
         this.returnfieldInfo = fieldInfo;
         if(fieldInfo.isdate || this._isDateType(fieldInfo.type)){
           var numerics = query('.numeric', this.inputTable);
@@ -88,8 +88,8 @@ define(
               })
             });
           } else {
-            this.selectDateFormat.set('value', "M/D/YYYY");
-            this.dateFormat.set('value', "M/D/YYYY");
+            this.selectDateFormat.set('value', 'd MMM yyyy');
+            this.dateFormat.set('value', 'd MMM yyyy');
           }
           this.utcCbx.setValue(fieldInfo.useutc || false);
         }else if (fieldInfo.isnumber || this._isNumberType(fieldInfo.type)){
@@ -154,6 +154,8 @@ define(
           }
           if(this.utcCbx.getValue()){
             this.returnfieldInfo.useutc = true;
+          }else{
+            this.returnfieldInfo.useutc = false;
           }
         }else if (this.returnfieldInfo.isnumber || this._isNumberType(this.returnfieldInfo.type)){
           var currencyformat = '';

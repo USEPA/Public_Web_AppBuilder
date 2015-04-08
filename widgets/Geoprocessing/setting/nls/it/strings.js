@@ -30,6 +30,7 @@
     popup: "Popup",
     setTask: "Imposta",
     setTaskTitle: "Imposta attività GP",
-    enablePopup: "Abilita popup"
+    enablePopup: "Abilita popup",
+    unSupportGeometryType: "Tipo di geometria sconosciuto. Impossibile impostare il renderer."
   })
 );

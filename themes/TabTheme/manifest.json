@@ -1,0 +1,62 @@
+{
+  "name": "TabTheme",
+  "platform": "HTML",
+  "panels": [
+    {
+      "name": "TabPanel",
+      "description": "abc..."
+    }
+  ],
+  "styles": [
+    {
+      "name": "default",
+      "description": "this is default style",
+      "styleColor": "#292929"
+    },
+    {
+      "name": "simpleblue",
+      "description": "this is default style",
+      "styleColor": "#3498db"
+    },
+    {
+      "name": "purple",
+      "description": "this is purple style",
+      "styleColor": "#ab6dae"
+    },
+    {
+      "name": "red",
+      "description": "this is red style",
+      "styleColor": "#c92e49"
+    }
+  ],
+  "layouts": [
+    {
+      "name": "default",
+      "description": "this is default layout"
+    },
+    {
+      "name": "layout1",
+      "description": "this is layout1"
+    }
+  ],
+  "widgets": [
+    {
+      "name": "SidebarController",
+      "description": "this is theme widget controller"
+    },
+    {
+      "name": "Header",
+      "description": "this is theme header widget"
+    },
+    {
+      "name": "Footer",
+      "description": "this is theme footer widget"
+    }
+  ],
+  "version": "1.2",
+  "wabVersion": "1.2",
+  "author": "Esri R&D Center Beijing",
+  "description": "",
+  "copyright": "",
+  "license": "http://www.apache.org/licenses/LICENSE-2.0"
+}

@@ -1,6 +1,6 @@
 ﻿define(
    ({
-    state: "În mod implicit, coordonatele vor fi afişate în sistemul de coordonate actual al hărţii. Pentru a obţine coordonate în alte sisteme de coordonate, trebuie să le adăugaţi suplimentar şi să specificaţi transformările necesare.",
+    state: "În mod implicit, coordonatele vor fi afişate în sistemul de coordonate actual al hărţii. Pentru a obţine coordonate în alte sisteme de coordonate, trebuie să le adăugaţi şi să specificaţi transformările necesare.",
     outputUnit: "Unitate rezultat",
     wkid: "WKID rezultat",
     label: "Nume sistem de coordonate de ieşire",
@@ -22,6 +22,7 @@
     units: "Unităţi afişate: ",
     datum: "Transformare date",
     tName: "Nume transformare",
+    tWKIDPlaceHolder: "WKID al transformării",
     forward: "Utilizare transformare înainte",
     ok: "OK",
     cancel: 'Anulare',

@@ -51,11 +51,12 @@
     specifyParamsTip: "Especificar parâmetros para esta tarefa",
     useSpatialFilter: "Utilizar filtro espacial para limitar elementos",
     useCurrentMapExtent: "Apenas elementos que tocam a atual extensão to mapa",
-    drawGraphicOnMap: "Apenas elementos que tocam uma área definida pelo utilizador",
+    drawGraphicOnMap: "Apenas elementos que tocam a área definida pelo utilizador",
     specifySpatialFilterMsg: "Por favor especifique um filtro espacial para esta tarefa.",
     clearResults: "Limpar Resultados",
     operationalTip: 'Com esta opção ativa, os resultados serão guardados no mapa até que o botão \"${clearResults}\" seja clicado.',
     noneQueryTip: "Não se encontram disponíveis quaisquer tarefas de consulta pré-configuradas.",
-    noPermissionsMsg: "Não possui permissões para aceder a este serviço."
+    noPermissionsMsg: "Não possui permissões para aceder a este serviço.",
+    attributesFromRelationship: "Atributos de tabela relacionada"
   })
 );

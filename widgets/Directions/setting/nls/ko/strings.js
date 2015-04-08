@@ -7,7 +7,7 @@
     maxLocations: "최대 위치",
     minCharacters: "최소 문자 수",
     searchDelay: "검색 지연",
-    placeholder: "자리 표시자",
+    placeholder: "플레이스홀더",
     routeOptions: "경로 옵션",
     directionsLanguage: "길찾기 언어",
     directionsLengthUnits: "길찾기 길이 단위",

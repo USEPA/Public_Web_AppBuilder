@@ -18,7 +18,7 @@
     meters: 'Metri',
     feet: 'Piedi',
     yards: 'Iarde',
-    nauticalMiles: 'Miglia marine',
+    nauticalMiles: 'Miglia nautiche',
     parametersTip: 'Impostare correttamente i parametri.',
     complete: 'Complete',
     completeNoEvents: 'Complete senza eventi',

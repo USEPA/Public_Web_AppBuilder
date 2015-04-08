@@ -21,9 +21,8 @@
 
 .jimu-widget-bookmark-setting .bookmark-add{
   position:relative;
-  width:176px;
-  height:118px;
-  line-height:18px;
+  width:100px;
+  height:60px;
   padding:3px;
   text-align:center;
   color:#999999;
@@ -35,15 +34,17 @@
   -ms-border-radius:5px;
   border-radius:5px;
   background-size:cover;
+  margin-top: 5px;
+  margin-left: 20px\9;/* IE8 and below */
 }
 
 .jimu-widget-bookmark-setting .bookmark-add .add_mark_image{
   display: block;
   position: absolute;
-  left: 80px;
-  top: 20px;
-  width:20px;
-  height:20px;
+  left: 43px;
+  top: 5px;
+  width:14px;
+  height:14px;
   background-position:center center;
   background-image:url(images/add_mark.png);
 }
@@ -51,54 +52,56 @@
 .jimu-widget-bookmark-setting .bookmark-add .add_mark_text{
   display: block;
   position: absolute;
-  top: 50px;
+  top: 25px;
   width: 100%;
-  height: 50px;
-  font-size: 16px;
+  font-size: 12px;
   white-space: normal;
+  height: 28px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .jimu-widget-bookmark-setting .bookmark-add:hover{
   cursor: pointer;
 }
 
- 
+
 .jimu-widget-bookmark-setting .mark-item-div{
   position:relative;
-  width:176px;
-  height: 145px;
+  width:100px;
+  height: 92px;
   font-size: 10px;
+  margin-top: 5px;
+}
+
+.jimu-widget-bookmark-setting .mark-item-div:nth-child(8n+1){
+  margin-left: 0px;
 }
 
 .jimu-widget-bookmark-setting .mark-item-div .mark-item-bg{
   position:relative;
   width:100%;
-  height:118px;
+  height:60px;
   line-height:28px;
   text-align:center;
   color:#999999;
-  font-size:13px;  
+  font-size:13px;
 }
 
 .jimu-widget-bookmark-setting .mark-item-div .mark-item-bg .mark-item-thumbnail{
   width:100%;
   height:100%;
-  background-repeat:no-repeat;
-  background-position:center center;
-  border:1px solid gray;
   -webkit-border-radius:5px;
   -moz-border-radius:5px;
   -o-border-radius:5px;
   -ms-border-radius:5px;
   border-radius:5px;
-  background-size:cover;
 }
 
 .jimu-widget-bookmark-setting .mark-item-div .mark-item-detail-icon{
    display: block;
 }
 .jimu-widget-bookmark-setting .mark-item-div .mark-item-bg.selected .mark-item-thumbnail{
-  border:3px solid #15a4fa;
   -webkit-box-sizing:content-box;
   -moz-box-sizing:content-box;
   -ms-box-sizing:content-box;
@@ -109,11 +112,11 @@
 .jimu-widget-bookmark-setting .mark-item-div .mark-item-bg .mark-item-detail-icon{
   display: none;
   position:absolute;
-  right:7px;
-  bottom:7px;
+  right:2px;
+  bottom:2px;
   width:20px;
   height:20px;
-  background-color:rgba(0, 0, 0, 0.4);
+  background-color:rgba(0, 0, 0, 0.3);
   background-repeat:no-repeat;
   background-position:center center;
   background-image:url(images/edit_mark.png);
@@ -125,6 +128,10 @@
   cursor:pointer;
 }
 
+.jimu-widget-bookmark-setting .mark-item-div .mark-item-bg .mark-item-detail-icon:hover{
+  background-color:rgba(0, 0, 0, 0.6);
+}
+
 .jimu-widget-bookmark-setting .mark-item-div .mark-item-bg:hover .mark-item-detail-icon{
   display: block;
 }
@@ -132,11 +139,10 @@
 .jimu-widget-bookmark-setting .mark-item-div .mark-item-bg .mark-item-delete-icon{
   display: none;
   position:absolute;
-  right:7px;
-  top:7px;
-  width:20px;
-  height:20px;
-  background-color:rgba(0, 0, 0, 0.4);
+  right:5px;
+  top:5px;
+  width:10px;
+  height:10px;
   background-repeat:no-repeat;
   background-position:center center;
   background-image:url(images/delete_mark.png);
@@ -157,12 +163,12 @@
   width:100%;
   text-align:center;
   color:#333333;
-  font-size:15px;
-  margin-top: 0px;
+  font-size:12px;
+  margin-top: 2px;
   margin-bottom: 25px;
   overflow: hidden;
-  white-space: nowrap;
   text-overflow: ellipsis;
+  height: 30px;
 }
 
 .jimu-Bookmark-Edit{
@@ -177,13 +183,13 @@
 }
 
 .jimu-Bookmark-Edit .setting-table .thumbnail-img{
-  width: 176px;
-  height: 118px;
+  width: 100px;
+  height: 60px;
 }
 
 .jimu-Bookmark-Edit .setting-table .img-chooser{
-  width: 176px;
-  height: 118px;
+  width: 100px;
+  height: 60px;
 }
 
 .jimu-Bookmark-Edit .input-table > tbody > tr > .first{
@@ -202,9 +208,17 @@
 
 .jimu-rtl .jimu-widget-bookmark-setting .mark-item-div .mark-item-bg .mark-item-delete-icon{
   right:auto;
-  left: 7px;
+  left: 5px;
 }
 .jimu-rtl .jimu-widget-bookmark-setting .mark-item-div .mark-item-bg .mark-item-detail-icon{
   right:auto;
-  left: 7px;
+  left: 2px;
+}
+.jimu-rtl .jimu-widget-bookmark-setting .mark-item-div:nth-child(8n+1){
+  margin-left: auto;
+  margin-right: 0px;
+}
+.jimu-rtl .jimu-widget-bookmark-setting .bookmark-add{
+  margin-left: auto;
+  margin-right: 20px\9;/* IE8 and below */
 }

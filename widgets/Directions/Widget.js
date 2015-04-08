@@ -20,15 +20,15 @@ define([
     'esri/dijit/Directions',
     'esri/tasks/RouteParameters',
     'esri/request',
+    'dojo/aspect',
     'dojo/_base/lang',
     'dojo/_base/config',
-    'dojo/_base/array',
     'dojo/Deferred',
     'dojo/promise/all',
     'jimu/portalUtils'
   ],
-  function(declare, BaseWidget, Directions, RouteParameters,
-    esriRequest, lang, dojoConfig, array, Deferred, all, portalUtils) {
+  function(declare, BaseWidget, Directions, RouteParameters, esriRequest, aspect, lang,
+    dojoConfig, Deferred, all, portalUtils) {
     return declare([BaseWidget], {
       _dijitDirections:null,
       _routeTaskUrl: "//route.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World",
@@ -55,10 +55,31 @@ define([
         this._show();
       },
 
+      _handlePopup: function(){
+        if(this.map.activeDirectionsWidget && this.map.activeDirectionsWidget.mapClickActive){
+          this._disableWebMapPopup();
+        }else{
+          this._enableWebMapPopup();
+        }
+      },
+
+      _disableWebMapPopup:function(){
+        if(this.map){
+          this.map.setInfoWindowOnClick(false);
+        }
+      },
+
+      _enableWebMapPopup:function(){
+        if(this.map){
+          this.map.setInfoWindowOnClick(true);
+        }
+      },
+
       destroy: function(){
         if(this.map.activeDirectionsWidget === this._dijitDirections){
           this.map.activeDirectionsWidget = null;
         }
+        this._handlePopup();
         this.inherited(arguments);
       },
 
@@ -93,7 +114,16 @@ define([
           });
           this._dijitDirections.placeAt(this.directionController);
           this._dijitDirections.startup();
-          this._dijitDirections.deactivate();
+          if(typeof this._dijitDirections.activate === 'function'){
+            this.own(aspect.after(this._dijitDirections, "activate",
+                                  lang.hitch(this, this._handlePopup)));
+          }
+          if(typeof this._dijitDirections.deactivate === 'function'){
+            this.own(aspect.after(this._dijitDirections, "deactivate",
+                                  lang.hitch(this, this._handlePopup)));
+          }
+          //this._dijitDirections.deactivate();
+          this._deactivateDirections();
           this._storeLastActiveState();
         }), lang.hitch(this, function(err){
           console.error(err);
@@ -225,6 +255,9 @@ define([
           if(typeof this._dijitDirections.activate === 'function'){
             this._dijitDirections.activate();
           }
+          if(typeof this._dijitDirections._activate === 'function'){
+            this._dijitDirections._activate(true);
+          }
         }
       },
 
@@ -233,8 +266,11 @@ define([
           if(typeof this._dijitDirections.deactivate === 'function'){
             this._dijitDirections.deactivate();
           }
+          if(typeof this._dijitDirections._activate === 'function'){
+            this._dijitDirections._activate(false);
+          }
         }
       }
-      
+
     });
   });

@@ -13,6 +13,9 @@
     itemDesc: "คำอธิบาย",
     itemDownload: "ดาวน์โหลด",
     itemToAttributeTable: "เปิดตารางข้อมูลคุณลักษณะ",
-    itemShowItemDetails: "แสดงรายละเอียดข้อมูล"
+    itemShowItemDetails: "แสดงรายละเอียดข้อมูล",
+    empty: "ว่าง",
+    removePopup: "ลบป๊อปอัพ",
+    enablePopup: "ใช้ป๊อปอัพ"
   })
 );

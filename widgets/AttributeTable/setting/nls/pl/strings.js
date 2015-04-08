@@ -7,7 +7,7 @@
     alias: "Alias",
     visible: "Widoczne",
     linkField: "Pole łącza",
-    noLayers: "Brak dostępnych warstw obiektów",
+    noLayers: "Brak warstw obiektu",
     back: "Wstecz",
     exportCSV: "Zezwalaj na eksport do pliku CSV",
     restore: "Przywróć wartość domyślną",
@@ -16,7 +16,7 @@
     warning: "Zaznacz, aby warstwa była wyświetlana w tabeli jako pierwsza.",
     fieldCheckWarning: "Należy zaznaczyć co najmniej jedno pole.",
     unsupportQueryWarning: "Warstwa musi obsługiwać zapytania w celu wyświetlenia w widżecie tabeli atrybutów. Upewnij się, że funkcja zapytania w usłudze jest włączona.",
-    unsupportQueryLayers: "Następujące warstwy muszą obsługiwać zapytania w celu wyświetlenia w widżecie tabeli atrybutów. Upewnij się, że funkcja zapytania w usłudze jest włączona.",
+    unsupportQueryLayers: "Ta warstwa musi obsługiwać zapytania w celu wyświetlenia w widżecie tabeli atrybutów.  Upewnij się, że funkcja zapytania w usłudze jest włączona.",
 
     fieldName: "Nazwa",
     fieldAlias: "Alias",

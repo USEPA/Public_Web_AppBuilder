@@ -16,7 +16,7 @@
     warning: "选中以将此图层首先显示在表中。",
     fieldCheckWarning: "必须至少选择一个字段。",
     unsupportQueryWarning: "要显示在\“属性表\”微件中，该图层需要支持查询操作。请确保服务中的查询功能已打开。",
-    unsupportQueryLayers: "要显示在\“属性表\”微件中，以下图层需要支持查询操作。请确保服务中的查询功能已打开。",
+    unsupportQueryLayers: "要显示在“属性表”微件中，以下图层需要支持查询操作。请确保服务中的查询功能已打开。",
 
     fieldName: "名称",
     fieldAlias: "别名",

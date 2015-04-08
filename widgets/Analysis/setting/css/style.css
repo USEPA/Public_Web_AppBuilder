@@ -1,0 +1,164 @@
+.jimu-widget-analysis-setting{
+  margin:0;
+  padding:0;
+  font-size:14px;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.jimu-widget-analysis-setting .label{
+  font-size: 14px;
+}
+
+.jimu-widget-analysis-setting .info{
+  font-size: 14px;
+}
+
+.jimu-widget-analysis-setting .analysis-list-content{
+  margin-top: 15px;
+  margin-bottom: 15px;
+  width: 100%;
+  height:90%;
+}
+
+/***CSS for Analysis tools table***/
+.jimu-widget-analysis-setting .analysis-table{
+  width:100%;
+  margin:0;
+  padding:0;
+  overflow-x:hidden;
+  overflow-y:auto;
+  height: auto;
+  position: relative;
+  border-collapse:collapse;
+  table-layout:fixed;
+  border-left: 1px solid #eef2f5;
+  border-right: 2px solid #eef2f5;
+  border-bottom: 2px solid #eef2f5;
+}
+
+.jimu-widget-analysis-setting .analysis-table .analysis-table-thead{
+  width:100%;
+  height:36px;
+  background-color: #518dca;
+  overflow:hidden;
+  border-top-left-radius:5px;
+  border-top-right-radius:5px;
+}
+
+.jimu-widget-analysis-setting .analysis-table > thead > tr > th{
+  height:40px;
+  line-height:40px;
+  vertical-align:middle;
+  color:#ffffff;
+  font-size: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.jimu-widget-analysis-setting .tools-table{
+  width:100%;
+  margin:0;
+  padding:0;
+  overflow-x:hidden;
+  overflow-y:auto;
+  height: 95%;
+  position: relative;
+  border-collapse:collapse;
+  table-layout:fixed;
+  border-left: 1px solid #eef2f5;
+  border-right: 2px solid #eef2f5;
+  border-bottom: 2px solid #eef2f5;
+}
+
+.jimu-widget-analysis-setting .tools-table .tools-table-tbody{
+  position: absolute;
+  width:100%;
+  height:100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.jimu-widget-analysis-setting .checkbox-td{
+  margin-left: 10px;
+  padding-left: 10px;
+  width: 30px;
+}
+
+.jimu-rtl .jimu-widget-analysis-setting .checkbox-td{
+  margin-left: auto;
+  margin-right: 10px;
+  padding-left: auto;
+  padding-right: 10px;
+}
+
+.jimu-widget-analysis-setting .name-td{
+  margin-left: 20px;
+  width: 200px;
+}
+
+.jimu-rtl .jimu-widget-analysis-setting .name-td{
+  margin-left: auto;
+  margin-right: 20px;
+}
+
+.jimu-widget-analysis-setting .name-for-checkbox{
+  cursor: pointer;
+}
+
+.jimu-widget-analysis-setting .img-td{
+  margin-left: 20px;
+  width: 280px;
+}
+
+.jimu-rtl .jimu-widget-analysis-setting .img-td{
+  margin-left: auto;
+  margin-right: 20px;
+}
+
+.jimu-widget-analysis-setting .usage-td{
+  margin-left: 20px;
+  width: auto;
+}
+
+.jimu-rtl .jimu-widget-analysis-setting .usage-td{
+  margin-left: auto;
+  margin-right: 20px;
+}
+
+/*.jimu-widget-analysis-setting .analysis-table > thead > tr > th .checkbox{
+  background-color: #ffffff;
+}*/
+
+.jimu-widget-analysis-setting .tools-table > tbody > tr{
+  cursor: pointer;
+  height: 88px;
+  border-bottom: 1px solid #eef2f5;
+}
+
+.jimu-widget-analysis-setting .tools-table > tbody > tr > td{
+  color:#596679;
+  font-size: 14px;
+}
+
+.jimu-widget-analysis-setting .tools-table > tbody > tr.selected{
+  /*border-left: 6px solid #15a4fa;*/
+  border-left: 0;
+  border-right: 6px solid #15a4fa;
+}
+
+.jimu-widget-analysis-setting .tools-table > tbody > tr.disabled{
+  /*border-left: 6px solid #15a4fa;*/
+  background-color: #bbbbbb;
+}
+
+/*.jimu-widget-analysis-setting .analysis-table > tbody > tr.selected > td{
+  background: #e2f6ff !important;
+}*/
+
+.jimu-widget-analysis-setting .tools-table > tbody > tr:not(.disabled):hover > td{
+  background:#e2f6ff;
+}

@@ -13,6 +13,9 @@
     itemDesc: "Beskrivelse",
     itemDownload: "Hent",
     itemToAttributeTable: "Åbn attributtabel",
-    itemShowItemDetails: "Vil elementoplysninger"
+    itemShowItemDetails: "Vil elementoplysninger",
+    empty: "tom",
+    removePopup: "Fjern pop-up",
+    enablePopup: "Aktivér pop-up"
   })
 );

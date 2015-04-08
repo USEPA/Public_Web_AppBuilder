@@ -1,19 +1,7 @@
 ///////////////////////////////////////////////////////////////////////////
-// Copyright © 2014 Esri. All Rights Reserved.
-//
-// Licensed under the Apache License Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//    http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
+// Robert Scheitlin WAB eSearch Widget
 ///////////////////////////////////////////////////////////////////////////
-/*global define, dojo, dijit, require, esri, console, document*/
+/*global define, dojo*/
 define([
   'dojo/_base/declare',
   'dijit/_WidgetBase',
@@ -39,7 +27,7 @@ define([
   html, array, json, on, query, Deferred, FilteringSelect, ValidationTextBox, DateTextBox,
   NumberTextBox, Memory, esriRequest,PagingQueryTask) {/*jshint unused: false*/
     return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
-      baseClass: 'jimu-widget-search-single-parameter',
+      baseClass: 'widget-esearch-single-parameter',
       templateString: template,
       fieldInfo:null,
       layerDetails:null,
@@ -159,7 +147,11 @@ define([
           }
           valueObj = {};
           var numberCodedItem = this._getSelectedFilteringItem(this.numberCodedValuesFS);
-          valueObj.value = parseFloat(numberCodedItem.code);
+          if(numberCodedItem.code === 'allu' || numberCodedItem.code === 'all'){
+            valueObj.value =numberCodedItem.code;
+          }else{
+            valueObj.value = parseFloat(numberCodedItem.code);
+          }
         }
         else if(this._type === 3){
           if(!this.numberTextBox1.validate()){
@@ -241,7 +233,13 @@ define([
           }
         }
         else if(shortType === 'number'){
-          this._buildNumber(fieldInfo, this.value);
+          if(userList){
+            this._buildNumber(fieldInfo, this.value, userList);
+          }else if(uvField){
+            this._buildNumber(fieldInfo, this.value, null, uvField);
+          }else{
+            this._buildNumber(fieldInfo, this.value);
+          }
         }
         else if(shortType === 'date'){
           this._buildDate(fieldInfo, this.value);
@@ -332,7 +330,7 @@ define([
               this.pagingQueryTask.uri = this.layerUri;
               this.pagingQueryTask.fieldName = uvField;
               this.pagingQueryTask.dateFormat = '';
-              this.pagingQueryTask.version = this.layerDetails.version;
+              this.pagingQueryTask.version = this.layerDetails.currentVersion;
               if(this.layerDef){
                 this.pagingQueryTask.defExpr = this.layerDef;
               }
@@ -441,7 +439,7 @@ define([
         return arr;
       },
 
-      _buildNumber: function(fieldInfo, val){
+      _buildNumber: function(fieldInfo, val, /* optional */ userList, uvField){
         html.setStyle(this.stringTextBoxContainer,'display','none');
         html.setStyle(this.numberTextBoxContainer,'display','block');
         html.setStyle(this.dateTextBoxContainer,'display','none');
@@ -449,6 +447,8 @@ define([
         var fieldObj = val.fieldObj;//name,shortType
         var valueObj = val.valueObj;//value,value1,value2
         var operator = val.operation;
+        var codedValues = this._getCodedValues(fieldInfo);
+        var value = parseFloat(valueObj.value);
 
         var isRange = operator === this.nls.numberOperatorIsBetween || operator === this.nls.numberOperatorIsNotBetween;
         if(isRange){
@@ -460,10 +460,8 @@ define([
           var value2 = parseFloat(valueObj.value2);
           this.numberTextBox1.set('value',value1);
           this.numberTextBox2.set('value',value2);
-        }
-        else{
+        }else{
           html.setStyle(this.numberRangeTable,'display','none');
-          var value = parseFloat(valueObj.value);
           if(this.layerDetails.typeIdField && this.layerDetails.typeIdField.toUpperCase() === fieldInfo.name.toUpperCase()){
             var subtypeValues = this._getSubTypeValues();
             if(subtypeValues){
@@ -496,36 +494,151 @@ define([
             }
             return;
           }
-          var codedValues = this._getCodedValues(fieldInfo);
-          if(codedValues){
+          if (codedValues || userList || uvField) {
+            var numberCodedData2;
             this._type = 2;
             this._showDijit(this.numberCodedValuesFS);
             this._hideDijit(this.numberTextBox);
-            var numberCodedData2 = array.map(codedValues,lang.hitch(this,function(item,index){
-              //item:{name,code},name is the code description and code is code value.
-              var dataItem = lang.mixin({},item);
-              dataItem.id = index;
-              return dataItem;
-            }));
-            var numberCodedStore2 = new Memory({data:numberCodedData2});
-            this.numberCodedValuesFS.set('store',numberCodedStore2);
-            if(valueObj && !isNaN(valueObj.value)){
-              var number2 = parseFloat(valueObj.value);
-              var numberSelectedItems2 = array.filter(numberCodedData2,lang.hitch(this,function(item){
-                return parseFloat(item.code) === number2;
+            this.numberCodedValuesFS.set('displayedValue','');
+            var estore = new Memory({data:[]});
+            this.numberCodedValuesFS.set('store',estore);
+            if(codedValues){
+              numberCodedData2 = array.map(codedValues,lang.hitch(this,function(item,index){
+                //item:{name,code},name is the code description and code is code value.
+                var dataItem = lang.mixin({},item);
+                dataItem.id = index;
+                return dataItem;
               }));
-              if(numberSelectedItems2.length > 0){
-                this.numberCodedValuesFS.set('value',numberSelectedItems2[0].id);
+              var numberCodedStore2 = new Memory({data:numberCodedData2});
+              this.numberCodedValuesFS.set('store',numberCodedStore2);
+              if(valueObj && !isNaN(valueObj.value)){
+                var number2 = parseFloat(valueObj.value);
+                var numberSelectedItems2 = array.filter(numberCodedData2,lang.hitch(this,function(item){
+                  return parseFloat(item.code) === number2;
+                }));
+                if(numberSelectedItems2.length > 0){
+                  this.numberCodedValuesFS.set('value',numberSelectedItems2[0].id);
+                }
+                else{
+                  this.numberCodedValuesFS.set('value',numberCodedData2[0].id);
+                }
+              }
+              else{
+                this.numberCodedValuesFS.set('value',numberCodedData2[0].id);
+              }
+            }else if(uvField){
+              var numberUniqueStore;
+              var numberSelectedItem;
+              var uniqueCache = this.layerUniqueCache[this.layerUri];
+              if (!uniqueCache){
+                  uniqueCache = {};
+                  this.layerUniqueCache[this.layerUri] = uniqueCache;
+              }
+
+              var uniqueKey = uvField;
+              var UniqueValArr = [];
+              if (uniqueKey in uniqueCache){
+                UniqueValArr = uniqueCache[uniqueKey];
+                numberUniqueStore = new Memory({
+                  data: UniqueValArr
+                });
+                this.numberCodedValuesFS.set('store', numberUniqueStore);
+                if (valueObj) {
+                  numberSelectedItem = array.filter(numberCodedData2, lang.hitch(this, function(item) {
+                    return item.code === valueObj.value;
+                  }));
+                  if (numberSelectedItem.length > 0) {
+                    this.numberCodedValuesFS.set('value', numberSelectedItem[0].id);
+                  } else {
+                    this.numberCodedValuesFS.set('value', UniqueValArr[0].id);
+                  }
+                }
+              }else{
+                this.pagingQueryTask = new PagingQueryTask();
+                this.pagingQueryTask.uri = this.layerUri;
+                this.pagingQueryTask.fieldName = uvField;
+                this.pagingQueryTask.dateFormat = '';
+                this.pagingQueryTask.version = this.layerDetails.currentVersion;
+                if(this.layerDef){
+                  this.pagingQueryTask.defExpr = this.layerDef;
+                }
+                this.pagingQueryTask.on('pagingComplete', lang.hitch(this, function(uniqueValuesArray){
+                  this.pagingAttempts = 0;
+                  numberCodedData2 = array.map(uniqueValuesArray, lang.hitch(this, function(item, index) {
+                    //item:{name,code}
+                    var dataItem = lang.mixin({}, item);
+                    dataItem.id = index;
+                    return dataItem;
+                  }));
+                  this.layerUniqueCache[this.layerUri][this.pagingQueryTask.fieldName] = numberCodedData2;
+                  numberUniqueStore = new Memory({
+                    data: numberCodedData2
+                  });
+                  if(typeof this.numberCodedValuesFS === 'undefined'){
+                    return;
+                  }
+                  this.numberCodedValuesFS.set('store', numberUniqueStore);
+                  if (valueObj) {
+                    var numberSelectedItem = array.filter(numberCodedData2, lang.hitch(this, function(item) {
+                      return item.code === valueObj.value;
+                    }));
+                    if (numberSelectedItem.length > 0) {
+                      this.numberCodedValuesFS.set('value', numberSelectedItem[0].id);
+                    } else {
+                      this.numberCodedValuesFS.set('value', numberCodedData2[0].id);
+                    }
+                  }
+                }));
+                this.pagingQueryTask.on('pagingFault', lang.hitch(this, function(){
+                  this.pagingAttempts++;
+                  if(this.pagingAttempts <= 4){
+                    console.warn("pagingQueryTask has been launched again for the " + this.pagingAttempts + " time");
+                    this.pagingQueryTask.startup();
+                    this.pagingQueryTask.execute();
+                  }else{
+                    this._type = 1;
+                    this._showDijit(this.numberTextBox);
+                    this._hideDijit(this.numberCodedValuesFS);
+                    this.numberTextBox.set('value',value);
+                  }
+                }));
+                this.pagingQueryTask.startup();
+                this.pagingQueryTask.execute();
+              }
+            }else{
+              var uaList;
+              uaList = this.trimArray(userList.split(","));
+              numberCodedData2 = array.map(uaList, lang.hitch(this, function(item, index) {
+                //item:{name,code}
+                var uval = item;
+                if(item === this.allString){
+                  uval = 'all';
+                }
+                var dataItem = lang.mixin({}, {name:item,code:uval});
+                dataItem.id = index;
+                return dataItem;
+              }));
+              var numberCodedStore3 = new Memory({data:numberCodedData2});
+              this.numberCodedValuesFS.set('store',numberCodedStore3);
+              if(valueObj && !isNaN(valueObj.value)){
+                var number3 = parseFloat(valueObj.value);
+                var numberSelectedItems3 = array.filter(numberCodedData2,lang.hitch(this,function(item){
+                  return parseFloat(item.code) === number2;
+                }));
+                if(numberSelectedItems3.length > 0){
+                  this.numberCodedValuesFS.set('value',numberSelectedItems3[0].id);
+                }
+                else{
+                  this.numberCodedValuesFS.set('value',numberCodedData2[0].id);
+                }
               }
               else{
                 this.numberCodedValuesFS.set('value',numberCodedData2[0].id);
               }
             }
-            else{
-              this.numberCodedValuesFS.set('value',numberCodedData2[0].id);
-            }
-          }
-          else{
+          }else{
+            var estore2 = new Memory({data:[]});
+            this.numberCodedValuesFS.set('store',estore2);
             this._type = 1;
             this._showDijit(this.numberTextBox);
             this._hideDijit(this.numberCodedValuesFS);

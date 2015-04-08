@@ -24,7 +24,6 @@ define(['dojo/_base/declare',
   'dojo/json',
   'dijit/form/NumberTextBox',
   'dijit/form/Select',
-  'dijit/form/TextBox',
   'dijit/form/Textarea',
   'dijit/form/DateTextBox',
   'dijit/form/TimeTextBox',
@@ -34,15 +33,18 @@ define(['dojo/_base/declare',
   'esri/SpatialReference',
   'esri/tasks/LinearUnit',
   'esri/tasks/FeatureSet',
-  'esri/layers/FeatureLayer',
   'esri/tasks/query',
   'esri/tasks/QueryTask',
   'esri/request',
+  'esri/geometry/Polygon',
+  'esri/graphic',
+  'esri/graphicsUtils',
   '../BaseEditor'
 ],
-function(declare, lang, array, html, on, Deferred, all, json, NumberTextBox, Select, TextBox,
+function(declare, lang, array, html, on, Deferred, all, json, NumberTextBox, Select,
   Textarea, DateTextBox, TimeTextBox, CheckBox, URLInput, DrawBox, SpatialReference,
-  LinearUnit, FeatureSet, FeatureLayer, Query, QueryTask, esriRequest, BaseEditor) {
+  LinearUnit, FeatureSet, Query, QueryTask, esriRequest,
+  Polygon, Graphic, graphicsUtils, BaseEditor) {
   var mo = {};
 
   mo.UnsupportEditor = declare(BaseEditor, {
@@ -134,7 +136,7 @@ function(declare, lang, array, html, on, Deferred, all, json, NumberTextBox, Sel
       _param.originParam = this.param;
 
       setTimeout(lang.hitch(this, this._initChildEditors, _param, inputListNode), 100);
-      
+
       this._createAddInputNode(_param, inputListNode);
     },
 
@@ -185,14 +187,17 @@ function(declare, lang, array, html, on, Deferred, all, json, NumberTextBox, Sel
         'class': 'single-input'
       }, inputListNode);
 
-      var inputEditor = this.editorManager.createEditor(param, 'input', this.context);
+      var inputEditor = this.editorManager.createEditor(param, 'input', this.context, {
+        widgetUID: this.widgetUID,
+        config: this.config
+      });
       var width = html.getContentBox(this.domNode).w - 30 -3;
       html.setStyle(inputEditor.domNode, {
         display: 'inline-block',
         width: width + 'px'
       });
       inputEditor.placeAt(node);
-      
+
       this._createRemoveInputNode(node);
       node.inputEditor = inputEditor;
       this.editors.push(inputEditor);
@@ -271,29 +276,26 @@ function(declare, lang, array, html, on, Deferred, all, json, NumberTextBox, Sel
     postCreate: function(){
       var today = new Date();
       var defaultDt = new Date(this.param.defaultValue);
-      
+
       //we re-create date again because if we use the today/defaultDt directly,
       //the TimeTextBox can't work. I dont know why.
       this.value = this.param.defaultValue?
         new Date(defaultDt.getFullYear(),
           defaultDt.getMonth(),
-          defaultDt.getDay(),
+          defaultDt.getDate(),
           defaultDt.getHours(),
           defaultDt.getMinutes(),
           defaultDt.getSeconds()):
         new Date(today.getFullYear(),
           today.getMonth(),
-          today.getDay(),
+          today.getDate(),
           today.getHours(),
           today.getMinutes(),
           today.getSeconds());
       this.inherited(arguments);
       this.dateDijit = new DateTextBox({
         value: this.value,
-        style: {width: '60%'},
-        constraints:{
-          datePattern: "yyyy-MM-dd"
-        }
+        style: {width: '60%'}
       });
 
       this.timeDijit = new TimeTextBox({
@@ -330,7 +332,10 @@ function(declare, lang, array, html, on, Deferred, all, json, NumberTextBox, Sel
 
   mo.SelectFeatureSetFromDraw = declare([BaseEditor, DrawBox], {
     constructor: function(options){
-      this.drawLayerId = options.param.name;
+      this.inherited(arguments);
+      this.paramName = options.param.name;
+      this.drawLayerId = options.widgetUID + options.param.name;
+      this.layerOrder = options.config.layerOrder;
     },
 
     postCreate: function(){
@@ -338,16 +343,40 @@ function(declare, lang, array, html, on, Deferred, all, json, NumberTextBox, Sel
       html.addClass(this.domNode, 'jimu-gp-editor-draw');
       html.addClass(this.domNode, 'jimu-gp-editor-base');
       this.startup();
+
+      //reorder drawbox layer
+      var inputLayerIndex = this.layerOrder.indexOf(this.paramName);
+      var operationalLayersIndex = this.layerOrder.indexOf('Operational Layers');
+      if(operationalLayersIndex < inputLayerIndex){
+        //input layer below the operational layer
+        this.map.reorderLayer(this.drawLayer, 0);
+      }
     },
 
     getValue: function(){
       if(this.drawLayer && this.drawLayer.graphics.length > 0){
-        var featureset = new FeatureSet();
-        featureset.features = this.drawLayer.graphics;
-        return featureset;
+        return this._createFeatureSet(this.drawLayer.graphics);
       }else{
         return null;
       }
+    },
+
+    _createFeatureSet: function(graphics){
+      var featureset = new FeatureSet();
+      var features = [];
+      var geometries = graphicsUtils.getGeometries(graphics);
+
+      array.forEach(geometries, function(geom){
+        var graphic;
+        if(geom.type === 'extent'){
+          graphic = new Graphic(Polygon.fromExtent(geom));
+        }else{
+          graphic = new Graphic(geom);
+        }
+        features.push(graphic);
+      });
+      featureset.features = features;
+      return featureset;
     }
   });
 
@@ -396,8 +425,6 @@ function(declare, lang, array, html, on, Deferred, all, json, NumberTextBox, Sel
       this.inherited(arguments);
       html.addClass(this.domNode, 'jimu-gp-editor-sffu');
       html.addClass(this.domNode, 'jimu-gp-editor-base');
-      
-      this.queryTask = new QueryTask(this.value);
     },
 
     getValue: function(){
@@ -412,6 +439,8 @@ function(declare, lang, array, html, on, Deferred, all, json, NumberTextBox, Sel
         return field.name;
       }, this);
       query.outSpatialReference = new SpatialReference(this.querySetting.spatialReference.wkid);
+
+      this.queryTask = new QueryTask(this.getValue());
       return this.queryTask.execute(query);
     }
   });
@@ -501,7 +530,7 @@ function(declare, lang, array, html, on, Deferred, all, json, NumberTextBox, Sel
             var fields = array.filter(response.fields,function(item){
               return item.type !== 'esriFieldTypeOID' && item.type !== 'esriFieldTypeGeometry';
             });
-            
+
             options = array.map(fields, function(field){
               return {
                 label: field.alias || field.name,

@@ -51,11 +51,12 @@
     specifyParamsTip: "이 작업에 대한 매개변수 지정",
     useSpatialFilter: "공간 필터를 사용하여 피처 제한",
     useCurrentMapExtent: "현재 맵 범위와 맞닿은 피처만",
-    drawGraphicOnMap: "사용자 정의 영역에 맞닿은 피처만",
+    drawGraphicOnMap: "사용자 정의 영역에 인접해 있는 피처만",
     specifySpatialFilterMsg: "이 작업에 대한 공간 필터를 지정하세요.",
     clearResults: "결과 지우기",
     operationalTip: '이 옵션을 선택하면 "${clearResults}" 버튼을 클릭할 때까지 결과가 맵에서 유지됩니다.',
     noneQueryTip: "미리 구성된 사용 가능한 쿼리 작업이 없습니다.",
-    noPermissionsMsg: "이 서비스에 접근할 권한이 없습니다."
+    noPermissionsMsg: "이 서비스에 접근할 권한이 없습니다.",
+    attributesFromRelationship: "릴레이트된 테이블의 속성"
   })
 );

@@ -1,6 +1,6 @@
 ﻿define(
    ({
-    state: "De coördinaten worden standaard weergegeven in het coördinatensysteem van de huidige kaart. Om coördinaten uit andere coördinatensystemen te krijgen, moeten deze worden toegevoegd en geschikte transformaties worden gespecificeerd.",
+    state: "Standaard worden de coördinaten weergegeven in het huidige coördinaatsysteem van de kaart. Om de coördinaten in andere coördinatensystemen te krijgen, moet u ze toevoegen en toepasselijke transformaties specificeren..",
     outputUnit: "Uitvoereenheid",
     wkid: "Uitvoer-WKID",
     label: "Naam van uitvoercoördinatensysteem",
@@ -22,6 +22,7 @@
     units: "Weergave-eenheden: ",
     datum: "Datumtransformatie",
     tName: "Naam van transformatie",
+    tWKIDPlaceHolder: "WKID van de transformatie",
     forward: "Voorwaartse transformatie gebruiken",
     ok: "OK",
     cancel: 'Annuleren',

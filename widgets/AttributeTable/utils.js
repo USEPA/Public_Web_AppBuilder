@@ -33,6 +33,8 @@ define(['dojo/_base/lang',
       layerInfosObj.traversal(lang.hitch(this, function(layerInfo) {
         layerInfos.push(layerInfo);
       }));
+      var tableInfos = layerInfosObj.getTableInfoArray();
+      layerInfos = layerInfos.concat(tableInfos);
 
       def.resolve(layerInfos);
     }), lang.hitch(this, function(err) {
@@ -125,7 +127,7 @@ define(['dojo/_base/lang',
     json.id = layerInfo.id;
     json.show = layerInfo.isShowInMap();
     json.layer = {
-      url: layerInfo.getUrl()
+      url: layerInfo.getUrl() || (layerInfo.layerObject && layerInfo.layerObject.url)
     };
 
     var popupInfo = layerInfo.getPopupInfo();

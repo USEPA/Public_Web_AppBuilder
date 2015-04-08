@@ -19,16 +19,16 @@ define([
     'dojo/_base/lang',
     'dojo/_base/html',
     'dojo/i18n!esri/nls/jsapi',
-    'dojo/keys',
     'dojo/on',
     'dojo/query',
     'dijit/_WidgetsInTemplateMixin',
     'jimu/BaseWidget',
+    'jimu/MapManager',
     'esri/dijit/editing/Editor',
     'esri/layers/FeatureLayer'
   ],
-  function(declare, lang, html, esriBundle, keys, on, query, _WidgetsInTemplateMixin,
-    BaseWidget, Editor, FeatureLayer) {
+  function(declare, lang, html, esriBundle, on, query, _WidgetsInTemplateMixin,
+    BaseWidget, MapManager, Editor, FeatureLayer) {
     return declare([BaseWidget, _WidgetsInTemplateMixin], {
       name: 'Edit',
       baseClass: 'jimu-widget-edit',
@@ -36,33 +36,71 @@ define([
       layers: null,
       _defaultStartStr: "",
       _defaultAddPointStr: "",
+      resetInfoWindow: {},
+      _sharedInfoBetweenEdits: {
+        editCount: 0,
+        resetInfoWindow: null
+      },
 
       onOpen: function() {
         this.layers = [];
         this.disableWebMapPopup();
+        this.first=true;
         this.getLayers();
         this.initEditor();
       },
 
+      // onOpen: function() {
+      //   if(!this.first) {
+      //     this.disableWebMapPopup();
+      //   }
+      //   this.first = false;
+      // },
+
       disableWebMapPopup: function() {
-        if (this.map && this.map.webMapResponse) {
-          var handler = this.map.webMapResponse.clickEventHandle;
-          if (handler) {
-            handler.remove();
-            this.map.webMapResponse.clickEventHandle = null;
-          }
+        /*global jimuConfig*/
+        var mapManager = MapManager.getInstance();
+
+        mapManager.disableWebMapPopup();
+        // change to map's default infowindow(popup)
+        var mapInfoWindow = mapManager.getMapInfoWindow();
+        if(mapManager.isMobileInfoWindow) {
+          this.map.setInfoWindow(mapInfoWindow.bigScreen);
+          mapManager.isMobileInfoWindow = false;
         }
+
+        // instead of Mapmanager.resetInfoWindow by self resetInfoWindow
+        if(this._sharedInfoBetweenEdits.resetInfoWindow === null) {
+          this._sharedInfoBetweenEdits.resetInfoWindow = mapManager.resetInfoWindow;
+          this.own(on(this.map.infoWindow, "show", lang.hitch(this, function() {
+            if (jimuConfig && jimuConfig.widthBreaks) {
+              var width = jimuConfig.widthBreaks[0];
+              if (html.getContentBox(jimuConfig.layoutId).w < width) {
+                this.map.infoWindow.maximize();
+              }
+            }
+          })));
+        }
+        mapManager.resetInfoWindow = lang.hitch(this, function() {
+        });
+
+        this._sharedInfoBetweenEdits.editCount++;
       },
 
       enableWebMapPopup: function() {
-        if (this.map && this.map.webMapResponse) {
-          var handler = this.map.webMapResponse.clickEventHandle;
-          var listener = this.map.webMapResponse.clickEventListener;
-          if (listener && !handler) {
-            this.map.webMapResponse.clickEventHandle = on(this.map,
-              'click',
-              lang.hitch(this.map, listener));
-          }
+        var mapManager = MapManager.getInstance();
+
+        // recover restInfoWindow when close widget.
+        this._sharedInfoBetweenEdits.editCount--;
+        if(this._sharedInfoBetweenEdits.editCount === 0 &&
+            this._sharedInfoBetweenEdits.resetInfoWindow) {
+          // edit will change infoWindow's size, so resize it.
+          mapManager.getMapInfoWindow().bigScreen.resize(270, 316);
+          mapManager.resetInfoWindow =
+              lang.hitch(mapManager, this._sharedInfoBetweenEdits.resetInfoWindow);
+          this._sharedInfoBetweenEdits.resetInfoWindow = null;
+          mapManager.resetInfoWindow();
+          mapManager.enableWebMapPopup();
         }
       },
 
@@ -144,14 +182,19 @@ define([
         this.editor = new Editor(params, this.editDiv);
         this.editor.startup();
 
-        this.resize();
+        setTimeout(lang.hitch(this, this.resize), 100);
+      },
+
+      onMaximize: function(){
+        setTimeout(lang.hitch(this, this.resize), 100);
       },
 
       onClose: function() {
-        this.enableWebMapPopup();
+
         if (this.editor) {
           this.editor.destroy();
         }
+        this.enableWebMapPopup();
         this.layers = [];
         this.editor = null;
         this.editDiv = html.create("div", {
@@ -166,12 +209,19 @@ define([
       },
 
       resize: function(){
-        var height = html.getMarginBox(this.domNode).h;
+        var widgetBox = html.getMarginBox(this.domNode);
+        var height = widgetBox.h;
+        var width = widgetBox.w;
+
+        this.editor.templatePicker.update();
+
         //query(".esriEditor", this.domNode).style('height', height + 'px');
         query(".templatePicker", this.domNode).style('height', height - 50 + 'px');
         query(".grid", this.domNode).style('height', height - 60 + 'px');
         query(".dojoxGridView", this.domNode).style('height', height - 60 + 'px');
         query(".dojoxGridScrollbox", this.domNode).style('height', height - 60 + 'px');
+
+        query(".dojoxGridRowTable", this.domNode).style('width', width - 32 + 'px');
       }
     });
   });

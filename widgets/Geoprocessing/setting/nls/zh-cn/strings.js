@@ -30,6 +30,7 @@
     popup: "弹出窗口",
     setTask: "设置",
     setTaskTitle: "设置 GP 任务",
-    enablePopup: "启用弹出窗口"
+    enablePopup: "启用弹出窗口",
+    unSupportGeometryType: "由于几何类型未知，因此无法设置渲染器。"
   })
 );

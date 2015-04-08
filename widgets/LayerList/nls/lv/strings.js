@@ -13,6 +13,9 @@
     itemDesc: "Apraksts",
     itemDownload: "Lejupielāde",
     itemToAttributeTable: "Atvērt atribūtu tabulu",
-    itemShowItemDetails: "Parādīt vienību detaļas"
+    itemShowItemDetails: "Parādīt vienību detaļas",
+    empty: "tukšs",
+    removePopup: "Noņemt uznirstošo logu",
+    enablePopup: "Aktivizēt uznirstošo logu"
   })
 );
