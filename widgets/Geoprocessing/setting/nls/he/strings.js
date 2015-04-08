@@ -30,6 +30,7 @@
     popup: "חלון קופץ",
     setTask: "הגדר",
     setTaskTitle: "הגדר משימת GP",
-    enablePopup: "אפשר חלון קופץ"
+    enablePopup: "אפשר חלון קופץ",
+    unSupportGeometryType: "לא ניתן להגדיר Renderer בשל סוג גיאומטריה לא מוכר."
   })
 );

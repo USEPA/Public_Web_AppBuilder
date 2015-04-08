@@ -2,9 +2,9 @@
     "name": "BatchEditor",
     "2D": true,
     "platform": "HTML",
-    "version": "0.9.0.0",
+    "version": "1.0.0.0",
     "author": "Esri, Inc.",
-    "description": "A widget to modify a series of features at the same time.  User can select features by a shape or an existing feature.",
+    "description": "A widget to modify a series of features at the same time.",
     "copyright": "Esri, Inc.",
     "license": "http://www.apache.org/licenses/LICENSE-2.0"
 }

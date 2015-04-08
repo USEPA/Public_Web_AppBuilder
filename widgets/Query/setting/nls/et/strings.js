@@ -31,6 +31,10 @@
 		setFilterTip: "Määrake filter õigesti.",
 		ok: "OK",
 		cancel: "Tühista",
-		noFilterTip: "Määratlemata filtriavaldiseta loendab see päringuülesanne kõik määratud andmeallika funktsioonid."
+		noFilterTip: "Määratlemata filtriavaldiseta loendab see päringuülesanne kõik määratud andmeallika funktsioonid.",
+    relationships: "Seosetabel",
+    addRelationshipLayer: "Lisa uus seos",
+    relatedTo: "Seotud",
+    selectOption: "Valige..."
   })
 );

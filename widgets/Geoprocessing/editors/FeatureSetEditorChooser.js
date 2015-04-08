@@ -15,21 +15,19 @@
 ///////////////////////////////////////////////////////////////////////////
 
 define(['dojo/_base/declare',
-  'dojo/_base/lang',
   'dojo/_base/html',
-  'dojo/_base/array',
   'dojo/on',
   'dojo/text!./FeatureSetEditorChooser.html',
   'dijit/_TemplatedMixin',
   'dijit/_WidgetsInTemplateMixin',
-  'dijit/form/RadioButton',
   'jimu/dijit/SymbolChooser',
   'jimu/utils',
   'esri/symbols/jsonUtils',
-  '../BaseEditor'
+  '../BaseEditor',
+  'dijit/form/RadioButton'
 ],
-function(declare, lang, html, array, on, template, _TemplatedMixin, _WidgetsInTemplateMixin,
-  RadioButton, SymbolChooser, utils, jsonUtils, BaseEditor) {
+function(declare, html, on, template, _TemplatedMixin, _WidgetsInTemplateMixin,
+  SymbolChooser, utils, jsonUtils, BaseEditor) {
   return declare([BaseEditor, _TemplatedMixin, _WidgetsInTemplateMixin], {
     baseClass: 'jimu-gp-editor-base jimu-gp-editor-fsec',
     templateString: template,
@@ -76,7 +74,7 @@ function(declare, lang, html, array, on, template, _TemplatedMixin, _WidgetsInTe
         }
         html.setStyle(this.symbolChooserSection, 'display', 'block');
       }
-      
+
       this.featureSetUrl.set('disabled', true);
       this.value.featureSetMode = 'draw';
     },

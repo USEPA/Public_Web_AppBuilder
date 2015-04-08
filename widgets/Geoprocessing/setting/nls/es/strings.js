@@ -30,6 +30,7 @@
     popup: "Elemento emergente",
     setTask: "Establecer",
     setTaskTitle: "Establecer tarea de geoprocesamiento",
-    enablePopup: "Habilitar ventana emergente"
+    enablePopup: "Habilitar ventana emergente",
+    unSupportGeometryType: "No se puede definir el renderizador porque el tipo de geometría es desconocido."
   })
 );

@@ -11,6 +11,6 @@
     errorNameNull: "书签名称无效!",
     addBookmark: "创建新书签",
     thumbnail: "缩略图",
-    thumbnailHint: "单击影像进行更新"
+    thumbnailHint: "单击图像进行更新"
   })
 );

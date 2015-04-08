@@ -1,6 +1,6 @@
 ﻿define(
    ({
-    state: "Domyślnie współrzędne są wyświetlane w bieżącym układzie współrzędnych mapy. Aby uzyskać współrzędne w innych układach współrzędnych, konieczne jest ich dodanie i określenie odpowiednich transformacji.",
+    state: "Domyślnie współrzędne są wyświetlane w bieżącym układzie współrzędnych mapy.  Aby uzyskać współrzędne w innych układach współrzędnych, konieczne jest ich dodanie i podanie odpowiednich transformacji.",
     outputUnit: "Jednostka danych wynikowych",
     wkid: "Identyfikator WKID wynikowych danych",
     label: "Wynikowa nazwa układu współrzędnych",
@@ -22,6 +22,7 @@
     units: "Wyświetl jednostki: ",
     datum: "Transformacja układu odniesienia",
     tName: "Nazwa transformacji",
+    tWKIDPlaceHolder: "Identyfikator WKID transformacji",
     forward: "Użyj dalszej transformacji",
     ok: "OK",
     cancel: 'Anuluj',

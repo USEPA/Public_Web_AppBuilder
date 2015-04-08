@@ -13,6 +13,9 @@
     itemDesc: "설명",
     itemDownload: "다운로드",
     itemToAttributeTable: "속성 테이블 열기",
-    itemShowItemDetails: "항목 세부정보 보기"
+    itemShowItemDetails: "항목 세부정보 보기",
+    empty: "비어 있음",
+    removePopup: "팝업 제거",
+    enablePopup: "팝업 활성화"
   })
 );

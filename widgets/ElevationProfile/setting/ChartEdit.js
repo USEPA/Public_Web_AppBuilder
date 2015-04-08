@@ -12,7 +12,8 @@ define(
     'jimu/BaseWidgetSetting',
     'jimu/dijit/Message',
     'dojo/text!./ChartEdit.html',
-    'jimu/dijit/ColorPicker'
+    'jimu/dijit/ColorPicker',
+    'jimu/dijit/CheckBox'
   ],
   function(
     declare,
@@ -61,6 +62,7 @@ define(
         if(!this.config){
           return;
         }
+        this.constrainCbx.setValue(this.config.chartRenderingOptions.constrain);
         this.selectScalebarUnits.set('value', this.config.scalebarUnits);
         this.ChartTitleFontSize.set('value', this.config.chartRenderingOptions.chartTitleFontSize);
         this.AxisTitleFontSize.set('value', this.config.chartRenderingOptions.axisTitleFontSize);
@@ -101,7 +103,7 @@ define(
         this.config.chartRenderingOptions.elevationLineColor = this._getColorHex(this.elevationLineColorPicker);
         this.config.chartRenderingOptions.elevationTopColor = this._getColorHex(this.elevationTopColorPicker);
         this.config.chartRenderingOptions.elevationBottomColor = this._getColorHex(this.elevationBottomColorPicker);
-
+        this.config.chartRenderingOptions.constrain = this.constrainCbx.getValue();
         this.config = config;
         return this.config;
       },

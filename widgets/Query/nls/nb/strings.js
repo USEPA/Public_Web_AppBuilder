@@ -51,11 +51,12 @@
     specifyParamsTip: "Angi parametere for denne oppgaven",
     useSpatialFilter: "Bruk geografisk filter til å begrense geoobjekter",
     useCurrentMapExtent: "Bare geoobjekter som berører gjeldende kartutstrekning",
-    drawGraphicOnMap: "Bare geoobjekter som berører et brukerdefinert område",
+    drawGraphicOnMap: "Bare geoobjekter som berører det brukerdefinerte området",
     specifySpatialFilterMsg: "Angi et romlig filter for denne oppgaven.",
     clearResults: "Fjern resultater",
     operationalTip: 'Når dette alternativet er merket av, beholdes resultatene på kartet frem til det klikkes på knappen ${clearResults}.',
     noneQueryTip: "Ingen forhåndskonfigurerte spørringsoppgaver er tilgjengelige.",
-    noPermissionsMsg: "Du har ikke tillatelse til å bruke denne tjenesten."
+    noPermissionsMsg: "Du har ikke tillatelse til å bruke denne tjenesten.",
+    attributesFromRelationship: "Attributter fra relatert tabell"
   })
 );

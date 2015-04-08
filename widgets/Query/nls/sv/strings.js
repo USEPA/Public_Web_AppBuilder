@@ -51,11 +51,12 @@
     specifyParamsTip: "Ange parametrar för den här uppgiften",
     useSpatialFilter: "Använd geografiskt filter för att begränsa geoobjekt",
     useCurrentMapExtent: "Endast geoobjekt som rör den aktuella kartutbredningen",
-    drawGraphicOnMap: "Endast geoobjekt som rör ett användardefinierat område",
+    drawGraphicOnMap: "Endast geoobjekt som rör det användardefinierade området",
     specifySpatialFilterMsg: "Ange ett geografiskt filter för den här uppgiften.",
     clearResults: "Rensa resultat",
     operationalTip: 'När det här alternativet har markerats behålls resultaten på kartan tills du klickar på knappen "${clearResults}".',
     noneQueryTip: "Det finns inga tillgängliga förinställda frågeuppgifter.",
-    noPermissionsMsg: "Du saknar behörighet för att få åtkomst till denna tjänst."
+    noPermissionsMsg: "Du saknar behörighet för att få åtkomst till denna tjänst.",
+    attributesFromRelationship: "Attribut från relaterad tabell"
   })
 );

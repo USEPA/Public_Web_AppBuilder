@@ -7,7 +7,7 @@
     title: "Titel",
     titlePH: "Titel der Grundkarte",
     thumbnail: "Miniaturansicht",
-    thumbnailHint: "Zum Aktualisieren auf Bild klicken",
+    thumbnailHint: "Zum Aktualisieren auf das Bild klicken",
     url: "URL",
     urlPH: "Layer-URL",
     addlayer: "Grundkarte hinzufügen",
@@ -25,7 +25,7 @@
     invalidTitle1:"Die Grundkarte '",
     invalidTitle2:"' ist bereits vorhanden. Wählen Sie einen anderen Titel aus.",
     invalidBasemapUrl1: "Dieser Layer-Typ kann nicht als Grundkarte verwendet werden.",
-    invalidBasemapUrl2: "Anderer Raumbezug bei aktueller Karte.",
+    invalidBasemapUrl2: "Anderer Raumbezug aus der aktuellen Karte.",
     addBaselayer: "Grundkarten-Layer hinzufügen"
   })
 );

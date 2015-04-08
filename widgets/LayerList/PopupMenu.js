@@ -5,27 +5,32 @@ define([
   'dojo/_base/lang',
   'dojo/query',
   'dojo/on',
+  'dojo/Deferred',
   'jimu/dijit/DropMenu',
   'dijit/_TemplatedMixin',
   'dijit/form/HorizontalSlider',
   'dijit/form/HorizontalRuleLabels',
   'dojo/text!./PopupMenu.html',
   'dojo/dom-style',
-  './NlsStrings'
-], function(declare, array, html, lang, query, on, DropMenu,
-_TemplatedMixin, HorizSlider, HorzRuleLabels, template, domStyle, NlsStrings) {
+  './NlsStrings',
+  './PopupMenuInfo'
+], function(declare, array, html, lang, query, on, Deferred, DropMenu,
+_TemplatedMixin, HorizSlider, HorzRuleLabels, template, domStyle, NlsStrings, PopupMenuInfo) {
   return declare([DropMenu, _TemplatedMixin], {
     templateString: template,
+    popupMenuInfo: null,
+    _popupMenuInfoDef: null,
     _deniedItems: null,
-
+    _layerInfo: null,
     constructor: function() {
       this.nls = NlsStrings.value;
       this._deniedItems = [];
+      this._popupMenuInfoDef = new Deferred();
     },
 
     _getDropMenuPosition: function(){
       return {
-        top: "15px",
+        top: "28px",
         //left: "-107px"
         left: 12 - html.getStyle(this.dropMenuNode, 'width') + 'px'
       };
@@ -40,12 +45,47 @@ _TemplatedMixin, HorizSlider, HorzRuleLabels, template, domStyle, NlsStrings) {
     },
 
     _onBtnClick: function(){
+      // if(!this.dropMenuNode){
+      //   PopupMenuInfo.create(this._layerInfo, this._appConfig)
+      //   .then(lang.hitch(this, function(popupMenuInfo) {
+      //     this.items = popupMenuInfo.getDisplayItems();
+      //     this.popupMenuInfo = popupMenuInfo;
+      //     this._createDropMenuNode();
+      //     this.own(on(this.dropMenuNode, 'click', lang.hitch(this, function(evt){
+      //       evt.stopPropagation();
+      //     })));
+      //     this._popupMenuInfoDef.resolve(popupMenuInfo);
+      //   }));
+      // }
+    },
+
+    btnClick: function() {
       if(!this.dropMenuNode){
-        this._createDropMenuNode();
-        this.own(on(this.dropMenuNode, 'click', lang.hitch(this, function(evt){
-          evt.stopPropagation();
-        })));
+        PopupMenuInfo.create(this._layerInfo, this._appConfig)
+        .then(lang.hitch(this, function(popupMenuInfo) {
+          this.items = popupMenuInfo.getDisplayItems();
+          this.popupMenuInfo = popupMenuInfo;
+          this._createDropMenuNode();
+          this.own(on(this.dropMenuNode, 'click', lang.hitch(this, function(evt){
+            evt.stopPropagation();
+          })));
+          this._popupMenuInfoDef.resolve(popupMenuInfo);
+        }));
       }
+    },
+
+    getPopupMenuInfo: function() {
+      // var def = new Deferred();
+      // if(this.popupMenuInfo) {
+      //   def.resolve(this.popupMenuInfo);
+      // } else {
+      //   PopupMenuInfo.create(this._layerInfo).then(lang.hitch(this, function(popupMenuInfo) {
+      //     this.popupMenuInfo = popupMenuInfo;
+      //     def.resolve(popupMenuInfo);
+      //   }));
+      // }
+      // return def;
+      return this._popupMenuInfoDef;
     },
 
     // will call after openDropMenu 
@@ -62,7 +102,7 @@ _TemplatedMixin, HorizSlider, HorzRuleLabels, template, domStyle, NlsStrings) {
         itemNodes.forEach(function(itemNode){
           if (html.getAttr(itemNode, 'itemId') === itemKey) {
             html.addClass(itemNode, "menu-item-dissable");
-            if(itemKey === 'description' || itemKey === 'download') {
+            if(itemKey === 'url') {
               query(".menu-item-description", itemNode).forEach(function(itemA){
                 html.setAttr(itemA, 'href', '#');
                 html.removeAttr(itemA, 'target');
@@ -86,6 +126,7 @@ _TemplatedMixin, HorizSlider, HorzRuleLabels, template, domStyle, NlsStrings) {
       // } else {
       //   this._deniedItems = [];
       // }
+
       deniedItemsDef.then(lang.hitch(this, function(deniedItems) {
         this._deniedItems = deniedItems;
         this._refresh();

@@ -1,19 +1,11 @@
-﻿define({
-    enableUndoRedo: "é_Enable UndoRedo_È",
-    toolbarVisible: "é_Toolbar Visible_È",
-    toolbarOptions: "é_Toolbar Options_È",
-    mergeVisible: "é_Merge_È",
-    cutVisible: "é_Cut_È",
-    reshapeVisible: "é_Reshape_È",
-    back: "é_Back_È",
-    label: "é_Layer_È",
-    edit: "é_Editable_È",
-    update: "é_DisableUpdateGeometry_È",
-    fields: "é_Fields_È",
-    actions: "é_Actions_È",
-    editpageName: "é_Name_È",
-    editpageAlias: "é_Alias_È",
-    editpageVisible: "é_Visible_È",
-    editpageEditable: "é_Editable_È",
-    noLayers: "é_No editable feature layers available_È"
-});
+﻿define(
+   ({
+    styleText: "Scegliere uno stile per lo strumento Scorrimento con dito.",
+    vertical: "Barra verticale",
+    horizontal: "Barra orizzontale",
+    scope: "Cannocchiale",
+    layerText: "Selezionare il layer su cui si desidera scorrere il dito per impostazione predefinita.",
+    spyglassText: "Selezionare il layer da visualizzare all\'interno del cannocchiale per impostazione predefinita.",
+    layerHint: "Se il layer è nascosto dai layer superiori, lo scorrimento non ha alcun effetto."
+  })
+);

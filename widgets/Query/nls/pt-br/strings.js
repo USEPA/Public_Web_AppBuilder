@@ -54,8 +54,9 @@
     drawGraphicOnMap: "Somente feições tocando a área definida do usuário",
     specifySpatialFilterMsg: "Especifique o filtro espacial para esta tarefa.",
     clearResults: "Limpar Resultados",
-    operationalTip: 'Com esta opção marcada, os resultados serão mantidos no mapa até que o botão \"${clearResults}\" seja clicado.',
+    operationalTip: 'Com esta opção marcada, os resultados serão mantidos no mapa até que o botão "${clearResults}" seja clicado.',
     noneQueryTip: "Nenhuma tarefa de consulta pré-configurada disponível.",
-    noPermissionsMsg: "Você não tem permissões para acessar este serviço."
+    noPermissionsMsg: "Você não tem permissões para acessar este serviço.",
+    attributesFromRelationship: "Atributos da tabela relacionada"
   })
 );

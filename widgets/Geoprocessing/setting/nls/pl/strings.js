@@ -30,6 +30,7 @@
     popup: "Okno podręczne",
     setTask: "Ustaw",
     setTaskTitle: "Ustaw zadanie geoprzetwarzania",
-    enablePopup: "Włącz okno podręczne"
+    enablePopup: "Włącz okno podręczne",
+    unSupportGeometryType: "Nie można skonfigurować modułu renderowania geometrii nieznanego typu."
   })
 );

@@ -25,7 +25,7 @@
     invalidTitle1:"Ya existe un mapa base '",
     invalidTitle2:"'. Elige otro título.",
     invalidBasemapUrl1: "Este tipo de capa no se puede usar como mapa base.",
-    invalidBasemapUrl2: "La referencia espacial es diferente de la del mapa actual.",
+    invalidBasemapUrl2: "La referencia espacial es diferente a la del mapa actual.",
     addBaselayer: "Agregar capa de mapa base"
   })
 );

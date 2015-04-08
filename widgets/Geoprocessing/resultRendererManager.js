@@ -14,18 +14,13 @@
 // limitations under the License.
 ///////////////////////////////////////////////////////////////////////////
 
-define(['dojo/_base/declare',
-  'dijit/_WidgetBase',
-  'dojo/_base/lang',
-  'dojo/_base/array',
-  'dojo/_base/html',
-  'dojo/on',
+define([
   './resultrenderers/simpleResultRenderers'
 ],
-function(declare, _WidgetBase, lang, array, html, on, simpleResultRenderers) {
-  var mo = {}, map, nls, config;
+function(simpleResultRenderers) {
+  var mo = {}, map, nls;
 
-  mo.createResultRenderer = function(param, value) {
+  mo.createResultRenderer = function(param, value, options) {
   //summary:
   //  create result renderer depends on the parameter type.
   //  renderer can't be in setting page
@@ -33,9 +28,10 @@ function(declare, _WidgetBase, lang, array, html, on, simpleResultRenderers) {
     var rendererName = getRendererNameFromParam(param);
     var o = {
       param: param,
+      widgetUID: options.uid,
       map: map,
       nls: nls,
-      config: config
+      config: options.config
     };
     if(rendererName === 'DrawResultFeatureSet'){
       o.value = value.value;
@@ -57,7 +53,7 @@ function(declare, _WidgetBase, lang, array, html, on, simpleResultRenderers) {
       }else if(param.dataType === 'GPDataFile' || param.dataType === 'GPRasterDataLayer'){
         text = '<a target="_blank" href="' + value.value.url + '">' + value.value.url + '</a>';
       }
-      
+
       o.message = text;
       resultRenderer = new simpleResultRenderers.SimpleResultRenderer(o);
     }else if(rendererName === 'UnsupportRenderer'){
@@ -70,7 +66,7 @@ function(declare, _WidgetBase, lang, array, html, on, simpleResultRenderers) {
       o.message = 'unknown renderer name: ' + rendererName;
       resultRenderer = new simpleResultRenderers.UnsupportRenderer(o);
     }
-    
+
     return resultRenderer;
   };
 
@@ -80,10 +76,6 @@ function(declare, _WidgetBase, lang, array, html, on, simpleResultRenderers) {
 
   mo.setNls = function(_nls){
     nls = _nls;
-  };
-
-  mo.setConfig = function(_config){
-    config = _config;
   };
 
   function getRendererNameFromParam(param){

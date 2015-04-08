@@ -1,6 +1,6 @@
 ﻿define(
    ({
-    state: "Koordinātas pēc noklusējuma tiks rādītas pašreizējās kartes koordinātu sistēmā. Lai koordinātes iegūtu citās koordinātu sistēmās, tās ir papildus jāpievieno un jānorāda attiecīgās transformācijas.",
+    state: "Koordinātas pēc noklusējuma tiks rādītas pašreizējās kartes koordinātu sistēmā. Lai koordinātes iegūtu citās koordinātu sistēmās, tās ir jāpievieno un jānorāda attiecīgās transformācijas.",
     outputUnit: "Izvades vienība",
     wkid: "Izvades WKID",
     label: "Izvades koordinātu sistēmas nosaukums",
@@ -22,6 +22,7 @@
     units: "Rādāmās vienības: ",
     datum: "Dotā lieluma transformācija",
     tName: "Transformācijas nosaukums",
+    tWKIDPlaceHolder: "Transformācijas WKID",
     forward: "Izmantot transformāciju uz priekšu",
     ok: "Labi",
     cancel: 'Atcelt',

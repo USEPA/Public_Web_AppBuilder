@@ -30,12 +30,14 @@ define({
     popup: "Popup",
     setTask: "Set",
     setTaskTitle: "Set GP Task",
-    enablePopup: "Enable popup"
+    enablePopup: "Enable popup",
+    unSupportGeometryType: "Can not set renderer because of unknown geometry type."
   }),
   "ar": 1,
   "cs": 1,
   "da": 1,
   "de": 1,
+  "el": 1,
   "es": 1,
   "et": 1,
   "fi": 1,

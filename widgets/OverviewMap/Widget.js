@@ -18,6 +18,8 @@ define([
     'dojo/_base/declare',
     'dojo/_base/lang',
     'dojo/_base/html',
+    'dojo/_base/array',
+    'dojo/on',
     'dojo/aspect',
     'jimu/BaseWidget',
     'esri/dijit/OverviewMap',
@@ -28,6 +30,8 @@ define([
     declare,
     lang,
     html,
+    array,
+    on,
     aspect,
     BaseWidget,
     OverviewMap,
@@ -37,51 +41,35 @@ define([
 
       name: 'OverviewMap',
       overviewMapDijit: null,
+      _showDijit: false,
+      _handles: null,
 
       startup: function() {
+        this._handles = [];
         this.inherited(arguments);
         this.createOverviewMap();
+
+        if (this.map) {
+          this.own(on(this.map, 'layer-add', lang.hitch(this, this._onMainMapBasemapChange)));
+          this.own(on(this.map, 'resize', lang.hitch(this, this._onMainMapResize)));
+        }
       },
 
-      createOverviewMap: function(visible) {
-        var json = this.config.overviewMap;
-        json.map = this.map;
-        if (visible !== undefined) {
-          json.visible = visible;
-        }
-
-        if (this.position) {
-          if (this.position.top !== undefined && this.position.left !== undefined) {
-            json.attachTo = !window.isRTL ? "top-left" : "top-right";
-          } else if (this.position.top !== undefined && this.position.right !== undefined) {
-            json.attachTo = !window.isRTL ? "top-right" : "top-left";
-          } else if (this.position.bottom !== undefined && this.position.left !== undefined) {
-            json.attachTo = !window.isRTL ? "bottom-left": "bottom-right";
-          } else if (this.position.bottom !== undefined && this.position.right !== undefined) {
-            json.attachTo = !window.isRTL ? "bottom-right" : "bottom-left";
+      _processAttachTo: function(config, position) {
+        if (!config.attachTo && position) {
+          if (position.top !== undefined && position.left !== undefined) {
+            config.attachTo = !window.isRTL ? "top-left" : "top-right";
+          } else if (position.top !== undefined && position.right !== undefined) {
+            config.attachTo = !window.isRTL ? "top-right" : "top-left";
+          } else if (position.bottom !== undefined && position.left !== undefined) {
+            config.attachTo = !window.isRTL ? "bottom-left" : "bottom-right";
+          } else if (position.bottom !== undefined && position.right !== undefined) {
+            config.attachTo = !window.isRTL ? "bottom-right" : "bottom-left";
           }
         }
+      },
 
-        json.width = this.getWidth();
-        json.height = this.getHeight();
-
-        // overviewMap dijit has bug in IE8
-        var _isShow = json.visible;
-        json.visible = false;
-
-        this.overviewMapDijit = new OverviewMap(json);
-        this.own(aspect.after(
-          this.overviewMapDijit,
-          'show',
-          lang.hitch(this, '_afterOverviewShow')
-        ));
-        this.own(aspect.after(
-          this.overviewMapDijit,
-          'hide',
-          lang.hitch(this, '_afterOverviewHide')
-        ));
-        this.overviewMapDijit.startup();
-        
+      _updateDomPosition: function(attachTo) {
         var style = {
           left: 'auto',
           right: 'auto',
@@ -89,56 +77,123 @@ define([
           bottom: 'auto',
           width: 'auto'
         };
-        lang.mixin(style, this.position);
+        var _position = this._getOverviewPositionByAttach(attachTo);
+        lang.mixin(style, _position);
+        domStyle.set(this.domNode, utils.getPositionStyle(style));
         domStyle.set(this.overviewMapDijit.domNode, utils.getPositionStyle(style));
+      },
 
+      createOverviewMap: function(visible) {
+        var json = lang.clone(this.config.overviewMap);
+        json.map = this.map;
+        if (visible !== undefined) {
+          json.visible = visible;
+        }
+        this._processAttachTo(json, this.position);
+
+        // overviewMap dijit has bug in IE8
+        var _isShow = json.visible;
+        json.visible = false;
+
+        var _hasMaximizeButton = 'maximizeButton' in json;
+        json.maximizeButton = _hasMaximizeButton ? json.maximizeButton : true;
+
+        this.overviewMapDijit = new OverviewMap(json);
+        this._handles.push(aspect.after(
+          this.overviewMapDijit,
+          'show',
+          lang.hitch(this, '_afterOverviewShow')
+        ));
+        this._handles.push(aspect.after(
+          this.overviewMapDijit,
+          'hide',
+          lang.hitch(this, '_afterOverviewHide')
+        ));
+        this.overviewMapDijit.startup();
+
+        this._updateDomPosition(json.attachTo);
         this.domNode.appendChild(this.overviewMapDijit.domNode);
         if (_isShow) {
           this.overviewMapDijit.show();
         }
       },
 
-      getWidth: function() {
-        if (this.config.minWidth === undefined) {
-          this.config.minWidth = 200;
+      _getOverviewPositionByAttach: function(attachTo) {
+        var _position = {};
+        if (attachTo === 'top-left') {
+          _position.left = 0;
+          _position.top = 0;
+        } else if (attachTo === 'top-right') {
+          _position.right = 0;
+          _position.top = 0;
+        } else if (attachTo === 'bottom-left') {
+          _position.bottom = 0;
+          _position.left = 0;
+        } else if (attachTo === 'bottom-right') {
+          _position.bottom = 0;
+          _position.right = 0;
         }
-        if (this.config.maxWidth === undefined) {
-          this.config.maxWidth = 400;
+
+        if (window.isRTL) {
+          if (isFinite(_position.left)) {
+            _position.right = _position.left;
+            delete _position.left;
+          } else {
+            _position.left = _position.right;
+            delete _position.right;
+          }
         }
-        var width = this.map.width / 4;
-        if (width < this.config.minWidth) {
-          width = this.config.minWidth;
-        } else if (width > this.config.maxWidth) {
-          width = this.config.maxWidth;
+
+        return _position;
+      },
+
+      _onMainMapBasemapChange: function(evt) {
+        if (!(evt.layer && evt.layer._basemapGalleryLayerType)) {
+          return;
         }
-        return width;
+
+        this._destroyOverviewMap();
+        this.createOverviewMap(this._showDijit);
+      },
+
+      onPositionChange: function() {
+        this.inherited(arguments);
+        
+        var json = lang.clone(this.config.overviewMap);
+        json.map = this.map;
+
+        if (json.attachTo) {
+          this._updateDomPosition(json.attachTo);
+        } else {
+          this._destroyOverviewMap();
+          this.createOverviewMap(this._showDijit);
+        }
+      },
+
+      _destroyOverviewMap: function() {
+        array.forEach(this._handles, function(handle) {
+          if (handle && typeof handle.remove === 'function') {
+            handle.remove();
+          }
+        });
+        if (this.overviewMapDijit && this.overviewMapDijit.destroy) {
+          this.overviewMapDijit.destroy();
+          html.empty(this.domNode);
+        }
+      },
+
+      _onMainMapResize: function() {
+        this._destroyOverviewMap();
+        this.createOverviewMap(this._showDijit);
       },
 
       onReceiveData: function(name) {
         if (name !== "BasemapGallery") {
           return;
         }
-        if (this.overviewMapDijit && this.overviewMapDijit.destroy){
-          this.overviewMapDijit.destroy();
-          html.empty(this.domNode);
-        }
-        this.createOverviewMap(this.overviewMapDijit.visible);
-      },
 
-      getHeight: function() {
-        if (this.config.minHeight === undefined) {
-          this.config.minHeight = 150;
-        }
-        if (this.config.maxHeight === undefined) {
-          this.config.maxHeight = 300;
-        }
-        var height = this.map.height / 4;
-        if (height < this.config.minHeight) {
-          height = this.config.minHeight;
-        } else if (height > this.config.maxHeight) {
-          height = this.config.maxHeight;
-        }
-        return height;
+        this._destroyOverviewMap();
+        this.createOverviewMap(this._showDijit);
       },
 
       onClose: function() {
@@ -146,6 +201,7 @@ define([
       },
 
       _afterOverviewHide: function() {
+        this._showDijit = false;
         domStyle.set(this.domNode, {
           width: "auto",
           height: "auto"
@@ -153,6 +209,7 @@ define([
       },
 
       _afterOverviewShow: function() {
+        this._showDijit = true;
         domStyle.set(this.domNode, {
           width: this.overviewMapDijit.width + 'px',
           height: this.overviewMapDijit.height + 'px'

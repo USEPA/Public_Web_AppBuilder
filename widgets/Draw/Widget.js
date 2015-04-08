@@ -18,43 +18,52 @@ define([
     'dojo/_base/declare',
     'dijit/_WidgetsInTemplateMixin',
     'jimu/BaseWidget',
+    'esri/config',
     'esri/graphic',
-    'esri/geometry/Point',
-    'esri/symbols/SimpleMarkerSymbol',
     'esri/geometry/Polyline',
-    'esri/symbols/SimpleLineSymbol',
     'esri/geometry/Polygon',
-    'esri/symbols/SimpleFillSymbol',
     'esri/symbols/TextSymbol',
     'esri/symbols/Font',
     'esri/units',
     'esri/geometry/webMercatorUtils',
     'esri/geometry/geodesicUtils',
+    'esri/tasks/GeometryService',
+    'esri/tasks/AreasAndLengthsParameters',
+    'esri/tasks/LengthsParameters',
     'dojo/_base/lang',
     'dojo/on',
+    'dojo/Deferred',
     'dojo/_base/html',
     'dojo/_base/Color',
-    'dojo/_base/query',
     'dojo/_base/array',
-    'dijit/form/Select',
-    'dijit/form/NumberSpinner',
     'jimu/dijit/ViewStack',
-    'jimu/dijit/SymbolChooser',
+    'jimu/utils',
+    'jimu/SpatialReference/wkidUtils',
     'jimu/dijit/DrawBox',
-    'jimu/utils'
+    'jimu/dijit/SymbolChooser',
+    'dijit/form/Select',
+    'dijit/form/NumberSpinner'
   ],
-  function(declare,_WidgetsInTemplateMixin,BaseWidget,Graphic,Point,
-    SimpleMarkerSymbol,Polyline,SimpleLineSymbol,Polygon,SimpleFillSymbol,
-    TextSymbol,Font,esriUnits,webMercatorUtils,geodesicUtils,lang,on,html,
-    Color,Query,array,Select,NumberSpinner,ViewStack,SymbolChooser,
-    DrawBox, jimuUtils) {/*jshint unused: false*/
+  function(declare, _WidgetsInTemplateMixin, BaseWidget, esriConfig, Graphic, Polyline, Polygon,
+    TextSymbol, Font, esriUnits, webMercatorUtils, geodesicUtils, GeometryService,
+    AreasAndLengthsParameters, LengthsParameters, lang, on, Deferred, html, Color, array, ViewStack,
+    jimuUtils, wkidUtils) {
     return declare([BaseWidget, _WidgetsInTemplateMixin], {
       name: 'Draw',
       baseClass: 'jimu-widget-draw',
+      _gs: null,
+      _defaultGsUrl: '//tasks.arcgisonline.com/ArcGIS/rest/services/Geometry/GeometryServer',
 
       postMixInProperties: function(){
         this.inherited(arguments);
+        if(esriConfig.defaults.geometryService){
+          this._gs = esriConfig.defaults.geometryService;
+        }else{
+          this._gs = new GeometryService(this._defaultGsUrl);
+        }
         this._resetUnitsArrays();
+        this._undoList = [];
+        this._redoList = [];
       },
 
       postCreate: function() {
@@ -105,6 +114,7 @@ define([
       },
 
       _onIconSelected:function(target,geotype,commontype){
+        /*jshint unused: false*/
         this._setDrawDefaultSymbols();
         if(commontype === 'point'){
           this.viewStack.switchView(this.pointSection);
@@ -122,6 +132,9 @@ define([
       },
 
       _onDrawEnd:function(graphic,geotype,commontype){
+        /*jshint unused: false*/
+        this._disableBtnRedo();
+
         var geometry = graphic.geometry;
         if(geometry.type === 'extent'){
           var a = geometry;
@@ -133,13 +146,19 @@ define([
         }
         if(commontype === 'polyline'){
           if(this.showMeasure.checked){
-            this._addLineMeasure(geometry);
+            this._addLineMeasure(geometry, graphic);
+          }else{
+            this._pushUndoGraphics([graphic]);
           }
         }
         else if(commontype === 'polygon'){
           if(this.showMeasure.checked){
-            this._addPolygonMeasure(geometry);
+            this._addPolygonMeasure(geometry, graphic);
+          }else{
+            this._pushUndoGraphics([graphic]);
           }
+        }else{
+          this._pushUndoGraphics([graphic]);
         }
       },
 
@@ -318,57 +337,233 @@ define([
         this.drawBox.deactivate();
       },
 
-      _addLineMeasure:function(geometry){
-        var a = Font.STYLE_ITALIC;
-        var b = Font.VARIANT_NORMAL;
-        var c = Font.WEIGHT_BOLD;
-        var symbolFont = new Font("16px",a,b,c, "Courier");
-        var fontColor = new Color([0,0,0,1]);
-        var ext = geometry.getExtent();
-        var center = ext.getCenter();
-        var geoLine = webMercatorUtils.webMercatorToGeographic(geometry);
-        var unit = this.distanceUnitSelect.value;
-        var lengths = geodesicUtils.geodesicLengths([geoLine],esriUnits[unit]);
-        var abbr = this._getDistanceUnitInfo(unit).label;
-        var localeLength = jimuUtils.localizeNumber(lengths[0].toFixed(1));
-        var length = localeLength + " " + abbr;
-        var textSymbol = new TextSymbol(length,symbolFont,fontColor);
-        var labelGraphic = new Graphic(center,textSymbol,null,null);
-        this.drawBox.addGraphic(labelGraphic);
+      _addLineMeasure:function(geometry, graphic){
+        this._getLengthAndArea(geometry, false).then(lang.hitch(this, function(result){
+          if(!this.domNode){
+            return;
+          }
+          var length = result.length;
+          var a = Font.STYLE_ITALIC;
+          var b = Font.VARIANT_NORMAL;
+          var c = Font.WEIGHT_BOLD;
+          var symbolFont = new Font("16px",a,b,c, "Courier");
+          var fontColor = new Color([0,0,0,1]);
+          var ext = geometry.getExtent();
+          var center = ext.getCenter();
+
+          var unit = this.distanceUnitSelect.value;
+          var abbr = this._getDistanceUnitInfo(unit).label;
+          var localeLength = jimuUtils.localizeNumber(length.toFixed(1));
+          var lengthText = localeLength + " " + abbr;
+
+          var textSymbol = new TextSymbol(lengthText,symbolFont,fontColor);
+          var labelGraphic = new Graphic(center,textSymbol,null,null);
+          this.drawBox.addGraphic(labelGraphic);
+          this._pushUndoGraphics([graphic, labelGraphic]);
+        }), lang.hitch(this, function(err){
+          console.log(err);
+          if(!this.domNode){
+            return;
+          }
+          this._pushUndoGraphics([graphic]);
+        }));
       },
 
-      _addPolygonMeasure:function(geometry){
-        var a = Font.STYLE_ITALIC;
-        var b = Font.VARIANT_NORMAL;
-        var c = Font.WEIGHT_BOLD;
-        var symbolFont = new Font("16px",a,b,c, "Courier");
-        var fontColor = new Color([0,0,0,1]);
-        var ext = geometry.getExtent();
-        var center = ext.getCenter();
-        var geoPolygon = webMercatorUtils.webMercatorToGeographic(geometry);
-        var areaUnit = this.areaUnitSelect.value;
-        var areaAbbr = this._getAreaUnitInfo(areaUnit).label;
-        var areas = geodesicUtils.geodesicAreas([geoPolygon],esriUnits[areaUnit]);
-        var localeArea = jimuUtils.localizeNumber(areas[0].toFixed(1));
-        var area = localeArea + " " + areaAbbr;
+      _addPolygonMeasure:function(geometry, graphic){
+        this._getLengthAndArea(geometry, true).then(lang.hitch(this, function(result){
+          if(!this.domNode){
+            return;
+          }
+          var length = result.length;
+          var area = result.area;
 
-        var polyline = new Polyline(geometry.spatialReference);
-        var points = geometry.rings[0];
-        points = points.slice(0,points.length-1);
-        polyline.addPath(points);
-        var geoPolyline = webMercatorUtils.webMercatorToGeographic(polyline);
+          var a = Font.STYLE_ITALIC;
+          var b = Font.VARIANT_NORMAL;
+          var c = Font.WEIGHT_BOLD;
+          var symbolFont = new Font("16px", a, b, c, "Courier");
+          var fontColor = new Color([0, 0, 0, 1]);
+          var ext = geometry.getExtent();
+          var center = ext.getCenter();
+
+          var areaUnit = this.areaUnitSelect.value;
+          var areaAbbr = this._getAreaUnitInfo(areaUnit).label;
+          var localeArea = jimuUtils.localizeNumber(area.toFixed(1));
+          var areaText = localeArea + " " + areaAbbr;
+
+          var lengthUnit = this.distanceUnitSelect.value;
+          var lengthAbbr = this._getDistanceUnitInfo(lengthUnit).label;
+          var localeLength = jimuUtils.localizeNumber(length.toFixed(1));
+          var lengthText = localeLength + " " + lengthAbbr;
+
+          var text = areaText + "    " + lengthText;
+          var textSymbol = new TextSymbol(text, symbolFont, fontColor);
+          var labelGraphic = new Graphic(center, textSymbol, null, null);
+          this.drawBox.addGraphic(labelGraphic);
+          this._pushUndoGraphics([graphic, labelGraphic]);
+        }), lang.hitch(this, function(err){
+          if(!this.domNode){
+            return;
+          }
+          console.log(err);
+          this._pushUndoGraphics([graphic]);
+        }));
+      },
+
+      _getLengthAndArea: function(geometry, isPolygon){
+        var def = new Deferred();
+        var defResult = {
+          length: null,
+          area: null
+        };
+        var wkid = geometry.spatialReference.wkid;
+        var areaUnit = this.areaUnitSelect.value;
+        var esriAreaUnit = esriUnits[areaUnit];
         var lengthUnit = this.distanceUnitSelect.value;
-        var lengthAbbr = this._getDistanceUnitInfo(lengthUnit).label;
-        var lengths = geodesicUtils.geodesicLengths([geoPolyline],esriUnits[lengthUnit]);
-        var localeLength = jimuUtils.localizeNumber(lengths[0].toFixed(1));
-        var length = localeLength + " " + lengthAbbr;
-        var text = area + "    " + length;
-        var textSymbol = new TextSymbol(text,symbolFont,fontColor);
-        var labelGraphic = new Graphic(center,textSymbol,null,null);
-        this.drawBox.addGraphic(labelGraphic);
+        var esriLengthUnit = esriUnits[lengthUnit];
+        if(wkidUtils.isWebMercator(wkid)){
+          defResult = this._getLengthAndArea3857(geometry, isPolygon, esriAreaUnit, esriLengthUnit);
+          def.resolve(defResult);
+        }else if(wkid === 4326){
+          defResult = this._getLengthAndArea4326(geometry, isPolygon, esriAreaUnit, esriLengthUnit);
+          def.resolve(defResult);
+        }else{
+          def = this._getLengthAndAreaByGS(geometry, isPolygon, esriAreaUnit, esriLengthUnit);
+        }
+        return def;
+      },
+
+      _getLengthAndArea4326: function(geometry, isPolygon, esriAreaUnit, esriLengthUnit){
+        var result = {
+          area: null,
+          length: null
+        };
+        
+        var lengths = null;
+
+        if(isPolygon){
+          var areas = geodesicUtils.geodesicAreas([geometry], esriAreaUnit);
+          var polyline = this._getPolylineOfPolygon(geometry);
+          lengths = geodesicUtils.geodesicLengths([polyline], esriLengthUnit);
+          result.area = areas[0];
+          result.length = lengths[0];
+        }else{
+          lengths = geodesicUtils.geodesicLengths([geometry], esriLengthUnit);
+          result.length = lengths[0];
+        }
+
+        return result;
+      },
+
+      _getLengthAndArea3857: function(geometry3857, isPolygon, esriAreaUnit, esriLengthUnit){
+        var geometry4326 = webMercatorUtils.webMercatorToGeographic(geometry3857);
+        var result = this._getLengthAndArea4326(geometry4326,isPolygon,esriAreaUnit,esriLengthUnit);
+        return result;
+      },
+
+      _getLengthAndAreaByGS: function(geometry, isPolygon, esriAreaUnit, esriLengthUnit){
+        var def = new Deferred();
+        var defResult = {
+          area: null,
+          length: null
+        };
+        var gsAreaUnit = this._getGeometryServiceUnitByEsriUnit(esriAreaUnit);
+        var gsLengthUnit = this._getGeometryServiceUnitByEsriUnit(esriLengthUnit);
+        if(isPolygon){
+          var areasAndLengthParams = new AreasAndLengthsParameters();
+          areasAndLengthParams.lengthUnit = gsLengthUnit;
+          areasAndLengthParams.areaUnit = gsAreaUnit;
+          this._gs.simplify([geometry]).then(lang.hitch(this, function(simplifiedGeometries){
+            if(!this.domNode){
+              return;
+            }
+            areasAndLengthParams.polygons = simplifiedGeometries;
+            this._gs.areasAndLengths(areasAndLengthParams).then(lang.hitch(this, function(result){
+              if(!this.domNode){
+                return;
+              }
+              defResult.area = result.areas[0];
+              defResult.length = result.lengths[0];
+              def.resolve(defResult);
+            }), lang.hitch(this, function(err){
+              def.reject(err);
+            }));
+          }), lang.hitch(this, function(err){
+            def.reject(err);
+          }));
+        }else{
+          var lengthParams = new LengthsParameters();
+          lengthParams.polylines = [geometry];
+          lengthParams.lengthUnit = gsLengthUnit;
+          lengthParams.geodesic = true;
+          this._gs.lengths(lengthParams).then(lang.hitch(this, function(result){
+            if(!this.domNode){
+              return;
+            }
+            defResult.length = result.lengths[0];
+            def.resolve(defResult);
+          }), lang.hitch(this, function(err){
+            console.error(err);
+            def.reject(err);
+          }));
+        }
+
+        return def;
+      },
+
+      _getGeometryServiceUnitByEsriUnit: function(unit){
+        var gsUnit = -1;
+        switch(unit){
+        case esriUnits.KILOMETERS:
+          gsUnit = GeometryService.UNIT_KILOMETER;
+          break;
+        case esriUnits.MILES:
+          gsUnit = GeometryService.UNIT_STATUTE_MILE;
+          break;
+        case esriUnits.METERS:
+          gsUnit = GeometryService.UNIT_METER;
+          break;
+        case esriUnits.FEET:
+          gsUnit = GeometryService.UNIT_FOOT;
+          break;
+        case esriUnits.YARDS:
+          gsUnit = GeometryService.UNIT_INTERNATIONAL_YARD;
+          break;
+        case esriUnits.SQUARE_KILOMETERS:
+          gsUnit = GeometryService.UNIT_SQUARE_KILOMETERS;
+          break;
+        case esriUnits.SQUARE_MILES:
+          gsUnit = GeometryService.UNIT_SQUARE_MILES;
+          break;
+        case esriUnits.ACRES:
+          gsUnit = GeometryService.UNIT_ACRES;
+          break;
+        case esriUnits.HECTARES:
+          gsUnit = GeometryService.UNIT_HECTARES;
+          break;
+        case esriUnits.SQUARE_METERS:
+          gsUnit = GeometryService.UNIT_SQUARE_METERS;
+          break;
+        case esriUnits.SQUARE_FEET:
+          gsUnit = GeometryService.UNIT_SQUARE_FEET;
+          break;
+        case esriUnits.SQUARE_YARDS:
+          gsUnit = GeometryService.UNIT_SQUARE_YARDS;
+          break;
+        }
+        return gsUnit;
+      },
+
+      _getPolylineOfPolygon: function(polygon){
+        var polyline = new Polyline(polygon.spatialReference);
+        var points = polygon.rings[0];
+        points = points.slice(0, points.length - 1);
+        polyline.addPath(points);
+        return polyline;
       },
 
       destroy: function() {
+        this._undoList = null;
+        this._redoList = null;
         if(this.drawBox){
           this.drawBox.destroy();
           this.drawBox = null;
@@ -396,6 +591,89 @@ define([
         this.inherited(arguments);
         this.viewStack.startup();
         this.viewStack.switchView(null);
+      },
+
+      _addGraphics: function(graphics){
+        array.forEach(graphics, lang.hitch(this, function(g){
+          this.drawBox.addGraphic(g);
+        }));
+      },
+
+      _removeGraphics: function(graphics){
+        array.forEach(graphics, lang.hitch(this, function(g){
+          this.drawBox.removeGraphic(g);
+        }));
+      },
+
+      _pushUndoGraphics: function(graphics){
+        this._undoList.push(graphics);
+        this._enableBtn(this.btnUndo, true);
+      },
+
+      _popUndoGraphics: function(){
+        var graphics = this._undoList.pop();
+        if(this._undoList.length === 0){
+          this._enableBtn(this.btnUndo, false);
+        }
+        return graphics;
+      },
+
+      _pushRedoGraphics: function(graphics){
+        this._redoList.push(graphics);
+        this._enableBtn(this.btnRedo, true);
+      },
+
+      _popRedoGraphics: function(){
+        var graphics = this._redoList.pop();
+        if(this._redoList.length === 0){
+          this._enableBtn(this.btnRedo, false);
+        }
+        return graphics;
+      },
+
+      _enableBtn: function(btn, isEnable){
+        if(isEnable){
+          html.removeClass(btn, 'jimu-state-disabled');
+        }else{
+          html.addClass(btn, 'jimu-state-disabled');
+        }
+      },
+
+      _disableBtnRedo: function(){
+        this._enableBtn(this.btnRedo, false);
+        this._redoList = [];
+      },
+
+      _onBtnUndoClicked: function(){
+        if(this._undoList.length === 0){
+          return;
+        }
+
+        var undoGraphics = this._popUndoGraphics();
+        if(undoGraphics && undoGraphics.length > 0){
+          this._pushRedoGraphics(undoGraphics);
+          this._removeGraphics(undoGraphics);
+        }
+      },
+
+      _onBtnRedoClicked: function(){
+        if(this._redoList.length === 0){
+          return;
+        }
+
+        var redoGraphics = this._popRedoGraphics();
+        if(redoGraphics && redoGraphics.length > 0){
+          this._addGraphics(redoGraphics);
+          this._pushUndoGraphics(redoGraphics);
+        }
+      },
+
+      _onBtnClearClicked: function(){
+        this._undoList = [];
+        this._redoList = [];
+        this._enableBtn(this.btnUndo, false);
+        this._enableBtn(this.btnRedo, false);
+        this.drawBox.clear();
       }
     });
   });

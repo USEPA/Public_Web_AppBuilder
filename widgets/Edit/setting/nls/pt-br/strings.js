@@ -16,6 +16,6 @@
     editpageAlias: "Nome Alternativo",
     editpageVisible: "Visível",
     editpageEditable: "Editável",
-    noLayers: "Nenhuma camada de feição editável disponível"
+    noLayers: "Nenhuma camada de feição editável está disponível"
   })
 );

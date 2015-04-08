@@ -30,6 +30,7 @@
     popup: "Janela popup",
     setTask: "Definir",
     setTaskTitle: "Definir Tarefa GP",
-    enablePopup: "Ativar janelas popup"
+    enablePopup: "Ativar janelas popup",
+    unSupportGeometryType: "Não pode definir o renderizador devido ao tipo de geometria ser desconhecido."
   })
 );

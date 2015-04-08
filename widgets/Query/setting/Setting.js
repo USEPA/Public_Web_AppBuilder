@@ -18,23 +18,50 @@ define([
   'dojo/_base/declare',
   'dojo/_base/lang',
   'dojo/_base/array',
-  'dojo/_base/html',
-  'dojo/_base/query',
   'dojo/on',
   'dijit/_WidgetsInTemplateMixin',
   'jimu/BaseWidgetSetting',
-  'jimu/dijit/TabContainer',
-  'jimu/dijit/SimpleTable',
   'jimu/dijit/_FeaturelayerSourcePopup',
+  'jimu/utils',
+  'jimu/filterUtils',
   './SingleQuerySetting',
-  'esri/request'
+  'jimu/dijit/SimpleTable',
+  'jimu/dijit/TabContainer'
 ],
-function(declare, lang, array, html, query, on, _WidgetsInTemplateMixin, BaseWidgetSetting,
-  TabContainer, SimpleTable, _FeaturelayerSourcePopup, SingleQuerySetting, esriRequest) {
-  /*jshint unused: false*/
+function(declare, lang, array, on, _WidgetsInTemplateMixin, BaseWidgetSetting,
+  _FeaturelayerSourcePopup, jimuUtils,  FilterUtils, SingleQuerySetting) {
+  
   return declare([BaseWidgetSetting, _WidgetsInTemplateMixin], {
     baseClass: 'jimu-widget-query-setting',
     currentSQS: null,
+
+    postMixInProperties: function(){
+      this.inherited(arguments);
+      if(this.config){
+        this._updateConfig();
+      }
+    },
+
+    _updateConfig: function() {
+      if (this.config && this.config.queries && this.config.queries.length > 0) {
+        array.forEach(this.config.queries, lang.hitch(this, function(singleConfig) {
+          this._rebuildFilter(singleConfig.url, singleConfig.filter);
+        }));
+      }
+    },
+
+    _rebuildFilter: function(url, filter) {
+      try {
+        if (filter) {
+          delete filter.expr;
+          var filterUtils = new FilterUtils();
+          filterUtils.isHosted = jimuUtils.isHostedService(url);
+          filterUtils.getExprByFilterObj(filter);
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    },
 
     postCreate:function(){
       this.inherited(arguments);

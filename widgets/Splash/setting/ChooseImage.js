@@ -1,7 +1,6 @@
 define([
 	"dojo",
 	"dijit",
-	"dojox",
 	"dijit/_editor/_Plugin",
 	"jimu/dijit/ImageChooser",
 	"dojo/_base/html",
@@ -10,7 +9,7 @@ define([
 	"dojox/form/FileUploader",
 	"dijit/_editor/_Plugin"
 ], function(
-	dojo, dijit, dojox, _Plugin, ImageChooser, html
+	dojo, dijit, _Plugin, ImageChooser, html
 ) {
 
 	dojo.experimental("dojox.editor.plugins.ChooseImage");

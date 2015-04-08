@@ -1,6 +1,6 @@
 ﻿define(
    ({
-    enableUndoRedo: "Luba uuestitegemine ja tagasivõtmine",
+    enableUndoRedo: "Luba tühistamine ja ennistamine",
     toolbarVisible: "Tööriistariba nähtav",
     toolbarOptions: "Tööriistariba valikud",
     mergeVisible: "Ühenda",
@@ -16,6 +16,6 @@
     editpageAlias: "Alias",
     editpageVisible: "Nähtav",
     editpageEditable: "Muudetav",
-    noLayers: "Muudetavaid objektikihte ei ole saadaval"
+    noLayers: "Muudetavaid objektikihte pole saadaval"
   })
 );

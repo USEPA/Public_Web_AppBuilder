@@ -1,6 +1,6 @@
 ﻿define(
    ({
-    state: "Pagal nutylėjimą, koordinatės bus rodomos dabartinėje žemėlapių koordinačių sistemoje. Norėdami gauti koordinates kitose koordinačių sistemose, turite papildomai pridėti jas ir nurodyti atitinkamas transformacijas.",
+    state: "Pagal nutylėjimą, koordinatės bus rodomos dabartinėje žemėlapių koordinačių sistemoje. Norėdami gauti koordinates kitose koordinačių sistemose, turite pridėti jas ir nurodyti atitinkamas transformacijas.",
     outputUnit: "Išvesties vienetas",
     wkid: "Išvesties WKID",
     label: "Išvesties koordinačių sistemos pavadinimas",
@@ -22,6 +22,7 @@
     units: "Rodymo vienetai: ",
     datum: "Atraminių duomenų transformacija",
     tName: "Transformacijos pavadinimas",
+    tWKIDPlaceHolder: "Transformacijos WKID",
     forward: "Naudoti perspektyvinę transformaciją",
     ok: "Gerai",
     cancel: 'Atšaukti',

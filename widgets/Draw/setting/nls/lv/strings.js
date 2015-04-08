@@ -21,6 +21,18 @@
     squareFeet: "Kvadrātpēdas",
     squareYards: "Kvadrātjardi",
     distance: "Attālumi",
-    area: "Apgabali"
+    area: "Apgabali",
+    kilometersAbbreviation: "km",
+    milesAbbreviation: "jūdzes",
+    metersAbbreviation: "m",
+    feetAbbreviation: "pēdas",
+    yardsAbbreviation: "jardi",
+    squareKilometersAbbreviation: "kvadrātkilometri",
+    squareMilesAbbreviation: "kvadrātjūdzes",
+    acresAbbreviation: "akri",
+    hectaresAbbreviation: "ha",
+    squareMetersAbbreviation: "kvadrātmetri",
+    squareFeetAbbreviation: "kvadrātpēdas",
+    squareYardsAbbreviation: "kvadrātjardi"
   })
 );

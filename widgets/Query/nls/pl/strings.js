@@ -1,7 +1,7 @@
 ﻿define(
    ({
     _widgetLabel: "Zapytanie",
-    executeQueryTip: "Aby wykonać zapytanie, kliknij jedno z następujących zadań.",
+    executeQueryTip: "Kliknij jedno z poniższych zadań, aby wykonać zapytanie.",
     invalidConfig: "Nieprawidłowa konfiguracja. Przejdź do strony Ustawienia zapytania, aby uzyskać prawidłowe wartości konfiguracji.",
     queryParams: "Opcje",
     parameters: "OPCJE",
@@ -56,6 +56,7 @@
     clearResults: "Wyczyść wyniki",
     operationalTip: 'Jeżeli opcja ta jest zaznaczona, wyniki są wyświetlane na mapie do momentu kliknięcia przycisku "${clearResults}".',
     noneQueryTip: "Brak dostępnych wstępnie skonfigurowanych zadań zapytań.",
-    noPermissionsMsg: "Nie masz uprawnień dostępu do tej usługi."
+    noPermissionsMsg: "Nie masz uprawnień dostępu do tej usługi.",
+    attributesFromRelationship: "Atrybuty z powiązanej tabeli"
   })
 );

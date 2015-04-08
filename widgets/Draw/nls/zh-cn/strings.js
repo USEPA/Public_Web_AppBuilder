@@ -37,6 +37,8 @@
     hectares: "公顷",
     squareMeters: "平方米",
     squareFeet: "平方英尺",
-    squareYards: "平方码"
+    squareYards: "平方码",
+    undo: "撤消",
+    redo: "恢复"
   })
 );

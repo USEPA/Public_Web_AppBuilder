@@ -21,11 +21,11 @@
     ok: "확인",
     cancel: "취소",
     result: "저장되었습니다.",
-    spError: "갤러리에 추가된 모든 베이스맵은 동일한 공간 기준체계를 가져야 합니다.",
+    spError: "갤러리에 추가된 모든 베이스맵에는 동일한 공간 기준 체계가 있어야 합니다.",
     invalidTitle1:"'",
     invalidTitle2:"' 베이스맵이 이미 있습니다. 다른 제목을 선택하세요.",
     invalidBasemapUrl1: "이 레이어 유형은 베이스맵으로 사용할 수 없습니다.",
-    invalidBasemapUrl2: "현재 맵과 다른 공간 기준체계를 가집니다.",
+    invalidBasemapUrl2: "현재 맵과 다른 공간 기준 체계가 있습니다.",
     addBaselayer: "베이스맵 레이어 추가"
   })
 );

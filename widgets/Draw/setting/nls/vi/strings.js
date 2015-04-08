@@ -21,6 +21,18 @@
     squareFeet: "Feet vuông",
     squareYards: "Thước vuông",
     distance: "Khoảng cách",
-    area: "Diện tích"
+    area: "Diện tích",
+    kilometersAbbreviation: "km",
+    milesAbbreviation: "mi",
+    metersAbbreviation: "m",
+    feetAbbreviation: "ft",
+    yardsAbbreviation: "yd",
+    squareKilometersAbbreviation: "km2",
+    squareMilesAbbreviation: "mi2",
+    acresAbbreviation: "ac",
+    hectaresAbbreviation: "ha",
+    squareMetersAbbreviation: "m2",
+    squareFeetAbbreviation: "ft2",
+    squareYardsAbbreviation: "yd2"
   })
 );

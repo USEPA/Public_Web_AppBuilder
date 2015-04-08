@@ -31,12 +31,17 @@ define({
 		setFilterTip: "Please set filter correctly.",
 		ok: "OK",
 		cancel: "Cancel",
-		noFilterTip: "Without filter expression defined, this query task will list all features in the specified data source."
+		noFilterTip: "Without filter expression defined, this query task will list all features in the specified data source.",
+    relationships: "Relationship table",
+    addRelationshipLayer: "Add New Relationship",
+    relatedTo: "Related To",
+    selectOption: "Please select.."
   }),
   "ar": 1,
   "cs": 1,
   "da": 1,
   "de": 1,
+  "el": 1,
   "es": 1,
   "et": 1,
   "fi": 1,

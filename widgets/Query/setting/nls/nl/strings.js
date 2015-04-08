@@ -31,6 +31,10 @@
 		setFilterTip: "Stel het filter correct in.",
 		ok: "OK",
 		cancel: "Annuleren",
-		noFilterTip: "Zonder filterexpressie zal deze querytaak alle functies in de opgegeven gegevensbron weergeven."
+		noFilterTip: "Zonder filterexpressie zal deze querytaak alle functies in de opgegeven gegevensbron weergeven.",
+    relationships: "Relatietabel",
+    addRelationshipLayer: "Nieuwe relatie toevoegen",
+    relatedTo: "Met betrekking tot",
+    selectOption: "Selecteren."
   })
 );

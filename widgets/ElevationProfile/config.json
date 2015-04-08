@@ -17,7 +17,8 @@
     "waterBottomColor": "#0000FF",
     "elevationLineColor": "#D2B48C",
     "elevationTopColor": "#8B4513",
-    "elevationBottomColor": "#CD853F"
+    "elevationBottomColor": "#CD853F",
+    "constrain": false
   },
   "symbols": {
     "simplelinesymbol": {

@@ -11,6 +11,6 @@
     errorNameNull: "שם סימניה לא חוקי!",
     addBookmark: "צור סימניה חדשה",
     thumbnail: "תמונה ממוזערת",
-    thumbnailHint: "לחץ על תמונה לעדכון"
+    thumbnailHint: "לחץ על התמונה לעדכון"
   })
 );

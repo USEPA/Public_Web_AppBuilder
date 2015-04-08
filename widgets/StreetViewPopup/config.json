@@ -1,0 +1,12 @@
+{
+	"geomService": "http://tasks.arcgisonline.com/ArcGIS/rest/services/Geometry/GeometryServer",
+	"popWidth": "800",
+	"popHeight": "500",
+	"symbolStyle": "diamond",
+	"symbolColor": "yellow",
+	"symbolSize": "20",
+	"panel":"mbs",
+	"gm":"0",
+	"mi":"3",
+	"configText":"abcdefg"
+}

@@ -21,6 +21,18 @@
     squareFeet: "Квадратные футы",
     squareYards: "Квадратные ярды",
     distance: "Расстояния",
-    area: "Площади"
+    area: "Площади",
+    kilometersAbbreviation: "км",
+    milesAbbreviation: "мили",
+    metersAbbreviation: "м",
+    feetAbbreviation: "футы",
+    yardsAbbreviation: "ярды",
+    squareKilometersAbbreviation: "кв. км.",
+    squareMilesAbbreviation: "кв. мили",
+    acresAbbreviation: "акры",
+    hectaresAbbreviation: "га",
+    squareMetersAbbreviation: "кв. м.",
+    squareFeetAbbreviation: "кв. футы",
+    squareYardsAbbreviation: "кв. ярды"
   })
 );

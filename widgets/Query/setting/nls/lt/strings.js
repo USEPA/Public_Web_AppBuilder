@@ -31,6 +31,10 @@
 		setFilterTip: "Nustatykite filtrą tinkamai.",
 		ok: "Gerai",
 		cancel: "Atšaukti",
-		noFilterTip: "Nenustačius filtro sąlygos, ši užklausos užduotis nurodys visus nurodyto duomenų šaltinio elementus."
+		noFilterTip: "Nenustačius filtro sąlygos, ši užklausos užduotis nurodys visus nurodyto duomenų šaltinio elementus.",
+    relationships: "Ryšių lentelė",
+    addRelationshipLayer: "Pridėti naują ryšį",
+    relatedTo: "Susiję su",
+    selectOption: "Pasirinkite.."
   })
 );

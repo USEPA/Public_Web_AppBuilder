@@ -1,19 +1,7 @@
 ///////////////////////////////////////////////////////////////////////////
-// Copyright © 2014 Esri. All Rights Reserved.
-//
-// Licensed under the Apache License Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//    http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
+// Robert Scheitlin WAB eSearch Widget
 ///////////////////////////////////////////////////////////////////////////
-
+/*global define*/
 define(['dojo/_base/declare',
   'dijit/_WidgetBase',
   'dojo/_base/lang',
@@ -25,13 +13,13 @@ define(['dojo/_base/declare',
 ],
 function(declare, _WidgetBase, lang, array, html, on, Evented, utils) {
   return declare([_WidgetBase, Evented], {
-    // summary: 
+    // summary:
     //    the params format:
     //    items: [{
     //      key:
     //      label: <as innerHTML set to UI>
     //    }]
-    //    box: String|DomNode. 
+    //    box: String|DomNode.
     //      if not set, use the menu's parent node to calculate the menu's position.
     'class': 'esearch-add-field-button',
     initialized: false,
@@ -43,7 +31,7 @@ function(declare, _WidgetBase, lang, array, html, on, Evented, utils) {
       this.btnNode = html.create('div', {
         'class': 'esearch-add-field-icon-btn'
       }, this.domNode);
-      
+
       this.btnNode2 = html.create('div', {
         'class': 'plus-sign',
         'style': 'margin-top:8px;'
@@ -110,7 +98,7 @@ function(declare, _WidgetBase, lang, array, html, on, Evented, utils) {
       var menuBox = html.getMarginBox(this.dropMenuNode);
       var pos = {};
       pos.top = menuBox.t - ((this.initialized)? 0 : btnBox.h);
-      pos.right = outBox.w;
+      pos.right = 75;//outBox.w;
       this.initialized = true;
       return pos;
     },

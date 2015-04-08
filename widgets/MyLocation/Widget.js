@@ -39,12 +39,19 @@ define([
       startup: function() {
         this.inherited(arguments);
 
-        var json = this.config.locateButton;
-        json.map = this.map;
-        var geoLocate = new LocateButton(json);
-        geoLocate.startup();
-        html.place(geoLocate.domNode, this.domNode);
-        this.own(on(geoLocate, "locate", lang.hitch(this, this.locate)));
+        if (window.navigator.geolocation) {
+          var json = this.config.locateButton;
+          json.map = this.map;
+          var geoLocate = new LocateButton(json);
+          geoLocate.startup();
+          html.place(geoLocate.domNode, this.domNode);
+          this.own(on(geoLocate, "locate", lang.hitch(this, this.locate)));
+        } else {
+          html.create('div', {
+            'class': 'place-holder',
+            title: this.nls.browserError
+          }, this.domNode);
+        }
       },
 
       locate: function(parameters){

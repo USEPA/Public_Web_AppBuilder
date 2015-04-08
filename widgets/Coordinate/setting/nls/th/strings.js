@@ -22,6 +22,7 @@
     units: "หน่วยการแสดง: ",
     datum: "การแปลงค่า Datum",
     tName: "ชื่อการแปลง",
+    tWKIDPlaceHolder: "WKID ของการเปลี่ยนแปล",
     forward: "ใช้การแปลงไปข้างหน้า",
     ok: "ตกลง",
     cancel: 'ยกเลิก',

@@ -18,7 +18,6 @@ define(['dojo/_base/declare',
     'dojo/_base/lang',
     'dojo/_base/html',
     'dojo/on',
-    'dojo/json',
     'dojo/query',
     'dojo/cookie',
     'dijit/_WidgetsInTemplateMixin',
@@ -26,7 +25,7 @@ define(['dojo/_base/declare',
     'jimu/dijit/CheckBox',
     'jimu/tokenUtils'
   ],
-  function(declare, lang, html, on, dojoJson, query, cookie, _WidgetsInTemplateMixin, BaseWidget,
+  function(declare, lang, html, on, query, cookie, _WidgetsInTemplateMixin, BaseWidget,
     CheckBox, TokenUtils) {
     var criticality = jimuConfig.widthBreaks[0];
     /* global jimuConfig */

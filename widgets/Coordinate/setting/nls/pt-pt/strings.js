@@ -22,6 +22,7 @@
     units: "Exibir Unidades: ",
     datum: "Transformação datum",
     tName: "Nome da transformação",
+    tWKIDPlaceHolder: "WKID da transformação",
     forward: "Utilizar transformação para a frente",
     ok: "OK",
     cancel: 'Cancelar',

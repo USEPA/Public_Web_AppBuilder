@@ -1,6 +1,6 @@
 ﻿define(
    ({
-    instruction: "Bu araçta gösterilecek içeriği oluşturun.",
+    instruction: "Bu araçta görüntülenecek içeriği oluşturun.",
     defaultContent: "Buraya metin, bağlantılar ve küçük grafikler ekleyin."
   })
 );

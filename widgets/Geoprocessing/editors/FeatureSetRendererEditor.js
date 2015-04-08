@@ -15,15 +15,13 @@
 ///////////////////////////////////////////////////////////////////////////
 
 define(['dojo/_base/declare',
-  'dojo/_base/lang',
   'dojo/_base/array',
-  'dojo/_base/html',
   'esri/renderers/jsonUtils',
   'jimu/dijit/RendererChooser',
   '../BaseEditor',
   './simpleEditors'
 ],
-function(declare, lang, array, html, rendererUtils, RendererChooser, BaseEditor, simpleEditors) {
+function(declare, array, rendererUtils, RendererChooser, BaseEditor, simpleEditors) {
   var clazz = declare([BaseEditor], {
 
     baseClass: 'jimu-gp-editor-base jimu-gp-editor-fsre',
@@ -37,7 +35,7 @@ function(declare, lang, array, html, rendererUtils, RendererChooser, BaseEditor,
         o.type = this._getSymbolType();
         if(!o.type){
           var unsupportEditor = new simpleEditors.UnsupportEditor({
-            message: 'Can not set renderer because we do not know the geometry type.'
+            message: this.nls.unSupportGeometryType
           });
           unsupportEditor.placeAt(this.domNode);
           return;

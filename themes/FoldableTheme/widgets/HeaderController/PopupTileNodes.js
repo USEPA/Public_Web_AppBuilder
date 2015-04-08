@@ -20,16 +20,14 @@ define([
     'dojo/_base/html',
     'dojo/on',
     'dojo/dom-construct',
-    'dojo/mouse',
     'dojo/query',
     'dijit/_WidgetBase',
     'dijit/_TemplatedMixin',
-    'jimu/utils',
     'jimu/dijit/ViewStack'
   ],
   function(
-    declare, lang, html, on, domConstruct, mouse,
-    query, _WidgetBase, _TemplatedMixin, utils, ViewStack
+    declare, lang, html, on, domConstruct,
+    query, _WidgetBase, _TemplatedMixin, ViewStack
   ) {
     //3*3 tile nodes, with a close button
     return declare([_WidgetBase, _TemplatedMixin], {

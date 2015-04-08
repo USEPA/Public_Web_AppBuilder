@@ -15,6 +15,9 @@
   color: #222;
   font: 12px Arial bold;
   display: inline-block;
+  max-width: 338px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .tab-widget-frame .title-angle{
   width: 21px;

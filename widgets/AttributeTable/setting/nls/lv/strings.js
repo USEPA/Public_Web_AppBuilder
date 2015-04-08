@@ -16,7 +16,7 @@
     warning: "Atzīmējiet, lai rādītu šo slāni tabulā vispirms.",
     fieldCheckWarning: "Jābūt atlasītam vismaz vienam laukam.",
     unsupportQueryWarning: "Slānim ir jāatbalsta vaicājuma darbība, lai rādītu atribūtu tabulas logrīkā. Nodrošiniet, lai pakalpojumā būtu ieslēgta vaicājuma iespēja.",
-    unsupportQueryLayers: "Tālāk norādītajiem slāņiem ir jāatbalsta vaicājuma darbība, lai rādītu atribūtu tabulas logrīkā. Nodrošiniet, lai pakalpojumā būtu ieslēgta vaicājuma iespēja.",
+    unsupportQueryLayers: "Tālāk norādītajam slānim ir jāatbalsta vaicājuma darbība, lai rādītu atribūtu tabulas logrīkā. Nodrošiniet, lai servisā būtu ieslēgta vaicājuma iespēja.",
 
     fieldName: "Nosaukums",
     fieldAlias: "Aizstājvārds",

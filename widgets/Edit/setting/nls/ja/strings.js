@@ -7,7 +7,7 @@
     cutVisible: "切り取り",
     reshapeVisible: "形状変更",
     back: "戻る",
-    label: "レイヤ",
+    label: "レイヤー",
     edit: "編集可能",
     update: "ジオメトリ更新の無効化",
     fields: "フィールド",
@@ -16,6 +16,6 @@
     editpageAlias: "エイリアス",
     editpageVisible: "表示",
     editpageEditable: "編集可能",
-    noLayers: "編集可能なフィーチャ レイヤはありません"
+    noLayers: "編集可能なフィーチャ レイヤーはありません"
   })
 );

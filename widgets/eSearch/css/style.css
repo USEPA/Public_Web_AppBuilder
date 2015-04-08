@@ -1,4 +1,4 @@
-.jimu-widget-search{
+.widget-esearch{
   position:relative;
   width:100%;
   height:100%;
@@ -6,11 +6,11 @@
   min-height:279px;
 }
 
-.jimu-widget-search>.jimu-tab>.control{
+.widget-esearch>.jimu-tab>.control{
   margin:-14px -14px 0 -14px;
 }
 
-.jimu-widget-search>.jimu-tab>.jimu-viewstack{
+.widget-esearch>.jimu-tab>.jimu-viewstack{
   position: absolute !important;
   top:45px !important;
   left:0 !important;
@@ -20,7 +20,7 @@
   margin-bottom:-14px;
 }
 
-.jimu-widget-search .search-tab-node{
+.widget-esearch .search-tab-node{
   position:absolute !important;
   width:100% !important;
   height:auto !important;
@@ -28,7 +28,7 @@
   bottom:0 !important;
 }
 
-.jimu-widget-search .search-tab-node-hidden{
+.widget-esearch .search-tab-node-hidden{
   position:absolute !important;
   width:100% !important;
   height:auto !important;
@@ -37,28 +37,28 @@
   display: none;
 }
 
-.jimu-widget-search .result-div{
+.widget-esearch .option-div{
   font-size:14px;
   padding-left:10px;
-  padding-bottom:5px;
+  height: 16px;
 }
 
-.jimu-widget-search .btn-grasearch{
+.widget-esearch .btn-grasearch{
   margin-left: auto;
   margin-right: auto;
   padding: 6px 12px;
 }
 
-.jimu-widget-search .dijitArrowButtonContainer{
+.widget-esearch .dijitArrowButtonContainer{
   width: 30px;
 }
 
-.jimu-widget-search .dijitSelect{
+.widget-esearch .dijitSelect{
   height: 30px;
   width: 100%;
 }
 
-.jimu-widget-search .searchFeaturesIcon{
+.widget-esearch .searchFeaturesIcon{
   width: 40px;
   height: 40px;
   background-repeat: no-repeat;
@@ -67,55 +67,55 @@
   margin: 10px 11px 12px 11px;
 }
 
-.jimu-widget-search .searchFeaturesIcon:hover{
+.widget-esearch .searchFeaturesIcon:hover{
   background-color: #C0C0C0;
 }
 
-.jimu-widget-search .contain-icon {
+.widget-esearch .contain-icon {
   background-image: url("images/contain.png");
 }
 
-.jimu-widget-search .intersect-icon {
+.widget-esearch .intersect-icon {
   background-image: url("images/intersect.png");
 }
 
-.jimu-widget-search .envintersects-icon {
+.widget-esearch .envintersects-icon {
   background-image: url("images/envintersects.png");
 }
 
-.jimu-widget-search .within-icon {
+.widget-esearch .within-icon {
   background-image: url("images/within.png");
 }
 
-.jimu-widget-search .touches-icon {
+.widget-esearch .touches-icon {
   background-image: url("images/touches.png");
 }
 
-.jimu-widget-search .overlaps-icon {
+.widget-esearch .overlaps-icon {
   background-image: url("images/overlaps.png");
 }
 
-.jimu-widget-search .indexintersects-icon {
+.widget-esearch .indexintersects-icon {
   background-image: url("images/index.png");
 }
 
-.jimu-widget-search .crosses-icon {
+.widget-esearch .crosses-icon {
   background-image: url("images/crosses.png");
 }
 
-.jimu-widget-search .hcenter{
+.widget-esearch .hcenter{
   margin-left: auto;
   width: 100%;
   height: 40px;
 }
 
-.jimu-widget-search .spatial-items{
+.widget-esearch .spatial-items{
   display: table;
   margin: 0px auto;
   height: 40px;
 }
 
-.jimu-widget-search .spatial-items .spatial-item {
+.widget-esearch .spatial-items .spatial-item {
   width: 40px;
   height: 40px;
   background-repeat: no-repeat;
@@ -124,11 +124,11 @@
   float: left;
 }
 
-.jimu-widget-search .spatial-item.selected,.jimu-widget-search .spatial-item:hover{
+.widget-esearch .spatial-item.selected,.widget-esearch .spatial-item:hover{
   background-color: #C0C0C0;
 }
 
-.jimu-widget-search .buffer-icon {
+.widget-esearch .buffer-icon {
   width: 40px;
   height: 40px;
   background-repeat: no-repeat;
@@ -139,11 +139,11 @@
   cursor: pointer;
 }
 
-.jimu-widget-search .buffer-icon:hover{
+.widget-esearch .buffer-icon:hover{
   background-color: #C0C0C0;
 }
 
-.TabTheme .jimu-widget-search .jimu-tab>.control>.tab.jimu-state-selected{
+.TabTheme .widget-esearch .jimu-tab>.control>.tab.jimu-state-selected{
   border-top: 0;
 }
 
@@ -219,18 +219,18 @@
   background-color: #d9dde0;
 }
 /* css for search-params */
-.jimu-widget-search .search-params{
+/*.widget-esearch .search-params{
   left: 100%;
 }
 
-.jimu-widget-search .search-params .search-params-head{
+.widget-esearch .search-params .search-params-head{
   position: relative;
   width: 100%;
   height: 30px;
   line-height: 30px;
 }
 
-.jimu-widget-search .search-params .search-params-head .params-title{
+.widget-esearch .search-params .search-params-head .params-title{
   position: absolute;
   width: 100%;
   height: 100%;
@@ -241,7 +241,7 @@
   color: #86909c;
 }
 
-.jimu-widget-search .search-params .search-params-head .operations{
+.widget-esearch .search-params .search-params-head .operations{
   position: absolute;
   width: 100%;
   height: 100%;
@@ -249,7 +249,7 @@
   top: 0;
 }
 
-.jimu-widget-search .search-params .search-params-head .operations .search-back{
+.widget-esearch .search-params .search-params-head .operations .search-back{
   float: left;
   text-align: left;
   color: blue;
@@ -257,7 +257,7 @@
   height: 100%;
 }
 
-.jimu-widget-search .search-params .search-params-head .operations .params-back .back-icon{
+.widget-esearch .search-params .search-params-head .operations .params-back .back-icon{
   float: left;
   width: 8px;
   height: 100%;
@@ -265,14 +265,14 @@
   margin-right: 5px;
 }
 
-.jimu-widget-search .search-params .search-params-head .operations .params-back .back-tip{
+.widget-esearch .search-params .search-params-head .operations .params-back .back-tip{
   float: left;
   height: 100%;
   color: #51b1fe;
   text-decoration: underline;
 }
 
-.jimu-widget-search .search-params .search-params-head .operations .apply{
+.widget-esearch .search-params .search-params-head .operations .apply{
   float: right;
   text-align: right;
   color: blue;
@@ -280,9 +280,38 @@
   height: 100%;
   color: #51b1fe;
   text-decoration: underline;
+}*/
+
+.widget-esearch .esearch-list {
+  position:absolute;
+  width:100%;
+  height:auto;
+  left:0;
+  right:0;
+  top:50px;
+  bottom:0;
+  overflow-x:auto;
+  overflow-y:auto;
 }
 
-.jimu-widget-search .search-params .params-container{
+.widget-esearch .select-layer-spatial {
+  width:96%;
+  margin-top:10px;
+  margin-bottom:10px;
+}
+
+.widget-esearch .esearch-select {
+  width:96%;
+  margin-top:10px;
+}
+
+.widget-esearch .button-clear-graphical{
+  float:right;
+  margin-right:10px;
+  padding-bottom:8px;
+}
+
+.widget-esearch .search-params .params-container{
   position: absolute;
   width: 100%;
   left: 0;
@@ -291,37 +320,37 @@
   overflow-y: auto;
 }
 
-.jimu-widget-search .search-params table.current-view{
+.widget-esearch .search-params table.current-view{
   width: auto;
   border-collapse: collapse;
   margin-top: 10px;
 }
 
-.jimu-widget-search .query-search table.current-view td{
+.widget-esearch .query-search table.current-view td{
   vertical-align: top;
   text-align: left;
 }
 
-.jimu-widget-search .search-params table.current-view .map-extent-tip{
+.widget-esearch .search-params table.current-view .map-extent-tip{
   padding-left: 8px;
 }
 
-/* css for jimu-widget-search-single-parameter */
-.jimu-widget-search-single-parameter .dijit-form-Select>tbody>tr>td{
+/* css for widget-esearch-single-parameter */
+.widget-esearch-single-parameter .dijit-form-Select>tbody>tr>td{
   height: 23px;
 }
 
-.jimu-widget-search-single-parameter .dijit-form-Select>tbody>tr>td>.dijitButtonText{
+.widget-esearch-single-parameter .dijit-form-Select>tbody>tr>td>.dijitButtonText{
   height: 20px;
   height: 20px !important;
 }
 
-.jimu-widget-search-single-parameter .dijit-form-FilteringSelect>div.dijitArrowButton.dijitDownArrowButton{
+.widget-esearch-single-parameter .dijit-form-FilteringSelect>div.dijitArrowButton.dijitDownArrowButton{
   width:20px;
   height: 100%;
 }
 
-.jimu-widget-search-single-parameter .dijit-form-FilteringSelect>div.dijitArrowButton.dijitDownArrowButton>input{
+.widget-esearch-single-parameter .dijit-form-FilteringSelect>div.dijitArrowButton.dijitDownArrowButton>input{
   padding: 0;
   border: 0;
   display: inline-block;
@@ -329,18 +358,18 @@
   height: 100% !important;
 }
 
-.jimu-widget-search-single-parameter .dijit-form-FilteringSelect>div.dijitInputField>input.dijitInputInner{
+.widget-esearch-single-parameter .dijit-form-FilteringSelect>div.dijitInputField>input.dijitInputInner{
   height: 20px;
 }
 
-.jimu-widget-search-single-parameter .dijit-form-ValidationTextBox>div.dijitInputField>input.dijitInputInner{
+.widget-esearch-single-parameter .dijit-form-ValidationTextBox>div.dijitInputField>input.dijitInputInner{
   margin: 0;
   padding:0;
   height: 100%;
   height: 100% !important;
 }
 
-.jimu-widget-search-single-parameter .dijit-form-NumberTextBox>div.dijitInputField>input.dijitInputInner{
+.widget-esearch-single-parameter .dijit-form-NumberTextBox>div.dijitInputField>input.dijitInputInner{
   margin: 0;
   padding: 0;
   height: 100%;
@@ -348,12 +377,12 @@
   height: 100% !important;
 }
 
-.jimu-widget-search-single-parameter .dijit-form-DateTextBox>.dijitRight{
+.widget-esearch-single-parameter .dijit-form-DateTextBox>.dijitRight{
   width:17px;
   width:17px !important;
 }
 
-.jimu-widget-search-single-parameter .dijit-form-DateTextBox>div.dijitInputField>input.dijitInputInner{
+.widget-esearch-single-parameter .dijit-form-DateTextBox>div.dijitInputField>input.dijitInputInner{
   margin: 0;
   padding: 0;
   height: 100%;
@@ -361,7 +390,7 @@
   height: 100% !important;
 }
 
-.jimu-widget-search-single-parameter .dijitSelectLabel.dijitValidationTextBoxLabel{
+.widget-esearch-single-parameter .dijitSelectLabel.dijitValidationTextBoxLabel{
   width:52px;
   max-width:52px;
   overflow:hidden;
@@ -369,14 +398,109 @@
   overflow:hidden !important;
 }
 
-.jimu-widget-search-single-parameter .prompt{
+.widget-esearch-single-parameter .prompt{
   font-size: 12px;
   color: #686868;
 }
 
-.jimu-widget-search-single-parameter .hint{
+.widget-esearch-single-parameter .hint{
   font-style: italic;
   font-size: 12px;
   color: #d9dde0;
   margin-top: 5px;
+}
+
+.search-btn {
+  cursor: pointer;
+  min-width: 70px;
+  display: inline-block;
+  padding: 12px;
+  font-size: 15px;
+  text-align: center;
+  /*background: none repeat scroll 0% 0% #528CC9;*/
+  vertical-align: middle;
+  color: #FFF;
+  border-radius: 5px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.FoldableTheme.default .search-btn {
+  background-color: rgba(89, 102, 121, 1);
+}
+
+.FoldableTheme.default .search-btn:hover {
+  background-color: rgba(89, 102, 121, 0.7);
+}
+
+.FoldableTheme.black .search-btn,
+.TabTheme.default .search-btn {
+  background-color: rgba(0, 0, 0, 1);
+}
+
+.FoldableTheme.black .search-btn:hover,
+.TabTheme.default .search-btn:hover {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.FoldableTheme.cyan .search-btn {
+  background-color: rgba(177, 211, 212, 1);
+}
+
+.FoldableTheme.cyan .search-btn:hover {
+  background-color: rgba(177, 211, 212, 0.7);
+}
+
+.FoldableTheme.green .search-btn {
+  background-color: rgba(42, 170, 138, 1);
+}
+
+.FoldableTheme.green .search-btn:hover {
+  background-color: rgba(42, 170, 138, 0.7);
+}
+
+.TabTheme.simpleblue .search-btn {
+  background-color: rgba(52, 152, 219, 1);
+}
+
+.TabTheme.simpleblue .search-btn:hover {
+  background-color: rgba(52, 152, 219, 0.7);
+}
+
+.FoldableTheme.red .search-btn,
+.TabTheme.red .search-btn {
+  background-color: rgba(201, 46, 73, 1);
+}
+
+.FoldableTheme.red .search-btn:hover,
+.TabTheme.red .search-btn:hover {
+  background-color: rgba(201, 46, 73, 0.7);
+}
+
+.FoldableTheme.purple .search-btn,
+.TabTheme.purple .search-btn {
+  background-color: rgba(171, 109, 174, 1);
+}
+
+.FoldableTheme.purple .search-btn:hover,
+.TabTheme.purple .search-btn:hover {
+  background-color: rgba(171, 109, 174, 0.7);
+}
+
+/*Handle custom themes*/
+.FoldableTheme .search-btn {
+  background-color: rgba(89, 102, 121, 1);
+}
+
+.FoldableTheme .search-btn:hover {
+  background-color: rgba(89, 102, 121, 0.7);
+}
+
+.TabTheme .search-btn {
+  background-color: rgba(0, 0, 0, 1);
+}
+
+.TabTheme .search-btn:hover {
+  background-color: rgba(0, 0, 0, 0.7);
 }

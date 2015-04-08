@@ -9,7 +9,7 @@
     thumbnail: "サムネイル",
     thumbnailHint: "画像を変更するにはサムネイルをクリックします",
     url: "URL",
-    urlPH: "レイヤ URL",
+    urlPH: "レイヤー URL",
     addlayer: "ベースマップの追加",
     actions: "アクション",
     warning: "不正な入力",
@@ -24,8 +24,8 @@
     spError: "ギャラリーに追加されるすべてのベースマップの空間参照は同じである必要があります。",
     invalidTitle1:"ベースマップ '",
     invalidTitle2:"' すでに存在しています。別のタイトルを選択してください。",
-    invalidBasemapUrl1: "このタイプのレイヤは、ベースマップとして使用できません。",
-    invalidBasemapUrl2: "現在のマップで空間参照が異なります。",
-    addBaselayer: "ベースマップ レイヤの追加"
+    invalidBasemapUrl1: "このタイプのレイヤーは、ベースマップとして使用できません。",
+    invalidBasemapUrl2: "現在のマップとは空間参照が異なります。",
+    addBaselayer: "ベースマップ レイヤーの追加"
   })
 );

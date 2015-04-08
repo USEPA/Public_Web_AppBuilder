@@ -1,6 +1,6 @@
 ﻿define(
    ({
-    instruction: "Creare contenuti che verranno visualizzati in questo widget.",
+    instruction: "Creare il contenuto da visualizzare in questo widget.",
     defaultContent: "Aggiungere qui testo, collegamenti e piccole immagini."
   })
 );

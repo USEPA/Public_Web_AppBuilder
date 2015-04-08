@@ -1,7 +1,7 @@
 ﻿define(
    ({
     _widgetLabel: "Editar",
-    title: "Selecionar modelo para criar feição",
+    title: "Selecione um modelo para criar feições",
     pressStr: "Pressionar ",
     ctrlStr: " CTRL ",
     snapStr: " para habilitar o ajuste"

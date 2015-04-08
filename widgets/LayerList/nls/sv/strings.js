@@ -13,6 +13,9 @@
     itemDesc: "Beskrivning",
     itemDownload: "Hämta",
     itemToAttributeTable: "Öppna attributtabell",
-    itemShowItemDetails: "Visa objektinformation"
+    itemShowItemDetails: "Visa objektinformation",
+    empty: "tom",
+    removePopup: "Ta bort popup-ruta",
+    enablePopup: "Aktivera popup-ruta"
   })
 );

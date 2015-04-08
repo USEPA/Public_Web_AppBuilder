@@ -1,8 +1,8 @@
 ﻿define(
    ({
     _widgetLabel: "Muuda",
-    title: "Valige objekti loomiseks mall",
-    pressStr: "Snäppimise võimaldamiseks ",
+    title: "Valige objektide loomiseks mall",
+    pressStr: "Snäppimise kasutamiseks ",
     ctrlStr: " vajutage ",
     snapStr: " CTRL"
   })

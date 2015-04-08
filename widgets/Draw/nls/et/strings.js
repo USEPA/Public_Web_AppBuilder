@@ -19,7 +19,7 @@
     width: "Laius",
     size: "Suurus",
     color: "Värv",
-    markerColor: "Tähise värv",
+    markerColor: "Markeri värv",
     outlineColor: "Äärejoone värv",
     lineColor: "Joone värv",
     fillColor: "Täitevärv",
@@ -37,6 +37,8 @@
     hectares: "Hektarit",
     squareMeters: "Ruutmeetrit",
     squareFeet: "Ruutjalga",
-    squareYards: "Ruutjardi"
+    squareYards: "Ruutjardi",
+    undo: "Tühista",
+    redo: "Ennista"
   })
 );

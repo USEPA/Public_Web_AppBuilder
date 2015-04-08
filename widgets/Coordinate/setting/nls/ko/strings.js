@@ -22,6 +22,7 @@
     units: "표시 단위: ",
     datum: "데이텀 변환",
     tName: "변환 이름",
+    tWKIDPlaceHolder: "변환의 WKID",
     forward: "순방향 변환 사용",
     ok: "확인",
     cancel: '취소',

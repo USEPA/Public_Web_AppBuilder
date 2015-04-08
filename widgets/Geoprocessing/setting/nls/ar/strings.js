@@ -30,6 +30,7 @@
     popup: "العناصر المنبثقة",
     setTask: "تعيين",
     setTaskTitle: "تعيين مهمة GP",
-    enablePopup: "تمكين عنصر منبثق"
+    enablePopup: "تمكين عنصر منبثق",
+    unSupportGeometryType: "يتعذر تعيين المُقدّم نظرًا لأن نوع الشكل الهندسي غير معروف."
   })
 );

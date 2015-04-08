@@ -11,6 +11,6 @@
     errorNameNull: "Vigane järjehoidja nimi!",
     addBookmark: "Loo uus järjehoidja",
     thumbnail: "Pisipilt",
-    thumbnailHint: "Klikkige uuendamiseks pilti"
+    thumbnailHint: "Uuendamiseks klõpsake pilti"
   })
 );

@@ -13,6 +13,9 @@
     itemDesc: "Açıklama",
     itemDownload: "İndir",
     itemToAttributeTable: "Öznitelik Tablosunu Aç",
-    itemShowItemDetails: "Öğe Ayrıntılarını Göster"
+    itemShowItemDetails: "Öğe Ayrıntılarını Göster",
+    empty: "boş",
+    removePopup: "Açılan Pencereyi Kaldır",
+    enablePopup: "Açılan Pencereyi Etkinleştir"
   })
 );

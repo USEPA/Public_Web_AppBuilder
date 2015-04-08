@@ -141,6 +141,11 @@ function(declare, lang, array, html, on, Memory, OnDemandGrid, GraphicsLayer, Fe
 
       this.own(on(clearNode, 'click', lang.hitch(this, function(){
         if(this.resultLayer){
+          if(this.map.infoWindow.isShowing){
+            this.map.infoWindow.hide();
+          }
+          this.resultLayer.clear();
+          //remove layer so it will not displayed in Layer List or Legend widget
           this.map.removeLayer(this.resultLayer);
         }
       })));
@@ -158,14 +163,15 @@ function(declare, lang, array, html, on, Memory, OnDemandGrid, GraphicsLayer, Fe
           featureSet: null
         };
         this.resultLayer =  new FeatureLayer(featureCollection, {
-          id: param.name
+          id: this.widgetUID + param.name
         });
       }else{
         this.resultLayer =  new GraphicsLayer({
-          id: param.name
+          id: this.widgetUID + param.name
         });
       }
-      this.map.addLayer(this.resultLayer);
+
+      this._calculateLayerOrder(param.name);
 
       if(!param.popup){
         param.popup = {
@@ -206,6 +212,56 @@ function(declare, lang, array, html, on, Memory, OnDemandGrid, GraphicsLayer, Fe
       }
       catch(e){
         console.error(e);
+      }
+    },
+
+    _calculateLayerOrder: function(paramName){
+      //calculate layer order
+      var outputLayerIndex = this.config.layerOrder.indexOf(paramName);
+      var operationalLayersIndex = this.config.layerOrder.indexOf('Operational Layers');
+      var i;
+      var foundLayerId = null;
+      var foundLayerIndex = 0;
+      var currentLayerId;
+      if(operationalLayersIndex > outputLayerIndex){
+        //output layer above the operational layer
+        //find the buttom most layer index above this layer in the layerOrder
+        for(i=outputLayerIndex-1;i>=0;i--){
+          currentLayerId = this.widgetUID + this.config.layerOrder[i];
+          if(array.indexOf(this.map.graphicsLayerIds,this.config.layerOrder[i]) !== -1){
+            //map contains the this layer
+            foundLayerId = currentLayerId;
+            break;
+          }
+        }
+        if(foundLayerId !== null){
+          //add below the layer whose id is foundLayerId
+          foundLayerIndex = array.indexOf(this.map.graphicsLayerIds,foundLayerId);
+          this.map.addLayer(this.resultLayer, foundLayerIndex);
+        }else{
+          //add top most
+          this.map.addLayer(this.resultLayer);
+        }
+      }else{
+        //output layer below the operational layer
+        //find the top most layer index below this layer in the layerOrder
+        foundLayerId = null;
+        for(i=outputLayerIndex+1;i<this.config.layerOrder.length;i++){
+          currentLayerId = this.widgetUID + this.config.layerOrder[i];
+          if(array.indexOf(this.map.graphicsLayerIds,this.config.layerOrder[i]) !== -1){
+            //map contains the this layer
+            foundLayerId = currentLayerId;
+            break;
+          }
+        }
+        if(foundLayerId !== null){
+          //add above the layer whose id is foundLayerId
+          foundLayerIndex = array.indexOf(this.map.graphicsLayerIds,foundLayerId);
+          this.map.addLayer(this.resultLayer, foundLayerIndex + 1);
+        }else{
+          //add buttom most
+          this.map.addLayer(this.resultLayer,0);
+        }
       }
     },
 

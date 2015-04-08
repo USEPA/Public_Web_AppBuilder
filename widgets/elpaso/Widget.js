@@ -4,9 +4,10 @@ define(['dojo/_base/declare',
     'dojox/layout/FloatingPane',
     'dojo/_base/lang','dojo/on',
     'dojo/dom-construct' ,
-    './oneService'   
+    './oneService',
+    'esri/request'   
     ],
-function(declare, BaseWidget,FloatingPane,lang,on,domConstruct,_oneService) {
+function(declare, BaseWidget,FloatingPane,lang,on,domConstruct,_oneService,esriRequest) {
   //To create a widget, you need to derive from BaseWidget.
   return declare([BaseWidget], {
     // Custom widget code goes here 
@@ -24,11 +25,13 @@ function(declare, BaseWidget,FloatingPane,lang,on,domConstruct,_oneService) {
 	//add logo
 	this.imageNode.src = this.folderUrl + "images/elpaso_logo.png";
 
+
+
 //add layer
-if (this.map.getLayer("imageLayer")) {
-            this.imageLayer = this.map.getLayer("imageLayer");
+if (this.map.getLayer("imageLayer_" + this.id)) {
+            this.imageLayer = this.map.getLayer("imageLayer_" + this.id);
         } else {
-            this.imageLayer = new esri.layers.GraphicsLayer({ id: "imageLayer" });
+            this.imageLayer = new esri.layers.GraphicsLayer({ id: "imageLayer_" + this.id });
             var symbol = new esri.symbol.SimpleMarkerSymbol(esri.symbol.SimpleMarkerSymbol.STYLE_CROSS, 14, new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID, new dojo.Color([255, 0, 255]), 2), new dojo.Color([255, 0, 255, 1.0]));
             var rd = new esri.renderer.SimpleRenderer(symbol);
             rd.label = "Click Point";
@@ -37,27 +40,39 @@ if (this.map.getLayer("imageLayer")) {
         }
 
 
-	var viewobject = this.config.viewobject;
+     var wobj = this;
+//add local config, local config used to hide config settings from widget setup UI.
+    var layersRequest = esriRequest({
+    url: wobj.folderUrl + "configLocal.json",
+    content: { f: "json" },
+    handleAs: "json",
+    callbackParamName: "callback"
+  });
+  layersRequest.then(
+    function(response) {     
+      wobj.config = response;
+     
 
+        //add widget id to each entry so unique across all widget instances and overwrite default config
+        var voClone = {}
+        for (var eview in wobj.config.viewobject) {
+          var robj = wobj.config.viewobject[eview];
+          voClone[wobj.id + "_" + eview] = robj;        
+        }
+        wobj.config.viewobject = voClone;
+        
+        var viewobject = wobj.config.viewobject;
 
+        for (var eview in viewobject) {
+          var robj = viewobject[eview];
+          var sNode = new _oneService({ id: eview, svcobj: robj, vimgwg: wobj });
+          sNode.placeAt(wobj.chkboxNode);
 
-for (var eview in viewobject) {
-                var robj = viewobject[eview];
-                var sNode = new _oneService({ id: eview, svcobj: robj, vimgwg: this });
-                sNode.placeAt(this.chkboxNode);
+        }       
 
-            }
-
-          if (this.map.getLayer("imageLayer")) {
-                this.imageLayer = this.map.getLayer("imageLayer");
-            } else {
-                this.imageLayer = new esri.layers.GraphicsLayer({ id: "imageLayer" });
-                var symbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.STYLE_CROSS, 14, new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new dojo.Color([255, 0, 255]), 2), new dojo.Color([255, 0, 255, 1.0]));
-                var rd = new SimpleRenderer(symbol);
-                rd.label = "Click Point";
-                this.imageLayer.setRenderer(rd);
-                this.map.addLayer(this.imageLayer);
-            }  	
+  }, function(error) {     
+      alert("Error reading configuration");
+  }); 	
 
      },
 
@@ -135,9 +150,7 @@ _searchGeo: function () {
             this.showview(geopnt);
         },
     showview: function (gpnt) {
-//rw add callto config
-	var viewobject = this.config.viewobject;
-
+        	var viewobject = this.config.viewobject;
             this.imageLayer.clear();
             var mgeom = esri.geometry.geographicToWebMercator(gpnt);
             var lat = gpnt.y.toFixed(6);
@@ -145,13 +158,14 @@ _searchGeo: function () {
             var pointstr = "Point of interest: " + lat + ", " + lon;
             this.decNode.innerHTML = pointstr;
             this.geoTextNode.value = lat + ", " + lon;
-            var showpin = false;
-            var frm = document.getElementById("viewform");
+            var showpin = false;            
+            var frm = this.viewform;
+
             var pcount = 0;
             for (var k = 0; k < frm.viewtype.length; k++) {
                 if (frm.viewtype[k].checked) {
                     pcount = pcount + 1;
-                    var viewvalue = frm.viewtype[k].value;
+                    var viewvalue = frm.viewtype[k].value;                                     
                     var pid = viewobject[viewvalue].pid;
                     this.popupview(viewvalue, lat, lon, pid, pcount);
                     showpin = true;
@@ -167,14 +181,11 @@ _searchGeo: function () {
             }
         },
         popupview: function (pname, lat, lon, cid, pindex) {
-
-            //rw add vobj
+            
             var viewobject = this.config.viewobject;
             this.vieworder["view" + pindex] = true;
             viewobject[pname].order = pindex;
-            var baseurl = viewobject[pname].baseurl;
-        //rw add - append folder url
-	baseurl = this.folderUrl + "html/" + baseurl;
+            var baseurl = viewobject[pname].baseurl;      
             var popurl = baseurl + "lat=" + lat + "&lon=" + lon;
             var order = parseInt(cid);
             var startleft = 300;
@@ -192,13 +203,13 @@ _searchGeo: function () {
             //alert(pindex + "; " + cid + ": " + leftx + ", " + topy);
             viewobject[pname].left = leftx;
             viewobject[pname].top = topy;
-            var paneid = "popupdiv" + cid;
+            var paneid = "popupdiv" + cid + "_" + this.id;
             if (dojo.byId(paneid)) {
                 dijit.byId(paneid).show();
                 dojo.byId(paneid).style.left = leftx + "px";
                 dojo.byId(paneid).style.top = topy + "px";
 
-                document.getElementById('popframe' + cid).src = popurl;
+                document.getElementById('popframe' + cid + "_" + this.id).src = popurl;
 
             } else {
                 var vtitle = viewobject[pname].desc;
@@ -242,7 +253,7 @@ _searchGeo: function () {
                 var qcontentstr = '#' + paneid + ' .dojoxFloatingPaneContent';
                 var qcontentPane = dojo.query(qcontentstr)[0];
                 var paneDiv = domConstruct.create("iframe", {
-                    id: "popframe" + cid,
+                    id: "popframe" + cid + "_" + this.id,
                     width: "100%",
                     height: "96%",
                     frameborder: "0",
@@ -259,10 +270,10 @@ _searchGeo: function () {
 	
         },
         _closeImageView: function (panid, boxid) {
-            //rw add vobj
+           
             var viewobject = this.config.viewobject;
-            var boxnum = parseInt(boxid);
-            var frm = document.getElementById("viewform");
+            var boxnum = parseInt(boxid);           
+            var frm = this.viewform;
             frm.viewtype[boxnum].checked = false;
             var viewvalue = frm.viewtype[boxnum].value;
             var o = viewobject[viewvalue].order;
@@ -277,14 +288,13 @@ _searchGeo: function () {
                 }
             }
             if (showPoint == false) {
-                if (this.map.getLayer("imageLayer")) this.map.getLayer("imageLayer").clear();
+                if (this.map.getLayer("imageLayer_" + this.id)) this.map.getLayer("imageLayer_" + this.id).clear();
                 this.currentgraphic = null;
                 this.decNode.innerHTML = "";
                 this.geoTextNode.value = "";
             }
         },
 _restorePane: function (paneid, eview) {
-//rw add vobj
             var viewobject = this.config.viewobject;
             if (dojo.byId(paneid)) {
                 var leftx = viewobject[eview].left;
@@ -298,12 +308,11 @@ _restorePane: function (paneid, eview) {
 
             }
         },
-    toggleevent: function (status) {
-           //rw add vobj
+    toggleevent: function (status) {           
             var viewobject = this.config.viewobject;
             if (status) {
-                this.viewimageclick = on(this.map, "click", lang.hitch(this, this.clickMap));
-                var frm = document.getElementById("viewform");
+                this.viewimageclick = on(this.map, "click", lang.hitch(this, this.clickMap));                
+                 var frm = this.viewform;
                 for (var k = 0; k < frm.viewtype.length; k++) {
                     var chkvalue = frm.viewtype[k].value;
                     var vi = viewobject[chkvalue].visible;
@@ -317,12 +326,11 @@ _restorePane: function (paneid, eview) {
                 this.closeWidget();
             }
         },
-        restorePaneSize: function () {
-            //rw add vobj
+        restorePaneSize: function () {            
             var viewobject = this.config.viewobject;
              for (var eview in viewobject) {
                 var cid = viewobject[eview].pid;
-                var paneid = "popupdiv" + cid;
+                var paneid = "popupdiv" + cid + "_" + this.id;
                 if (dojo.byId(paneid)) {
                     var leftx = viewobject[eview].left;
                     var topy = viewobject[eview].top;
@@ -340,11 +348,11 @@ _restorePane: function (paneid, eview) {
             this.restorePaneSize();
             this.togglesel();
         },
-    togglesel: function () {
-	
-        var frm = document.getElementById("viewform");
+    togglesel: function () {	
+        
+         var frm = this.viewform;
         for (var k = 0; k < frm.viewtype.length; k++) {
-            var paneid = "popupdiv" + k;
+            var paneid = "popupdiv" + k + "_" + this.id;
             if (dojo.byId(paneid)) dijit.byId(paneid).hide();
             frm.viewtype[k].checked = false;
 
@@ -352,7 +360,7 @@ _restorePane: function (paneid, eview) {
         for (var j = 1; j < 5; j++) {
             this.vieworder["view" + j] = false;
         }
-        if (this.map.getLayer("imageLayer")) this.map.getLayer("imageLayer").clear();
+        if (this.map.getLayer("imageLayer_" + this.id)) this.map.getLayer("imageLayer_" + this.id).clear();
         this.currentgraphic = null;
         this.decNode.innerHTML = "";
         this.geoTextNode.value = "";

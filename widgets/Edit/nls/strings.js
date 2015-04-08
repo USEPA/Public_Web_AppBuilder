@@ -1,7 +1,7 @@
 define({
   root: ({
     _widgetLabel: "Edit",
-    title: "Select template to create feature",
+    title: "Select a template to create features",
     pressStr: "Press ",
     ctrlStr: " CTRL ",
     snapStr: " to enable snapping"
@@ -10,6 +10,7 @@ define({
   "cs": 1,
   "da": 1,
   "de": 1,
+  "el": 1,
   "es": 1,
   "et": 1,
   "fi": 1,

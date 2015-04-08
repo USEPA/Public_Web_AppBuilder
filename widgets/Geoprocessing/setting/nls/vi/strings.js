@@ -30,6 +30,7 @@
     popup: "Cửa sổ pop-up",
     setTask: "Thiết lập",
     setTaskTitle: "Thiết lập Tác vụ GP",
-    enablePopup: "Bật cửa sổ pop-up"
+    enablePopup: "Bật cửa sổ pop-up",
+    unSupportGeometryType: "Không thể thiết lập trình kết xuất vì loại hình học không xác định."
   })
 );

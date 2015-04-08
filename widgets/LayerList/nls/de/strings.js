@@ -13,6 +13,9 @@
     itemDesc: "Beschreibung",
     itemDownload: "Herunterladen",
     itemToAttributeTable: "Attributtabelle öffnen",
-    itemShowItemDetails: "Elementdetails anzeigen"
+    itemShowItemDetails: "Elementdetails anzeigen",
+    empty: "leer",
+    removePopup: "Pop-up entfernen",
+    enablePopup: "Pop-up aktivieren"
   })
 );

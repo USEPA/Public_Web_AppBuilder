@@ -31,6 +31,10 @@
 		setFilterTip: "Iestatiet filtru pareizi.",
 		ok: "Labi",
 		cancel: "Atcelt",
-		noFilterTip: "Bez definētas filtra izteiksmes šajā vaicājuma uzdevumā būs norādīti visi elementi norādītajā datu avotā."
+		noFilterTip: "Bez definētas filtra izteiksmes šajā vaicājuma uzdevumā būs norādīti visi elementi norādītajā datu avotā.",
+    relationships: "Saistību tabula",
+    addRelationshipLayer: "Pievienot jaunu saistību",
+    relatedTo: "Saistīts ar",
+    selectOption: "Lūdzu, izvēlieties.."
   })
 );

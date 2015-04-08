@@ -1,5 +1,7 @@
 ﻿define(
    ({
-    _widgetLabel: "Külgriba kontroller"
+    _widgetLabel: "Külgriba kontroller",
+    more: "rohkem",
+    otherPanels: "Muud paneelid"
   })
 );

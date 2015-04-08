@@ -1,19 +1,7 @@
 ///////////////////////////////////////////////////////////////////////////
-// Copyright © 2014 Esri. All Rights Reserved.
-//
-// Licensed under the Apache License Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//    http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
+// Robert Scheitlin WAB eSearch Widget
 ///////////////////////////////////////////////////////////////////////////
-/*global define, dojo, dijit, require, esri, console, document*/
+/*global define*/
 define([
   'dojo/_base/declare',
   'dijit/_WidgetBase',
@@ -55,10 +43,10 @@ define([
         this._filterUtils = null;
         this.inherited(arguments);
       },
-      
+
       getSingleParamValues: function(){
         var valArray = [];
-        var spDoms = query('.jimu-widget-search-single-parameter',this.tbody);
+        var spDoms = query('.widget-esearch-single-parameter',this.tbody);
         array.forEach(spDoms,lang.hitch(this,function(spDom){
           var sp = registry.byNode(spDom);
           var newValueObj = sp.getValueObj();
@@ -70,7 +58,7 @@ define([
         }));
         return valArray;
       },
-      
+
       setSingleParamValues: function(valuesObj, value){
         var values = value.split("|");
         var vi = 0;
@@ -84,7 +72,7 @@ define([
           }
           vi++;
         }));
-          
+
         vi = 0;
         var spDoms = query('.jimu-widget-search-single-parameter',this.tbody);
         array.forEach(spDoms,lang.hitch(this,function(spDom){

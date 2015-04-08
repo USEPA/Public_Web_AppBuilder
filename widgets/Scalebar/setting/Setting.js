@@ -16,35 +16,93 @@
 
 define([
     'dojo/_base/declare',
+    'dojo/_base/html',
     'dijit/_WidgetsInTemplateMixin',
+    'dijit/registry',
     'jimu/BaseWidgetSetting',
     'jimu/portalUtils',
     'dojo/_base/lang',
     'dojo/on',
+    'dojo/query',
     "dojo/Deferred",
-    "dijit/form/Select"
+    "jimu/dijit/RadioBtn"
   ],
   function(
     declare,
+    html,
     _WidgetsInTemplateMixin,
+    registry,
     BaseWidgetSetting,
     PortalUtils,
     lang,
     on,
+    query,
     Deferred) {
     return declare([BaseWidgetSetting, _WidgetsInTemplateMixin], {
       //these two properties is defined in the BaseWidget
       baseClass: 'jimu-widget-scalebar-setting',
+      selectUnit: '',
+      selectStyle: '',
 
       startup: function() {
         this.inherited(arguments);
         if (!this.config.scalebar) {
           this.config.scalebar = {};
         }
-        this.setConfig(this.config);
+        this.set('selectUnit', '');
+        this.set('selectStyle', '');
+        this.own(on(this.englishNode, 'click', lang.hitch(this, function() {
+          this.set('selectUnit', 'english');
+        })));
+        this.own(on(this.metricNode, 'click', lang.hitch(this, function() {
+          this.set('selectUnit', 'metric');
+        })));
+        this.own(on(this.dualNode, 'click', lang.hitch(this, function() {
+          this.set('selectUnit', 'dual');
+          this.set('selectStyle', 'line');
+        })));
 
-        this.own(on(this.selectUnit, "change", lang.hitch(this, this.onSelectChange)));
-        this.own(on(this.selectStype, "change", lang.hitch(this, this.onSelectChange)));
+        this.own(on(this.lineNode, 'click', lang.hitch(this, function() {
+          this.set('selectStyle', 'line');
+        })));
+        this.own(on(this.rulerNode, 'click', lang.hitch(this, function() {
+          this.set('selectStyle', 'ruler');
+        })));
+
+        this.watch('selectUnit', this._updateUnit);
+        this.watch('selectStyle', this._updateStyle);
+        this.setConfig(this.config);
+      },
+
+      _updateUnit: function() {
+        var _selectedUnitNode = null;
+        var _unit = this.get('selectUnit');
+        if (_unit === 'metric') {
+          _selectedUnitNode = this.metricNode;
+          html.setStyle(this.rulerNode, 'display', 'inline-block');
+        } else if (_unit === 'dual') {
+          _selectedUnitNode = this.dualNode;
+          html.setStyle(this.rulerNode, 'display', 'none');
+        } else {
+          _selectedUnitNode = this.englishNode;
+          html.setStyle(this.rulerNode, 'display', 'inline-block');
+        }
+
+        var _radio = registry.byNode(query('.jimu-radio', _selectedUnitNode)[0]);
+        _radio.check(true);
+      },
+
+      _updateStyle: function() {
+        var _selectedStyleNode = null;
+        var _style = this.get('selectStyle');
+        if (_style === 'ruler') {
+          _selectedStyleNode = this.rulerNode;
+        } else {
+          _selectedStyleNode = this.lineNode;
+        }
+
+        var _radio = registry.byNode(query('.jimu-radio', _selectedStyleNode)[0]);
+        _radio.check(true);
       },
 
       _processConfig: function(configJson) {
@@ -65,28 +123,14 @@ define([
         this.config = config;
 
         this._processConfig(config.scalebar).then(lang.hitch(this, function(scalebar) {
-          if (scalebar.scalebarUnit) {
-            this.selectUnit.set('value', scalebar.scalebarUnit);
-          } else {
-            this.selectUnit.set('value', "english");
-          }
-          if (scalebar.scalebarStyle) {
-            this.selectStype.set('value', scalebar.scalebarStyle);
-          } else {
-            this.selectStype.set('value', "line");
-          }
+          this.set('selectUnit', scalebar.scalebarUnit);
+          this.set('selectStyle', scalebar.scalebarStyle || 'line');
         }));
       },
 
-      onSelectChange: function() {
-        if (this.selectUnit.value === "dual") {
-          this.selectStype.set('value', "line");
-        }
-      },
-
       getConfig: function() {
-        this.config.scalebar.scalebarUnit = this.selectUnit.value;
-        this.config.scalebar.scalebarStyle = this.selectStype.value;
+        this.config.scalebar.scalebarUnit = this.get('selectUnit');
+        this.config.scalebar.scalebarStyle = this.get('selectStyle');
         return this.config;
       }
 

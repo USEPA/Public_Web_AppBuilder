@@ -13,6 +13,9 @@
     itemDesc: "Описание",
     itemDownload: "Загрузить",
     itemToAttributeTable: "Открыть таблицу атрибутов",
-    itemShowItemDetails: "Показать информацию об элементе"
+    itemShowItemDetails: "Показать информацию об элементе",
+    empty: "пусто",
+    removePopup: "Удалить всплывающее окно",
+    enablePopup: "Включить всплывающее окно"
   })
 );

@@ -16,7 +16,6 @@
 
 define([
     'dojo/_base/declare',
-    'dojo/_base/array',
     'dojo/_base/html',
     'dojo/sniff',
     'dijit/_WidgetsInTemplateMixin',
@@ -26,18 +25,14 @@ define([
     'jimu/utils',
     'dojo/_base/lang',
     'dojo/on',
-    'dojo/number',
     "dojo/dom-style",
     "dojo/dom-class",
-    "dojo/dom-construct",
     "dijit/DropDownMenu",
     "dijit/MenuItem",
-    "dijit/CheckedMenuItem",
     "dojo/aspect",
     "dojo/Deferred",
     "esri/request",
     "esri/tasks/ProjectParameters",
-    "esri/tasks/GeometryService",
     "esri/geometry/webMercatorUtils",
     "jimu/portalUtils",
     "esri/config",
@@ -46,7 +41,6 @@ define([
   ],
   function(
     declare,
-    array,
     html,
     has,
     _WidgetsInTemplateMixin,
@@ -56,25 +50,21 @@ define([
     utils,
     lang,
     on,
-    dojoNumber,
     domStyle,
     domClass,
-    domConstruct,
     DropDownMenu,
     MenuItem,
-    CheckedMenuItem,
     aspect,
     Deferred,
     esriRequest,
     ProjectParameters,
-    GeometryService,
     webMercatorUtils,
     portalUtils,
     esriConfig,
     usng,
     unitUtils
   ) {
-    var dictionary = {
+    var jimuUnitToNlsLabel = {
       "INCHES": "Inches",
       "FOOT": "Foot",
       "FEET": "Foot",
@@ -93,15 +83,15 @@ define([
       "MGRS": "MGRS",
       "USNG": "USNG"
     };
-    var esriUnits = {
+    var esriUnitsToJimuUnit = {
       "esriCentimeters": "CENTIMETERS",
       "esriDecimalDegrees": "DECIMAL_DEGREES",
       "esriDegreeMinuteSeconds": "DEGREE_MINUTE_SECONDS",
       "esriDecimeters": "DECIMETERS",
-      "esriFeet": "FEET",
+      "esriFeet": "FOOT",
       "esriInches": "INCHES",
       "esriKilometers": "KILOMETERS",
-      "esriMeters": "METERS",
+      "esriMeters": "METER",
       "esriMiles": "MILES",
       "esriMillimeters": "MILLIMETERS",
       "esriNauticalMiles": "NAUTICAL_MILES",
@@ -177,7 +167,7 @@ define([
         this.own(on(this.map, "mouse-move", lang.hitch(this, this.onMouseMove)));
         this.own(on(this.map, "click", lang.hitch(this, this.onMapClick)));
         this.own(on(this.locateButton, "click", lang.hitch(this, this.onLocateButtonClick)));
-        
+
         if (has('ie') && has('ie') < 9) {
           // coordinateBackground
           this.own(on(this.coordinateBackground, "mouseover", lang.hitch(this, this.onMouseOver)));
@@ -205,9 +195,32 @@ define([
         }));
       },
 
+      _processMapUnits: function(mapData) {
+        var def = new Deferred();
+        if (mapData.units) {
+          def.resolve(mapData);
+        } else {
+          var sr = mapData.spatialReference;
+          var ext = mapData.extent;
+          var wkid = (sr && (sr.latestWkid || sr.wkid)) ||
+            (ext && ext.spatialReference && ext.spatialReference.wkid);
+          var that = this;
+          require(['jimu/SpatialReference/srUtils'], function(srUtils) {
+            srUtils.loadResource().then(lang.hitch(that, function() {
+              var unit = srUtils.getCSUnit(wkid);
+              mapData.units = unit;
+
+              def.resolve(mapData);
+            }));
+          });
+        }
+        return def;
+      },
+
       _processData: function() {
         var def = new Deferred();
 
+        // types of basemap: mapServer, imageServer, bingMap, openStreetMap, webTiledMap
         var basemap = this.map.itemInfo.itemData.baseMap.baseMapLayers[0];
         if (!(this.config.spatialReferences && this.config.spatialReferences.length)) {
           portalUtils.getUnits(this.appConfig.portalUrl).then(lang.hitch(this, function(units) {
@@ -223,26 +236,31 @@ define([
                   f: "json"
                 }
               }).then(lang.hitch(this, function(mapData) {
-                var unitOptions = this._getUnconfiguredUnitOptions(mapData.units, units);
+                this._processMapUnits(mapData).then(lang.hitch(this, function(mapData) {
+                  var unitOptions = this._getUnconfiguredUnitOptions(mapData.units, units);
+                  var sr = mapData.spatialReference;
+                  var ext = mapData.extent;
+                  var wkid = (sr && (sr.latestWkid || sr.wkid)) ||
+                    (ext && ext.spatialReference && ext.spatialReference.wkid);
+                  var json = {
+                    'wkid': wkid,
+                    'label': "",
+                    'outputUnit': unitOptions.outputUnit
+                  };
+                  var _options = {
+                    sameSRWithMap: true,
+                    defaultUnit: esriUnitsToJimuUnit[mapData.units] || mapData.units,
+                    isGeographicUnit: unitOptions.isGeographicUnit,
+                    isGeographicCS: unitOptions.isGeographicCS,
+                    isProjectUnit: unitOptions.isProjectUnit,
+                    isProjectedCS: unitOptions.isProjectedCS,
+                    unitRate: unitOptions.unitRate
+                  };
+                  json.options = _options;
 
-                var json = {
-                  wkid: mapData.spatialReference.latestWkid || mapData.spatialReference.wkid,
-                  label: "",
-                  outputUnit: unitOptions.outputUnit
-                };
-                var _options = {
-                  sameSRWithMap: true,
-                  defaultUnit: esriUnits[mapData.units],
-                  isGeographicUnit: unitOptions.isGeographicUnit,
-                  isGeographicCS: unitOptions.isGeographicCS,
-                  isProjectUnit: unitOptions.isProjectUnit,
-                  isProjectedCS: unitOptions.isProjectedCS,
-                  unitRate: unitOptions.unitRate
-                };
-                json.options = _options;
-
-                this._configured = false;
-                def.resolve(json);
+                  this._configured = false;
+                  def.resolve(json);
+                }));
               }), lang.hitch(this, function(err) {
                 console.error(err);
                 def.reject(err);
@@ -256,7 +274,7 @@ define([
               };
               var _options = {
                 sameSRWithMap: true,
-                defaultUnit: esriUnits.esriMeters,
+                defaultUnit: esriUnitsToJimuUnit.esriMeters,
                 isGeographicUnit: unitOptions.isGeographicUnit,
                 isGeographicCS: unitOptions.isGeographicCS,
                 isProjectUnit: unitOptions.isProjectUnit,
@@ -280,7 +298,7 @@ define([
       },
 
       _getUnconfiguredUnitOptions: function(mapUnits, localeUnits) {
-        var dicUnits = dictionary[esriUnits[mapUnits]],
+        var _mapUnit = esriUnitsToJimuUnit[mapUnits] || mapUnits,
           _outputUnit = "",
           _unitRate = 1,
           _isGeographicCS = "",
@@ -288,29 +306,29 @@ define([
           _isProjectedCS = "",
           _isProjectUnit = "";
 
-        if (unitUtils.isProjectUnit(dicUnits)) {
+        if (unitUtils.isProjectUnit(_mapUnit)) {
           _isProjectUnit = true;
           _isProjectedCS = true;
           _isGeographicUnit = false;
           _isGeographicCS = false;
           _outputUnit = localeUnits === "english" ?
-            dictionary[esriUnits.esriFeet].toUpperCase() :
-            dictionary[esriUnits.esriMeters].toUpperCase();
+            esriUnitsToJimuUnit.esriFeet.toUpperCase() :
+            esriUnitsToJimuUnit.esriMeters.toUpperCase();
           _unitRate = unitUtils.getUnitRate(
-            dictionary[esriUnits[mapUnits]].toUpperCase(),
+            _mapUnit.toUpperCase(),
             _outputUnit
           );
-        } else if (unitUtils.isGeographicUnit(dicUnits)) {
+        } else if (unitUtils.isGeographicUnit(_mapUnit)) {
           _isProjectUnit = false;
           _isProjectedCS = false;
           _isGeographicUnit = true;
           _isGeographicCS = true;
-          _outputUnit = esriUnits[mapUnits].toUpperCase();
+          _outputUnit = _mapUnit.toUpperCase();
         }
 
         //default show mercator is degrees.
         if (this.map.spatialReference.isWebMercator()) {
-          _outputUnit = esriUnits.esriDecimalDegrees;
+          _outputUnit = esriUnitsToJimuUnit.esriDecimalDegrees;
           _isGeographicUnit = true;
           _isProjectUnit = false;
           _unitRate = 1;
@@ -418,16 +436,26 @@ define([
           html.setStyle(this.locateContainer, 'display', 'block');
           html.removeClass(this.locateContainer, 'coordinate-locate-container-active');
           html.setAttr(this.locateButton, 'title', this.nls.enableClick);
+          this.enableWebMapPopup();
         } else {
           this.enableRealtime = false;
           this.coordinateInfo.innerHTML = this.nls.hintMessage;
           html.setStyle(this.locateContainer, 'display', 'none');
           html.setAttr(this.locateButton, 'title', this.nls.disableClick);
+          this.disableWebMapPopup();
         }
 
         if (has('ios') || has('android')) {
           html.setStyle(this.locateContainer, 'display', 'none');
         }
+      },
+
+      disableWebMapPopup: function() {
+        this.map.setInfoWindowOnClick(false);
+      },
+
+      enableWebMapPopup: function() {
+        this.map.setInfoWindowOnClick(true);
       },
 
       onLocateButtonClick: function() {
@@ -436,10 +464,12 @@ define([
           this.enableRealtime = false;
           this.coordinateInfo.innerHTML = this.nls.hintMessage;
           html.setAttr(this.locateButton, 'title', this.nls.disableClick);
+          this.disableWebMapPopup();
         } else {
           this.enableRealtime = true;
           this.coordinateInfo.innerHTML = this.nls.realtimeLabel;
           html.setAttr(this.locateButton, 'title', this.nls.enableClick);
+          this.enableWebMapPopup();
         }
       },
 
@@ -521,7 +551,7 @@ define([
       },
 
       _unitToNls: function(outUnit) {
-        var nlsLabel = dictionary[outUnit.toUpperCase()];
+        var nlsLabel = jimuUnitToNlsLabel[outUnit.toUpperCase()];
         return this.nls[nlsLabel] || this.nls[outUnit] || outUnit;
       },
 
@@ -563,7 +593,6 @@ define([
         params.outSR = new SpatialReference(parseInt(outWkid, 10));
 
         this.coordinateInfo.innerHTML = this.nls.computing;
-        // console.log(params.toJson());
         esriConfig.defaults.geometryService.project(params,
           lang.hitch(this, this.onProjectComplete, this.selectedWkid),
           lang.hitch(this, this.onError)

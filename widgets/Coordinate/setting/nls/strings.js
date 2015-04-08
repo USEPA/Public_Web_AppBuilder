@@ -1,6 +1,6 @@
 define({
   root: ({
-    state: "By default, coordinates will display in current map’s coordinate system. To get coordinates in other coordinate systems, you need to additionally add them and specify appropriate transformations.",
+    state: "By default, coordinates will display in current map’s coordinate system. To get coordinates in other coordinate systems, you need to add them and specify appropriate transformations.",
     outputUnit: "Output Unit",
     wkid: "Output WKID",
     label: "Output Coordinate System Name",
@@ -22,6 +22,7 @@ define({
     units: "Display Units: ",
     datum: "Datum Transformation",
     tName: "Transformation Name",
+    tWKIDPlaceHolder: "WKID of the transformation",
     forward: "Use transformation forward",
     ok: "OK",
     cancel: 'Cancel',
@@ -48,6 +49,7 @@ define({
   "cs": 1,
   "da": 1,
   "de": 1,
+  "el": 1,
   "es": 1,
   "et": 1,
   "fi": 1,

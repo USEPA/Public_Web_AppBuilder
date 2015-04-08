@@ -25,14 +25,13 @@ define(['dojo/_base/declare',
   'dojo/on',
   'dojo/query',
   'jimu/dijit/SimpleTable',
-  'dijit/form/TextBox',
   'dijit/TooltipDialog',
   'dijit/Menu',
   'dijit/MenuItem',
   'dijit/popup'
 ],
 function(declare, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, template, lang, html,
-  array, on, query, SimpleTable, TextBox, TooltipDialog, Menu, MenuItem, dojoPopup) {
+  array, on, query, SimpleTable, TooltipDialog, Menu, MenuItem, dojoPopup) {
   return declare([_WidgetBase,_TemplatedMixin,_WidgetsInTemplateMixin], {
     baseClass: 'query-setting-popup-config',
     templateString: template,
@@ -80,30 +79,21 @@ function(declare, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, templat
         return null;
       }
       config.title = this.titleTextBox.get('value');
-      
+
       var trs = this.fieldsTable.getRows();
       var fields = [];
       array.forEach(trs,lang.hitch(this,function(tr){
         var rowData = this.fieldsTable.getRowData(tr);
+        var field = tr.fieldInfo;
         if (rowData.visibility) {
-          fields.push({
-            name: rowData.name,
-            alias: rowData.alias,
-            type: tr.fieldType,
-            specialType: rowData.specialType,
-            showInInfoWindow: true
-          });
+          field.showInInfoWindow = true;
+          fields.push(field);
         }
         else{
           var s = "${"+rowData.name+"}";
           if(config.title.indexOf(s) >= 0){
-            fields.push({
-              name: rowData.name,
-              alias: rowData.alias,
-              type: tr.fieldType,
-              specialType: rowData.specialType,
-              showInInfoWindow: false
-            });
+            field.showInInfoWindow = false;
+            fields.push(field);
           }
         }
       }));
@@ -246,15 +236,15 @@ function(declare, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, templat
     },
 
     _addRow:function(fieldInfo){
-      var rowData = {
-        visibility:fieldInfo.visible,
-        name:fieldInfo.name,
-        alias:fieldInfo.alias||fieldInfo.name,
-        specialType: fieldInfo.specialType||'none'
-      };
+      var rowData = lang.clone(fieldInfo);
+      rowData.visibility = fieldInfo.visible;
+      rowData.alias = fieldInfo.alias||fieldInfo.name;
+      rowData.specialType = fieldInfo.specialType||'none';
+      delete rowData.visible;
+
       var result = this.fieldsTable.addRow(rowData);
       if(result.success){
-        result.tr.fieldType = fieldInfo.type;
+        result.tr.fieldInfo = rowData;
       }
     }
 

@@ -15,19 +15,13 @@
 ///////////////////////////////////////////////////////////////////////////
 
 define(['dojo/_base/declare',
-    'dojo/_base/lang',
     'dojo/_base/html',
-    'dojo/_base/array',
-    'dojo/on',
     'dojo/query',
     'jimu/BaseWidgetPanel',
-    'jimu/BaseWidgetFrame',
-    'jimu/utils',
     './TabWidgetFrame'
   ],
   function(
-    declare, lang, html, array, on, query, BaseWidgetPanel,
-    BaseWidgetFrame, utils, TabWidgetFrame
+    declare, html, query, BaseWidgetPanel, TabWidgetFrame
   ) {
 
     return declare([BaseWidgetPanel], {

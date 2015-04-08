@@ -46,16 +46,17 @@
     numberOperatorIsNotBetween: "の間にない",
     numberOperatorIsBlank: "空である",
     numberOperatorIsNotBlank: "空でない",
-    operationalLayerTip: "操作レイヤとして結果を追加",
+    operationalLayerTip: "操作レイヤーとして結果を追加",
     queryResult: "クエリ結果",
-    specifyParamsTip: "このタスクのパラメータを指定",
-    useSpatialFilter: "空間フィルタを使用してフィーチャを制限",
+    specifyParamsTip: "このタスクのパラメーターを指定",
+    useSpatialFilter: "空間フィルターを使用してフィーチャを制限",
     useCurrentMapExtent: "現在のマップ範囲の境界にあるフィーチャのみ",
-    drawGraphicOnMap: "ユーザ指定エリアの境界にあるフィーチャのみ",
-    specifySpatialFilterMsg: "このタスクの空間フィルタを指定してください。",
+    drawGraphicOnMap: "ユーザー指定エリアの境界にあるフィーチャのみ",
+    specifySpatialFilterMsg: "このタスクの空間フィルターを指定してください。",
     clearResults: "結果の消去",
     operationalTip: 'このオプションをオンにすると、結果は、"${clearResults}" ボタンがクリックされるまでマップ上に維持されます。',
     noneQueryTip: "あらかじめ構成されているクエリ タスクは利用できません。",
-    noPermissionsMsg: "このサービスにアクセスできる権限がありません。"
+    noPermissionsMsg: "このサービスにアクセスできる権限がありません。",
+    attributesFromRelationship: "関連テーブルの属性"
   })
 );

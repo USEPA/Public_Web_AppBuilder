@@ -31,6 +31,10 @@
 		setFilterTip: "Määritä suodatin oikein.",
 		ok: "OK",
 		cancel: "Peruuta",
-		noFilterTip: "Jos suodatinlauseketta ei määritetä, kyselytehtävä luetteloi kaikki määritetyn tietolähteen kohteet."
+		noFilterTip: "Jos suodatinlauseketta ei määritetä, kyselytehtävä luetteloi kaikki määritetyn tietolähteen kohteet.",
+    relationships: "Suhdetaulu",
+    addRelationshipLayer: "Lisää uusi suhde",
+    relatedTo: "Liittyy kohteeseen",
+    selectOption: "Valitse..."
   })
 );

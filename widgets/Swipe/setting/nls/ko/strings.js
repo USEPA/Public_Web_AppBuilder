@@ -1,19 +1,11 @@
-﻿define({
-    enableUndoRedo: "한_Enable UndoRedo_빠",
-    toolbarVisible: "한_Toolbar Visible_빠",
-    toolbarOptions: "한_Toolbar Options_빠",
-    mergeVisible: "한_Merge_빠",
-    cutVisible: "한_Cut_빠",
-    reshapeVisible: "한_Reshape_빠",
-    back: "한_Back_빠",
-    label: "한_Layer_빠",
-    edit: "한_Editable_빠",
-    update: "한_DisableUpdateGeometry_빠",
-    fields: "한_Fields_빠",
-    actions: "한_Actions_빠",
-    editpageName: "한_Name_빠",
-    editpageAlias: "한_Alias_빠",
-    editpageVisible: "한_Visible_빠",
-    editpageEditable: "한_Editable_빠",
-    noLayers: "한_No editable feature layers available_빠"
-});
+﻿define(
+   ({
+    styleText: "스와이프 도구에 대한 스타일을 선택합니다.",
+    vertical: "수직 막대",
+    horizontal: "수평 막대",
+    scope: "확대 렌즈",
+    layerText: "기본 설정에 따라 스와이프할 레이어를 선택합니다.",
+    spyglassText: "기본 설정에 따라 확대 렌즈 내에 나타낼 레이어를 선택합니다.",
+    layerHint: "참고: 레이어가 상위 레이어로 숨겨진 경우 스와이프가 영향을 미치지 않습니다."
+  })
+);

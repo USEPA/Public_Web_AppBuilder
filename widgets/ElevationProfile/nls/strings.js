@@ -15,11 +15,14 @@ define({
       demResolution: "DEM Resolution",
       elevationTitleTemplate: "Elevation in {0}",
       distanceTitleTemplate: "Distance in {0}",
-      gainLossTemplate: "Min: {min} Max: {max}\nStart: {start} End: {end}\nChange: {gainloss}"
+      gainLossTemplate: "Min: {min} Max: {max}<br>Start: {start} End: {end}<br>Change: {gainloss}"
     },
     errors: {
       InvalidConfiguration: "Invalid configuration.",
       UnableToProcessResults: "Unable to process analysis results."
-    }
+    },
+    widgetversion: 'Elevation Profile Widget Version Info',
+    widgetverstr: 'Widget Version',
+    wabversionmsg: 'Widget is designed to run in Web AppBuilder version'
   })
 });

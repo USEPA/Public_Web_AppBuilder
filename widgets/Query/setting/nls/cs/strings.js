@@ -31,6 +31,10 @@
 		setFilterTip: "Nastavte filtr správně.",
 		ok: "OK",
 		cancel: "Storno",
-		noFilterTip: "Pokud nedefinujete výraz filtru, tato dotazovací úloha zobrazí všechny prvky v zadaném zdroji dat."
+		noFilterTip: "Pokud nedefinujete výraz filtru, tato dotazovací úloha zobrazí všechny prvky v zadaném zdroji dat.",
+    relationships: "Tabulka atributů relace",
+    addRelationshipLayer: "Přidat novou relaci",
+    relatedTo: "Související s",
+    selectOption: "Proveďte výběr…"
   })
 );

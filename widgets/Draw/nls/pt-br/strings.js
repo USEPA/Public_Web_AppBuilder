@@ -37,6 +37,8 @@
     hectares: "Hectares",
     squareMeters: "Metros quadrados",
     squareFeet: "Pés quadrados",
-    squareYards: "Jardas quadradas"
+    squareYards: "Jardas quadradas",
+    undo: "Desfazer",
+    redo: "Refazer"
   })
 );

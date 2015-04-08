@@ -13,6 +13,9 @@
     itemDesc: "Popis",
     itemDownload: "Stáhnout",
     itemToAttributeTable: "Otevřít atributovou tabulku",
-    itemShowItemDetails: "Ukázat podrobnosti položky"
+    itemShowItemDetails: "Ukázat podrobnosti položky",
+    empty: "prázdné",
+    removePopup: "Odebrat vyskakovací okno",
+    enablePopup: "Povolit vyskakovací okno"
   })
 );

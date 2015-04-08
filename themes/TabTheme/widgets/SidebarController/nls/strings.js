@@ -1,11 +1,14 @@
 define({
   root: ({
-    _widgetLabel: "Sidebar Controller"
+    _widgetLabel: "Sidebar Controller",
+    more: "more",
+    otherPanels: "Other Panels"
   }),
   "ar": 1,
   "cs": 1,
   "da": 1,
   "de": 1,
+  "el": 1,
   "es": 1,
   "et": 1,
   "fi": 1,

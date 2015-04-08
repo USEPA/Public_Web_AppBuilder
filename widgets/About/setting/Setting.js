@@ -16,13 +16,11 @@
 
 define([
     'dojo/_base/declare',
-    "dojo/_base/lang",
     'dojo/_base/html',
-    "dojo/Deferred",
-    'dojo/on',
     'dojo/sniff',
     'dijit/_WidgetsInTemplateMixin',
     'dijit/Editor',
+    'jimu/BaseWidgetSetting',
     'dijit/_editor/plugins/LinkDialog',
     'dijit/_editor/plugins/ViewSource',
     'dijit/_editor/plugins/FontChoice',
@@ -35,31 +33,14 @@ define([
     'dojox/editor/plugins/InsertAnchor',
     'dojox/editor/plugins/Blockquote',
     'dojox/editor/plugins/UploadImage',
-    './ChooseImage',
-    'jimu/BaseWidgetSetting'
+    './ChooseImage'
   ],
   function(
     declare,
-    lang,
     html,
-    Deferred,
-    on,
     has,
     _WidgetsInTemplateMixin,
     Editor,
-    LinkDialog,
-    ViewSource,
-    FontChoice,
-    Preview,
-    TextColor,
-    ToolbarLineBreak,
-    ToolbarSeparator,
-    FindReplace,
-    PasteFromWord,
-    InsertAnchor,
-    Blockquote,
-    UploadImage,
-    ChooseImage,
     BaseWidgetSetting) {
     return declare([BaseWidgetSetting, _WidgetsInTemplateMixin], {
       //these two properties is defined in the BaseWidget

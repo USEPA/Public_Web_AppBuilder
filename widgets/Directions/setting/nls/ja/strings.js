@@ -7,7 +7,7 @@
     maxLocations: "結果の最大数",
     minCharacters: "最小検索文字数",
     searchDelay: "検索の遅延",
-    placeholder: "プレースホルダ",
+    placeholder: "プレースホルダー",
     routeOptions: "ルート オプション",
     directionsLanguage: "ルート案内の言語",
     directionsLengthUnits: "ルート案内の長さの単位",
@@ -19,11 +19,11 @@
     feet: 'フィート',
     yards: 'ヤード',
     nauticalMiles: '海里',
-    parametersTip: 'パラメータを正しく設定してください',
+    parametersTip: 'パラメーターを正しく設定してください',
     complete: '完了',
     completeNoEvents: '完了したイベントはありません',
     instructionsOnly: '手順のみ',
     standard: '標準',
-    summaryOnly: 'サマリのみ'
+    summaryOnly: 'サマリーのみ'
   })
 );

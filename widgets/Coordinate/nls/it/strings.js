@@ -16,7 +16,7 @@
     Foot: "Piedi",
     Yards: "Iarde",
     Miles: "Miglia",
-    Nautical_Miles: "Miglia marine",
+    Nautical_Miles: "Miglia nautiche",
     Millimeters: "Millimetri",
     Centimeters: "Centimetri",
     Meter: "Metri",

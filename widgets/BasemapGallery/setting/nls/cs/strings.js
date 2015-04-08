@@ -7,7 +7,7 @@
     title: "Nadpis",
     titlePH: "Název podkladové mapy",
     thumbnail: "Miniatura",
-    thumbnailHint: "Kliknutím na obrázek provedete aktualizaci.",
+    thumbnailHint: "Kliknutím na obrázek jej aktualizujete.",
     url: "URL",
     urlPH: "Adresa URL vrstvy",
     addlayer: "Přidat podkladovou mapu",

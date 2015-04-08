@@ -1,7 +1,7 @@
 ﻿define(
    ({
     _widgetLabel: "Päring",
-    executeQueryTip: "Päringu teostamiseks klikkige ühte järgmistest ülesande objektidest.",
+    executeQueryTip: "Päringu käivitamiseks klõpsake ühte järgmistest sisuobjekti toimingutest.",
     invalidConfig: "Vigane seadistus. Õige seadistuse hankimiseks kasutage päringu seadete lehte.",
     queryParams: "Valikud",
     parameters: "VALIKUD",
@@ -56,6 +56,7 @@
     clearResults: "Kustuta tulemused",
     operationalTip: 'Kui see valik on märgitud, kuvatakse tulemused kaardil seni, kuni klikite nuppu "${clearResults}".',
     noneQueryTip: "Eelseadistatud päringuülesanded pole saadaval.",
-    noPermissionsMsg: "Teil puudub juurdepääs sellele teenusele."
+    noPermissionsMsg: "Teil puudub juurdepääs sellele teenusele.",
+    attributesFromRelationship: "Atribuudid seotud tabelist"
   })
 );

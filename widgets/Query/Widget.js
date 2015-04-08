@@ -22,34 +22,32 @@ define([
     'dojo/_base/array',
     'dojo/_base/fx',
     'dojo/promise/all',
-    'dojo/on',
     'dojo/Deferred',
     'dijit/_WidgetsInTemplateMixin',
+    'dijit/TitlePane',
     'jimu/BaseWidget',
     'jimu/dijit/Message',
-    'jimu/dijit/LoadingShelter',
     'jimu/dijit/DrawBox',
     'jimu/utils',
+    'jimu/filterUtils',
     './Parameters',
     'esri/tasks/query',
     'esri/tasks/QueryTask',
+    'esri/tasks/RelationshipQuery',
     'esri/layers/GraphicsLayer',
     'esri/layers/FeatureLayer',
     'esri/renderers/SimpleRenderer',
-    'esri/graphic',
-    'esri/geometry/Point',
-    'esri/geometry/Polyline',
-    'esri/geometry/Extent',
     'esri/InfoTemplate',
     'esri/symbols/jsonUtils',
     'esri/lang',
     'esri/request',
-    'esri/graphicsUtils'
+    'esri/graphicsUtils',
+    'jimu/dijit/LoadingShelter'
   ],
-  function(declare, lang, query, html, array, fx, all, on, Deferred, _WidgetsInTemplateMixin,
-    BaseWidget, Message, LoadingShelter, DrawBox, jimuUtils, Parameters, EsriQuery, QueryTask,
-    GraphicsLayer, FeatureLayer, SimpleRenderer, Graphic, Point, Polyline, Extent, InfoTemplate,
-    symbolJsonUtils, esriLang, esriRequest, graphicsUtils) {/*jshint unused: false*/
+  function(declare, lang, query, html, array, fx, all, Deferred, _WidgetsInTemplateMixin,
+    TitlePane, BaseWidget, Message, DrawBox, jimuUtils, FilterUtils, Parameters,
+    EsriQuery, QueryTask, RelationshipQuery, GraphicsLayer, FeatureLayer, SimpleRenderer,
+    InfoTemplate, symbolJsonUtils, esriLang, esriRequest, graphicsUtils) {
     return declare([BaseWidget, _WidgetsInTemplateMixin], {
       name: 'Query',
       baseClass: 'jimu-widget-query',
@@ -57,7 +55,7 @@ define([
       currentAttrs:null,
       tempResultLayer: null,
 
-      operationalLayers:[],
+      operationalLayers: null,
 
       //test:
       //http://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer
@@ -68,7 +66,7 @@ define([
         this.currentAttrs = {
           queryTr:null,
           config:null,
-          layerInfo:null,
+          layerInfo:null,//{relationships:[{id,name,relatedTableId,fields}]}
           askForValues: null,
           query:{
             maxRecordCount: 1000,
@@ -82,9 +80,34 @@ define([
 
       postMixInProperties: function(){
         this.inherited(arguments);
+        this.operationalLayers = [];
         var strClearResults = this.nls.clearResults;
         var tip = esriLang.substitute({clearResults:strClearResults},this.nls.operationalTip);
         this.nls.operationalTip = tip;
+        if(this.config){
+          this._updateConfig();
+        }
+      },
+
+      _updateConfig: function(){
+        if(this.config && this.config.queries && this.config.queries.length > 0){
+          array.forEach(this.config.queries, lang.hitch(this, function(singleConfig){
+            this._rebuildFilter(singleConfig.url, singleConfig.filter);
+          }));
+        }
+      },
+
+      _rebuildFilter: function(url, filter){
+        try{
+          if(filter){
+            delete filter.expr;
+            var filterUtils = new FilterUtils();
+            filterUtils.isHosted = jimuUtils.isHostedService(url);
+            filterUtils.getExprByFilterObj(filter);
+          }
+        }catch(e){
+          console.log(e);
+        }
       },
 
       postCreate:function(){
@@ -165,6 +188,11 @@ define([
         }
       },
 
+      _addOperationalLayer: function(resultLayer){
+        this.operationalLayers.push(resultLayer);
+        this.map.addLayer(resultLayer);
+      },
+
       _fromCurrentPageToQueryList: function(){
         html.setStyle(this.queryList, 'display', 'block');
 
@@ -217,7 +245,7 @@ define([
         });
         this.paramsDijit.placeAt(this.parametersDiv);
         this.paramsDijit.startup();
-        
+
         this.isValidConfig = this._isConfigValid();
         if(!this.isValidConfig){
           html.setStyle(this.queriesNode,'display','none');
@@ -321,7 +349,7 @@ define([
         else{
           html.setStyle(this.parametersDiv, 'display', 'none');
         }
-        
+
         query('tr.single-query',this.queriesTbody).removeClass('selected');
         html.addClass(this.currentAttrs.queryTr,'selected');
 
@@ -336,19 +364,12 @@ define([
         else{
           var layerUrl = this.currentAttrs.config.url;
           this.shelter.show();
-          esriRequest({
-            url: layerUrl,
-            content: {
-              f: 'json'
-            },
-            handleAs: 'json',
-            callbackParamName: 'callback'
-          }).then(lang.hitch(this, function(response){
+          this._getLayerInfoWithRelationships(layerUrl).then(lang.hitch(this, function(layerInfo){
             if (!this.domNode) {
               return;
             }
             this.shelter.hide();
-            this.currentAttrs.queryTr.layerInfo = response;
+            this.currentAttrs.queryTr.layerInfo = layerInfo;
             this.currentAttrs.layerInfo = this.currentAttrs.queryTr.layerInfo;
             callback();
           }), lang.hitch(this, function(err){
@@ -364,6 +385,50 @@ define([
             this._showQueryErrorMsg(errMsg);
           }));
         }
+      },
+
+      _getLayerInfoWithRelationships: function(layerUrl){
+        var def = new Deferred();
+        esriRequest({
+          url: layerUrl,
+          content: {
+            f: 'json'
+          },
+          handleAs: 'json',
+          callbackParamName: 'callback'
+        }).then(lang.hitch(this, function(layerInfo){
+          if(!layerInfo.relationships){
+            layerInfo.relationships = [];
+          }
+          var serviceUrl = this._getServiceUrlByLayerUrl(layerUrl);
+          var defs = array.map(layerInfo.relationships, lang.hitch(this, function(relationship){
+            return esriRequest({
+              url: serviceUrl + '/' + relationship.relatedTableId,
+              content: {
+                f: 'json'
+              },
+              handleAs: 'json',
+              callbackParamName: 'callback'
+            });
+          }));
+          all(defs).then(lang.hitch(this, function(results){
+            array.forEach(results, lang.hitch(this, function(relationshipInfo, index){
+              var relationship = layerInfo.relationships[index];
+              relationship.name = relationshipInfo.name;
+              //ignore shape field
+              relationship.fields = array.filter(relationshipInfo.fields,
+                lang.hitch(this, function(relationshipFieldInfo){
+                return relationshipFieldInfo.type !== 'esriFieldTypeGeometry';
+              }));
+            }));
+            def.resolve(layerInfo);
+          }), lang.hitch(this, function(err){
+            def.reject(err);
+          }));
+        }), lang.hitch(this, function(err){
+          def.reject(err);
+        }));
+        return def;
       },
 
       _onCbxUseSpatialClicked: function(){
@@ -574,8 +639,6 @@ define([
             featureSet: null
           };
           resultLayer = new FeatureLayer(featureCollection);
-          this.operationalLayers.push(resultLayer);
-          this.map.addLayer(resultLayer);
         } else {
           //use graphics layer
           this._resetAndAddTempResultLayer();
@@ -625,11 +688,15 @@ define([
 
           var hasResults = objectIds && objectIds.length > 0;
 
-          if(!hasResults){
+          if(hasResults){
+            if(resultLayer instanceof FeatureLayer){
+              this._addOperationalLayer(resultLayer);
+            }
+          }else{
             this.shelter.hide();
             return;
           }
-          
+
           var allCount = objectIds.length;
           this.numSpan.innerHTML = jimuUtils.localizeNumber(allCount);
           this.currentAttrs.query.objectIds = objectIds;
@@ -644,18 +711,29 @@ define([
           }
 
           //do query by objectIds
+          var promises = [];
           var def = this._queryByObjectIds(partialIds, true);
-          def.then(lang.hitch(this, function(response){
+          promises.push(def);
+          var relatedDefs = this._queryRelatedFeaturesById(partialIds);
+          array.forEach(relatedDefs,function(relatedDef){
+            promises.push(relatedDef.promise);
+          });
+
+          var relatedTableIds = array.map(relatedDefs,function(relatedDef){
+            return relatedDef.relationshipId;
+          });
+
+          all(promises).then(lang.hitch(this,function(results){
             if (!this.domNode) {
               return;
             }
             // this.currentAttrs.query.nextIndex += partialIds.length;
             this.shelter.hide();
-            var features = response.features;
+            var features = results[0].features;
             this.currentAttrs.query.maxRecordCount= features.length;
             this.currentAttrs.query.nextIndex += features.length;
 
-            this._addResultItems(features, resultLayer);
+            this._addResultItems(features, resultLayer, results.slice(1), relatedTableIds);
             this._zoomToLayer(resultLayer);
           }), lang.hitch(this, function(err){
             console.error(err);
@@ -711,17 +789,28 @@ define([
 
         this.shelter.show();
         //do query by objectIds
+        var promises = [];
         var def = this._queryByObjectIds(partialIds, true);
-        def.then(lang.hitch(this, function(response) {
+        promises.push(def);
+        var relatedDefs = this._queryRelatedFeaturesById(partialIds);
+        array.forEach(relatedDefs,function(relatedDef){
+          promises.push(relatedDef.promise);
+        });
+
+        var relatedTableIds = array.map(relatedDefs,function(relatedDef){
+          return relatedDef.relationshipId;
+        });
+
+        all(promises).then(lang.hitch(this,function(results){
           if (!this.domNode) {
             return;
           }
-          
+
           this.shelter.hide();
-          var features = response.features;
+          var features = results[0].features;
           this.currentAttrs.query.nextIndex += features.length;
-          this._addResultItems(features, resultLayer);
-        }), lang.hitch(this, function(err) {
+          this._addResultItems(features, resultLayer, results.slice(1), relatedTableIds);
+        }), lang.hitch(this, function(err){
           console.error(err);
           if (!this.domNode) {
             return;
@@ -743,8 +832,13 @@ define([
           }
           this.shelter.hide();
           var features = response.features;
-          this._addResultItems(features, resultLayer);
-          this._zoomToLayer(resultLayer);
+          if(features.length > 0){
+            if(resultLayer instanceof FeatureLayer){
+              this._addOperationalLayer(resultLayer);
+            }
+            this._addResultItems(features, resultLayer);
+            this._zoomToLayer(resultLayer);
+          }
         }), lang.hitch(this, function(err){
           console.error(err);
           if(!this.domNode){
@@ -830,6 +924,71 @@ define([
         return queryTask.execute(queryParams);
       },
 
+      _getCurrentRelationships: function(){
+        return this.currentAttrs.queryTr.layerInfo.relationships||[];
+      },
+
+      _queryRelatedFeaturesById: function(objectIds){
+        var promises = [];
+        var relationships = this._getCurrentRelationships();
+        if(relationships && relationships.length > 0){
+          var queryTask = new QueryTask(this.currentAttrs.config.url);
+
+          array.forEach(relationships,lang.hitch(this,function(relationship){
+            var relationParam = new RelationshipQuery();
+            relationParam.objectIds = objectIds;
+            relationParam.relationshipId = relationship.id;
+
+            var outFields = array.map(relationship.fields, function(fieldInfo){
+              return fieldInfo.name;
+            });
+
+            relationParam.outFields = outFields;
+            relationParam.returnGeometry = false;
+
+            var defered = queryTask.executeRelationshipQuery(relationParam);
+            promises.push({
+              relationshipId: relationship.id,
+              promise: defered
+            });
+          }));
+        }
+        return promises;
+      },
+
+      _findRelationshipInfo: function(relationshipId){
+        var relationships = this._getCurrentRelationships();
+        for(var i = 0; i < relationships.length; i++){
+          if(relationships[i].id === relationshipId){
+            return relationships[i];
+          }
+        }
+        return null;
+      },
+
+      _findRelationshipName: function(relationshipId){
+        var relationshipName = '';
+        var relationship = this._findRelationshipInfo(relationshipId);
+
+        if(relationship){
+          relationshipName = relationship.name;
+        }
+
+        return relationshipName;
+      },
+
+      _findRelationshipFields: function(relationshipId){
+        var fields = [];
+
+        var relationship = this._findRelationshipInfo(relationshipId);
+
+        if(relationship){
+          fields = relationship.fields;
+        }
+
+        return fields;
+      },
+
       _query: function(where, /*optional*/ geometry){
         var queryParams = new EsriQuery();
         queryParams.where = where;
@@ -843,14 +1002,14 @@ define([
         return queryTask.execute(queryParams);
       },
 
-      _addResultItems: function(features, resultLayer){
-        var featuresCount = features.length;
+      _addResultItems: function(features, resultLayer, relatedResults, relatedTableIds){
+        //var featuresCount = features.length;
 
         var sym = symbolJsonUtils.fromJson(this.currentAttrs.config.resultsSymbol);
         var popup = this.currentAttrs.config.popup;
-        var fieldNames = array.map(popup.fields,lang.hitch(this,function(fieldInfo){
+        /*var fieldNames = array.map(popup.fields,lang.hitch(this,function(fieldInfo){
           return fieldInfo.name;
-        }));
+        }));*/
 
         var fieldInfosInAttrContent = array.filter(popup.fields,lang.hitch(this,function(fieldInfo){
           return fieldInfo.showInInfoWindow;
@@ -884,6 +1043,26 @@ define([
             }
           }));
 
+          //relationship attributes
+          var relatedFeatures = [];
+          if(relatedResults && relatedResults.length > 0){
+            var objectIdField = this.currentAttrs.config.objectIdField;
+            var objectId = feature.attributes[objectIdField];
+
+            array.forEach(relatedResults,lang.hitch(this,function(relatedResult,idx){
+              if(relatedResult[objectId]){
+                var relatedName = this._findRelationshipName(relatedTableIds[idx]);
+                var features = relatedResult[objectId].features;
+
+                relatedFeatures.push({
+                  tableId: relatedTableIds[idx],
+                  name: relatedName,
+                  features: features
+                });
+              }
+            }));
+          }
+
           if(feature.geometry){
             feature.setSymbol(sym);
             resultLayer.add(feature);
@@ -893,7 +1072,8 @@ define([
             feature: feature,
             titleTemplate: popup.title,
             fieldInfosInAttrContent: fieldInfosInAttrContent,
-            trClass: trClass
+            trClass: trClass,
+            relatedFeatures: relatedFeatures
           };
 
           this._createQueryResultItem(options);
@@ -905,6 +1085,7 @@ define([
         var titleTemplate = options.titleTemplate;
         var fieldInfosInAttrContent = options.fieldInfosInAttrContent;
         var trClass = options.trClass;
+        var relatedFeatures = options.relatedFeatures;
 
         var attributes = feature && feature.attributes;
         if(!attributes){
@@ -926,16 +1107,25 @@ define([
           title = this.nls.noValue;
         }
         spanTitle.innerHTML = title;
-        var infoTemplateTitle = title;
         var infoTemplateContent = '';
+        var rowsStr = "";
 
-        array.forEach(fieldInfosInAttrContent, lang.hitch(this, function(fieldInfo, i){
+        array.forEach(fieldInfosInAttrContent, lang.hitch(this, function(fieldInfo){
           var fieldName = fieldInfo.name;
           var fieldAlias = fieldInfo.alias || fieldName;
           var fieldValue = attributes[fieldName];
 
           if(typeof fieldValue === 'number'){
-            fieldValue = this._tryLocaleNumber(fieldValue);
+            if(fieldInfo.domain && fieldInfo.domain.type === 'codedValue'){
+              array.some(fieldInfo.domain.codedValues, function(codedValue){
+                if(codedValue.code === fieldValue){
+                  fieldValue = codedValue.name;
+                  return true;
+                }
+              });
+            }else{
+              fieldValue = this._tryLocaleNumber(fieldValue);
+            }
           }
 
           var fieldValueInWidget = fieldValue;
@@ -958,18 +1148,102 @@ define([
           ':</td><td class="attr-value">' + fieldValueInWidget + '</td></tr>';
           var fieldTr = html.toDom(strFieldTr);
           html.place(fieldTr, tbody);
-          var rowStr = fieldAlias+": "+fieldValueInPopup;
+          /*var rowStr = fieldAlias+": "+fieldValueInPopup;
           if(i !== fieldInfosInAttrContent.length-1){
             rowStr+='<br/>';
-          }
-          infoTemplateContent += rowStr;
+          }*/
+          var rowStr = '<tr valign="top">' +
+            '<td class="attr-name">' + fieldAlias + '</td>' +
+            '<td class="attr-value">' + fieldValueInPopup + '</td>' +
+          '</tr>';
+          rowsStr += rowStr;
         }));
 
-        trItem.infoTemplateTitle = infoTemplateTitle;
+        //related features
+        array.forEach(relatedFeatures,lang.hitch(this,function(relatedFeature){
+          var trNode = html.create('tr');
+          var tdNode = html.create('td',{colspan: 2},trNode);
+          var relationContainter = html.create('div');
+          var titlePane = new TitlePane({
+            title: this.nls.attributesFromRelationship + ': ' + relatedFeature.name,
+            content: relationContainter,
+            open: false,
+            'class': 'relationship-attr'
+          });
+          titlePane.placeAt(tdNode);
+          html.place(trNode, tbody);
+          /*var rowStr = '<br/>' + this.nls.attributesFromRelationship + ": " +
+              relatedFeature.name + '<br/>';*/
+          var rowStr = '<tr valign="top">' +
+            '<td class="attr-name" colspan="2">' + this.nls.attributesFromRelationship + ": " +
+              relatedFeature.name +'<td>' +
+          '</tr>';
+          rowsStr += rowStr;
+
+          var relatedFields = this._findRelationshipFields(relatedFeature.tableId);
+
+          array.forEach(relatedFeature.features, lang.hitch(this, function(feature,i){
+            var strFieldTr = '<span>' + (i+1) + '</span><br/>';
+            var fieldTr = html.toDom(strFieldTr);
+            html.place(fieldTr, relationContainter);
+            //var rowStr = (i+1) + '<br/>';
+            var rowStr = '<tr valign="top"><td class="attr-name" colspan="2">'+(i+1)+'</td><tr>';
+            rowsStr += rowStr;
+
+            if(relatedFields){
+              array.forEach(relatedFields, lang.hitch(this,function(relatedFieldInfo){
+                var fieldValue = feature.attributes[relatedFieldInfo.name];
+
+                if(relatedFieldInfo.type === 'esriFieldTypeDate'){
+                  if(fieldValue){
+                    var date = new Date(parseInt(fieldValue, 10));
+                    fieldValue = this._tryLocaleDate(date);
+                  }
+                }else if(typeof fieldValue === 'number'){
+                  if(relatedFieldInfo.domain && relatedFieldInfo.domain.type === 'codedValue'){
+                    array.some(relatedFieldInfo.domain.codedValues, function(codedValue){
+                      if(codedValue.code === fieldValue){
+                        fieldValue = codedValue.name;
+                        return true;
+                      }
+                    });
+                  }else{
+                    fieldValue = this._tryLocaleNumber(fieldValue);
+                  }
+                }
+
+                var strFieldTr = '<span>' + (relatedFieldInfo.alias || relatedFieldInfo.name) +
+                ' : ' + fieldValue + '</span><br/>';
+                var fieldTr = html.toDom(strFieldTr);
+                html.place(fieldTr, relationContainter);
+                //var rowStr = (relatedFieldInfo.alias || relatedFieldInfo.name) + " : " +
+                //    fieldValue + '<br/>';
+                var relatedAlias = relatedFieldInfo.alias || relatedFieldInfo.name;
+                var rowStr = '<tr valign="top">'+
+                    '<td class="attr-name">' + relatedAlias + '</td>'+
+                    '<td class="attr-value">' + fieldValue + '</td>'+
+                  '</tr>';
+                rowsStr += rowStr;
+              }));
+            }
+          }));
+        }));
+
+        infoTemplateContent = '<div class="header">' + title + '</div>';
+
+        if(rowsStr){
+          infoTemplateContent += '<div class="hzLine"></div>';
+          infoTemplateContent +='<table class="query-popup-table" cellpadding="0" cellspacing="0">'+
+          '<tbody>' + rowsStr + '</tbody></table>';
+        }
+
+        infoTemplateContent = '<div class="query-popup">' + infoTemplateContent + '</div>';
+        
         trItem.infoTemplateContent = infoTemplateContent;
         var infoTemplate = new InfoTemplate();
-        infoTemplate.setTitle(infoTemplateTitle);
-        infoTemplate.setContent(infoTemplateContent||"<span></span>");
+        //if title is empty, popup header will disappear
+        infoTemplate.setTitle('<div class="query-popup-title"></div>');
+        infoTemplate.setContent(infoTemplateContent);
         feature.setInfoTemplate(infoTemplate);
       },
 
@@ -991,20 +1265,19 @@ define([
 
         this._selectResultTr(tr);
 
-        var spanTitle = query("span.result-item-title",tr)[0];
-        var featureAttrTable = query(".feature-attributes",tr)[0];
-        var attrTable = lang.clone(featureAttrTable);
+        //var spanTitle = query("span.result-item-title",tr)[0];
+        //var featureAttrTable = query(".feature-attributes",tr)[0];
+        //var attrTable = lang.clone(featureAttrTable);
 
         html.addClass(tr,'selected');
         var feature = tr.feature;
         var geometry = feature.geometry;
         if(geometry){
-          var infoTitle = tr.infoTemplateTitle||'';
-          var infoContent = tr.infoTemplateContent||'<span></span>';
+          var infoContent = tr.infoTemplateContent;
           var geoType = geometry.type;
           var centerPoint,extent;
           var def = null;
-          
+
           if(geoType === 'point' || geoType === 'multipoint'){
             var singlePointFlow = lang.hitch(this, function(){
               def = new Deferred();
@@ -1018,7 +1291,7 @@ define([
                 }));
               }));
             });
-            
+
             if(geoType === 'point'){
               centerPoint = geometry;
               singlePointFlow();
@@ -1059,10 +1332,15 @@ define([
 
           if(def){
             def.then(lang.hitch(this, function(){
-              this.map.infoWindow.setFeatures([feature]);
-              this.map.infoWindow.setTitle(infoTitle);
+              if(typeof this.map.infoWindow.setFeatures === 'function'){
+                this.map.infoWindow.setFeatures([feature]);
+              }
+              //if title is empty, popup header will disappear
+              this.map.infoWindow.setTitle('<div class="query-popup-title"></div>');
               this.map.infoWindow.setContent(infoContent);
-              this.map.infoWindow.reposition();
+              if(typeof this.map.infoWindow.reposition === 'function'){
+                this.map.infoWindow.reposition();
+              }
               this.map.infoWindow.show(centerPoint);
             }));
           }
@@ -1072,7 +1350,9 @@ define([
       _hideInfoWindow:function(){
         if(this.map && this.map.infoWindow){
           this.map.infoWindow.hide();
-          this.map.infoWindow.setFeatures([]);
+          if(typeof this.map.infoWindow.setFeatures === 'function'){
+            this.map.infoWindow.setFeatures([]);
+          }
           this.map.infoWindow.setTitle('');
           this.map.infoWindow.setContent('');
         }

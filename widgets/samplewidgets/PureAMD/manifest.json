@@ -1,8 +1,8 @@
 {
   "name": "PureAMD",
   "platform": "HTML",
-  "version": "1.1",
-  "wabVersion": "1.1",
+  "version": "1.2",
+  "wabVersion": "1.2",
   "author": "Esri R&D Center Beijing",
   "description": "This widget demos how to create a widget but does't use dojo",
   "copyright": "",

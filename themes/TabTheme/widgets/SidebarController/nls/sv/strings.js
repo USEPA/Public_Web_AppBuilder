@@ -1,5 +1,7 @@
 ﻿define(
    ({
-    _widgetLabel: "Sidopanelskontroll"
+    _widgetLabel: "Sidopanelskontroll",
+    more: "fler",
+    otherPanels: "Övriga paneler"
   })
 );

@@ -22,6 +22,7 @@
     units: "表示単位: ",
     datum: "測地基準系変換",
     tName: "変換名",
+    tWKIDPlaceHolder: "変換の WKID",
     forward: "変換を正方向に使用",
     ok: "OK",
     cancel: 'キャンセル',

@@ -3,6 +3,23 @@ define([
   'dijit/_WidgetBase',
   'dijit/_TemplatedMixin',
   'dijit/_WidgetsInTemplateMixin',
+  'esri/tasks/PrintTask',
+  "esri/tasks/PrintParameters",
+  "esri/tasks/PrintTemplate",
+  "esri/request",
+  'dojo/_base/lang',
+  'dojo/_base/array',
+  'dojo/_base/html',
+  'dojo/dom-style',
+  'dojo/dom-construct',
+  'dojo/dom-class',
+  'dojo/json',
+  'jimu/portalUrlUtils',
+  'dojo/text!./templates/Print.html',
+  'dojo/text!./templates/PrintResult.html',
+  'dojo/aspect',
+  'jimu/dijit/LoadingShelter',
+  'jimu/dijit/Message',
   'dijit/form/Form',
   'dijit/form/Select',
   'dijit/form/ValidationTextBox',
@@ -13,47 +30,20 @@ define([
   'dijit/form/DropDownButton',
   'dijit/TooltipDialog',
   'dijit/form/RadioButton',
-  'esri/tasks/PrintTask',
-  "esri/tasks/PrintParameters",
-  "esri/tasks/PrintTemplate",
-  "esri/request",
   'esri/IdentityManager',
-  'dojo/store/Memory',
-  'dojo/_base/lang',
-  'dojo/_base/array',
-  'dojo/dom-style',
-  'dojo/dom-construct',
-  'dojo/dom-class',
-  'dojo/json',
-  'jimu/portalUrlUtils',
-  'dojo/text!./templates/Print.html',
-  'dojo/text!./templates/PrintResult.html',
-  'dojo/aspect',
-  'jimu/dijit/LoadingShelter',
-  'jimu/dijit/Message'
+  'dojo/store/Memory'
 ], function(
   declare,
   _WidgetBase,
   _TemplatedMixin,
   _WidgetsInTemplateMixin,
-  Form,
-  Select,
-  ValidationTextBox,
-  NumberTextBox,
-  Button,
-  CheckBox,
-  ProgressBar,
-  DropDownButton,
-  TooltipDialog,
-  RadioButton,
   PrintTask,
   PrintParameters,
   PrintTemplate,
   esriRequest,
-  IdentityManager,
-  Memory,
   lang,
   array,
+  html,
   domStyle,
   domConstruct,
   domClass,
@@ -125,7 +115,7 @@ define([
         aspect.after(
           this.printTask,
           '_createOperationalLayers',
-          lang.hitch(this, '_preventGraphicsLegend')
+          lang.hitch(this, '_excludeInvalidLegend')
         );
       }
     },
@@ -148,13 +138,15 @@ define([
       }));
     },
 
-    _preventGraphicsLegend: function(opLayers) {
+    _excludeInvalidLegend: function(opLayers) {
       if (this.printTask.allLayerslegend) {
         var legendArray = this.printTask.allLayerslegend;
         var arr = [];
         for (var i = 0; i < legendArray.length; i++) {
           var layer = this.map.getLayer(legendArray[i].id);
-          if (layer && layer.declaredClass && layer.declaredClass !== "esri.layers.GraphicsLayer") {
+          if ((layer && layer.declaredClass &&
+            layer.declaredClass !== "esri.layers.GraphicsLayer") &&
+            (!layer.renderer || (layer.renderer && !layer.renderer.hasVisualVariables()))) {
             arr.push(legendArray[i]);
           }
         }
@@ -332,7 +324,8 @@ define([
     _onPrintComplete: function(data) {
       if (data.url) {
         this.url = data.url;
-        this.nameNode.innerHTML = '<span class="bold">' + this.docName + '</span>';
+        html.setStyle(this.progressBar.domNode, 'display', 'none');
+        html.setStyle(this.successNode, 'display', 'inline-block');
         domClass.add(this.resultNode, "printResultHover");
       } else {
         this._onPrintError(this.nls.printError);
@@ -340,8 +333,11 @@ define([
     },
     _onPrintError: function(err) {
       console.log(err);
-      this.nameNode.innerHTML = '<span class="bold">' + this.nls.printError + '</span>';
+      html.setStyle(this.progressBar.domNode, 'display', 'none');
+      html.setStyle(this.errNode, 'display', 'block');
       domClass.add(this.resultNode, "printResultError");
+
+      html.setAttr(this.domNode, 'title', err.details || err.message || "");
     },
     _openPrint: function() {
       if (this.url !== null) {

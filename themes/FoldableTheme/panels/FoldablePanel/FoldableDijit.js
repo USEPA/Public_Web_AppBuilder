@@ -32,7 +32,7 @@ define(['dojo/_base/declare',
       folded: false,
       templateString: '<div>' +
         '<div class="title" data-dojo-attach-point="titleNode">' +
-        '<div class="title-label jimu-float-leading jimu-leading-margin1 jimu-vcenter-text"' +
+        '<div class="title-label jimu-vcenter-text"' +
         'data-dojo-attach-point="titleLabelNode"></div>' + '</div>' +
         '<div class="jimu-container" data-dojo-attach-point="containerNode"></div>' +
         '</div>',
@@ -61,6 +61,7 @@ define(['dojo/_base/declare',
       setTitleLabel: function(label) {
         this.label = label;
         this.titleLabelNode.innerHTML = label;
+        this.titleLabelNode.title = label;
       }
     });
   });

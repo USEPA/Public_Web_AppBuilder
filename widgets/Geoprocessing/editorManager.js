@@ -14,37 +14,29 @@
 // limitations under the License.
 ///////////////////////////////////////////////////////////////////////////
 
-define(['dojo/_base/declare',
-  'dijit/_WidgetBase',
-  'dojo/_base/lang',
+define([
   'dojo/_base/array',
-  'dojo/_base/html',
   'dojo/on',
   'dojo/aspect',
-  'dojo/Deferred',
-  'dojo/promise/all',
   'dijit/form/NumberTextBox',
   'dijit/form/Select',
   'dijit/form/TextBox',
-  'dijit/form/DateTextBox',
-  'dijit/form/TimeTextBox',
   'esri/symbols/jsonUtils',
   'jimu/dijit/CheckBox',
   'jimu/dijit/URLInput',
   'jimu/utils',
   './editors/simpleEditors',
   './editors/FeatureSetEditorChooser',
-  './editors/FeatureSetRendererEditor',
   './editors/FeatureSetResultEditor',
   './editors/SelectFeatureSetFromLayer'
 ],
-function(declare, _WidgetBase, lang, array, html, on, aspect, Deferred, all, NumberTextBox,
-  Select, TextBox, DateTextBox, TimeTextBox, symbolUtils, CheckBox, URLInput, utils, simpleEditors,
-  FeatureSetEditorChooser, FeatureSetRendererEditor, FeatureSetResultEditor,
+function(array, on, aspect, NumberTextBox,
+  Select, TextBox, symbolUtils, CheckBox, URLInput, utils, simpleEditors,
+  FeatureSetEditorChooser, FeatureSetResultEditor,
   SelectFeatureSetFromLayer) {
   var mo = {}, map, editors = [], nls;
 
-  mo.createEditor = function(param, direction, context) {
+  mo.createEditor = function(param, direction, context, options) {
   //summary:
   //  create input eidtor depends on the parameter type.
   //context: the editor is in the setting page, or the runtime widget page
@@ -53,6 +45,8 @@ function(declare, _WidgetBase, lang, array, html, on, aspect, Deferred, all, Num
     var editorName = getEditorNameFromParam(param, direction, context);
     var o = {
       param: param,
+      widgetUID: options?options.uid:undefined,
+      config: options?options.config:undefined,
       map: map,
       nls: nls,
       context: context,
@@ -130,7 +124,7 @@ function(declare, _WidgetBase, lang, array, html, on, aspect, Deferred, all, Num
         }else{
           o.showClear = true;
         }
-        
+
         editor = new simpleEditors.SelectFeatureSetFromDraw(o);
       }
     }else if(editorName === 'SelectFeatureSetFromLayer'){
@@ -280,9 +274,9 @@ function(declare, _WidgetBase, lang, array, html, on, aspect, Deferred, all, Num
     }else{
       message = 'text';
     }
-    
+
     return message;
   }
-  
+
   return mo;
 });

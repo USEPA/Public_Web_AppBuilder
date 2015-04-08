@@ -16,6 +16,6 @@
     editpageAlias: "Alias",
     editpageVisible: "Synlig",
     editpageEditable: "Redigerbar",
-    noLayers: "Ingen redigerbare geoobjektlag tilgjengelig"
+    noLayers: "Det er ingen redigerbare geoobjektlag tilgjengelig"
   })
 );

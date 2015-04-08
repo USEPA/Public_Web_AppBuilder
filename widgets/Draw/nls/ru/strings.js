@@ -37,6 +37,8 @@
     hectares: "гектары",
     squareMeters: "Квадратные метры",
     squareFeet: "Квадратные футы",
-    squareYards: "Квадратные ярды"
+    squareYards: "Квадратные ярды",
+    undo: "Отменить",
+    redo: "Повторить"
   })
 );

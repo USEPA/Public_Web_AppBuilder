@@ -37,6 +37,8 @@
     hectares: "Hektar",
     squareMeters: "Metre kare",
     squareFeet: "Feet kare",
-    squareYards: "Yarda kare"
+    squareYards: "Yarda kare",
+    undo: "Geri Al",
+    redo: "Yinele"
   })
 );

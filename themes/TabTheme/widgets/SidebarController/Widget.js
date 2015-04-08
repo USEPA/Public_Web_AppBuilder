@@ -24,17 +24,15 @@ define([
     'dojo/query',
     'dojo/on',
     'dojo/mouse',
-    'dojo/_base/fx',
     'dojo/fx',
-    'dojo/NodeList-manipulate',
-    'dojo/NodeList-fx',
-    'dijit/layout/_LayoutWidget',
     'jimu/BaseWidget',
     'jimu/PoolControllerMixin',
-    'jimu/utils'
+    'jimu/utils',
+    'dojo/NodeList-manipulate',
+    'dojo/NodeList-fx'
   ],
-  function(declare, lang, array, html, topic, aspect, query, on, mouse, baseFx, fx,
-    nlm, nlfx, _LayoutWidget, BaseWidget, PoolControllerMixin, utils) {
+  function(declare, lang, array, html, topic, aspect, query, on, mouse, fx,
+    BaseWidget, PoolControllerMixin, utils) {
 
     var clazz = declare([BaseWidget, PoolControllerMixin], {
 
@@ -53,6 +51,13 @@ define([
 
       constructor: function() {
         this.tabs = [];
+      },
+
+      postMixInProperties: function() {
+        this.inherited(arguments);
+
+        this.nls.more = this.nls.more || "more";
+        this.nls.otherPanels = this.nls.otherPanels || "Other Panels";
       },
 
       startup: function() {
@@ -116,7 +121,7 @@ define([
         }, this);
         if (this.moreTab) {
           this.createTab({
-            label: 'more',
+            label: this.nls.more,
             flag: 'more',
             icon: this.folderUrl + 'images/more_tab_icon.png',
             groups: allIconConfigs
@@ -421,7 +426,7 @@ define([
         }, node);
         html.create('div', {
           'class': 'text',
-          innerHTML: 'Other Panels'
+          innerHTML: this.nls.otherPanels
         }, node);
         closeNode = html.create('div', {
           'class': 'close'

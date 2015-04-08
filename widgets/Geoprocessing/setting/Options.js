@@ -16,20 +16,17 @@
 
 define(['dojo/_base/declare',
   'dojo/_base/lang',
-  'dojo/_base/html',
-  'dojo/_base/array',
-  'dojo/on',
   'dojo/text!./Options.html',
   'dijit/_WidgetBase',
   'dijit/_TemplatedMixin',
   'dijit/_WidgetsInTemplateMixin',
-  'dijit/form/TextBox',
-  'jimu/dijit/CheckBox',
   'esri/request',
-  '../utils'
+  '../utils',
+  'dijit/form/TextBox',
+  'jimu/dijit/CheckBox'
 ],
-function(declare, lang, html, array, on, template, _WidgetBase, _TemplatedMixin,
-  _WidgetsInTemplateMixin, TextBox, CheckBox, esriRequest, gputils) {
+function(declare, lang, template, _WidgetBase, _TemplatedMixin,
+  _WidgetsInTemplateMixin, esriRequest, gputils) {
   return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
     baseClass: 'jimu-widget-setting-gp-options',
     templateString: template,
@@ -50,16 +47,26 @@ function(declare, lang, html, array, on, template, _WidgetBase, _TemplatedMixin,
       }
 
       if(typeof config.useResultMapServer === 'undefined'){
-        this.useResultMapServer.setStatus(false);
-        this._setResultMapServerCheckBoxEnable();
+        this.useResultMapServer.setValue(false);
       }else{
         this.useResultMapServer.setValue(config.useResultMapServer);
+      }
+
+      if(config.hasResultMapServer){
+        this.useResultMapServer.setStatus(true);
+      }else if(config.hasResultMapServer === false){
+        this.useResultMapServer.setStatus(false);
+      }else{
+        this.useResultMapServer.setStatus(false);
+        this._setResultMapServerCheckBoxEnable();
       }
     },
 
     acceptValue: function(){
       this.config.helpUrl = this.helpUrl.getValue();
-      this.config.useResultMapServer = this.useResultMapServer.getValue();
+      if(this.useResultMapServer.status){
+        this.config.useResultMapServer = this.useResultMapServer.getValue();
+      }
       this.config.shareResults = this.shareResults.getValue();
     },
 
@@ -77,6 +84,12 @@ function(declare, lang, html, array, on, template, _WidgetBase, _TemplatedMixin,
       }).then(lang.hitch(this, function(serviceMeta){
         if(serviceMeta.resultMapServerName){
           this.useResultMapServer.setStatus(true);
+          this.config.hasResultMapServer = true;
+          if(typeof this.config.useResultMapServer === 'undefined'){
+            this.useResultMapServer.setValue(true);
+          }
+        }else{
+          this.config.hasResultMapServer = false;
         }
       }));
     }

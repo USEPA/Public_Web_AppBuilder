@@ -39,6 +39,7 @@ define(['dojo/_base/declare',
         'dijit/ProgressBar',
         'dojo/_base/lang',
         'dojo/on',
+        'dojo/aspect',
         'dojo/_base/html',
         'dojo/_base/array',
         'dojo/promise/all',
@@ -56,7 +57,7 @@ define(['dojo/_base/declare',
     IdentifyResult, Message, Query, QueryTask, CodedValueDomain, Domain, GraphicsLayer, FeatureLayer, FeatureType, Field,
     RangeDomain, GeometryService, esriConfig, Graphic, graphicsUtils, Point, SimpleMarkerSymbol,
     PictureMarkerSymbol, Polyline, SimpleLineSymbol, Polygon, Multipoint, Extent, Geometry, SimpleFillSymbol,
-    SimpleRenderer, Draw, PopupTemplate, esriRequest, TimeExtent, Deferred, ProgressBar, lang, on, html, array,
+    SimpleRenderer, Draw, PopupTemplate, esriRequest, TimeExtent, Deferred, ProgressBar, lang, on, aspect, html, array,
     all, date, locale, DrawBox, utils, LoadingShelter, ioquery, SpatialReference, ProjectParameters, webMercatorUtils) {
     return declare([BaseWidget, _WidgetsInTemplateMixin], { /*jshint unused: false*/
       baseClass: 'jimu-widget-identify',
@@ -138,6 +139,30 @@ define(['dojo/_base/declare',
         }
       },
 
+      disableWebMapPopup: function() {
+        if (this.map && this.map.webMapResponse) {
+          var handler = this.map.webMapResponse.clickEventHandle;
+          if (handler) {
+            handler.remove();
+            this.map.webMapResponse.clickEventHandle = null;
+          }
+        }
+      },
+
+      enableWebMapPopup: function() {
+        if (this.map && this.map.webMapResponse) {
+          var handler = this.map.webMapResponse.clickEventHandle;
+          var listener = this.map.webMapResponse.clickEventListener;
+          if (listener && !handler) {
+            this.map.webMapResponse.clickEventHandle = on(
+              this.map,
+              'click',
+              lang.hitch(this.map, listener)
+            );
+          }
+        }
+      },
+
       _initIdentifySymbols: function() {
         if (this.config.symbols && this.config.symbols.simplemarkersymbol) {
           this.identMarkerSymbol = new SimpleMarkerSymbol(this.config.symbols.simplemarkersymbol);
@@ -190,6 +215,17 @@ define(['dojo/_base/declare',
         this.drawBox.setPointSymbol(this.identMarkerSymbol);
         this.drawBox.setLineSymbol(this.identLineSymbol);
         this.drawBox.setPolygonSymbol(this.identFillSymbol);
+
+        aspect.after(this.drawBox, 'activate', lang.hitch(this, function() {
+          this.map.setInfoWindowOnClick(false);
+          this.disableWebMapPopup();
+        }));
+
+        aspect.after(this.drawBox, 'deactivate', lang.hitch(this, function() {
+          this.map.setInfoWindowOnClick(true);
+          this.enableWebMapPopup();
+        }));
+
       },
 
       _initIdentifyLayers: function () {
@@ -629,14 +665,23 @@ define(['dojo/_base/declare',
             if(subLayers.indexOf(-1) !== -1){
               subLayers.splice(subLayers.indexOf(-1), 1);
             }
-//            console.info(subLayers);
-            identifyParams.layerIds = subLayers;
+            identifyParams.layerIds = this.removeGroupLayers(subLayers, layer);
           } else {
             identifyParams.layerIds = [];
           }
           identifyParamsList.push(identifyParams);
         }));
         return identifyParamsList;
+      },
+
+      removeGroupLayers: function(subLayers, layer) {
+        var newSubLayers = [];
+        for (var i = 0; i < subLayers.length; i++) {
+          if (layer.layerInfos[subLayers[i]].subLayerIds === null){
+            newSubLayers.push(subLayers[i]);
+          }
+        }
+        return newSubLayers;
       },
 
       createQueryParams: function (layers, geom) {
@@ -1006,24 +1051,24 @@ define(['dojo/_base/declare',
               }
 
               if(cArr[1] !== 'NA'){
-                content = content + br + cArr[1] + ': ' + value;
+                content = content + cArr[1] + ': ' + value + br;
                 br = '<br>';
               }else{
-                content = content + br + cArr[0] + ': ' + value;
+                content = content + cArr[0] + ': ' + value + br;
                 br = '<br>';
               }
               if(cArr[6] === 'false' || cArr[6] === 'NA'){
                 if(cArr[1] !== 'NA'){
-                  rsltContent = content + br + cArr[1] + ': ' + value;
+                  rsltContent = rsltContent + cArr[1] + ': ' + value + br;
                   br = '<br>';
                 }else{
-                  rsltContent = content + br + cArr[0] + ': ' + value;
+                  rsltContent = rsltContent + cArr[0] + ': ' + value + br;
                   br = '<br>';
                 }
               }
             }
             idResult.icon = this.folderUrl + 'images/i_info.png';
-            idResult.title = identifyResult.layerName;
+            idResult.title = identTitle || identifyResult.layerName;
             if(content.lastIndexOf('<br>') === (content.length - 4)){
               idResult.content = content.substr(0,content.length - 4);
             }else{
@@ -1679,10 +1724,10 @@ define(['dojo/_base/declare',
                 }
                 if(cArr[6] === 'false' || cArr[6] === 'NA'){
                   if(cArr[1] !== 'NA'){
-                    rsltContent = content + br + cArr[1] + ': ' + value;
+                    rsltContent = rsltContent + br + cArr[1] + ': ' + value;
                     br = '<br>';
                   }else{
-                    rsltContent = content + br + cArr[0] + ': ' + value;
+                    rsltContent = rsltContent + br + cArr[0] + ': ' + value;
                     br = '<br>';
                   }
                 }
@@ -1929,6 +1974,21 @@ define(['dojo/_base/declare',
       },
 
       onOpen: function () {
+        var widgetTitlebar = this.domNode.parentNode.parentNode.parentNode.childNodes[0];
+        if(typeof widgetTitlebar.onmousedown !== "function") {
+           this.own(on(widgetTitlebar, 'mousedown', lang.hitch(this, function(event) {
+            event.stopPropagation();
+            if(event.altKey){
+              var msgStr = this.nls.widgetverstr + ': ' + this.manifest.version;
+              msgStr += '\n' + this.nls.wabversionmsg + ': ' + this.manifest.wabVersion;
+              msgStr += '\n' + this.manifest.description;
+              new Message({
+                titleLabel: this.nls.widgetversion,
+                message: msgStr
+              });
+            }
+          })));
+        }
         if(this.graphicsLayer){
           this.graphicsLayer.show();
           if(this.autoactivatedtool){

@@ -21,7 +21,7 @@
     ok: "OK",
     cancel: "Peruuta",
     result: "Tallennus onnistui",
-    spError: "Kaikilla galleriaan lisätyillä taustakartoilla on oltava sama koordinaatistotieto.",
+    spError: "Kaikilla galleriaan lisätyillä taustakartoilla täytyy olla sama koordinaattijärjestelmä.",
     invalidTitle1:"Taustakartta '",
     invalidTitle2:"' on jo olemassa. Valitse toinen otsikko.",
     invalidBasemapUrl1: "Tämän tyyppistä karttatasoa ei voi käyttää taustakarttana.",

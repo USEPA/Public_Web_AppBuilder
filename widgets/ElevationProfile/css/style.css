@@ -89,6 +89,10 @@
   overflow: hidden;
 }
 
+.widget-elevation-profile .PanelMax {
+  height: 320px;
+}
+
 .widget-elevation-profileLabel {
   color: #000;
   font-weight: bolder;
@@ -134,4 +138,51 @@
   color: #000;
   padding-left: 6px;
   font-size: smaller;
+}
+
+#tooltip
+{
+  text-align: center;
+  color: #fff;
+  background: #111;
+  position: absolute;
+  z-index: 100;
+  padding: 15px;
+  border-radius: 8px;
+  border: 1px solid white;
+}
+
+#tooltip:after /* triangle decoration */
+{
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-top: 10px solid #111;
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: -10px;
+  margin-left: -10px;
+}
+
+#tooltip.top:after
+{
+  border-top-color: transparent;
+  border-bottom: 10px solid #111;
+  top: -20px;
+  bottom: auto;
+}
+
+#tooltip.left:after
+{
+  left: 10px;
+  margin: 0;
+}
+
+#tooltip.right:after
+{
+  right: 10px;
+  left: auto;
+  margin: 0;
 }

@@ -1,12 +1,13 @@
 define({
   root: ({
-    instruction: "Create contents that will be shown in this widget.",
+    instruction: "Create the content that displays in this widget.",
     defaultContent: "Add text, links, and small graphics here."
   }),
   "ar": 1,
   "cs": 1,
   "da": 1,
   "de": 1,
+  "el": 1,
   "es": 1,
   "et": 1,
   "fi": 1,

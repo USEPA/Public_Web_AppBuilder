@@ -1,4 +1,7 @@
-/*global define, dojo, dijit, require, esri, console, document*/
+///////////////////////////////////////////////////////////////////////////
+// Robert Scheitlin WAB eSearch Widget
+///////////////////////////////////////////////////////////////////////////
+/*global define, console, document*/
 define(['dojo/_base/declare',
   'dojo/Evented',
   'dojo/on',
@@ -234,7 +237,7 @@ define(['dojo/_base/declare',
         this.emit('pagingComplete', this.uniqueValues);
       },
 
-      onSearchError: function (error) {
+      onSearchError: function () {
         this.objectIdsArray = [];
         this.isQuerying = false;
         this.keyEvent.remove();
@@ -266,7 +269,9 @@ define(['dojo/_base/declare',
           l = array.length,
           i;
         for (i = 0; i < l; i++) {
-          if (flags[array[i]]) continue;
+          if (flags[array[i]]){
+            continue;
+          }
           flags[array[i]] = true;
           if (array[i] === ' ') {
             this.blankStringExists = true;

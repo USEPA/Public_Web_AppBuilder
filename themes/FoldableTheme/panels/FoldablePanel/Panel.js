@@ -18,7 +18,6 @@ define(['dojo/_base/declare',
     'dojo/_base/lang',
     'dojo/_base/html',
     'dojo/_base/array',
-    'dojo/_base/fx',
     'dojo/on',
     'dojo/aspect',
     'jimu/BaseWidgetPanel',
@@ -28,7 +27,7 @@ define(['dojo/_base/declare',
     './FoldableWidgetFrame'
   ],
   function(
-    declare, lang, html, array, baseFx, on, aspect, BaseWidgetPanel,
+    declare, lang, html, array, on, aspect, BaseWidgetPanel,
     BaseWidgetFrame, utils, FoldableDijit, FoldableWidgetFrame
   ) {
     var criticality = jimuConfig.widthBreaks[0];
@@ -194,7 +193,7 @@ define(['dojo/_base/declare',
 
         h = (box.h - (this.getChildren().length - openedPaneCount) *
           this.getChildren()[0].titleHeight) / openedPaneCount;
-        console.log('box.h=' + box.h + ', h=' + h);
+        // console.log('box.h=' + box.h + ', h=' + h);
         array.forEach(this.getChildren(), function(frame) {
           if (frame.folded) {
             html.setStyle(frame.domNode, {

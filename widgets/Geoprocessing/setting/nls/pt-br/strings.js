@@ -30,6 +30,7 @@
     popup: "Popup",
     setTask: "Configurar",
     setTaskTitle: "Definir Tarefa de GP",
-    enablePopup: "Habilitar pop-up"
+    enablePopup: "Habilitar pop-up",
+    unSupportGeometryType: "Não é possível configurar o renderizador devido ao tipo de geometria desconhecido."
   })
 );

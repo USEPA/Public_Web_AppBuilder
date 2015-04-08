@@ -75,7 +75,14 @@ define([
       });
 
       all(deferreds).then(function(basemaps) {
-        defRet.resolve(basemaps);
+        var filteredBasemaps = array.filter(basemaps, function(basemap) {
+          if(basemap && basemap.title) {
+            return true;
+          } else {
+            return false;
+          }
+        }, this);
+        defRet.resolve(filteredBasemaps);
       });
     }, function(err){
       defRet.reject(err);

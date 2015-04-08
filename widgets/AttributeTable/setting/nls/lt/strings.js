@@ -16,7 +16,7 @@
     warning: "Pažymėkite, kad šis sluoksnis lentelėje būtų rodomas pirmiausia.",
     fieldCheckWarning: "Būtina pasirinkti bent vieną lauką.",
     unsupportQueryWarning: "Kad būtų rodomas atributų lentelės valdiklyje šis sluoksnis turi palaikyti užklausas. Įsitikinkite, kad paslaugoje įjungta užklausų galimybė.",
-    unsupportQueryLayers: "Kad būtų rodomi atributų lentelės valdiklyje šie sluoksniai turi palaikyti užklausas. Įsitikinkite, kad paslaugoje įjungta užklausų galimybė.",
+    unsupportQueryLayers: "Kad būtų rodomas atributų lentelės valdiklyje šis sluoksnis turi palaikyti užklausas. Įsitikinkite, kad paslaugoje įjungta užklausų galimybė.",
 
     fieldName: "Pavadinimas",
     fieldAlias: "Pseudonimas",

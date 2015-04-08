@@ -37,6 +37,8 @@
     hectares: "Hectare",
     squareMeters: "Vierkante meter",
     squareFeet: "Vierkante voet",
-    squareYards: "Vierkante yard"
+    squareYards: "Vierkante yard",
+    undo: "Ongedaan maken",
+    redo: "Opnieuw uitvoeren"
   })
 );

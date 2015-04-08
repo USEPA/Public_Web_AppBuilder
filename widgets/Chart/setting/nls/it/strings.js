@@ -38,7 +38,7 @@
 		chartType: "Tipo di grafico",
 		column: "Grafico a colonne",
 		bar: "Grafico a barre",
-		line: "Grafico a linea",
+		line: "Grafico a linee",
 		pie: "Grafico a torta",
 		chartColor: "Colore grafico",
 		showDataLabels: "Mostra etichette dati",

@@ -19,6 +19,9 @@ define({
     alllayers: "All Layers",
     layersremaining: "layers remaining:",
     copylabel: "Copy results to clipboard",
-    clear: "Clear"
+    clear: "Clear",
+    widgetversion: 'Identify Widget Version Info',
+    widgetverstr: 'Widget Version',
+    wabversionmsg: 'Widget is designed to run in Web AppBuilder version'
   })
 });

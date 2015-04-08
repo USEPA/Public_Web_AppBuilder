@@ -37,6 +37,8 @@
     hectares: "Hektary",
     squareMeters: "Metry kwadratowe",
     squareFeet: "Stopy kwadratowe",
-    squareYards: "Jardy kwadratowe"
+    squareYards: "Jardy kwadratowe",
+    undo: "Cofnij",
+    redo: "Ponów"
   })
 );

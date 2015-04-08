@@ -19,18 +19,12 @@ define([
     'dojo/_base/lang',
     'dojo/_base/array',
     'dojo/_base/html',
-    'dojo/topic',
     'dojo/aspect',
-    'dojo/Deferred',
     'dojo/query',
-    'dojo/NodeList-dom',
-    'dojo/NodeList-manipulate',
     'dojo/on',
     'dojo/mouse',
-    'dojo/dom-attr',
     'dojo/dom-construct',
     'dojo/dom-geometry',
-    'dijit/registry',
     'jimu/BaseWidget',
     'jimu/PoolControllerMixin',
     'jimu/tokenUtils',
@@ -40,8 +34,8 @@ define([
     'jimu/dijit/Message',
     './PopupTileNodes'
   ],
-  function(declare, lang, array, html, topic, aspect, Deferred, query, nld, nlm, on, mouse, domAttr,
-    domConstruct, domGeometry, registry, BaseWidget, PoolControllerMixin, tokenUtils, portalUtils,
+  function(declare, lang, array, html, aspect, query, on, mouse,
+    domConstruct, domGeometry, BaseWidget, PoolControllerMixin, tokenUtils, portalUtils,
     portalUrlUtils, utils, Message, PopupTileNodes) {
     /* global jimuConfig */
     /* jshint scripturl:true */
@@ -201,7 +195,7 @@ define([
           (logoNodeFloat && logoNodeFloat !== 'none') &&
           (titlesNodeFloat && titlesNodeFloat !== 'none') &&
           (linksNodeFloat && linksNodeFloat !== 'none');
-        
+
         if (allHasFloatStyle) {
           this._resize();
         } else {
@@ -240,6 +234,14 @@ define([
         if (this.morePane) {
           this.morePane.destroy();
         }
+        if (this.moreIconPaneCoverNode) {
+          html.destroy(this.moreIconPaneCoverNode);
+          this.moreIconPaneCoverNode = null;
+        }
+        if (this.popupLinkNode && this.popupLinksVisible) {
+          this._hidePopupLink();
+        }
+        html.destroy(this.popupLinkNode);
         this.inherited(arguments);
       },
 
@@ -308,6 +310,7 @@ define([
 
 
       _onAttributeChange: function(appConfig, changedData) {
+        /*jshint unused: false*/
         if (changedData.title !== undefined && changedData.title !== this.appConfig.title) {
           this.titleNode.innerHTML = changedData.title;
         }
@@ -359,9 +362,9 @@ define([
       },
 
       _createDynamicLinks: function(links) {
-        if (window.isRTL){
+        if (window.isRTL) {
           var _links = [];
-          array.forEach(links, function(link){
+          array.forEach(links, function(link) {
             _links.unshift(link);
           });
           links = _links;
@@ -564,6 +567,7 @@ define([
         linkSectionNode = html.place('<div class="' + className + '"></div>', node);
         html.create('a', {
           href: link.url,
+          'class': 'jimu-ellipsis',
           target: '_blank',
           innerHTML: link.label,
           title: link.label,
@@ -633,19 +637,25 @@ define([
             containerWidth = this._getContainerWidth(box);
 
             if (containerWidth < this.iconWidth * 2) {
-              //hiden the title, subtitle, links
-              this._showSwitchableElements([]);
+              // hiden subtitle links
+              this._showSwitchableElements(['title']);
               containerWidth = this._getContainerWidth(box);
 
               if (containerWidth < this.iconWidth * 2) {
-                //all of the elements is hidden,
-                // but the it's still can hold two icons(too small screen???),
-                //use the empty space
-                //the emptyWidth may be negative
+                //hiden the title, subtitle, links
+                this._showSwitchableElements([]);
+                containerWidth = this._getContainerWidth(box);
 
-                emptyWidth = emptyWidth - (this.iconWidth * 2 - containerWidth);
-                containerWidth = this.iconWidth * 2;
-                this._getContainerWidth(box);
+                if (containerWidth < this.iconWidth * 2) {
+                  //all of the elements is hidden,
+                  // but the it's still can hold two icons(too small screen???),
+                  //use the empty space
+                  //the emptyWidth may be negative
+
+                  emptyWidth = emptyWidth - (this.iconWidth * 2 - containerWidth);
+                  containerWidth = this.iconWidth * 2;
+                  this._getContainerWidth(box);
+                }
               }
             }
           } else {
@@ -885,9 +895,9 @@ define([
           right = thisBox.w - box.l - box.w;
         position.top = this.height + 1;
 
-        if (window.isRTL){
+        if (window.isRTL) {
           position.right = thisBox.w - right - box.w;
-        }else {
+        } else {
           position.right = right;
         }
         html.setStyle(this.dropMenuNode, utils.getPositionStyle(position));

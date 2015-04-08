@@ -1,7 +1,7 @@
 ﻿define(
    ({
     _widgetLabel: "查询",
-    executeQueryTip: "单击以下任务项目之一执行查询。",
+    executeQueryTip: "单击以下任一任务项目执行查询。",
     invalidConfig: "配置无效。请使用\“查询\”设置页面获取正确配置。",
     queryParams: "选项",
     parameters: "选项",
@@ -50,12 +50,13 @@
     queryResult: "查询结果",
     specifyParamsTip: "为此任务指定参数",
     useSpatialFilter: "使用空间过滤器限制要素",
-    useCurrentMapExtent: "只有要素可在当前地图范围内",
-    drawGraphicOnMap: "只有要素可在用户定义的区域内",
+    useCurrentMapExtent: "仅当前地图范围内的要素",
+    drawGraphicOnMap: "仅用户自定义区域内的要素",
     specifySpatialFilterMsg: "请为此任务指定空间过滤器。",
     clearResults: "清除结果",
     operationalTip: '选中此选项后，结果将始终保留在地图上，直至单击\“${clearResults}\”按钮。',
     noneQueryTip: "无可用的预配置查询任务。",
-    noPermissionsMsg: "您没有访问此服务的权限。"
+    noPermissionsMsg: "您没有访问此服务的权限。",
+    attributesFromRelationship: "相关表中的属性"
   })
 );

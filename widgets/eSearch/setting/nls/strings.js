@@ -175,7 +175,9 @@ define({
     editDefaultSpatial: "Edit Spatial Search Properties",
     layerSymbology: "Layer Symbology",
     symbolServer: "from Server",
-    symbolConfig: "from Config"
+    symbolConfig: "from Config",
+    requiredfield: "Field Required",
+    isempty: "is Empty"
   }),
   "ar": 0,
   "cs": 0,
@@ -184,7 +186,7 @@ define({
   "es": 0,
   "et": 0,
   "fi": 0,
-  "fr": 0,
+  "fr": 1,
   "he": 0,
   "it": 0,
   "ja": 0,

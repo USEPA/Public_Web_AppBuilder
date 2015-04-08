@@ -51,11 +51,12 @@
     specifyParamsTip: "حدد المعلمات للمهمة الحالية",
     useSpatialFilter: "استخدام عوامل التصفية المكانية لتقييد المعالم",
     useCurrentMapExtent: "تلمس المعالم نطاق الخريطة الحالي فقط",
-    drawGraphicOnMap: "تلمس المعالم منطقة المستخدم المُعرفة فقط.",
+    drawGraphicOnMap: "المعالم التي تمسّ المنطقة التي يُعرفها المستخدم فقط.",
     specifySpatialFilterMsg: "يرجى تحديد عامل التصفية المكاني للمهمة الحالية.",
     clearResults: "مسح النتائج",
     operationalTip: 'مع الخيار الحالي المُحدد، ستبقى النتائج على الخريطة حتى النقر على زر "${clearResults}".',
     noneQueryTip: "لا توجد أي مهام استعلام مُعرفة مُسبقًا متاحة.",
-    noPermissionsMsg: "ليس لديك أي اذونات للوصول إلى هذه الخدمة."
+    noPermissionsMsg: "ليس لديك أي اذونات للوصول إلى هذه الخدمة.",
+    attributesFromRelationship: "بيانات جدولية من جدول مرتبط"
   })
 );

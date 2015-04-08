@@ -21,35 +21,25 @@ define([
     'dojo/_base/html',
     'dojo/_base/array',
     'dojo/_base/fx',
-    'dojo/promise/all',
-    'dojo/on',
-    'dojo/Deferred',
     'dijit/_WidgetsInTemplateMixin',
     'jimu/BaseWidget',
     'jimu/dijit/Message',
-    'jimu/dijit/LoadingShelter',
     'jimu/dijit/DrawBox',
     'jimu/utils',
+    'jimu/filterUtils',
     'esri/tasks/query',
     'esri/tasks/QueryTask',
     'esri/layers/GraphicsLayer',
-    'esri/layers/FeatureLayer',
     'esri/renderers/SimpleRenderer',
-    'esri/graphic',
-    'esri/geometry/Point',
-    'esri/geometry/Polyline',
-    'esri/geometry/Extent',
-    'esri/InfoTemplate',
     'esri/symbols/jsonUtils',
-    'esri/lang',
     'esri/request',
     'esri/graphicsUtils',
-    './Preview'
+    './Preview',
+    'jimu/dijit/LoadingShelter'
   ],
-  function(declare, lang, query, html, array, fx, all, on, Deferred, _WidgetsInTemplateMixin,
-    BaseWidget, Message, LoadingShelter, DrawBox, jimuUtils, EsriQuery, QueryTask, GraphicsLayer,
-    FeatureLayer, SimpleRenderer, Graphic, Point, Polyline, Extent, InfoTemplate, symbolJsonUtils,
-    esriLang, esriRequest, graphicsUtils, Preview) {/*jshint unused: false*/
+  function(declare, lang, query, html, array, fx, _WidgetsInTemplateMixin, BaseWidget,
+    Message, DrawBox, jimuUtils, FilterUtils, EsriQuery, QueryTask, GraphicsLayer,
+    SimpleRenderer, symbolJsonUtils, esriRequest, graphicsUtils, Preview) {
     return declare([BaseWidget, _WidgetsInTemplateMixin], {
       name: 'Chart',
       baseClass: 'jimu-widget-chart',
@@ -79,6 +69,30 @@ define([
         this.nls.color = this.nls.color || "Color";
         this.nls.colorful = this.nls.colorful || "Colorful";
         this.nls.monochromatic = this.nls.monochromatic || "Monochromatic";
+        if(this.config){
+          this._updateConfig();
+        }
+      },
+
+      _updateConfig: function() {
+        if (this.config && this.config.charts && this.config.charts.length > 0) {
+          array.forEach(this.config.charts, lang.hitch(this, function(singleConfig) {
+            this._rebuildFilter(singleConfig.url, singleConfig.filter);
+          }));
+        }
+      },
+
+      _rebuildFilter: function(url, filter) {
+        try {
+          if (filter) {
+            delete filter.expr;
+            var filterUtils = new FilterUtils();
+            filterUtils.isHosted = jimuUtils.isHostedService(url);
+            filterUtils.getExprByFilterObj(filter);
+          }
+        } catch (e) {
+          console.log(e);
+        }
       },
 
       postCreate: function(){
@@ -365,7 +379,7 @@ define([
       _fromChartListToChartParams: function(){
         //reset UI of params page
         this._resetChartParamsPage();
-        var layerUrl = this.currentAttrs.config.url;
+        //var layerUrl = this.currentAttrs.config.url;
 
         //slide
         var showDom = this.chartParams;
@@ -399,7 +413,7 @@ define([
       _onBtnApplyClicked: function(){
         //reset result page
         this._clearResultPage();
-        var layerInfo = this.currentAttrs.layerInfo;
+        //var layerInfo = this.currentAttrs.layerInfo;
 
         var where = this.currentAttrs.config.filter.expr;
         var geometry = null;

@@ -1,7 +1,7 @@
 ﻿define(
    ({
     state: "Vaikimisi kuvatakse koordinaadid praeguse kaardi koordinaatsüsteemis. Koordinaatide kuvamiseks muudes koordinaatsüsteemides peate need eraldi lisama ja määrama vastavad transformatsioonid.",
-    outputUnit: "Väljundi üksus",
+    outputUnit: "Väljundi ühik",
     wkid: "Väljundi WKID",
     label: "Väljundi koordinaatsüsteemi nimi",
     transformationWkid: 'Teisenduse WKID',
@@ -19,13 +19,14 @@
     edit: "Muuda koordinaatsüsteemi",
     output: "Väljundi koordinaatsüsteem",
     cName: "Koordinaatsüsteemi nimi",
-    units: "Kuvaühikud: ",
+    units: "Kuvamise ühikud: ",
     datum: "Daatumi transformatsioon",
     tName: "Transformatsiooni nimi",
+    tWKIDPlaceHolder: "Transformatsiooni WKID",
     forward: "Kasuta edasi transformatsiooni",
     ok: "OK",
     cancel: 'Tühista',
-    olderVersion: "Geomeetriateenus ei toeta transformatsioonitoimingut",
+    olderVersion: "Geomeetriateenus ei toeta transformatsiooni toimingut",
     REPEATING_ERROR: " Koordinaatsüsteem on väljundite loendis.",
 
     Default: "Vaikimisi",

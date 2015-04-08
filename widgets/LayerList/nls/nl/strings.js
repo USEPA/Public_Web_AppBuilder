@@ -13,6 +13,9 @@
     itemDesc: "Beschrijving",
     itemDownload: "Downloaden",
     itemToAttributeTable: "Attribuuttabel openen",
-    itemShowItemDetails: "Itemdetails weergeven"
+    itemShowItemDetails: "Itemdetails weergeven",
+    empty: "leeg",
+    removePopup: "Pop-up verwijderen",
+    enablePopup: "Pop-up inschakelen"
   })
 );

@@ -31,6 +31,10 @@
 		setFilterTip: "Setaţi corect filtrul.",
 		ok: "OK",
 		cancel: "Anulare",
-		noFilterTip: "Fără a avea expresia de filtrare definită, această operaţie de interogare va lista toate obiectele spaţiale din sursa de date specificată."
+		noFilterTip: "Fără a avea expresia de filtrare definită, această operaţie de interogare va lista toate obiectele spaţiale din sursa de date specificată.",
+    relationships: "Tabel relaţii",
+    addRelationshipLayer: "Adăugare relaţie nouă",
+    relatedTo: "Referitor la",
+    selectOption: "Selectaţi..."
   })
 );

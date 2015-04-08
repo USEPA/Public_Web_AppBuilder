@@ -56,6 +56,7 @@
     clearResults: "Notīrīt rezultātus",
     operationalTip: 'Ja šī opcija ir atzīmēta, rezultāti paliek kartē, līdz tiek noklikšķināts uz pogas "${clearResults}".',
     noneQueryTip: "Nav pieejams neviens iepriekš konfigurēts vaicājuma uzdevums.",
-    noPermissionsMsg: "Jums nav atļauju piekļūt šim pakalpojumam."
+    noPermissionsMsg: "Jums nav atļauju piekļūt šim pakalpojumam.",
+    attributesFromRelationship: "Atribūti no saistītās tabulas"
   })
 );

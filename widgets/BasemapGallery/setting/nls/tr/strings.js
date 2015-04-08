@@ -21,11 +21,11 @@
     ok: "Tamam",
     cancel: "İptal",
     result: "Başarıyla kaydedildi",
-    spError: "Galeriye eklenen tüm altlık haritaları aynı mekansal başvurulara sahip olmalıdır.",
+    spError: "Galeriye eklenen tüm altlık haritalar aynı mekansal başvurulara sahip olmalıdır.",
     invalidTitle1:"Bir altlık haritası '",
     invalidTitle2:"' zaten mevcut. Başka bir başlık seçin.",
     invalidBasemapUrl1: "Bu katman türü altlık haritası olarak kullanılamaz.",
-    invalidBasemapUrl2: "Geçerli harita ile farklı mekansal başvuru.",
+    invalidBasemapUrl2: "Geçerli haritadan farklı mekansal başvuru geliyor.",
     addBaselayer: "Altlık Haritası Katmanı Ekle"
   })
 );

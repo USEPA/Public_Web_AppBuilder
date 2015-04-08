@@ -30,6 +30,7 @@
     popup: "Popup-fönster",
     setTask: "Ange",
     setTaskTitle: "Ange geobearbetningsåtgärd:",
-    enablePopup: "Aktivera popup-fönster"
+    enablePopup: "Aktivera popup-fönster",
+    unSupportGeometryType: "Det går inte att ställa in renderaren på grund av att geometritypen är okänd."
   })
 );

@@ -37,6 +37,8 @@
     hectares: "Hektar",
     squareMeters: "Quadratmeter",
     squareFeet: "Quadratfuß",
-    squareYards: "Quadratyard"
+    squareYards: "Quadratyard",
+    undo: "Rückgängig",
+    redo: "Wiederholen"
   })
 );

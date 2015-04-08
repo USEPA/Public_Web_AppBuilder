@@ -14,6 +14,6 @@
     feet: "Piedi",
     meters: "Metri",
     yards: "Iarde",
-    nauticalMiles: "Miglia marine"
+    nauticalMiles: "Miglia nautiche"
   })
 );

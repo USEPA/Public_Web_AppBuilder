@@ -21,6 +21,18 @@
     squareFeet: "Ruutjalga",
     squareYards: "Ruutjardi",
     distance: "Vahemaad",
-    area: "Pindalad"
+    area: "Pindalad",
+    kilometersAbbreviation: "km",
+    milesAbbreviation: "mi",
+    metersAbbreviation: "m",
+    feetAbbreviation: "ft",
+    yardsAbbreviation: "yd",
+    squareKilometersAbbreviation: "km²",
+    squareMilesAbbreviation: "mi²",
+    acresAbbreviation: "ak",
+    hectaresAbbreviation: "ha",
+    squareMetersAbbreviation: "m²",
+    squareFeetAbbreviation: "ft²",
+    squareYardsAbbreviation: "yd²"
   })
 );

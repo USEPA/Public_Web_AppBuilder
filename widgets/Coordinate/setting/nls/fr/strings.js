@@ -1,6 +1,6 @@
 ﻿define(
    ({
-    state: "Par défaut, les coordonnées s’affichent dans le système de coordonnées de la carte actuelle. Pour obtenir des coordonnées dans d’autres systèmes de coordonnées, vous devez les ajouter et indiquer les transformations appropriées.",
+    state: "Par défaut, les coordonnées s\'affichent dans le système de coordonnées de la carte actuelle. Pour obtenir des coordonnées dans d\'autres systèmes de coordonnées, vous devez les ajouter et indiquer les transformations appropriées.",
     outputUnit: "Unité en sortie",
     wkid: "WKID en sortie",
     label: "Nom du système de coordonnées en sortie",
@@ -22,6 +22,7 @@
     units: "Unités d’affichage : ",
     datum: "Transformation de datum",
     tName: "Nom de la transformation",
+    tWKIDPlaceHolder: "WKID de la transformation",
     forward: "Utiliser la transformation avant",
     ok: "OK",
     cancel: 'Annuler',

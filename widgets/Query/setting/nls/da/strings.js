@@ -31,6 +31,10 @@
 		setFilterTip: "Angiv filteret korrekt.",
 		ok: "OK",
 		cancel: "Annuller",
-		noFilterTip: "Defineres der ikke et filterudtryk, viser denne forespørgsel alle objekter i den angivne datakilde."
+		noFilterTip: "Defineres der ikke et filterudtryk, viser denne forespørgsel alle objekter i den angivne datakilde.",
+    relationships: "Relationstabel",
+    addRelationshipLayer: "Tilføj ny relation",
+    relatedTo: "Relateret til",
+    selectOption: "Vælg venligst..."
   })
 );

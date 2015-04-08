@@ -150,6 +150,7 @@
   margin-left: 20px;
   font-size: 14px;
   height: 100%;
+  width: 95%;
   overflow: hidden;
   display: inline-block;
 }
@@ -227,7 +228,8 @@
   background-color: red;
 }
 .jimu-header-more-popup img{
-  width: 27.17391304347826%;/*50/184*/
+  width: 48px;
+  height: 48px;
   margin: auto;
   margin-top: 25%;
   display: block;

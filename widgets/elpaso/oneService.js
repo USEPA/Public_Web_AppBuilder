@@ -1,5 +1,5 @@
 define([
-	"dojo/_base/declare",
+    "dojo/_base/declare",
     "dijit/_Widget",
   "dijit/_Templated"
 ], function(declare, _Widget,_Templated){
@@ -36,8 +36,8 @@ define([
 
         _onClick: function () {
             var viewobject = this.viewobject;
-            var pid = this.svcobj.pid;
-            var frm = document.getElementById("viewform");
+            var pid = this.svcobj.pid;           
+            var frm = this.vimgwg.viewform;
             var bcount = 0;
             for (var k = 0; k < frm.viewtype.length; k++) {
                 if (frm.viewtype[k].checked) {
@@ -46,7 +46,7 @@ define([
                 }
             }
             if (bcount == 0) {
-                if (this.map.getLayer("imageLayer")) this.map.getLayer("imageLayer").clear();
+              if (this.map.getLayer("imageLayer_" + this.vimgwg.id)) this.map.getLayer("imageLayer_" + this.vimgwg.id).clear();
                 this.vimgwg.currentgraphic = null;
                 this.vimgwg.decNode.innerHTML = "";
                 this.vimgwg.geoTextNode.value = "";
@@ -75,7 +75,7 @@ define([
                     this.vimgwg.popupview(viewvalue, lat, lon, pid, pcount);
                 }
             } else {
-                var panid = "popupdiv" + pid;
+                var panid = "popupdiv" + pid + "_" + this.vimgwg.id;
                 var viewvalue = this.checkNode.value;
                 var o = viewobject[viewvalue].order;
                 this.vimgwg.vieworder["view" + o] = false;

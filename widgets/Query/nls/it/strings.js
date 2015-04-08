@@ -1,7 +1,7 @@
 ﻿define(
    ({
     _widgetLabel: "Interrogazione",
-    executeQueryTip: "Fare clic su uno degli elementi attività seguenti per eseguire l\'interrogazione.",
+    executeQueryTip: "Fare clic su uno degli elementi attività seguenti per eseguire la query.",
     invalidConfig: "Configurazione non valida. Utilizzare la pagina delle impostazioni interrogazione per ottenere la configurazione corretta.",
     queryParams: "Opzioni",
     parameters: "OPZIONI",
@@ -48,14 +48,15 @@
     numberOperatorIsNotBlank: "non è vuoto",
     operationalLayerTip: "Aggiungi risultato come layer operativo",
     queryResult: "Risultato interrogazione",
-    specifyParamsTip: "Specificare i parametri per l\'attività",
+    specifyParamsTip: "Specificare i parametri per l'attività",
     useSpatialFilter: "Usa filtro spaziale per limitare le feature",
-    useCurrentMapExtent: "Solo le feature che toccano l\'estensione mappa corrente",
-    drawGraphicOnMap: "Solo le feature che toccano un\'area definita dall\'utente",
+    useCurrentMapExtent: "Solo le feature che toccano l'estensione mappa corrente",
+    drawGraphicOnMap: "Solo le feature che toccano l'area definita dall'utente",
     specifySpatialFilterMsg: "Specificare il filtro spaziale per questa attività.",
     clearResults: "Elimina risultati",
     operationalTip: 'Se questa opzione è selezionata, i risultati verranno mantenuti sulla mappa finché non si fa clic sul pulsante "${clearResults}".',
     noneQueryTip: "Non sono disponibili attività di interrogazione preconfigurate.",
-    noPermissionsMsg: "Non si dispone delle autorizzazioni per accedere al servizio."
+    noPermissionsMsg: "Non si dispone delle autorizzazioni per accedere al servizio.",
+    attributesFromRelationship: "Attributi da tabella correlata"
   })
 );

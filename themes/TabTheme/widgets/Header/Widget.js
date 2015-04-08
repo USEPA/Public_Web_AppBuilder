@@ -19,20 +19,17 @@ define([
     'dojo/_base/lang',
     'dojo/_base/array',
     'dojo/_base/html',
-    'dojo/topic',
-    'dojo/aspect',
     'dojo/query',
-    'dojo/NodeList-dom',
-    'dojo/NodeList-manipulate',
     'dojo/on',
-    'require',
     'jimu/BaseWidget',
     'jimu/tokenUtils',
     'jimu/portalUtils',
     'jimu/utils',
-    'jimu/dijit/Message'
+    'jimu/dijit/Message',
+    'dojo/NodeList-dom',
+    'dojo/NodeList-manipulate'
   ],
-  function(declare, lang, array, html, topic, aspect, query, nld, nlm, on, require,
+  function(declare, lang, array, html, query, on,
     BaseWidget, tokenUtils, portalUtils, utils, Message) {
     /* global jimuConfig */
     /*jshint scripturl:true*/
@@ -99,16 +96,17 @@ define([
 
       onAppConfigChanged: function(appConfig, reason, changedData) {
         switch (reason) {
-          case 'attributeChange':
-            this._onAttributeChange(appConfig, changedData);
-            break;
-          default:
-            return;
+        case 'attributeChange':
+          this._onAttributeChange(appConfig, changedData);
+          break;
+        default:
+          return;
         }
         this.resize();
       },
 
       _onAttributeChange: function(appConfig, changedData) {
+        /*jshint unused: false*/
         if (changedData.title && changedData.title !== this.appConfig.title) {
           this.switchableElements.title.innerHTML(changedData.title);
         }
@@ -256,14 +254,13 @@ define([
       },
 
       switchPopupLinks: function() {
-        if (!this.popupLinkNode) {
-          this.popupLinkNode = this.createPopupLinkNode();
-          this.switchSignin();
-          // hide signIn userName signOut
-          html.setStyle(this.popupSigninNode, 'display', 'none');
-          html.setStyle(this.popupUserNameNode, 'display', 'none');
-          html.setStyle(this.popupSignoutNode, 'display', 'none');
-        }
+        html.destroy(this.popupLinkNode);
+
+        this.popupLinkNode = this.createPopupLinkNode();
+        // this.switchSignin();
+        html.setStyle(this.popupSigninNode, 'display', 'none');
+        html.setStyle(this.popupUserNameNode, 'display', 'none');
+        html.setStyle(this.popupSignoutNode, 'display', 'none');
 
         if (this.linksVisible) {
           this.linksVisible = false;
@@ -324,7 +321,7 @@ define([
 
         html.create('img', {
           'class': 'logo jimu-vcenter jimu-float-leading jimu-leading-margin1',
-          src: this.config.logo ? this.config.logo : this.folderUrl + 'images/app-logo.png',
+          src: this.appConfig.logo ? this.appConfig.logo : this.folderUrl + 'images/app-logo.png',
           style: {
             width: this.getLogoHeight() + 'px',
             height: this.getLogoHeight() + 'px'
@@ -382,7 +379,8 @@ define([
           href: link.url,
           target: '_blank',
           innerHTML: link.label,
-          'class': "jimu-vcenter-text"
+          'class': "jimu-vcenter-text jimu-ellipsis",
+          title: link.label
         }, linkSectionNode);
 
         return node;
@@ -451,8 +449,16 @@ define([
 
       getLogoHeight: function() {
         return 34;
-      }
+      },
 
+      destroy: function() {
+        this.inherited(arguments);
+
+        if (this.popupLinkNode && this.linksVisible) {
+          this.switchPopupLinks();
+        }
+        html.destroy(this.popupLinkNode);
+      }
     });
     return clazz;
   });

@@ -1,5 +1,5 @@
 ﻿define(
    ({
-    _widgetLabel: "Nupp Esileht"
+    _widgetLabel: "Avalehe nupp"
   })
 );

@@ -13,6 +13,9 @@
     itemDesc: "תיאור",
     itemDownload: "הורדה",
     itemToAttributeTable: "פתח טבלת מאפיינים",
-    itemShowItemDetails: "הצג פרטי פריט"
+    itemShowItemDetails: "הצג פרטי פריט",
+    empty: "ריק",
+    removePopup: "‏‫הסר חלון קופץ‬",
+    enablePopup: "הפעל חלון קופץ"
   })
 );

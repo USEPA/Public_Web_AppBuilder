@@ -15,11 +15,9 @@
 ///////////////////////////////////////////////////////////////////////////
 
 define(['dojo/_base/declare',
-  'dojo/_base/lang',
-  'dojo/_base/html',
   'dijit/_WidgetBase'
 ],
-function(declare, lang, html, _WidgetBase) {
+function(declare, _WidgetBase) {
   //summary:
   //  this is the base result renderer for all output renderers.
   //  all renderers should be passed into param object, label property when created.

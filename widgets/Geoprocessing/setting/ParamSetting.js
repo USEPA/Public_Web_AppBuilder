@@ -17,27 +17,20 @@
 define(['dojo/_base/declare',
   'dojo/_base/lang',
   'dojo/_base/html',
-  'dojo/_base/array',
   'dojo/on',
-  'dojo/Deferred',
   'dojo/text!./ParamSetting.html',
   'dijit/_WidgetBase',
   'dijit/_TemplatedMixin',
   'dijit/_WidgetsInTemplateMixin',
-  'dijit/form/TextBox',
-  'dijit/form/NumberTextBox',
-  'dijit/form/Select',
-  'jimu/dijit/CheckBox',
-  'jimu/dijit/URLInput',
-  'jimu/dijit/RendererChooser',
   'jimu/dijit/Popup',
-  'esri/renderers/jsonUtils',
   '../editorManager',
-  '../EditorChooser'
+  '../EditorChooser',
+  'dijit/form/TextBox',
+  'jimu/dijit/CheckBox'
 ],
-function(declare, lang, html, array, on, Deferred, template, _WidgetBase, _TemplatedMixin,
-  _WidgetsInTemplateMixin, TextBox, NumberTextBox, Select,
-  CheckBox, URLInput, RendererChooser, Popup, rendererUtils, editorManager, EditorChooser) {
+function(declare, lang, html, on, template, _WidgetBase, _TemplatedMixin,
+  _WidgetsInTemplateMixin,
+  Popup, editorManager, EditorChooser) {
   var clazz = declare([_WidgetBase,_TemplatedMixin, _WidgetsInTemplateMixin], {
     baseClass: 'jimu-widget-setting-gp-param',
     templateString: template,
@@ -51,7 +44,7 @@ function(declare, lang, html, array, on, Deferred, template, _WidgetBase, _Templ
     setParam: function(param, direction){
       this.param = param;
       this.direction = direction;
-      
+
       if(param.label === undefined){
         param.label = '';
       }
@@ -77,6 +70,9 @@ function(declare, lang, html, array, on, Deferred, template, _WidgetBase, _Templ
     },
 
     acceptValue: function(){
+      if(!this.param){
+        return;
+      }
       this.param.label = this.label.getValue();
       this.param.tooltip = this.tooltip.getValue();
       this.param.visible = this.visible.getValue();
@@ -92,18 +88,22 @@ function(declare, lang, html, array, on, Deferred, template, _WidgetBase, _Templ
       }
     },
 
-    setInputParams: function(inputParams){
-      this.inputParams = inputParams;
+    setConfig: function(config){
+      this.config = config;
     },
 
     _createSpecialPart: function(){
       var label;
       if(this.direction === 'input' && this.param.dataType === 'GPFeatureRecordSetLayer'){
         label = this.nls.inputFeatureBy;
-        this.spart = editorManager.createEditor(this.param, 'input', 'setting');
+        this.spart = editorManager.createEditor(this.param, 'input', 'setting', {
+          config: this.config
+        });
       }else if(this.direction === 'input'){
         label = this.nls.defaultValue;
-        this.spart = editorManager.createEditor(this.param, 'input', 'setting');
+        this.spart = editorManager.createEditor(this.param, 'input', 'setting', {
+          config: this.config
+        });
         //hide this feature temporary
         // if(this.param.dataType === 'GPString' || this.param.editorName ||
         //   this.param.dataType === 'GPMultiValue:GPString' &&
@@ -112,10 +112,14 @@ function(declare, lang, html, array, on, Deferred, template, _WidgetBase, _Templ
         // }
       }else if(this.direction === 'output' && this.param.dataType === 'GPFeatureRecordSetLayer'){
         label = '';
-        this.spart = editorManager.createEditor(this.param, 'output', 'setting');
+        this.spart = editorManager.createEditor(this.param, 'output', 'setting', {
+          config: this.config
+        });
       }else if(this.direction === 'output'){
         label = this.nls.displayType;
-        this.spart = editorManager.createEditor(this.param, 'output', 'setting');
+        this.spart = editorManager.createEditor(this.param, 'output', 'setting', {
+          config: this.config
+        });
       }
       this.spartLabelNode = html.create('div', {
         'class': 'input-label',
@@ -127,6 +131,15 @@ function(declare, lang, html, array, on, Deferred, template, _WidgetBase, _Templ
       this.spart.placeAt(this.specialSectionNode);
       if(this.changeEditorNode){
         html.place(this.changeEditorNode, this.spartLabelNode, 'after');
+      }
+
+      //We should not create this editor if useResultMapServer, but we just hidden it for now.
+      if(this.config.useResultMapServer && this.direction === 'output' &&
+        (this.param.dataType === 'GPFeatureRecordSetLayer' ||
+          this.param.dataType === 'GPRasterDataLayer')){
+        html.setStyle(this.specialSectionNode, 'display', 'none');
+      }else{
+        html.setStyle(this.specialSectionNode, 'display', '');
       }
       this.spart.startup();
     },
@@ -141,7 +154,7 @@ function(declare, lang, html, array, on, Deferred, template, _WidgetBase, _Templ
       });
       this.own(on(node, 'click', lang.hitch(this, function(){
         var editorChooser = new EditorChooser({
-          inputParams: this.inputParams
+          inputParams: this.config.inputParams
         });
         new Popup({
           titleLabel: 'Choose Editor',
@@ -167,14 +180,16 @@ function(declare, lang, html, array, on, Deferred, template, _WidgetBase, _Templ
       }
 
       editorChooser.popup.close();
-      
+
       this.param.editorName = editorChooser.selectedEditor.name;
 
       if(editorChooser.selectedEditor.dependParam){
         this.param.editorDependParamName = editorChooser.selectedEditor.dependParam;
       }
       this.spart.destroy();
-      this.spart = editorManager.createEditor(this.param, 'input', 'setting');
+      this.spart = editorManager.createEditor(this.param, 'input', 'setting', {
+        config: this.config
+      });
       html.place(this.spart.domNode, this.specialSectionNode);
 
     }

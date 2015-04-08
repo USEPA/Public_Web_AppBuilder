@@ -31,6 +31,10 @@
 		setFilterTip: "Skonfiguruj poprawnie filtr.",
 		ok: "OK",
 		cancel: "Anuluj",
-		noFilterTip: "Jeżeli wyrażenie filtru nie zostanie zdefiniowane, zadanie zapytania zwróci wszystkie obiekty w podanym źródle danych."
+		noFilterTip: "Jeżeli wyrażenie filtru nie zostanie zdefiniowane, zadanie zapytania zwróci wszystkie obiekty w podanym źródle danych.",
+    relationships: "Tabela powiązań",
+    addRelationshipLayer: "Dodaj nowe powiązanie",
+    relatedTo: "Powiązane z",
+    selectOption: "Wybierz..."
   })
 );

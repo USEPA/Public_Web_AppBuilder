@@ -56,6 +56,7 @@
     clearResults: "Xóa Kết quả",
     operationalTip: '"Nếu chọn tùy chọn này, kết quả sẽ được giữ trên bản đồ cho đến khi nút ""${clearResults}"" được bấm."',
     noneQueryTip: "Không có tác vụ truy vấn được cấu hình trước nào.",
-    noPermissionsMsg: "Bạn không có quyền truy cập vào dịch vụ này."
+    noPermissionsMsg: "Bạn không có quyền truy cập vào dịch vụ này.",
+    attributesFromRelationship: "Thuộc tính từ bảng liên quan"
   })
 );

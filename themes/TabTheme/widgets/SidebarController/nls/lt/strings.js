@@ -1,5 +1,7 @@
 ﻿define(
    ({
-    _widgetLabel: "Šoninės juostos valdiklis"
+    _widgetLabel: "Šoninės juostos valdiklis",
+    more: "daugiau",
+    otherPanels: "Kiti skydeliai"
   })
 );

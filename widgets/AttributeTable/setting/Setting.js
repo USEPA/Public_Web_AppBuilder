@@ -25,15 +25,8 @@ define([
     'dojo/on',
     'dojo/Deferred',
     "dojo/dom-style",
-    "jimu/dijit/SymbolChooser",
     "dojo/query",
-    "dojo/aspect",
-    "esri/symbols/jsonUtils",
     'jimu/dijit/Message',
-    "esri/symbols/SimpleMarkerSymbol",
-    "esri/symbols/SimpleLineSymbol",
-    "esri/symbols/SimpleFillSymbol",
-    "jimu/dijit/CheckBox",
     "jimu/dijit/LoadingShelter",
     "../utils",
     "dijit/TooltipDialog",
@@ -50,15 +43,8 @@ define([
     on,
     Deferred,
     domStyle,
-    SymbolChooser,
     query,
-    aspect,
-    jsonUtils,
     Message,
-    SimpleMarkerSymbol,
-    SimpleLineSymbol,
-    SimpleFillSymbol,
-    CheckBox,
     LoadingShelter,
     utils,
     TooltipDialog,
@@ -254,7 +240,7 @@ define([
           })));
 
           var tDialog = new TooltipDialog({
-            style: 'width: 400px;height:270px;',
+            style: 'width: 400px;height:300px;',
             content: table.domNode,
             onClose: lang.hitch(this, function() {
               this._allLayerFields[idx] = table.getData();
@@ -304,8 +290,8 @@ define([
           selectable: true,
           autoHeight: false,
           style: {
-            'height': '400px',
-            'maxHeight': '400px'
+            'height': '300px',
+            'maxHeight': '300px'
           }
         };
         var fieldsTable = new Table(args);
@@ -340,7 +326,7 @@ define([
       },
 
       onLayerInfosChanged: function(layerInfo, changeType, layerInfoSelf) {
-        if ('added' !== changeType || !layerInfoSelf) {
+        if ('added' !== changeType || !layerInfoSelf || !layerInfo) {
           return;
         }
         //GeoRss, kml,etc...
@@ -515,6 +501,7 @@ define([
         var len = data.length;
         if (this.config && this.config.layerInfos && this.config.layerInfos.length > 0) {
           array.forEach(data, lang.hitch(this, function(tData, idx) {
+            tData = tData; // do nothing
             var lInfo = this.config.layerInfos[idx];
             var json = {};
 

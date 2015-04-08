@@ -31,6 +31,10 @@
 		setFilterTip: "请正确设置过滤器。",
 		ok: "确定",
 		cancel: "取消",
-		noFilterTip: "在未定义过滤表达式的情况下，此查询任务会列出指定数据源中的所有要素。"
+		noFilterTip: "在未定义过滤表达式的情况下，此查询任务会列出指定数据源中的所有要素。",
+    relationships: "关系表",
+    addRelationshipLayer: "添加新关系",
+    relatedTo: "关联对象",
+    selectOption: "请选择.."
   })
 );

@@ -16,6 +16,6 @@
     editpageAlias: "Alias",
     editpageVisible: "Näkyvä",
     editpageEditable: "Muokattavissa",
-    noLayers: "Muokattavia vektorikarttatasoja ei ole käytettävissä"
+    noLayers: "Muokattavia kohdekarttatasoja ei ole käytettävissä"
   })
 );

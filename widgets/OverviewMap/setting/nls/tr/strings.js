@@ -6,6 +6,12 @@
     maxWidth: "Maks Genişlik",
     maxHeight: "Maks Yükseklik",
     minText: "Minimum",
-    maxText: "maksimum"
+    maxText: "maksimum",
+    attachText: "Bu gerecin haritanın hangi köşesine iliştirileceğini belirtin.",
+    expandText: "İlk olarak gereci genişlet",
+    topLeft: "Üst Sol",
+    topRight: "Üst Sağ",
+    bottomLeft: "Alt Sol",
+    bottomRight: "Alt Sağ"
   })
 );

@@ -1,7 +1,7 @@
 ﻿define(
    ({
     _widgetLabel: "Forespørgsel",
-    executeQueryTip: "Klik på en af følgende opgaveelementer for at udføre en forespørgsel.",
+    executeQueryTip: "Klik på et af følgende opgaveelementer for at udføre forespørgslen.",
     invalidConfig: "Ugyldig konfiguration. Brug siden med indstillinger for forespørgsler til at rette konfigurationen.",
     queryParams: "Indstillinger",
     parameters: "INDSTILLINGER",
@@ -51,11 +51,12 @@
     specifyParamsTip: "Angiv parametrene for denne opgave",
     useSpatialFilter: "Brug spatialt filter til at begrænse objekter",
     useCurrentMapExtent: "Kun objekter, der berører den aktuelle kortudstrækning",
-    drawGraphicOnMap: "Kun objekter, der berører et brugerdefineret område",
+    drawGraphicOnMap: "Kun objekter, der berører det brugerdefinerede område",
     specifySpatialFilterMsg: "Angiv et spatialt filter til denne opgave.",
     clearResults: "Ryd resultater",
     operationalTip: 'Er denne indstilling markeret, bevares resultaterne på kortet, indtil der klikkes på knappen "${clearResults}".',
     noneQueryTip: "Der er ingen tilgængelige forespørgselsopgaver, der er konfigureret på forhånd.",
-    noPermissionsMsg: "Du har ikke adgang til denne tjeneste."
+    noPermissionsMsg: "Du har ikke adgang til denne tjeneste.",
+    attributesFromRelationship: "Attributter fra relateret tabel"
   })
 );

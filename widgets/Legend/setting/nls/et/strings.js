@@ -2,8 +2,8 @@
    ({
     left: "Vasakjoondus",
     right: "Paremjoondus",
-    arrangement: "Korraldamine",
+    arrangement: "Asetus",
     autoUpdate: "Uuenda automaatselt",
-    respectCurrentMapScale: "Säilita praegune kaardi mõõtkava"
+    respectCurrentMapScale: "Säilita kaardi praegune mõõtkava"
   })
 );

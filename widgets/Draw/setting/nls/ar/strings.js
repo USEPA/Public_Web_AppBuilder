@@ -21,6 +21,18 @@
     squareFeet: "قدم مربع",
     squareYards: "ياردات مربعة",
     distance: "مسافات",
-    area: "مناطق"
+    area: "مناطق",
+    kilometersAbbreviation: "كم",
+    milesAbbreviation: "ميل",
+    metersAbbreviation: "متر",
+    feetAbbreviation: "قدم",
+    yardsAbbreviation: "ياردة",
+    squareKilometersAbbreviation: "كم مربع",
+    squareMilesAbbreviation: "ميل مربع",
+    acresAbbreviation: "ac",
+    hectaresAbbreviation: "هكتار",
+    squareMetersAbbreviation: "متر مربع",
+    squareFeetAbbreviation: "قدم مربع",
+    squareYardsAbbreviation: "ياردة مربعة"
   })
 );

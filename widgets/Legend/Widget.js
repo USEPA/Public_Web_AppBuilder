@@ -17,7 +17,6 @@
 define([
     'dojo/_base/declare',
     'dojo/_base/array',
-    'dojo/_base/html',
     'dojo/_base/lang',
     'dojo/dom',
     'dojo/on',
@@ -31,7 +30,6 @@ define([
   function(
     declare,
     array,
-    html,
     lang,
     dom,
     on,

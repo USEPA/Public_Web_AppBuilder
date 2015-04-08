@@ -6,6 +6,10 @@
 	padding-left: 10px;
 }
 
+.jimu-widget-directions-setting .jimu-ellipsis{
+	white-space: normal;
+}
+
 .jimu-rtl .jimu-widget-directions-setting .route-td{
 	padding-left: 0;
 	padding-right: 10px;
@@ -39,7 +43,7 @@
 }
 
 .jimu-widget-directions-setting .length-units{
-	white-space: nowrap;
+	white-space: normal;
 	margin-left: 20px;
 }
 
@@ -49,7 +53,7 @@
 }
 
 .jimu-widget-directions-setting .impedance-attribute{
-	white-space: nowrap;
+	white-space: normal;
 	margin-left: 20px;
 }
 

@@ -1,0 +1,32 @@
+<div class="ShareDialog" role="presentation">
+  <div data-dojo-attach-point="_dialogNode">
+    <div class="dialog-content">
+      <div class="share-dialog-subheader">${nls.heading}</div>
+      <div class="icon-container">
+        <div tabindex="0" class="icon-facebook-squared share-dialog-icon" data-dojo-attach-point="_facebookButton" title="${nls.facebookTooltip}"></div>
+        <div tabindex="0" class="icon-twitter share-dialog-icon" data-dojo-attach-point="_twitterButton" title="${nls.twitterTooltip}"></div>
+        <div tabindex="0" class="icon-gplus share-dialog-icon" data-dojo-attach-point="_gpulsButton" title="${nls.gplusTooltip}"></div>
+        <div tabindex="0" class="icon-mail-alt share-dialog-icon" data-dojo-attach-point="_emailButton" title="${nls.emailTooltip}"></div>
+        <a tabindex="0" class="icon-link share-dialog-icon" data-dojo-attach-point="_linkButton" title="${nls.url}" target="_blank"></a>
+        <div tabindex="0" class="icon-clear"></div>
+      </div>
+      <div class="share-dialog-extent">
+        <div data-dojo-type="jimu/dijit/CheckBox" data-dojo-attach-point="_extentInput"/>
+        <span style="padding-left:8px;line-height: 18px;">${nls.extent}</span>
+      </div>
+      <div class="share-dialog-subheader">${nls.url}</div>
+      <input tabindex="0" class="share-map-url" autofocus="" type="text" data-dojo-attach-point="_shareMapUrlText" readonly />
+      <div class="share-dialog-subheader">${nls.embed}</div>
+      <div class="embed-page">
+        <textarea tabindex="0" autofocus="" data-dojo-attach-point="_embedNode" rows="15" cols="33" readonly class="share-dialog-textarea"></textarea>
+      </div>
+      <div class="map-size-container">
+        <div class="map-size-label">${nls.size}</div>
+        <div class="embed-map-size-dropdown">
+          <select tabindex="0" data-dojo-attach-point="_comboBoxNode"></select>
+        </div>
+        <div class="embed-map-size-clear"></div>
+      </div>
+    </div>
+  </div>
+</div>

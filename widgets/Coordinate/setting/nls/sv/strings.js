@@ -1,6 +1,6 @@
 ﻿define(
    ({
-    state: "Som standard visas koordinaterna i den aktuella kartans koordinatsystem. Om du vill hämta koordinater i andra koordinatsystem måste du lägga till dem separat och ange lämpliga omvandlingar.",
+    state: "Som standard visas koordinaterna i den aktuella kartans koordinatsystem. Om du vill hämta koordinater i andra koordinatsystem måste du lägga till dem och ange lämpliga omvandlingar.",
     outputUnit: "Utdataenhet",
     wkid: "Utdata-WKID",
     label: "Namn på koordinatsystem för utdata",
@@ -22,6 +22,7 @@
     units: "Visningsenheter: ",
     datum: "Datumomvandling",
     tName: "Omvandlingsnamn",
+    tWKIDPlaceHolder: "WKID för omvandlingen",
     forward: "Använd framåtomvandling",
     ok: "OK",
     cancel: 'Avbryt',

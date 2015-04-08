@@ -13,10 +13,10 @@
     restore: "Varsayılan değere geri yükle",
     ok: "Tamam",
     result: "Başarıyla kaydedildi",
-    warning: "Bu katmanı tabloda ilk önce göstermek için işaretleyin.",
+    warning: "Katmanı önce tabloda göstermek için işaretleyin.",
     fieldCheckWarning: "En az bir alan seçilmelidir.",
     unsupportQueryWarning: "Öznitelik Tablosu aracını görüntülemek için katmanın sorgu işlemini desteklemesi gerekir. Servisteki sorgu yeteneğinin açık olduğundan emin olun.",
-    unsupportQueryLayers: "Öznitelik Tablosu aracını görüntülemek için aşağıdaki katmanların sorgu işlemini desteklemesi gerekir. Servisteki sorgu yeteneğinin açık olduğundan emin olun.",
+    unsupportQueryLayers: "Öznitelik Tablosu aracını görüntülemek için aşağıdaki katmanın sorgu işlemini desteklemesi gerekir. Hizmetteki sorgu özelliğinin açık olduğundan emin olun.",
 
     fieldName: "Ad",
     fieldAlias: "Takma Ad",

@@ -7,7 +7,7 @@
     alias: "Alias",
     visible: "Visibile",
     linkField: "Campo collegamento",
-    noLayers: "Feature layer non disponibili",
+    noLayers: "Nessun feature layer non disponibile",
     back: "Indietro",
     exportCSV: "Consenti esportazione in CSV",
     restore: "Ripristina valore predefinito",

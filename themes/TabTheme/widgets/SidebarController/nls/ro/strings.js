@@ -1,5 +1,7 @@
 ﻿define(
    ({
-    _widgetLabel: "Controller bară laterală"
+    _widgetLabel: "Controller bară laterală",
+    more: "mai mult",
+    otherPanels: "Alte panouri"
   })
 );

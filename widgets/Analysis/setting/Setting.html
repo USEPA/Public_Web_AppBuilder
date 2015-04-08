@@ -1,0 +1,31 @@
+<div>
+  <div>
+    <div>
+      <span class="label">${nls.selectAnalysisTools}</span>
+      <span class="info jimu-float-trailing" data-dojo-attach-point="infoText"></span>
+    </div>
+  </div>
+  <div class="analysis-list-content">
+    <table class='analysis-table' data-dojo-attach-point="table">
+      <thead class="analysis-table-thead">
+        <tr>
+          <th class="checkbox-td">
+            <input id="analysis_setting_checkall" data-dojo-attach-point="checkAllBtn"
+                data-dojo-type="dijit/form/CheckBox"
+                data-dojo-props="checked:false"
+                data-dojo-attach-event="onClick: _checkAll">
+          </th>
+          <th class="name-td">
+            <label for="analysis_setting_checkall" class="name-for-checkbox">${nls.name}</label>
+          </th>
+          <th class="img-td"></th>
+          <th class="usage-td">${nls.usage}</th>
+        </tr>
+      </thead>
+    </table>
+    <table class='tools-table'>
+      <tbody data-dojo-attach-point="tbody" class="tools-table-tbody">
+      </tbody>
+    </table>
+  </div>
+</div>

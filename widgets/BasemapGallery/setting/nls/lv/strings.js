@@ -7,7 +7,7 @@
     title: "Nosaukums",
     titlePH: "Pamatkartes nosaukums",
     thumbnail: "Sīktēls",
-    thumbnailHint: "Noklikšķiniet uz attēla, lai to atjauninātu",
+    thumbnailHint: "Noklikšķiniet uz attēla, lai atjauninātu",
     url: "URL",
     urlPH: "Slāņa URL",
     addlayer: "Pievienot pamatkarti",

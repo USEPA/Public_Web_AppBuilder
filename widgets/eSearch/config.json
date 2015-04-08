@@ -5,6 +5,7 @@
       "url": "http://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Louisville/LOJIC_LandRecords_Louisville/MapServer/2",
       "definitionexpression": "ZONING_TYPE = 'RESIDENTIAL'",
       "spatialsearchlayer": true,
+      "zoomScale": 10000,
       "expressions": {
         "expression": [
           {
@@ -76,6 +77,7 @@
       "url": "http://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Louisville/LOJIC_PublicSafety_Louisville/MapServer/2",
       "definitionexpression": "",
       "spatialsearchlayer": true,
+      "zoomScale": 5000,
       "expressions": {
         "expression": [
           {
@@ -112,7 +114,8 @@
           },
           {
             "name": "URL",
-            "alias": "Show Image"
+            "alias": "Show Image",
+            "visible": false
           },
           {
             "name": "ONLINE",
@@ -146,6 +149,7 @@
       "url": "http://sampleserver3.arcgisonline.com/ArcGIS/rest/services/SanFrancisco/311Incidents/FeatureServer/0",
       "definitionexpression": "",
       "spatialsearchlayer": false,
+      "zoomScale": 10000,
       "expressions": {
         "expression": [
           {

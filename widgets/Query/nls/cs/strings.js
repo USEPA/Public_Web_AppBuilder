@@ -1,7 +1,7 @@
 ﻿define(
    ({
     _widgetLabel: "Dotaz",
-    executeQueryTip: "Kliknout na jednu z následujících položek úloh pro spuštění dotazu.",
+    executeQueryTip: "Kliknutím na jednu z následujících položek úloh spustíte dotaz.",
     invalidConfig: "Neplatná konfigurace. Správnou konfiguraci naleznete na stránce Nastavení dotazů.",
     queryParams: "Možnosti",
     parameters: "MOŽNOSTI",
@@ -56,6 +56,7 @@
     clearResults: "Smazat výsledky",
     operationalTip: 'Zaškrtnete-li tuto možnost, budou se výsledky zobrazovat na mapě, dokud nestisknete tlačítko ${clearResults}.',
     noneQueryTip: "K dispozici není žádná předem nakonfigurovaná úloha dotazů.",
-    noPermissionsMsg: "Nemáte oprávnění pro přístup k této službě."
+    noPermissionsMsg: "Nemáte oprávnění pro přístup k této službě.",
+    attributesFromRelationship: "Atributy ze související tabulky"
   })
 );

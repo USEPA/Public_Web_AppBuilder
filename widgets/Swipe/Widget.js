@@ -1,144 +1,243 @@
-///////////////////////////////////////////////////////////////////////////
-// Copyright © 2014 Esri. All Rights Reserved.
-//
-// Licensed under the Apache License Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//    http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-///////////////////////////////////////////////////////////////////////////
-
 define([
-    'dojo/_base/declare',
-    'dojo/_base/lang',
-    'dojo/on',
-    'dojo/dom',
-    'dojo/query',
-    'dojo/dom-style',
-    'dojo/_base/array',
-    'dojo/store/Memory',
-    'dojo/dom-construct',
+	'dojo/_base/declare',
+	'dojo/_base/array',
+	'dojo/_base/lang',
+	'dojo/_base/html',
+	'dojo/on',
+	'jimu/BaseWidget',
+	'jimu/LayerInfos/LayerInfos',
+	'dijit/_WidgetsInTemplateMixin',
+	'esri/dijit/LayerSwipe',
+	'dijit/form/Select'
+], function(declare, array, lang, html, on, BaseWidget, LayerInfos,
+	_WidgetsInTemplateMixin, LayerSwipe) {
+	return declare([BaseWidget, _WidgetsInTemplateMixin], {
+		baseClass: 'jimu-widget-swipe',
 
-    'esri/arcgis/utils',
+		loaded: false,
+		swipeDijit: null,
+		layerInfosObj: null,
+		open: false,
 
-    'jimu/BaseWidget',
-    'jimu/LayerInfos/LayerInfos',
+		postCreate: function() {
+			this.inherited(arguments);
 
-    'dijit/form/Select',
-    'dijit/_WidgetsInTemplateMixin',
+			this.own(on(this.swipeLayers, 'Change', lang.hitch(this, this.onSwipeLayersChange)));
+			this.own(on(
+				this.swipeLayers.dropDown.domNode,
+				'mouseenter',
+				lang.hitch(this, this.onDropMouseEnter)
+			));
+			this.own(on(
+				this.swipeLayers.dropDown.domNode,
+				'mouseleave',
+				lang.hitch(this, this.onDropMouseLeave)
+			));
+			this.own(on(this.map, 'layer-add', lang.hitch(this, this._onMainMapBasemapChange)));
 
-    './js/LayerSwipe'
-],
-    function(declare, lang, on, dom, query, domStyle, array, Memory, domConstruct, arcgisUtils, BaseWidget, LayerInfos, Select, _WidgetsInTemplateMixin, LayerSwipe) {
-        return declare([BaseWidget, _WidgetsInTemplateMixin], {
-            name: 'Swipe',
-            baseClass: "jimu-widget-swipe",
-            swipeWidget: null,
+			LayerInfos.getInstance(this.map, this.map.itemInfo)
+				.then(lang.hitch(this, function(layerInfosObj) {
+					this.layerInfosObj = layerInfosObj;
+					this.own(layerInfosObj.on(
+						'layerInfosChanged',
+						lang.hitch(this, this.onLayerInfosChanged)));
+					var infos = layerInfosObj.getLayerInfoArray();
 
-            postCreate: function() {
-                this.inherited(arguments);
+					if (this.config.style === 'scope') {
+						this.hintNode.innerHTML = this.nls.spyglassText;
+					} else {
+						this.hintNode.innerHTML = this.nls.swipeText;
+					}
 
-                this.activeTool.addOption(this.getToolStore());
-                this.own(on(this.activeTool, "change", lang.hitch(this, this.onToolChange)));
+					this._setOptionsOfSwipeLayers(infos);
 
-                this.layerSelect.addOption(this.getMapStore());
-                this.own(on(this.layerSelect, "change", lang.hitch(this, this.onLayerChange)));
-            },
+					this._loadSwipeDijit(infos);
+					var layerId = this.swipeDijit.layers[0].id;
+					this.swipeLayers.set('value', layerId);
+					html.setStyle(
+						this.swipeImg,
+						'backgroundImage',
+						'url("' + this.folderUrl + 'css/images/icon.png")'
+					);
 
-            onToolChange: function(value) {
-                if (this.swipeWidget) {
-                    if (this.activeTool.attr('value') == "vertical")
-                        this.swipeWidget.set("type", "vertical");
-                    else if (this.activeTool.attr('value') == "horizontal")
-                        this.swipeWidget.set("type", "horizontal");
-                    else
-                        this.swipeWidget.set("type", "scope");
-                }
-            },
 
-            onLayerChange: function(value) {
-                this.destroySwipeWidget();
-                this.initSwipeWidget();
-            },
+					this.loaded = true;
+				}));
+		},
 
-            onOpen: function(evt) {
-                this.destroySwipeWidget();
-                this.initSwipeWidget();
-            },
+		_setOptionsOfSwipeLayers: function(layerInfos) {
+			var data = array.map(layerInfos, function(info) {
+				return {
+					label: info.title,
+					value: info.id
+				};
+			});
+			this.swipeLayers.set('options', data);
+		},
 
-            onClose: function(evt) {
-                this.destroySwipeWidget();
-            },
+		_loadSwipeDijit: function(layerInfos) {
+			var config = lang.clone(this.config);
+			if (!config.style) {
+				config.style = 'vertical';
+			}
+			var isBasemap = false;
+			var layer = this.map.getLayer(config.layer);
+			if (!layer) {
+				var layerId = null;
+				if (layerInfos.length > 0) {
+					layerId = layerInfos[0].id;
+				} else {
+					isBasemap = true;
+				}
+				config.layer = layerId;
+			}
 
-            createLayerSwipeDiv: function() {
-                var layerSwipeDiv = query("#LayerSwipe");
-                if (layerSwipeDiv.length == 0) {
-                    var mapDom = dom.byId(this.map.id);
-                    var layerSwipeDiv = domConstruct.create("div", {id: "LayerSwipe"}, this.map.id, "first");
-                }
-            },
+			this.createSwipeDijit(config.style, config.layer, this.open, isBasemap);
+		},
 
-            getToolStore: function() {
-                var toolOptions = [
-                    {label: "Vertical Swipe", value: "vertical"},
-                    {label: "Horizontal Swipe", value: "horizontal"},
-                    {label: "Scope", value: "scope"}
-                ];
-                return toolOptions;
-            },
+		onIconClick: function() {
+			if (!this.loaded || !this.swipeDijit) {
+				return;
+			}
 
-            getMapStore: function() {
-                var mapStore = [];
-                LayerInfos.getInstance(this.map, this.map.itemInfo).then(lang.hitch(this, function(operLayerInfos) {
-                    array.forEach(operLayerInfos.layerInfos, lang.hitch(this, function(layerInfo) {
-                        var obj = {
-                            label: layerInfo.title,
-                            value: layerInfo.id
-                        };
-                        mapStore.push(obj);
-                    }))//foreach
-                }));
-                return mapStore;
-            },
+			if (!this.swipeDijit.enabled) {
+				this.swipeDijit.enable();
+				html.setStyle(this.swipeLayersMenu, 'display', 'block');
+				html.setAttr(this.swipeIcon, 'title', this.nls.disableTips);
+				html.addClass(this.swipeIcon, 'swipe-icon-enable');
+				this.open = true;
+			} else {
+				this.swipeDijit.disable();
+				html.setStyle(this.swipeLayersMenu, 'display', 'none');
+				html.setAttr(this.swipeIcon, 'title', this.nls.enableTips);
+				html.removeClass(this.swipeIcon, 'swipe-icon-enable');
+				this.open = false;
+			}
+		},
 
-            destroySwipeWidget: function() {
-                if (this.swipeWidget) {
-                    this.swipeWidget.destroy();
-                    this.swipeWidget = null;
-                }
-            },
+		onMouseEnter: function(evt) {
+			if (this.loaded && this.swipeDijit && this.swipeDijit.enabled) {
+				html.setStyle(this.swipeLayersMenu, 'display', 'block');
+			}
+			evt.preventDefault();
+			evt.stopPropagation();
+		},
 
-            initSwipeWidget: function(val) {
-                var selectedLayerId = null;
-                if (val) {
-                    selectedLayerId = val;
-                } else {
-                    selectedLayerId = this.layerSelect.get("value");
-                }
-                this.createLayerSwipeDiv();
-                var displayedValue = this.layerSelect.get("displayedValue");
-                if (selectedLayerId && displayedValue) {
-                    var layerSwipeDiv = query("#LayerSwipe");
-                    var layer = this.map.getLayer(selectedLayerId);
-                    if ((layer) && (layerSwipeDiv.length == 1)) {
-                        if (layer.visible) {
-                            layer.setVisibility(true);
-                        }
+		onPressSwipeImg: function(evt) {
+			evt.preventDefault();
+		},
 
-                        this.swipeWidget = new LayerSwipe({
-                            type: this.activeTool.attr('value'),
-                            map: this.map,
-                            layers: [layer]
-                        }, layerSwipeDiv[0].id);
-                        this.swipeWidget.startup();
-                    }
-                }
-            }
-        });
-    });
+		onDropMouseEnter: function(evt) {
+			this._mouseOnDropDown = true;
+			this.onMouseEnter(evt);
+		},
+
+		onDropMouseLeave: function() {
+			this._mouseOnDropDown = false;
+			this.onMouseLeave();
+			this.swipeLayers.dropDown.onCancel();
+		},
+
+		onMouseLeave: function() {
+			if (this._mouseOnDropDown) {
+				return;
+			}
+
+			if (this.loaded) {
+				html.setStyle(this.swipeLayersMenu, 'display', 'none');
+			}
+		},
+
+		onSwipeLayersChange: function() {
+			if (!this.swipeDijit) {
+				return;
+			}
+			var open = this.swipeDijit.enabled;
+			this.destroySwipeDijit();
+
+			var layerId = this.swipeLayers.get('value');
+			this.createSwipeDijit(this.config.style || 'vertical', layerId, open);
+			html.setStyle(this.swipeLayersMenu, 'display', 'none');
+		},
+
+		createSwipeDijit: function(style, layerId, open, isBasemap) {
+			var layerParams = this._getLayerParams(layerId, isBasemap);
+			this.swipeDijit = new LayerSwipe({
+				enabled: !!open,
+				type: style,
+				map: this.map,
+				layers: layerParams
+			}, this.layerSwipe);
+			this.swipeDijit.startup();
+			html.place(this.swipeDijit.domNode, this.map.root, 'before');
+		},
+
+		_getLayerParams: function(layerId, isBasemap) {
+			var info = this.layerInfosObj.getLayerInfoById(layerId);
+			var layerParams = [];
+			if (isBasemap) {
+				var basemaps = this.layerInfosObj.getBasemapLayers();
+				array.forEach(basemaps, lang.hitch(this, function(basemap) {
+					layerParams.push(this.map.getLayer(basemap.id));
+				}));
+			} else {
+				info.traversal(lang.hitch(this, function(_info) {
+					var layer = this.map.getLayer(_info.id);
+					if (layer) {
+						layerParams.push(layer);
+					}
+				}));
+			}
+
+			return layerParams;
+		},
+
+		destroySwipeDijit: function() {
+			if (this.swipeDijit && this.swipeDijit.destroy) {
+				this.swipeDijit.destroy();
+				this.swipeDijit = null;
+
+				this.layerSwipe = html.create('div', {}, this.swipeLayersMenu, 'after');
+			}
+		},
+
+		onLayerInfosChanged: function(layerInfo, changedType, layerInfoSelf) {
+			if (!this.swipeDijit) {
+				return;
+			}
+
+			var infos = this.layerInfosObj.getLayerInfoArray();
+			this._setOptionsOfSwipeLayers(infos || layerInfo);
+			if (changedType === 'removed') {
+				var layerId = this.swipeDijit.layers[0].id;
+				if (layerId === layerInfoSelf.id) {
+					this.destroySwipeDijit();
+					this._loadSwipeDijit(infos);
+				}
+			}
+			var newLayerId = this.swipeDijit.layers[0].id;
+			this.swipeLayers.set('value', newLayerId);
+		},
+
+		_onMainMapBasemapChange: function(evt) {
+			if (!(evt.layer && evt.layer._basemapGalleryLayerType)) {
+				return;
+			}
+			var options = this.swipeLayers.get('options');
+			if (options && options.length > 0) {
+				return;
+			} else if (this.loaded) {
+				var open = this.swipeDijit.enabled;
+				this.destroySwipeDijit();
+
+				this.createSwipeDijit(this.config.style || 'vertical', null, open, true);
+				html.setStyle(this.swipeLayersMenu, 'display', 'none');
+			}
+		},
+
+		destroy: function() {
+			this.destroySwipeDijit();
+			this.inherited(arguments);
+		}
+	});
+});

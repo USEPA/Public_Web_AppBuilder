@@ -31,6 +31,10 @@
 		setFilterTip: "Filtreyi düzgün şekilde ayarlayın.",
 		ok: "Tamam",
 		cancel: "İptal",
-		noFilterTip: "Tanımlı filtre ifadesi olmadan, bu sorgu görevi belirtilen veri kaynağındaki tüm detayları listeleyecektir."
+		noFilterTip: "Tanımlı filtre ifadesi olmadan, bu sorgu görevi belirtilen veri kaynağındaki tüm detayları listeleyecektir.",
+    relationships: "İlişki tablosu",
+    addRelationshipLayer: "Yeni İlişki Ekle",
+    relatedTo: "İlgili",
+    selectOption: "Seçim yapın.."
   })
 );

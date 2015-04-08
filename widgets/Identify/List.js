@@ -95,7 +95,8 @@ define(['dojo/_base/declare',
           domClass.add(div, this._itemAltCSS);
         }
 
-        var attArr = item.content.split('<br>');
+        //var attArr = item.content.split('<br>');
+        var attArr = item.rsltcontent.split('<br>');
         var attValArr;
         var label;
         var attTitle;

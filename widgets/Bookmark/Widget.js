@@ -62,9 +62,10 @@ function(declare, lang, array, html, BaseWidget, on, aspect, string,
       this.inherited(arguments);
 
       this.bookmarkList = new TileLayoutContainer({
-        strategy: 'fixCols',
-        itemSize: {height: ((110/130)*100) + '%'},
-        maxCols: 2
+        strategy: 'fixWidth',
+        itemSize: {width: 100, height: 92}, //image size is: 100*60,
+        hmargin: 16,
+        vmargin: 5
       }, this.bookmarkListNode);
 
       if(this.appConfig.map['3D']){
@@ -100,7 +101,7 @@ function(declare, lang, array, html, BaseWidget, on, aspect, string,
           this.bookmarks = lang.clone(this.config.bookmarks2D);
         }
       }
-      
+
       this._readBookmarksInWebmap();
       this.displayBookmarks();
     },
@@ -123,6 +124,11 @@ function(declare, lang, array, html, BaseWidget, on, aspect, string,
     resize: function(){
       var box = html.getMarginBox(this.domNode);
       var listHeight = box.h - 37 - 21 - 61;
+
+      //fix for IE8
+      if(listHeight < 0){
+        listHeight = 0;
+      }
       html.setStyle(this.bookmarkListNode, 'height', listHeight + 'px');
       if(this.bookmarkList){
         this.bookmarkList.resize();
@@ -244,7 +250,7 @@ function(declare, lang, array, html, BaseWidget, on, aspect, string,
         keys.push(key);
         store.set(key, bookmark);
       }, this);
-      
+
       store.set(this._getKeysKey(), keys);
     },
 
@@ -300,7 +306,7 @@ function(declare, lang, array, html, BaseWidget, on, aspect, string,
         this.errorNode.innerHTML = this.nls.errorNameExist;
         return;
       }
-      
+
       this._createBookmark();
 
       html.setStyle(this.errorNode, {visibility: 'hidden'});
@@ -339,7 +345,7 @@ function(declare, lang, array, html, BaseWidget, on, aspect, string,
           extent: this.map.extent.toJson()
         };
       }
-      
+
       this.bookmarks.push(b);
       this._createBookMarkNode(b);
       this._saveAllToLocalCache();
@@ -353,6 +359,7 @@ function(declare, lang, array, html, BaseWidget, on, aspect, string,
       }
 
       array.some(this.bookmarks, function(b, i){
+        // jshint unused:false
         if(i === this.currentIndex){
           this.bookmarks.splice(i, 1);
           return true;

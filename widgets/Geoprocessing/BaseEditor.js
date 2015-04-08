@@ -15,13 +15,11 @@
 ///////////////////////////////////////////////////////////////////////////
 
 define(['dojo/_base/declare',
-  'dojo/_base/lang',
-  'dojo/_base/html',
   'dojo/Deferred',
   'dijit/_WidgetBase',
   'dijit/_TemplatedMixin'
 ],
-function(declare, lang, html, Deferred, _WidgetBase) {
+function(declare, Deferred, _WidgetBase) {
   //summary:
   //  this is the base editor for all input editors.
   //  all editors should be passed into param object, label property when created.
