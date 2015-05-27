@@ -1,0 +1,63 @@
+<div class="jimu-widget-swipe-plus" data-dojo-attach-event="mouseenter:onMouseEnter, mouseleave:onMouseLeave">
+	<div class="swipe-plus-icon" data-dojo-attach-point="swipePlusIcon" title="${nls.enableTips}" data-dojo-attach-event="click:onIconClick">
+		<div class="swipe-plus-icon-inner" data-dojo-attach-point="swipePlusImg"></div>
+	</div>
+	<div class="swipe-plus-layer-menu" data-dojo-attach-point="swipePlusLayersMenu" style="display:none">
+    <span class="hint" data-dojo-attach-point="hintNode"></span>
+    <div class="close-button-area" data-dojo-attach-point="closeArea" data-dojo-attach-event="click:onCloseAreaClick">
+      <img class="close" src="./widgets/SwipePlus/images/close.png"></img>
+    </div>
+    <select id="swipePlusLayers"></select>
+    <table style="padding-top: 10px;">
+      <tbody>
+        <tr>
+          <td class="swipe-plus-type-title">
+            ${nls.swipeType}:
+          </td>
+          <td class="swipe-plus-type-radio">
+            <input type="radio" data-dojo-type="jimu/dijit/RadioBtn" data-dojo-props="name:'swipePlus', value: 'vertical'" />
+          </td>
+          <td>
+            <label>${nls.swipeVertical}</label>
+          </td>
+          <td class="swipe-plus-type-radio">
+            <input type="radio" data-dojo-type="jimu/dijit/RadioBtn" data-dojo-props="name:'swipePlus', value: 'horizontal'" />
+          </td>
+          <td>
+            <label>${nls.swipeHorizontal}</label>
+          </td>
+          <td class="swipe-plus-type-radio">
+            <input type="radio" data-dojo-type="jimu/dijit/RadioBtn" data-dojo-props="name:'swipePlus', value: 'scope'" />
+          </td>
+          <td>
+            <label>${nls.swipeSpotlight}</label>
+          </td>
+        </tr>
+        <tr class="swipe-plus-size">
+          <td class="swipe-plus-size-title">
+            Size:
+          </td>
+          <td class="swipe-plus-size-radio">
+            <input type="radio" data-dojo-type="jimu/dijit/RadioBtn" data-dojo-props="name:'swipePlusScopeSize', value:'small'" />
+          </td>
+          <td>
+            <label>${nls.swipeScopeSmall}</label>
+          </td>
+          <td class="swipe-plus-size-radio">
+            <input type="radio" data-dojo-type="jimu/dijit/RadioBtn" data-dojo-props="name:'swipePlusScopeSize', value:'medium'" />
+          </td>
+          <td>
+            <label>${nls.swipeScopeMedium}</label>
+          </td>
+          <td class="swipe-plus-size-radio">
+            <input type="radio" data-dojo-type="jimu/dijit/RadioBtn" data-dojo-props="name:'swipePlusScopeSize', value:'large'" />
+          </td>
+          <td>
+            <label>${nls.swipeScopeLarge}</label>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+	</div>
+	<div data-dojo-attach-point="layerSwipePlus"></div>
+</div>

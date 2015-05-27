@@ -1,0 +1,70 @@
+{
+  "serviceURL": "http://utility.arcgisonline.com/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task",
+  "defaultTitle": "ArcGIS WebMap",
+  "defaultAuthor": "ArcGIS WebApp Builder",
+  "defaultCopyright": "",
+  "defaultFormat": "PDF",
+  "defaultLayout": "Letter ANSI A Landscape",
+  "defaultDpi": 96,
+  "noTitleBlockPrefix": "No TB ",
+  "outWkid": 2965,
+  "showLayout": true,
+  "showOpacitySlider": true,
+  "layoutParams": {
+    "Letter ANSI A Landscape": {
+      "alias": "Letter Landscape (ANSI A)",
+      "units": "esriInches",
+      "params": [{ "x": 11,  "y": 8.5 }, { "x": 10, "y": 6.25 }, { "x": 0.5, "y": 1.5 }, { "x": 0.5, "y": 0.5 }]
+    },
+    "Letter ANSI A Portrait": {
+      "alias": "Letter Portrait (ANSI A)",
+      "units": "esriInches",
+      "params": [{ "x": 8.5, "y": 11 }, { "x": 7.5, "y": 8 }, { "x": 0.5, "y": 2.25 }, { "x": 0.5, "y": 0.5 }]
+    },
+    "Tabloid ANSI B Landscape": {
+      "alias": "Tabloid Landscape (ANSI B)",
+      "units": "esriInches",
+      "params": [{ "x": 17, "y": 11 }, { "x": 16, "y": 7.75 }, { "x": 0.5, "y": 2.5 }, { "x": 0.5, "y": 0.5 }]
+    },
+    "Tabloid ANSI B Portrait": {
+      "alias": "Tabloid Portrait (ANSI B)",
+      "units": "esriInches",
+      "params": [{ "x": 11, "y": 17 }, { "x": 10, "y": 11.75 }, { "x": 0.5, "y": 4.5 }, { "x": 0.5, "y": 0.5 }]
+    },
+    "A4 Landscape": {
+      "alias": "A4 Landscape",
+      "units": "esriCentimeters",
+      "params": [{ "x": 29.7, "y": 21 }, { "x": 27.7, "y": 15.9 }, { "x": 1, "y": 3.8 }, { "x": 1, "y": 1 }]
+    },
+    "A4 Portrait": {
+      "alias": "A4 Portrait",
+      "units": "esriCentimeters",
+      "params": [{ "x": 21, "y": 29.7 }, { "x": 19, "y": 22.3 }, { "x": 1, "y": 5.7 }, { "x": 1, "y": 1 }]
+    },
+    "A3 Landscape": {
+      "alias": "A3 Landscape",
+      "units": "esriCentimeters",
+      "params": [{ "x": 42, "y": 29.7 }, { "x": 40, "y": 21.7 }, { "x": 1, "y": 6.3 }, { "x": 1, "y": 1 }]
+    },
+    "A3 Portrait": {
+      "alias": "A3 Portrait",
+      "units": "esriCentimeters",
+      "params": [{ "x": 29.7, "y": 42 }, { "x": 27.7, "y": 29 }, { "x": 1, "y": 11 }, { "x": 1, "y": 1 }]
+    },
+    "MAP_ONLY": {
+      "alias": "Just the Map",
+      "units": "NaN",
+      "params": [{ "x": 0, "y": 0 }, { "x": 0, "y": 0 }, { "x": 0, "y": 0 }, { "x": 0, "y": 0 }]
+    }
+  },
+  "relativeScale": "(1&quot; = [value]')",
+  "relativeScaleFactor": 0.08333333,
+  "scalePrecision": 0,
+  "mapScales": [
+    6000000, 4800000, 3600000, 2400000, 1200000, 960000, 720000,
+    600000, 480000, 360000, 240000, 120000, 96000, 72000,
+    60000, 48000, 36000, 24000, 12000, 9600, 7200,
+    6000, 4800, 3600, 2400, 1200, 960, 720,
+    600, 480, 360, 300
+  ]
+}

@@ -1,0 +1,51 @@
+.jimu-widget-draw-setting .btn-add-section{
+  display:inline-block;
+  overflow:hidden;
+  height:24px;
+  margin-left:1px;
+  margin-bottom:3px;
+  cursor:pointer;
+  font-size:13px;
+  color:#538ec8;
+  margin-top:8px;
+}
+
+.jimu-widget-draw-setting .btn-add-section .btn-add-icon{
+  height:100%;
+  width:14px;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-image: url(images/add.png);
+}
+
+.jimu-widget-draw-setting .btn-add-section .btn-add-label{
+  height:100%;
+  line-height:24px;
+  vertical-align:middle;
+  margin-left:7px;
+  text-decoration: underline;
+}
+
+.jimu-rtl .jimu-widget-draw-setting .btn-add-section .btn-add-label{
+  margin-left: 0;
+  margin-right: 7px;
+}
+
+.jimu-widget-draw-setting .settings{
+	list-style-type:none;
+	display:table;
+}
+.jimu-widget-draw-setting .settings li{
+	display:table-row;
+}
+.jimu-widget-draw-setting .settings .input{
+	display:table-cell;
+	width:49%;
+	text-align:right;
+}
+.jimu-widget-draw-setting .settings .label{
+	display:table-cell;
+	width:49%;
+	text-align:left;
+	padding-left:10px;
+}

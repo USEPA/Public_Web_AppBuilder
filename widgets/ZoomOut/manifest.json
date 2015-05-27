@@ -1,0 +1,16 @@
+{
+  "name": "ZoomOut",
+  "platform": "HTML",
+  "version": "1.0.1",
+  "author": "Esri R&D Center Beijing, Brian O'keefe, Robert Scheitlin, Stan McShinsky",
+  "description": "Zoom Out",
+  "copyright": "",
+  "license": "http://www.apache.org/licenses/LICENSE-2.0",
+  "properties": {
+    "hasConfig": false,
+    "hasStyle": false,
+    "hasLocale": false,
+    "hasUIFile": false,
+    "inPanel": false
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "name": "Widget Metadata",
+  "platform": "HTML",
+  "version": "1.1.1",
+  "author": "Larry Stout, Hamilton County Indiana",
+  "description": "Adds a Widget Metadata Popup when Alt-Clicking the panel header or the widget icon for widgets without panels.  It is not itself a widget.  Based on work by Robert Scheitlin",
+  "copyright": "",
+  "license": "http://www.apache.org/licenses/LICENSE-2.0",
+  "properties": {
+    "inPanel": false,
+    "hasConfig": false,
+    "hasLocale": true,
+    "hasStyle": false,
+    "hasUIFile": false,
+    "hasSettingPage": false,
+    "hasSettingUIFile": false,
+    "hasSettingLocale": false,
+    "hasSettingStyle": false,
+    "isController": false,
+    "isThemeWidget": false
+  }
+}

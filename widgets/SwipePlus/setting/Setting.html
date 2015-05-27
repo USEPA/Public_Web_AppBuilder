@@ -1,0 +1,63 @@
+<div style="width:100%;height:100%;">
+  <div class="style-section">
+    <span class="style-text">${nls.styleText}</span>
+    <div class="style-items">
+      <div class="style-item jimu-float-leading jimu-leading-margin2" data-dojo-attach-point="verticalNode">
+        <div class="style-vertical style-item-image"></div>
+        <div data-dojo-type="jimu/dijit/RadioBtn" data-dojo-props="group:'swipe'"></div>
+        <label>${nls.vertical}</label>
+      </div>
+      <div class="style-item jimu-float-leading jimu-leading-margin2" data-dojo-attach-point="horizontalNode">
+        <div class="style-horizontal style-item-image"></div>
+        <div data-dojo-type="jimu/dijit/RadioBtn" data-dojo-props="group:'swipe'"></div>
+        <label>${nls.horizontal}</label>
+      </div>
+      <div class="style-item jimu-float-leading jimu-leading-margin2" data-dojo-attach-point="scopeNode">
+        <div class="style-scope style-item-image"></div>
+        <div data-dojo-type="jimu/dijit/RadioBtn" data-dojo-props="group:'swipe'"></div>
+        <label>${nls.scope}</label>
+      </div>
+    </div>
+  </div>
+  <div class="scope-size-section">
+    <table class="setting-table input-table" cellspacing="0">
+      <tbody>
+        <tr>
+          <td class="first">${nls.spyglassSizeText}</td>
+          <td class="second">
+            <select data-dojo-attach-point="selectScopeSize" data-dojo-type="dijit/form/Select">
+              <option value="small">${nls.small}</option>
+              <option value="medium" selected>${nls.medium}</option>
+              <option value="large">${nls.large}</option>
+            </select>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="sample-spyglass-frame">
+      <div class="sample-spyglass-div" style="width:100%;">
+        <img class="sample-spyglass" data-dojo-attach-point="sampleSpyglass">
+      </div>
+    </div>
+  </div>
+  <div class="layer-height-section">
+    <table class="setting-table input-table" cellspacing="0">
+      <tbody>
+        <tr>
+          <td class="first">${nls.layerSelectionHeight}</td>
+          <td class="second">
+            <input class="swipe-plus-layer-height" data-dojo-type="dijit/form/NumberSpinner" 
+                   data-dojo-props="intermediateChanges:true, constraints: {min:65,max:200,places:0}, 
+                   smallDelta: 5"
+                   data-dojo-attach-point="layerHeightSpinner"> 
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="layer-section">
+    <span class="layer-text" data-dojo-attach-point="layerTextNode">${nls.layerText}</span>
+    <select data-dojo-attach-point="swipePlusLayersCfg"></select>
+    <label class="layer-hint">${nls.layerHint}</label>
+  </div>
+</div>

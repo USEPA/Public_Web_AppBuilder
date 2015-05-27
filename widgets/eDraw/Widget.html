@@ -1,0 +1,141 @@
+<div>
+  <div class="menu">
+	<img title="${nls.addDrawTitle}" data-dojo-attach-point="menuAddButton" class="menu-item-active" src="${folderUrl}images/add.png" data-dojo-attach-event="ondijitclick:menuOnClickAdd"/>
+	<img title="${nls.editDrawTitle}" data-dojo-attach-point="menuEditButton" class="menu-item-active hidden" src="${folderUrl}images/edit.png" />
+	<img title="${nls.listDrawTitle}" data-dojo-attach-point="menuListButton" class="menu-item" src="${folderUrl}images/list.png" data-dojo-attach-event="ondijitclick:menuOnClickList"/>
+	<img title="${nls.importExportTitle}" data-dojo-attach-point="menuListImportExport" class="menu-item" src="${folderUrl}images/swap_vert.png" data-dojo-attach-event="ondijitclick:menuOnClickImportExport"/>
+  </div>
+  <div data-dojo-attach-point="settingAllContent">
+	
+	  <div data-dojo-attach-point="addSection">
+		  <h2>${nls.addDrawTitle}</h2>
+		  
+		  <div class="bloc">			  
+			  <label>${nls.selectDrawMode}</label>
+			  <div data-dojo-attach-point="drawBox" data-dojo-type="jimu/dijit/DrawBox" data-dojo-props='types:["point","polyline","polygon","text"],showClear:true' style="margin-top:5px;"></div>
+
+			  <div data-dojo-attach-point="measureSection" class="measure-section">
+				<div style="margin-bottom:7px;">
+				  <input data-dojo-attach-point="showMeasure" type="checkbox" />
+				  <label data-dojo-attach-point="showMeasureLabel">${nls.showMeasurements}</label>
+				</div>
+				<div data-dojo-attach-point="areaMeasure" style="display:none;height:30px;margin-bottom:7px;">
+				  <div class="area-units-tip  jimu-float-leading">${nls.areaUnits}</div>
+				  <select data-dojo-attach-point="areaUnitSelect" data-dojo-type="dijit/form/Select" class=" jimu-float-trailing" style="width:50%;height:30px;"></select>
+				</div>
+				<div data-dojo-attach-point="distanceMeasure" style="display:none;height:30px;">
+				  <div class="distance-units-tip jimu-float-leading">${nls.distanceUnits}</div>
+				  <select data-dojo-attach-point="distanceUnitSelect" data-dojo-type="dijit/form/Select" class=" jimu-float-trailing" style="width:50%;height:30px;"></select>
+				</div>
+			  </div>
+			</div>
+	  </div>
+	  
+	  <div data-dojo-attach-point="editorSection">
+		<h2 data-dojo-attach-point="editorTitle">${nls.addDrawTitle}</h2>
+		<div class="content">
+		  <label>${nls.nameField}:</label>
+		  <br />
+		  <input id="nameField" type="text" data-dojo-attach-point="nameField" value="${nls.nameFieldDefaultValue}" class="jimu-input" data-dojo-attach-event="onchange:editorUpdateTextPlus" />
+		  <br />
+		  <label>${nls.descriptionField}:</label>
+		  <br />	  
+		  <textarea id="descriptionField" data-dojo-attach-point="descriptionField" class="jimu-input" rows="3"></textarea>
+		  <hr />
+		  <div data-dojo-attach-point="editorSymbolChooserDiv" class="full-width"></div>
+		  <table class="symbol-set-table" cellspading="0" data-dojo-attach-point="editorSymbolTextPlusNode">
+			  <tbody>
+			  <tr class="draw-plus textFontOptions">
+				<td>
+					<span>${nls.fontName}</span>
+				  </td>
+				  <td>
+					<div data-dojo-attach-point="editorTextPlusPoliceNode" data-dojo-type="dijit/form/Select" class="draw-plus font-name">
+					  <span value="Arial, Helvetica, sans-serif">Sans Serif (1)</span>
+					  <span value="Comic Sans MS, Futura, sans-serif">Sans Serif (2)</span>
+					  <span value="Times New Roman, Times, serif">Serif (1)</span>
+					  <span value="Palatino Linotype, Book Antiqua, Palatino, serif">Serif (2)</span>
+					  <span value="Lucida Console, Monaco, monospace">Fixed Width (1)</span>
+					  <span value="Courier New, Courier, monospace">Fixed Width (2)</span>
+					</div>
+					<div class="draw-plus text-options">
+					  <div data-dojo-attach-point="editorTextPlusBoldNode" title="${nls.boldTitle}" class="draw-plus text-option text-bold">${nls.boldCharacter}</div>
+					  <div data-dojo-attach-point="editorTextPlusItalicNode" title="${nls.italicTitle}" class="draw-plus text-option text-italic">${nls.italicCharacter}</div>
+					  <div data-dojo-attach-point="editorTextPlusUnderlineNode" title="${nls.underlineTitle}" class="draw-plus text-option text-underline">${nls.underlineCharacter}</div>
+					</div>
+				  </td>
+				</tr>
+				<tr class="draw-plus textAngleOptions">
+				  <td>
+					<span>${nls.textAngle}</span>
+				  </td>
+				  <td>
+					<input data-dojo-attach-point="editorTextPlusAngleNode" data-dojo-type="dijit/form/NumberSpinner" data-dojo-props="value:0,smallDelta:5,constraints:{min:-90,max:90},intermediateChanges:true" class="draw-plus text-angle"></input>
+					<span data-dojo-attach-point="editorTextAnglePreviewNode" class="draw-plus text-angle-sample">${nls.drawSampleRotatedText}</span>
+				  </td>
+			  </tr>
+			  </tbody>
+			</table>
+		
+		  <br />
+		  <p class="editor-add-message" data-dojo-attach-point="editorAddMessage" style="display:none;">${nls.addMessage}.</p>
+		</div>
+		<div class="footer">
+			<div data-dojo-attach-point="editorFooterEdit">
+				<input type="button" class="jimu-input blue-button" value="${nls.saveButton}" data-dojo-attach-event="ondijitclick:editorOnClickEditSaveButon"/>
+				<input type="button" class="jimu-input red-button" value="${nls.cancelButton}" data-dojo-attach-event="ondijitclick:editorOnClickEditCancelButon"/>
+				<input type="button" class="jimu-input grey-button" value="${nls.resetButton}" data-dojo-attach-event="ondijitclick:editorOnClickResetCancelButon"/>
+			</div>
+			<div data-dojo-attach-point="editorFooterAdd" style="display:none;">
+				<input type="button" class="jimu-input red-button" value="${nls.cancelButton}" data-dojo-attach-event="ondijitclick:editorOnClickAddCancelButon"/>
+			</div>
+		</div>
+	  </div>
+	  
+	  <div data-dojo-attach-point="listSection">
+		<h2>${nls.listDrawTitle}</h2>
+		<div class="content">
+			<table class="jimu-table draw-table">
+				<thead>
+					<tr>
+						<!--<th></th>-->
+						<th>${nls.nameField}</th>
+						<th>${nls.symbolField}</th>
+						<th data-dojo-attach-point="tableTH"></th>
+					</tr>
+				</thead>
+				<tbody data-dojo-attach-point="drawsTableBody"></tbody>
+			</table>
+		</div>
+		<div class="footer">
+			<div data-dojo-attach-point="allActionsNode">
+				<div class="list-draw-actions">
+					<span class="text">${nls.all} :</span>
+					<span title="${nls.clear}" class="clear red-button" data-dojo-attach-event="ondijitclick:clear">&nbsp;</span>
+					<span title="${nls.zoomAllLabel}" class="zoom blue-button" data-dojo-attach-event="ondijitclick:zoomAll">&nbsp;</span>
+				</div>
+			</div>
+		</div>
+	  </div>
+	  
+	  <div data-dojo-attach-point="importExportSection">
+		<h2>${nls.importExportTitle}</h2>
+		<table class="jimu-table">
+			<tr><td>
+				<h4 class="title">${nls.exportTitle}</h4>
+				<div class="list-draw-actions">
+					<a data-dojo-attach-point="exportButton" target="_BLANK" data-dojo-attach-event="ondijitclick:export" download="myDraw.json" href="#"><span class="export blue-button"></span></a>
+					<iframe data-dojo-attach-point="exportIframeForIE" style="display:none;"></iframe>
+				</div>
+			</td></tr>
+			<tr><td>
+				<h4 class="title">${nls.importTitle}</h4>
+				<div class="draw-import list-draw-actions">
+					<input class="file" value="" type="file" data-dojo-attach-point="importFile" />
+					<a data-dojo-attach-point="importButton" data-dojo-attach-event="ondijitclick:import"><span class="import blue-button"></span></a>
+				</div>
+			</td></tr>
+		</table>
+	  </div>
+	</div>  
+</div>

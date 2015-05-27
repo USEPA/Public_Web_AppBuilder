@@ -1,0 +1,45 @@
+.jimu-widget-opacity .unselectable {
+  -moz-user-select:none;
+  -webkit-user-select:none;
+  -ms-user-select:none;
+}
+.jimu-widget-opacity .dijitSliderImageHandle.dijitSliderImageHandleH {
+  outline: none !important;
+}
+.jimu-foldable-panel .opacity-btn {
+  width: 35px;
+  height: 100%;
+  border-radius: 11px;
+  opacity: 1;
+  background: url(../images/opacity.png) no-repeat center center;
+  cursor: pointer;
+  position: relative;
+  z-index: 100;
+}
+.jimu-widget-panel .opacity-btn {
+  width: 35px;
+  height: 100%;
+  border-radius: 11px;
+  opacity: 1;
+  background: url(../images/opacity.png) no-repeat center center;
+  cursor: pointer;
+  position: relative;
+  z-index: 100;
+}
+.jimu-preload-widget-icon-panel>.title>.title-label {
+  width: auto;
+}
+.jimu-widget-panel .title-label{
+  z-index: 99;
+}
+.jimu-foldable-panel .title-label{
+  z-index: 99;
+}
+.jimu-widget-opacity .close-button-area {
+	position: absolute;
+	top: 10px;
+	right: 0;
+  height: 30px;
+  width: 30px;
+  background: url(../images/close.png) no-repeat center center;
+}

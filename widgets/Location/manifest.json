@@ -1,0 +1,19 @@
+{
+  "name": "Location",
+  "platform": "HTML",
+  "version": "1.1",
+  "wabVersion": "1.1",
+  "author": "Tim Witt",
+  "description": "This is a widget that can give you a location in various formats",
+  "copyright": "2015",
+  "properties": {  
+	"inPanel":true,  
+	"hasLocale": true,  
+	"hasStyle":true,  
+	"hasConfig":true,  
+	"hasUIFile":true,  
+	"hasSettingPage":true,  
+	"IsController":false  
+  },
+  "license": "http://www.apache.org/licenses/LICENSE-2.0"
+}
