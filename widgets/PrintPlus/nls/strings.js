@@ -56,7 +56,7 @@ define({
                    "<b>Exported map size</b> or <b>Units</b>." +
                    "</p>"
     },
-    title: "Map Title",
+    title: "Title",
     format: "Format",
     layout: "Layout",
     settings: "Advanced",

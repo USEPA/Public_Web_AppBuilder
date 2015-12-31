@@ -1,18 +1,7 @@
 ///////////////////////////////////////////////////////////////////////////
-// Copyright © 2014 Esri. All Rights Reserved.
-//
-// Licensed under the Apache License Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//    http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
+// Robert Scheitlin WAB Identify Widget
 ///////////////////////////////////////////////////////////////////////////
+/*global define, setTimeout, window*/
 
 define([
     'dojo/_base/declare',
@@ -31,6 +20,7 @@ define([
     'dijit/form/NumberSpinner',
     'dijit/form/Select',
     './SymbologyEdit',
+    './ResultFormatEdit',
     './IdentifyLayerEdit',
     './ExcludeLayerEdit'
   ],
@@ -51,6 +41,7 @@ define([
     NumberSpinner,
     Select,
     SymbologyEdit,
+    ResultFormatEdit,
     IdentifyLayerEdit,
     ExcludeLayerEdit) {
     return declare([BaseWidgetSetting, _WidgetsInTemplateMixin], {
@@ -58,11 +49,13 @@ define([
       baseClass: 'widget-identify-setting',
       dnls: null,
       popupsymedit: null,
+      popupformatedit: null,
       popuplayeredit: null,
       popupexcludelayeredit: null,
       popup: null,
       popup2: null,
       popup3: null,
+      popup4: null,
       popupState: null,
       layerInfoCache: null,
 
@@ -80,6 +73,9 @@ define([
       _bindEvents: function() {
         this.own(on(this.btnSymIdentify,'click',lang.hitch(this,function(){
           this._openSymEdit(this.nls.editDefaultSym);
+        })));
+        this.own(on(this.btnFormatResults,'click',lang.hitch(this,function(){
+          this._openFormatEdit(this.nls.editResultFormat);
         })));
         this.own(on(this.btnAddLayer,'click',lang.hitch(this,function(){
           var args = {
@@ -131,33 +127,33 @@ define([
         //hack the 'Learn more about this widget link'
         setTimeout(function(){
           var helpLink = query('.help-link');
-          helpLink[0].href = 'http://gis.calhouncounty.org/WAB/V1.1/widgets/Identify/help/identify_Help.htm';
+          helpLink[0].href = 'http://gis.calhouncounty.org/WAB/V1.3/widgets/Identify/help/identify_Help.htm';
           html.setStyle(helpLink[0],'display','block');
         },600);
         this.config = config;
-        this.onlyTheseCbx.checked = this.config.layers.onlythese;
+        this.onlyTheseCbx.setValue(this.config.layers.onlythese);
         this.zoomScale.set('value',this.config.defaultzoomscale);
         this.selectIdentifyOption.set('value', this.config.identifylayeroption);
         this.identTolerance.set('value',this.config.identifytolerance);
-        this.keepActiveCbx.checked = this.config.keepidentifyactive;
-        this.returnGeomCbx.checked = this.config.returngeometryforzoom;
+        this.keepActiveCbx.setValue(this.config.keepidentifyactive);
+        this.returnGeomCbx.setValue(this.config.returngeometryforzoom);
 
-        this.enableLineCbx.checked = this.config.enablelineselect;
-        this.enablePolyLineCbx.checked = this.config.enablepolylineselect;
-        this.enableFHLineCbx.checked = this.config.enablefreehandlineselect;
-        this.enableExtentCbx.checked = this.config.enableextentselect;
-        this.enableCircleCbx.checked = this.config.enablecircleselect;
-        this.enableEllipseCbx.checked = this.config.enableellipseselect;
-        this.enablePolygonCbx.checked = this.config.enablepolyselect;
-        this.enableFHPolygonCbx.checked = this.config.enablefreehandpolyselect;
-        this.enableTriangleCbx.checked = this.config.enabletriangleselect;
+        this.enableLineCbx.setValue(this.config.enablelineselect);
+        this.enablePolyLineCbx.setValue(this.config.enablepolylineselect);
+        this.enableFHLineCbx.setValue(this.config.enablefreehandlineselect);
+        this.enableExtentCbx.setValue(this.config.enableextentselect);
+        this.enableCircleCbx.setValue(this.config.enablecircleselect);
+        this.enableEllipseCbx.setValue(this.config.enableellipseselect);
+        this.enablePolygonCbx.setValue(this.config.enablepolyselect);
+        this.enableFHPolygonCbx.setValue(this.config.enablefreehandpolyselect);
+        this.enableTriangleCbx.setValue(this.config.enabletriangleselect);
 
-        this.mouseOverGraCbx.checked = this.config.enablemouseovergraphicsinfo;
-        this.mouseOverResultCbx.checked = this.config.enablemouseoverrecordinfo;
-        this.useMapTimeCbx.checked = this.config.usemaptime;
-        this.replaceNullCbx.checked = this.config.replacenullswithemptystring;
-        this.disableLayerDDCbx.checked = this.config.disablelayerdropdown;
-        this.disableAllLayersChoiceCbx.checked = this.config.disablealllayerschoice;
+        this.mouseOverGraCbx.setValue(this.config.enablemouseovergraphicsinfo);
+        this.mouseOverResultCbx.setValue(this.config.enablemouseoverrecordinfo);
+        this.useMapTimeCbx.setValue(this.config.usemaptime);
+        this.replaceNullCbx.setValue(this.config.replacenullswithemptystring);
+        this.disableLayerDDCbx.setValue(this.config.disablelayerdropdown);
+        this.disableAllLayersChoiceCbx.setValue(this.config.disablealllayerschoice);
         this.autoClose.set('value', (parseInt(this.config.infoautoclosemilliseconds)/1000));
         this.selectDefaultTool.set('value',this.config.autoactivatedtool || 'none');
 
@@ -172,33 +168,33 @@ define([
           delete this.config.autoactivatedtool;
         }
         this.config.infoautoclosemilliseconds = parseInt(this.autoClose.get('value')) * 1000;
-        this.config.disablealllayerschoice = this.disableAllLayersChoiceCbx.checked;
+        this.config.disablealllayerschoice = this.disableAllLayersChoiceCbx.getValue();
 
-        this.config.enablemouseovergraphicsinfo = this.mouseOverGraCbx.checked;
-        this.config.enablemouseoverrecordinfo = this.mouseOverResultCbx.checked;
-        this.config.usemaptime = this.useMapTimeCbx.checked;
-        this.config.replacenullswithemptystring = this.replaceNullCbx.checked;
-        this.config.disablelayerdropdown = this.disableLayerDDCbx.checked;
+        this.config.enablemouseovergraphicsinfo = this.mouseOverGraCbx.getValue();
+        this.config.enablemouseoverrecordinfo = this.mouseOverResultCbx.getValue();
+        this.config.usemaptime = this.useMapTimeCbx.getValue();
+        this.config.replacenullswithemptystring = this.replaceNullCbx.getValue();
+        this.config.disablelayerdropdown = this.disableLayerDDCbx.getValue();
 
-        this.config.enablelineselect = this.enableLineCbx.checked;
-        this.config.enablepolylineselect = this.enablePolyLineCbx.checked;
-        this.config.enablefreehandlineselect = this.enableFHLineCbx.checked;
-        this.config.enableextentselect = this.enableExtentCbx.checked;
-        this.config.enablecircleselect = this.enableCircleCbx.checked;
-        this.config.enableellipseselect = this.enableEllipseCbx.checked;
-        this.config.enablepolyselect = this.enablePolygonCbx.checked;
-        this.config.enablefreehandpolyselect = this.enableFHPolygonCbx.checked;
-        this.config.enabletriangleselect = this.enableTriangleCbx.checked;
+        this.config.enablelineselect = this.enableLineCbx.getValue();
+        this.config.enablepolylineselect = this.enablePolyLineCbx.getValue();
+        this.config.enablefreehandlineselect = this.enableFHLineCbx.getValue();
+        this.config.enableextentselect = this.enableExtentCbx.getValue();
+        this.config.enablecircleselect = this.enableCircleCbx.getValue();
+        this.config.enableellipseselect = this.enableEllipseCbx.getValue();
+        this.config.enablepolyselect = this.enablePolygonCbx.getValue();
+        this.config.enablefreehandpolyselect = this.enableFHPolygonCbx.getValue();
+        this.config.enabletriangleselect = this.enableTriangleCbx.getValue();
 
         this.config.defaultzoomscale = this.zoomScale.get('value');
         this.config.identifylayeroption = this.selectIdentifyOption.get('value');
         this.config.identifytolerance = this.identTolerance.get('value');
-        this.config.keepidentifyactive = this.keepActiveCbx.checked;
-        this.config.returngeometryforzoom = this.returnGeomCbx.checked;
+        this.config.keepidentifyactive = this.keepActiveCbx.getValue();
+        this.config.returngeometryforzoom = this.returnGeomCbx.getValue();
 
         this.config.layers.layer =  this._getAllLayers();
         this.config.layers.excludelayer =  this._getAlleLayers();
-        this.config.layers.onlythese = this.onlyTheseCbx.checked;
+        this.config.layers.onlythese = this.onlyTheseCbx.getValue();
 
         return this.config;
       },
@@ -291,7 +287,7 @@ define([
         this.popup = null;
       },
 
-      _openSymEdit: function(title, tr) {
+      _openSymEdit: function(title) {
         this.popupsymedit = new SymbologyEdit({
           nls: this.nls,
           config: this.config || {}
@@ -317,10 +313,45 @@ define([
         this.popupsymedit.startup();
       },
 
+      _onFormatEditOk: function() {
+        this.config.resultFormat = this.popupformatedit.getConfig().format;
+        this.popup4.close();
+        this.popupState = '';
+      },
+
+      _onFormatEditClose: function() {
+        this.popupfromatedit = null;
+        this.popup4 = null;
+      },
+
+      _openFormatEdit: function(title) {
+        this.popupformatedit = new ResultFormatEdit({
+          nls: this.nls,
+          config: this.config || {}
+        });
+
+        this.popup4 = new Popup({
+          titleLabel: title,
+          autoHeight: true,
+          content: this.popupformatedit,
+          container: 'main-page',
+          width: 540,
+          buttons: [{
+            label: this.nls.ok,
+            key: keys.ENTER,
+            onClick: lang.hitch(this, '_onFormatEditOk')
+          }, {
+            label: this.nls.cancel,
+            key: keys.ESCAPE
+          }],
+          onClose: lang.hitch(this, '_onFormatEditClose')
+        });
+        html.addClass(this.popup4.domNode, 'widget-setting-format');
+        this.popupformatedit.startup();
+      },
+
       _onILEditOk: function() {
         var layerConfig = this.popuplayeredit.getConfig();
-//        console.info(layerConfig);
-
         if (layerConfig.length < 0) {
           new Message({
             message: this.nls.warning
@@ -382,8 +413,6 @@ define([
 
       _onIELEditOk: function() {
         var layerConfig = this.popupexcludelayeredit.getConfig();
-//        console.info(layerConfig[0]);
-
         if (layerConfig.length < 0) {
           new Message({
             message: this.nls.warning
@@ -449,7 +478,6 @@ define([
           }],
           onClose: lang.hitch(this, '_onIELEditClose')
         });
-        //html.addClass(this.popup.domNode, 'widget-setting-symbology');
         this.popupexcludelayeredit.startup();
       }
 

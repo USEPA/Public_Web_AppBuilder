@@ -31,6 +31,7 @@ function(declare, lang, html, on, json, SymbolPicker, TabContainer, jsonUtils, S
     config:null,
     searchSetting:null,
     _symbols:null,
+    widget:null,
 
     postCreate:function(){
       this.inherited(arguments);
@@ -52,11 +53,10 @@ function(declare, lang, html, on, json, SymbolPicker, TabContainer, jsonUtils, S
       }
       this._symbols = this.config.symbols;
       if(this._symbols.picturemarkersymbol){
-        /*if(this._symbols.picturemarkersymbol.url.substring(0,7) === 'images/'){
-          var pre = '';
-          this._symbols.picturemarkersymbol.url = pre + this._symbols.picturemarkersymbol.url;
-        }*/
-        this.defaultPointSymbolPicker.showBySymbol(jsonUtils.fromJson(this._symbols.picturemarkersymbol));
+        var pms = lang.clone(this._symbols.picturemarkersymbol);
+        pms.url = this.widget.folderUrl + pms.url;
+        console.info(pms);
+        this.defaultPointSymbolPicker.showBySymbol(jsonUtils.fromJson(pms));
       }
       if(this._symbols.simplemarkersymbol){
         this.defaultPointSymbolPicker.showBySymbol(jsonUtils.fromJson(this._symbols.simplemarkersymbol));
@@ -83,11 +83,11 @@ function(declare, lang, html, on, json, SymbolPicker, TabContainer, jsonUtils, S
     },
 
     getConfig:function(){
-      var config = {
+      /*var config = {
         symbols: this._symbols
-      };
+      };*/
 
-      this.config = config;
+      this.config = this._symbols;
       return this.config;
     },
 

@@ -1,0 +1,17 @@
+{
+    "name": "Pictometry",
+  "platform": "HTML",
+  "version": "1.2",
+  "wabVersion": "1.2",
+  "author": "Kevin MacLeod",
+  "description": "This widget opens a link to your organization's Pictometry Connect Online page.",
+  "copyright": "",
+  "license": "http://www.apache.org/licenses/LICENSE-2.0",
+  "properties": {
+"inPanel": true,
+    "hasConfig": true,
+    "hasStyle": true,
+    "hasLocale": false,
+    "hasUIFile": false
+  }
+}

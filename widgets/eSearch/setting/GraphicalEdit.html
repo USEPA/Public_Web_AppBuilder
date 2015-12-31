@@ -1,0 +1,60 @@
+<div>
+  <table style="width:100%;border-spacing: 10px;">
+    <tbody>
+      <tr>
+        <td style="vertical-align:text-top;width:50%;">
+          <div data-dojo-type="jimu/dijit/CheckBox" data-dojo-attach-point="showmultiCbx"
+               data-dojo-props="checked:true,label:'${nls.showuseMultiGraphics}'"></div>
+        </td>
+        <td style="vertical-align:text-top;width:50%;">
+          <div data-dojo-type="jimu/dijit/CheckBox" data-dojo-attach-point="showtoleranceCbx"
+               data-dojo-props="checked:true,label:'${nls.showaddTolerance}'"></div>
+        </td>
+      </tr>
+      <tr>
+        <td style="vertical-align:text-top;width:50%;">
+          <div data-dojo-type="jimu/dijit/CheckBox" data-dojo-attach-point="showaddsqltextCbx"
+               data-dojo-props="checked:true,label:'${nls.showaddsqltext}'"></div>
+        </td>
+        <td style="vertical-align:text-top;width:50%;">
+          <div data-dojo-type="jimu/dijit/CheckBox" data-dojo-attach-point="showbufferCbx"
+               data-dojo-props="checked:true,label:'${nls.showbuffergraphic}'"></div>
+        </td>
+      </tr>
+      <tr>
+        <td style="vertical-align:text-top;width:50%;">
+          <div data-dojo-type="jimu/dijit/CheckBox" data-dojo-attach-point="toleranceCbx" data-dojo-props="label:'${nls.addTolerance}'"></div>
+        </td>
+        <td style="vertical-align:text-top;width:50%;">
+          <div data-dojo-type="jimu/dijit/CheckBox" data-dojo-attach-point="keepGraphicalEnabledCbx"
+               data-dojo-props="label:'${nls.keepGraphicalEnabled}'"></div>
+        </td>
+      </tr>
+      <tr>
+        <td style="vertical-align:text-top;width:50%;">
+          <div data-dojo-type="jimu/dijit/CheckBox" data-dojo-attach-point="bufferbydefaultCbx"
+               data-dojo-props="checked:false,label:'${nls.buffergraphicbydefault}'"></div>
+        </td>
+        <td style="vertical-align:text-top;width:50%;">
+          <div data-dojo-type="jimu/dijit/CheckBox" data-dojo-attach-point="multiCbx" data-dojo-props="label:'${nls.useMultiGraphics}'"></div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <table class="point-tolerance-table" style="margin:8px 0;">
+    <tbody>
+      <tr>
+        <td style="vertical-align:text-top;padding-right: 8px;">${nls.pointTolerance}</td>
+        <td style="vertical-align:text-top;">
+          <input type="text" data-dojo-attach-point="pointTolerance" data-dojo-type="dijit/form/NumberTextBox"
+            data-dojo-props="style:{width:'150px'},required:true,value:6,constraints:{min:0,places:0,max:30}" />
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div data-dojo-attach-point="GraphicalSearchTable" data-dojo-type="jimu/dijit/SimpleTable"
+       data-dojo-props="fields:[
+                        {name:'add',title:this.nls.addRemove,type:'checkbox', width:'200px'},
+                        {name:'label',title:'${nls.graphicalSearchOptions}',type:'text',editable:false},
+                        {name:'name',type:'text',hidden:true}]"></div>
+</div>

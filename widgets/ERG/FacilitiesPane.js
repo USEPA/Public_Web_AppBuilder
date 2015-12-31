@@ -26,9 +26,8 @@ define([
                 this.inherited(arguments);
             },
             buildRendering: function() {
-                console.log("FacilitiesPane - BuildRendering");
                 var titleText = dojoLang.replace(
-                    "<div class='jimu-widget-bombThreat resultTitle'>Results: {count}</div>", {
+                    "<div class='jimu-widget-erg resultTitle'>Results: {count}</div>", {
                         count: this.resultsList.length
                     }
                 );
@@ -40,14 +39,14 @@ define([
                 });
 
                 this.facilityList = dojoConstruct.place('<div></div>', this.domNode);
-                var cp = dojoConstruct.place("<div class='jimu-widget-bombThreat PropertyInfoLayer'></div>", this.facilityList);
-                var layerTitle = dojoLang.replace("<div class='jimu-widget-bombThreat featureList'>{title}</div>", {
+                var cp = dojoConstruct.place("<div></div>", this.facilityList);
+                var layerTitle = dojoLang.replace("<div class='jimu-widget-erg featureList'>{title}</div>", {
                     title: "Critical Facilities"
                 });
                 dojoConstruct.place(layerTitle, cp);
 
                 dojoArray.forEach(this.resultsList, function(fitem) {
-                    featText = dojoConstruct.place("<div class='jimu-widget-bombThreat featureLabel'></div>", cp);
+                    featText = dojoConstruct.place("<div class='jimu-widget-erg featureLabel'></div>", cp);
                     var fv = new FacilitiesView({
                         graphic: fitem,
                         gLayer: this.gLayer

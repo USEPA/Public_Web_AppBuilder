@@ -97,6 +97,17 @@ define({
     onlythese: "Only These",
     invalididentifylayer: "Invalid Identify Layer",
     or: "Or",
-    excludeerrormsg: "You must use either the layer url or layer name, not both"
+    excludeerrormsg: "You must use either the layer url or layer name, not both",
+    editResultFormat: "Edit Result Formating",
+    fromatTooltip: "The formtting set here will affect the result popups and widget result text",
+    attribTitleLbl: "Result Attribute Title:",
+    attribTitleExample: "Name",
+    attribValueLbl: "Result Attribute Value:",
+    attribValueExample: "John Doe",
+    color: "Color",
+    insertbold: "Bold",
+    insertitalic: "Italic",
+    insertunderline: "Underline",
+    preview: "Format Preview"
   })
 });

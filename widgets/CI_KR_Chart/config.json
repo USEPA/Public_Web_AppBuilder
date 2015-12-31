@@ -1,86 +1,125 @@
 {
-    "layers": [
-        {
+	"CIKR": {
+		"symbols": {
+            "simplemarkersymbol": {
+                "type": "esriSMS",
+                "style": "esriSMSCircle",
+                "color": [0, 0, 0, 255],
+                "size": 14,
+                "outline": {
+                    "color": [0, 0, 0, 255],
+                    "width": 1
+                }
+            },
+            "simplelinesymbol": null,
+            "insideFillSymbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [255, 0, 0, 100],
+                "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [255, 0, 0, 100],
+                    "width": 1
+                }
+            },
+            "outsideFillSymbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [232, 158, 28, 100],
+                "outline": {
+                    "type": "esriSLS",
+                    "style": "esriSLSSolid",
+                    "color": [232, 158, 28, 100],
+                    "width": 1
+                }
+            }
+        },
+        "demographicLayer":{ 
+			"title": "Demographics",	
             "label": "Demographic",
             "url": "http://sampleserver6.arcgisonline.com/arcgis/rest/services/Census/MapServer/2",
             "labelField": "NAME",
             "fields": ["*"],
             "medias": [
                 {
-                    "chartField": "POP2007",
-                    "title": "2007 Total Population",
-                    "type": "columnschart"
-                },
-                {
                     "chartField": "AGE_UNDER5",
-                    "title": "2007 Total Population",
-                    "type": "columnschart"
+                    "title": "Population Under 5 Years",
+					"type": "piechart"
                 },
                 {
                     "chartField": "AGE_5_17",
-                    "title": "Population Under 5 Years",
-                    "type": "columnschart"
+                    "title": "Population Ages 5 through 17",
+					"type": "piechart"
                 },
                 {
                     "chartField": "AGE_18_21",
                     "title": "Population Ages 18 through 21",
-                    "type": "columnschart"
+					"type": "piechart"
                 },
                 {
                     "chartField": "AGE_22_29",
                     "title": "Population Ages 22 through 29",
-                    "type": "columnschart"
+					"type": "piechart"
                 },
                 {
                     "chartField": "AGE_30_39",
                     "title": "Population Ages 30 through 39",
-                    "type": "columnschart"
+					"type": "piechart"
                 },
                 {
                     "chartField": "AGE_40_49",
                     "title": "Population Ages 40 through 49",
-                    "type": "columnschart"
+					"type": "piechart"
                 },
                 {
                     "chartField": "AGE_50_64",
                     "title": "Population Ages 50 through 64",
-                    "type": "columnschart"
+					"type": "piechart"
                 },
                 {
                     "chartField": "AGE_65_UP",
                     "title": "Population Ages 64 and up",
-                    "type": "columnschart"
+					"type": "piechart"
                 },
                 {
                     "chartField": "MALES",
                     "title": "Population of Males",
-                    "type": "columnschart"
+                    "type": "piechart"
                 },
                 {
                     "chartField": "FEMALES",
                     "title": "Population Females",
-                    "type": "columnschart"
+                    "type": "piechart"
                 },
                 {
-                    "chartField": "HOUSEHOLDS",
-                    "title": "Number of Households",
-                    "type": "columnschart"
+                    "chartField": "WHITE",
+                    "title": "Caucasians",
+					"type": "piechart"
+                },
+                {
+                    "chartField": "BLACK",
+                    "title": "Blacks",
+					"type": "piechart"
+                },
+                {
+                    "chartField": "ASIAN",
+                    "title": "Asians",
+					"type": "piechart"
+                },
+                {
+                    "chartField": "HISPANIC",
+                    "title": "Latinos",
+					"type": "piechart"
                 }
-            ]
+			]
         },
-        {
+        "infrastructureLayer": {
+			"title": "Critical Infrastructures",
             "label": "Critical Infrastructures",
             "url": "http://arcgis-emergencymanagement-2057568539.us-east-1.elb.amazonaws.com/arcgis/rest/services/COP/EmergencyOperations/MapServer/0",
             "labelField": "NAME",
-            "fields": ["NAME", "FEATURECODE", "STATE", "FULLADDR", "FACAREA"],
-            "medias": [
-                {
-                    "chartField": "FACAREA",
-                    "title": "Critical Infrastructure Chart",
-                    "type": "columnschart"
-                }
-            ]
+            "fields": ["NAME", "FEATURECODE", "STATE", "FULLADDR", "FACAREA"]    
         }
-    ],
-    "highLightColor":"#f5f50e"
+    }
 }

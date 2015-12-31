@@ -24,6 +24,7 @@ define(['dojo/_base/declare',
     'dojo/_base/array',
     'dojo/dom',
     'dojo/dom-class',
+    'dojo/dom-style',
     'dojo/Evented',
     'esri/symbols/jsonUtils'
   ],
@@ -37,6 +38,7 @@ define(['dojo/_base/declare',
     array,
     dom,
     domClass,
+    domStyle,
     Evented,
     jsonUtils) {
     return declare([_WidgetBase, Evented], {
@@ -87,7 +89,7 @@ define(['dojo/_base/declare',
         var rTitle = domConstruct.create('strong');
         domAttr.set(rTitle, 'id', this.id.toLowerCase()+item.id);
         domClass.add(rTitle, 'label');
-        rTitle.textContent = item.title;
+        rTitle.textContent = rTitle.innerText = item.title;
         domConstruct.place(rTitle, div);
         if(item.alt){
           domClass.add(div, this._itemCSS);
@@ -95,45 +97,90 @@ define(['dojo/_base/declare',
           domClass.add(div, this._itemAltCSS);
         }
 
-        //var attArr = item.content.split('<br>');
         var attArr = item.rsltcontent.split('<br>');
-        var attValArr;
-        var label;
-        var attTitle;
+        var attValArr, tHasColor, bIndex, eIndex, tColor, vHasColor, vColor;
+        var label, attTitle, attVal;
         var arrayLength = attArr.length;
         for (var i = 0; i < arrayLength; i++) {
           attValArr = attArr[i].split(': ');
-          attTitle = domConstruct.create('em');
+          attTitle = domConstruct.create('font');
           domAttr.set(attTitle, 'id', this.id.toLowerCase()+item.id);
-          attTitle.textContent = attValArr[0];
+          if(attValArr[0].toLowerCase().indexOf('<em>') > -1){
+            domStyle.set(attTitle, 'font-style', 'italic');
+          }
+          if(attValArr[0].toLowerCase().indexOf('<strong>') > -1){
+            domStyle.set(attTitle, 'font-weight', 'bold');
+          }
+          if(attValArr[0].toLowerCase().indexOf('<u>') > -1){
+            domStyle.set(attTitle, 'text-decoration', 'underline');
+          }
+          tHasColor = (attValArr[0].toLowerCase().indexOf("<font color='") > -1)?true:false;
+          if(tHasColor){
+            bIndex = attValArr[0].toLowerCase().indexOf("<font color='") + 13;
+            eIndex = attValArr[0].toLowerCase().indexOf("'>", bIndex);
+            tColor = attValArr[0].substr(bIndex, eIndex - bIndex);
+            domStyle.set(attTitle, 'color', tColor);
+          }
+
+          attTitle.textContent = attTitle.innerText = attValArr[0].replace(/<[\/]{0,1}(em|EM|strong|STRONG|font|FONT|u|U)[^><]*>/g, "");
           label = domConstruct.create('p');
           domAttr.set(label, 'id', this.id.toLowerCase()+item.id);
           domClass.add(label, 'label');
+          attVal = domConstruct.create('font');
 
-          if (attValArr[1] === 'null') {
-            label.textContent = ': ';
-          } else {
-            label.textContent = ': ' + attValArr[1];
+          if(attValArr[1].toLowerCase().indexOf('<em>') > -1){
+            domStyle.set(attVal, 'font-style', 'italic');
+          }
+          if(attValArr[1].toLowerCase().indexOf('<strong>') > -1){
+            domStyle.set(attVal, 'font-weight', 'bold');
+          }
+          if(attValArr[1].toLowerCase().indexOf('<u>') > -1){
+            domStyle.set(attVal, 'text-decoration', 'underline');
+          }
+          vHasColor = (attValArr[1].toLowerCase().indexOf("<font color='") > -1)?true:false;
+          if(vHasColor){
+            bIndex = attValArr[1].toLowerCase().indexOf("<font color='") + 13;
+            eIndex = attValArr[1].toLowerCase().indexOf("'>", bIndex);
+            vColor = attValArr[1].substr(bIndex, eIndex - bIndex);
+            domStyle.set(attVal, 'color', vColor);
           }
 
+          if (attValArr[1] === 'null') {
+            attVal.textContent = attVal.innerText = ": ";
+          } else {
+            attVal.textContent = attVal.innerText = ": " + attValArr[1].replace(/<[\/]{0,1}(em|EM|strong|STRONG|font|FONT|u|U)[^><]*>/g, "");
+          }
+          domConstruct.place(attTitle, label);
+          domConstruct.place(attVal, label);
           domConstruct.place(label, div);
-          domConstruct.place(attTitle, label, 'first');
         }
-        var mySurface = gfx.createSurface(iconDiv, 40, 40);
-        var descriptors = jsonUtils.getShapeDescriptors(item.sym);
-        if(descriptors.defaultShape){
-          var shape = mySurface.createShape(descriptors.defaultShape).setFill(descriptors.fill).setStroke(descriptors.stroke);
-          shape.applyTransform({ dx: 20, dy: 20 });
+        if(document.all && !document.addEventListener){
+          //do nothing because it is IE8
+          //And I can not produce swatches in IE8
+        }else{
+          var mySurface = gfx.createSurface(iconDiv, 40, 40);
+          var descriptors = jsonUtils.getShapeDescriptors(item.sym);
+          if(descriptors.defaultShape){
+            var shape = mySurface.createShape(descriptors.defaultShape).setFill(descriptors.fill).setStroke(descriptors.stroke);
+            shape.applyTransform({ dx: 20, dy: 20 });
+          }
         }
         if(item.links && item.links.length > 0){
-          var linksDiv = domConstruct.create('div');
+          var linksDiv = domConstruct.create("div");
           domConstruct.place(linksDiv, div);
           domClass.add(linksDiv, 'linksdiv');
         }
+        //console.info(item.links);
         array.forEach(item.links, function(link){
-          var linkImg = domConstruct.toDom("<a href='" + link.link + "' target='_blank' title='" + link.alias + "'><img src='" + link.icon + "' alt='" + link.alias + "' border='0' width='20px' height='20px'></a>");
-          domConstruct.place(linkImg, linksDiv);
-          domClass.add(linkImg, 'linkIcon');
+          if(link.popuptype === "text"){
+            var linkText = domConstruct.toDom("<p><a href='" + link.link + "' target='_blank' title='" + link.alias + "'>" + link.alias + "</a></p>");
+            domConstruct.place(linkText, linksDiv, 'before');
+            domClass.add(linkText, 'labellink');
+          }else{
+            var linkImg = domConstruct.toDom("<a href='" + link.link + "' target='_blank' title='" + link.alias + "'><img src='" + link.icon + "' alt='" + link.alias + "' border='0' width='20px' height='20px' style='vertical-align: middle;'></a>");
+            domConstruct.place(linkImg, linksDiv);
+            domClass.add(linkImg, 'linkIcon');
+          }
         });
         domConstruct.place(div, this._listContainer);
       },

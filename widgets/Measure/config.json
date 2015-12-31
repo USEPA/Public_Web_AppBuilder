@@ -1,13 +1,16 @@
 {
     "distanceUnits": [{
-        "unit": "MILES",
-        "abbr": "mi"
-    }, {
         "unit": "FEET",
         "abbr": "ft"
     }, {
+		"unit": "MILES",
+        "abbr": "mi"
+    }, {
         "unit": "KILOMETERS",
         "abbr": "km"
+    }, {
+        "unit": "NAUTICAL_MILES",
+        "abbr": "nm"
     }, {
         "unit": "METERS",
         "abbr": "m"

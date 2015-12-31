@@ -37,6 +37,8 @@
     hectares: "ヘクタール",
     squareMeters: "平方メートル",
     squareFeet: "平方フィート",
-    squareYards: "平方ヤード"
+    squareYards: "平方ヤード",
+    undo: "元に戻す",
+    redo: "やり直し"
   })
 );

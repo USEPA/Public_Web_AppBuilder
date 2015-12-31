@@ -1,0 +1,78 @@
+.jimu-widget-zoom-prev-next {
+  z-index: 30;
+  color: white;
+  text-align: center;
+  border: 0 solid #666;
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+.jimu-widget-zoom-prev-next .zoom-prev-button {
+  background-color: rgba(0,0,0,0.2);
+  -webkit-border-radius: 5px 5px 0 0;
+  border-radius: 5px 5px 0 0;
+  width: 30px;
+  height: 30px;
+  font-size: 24px;
+  font-family: verdana,helvetica;
+  line-height: 25px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: pointer;
+  border-bottom: 1px solid #57585A;
+}
+
+.jimu-widget-zoom-prev-next .zoom-prev-button:hover {
+  background-color: rgba(0,0,0,0.4);
+}
+
+.jimu-widget-zoom-prev-next .zoom-next-button {
+  background-color: rgba(0,0,0,0.2);
+  -webkit-border-radius: 0 0 5px 5px;
+  border-radius: 0 0 5px 5px;
+  width: 30px;
+  height: 30px;
+  font-size: 24px;
+  font-family: verdana,helvetica;
+  line-height: 25px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: pointer;
+}
+
+.jimu-widget-zoom-prev-next .zoom-next-button:hover {
+  background-color: rgba(0,0,0,0.4);
+}
+
+.jimu-widget-zoom-prev-next .zoom-prev-button span {
+  width: 30px;
+  height: 30px;
+  font-size: 24px;
+  font-family: verdana,helvetica;
+  line-height: 25px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: pointer;
+}
+
+.jimu-widget-zoom-prev-next .zoom-next-button span {
+  width: 30px;
+  height: 30px;
+  font-size: 24px;
+  font-family: verdana,helvetica;
+  line-height: 25px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: pointer;
+}
+
+.jimu-widget-zoom-prev-next .zoom-prev-disabled, .jimu-widget-zoom-prev-next .zoom-next-disabled {
+  color: #bbb;
+}

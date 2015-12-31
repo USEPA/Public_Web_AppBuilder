@@ -1,18 +1,7 @@
 ///////////////////////////////////////////////////////////////////////////
-// Copyright © 2015 Robert Scheitlin. All Rights Reserved.
-//
-// Licensed under the Apache License Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//    http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
+// Robert Scheitlin WAB eSearch Widget
 ///////////////////////////////////////////////////////////////////////////
+/*global define, console, window, setTimeout, document*/
 define([
   "dojo/_base/declare",
   "dijit/_WidgetsInTemplateMixin",
@@ -97,10 +86,7 @@ define([
         this.disableDoubleclickzoom = this.config.streetviewpanoramaoptions.disabledoubleclickzoom === true;
         this.showImageDateControl = this.config.streetviewpanoramaoptions.imagedatecontrol === true;
         this.showLinkControl = this.config.streetviewpanoramaoptions.linkscontrol === true;
-
-        var cs = domStyle.getComputedStyle(query(".jimu-main-bgcolor")[0]);
-        var bgc = Color.fromRgb(cs.backgroundColor);
-        this.wBGColor = bgc.toHex().substring(1);
+        this.wBGColor = this._getBackgroundColorFromTheme();
         this.noSVImageAvailableMsg = this.nls.nostreetviewimageavailablemsg;
         this.windowWidth = this.config.windowproperties.width;
         this.windowHeight = this.config.windowproperties.height;
@@ -115,6 +101,19 @@ define([
         baseUnload.addOnWindowUnload(lang.hitch(this, function(){
           document.winobj.close();
         }));
+
+        this.own(on(this.domNode, 'mousedown', lang.hitch(this, function (event) {
+          event.stopPropagation();
+          if (event.altKey) {
+            var msgStr = this.nls.widgetverstr + ': ' + this.manifest.version;
+            msgStr += '\n' + this.nls.wabversionmsg + ': ' + this.manifest.wabVersion;
+            msgStr += '\n' + this.manifest.description;
+            new Message({
+              titleLabel: this.nls.widgetversion,
+              message: msgStr
+            });
+          }
+        })));
       },
 
       onClose: function () {
@@ -520,6 +519,174 @@ define([
             this.ChromeBlockerResponce(false);
           }
         }, 1000);
+      },
+
+      _getBackgroundColorFromTheme: function(){
+        var returnColor;
+        switch(this.appConfig.theme.name + this.appConfig.theme.styles[0]) {
+        /*BillboardTheme*/
+          case "BillboardThemeblue":
+            returnColor = "2f70e4";
+            break;
+          case "BillboardThemedefault":
+            returnColor = "2e3641";
+            break;
+          case "BillboardThemegreen":
+            returnColor = "6db8ac";
+            break;
+          case "BillboardThemeorange":
+            returnColor = "edbd35";
+            break;
+          case "BillboardThemepink":
+            returnColor = "fe6960";
+            break;
+          case "BillboardThemepurple":
+            returnColor = "856d9c";
+            break;
+          case "BillboardThemered":
+            returnColor = "e83428";
+            break;
+          case "BillboardThemeturquoise":
+            returnColor = "2d95a0";
+            break;
+        /*BoxTheme*/
+          case "BoxThemeblue":
+            returnColor = "2d70e4";
+            break;
+          case "BoxThemedefault":
+            returnColor = "646464";
+            break;
+          case "BoxThemegreen":
+            returnColor = "80ab00";
+            break;
+          case "BoxThemepink":
+            returnColor = "ed008c";
+            break;
+          case "BoxThemepurple":
+            returnColor = "886197";
+            break;
+          case "BoxThemeorange":
+            returnColor = "ff9b00";
+            break;
+          case "BoxThemered":
+            returnColor = "cf0000";
+            break;
+          case "BoxThemeturquoise":
+            returnColor = "2faacd";
+            break;
+        /*DartTheme*/
+          case "DartThemeblue":
+            returnColor = "2d70e4";
+            break;
+          case "DartThemedefault":
+            returnColor = "646464";
+            break;
+          case "DartThemegreen":
+            returnColor = "80ab00";
+            break;
+          case "DartThemeorange":
+            returnColor = "ff9b00";
+            break;
+          case "DartThemepink":
+            returnColor = "ed008c";
+            break;
+          case "DartThemepurple":
+            returnColor = "886197";
+            break;
+          case "DartThemered":
+            returnColor = "cf0000";
+            break;
+          case "DartThemeturquoise":
+            returnColor = "2faacd";
+            break;
+        /*FoldableTheme*/
+          case "FoldableThemeblack":
+            returnColor = "000000";
+            break;
+          case "FoldableThemeblue":
+            returnColor = "005fa2";
+            break;
+          case "FoldableThemecyan":
+            returnColor = "267030";
+            break;
+          case "FoldableThemedefault":
+            returnColor = "485566";
+            break;
+          case "FoldableThemegreen":
+            returnColor = "2aaa8a";
+            break;
+          case "FoldableThemepurple":
+            returnColor = "aa6fad";
+            break;
+          case "FoldableThemered":
+            returnColor = "c93048";
+            break;
+          case "FoldableThemeyellow":
+            returnColor = "d07d0e";
+            break;
+        /*JewelryBoxTheme*/
+          case "JewelryBoxThemeblack":
+            returnColor = "000000";
+            break;
+          case "JewelryBoxThemeblue":
+            returnColor = "005fa2";
+            break;
+          case "JewelryBoxThemecyan":
+            returnColor = "26703d";
+            break;
+          case "JewelryBoxThemedefault":
+            returnColor = "485566";
+            break;
+          case "JewelryBoxThemegreen":
+            returnColor = "2aaa8a";
+            break;
+          case "JewelryBoxThemepurple":
+            returnColor = "ab6ead";
+            break;
+          case "JewelryBoxThemered":
+            returnColor = "c93048";
+            break;
+          case "JewelryBoxThemeyellow":
+            returnColor = "d07d0e";
+            break;
+        /*LaunchpadTheme*/
+          case "LaunchpadThemedefault":
+            returnColor = "262626";
+            break;
+          case "LaunchpadThemestyle2":
+            returnColor = "262626";
+            break;
+        /*TabTheme*/
+          case "TabThemeblue":
+            returnColor = "0057b9";
+            break;
+          case "TabThemecyan":
+            returnColor = "2aaa8a";
+            break;
+          case "TabThemedefault":
+            returnColor = "292929";
+            break;
+          case "TabThemegreen":
+            returnColor = "05ab08";
+            break;
+          case "TabThemepurple":
+            returnColor = "ab6ead";
+            break;
+          case "TabThemered":
+            returnColor = "c82f47";
+            break;
+          case "TabThemesimpleblue":
+            returnColor = "3499dc";
+            break;
+          case "TabThemeyellow":
+            returnColor = "d07d0e";
+            break;
+        /*Unknown*/
+          default:
+            returnColor = "485566";
+            break;
+        }
+        return returnColor;
       }
     });
   });

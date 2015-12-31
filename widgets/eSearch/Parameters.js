@@ -14,11 +14,11 @@ define([
   'dojo/on',
   'dojo/query',
   'dijit/registry',
-  'jimu/filterUtils',
-  './SingleParameter'
+  './SingleParameter',
+  'dojo/Evented'
 ],
   function(declare, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, template, lang,
-  html, array, on, query, registry, filterUtils, SingleParameter) {/*jshint unused: false*/
+  html, array, on, query, registry, SingleParameter, Evented) {/*jshint unused: false*/
     return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
       baseClass: 'jimu-widget-search-parameters',
       templateString: template,
@@ -27,12 +27,10 @@ define([
       layerInfo: null,
       layerUri: null,
       layerDef: null,
-      _filterUtils:null,
       layerUniqueCache: null,
 
       postCreate:function(){
         this.inherited(arguments);
-        this._filterUtils = new filterUtils();
         if(this.valuesObj){
           this.build(this.valuesObj);
         }
@@ -40,7 +38,6 @@ define([
 
       destroy: function(){
         this.clear();
-        this._filterUtils = null;
         this.inherited(arguments);
       },
 
@@ -61,24 +58,23 @@ define([
 
       setSingleParamValues: function(valuesObj, value){
         var values = value.split("|");
-        var vi = 0;
-        array.forEach(values, lang.hitch(this, function(val){
+        console.info("set Single Param Values:", values);
+        array.forEach(values, lang.hitch(this, function(val, index){
           if (val.indexOf('~') > -1){
             var ranges = val.split("~");
-            valuesObj[vi].valueObj.value1 = ranges[0];
-            valuesObj[vi].valueObj.value2 = ranges[1];
+            valuesObj[index].valueObj.value1 = ranges[0];
+            valuesObj[index].valueObj.value2 = ranges[1];
           }else{
-            valuesObj[vi].valueObj.value = val;
+            valuesObj[index].valueObj.value = val;
           }
-          vi++;
         }));
 
-        vi = 0;
-        var spDoms = query('.jimu-widget-search-single-parameter',this.tbody);
-        array.forEach(spDoms,lang.hitch(this,function(spDom){
+        var spDoms = query('.widget-esearch-single-parameter', this.tbody);
+        console.info(spDoms);
+        array.forEach(spDoms, lang.hitch(this, function(spDom, index){
           var sp = registry.byNode(spDom);
-          sp.setValueObj(valuesObj[vi]);
-          vi++;
+          sp.setValueObj(valuesObj[index]);
+          console.info("setting single parameters to:", valuesObj[index]);
         }));
       },
 
@@ -93,13 +89,12 @@ define([
         this.layerInfo = null;
       },
 
-      build:function(valuesObj,layerInfo,layerUri,layerDef){
+      build:function(valuesObj, layerInfo, layerUri, layerDef){
         this.clear();
         this.valuesObj = lang.mixin({},valuesObj);
         this.layerInfo = lang.mixin({},layerInfo);
         this.layerUri = layerUri;
         this.layerDef = layerDef;
-        //console.info(layerDef);
         array.forEach(valuesObj,lang.hitch(this,function(singleValue){
           var tr = html.create('tr',{innerHTML:'<td></td>'},this.tbody);
           var td = query('td',tr)[0];
@@ -112,15 +107,19 @@ define([
             layerDetails: this.layerInfo,
             layerUri: this.layerUri,
             layerDef: this.layerDef,
-            layerUniqueCache: this.layerUniqueCache
+            layerUniqueCache: this.layerUniqueCache,
+            isValueRequired: singleValue.required || false
           };
           var sp = new SingleParameter(args);
           sp.placeAt(td);
           singleValue.spId = sp.id;
+          sp.on('sp-enter-pressed', lang.hitch(this, function(){
+            this.emit('enter-pressed', {});
+          }));
         }));
       },
 
-      _getFieldInfo:function(fieldName,lyrDef){
+      _getFieldInfo:function(fieldName, lyrDef){
         var fieldInfos = lyrDef.fields;
         for(var i=0;i<fieldInfos.length;i++){
           var fieldInfo = fieldInfos[i];

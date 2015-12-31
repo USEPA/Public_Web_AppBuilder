@@ -1,0 +1,92 @@
+<div style="width:100%;">
+  <table class="input-table" style="width:100%;" cellspacing="0">
+    <tbody>
+      <tr>
+        <td style="width:155px;text-align:left;">
+          <div class="help-icon" style="width:20px;height:20px;padding-left:5px; margin-left:8px;" title="${nls.fromatTooltip}"><span>?</span>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td style="width:100%;text-align:left;">
+          <table class="input-table" style="width:100%;" cellspacing="0">
+            <tbody>
+              <tr>
+                <td style="width:115px;">
+                  <span>${nls.attribTitleLbl}</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <table class="input-table" style="width:100%;" cellspacing="0">
+          <tbody>
+            <tr>
+              <td style="width:100px;">
+                <span>${nls.color}:</span>
+              </td>
+              <td style="width:100px;">
+                <div data-dojo-attach-point="titleColor" data-dojo-type="jimu/dijit/ColorPicker" style="width:100%;height:30px;"
+                     data-dojo-props="color:[0,0,0,255]"></div>
+              </td>
+              <td style="width:200px;" data-dojo-attach-point="formatButtonsTD" />
+            </tr>
+          </tbody>
+        </table>
+      </tr>
+      <tr>&nbsp;</tr>
+      <tr>
+        <td style="width:100%;text-align:left;">
+          <table class="input-table" style="width:100%;" cellspacing="0">
+            <tbody>
+              <tr>
+                <td style="width:115px;">
+                  <span>${nls.attribValueLbl}</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <table class="input-table" style="width:100%;" cellspacing="0">
+          <tbody>
+            <tr>
+              <td style="width:100px;">
+                <span>${nls.color}:</span>
+              </td>
+              <td style="width:100px;">
+                <div data-dojo-attach-point="valueColor" data-dojo-type="jimu/dijit/ColorPicker" style="width:100%;height:30px;"
+                     data-dojo-props="color:[0,0,0,255]"></div>
+              </td>
+              <td style="width:200px;" data-dojo-attach-point="formatButtonsTD2" />
+            </tr>
+          </tbody>
+        </table>
+      </tr>
+      <tr>
+        <table class="input-table" style="width:100%;" cellspacing="0">
+          <tbody>
+            <tr>
+              <td style="width:100px;">
+                <span>${nls.preview}:</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <table class="input-table" style="width: 100%; padding-left: 24px;" cellspacing="0">
+          <tbody>
+            <tr>
+              <td style="width:100%;">
+                <font data-dojo-attach-point="titleText">${nls.attribTitleExample}: </font>
+                <font data-dojo-attach-point="valueText">${nls.attribValueExample}</font>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -5,6 +5,7 @@ define([
   'dojo/_base/lang',
   'dojo/aspect',
   'dojo/dom',
+  'dojo/dom-attr',
   'dojo/dom-class',
   'dojo/dom-construct',
   'dojo/dom-style',
@@ -23,11 +24,12 @@ define([
   'esri/geometry/Polygon',  
   'esri/geometry/Polyline',
   'esri/geometry/scaleUtils',
-  'esri/graphic',  
+  'esri/graphic', 
+  'esri/renderers/SimpleRenderer',
   'esri/request',
+  'esri/symbols/CartographicLineSymbol',
   'esri/symbols/Font',
-  'esri/symbols/SimpleFillSymbol',  
-  'esri/symbols/SimpleLineSymbol',  
+  'esri/symbols/SimpleFillSymbol',
   'esri/symbols/SimpleMarkerSymbol',
   'esri/symbols/TextSymbol',
   'esri/tasks/LengthsParameters',
@@ -37,6 +39,9 @@ define([
   'esri/units',
   'dojo/text!./templates/PrintPlus.html',
   'dojo/text!./templates/PrintResult.html',
+  'jimu/dijit/LoadingShelter',
+  'jimu/dijit/Message',
+  'jimu/portalUrlUtils',
   // These classes are used only in PrintPlus.html and/or PrintResult.html
   'dijit/form/Button',
   'dijit/form/CheckBox',
@@ -56,6 +61,7 @@ define([
   lang,
   aspect,
   dom,
+  domAttr,
   domClass,
   domConstruct,
   domStyle,
@@ -75,10 +81,11 @@ define([
   Polyline, 
   scaleUtils,
   Graphic, 
+  SimpleRenderer,
   esriRequest,
+  CartographicLineSymbol,
   Font,
   SimpleFillSymbol, 
-  SimpleLineSymbol, 
   SimpleMarkerSymbol,
   TextSymbol,
   LengthsParameters,
@@ -87,7 +94,10 @@ define([
   PrintTemplate,
   Units, 
   printTemplate,
-  printResultTemplate 
+  printResultTemplate,
+  LoadingShelter,
+  Message,
+  portalUrlUtils
 ) {
 
   // Main print dijit
@@ -117,7 +127,6 @@ define([
     domIdPrefix: null,
     isDocked: false,
     suspendExtentHandler: false,
-    // featureLayerHandlers: [],
     dragSwipeHandlers: [],
     panZoomHandlers: [],
     resizeDelay: 100,
@@ -136,53 +145,169 @@ define([
     printTask: null,
     async: false,
     mapUnitsToMeters: {},
-    layoutLayerId: 'layoutGraphics',
+    layoutLayerId: 'layoutGraphics',  // Make sure the layoutLayerId doesn't start with 'graphicsLayer' or it will be printed.
     
     postCreate: function() {
       this.inherited(arguments);
       var printParams = {
         async: this.async
       };
+      var _handleAs = 'json';
+      
       this.printTask = new PrintTask(this.printTaskURL, printParams);
       this.printparams = new PrintParameters();
       this.printparams.map = this.map;
       this.printparams.outSpatialReference = this.map.spatialReference;
 
+      this.shelter = new LoadingShelter({
+        hidden: true
+      });
+      this.shelter.placeAt(this.domNode);
+      this.shelter.startup();
+      this.shelter.show();
+
+      this.titleNode.set('value', this.defaultTitle);
+      this.authorNode.set('value', this.defaultAuthor);
+      this.copyrightNode.set('value', this.defaultCopyright);
+
+      var serviceUrl = portalUrlUtils.setHttpProtocol(this.printTaskURL);
+      var portalNewPrintUrl = portalUrlUtils.getNewPrintUrl(this.appConfig.portalUrl);
+
+      if (serviceUrl === portalNewPrintUrl ||
+        /sharing\/tools\/newPrint$/.test(serviceUrl)) {
+        _handleAs = 'text';
+      }
+      this._getPrintTaskInfo(_handleAs);
+
+      if (this.printTask._getPrintDefinition) {
+        aspect.after(this.printTask, '_getPrintDefinition', lang.hitch(this, 'printDefInspector'), false);
+      }
+
+      if (this.printTask._createOperationalLayers) {
+        aspect.after(this.printTask, '_createOperationalLayers', lang.hitch(this, '_excludeInvalidLegend'));
+      }
+    },
+    
+    _getPrintTaskInfo: function(handle) {
+      // portal own print url: portalname/arcgis/sharing/tools/newPrint
       esriRequest({
         url: this.printTaskURL,
         content: {
           f: "json"
         },
-        handleAs: "json",
-        callbackParamName: 'callback',
-        load: lang.hitch(this, '_handlePrintInfo'),
-        error: lang.hitch(this, '_handleError')
-      }/*, {
-        useProxy: true
-      }*/);
-      aspect.after(this.printTask, '_getPrintDefinition', lang.hitch(this, 'printDefInspector'), false);
+        callbackParamName: "callback",
+        handleAs: handle || "json",
+        timeout: 60000
+      }).then(
+        lang.hitch(this, '_handlePrintInfo'),
+        lang.hitch(this, '_handleError')
+      ).always(lang.hitch(this, function() {
+        this.shelter.hide();
+      }));
     },
-    
-    printDefInspector: function(printDef) {
-      var layer;
-      var indexesToRemove = [];
-      // Make an array of the graphics layer indexes
-      array.forEach(printDef.operationalLayers, function(lyr, idx) {
-        layer = this.map.getLayer(lyr.id);
-        if (layer.declaredClass === 'esri.layers.GraphicsLayer') {
-          // Eliminate graphics layers from legend
-          indexesToRemove.unshift(idx);
+
+    _excludeInvalidLegend_ORIGINAL: function(opLayers) {
+      if (this.printTask.allLayerslegend) {
+        var legendArray = this.printTask.allLayerslegend;
+        var arr = [];
+        for (var i = 0; i < legendArray.length; i++) {
+          var layer = this.map.getLayer(legendArray[i].id);
+          if ((layer && layer.declaredClass &&
+            layer.declaredClass !== "esri.layers.GraphicsLayer") &&
+            (!layer.renderer || (layer.renderer && !layer.renderer.hasVisualVariables()))) {
+            arr.push(legendArray[i]);
+          }
         }
-        // TODO: Can we print the drawing layer without the overrides in the Legend???
-        // https://geonet.esri.com/thread/100664
-      }, this);
+        this.printTask.allLayerslegend = arr;
+      }
+      return opLayers;
+    },
+
+    _excludeInvalidLegend: function(opLayers) {
+      var arr = [];  //A new array for the layers to include in the legend
       
-      // Remove the layers
-      array.forEach(indexesToRemove, function(index) {
-        printDef.operationalLayers.splice(index, 1);
+      // Populate arr with the unique layers in opLayers and this.printTask.allLayerslegend
+      // Note: opLayers includes basemap layers and all graphics layers.
+      array.forEach(opLayers, function(layer) {
+        arr.push({ id: layer.id });
       });
-        
+      arr = this.concatUnique(this.printTask.allLayerslegend, arr);
+      
+      // Remove basemap layers, and all graphics layers except the draw layer. 
+      var itemsToRemove = [];
+      var basemapUrl;
+      array.forEach(arr, function(item, idx) {
+        var layer = this.map.getLayer(item.id);
+        var declaredClass = lang.getObject('declaredClass', false, layer);
+        var renderer = lang.getObject('renderer', false, layer);
+        var isBasemap = layer.hasOwnProperty('_basemapGalleryLayerType');
+        if (isBasemap && lang.getObject('_basemapGalleryLayerType', false, layer) === 'basemap') {
+          basemapUrl = layer.url;
+        }
+        if (isBasemap || 
+            layer.url === basemapUrl ||
+            (declaredClass === 'esri.layers.GraphicsLayer' && (!renderer || (renderer.hasVisualVariables && !renderer.hasVisualVariables())))
+           ) {
+          itemsToRemove.unshift(idx);
+        }
+      }, this);
+      array.forEach(itemsToRemove, function(index) {
+        arr.splice(index, 1);
+      });
+      
+      // Set the layers to be included in the legend
+      this.printTask.allLayerslegend = arr;
+      
+      return opLayers;
+    },
+
+    printDefInspector: function(printDef) {
       return printDef;
+    },
+
+    _makeLayerForGraphic: function(gra, lyrName, geomType, isText) {
+      if (isText) {
+        // Text won't show up in the Legend, so we don't need a renderer to carry the label
+        // For text, we do need the symbol in the "features" array.
+        return {
+          layerDefinition: {
+            name: lyrName,
+            geometryType: geomType
+          },
+          featureSet: {
+            geometryType: geomType,
+            "features": [
+              {
+                "geometry": gra.geometry.toJson(),
+                "symbol": gra.symbol.toJson()
+              }
+            ]
+          }
+        };
+      } else {
+        // We need a renderer to carry the label for the legend,
+        // so we don't need the symbol in the "features" array.
+        return {
+          layerDefinition: {
+            name: lyrName,
+            geometryType: geomType,
+            drawingInfo: {
+              renderer: new SimpleRenderer({
+                "label": lyrName,
+                "symbol": gra.symbol.toJson()
+              }).toJson()
+            }
+          },
+          featureSet: {
+            geometryType: geomType,
+            "features": [
+              {
+                "geometry": gra.geometry.toJson()
+              }
+            ]
+          }
+        };
+      }
     },
     
     startup: function() {
@@ -194,6 +319,11 @@ define([
       }
       this.layoutInitialized = true;
       // Just in case startup() gets called twice - END
+        
+        this.lods = this._getLods();
+        if (this.lods) {
+          this.maxScale = this.lods[this.lods.length - 1].scale;
+        }
       
       if (this.showLayout) {
         this.mapUnitsToMeters.x = this.mapUnitsToMeters.y = scaleUtils.getUnitValueForSR(this.map.spatialReference);
@@ -201,7 +331,7 @@ define([
           // We cannot determine the map units, so don't show the layout.
           this.showLayout = false;
         } else if (this.mapUnitsToMeters.x > 10000 || this.map.spatialReference.isWebMercator()) {
-          // If the spatial reference is geographic or Web Mercator, call the geometey service to get the parameters to project the layout onto the map.  
+          // If the spatial reference is geographic or Web Mercator, call the geometry service to get the parameters to project the layout onto the map.  
           // This is an approximation, but adequate for small geographic areas (e.g. Hamilton County, IN - 400 Square miles)
           // TODO: Check the map area to see if an approximation makes sense
           var e = this.map.extent;  // TODO: change this to get the initial extent???
@@ -248,6 +378,7 @@ define([
       if (this.showLayout) {
         // If we still want to show the layout, create a graphics layer for it.
         this.layoutLayer = new esri.layers.GraphicsLayer({ id: this.layoutLayerId, opacity: 1.0 });
+        this.layoutLayer.spatialReference = this.map.spatialReference;
         this.map.addLayer(this.layoutLayer);
         this.layoutLayer.enableMouseEvents();
         // Add the listener for the close graphic
@@ -303,42 +434,6 @@ define([
         // this.onStateChange('DOCKED', isDocked);
       }
     },
-    
-    // toggleFeatureLayerHandlers: function(turnOn) {
-      // if (turnOn) {
-        // // Add event handlers for making sure feature layers have been redrawn before printing
-        // var _handler;
-        // this.featureLayerStatus = [];
-        // array.forEach(this.map.graphicsLayerIds, lang.hitch(this, function(item) {
-          // var l = this.map.getLayer(item);
-          // if (l.hasOwnProperty('type') && l.type === 'Feature Layer') {
-            // this.featureLayerStatus.push({ id: l.id, value: true });
-            // _handler = l.on('update-start', lang.hitch(this, function() {
-              // array.forEach(this.featureLayerStatus, function(item) {
-                // if (item.id === l.id) { item.value = false; }
-              // });
-            // }));
-            // this.featureLayerHandlers.push(_handler);
-            // _handler = l.on('update-end', lang.hitch(this, function() {
-              // array.forEach(this.featureLayerStatus, function(item) {
-                // if (item.id === l.id) { item.value = true; }
-              // });
-              // this.printAndRestoreSettings();
-            // }));
-            // this.featureLayerHandlers.push(_handler);
-          // }
-        // }));
-      // } else {
-        // // Remove event handlers for making sure feature layers have been redrawn before printing
-        // if (this.featureLayerHandlers) {
-          // array.forEach(this.featureLayerHandlers, function(item) {
-            // item.remove();
-            // item = null;
-          // });
-          // this.featureLayerHandlers = [];
-        // }
-      // }
-    // },
     
     toggleMapPanHandlers: function(turnOn) {
       if (this.layoutLayer && this.layoutLayer.visible && this.showLayoutDijit.get('value') && turnOn) {
@@ -423,6 +518,9 @@ define([
     
     _handleError: function(err) {
       console.log('print widget load error: ', err);
+      new Message({
+        message: err.message || err
+      });
     },
     
     _handlePrintInfo: function(data) {
@@ -439,15 +537,32 @@ define([
         layoutParam = this.layoutParams[item];
         return {
           label: layoutParam && layoutParam.alias ? layoutParam.alias : item,
+          noTb: false,
           value: item
         };
       }));
       
       // Filter out the No Title Block templates
+      var index;
+      var noTbLayouts = [];
       if (this.noTitleBlockPrefix) {
-          layoutItems = array.filter(layoutItems, lang.hitch(this, function(item) {
-            return item.label.indexOf(this.noTitleBlockPrefix) !== 0;
-          }));
+        layoutItems = array.filter(layoutItems, lang.hitch(this, function(item) {
+          index = item.value.indexOf(this.noTitleBlockPrefix);
+          if (index === 0) {
+            noTbLayouts.push(item.value.slice(this.noTitleBlockPrefix.length));
+            return false;
+          } else {
+            return true;
+          }
+          // return item.label.indexOf(this.noTitleBlockPrefix) !== 0;
+        }));
+      }
+      
+      // Add a property to the layouts that have a corresponding "no title block" layout.
+      if (noTbLayouts.length) {
+        array.forEach(layoutItems, function(item) {
+          item.noTb = array.indexOf(noTbLayouts, item.value) !== -1;
+        });
       }
       
       // Sort the layouts in the order they are listed in layoutParams (config.json).  If a layout is not included in layoutParams
@@ -492,7 +607,6 @@ define([
     },
     
     print: function() {
-      var lods;
       this.preserve = this.preserveFormDijit.get('value');
       if (!this.layoutLayer) {
         // If not showing the layout footprint, just call the original print function (renamed to submitPrintJob).
@@ -510,40 +624,70 @@ define([
         var printScale = this.mapSheetParams.layout === 'MAP_ONLY' ? this.mapOnlyScale : this.scaleSliderDijit.get('value');
         // If the requested scale is greater than the largest lod scale, warn the user.
         // This will never happen since we check the scale in the scaleBoxDijit.
-        lods = this._getLods();
-        if (lods) {
-          var maxScale = lods[lods.length - 1].scale;
-          if (printScale < maxScale) {
-            if (!confirm(this.nls.printScaleMessage)) {
-              return;
-            }
+        if (this.maxScale && printScale < this.maxScale) {
+          if (!confirm(this.nls.printScaleMessage)) {
+            return;
           }
         }
-        // this.printRequested = true;
-        this.oldExtent = this.map.extent;
-        this.oldOpacity = this.layoutLayer.opacity;
-        this.layoutLayer.opacity = 0;
-        this.layoutLayer.redraw();
         this.suspendExtentHandler = true;  //Suspend the Extent change handler
         var def;
-        if (lods) {
-          var printScaleLevel = this._getLevel(lods, printScale);
+        var oldLevel = null;
+        var oldCenter = null;
+        var oldExtent = null;
+        var oldLods = null;
+        if (this.lods) {
+          oldLevel = this.map.getLevel();
+          oldCenter = this.map.extent.getCenter();
+          printScaleLevel = this._getLevel(this.lods, printScale);
           // Set one LOD for the printing scale and zoom to it.
           if (printScaleLevel) {
             def = this.map.centerAndZoom(this.mapAreaCenter, printScaleLevel);
           } else {
-            this.oldLods = lods;
-            var resolution = printScale / (this.oldLods[0].scale / this.oldLods[0].resolution);
-            var printLod = [{"level": 0, "resolution": resolution, "scale": printScale}];
+            oldLods = this.lods;
+            var resolution = printScale / (oldLods[0].scale / oldLods[0].resolution);
+            var printLod = [{ 'level': 0, 'resolution': resolution, 'scale': printScale }];
             this._setLods(printLod);
             def = this.map.centerAndZoom(this.mapAreaCenter, 0);
           }
         } else {
           // Zoom to the print scale
+          oldExtent = this.map.extent;
           def = this.map.centerAndZoom(this.mapAreaCenter, printScale / this.map.getScale());
         }
-        def.then(lang.hitch(this, 'printAndRestoreSettings'));
+        this.updateStartListener = on.once(this.map, 'update-start', lang.hitch(this, function() { this.mapUpdating = true; }));
+        this.updateEndListener = on.once(this.map, 'update-end', lang.hitch(this, 'printAndRestoreSettings', oldLevel, oldCenter, oldExtent, oldLods));
+        def.then(lang.hitch(this, function() { 
+          if (!this.mapUpdating) {
+            // The zoom did not cause the map to update, so remove those listeners and print.
+            this.updateStartListener.remove();
+            this.updateStartListener = null;
+            this.updateEndListener.remove();
+            this.updateEndListener = null;
+            this.printAndRestoreSettings(oldLevel, oldCenter, oldExtent, oldLods);
+          }
+        }));
       }
+    },
+    
+    printAndRestoreSettings: function(oldLevel, oldCenter, oldExtent, oldLods) {
+      this.mapUpdating = false;
+      this.submitPrintJob();
+      
+      var def;
+      if (oldCenter && oldLevel) {
+        if (oldLods) {
+          // Restore the LODs if they were changed.
+          this._setLods(oldLods);
+        }
+        def = this.map.centerAndZoom(oldCenter, oldLevel);
+      } else if (oldExtent) {
+        def = this.map.setExtent(oldExtent);
+      }
+      
+      // Restore the map extent and the graphics layer opacity.
+      def.then(lang.hitch(this, function() {
+        this.suspendExtentHandler = false;
+      }));
     },
     
     //====================================================================================
@@ -571,12 +715,11 @@ define([
       lang.setObject('_params.tileInfo.lods', lods, this.map);
       if (this.appConfig.map.lods) {
         lang.setObject('_mapParams.lods', lods, this.map);
-        lang.setObject('mapOptions.lods', lods, this.appConfig.map);
       }
     },
 
     _getLods: function() {
-      var lods = lang.getObject('_params.lods', false, this.map);
+      var lods = lang.getObject('_params.tileInfo.lods', false, this.map);
       return lods && lods.length ? lods : null;
     },
     
@@ -596,25 +739,6 @@ define([
       return level;
     },
 
-    printAndRestoreSettings: function() {
-      on.once(this.map, 'update-end', lang.hitch(this, function() {
-        this.submitPrintJob();
-        
-        // Restore the LODs if they were changed.
-        if (this.oldLods) {
-          this._setLods(this.oldLods);
-        }
-        
-        // Restore the map extent and the graphics layer opacity.
-        var def = this.map.setExtent(this.oldExtent);
-        def.then(lang.hitch(this, function() {
-          this.suspendExtentHandler = false;
-          this.layoutLayer.opacity = this.oldOpacity;
-          this.layoutLayer.redraw();
-        }));
-      }));
-    },
-    
     submitPrintJob: function() {
       if (this.printSettingsFormDijit.isValid()) {
         var form = this.printSettingsFormDijit.get('value');
@@ -646,13 +770,16 @@ define([
           titleText: form.title
         };
         this.printparams.template = template;
+        this.printparams.extraParameters = { // come from source code of jsapi
+          printFlag: true
+        };
         var fileHandel = this.printTask.execute(this.printparams);
 
         var result = new PrintResultDijit({
           count: this.count.toString(),
           icon: (form.format === "PDF") ? this.pdfIcon : this.imageIcon,
-          docName: form.title || form.layout === 'MAP_ONLY' ? 'Just the map' : 'No Titleblock',  //lcs - docName is not used
-          title: form.title || form.format + ', ' + form.layout,  //lcs - disabled form items are ignored
+          docName: form.title || (form.layout === 'MAP_ONLY' ? 'Just the map' : 'No Titleblock'),  //lcs - docName is not used
+          title: form.title || (form.format + ', ' + form.layout),  //lcs - disabled form items are ignored
           fileHandle: fileHandel,
           nls: this.nls
         }).placeAt(this.printResultsNode, 'last');
@@ -702,6 +829,17 @@ define([
         this.onStateChange('LAYOUT', layout);
       }
       this.mapSheetParams.layout = layout;
+
+      // Hide the title block checkbox is there is no companion layout with no title block.
+      var noTb = false;
+      array.some(this.layoutDijit.options, function(option) {
+        if (option.value === layout) {
+          noTb = option.noTb;
+          return true;
+        }
+      });
+      this.titleBlockDijit.value = this.titleBlockDijit.checked = noTb;
+      query('#titleBlock', this.domNode).style('visibility', noTb ? '' : 'hidden');
         
       // Draw the map sheet
       if (this.layoutLayer) {
@@ -788,6 +926,7 @@ define([
         
       // List the points in counter-clockwise order (this is the hole for the map)
       var ringMapArea = [[minX, minY], [maxX, minY], [maxX, maxY], [minX, maxY], [minX, minY]];
+      this.layoutMapArea = ringMapArea;
       
       // Update the map area center and extent so other functions can use them
       this.mapAreaCenter = centerPt;
@@ -825,7 +964,12 @@ define([
       geomLayout.addRing(ringLayoutPerim);
         
       var symLayout = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
-                          new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([255,0,0,0.60]), layoutLineWidth),
+                          new CartographicLineSymbol(
+                            CartographicLineSymbol.STYLE_SOLID, 
+                            new Color([255,0,0,0.60]), 
+                            layoutLineWidth, 
+                            CartographicLineSymbol.CAP_ROUND, 
+                            CartographicLineSymbol.JOIN_ROUND),
                           new Color([255,0,0,0.40]));
         
       var graLayout = new Graphic(geomLayout, symLayout);
@@ -869,7 +1013,7 @@ define([
       symCloseBtnOutline.outline.width = closeBtnLineWidth;
       
       // Establish the point for the instruction text (center of the bottom margin area).
-      var ptInstruction = new Point((minX + maxX) / 2, minY + mapOffsets.y * scale * unitRatio.y / 2, map.spatialReference);
+      var ptInstruction = new Point((minX + maxX) / 2, minY + mapOffsets.y * scale * unitRatio.y / 2, this.map.spatialReference);
         
       // Create the text symbol
       var symInstruction = new TextSymbol({
@@ -904,9 +1048,7 @@ define([
       var halfWidth = Math.min((maxX - minX) / 2, pt1Map.x - ptInstruction.x);
       var halfHeight = Math.min(mapOffsets.y * scale * unitRatio.y / 2, pt1Map.y - ptInstruction.y);
       var instructionExtent = new Extent(ptInstruction.x - halfWidth, ptInstruction.y - halfHeight, ptInstruction.x + halfWidth, ptInstruction.y + halfHeight, this.map.spatialReference);
-      var symBackground = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
-                          new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([255,0,0,0]), 1),
-                          new Color([255,0,0,0.8]));
+      var symBackground = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null, new Color([255,0,0,0.8]));
       var graInstructionBackground = new Graphic(instructionExtent, symBackground);
       this.layoutLayer.add(graInstructionBackground);
       this.layoutLayer.add(graInstruction);
@@ -1121,6 +1263,12 @@ define([
       var leftOffset = (sliderWidth - scrollWidth) / 2 - 1;
       var tickHeight = 2 + this.scaleSliderDijit.sliderHandle.clientHeight / 2;
       
+      if (this.maxScale >= minScale && this.maxScale <= maxScale) {
+        lodMaxScalePos = 100 * ((scrollWidth - 1) / scrollWidth - (maxScale - this.maxScale) / (maxScale - minScale));
+      } else {
+        lodMaxScalePos = null;
+      }
+      
       // Delete the ticks and labels
       this.deleteTicksAndLabels();
       
@@ -1144,6 +1292,18 @@ define([
         style: "width: " + scrollWidth + "px; left: " + leftOffset + "px; height: 3px;"
       }, ruleNode1);
       this.sliderRule1.startup();
+      
+      if (lodMaxScalePos) {
+        //The red tick for the largest basemap scale
+        var ruleNode2 = domConstruct.create("div", {}, scaleSliderDom, "last");
+        this.sliderRule2 = new HorizontalRule({
+          container: "bottomDecoration",
+          count: 1,
+          ruleStyle: "border-width: medium; border-color: red; left: " + lodMaxScalePos + "%; height: " + (tickHeight + 3) + "px",
+          style: "width: " + scrollWidth + "px; left: " + leftOffset + "px; height: 5px; top: -14px;"
+        }, ruleNode2);
+        this.sliderRule2.startup();
+      }
       
       // The scale labels
       var labelsNode = domConstruct.create("div", {}, scaleSliderDom, "last");
@@ -1284,6 +1444,10 @@ define([
         this.sliderRule1.destroy();
         this.sliderRule1 = null;
       }
+      if (this.sliderRule2) {
+        this.sliderRule2.destroy();
+        this.sliderRule2 = null;
+      }
       if (this.sliderLabels) {
         this.sliderLabels.destroy();
         this.sliderLabels = null;
@@ -1383,7 +1547,15 @@ define([
     
     toggleLayoutLayer: function(visible) {
       this.layoutLayer.visible = visible;
-      // this.toggleFeatureLayerHandlers(visible);
+    },
+    
+    concatUnique: function(array1, array2) {
+      var obj1 = {}, obj2 = {}, array3 = [];
+      array.forEach(array1, function(item) { obj1[item.id] = 0; });
+      array.forEach(array2, function(item) { obj2[item.id] = 0; });
+      lang.mixin(obj1, obj2);
+      for (var lyrName in obj1) { array3.push({ id: lyrName }); }
+      return array3;
     }
   });
 
@@ -1400,7 +1572,8 @@ define([
     _onPrintComplete: function(data) {
       if (data.url) {
         this.url = data.url;
-        this.nameNode.innerHTML = '<span class="bold">' + this.title + '</span>';
+        domStyle.set(this.progressBar.domNode, 'display', 'none');
+        domStyle.set(this.successNode, 'display', 'inline-block');
         domClass.add(this.resultNode, "printResultHover");
       } else {
         this._onPrintError(this.nls.printError);
@@ -1409,8 +1582,11 @@ define([
     
     _onPrintError: function(err) {
       console.log(err);
-      this.nameNode.innerHTML = '<span class="bold">' + this.nls.printError + '</span>';
+      domStyle.set(this.progressBar.domNode, 'display', 'none');
+      domStyle.set(this.errNode, 'display', 'block');
       domClass.add(this.resultNode, "printResultError");
+
+      domAttr.set(this.domNode, 'title', err.details || err.message || "");
     },
     
     _openPrint: function() {

@@ -75,13 +75,18 @@ define([
         this.setConfig(this.config);
       },
 
+      isEmpty: function (value){
+        return Boolean(value && typeof value == 'object') && !Object.keys(value).length;
+      },
+
       setConfig: function(config) {
         //hack the 'Learn more about this widget link'
         setTimeout(function(){
           var helpLink = dojo.query('.help-link');
-          helpLink[0].href = 'http://gis.calhouncounty.org/WAB/V1.1/widgets/eBasemapGallery/help/eBasemapGallery_Help.htm';
+          helpLink[0].href = 'http://gis.calhouncounty.org/WAB/V1.3/widgets/eBasemapGallery/help/eBasemapGallery_Help.htm';
           html.setStyle(helpLink[0],'display','block');
         },600);
+
         this.config = config;
         this.basemaps.length = 0;
 
@@ -93,13 +98,16 @@ define([
           loading.placeAt(this.baseMapsDiv);
           loading.startup();
           utils._loadPortalBaseMaps(this.appConfig.portalUrl, this.map.spatialReference)
-          .then(lang.hitch(this, function(basemaps) {
-            this.basemaps = basemaps;
-            this.refreshMapGallary();
-            loading.destroy();
-          }), function() {
-            loading.destroy();
-          });
+            .then(lang.hitch(this, function(basemaps) {
+              basemaps = array.filter(basemaps, lang.hitch(this, function(basemap){
+                return !this.isEmpty(basemap);
+              }));
+              this.basemaps = basemaps;
+              this.refreshMapGallary();
+              loading.destroy();
+            }), function() {
+              loading.destroy();
+            });
         } else {
           var len = config.basemapGallery.basemaps.length;
           var configuration = config.basemapGallery.basemaps;

@@ -37,6 +37,8 @@
     hectares: "Hehtaaria",
     squareMeters: "Neliömetriä",
     squareFeet: "Neliöjalkaa",
-    squareYards: "Neliöjaardia"
+    squareYards: "Neliöjaardia",
+    undo: "Kumoa",
+    redo: "Tee uudelleen"
   })
 );

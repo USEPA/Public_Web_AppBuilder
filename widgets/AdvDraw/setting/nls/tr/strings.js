@@ -21,6 +21,18 @@
     squareFeet: "Feet kare",
     squareYards: "Yarda kare",
     distance: "Mesafeler",
-    area: "Alanlar"
+    area: "Alanlar",
+    kilometersAbbreviation: "km",
+    milesAbbreviation: "mi",
+    metersAbbreviation: "m",
+    feetAbbreviation: "ft",
+    yardsAbbreviation: "yrd",
+    squareKilometersAbbreviation: "km²",
+    squareMilesAbbreviation: "mil²",
+    acresAbbreviation: "ar",
+    hectaresAbbreviation: "ha",
+    squareMetersAbbreviation: "m²",
+    squareFeetAbbreviation: "ft²",
+    squareYardsAbbreviation: "yd kare"
   })
 );

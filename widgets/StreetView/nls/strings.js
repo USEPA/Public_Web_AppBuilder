@@ -8,7 +8,10 @@ define({
     operamsgtitle: "Opera Browser Detected",
     popupblockermsg: "This widget uses a popup window to show Google Street View panoramas. You need to enable popups in your browser.",
     popupblockererrortitle: "Popup Blocker Detected",
-    ok: "OK"
+    ok: "OK",
+    widgetversion: 'Google Street View Widget Version Info',
+    widgetverstr: 'Widget Version',
+    wabversionmsg: 'Widget is designed to run in Web AppBuilder version'
   }),
   "ar": 0,
   "cs": 0,

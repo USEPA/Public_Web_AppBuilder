@@ -1,0 +1,20 @@
+<div>
+  <div data-dojo-type="jimu/dijit/CheckBox" data-dojo-attach-point="addBookmarksCbx"
+                 data-dojo-props="label:'${nls.addBookmarks}',checked:true"></div>
+  <div style="clear:both;padding:8px 0;">
+    <div data-dojo-attach-point="btnAddFolder" data-dojo-attach-event="onclick:_onBtnAddFolderClicked" class="Add-btn"
+         style="margin-right:20px;">
+      <img src="../images/i_folder.png" alt="folder" class="btn-folder" data-dojo-attach-point="btnAddFolderImg"/>${nls.addFolder}</div>
+    <div data-dojo-attach-point="btnAddBookmark" data-dojo-attach-event="onclick:onAddBookmarkClick"
+         class="Add-btn">
+      <img src="../images/i_bookmark.png" alt="bookmark" class="btn-bookmark" data-dojo-attach-point="btnAddBookmarkImg"/>${nls._addBookmark}</div>
+    <a style="float:right; margin-top:6px;visibility:hidden;" href="#"
+       data-dojo-attach-point="btnClearSelection" title="${nls.clearToolTip}">${nls.clearSelected}</a>
+  </div>
+
+  <div class="bookmarks-section" data-dojo-attach-point="bookmarksSection">
+    <div class="bookmark-list-title">${nls.titlebookmarks}</div>
+    <div class="bookmark-list-body" data-dojo-attach-point="bookmarkListBody">
+    </div>
+  </div>
+</div>

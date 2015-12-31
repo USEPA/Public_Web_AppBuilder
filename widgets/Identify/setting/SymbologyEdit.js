@@ -6,17 +6,13 @@ define(
     'dojo/_base/html',
     'dojo/on',
     'jimu/dijit/SymbolPicker',
-    'jimu/dijit/ImageChooser',
     'dijit/_WidgetBase',
     'dijit/_TemplatedMixin',
     'dijit/_WidgetsInTemplateMixin',
     'jimu/BaseWidgetSetting',
     'jimu/dijit/Message',
     'dojo/text!./SymbologyEdit.html',
-    'esri/symbols/jsonUtils',
-    'jimu/utils',
-    'dojo/dom-attr',
-    'dijit/form/TextBox'
+    'esri/symbols/jsonUtils'
   ],
   function(
     declare,
@@ -25,17 +21,13 @@ define(
     html,
     on,
     SymbolPicker,
-    ImageChooser,
     _WidgetBase,
     _TemplatedMixin,
     _WidgetsInTemplateMixin,
     BaseWidgetSetting,
     Message,
     template,
-    jsonUtils,
-    jimuUtils,
-    domAttr,
-    TextBox
+    jsonUtils
     ) {
     return declare([BaseWidgetSetting, _WidgetsInTemplateMixin], {
       baseClass: 'symbology-edit',
@@ -44,20 +36,12 @@ define(
       flinfo: null,
       nls: null,
       _symbols: null,
-      _defaultPMS: null,
 
       postCreate: function() {
         this.inherited(arguments);
         this.own(on(this.defaultPointSymbolPicker,'change',lang.hitch(this,this._onPointSymbolChange)));
         this.own(on(this.defaultLineSymbolPicker,'change',lang.hitch(this,this._onLineSymbolChange)));
         this.own(on(this.defaultPolySymbolPicker,'change',lang.hitch(this,this._onPolySymbolChange)));
-        this._defaultPMS = {
-          url: '/widgets/Identify/images/i_info.png',
-          height: '20',
-          width: '20',
-          type: 'esriPMS',
-          angle: '0'
-        };
         this.setConfig(this.config);
       },
 
@@ -71,26 +55,11 @@ define(
           return;
         }
         this._symbols = this.config.symbols;
-        var pmsUrl;
-        if(this._symbols.picturemarkersymbol && this._symbols.picturemarkersymbol.url){
-          pmsUrl = jimuUtils.processUrlInWidgetConfig(this._symbols.picturemarkersymbol.url, this.folderUrl);
-        }else{
-          pmsUrl = jimuUtils.processUrlInWidgetConfig('/widgets/Identify/images/i_info.png', this.folderUrl);
-        }
-        domAttr.set(this.showImageChooser, 'src', pmsUrl);
-        this.imageChooser = new ImageChooser({
-          displayImg: this.showImageChooser,
-          goldenWidth: 20,
-          goldenHeight: 20
-        });
-
-        html.addClass(this.imageChooser.domNode, 'img-chooser');
-        html.place(this.imageChooser.domNode, this.imageChooserBase);
 
         if(this._symbols.simplemarkersymbol){
           this.defaultPointSymbolPicker.showBySymbol(jsonUtils.fromJson(this._symbols.simplemarkersymbol));
         }else{
-          this.defaultLineSymbolPicker.showByType('point');
+          this.defaultPointSymbolPicker.showByType('point');
         }
         if(this._symbols.simplelinesymbol){
           this.defaultLineSymbolPicker.showBySymbol(jsonUtils.fromJson(this._symbols.simplelinesymbol));
@@ -105,9 +74,7 @@ define(
       },
 
       _onPointSymbolChange:function(newSymbol){
-        if(newSymbol.type == 'simplemarkersymbol'){
-          this._symbols.simplemarkersymbol = newSymbol.toJson();
-        }
+        this._symbols.simplemarkersymbol = newSymbol.toJson();
       },
 
       _onLineSymbolChange:function(newSymbol){
@@ -123,8 +90,6 @@ define(
       },
 
       getConfig: function() {
-        this._defaultPMS.url = this.imageChooser.imageData;
-        this._symbols.picturemarkersymbol = this._defaultPMS;
         var config = {
           symbols:this._symbols
         };

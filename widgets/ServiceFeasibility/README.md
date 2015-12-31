@@ -4,7 +4,6 @@ The Service Feasibility widget allows users to select a location on the map and 
 Usage examples:
 * Find best route to fiber network
 
-Important Note: These widgets are only tested with the Beta 1 release of or ArcGIS WebApp Builder. All the Widgets in this repo should be considered Beta (or possibly untested) until the final release of Web AppBuilder for ArcGIS.
 ## Sections
 
 * [Features](#features)
@@ -23,7 +22,7 @@ Important Note: These widgets are only tested with the Beta 1 release of or ArcG
 * Ability to save results to a layer or csv file
 
 ## Requirements
-* ArcGIS WebApp Builder Beta 1.
+* ArcGIS WebApp Builder Developer Edition 1.2.
 
 ## Instructions
 Deploying Widget

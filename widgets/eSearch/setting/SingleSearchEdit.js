@@ -9,6 +9,7 @@ define([
   'dojo/_base/array',
   'dojo/_base/html',
   'dojo/_base/query',
+  'dojo/dom-attr',
   'dojo/on',
   'dojo/json',
   'dijit/_WidgetBase',
@@ -19,7 +20,7 @@ define([
   'dijit/form/TextBox',
   'dijit/form/RadioButton',
   'dijit/form/Form',
-  'jimu/dijit/LayerFieldChooser',
+  'widgets/eSearch/setting/LayerFieldChooser',
   'widgets/eSearch/setting/IncludeAllButton',
   'widgets/eSearch/setting/IncludeButton',
   'jimu/dijit/SimpleTable',
@@ -30,36 +31,46 @@ define([
   'widgets/eSearch/setting/SingleExpressionEdit',
   'widgets/eSearch/setting/FieldFormatEdit',
   'widgets/eSearch/setting/SingleLinkEdit',
+  './LayerSearchSymEdit',
   'dojo/keys',
+  'jimu/dijit/Message',
+  'jimu/utils',
+  './SortFields',
   'jimu/dijit/CheckBox'
 ],
-  function (declare,
-             lang,
-             array,
-             html,
-             query,
-             on,
-             json,
-             _WidgetBase,
-             _TemplatedMixin,
-             _WidgetsInTemplateMixin,
-             Tooltip,
-             template,
-             TextBox,
-             RadioButton,
-             Form,
-             LayerFieldChooser,
-             IncludeAllButton,
-             IncludeButton,
-             SimpleTable,
-             eSimpleTable,
-             ServiceURLInput,
-             esriRequest,
-             Popup,
-             SingleExpressionEdit,
-             FieldFormatEdit,
-             SingleLinkEdit,
-             keys) {
+  function (
+       declare,
+       lang,
+       array,
+       html,
+       query,
+       domAttr,
+       on,
+       json,
+       _WidgetBase,
+       _TemplatedMixin,
+       _WidgetsInTemplateMixin,
+       Tooltip,
+       template,
+       TextBox,
+       RadioButton,
+       Form,
+       LayerFieldChooser,
+       IncludeAllButton,
+       IncludeButton,
+       SimpleTable,
+       eSimpleTable,
+       ServiceURLInput,
+       esriRequest,
+       Popup,
+       SingleExpressionEdit,
+       FieldFormatEdit,
+       SingleLinkEdit,
+       LayerSearchSymEdit,
+       keys,
+       Message,
+       jimuUtils,
+       SortFields) {
     return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
       baseClass: 'widget-esearch-singlesearch-setting',
       templateString: template,
@@ -69,7 +80,6 @@ define([
       _url: "",
       _layerDef: null,
       _links: null,
-      _showAttachments: null,
       _spatialsearchlayer: null,
       layerUniqueCache: null,
       layerInfoCache: null,
@@ -77,14 +87,24 @@ define([
       popup2: null,
       popup3: null,
       popup4: null,
+      popup5: null,
       fieldformatedit: null,
       singleExpressionedit: null,
       singleLinkedit: null,
       tr: null,
       featureLayerDetails:null,
+      _currentOrderByFields: null,
+      _validSortFieldTypes: ['esriFieldTypeOID',
+                             'esriFieldTypeString',
+                             'esriFieldTypeDate',
+                             'esriFieldTypeSmallInteger',
+                             'esriFieldTypeInteger',
+                             'esriFieldTypeSingle',
+                             'esriFieldTypeDouble'],
 
       postCreate: function () {
         this.inherited(arguments);
+        this._initRadios();
         this._setConfig(this.config);
         this._bindEvents();
         this._initTables();
@@ -96,16 +116,21 @@ define([
         if (!this.config.url) {
           return;
         }
+        //this.showAttachmentsCbx.setValue(this.config.showattachments || false);
+        this.shareCbx.setValue(this.config.shareResult || false);
+        this.attribTableCbx.setValue(this.config.addToAttrib || false);
         this._url = lang.trim(this.config.url || "");
         this._links = this.config.links;
-        this._showAttachments = this.config.showattachments;
         if(this.config.zoomScale){
           this.zoomScale.set('value', parseInt(this.config.zoomScale,10));
         }
+        this.forceScaleCbx.setValue(this.config.forceZoomScale || false);
         if(this.config.layersymbolfrom && this.config.layersymbolfrom === 'config'){
-          this.defaultSymRadio.set("checked", true);
+          this.defaultSymRadio.checked = true;
+        }else if(this.config.layersymbolfrom && this.config.layersymbolfrom === 'layer'){
+          this.layerSymRadio.checked = true;
         }else{
-          this.serverSymRadio.set("checked", true);
+          this.serverSymRadio.checked = true;
         }
         this.isSpatialLayer.setValue(this.config.spatialsearchlayer || false);
         this.layerUrl.set('value', this._url);
@@ -128,14 +153,15 @@ define([
         if (this.config.links) {
           this._initLinksTable();
         }
+        this._setOrderByFields(this.config.orderByFields);
       },
 
       getConfig: function () {
         if (!this.validate(false)) {
           return false;
         }
+
         var allSingleExpressions = this._getAllSingleExpressions();
-//        console.info(allSingleExpressions);
         var allSingleLinks = this._getAllSingleLinks();
         var config = {
           name: lang.trim(this.layerName.get('value')),
@@ -143,6 +169,9 @@ define([
           definitionexpression: lang.trim(this.definitionExpression.get('value')),
           spatialsearchlayer: this.isSpatialLayer.getValue(),
           zoomScale: parseInt(this.zoomScale.get('value'),10),
+          forceZoomScale: this.forceScaleCbx.getValue(),
+          shareResult: this.shareCbx.getValue(),
+          addToAttrib: this.attribTableCbx.getValue(),
           expressions: {
             expression: []
           },
@@ -154,13 +183,27 @@ define([
           links: {
             link: []
           },
-          showattachments: this._showAttachments
+          orderByFields: []
+          //showattachments: this.showAttachmentsCbx.getValue()
         };
-        this.sym = this.symFormDijit.get('value');
-        if(this.sym.symRadioGroup === 'server'){
+
+        if (this.config.sumfield) {
+          config.sumfield = this.config.sumfield;
+          config.sumlabel = this.config.sumlabel;
+        }
+        if(this.serverSymRadio.checked){
           config.layersymbolfrom = 'server';
+          if(config.symbology){
+            delete config.symbology;
+          }
+        }else if(this.layerSymRadio.checked){
+          config.layersymbolfrom = 'layer';
+          config.symbology = this.config.symbology;
         }else{
           config.layersymbolfrom = 'config';
+          if(config.symbology){
+            delete config.symbology;
+          }
         }
 
         var rowsData = this.displayFieldsTable.getData();
@@ -188,15 +231,33 @@ define([
           if (item.isdate) {
             retVal.isdate = true;
           }
+          if (item.popuponly) {
+            retVal.popuponly = true;
+          }
           return retVal;
         }));
         config.fields.field = fieldsArray;
         config.expressions.expression = allSingleExpressions;
         config.links.link = allSingleLinks;
         this._addLinkFields(config.fields.field, config.links.link);
+
+        if(this._shouldEnableSorting(this.featureLayerDetails)){
+          config.orderByFields = this._getOrderByFields();
+        }
+
         this.config = config;
-//        console.info(this.config);
         return this.config;
+      },
+
+      _initRadios:function(){
+        var group = "radio_" + jimuUtils.getRandomString();
+        this.serverSymRadio.name = group;
+        this.defaultSymRadio.name = group;
+        this.layerSymRadio.name = group;
+
+        jimuUtils.combineRadioCheckBoxWithLabel(this.serverSymRadio, this.serverSymRadioLabel);
+        jimuUtils.combineRadioCheckBoxWithLabel(this.defaultSymRadio, this.defaultSymRadioLabel);
+        jimuUtils.combineRadioCheckBoxWithLabel(this.layerSymRadio, this.layerSymRadioLabel);
       },
 
       _addLinkFields: function(fields, links) {
@@ -302,6 +363,10 @@ define([
           urlDijit.proceedValue = true;
           result = true;
           this.featureLayerDetails = evt;
+          if(this.layerName.get('value') === ''){
+            this.layerName.set('value', lang.trim(this.featureLayerDetails.data.name));
+          }
+          this.layerName.proceedValue = true;
           this._refreshLayerFields();
         } else {
           urlDijit.proceedValue = false;
@@ -323,7 +388,23 @@ define([
         }
       },
 
+      _need2ChkOpLyr: function (){
+        if(this.attribTableCbx.getValue() /*|| this.showAttachmentsCbx.getValue()*/){
+          if(!this.shareCbx.getValue()){
+            this.shareCbx.setValue(true);
+            new Message({
+              titleLabel: this.nls.operationalLayerTip,
+              message: this.nls.showinattributetable + /*' ' + this.nls.andor + ' ' + this.nls.showattachments +*/ ' requires ' +
+              this.nls.operationalLayerTip + ' ' + this.nls.tobeenabled + '.'
+            });
+          }
+        }
+      },
+
       _bindEvents: function () {
+        this.attribTableCbx.onChange = lang.hitch(this, this._need2ChkOpLyr);
+        this.shareCbx.onChange = lang.hitch(this, this._need2ChkOpLyr);
+
         this.own(on(this.layerName, 'change', lang.hitch(this, this._checkProceed)));
         this.own(on(this.displayFieldsTable, 'row-add', lang.hitch(this, this._checkProceed)));
         this.own(on(this.layerUrl, 'Change', lang.hitch(this, '_onServiceUrlChange')));
@@ -341,6 +422,14 @@ define([
             this.popupState = 'ADD';
             this._showSingleExpressionsEdit(tr);
           }
+        })));
+        this.own(on(this.btnAddSymbol, 'click', lang.hitch(this, function () {
+          this.layerSymRadio.checked = true;
+          if(!this.featureLayerDetails){
+            return;
+          }
+          var geomType = this.featureLayerDetails.data.geometryType;
+          this._openSymbolEdit(this.nls.addSymbol, this.config, geomType);
         })));
         this.own(on(this.btnAddLink, 'click', lang.hitch(this, function () {
           var args = {
@@ -379,11 +468,60 @@ define([
         })));
       },
 
+      _onSymbolEditOk: function() {
+        var sConfig = this.layerSearchSymedit.getConfig();
+
+        if (sConfig.length < 0) {
+          new Message({
+            message: this.nls.warning
+          });
+          return;
+        }
+        this.config.symbology = sConfig;
+        this.popup5.close();
+      },
+
+      _onSymbolEditClose: function() {
+        this.layerSearchSymedit = null;
+        this.popup5 = null;
+      },
+
+      _openSymbolEdit: function(title, lSym, gType) {
+        this.layerSearchSymedit = new LayerSearchSymEdit({
+          nls: this.nls,
+          config: lSym || {},
+          geomType: gType,
+          widget: this
+        });
+
+        this.popup5 = new Popup({
+          titleLabel: title,
+          autoHeight: true,
+          content: this.layerSearchSymedit,
+          container: 'main-page',
+          buttons: [{
+            label: this.nls.ok,
+            key: keys.ENTER,
+            onClick: lang.hitch(this, '_onSymbolEditOk')
+          }, {
+            label: this.nls.cancel,
+            key: keys.ESCAPE
+          }],
+          onClose: lang.hitch(this, '_onSymbolEditClose')
+        });
+        html.addClass(this.popup5.domNode, 'widget-setting-popup');
+        this.layerSearchSymedit.startup();
+      },
+
       _openFieldEdit: function (name, tr) {
         this.fieldformatedit = new FieldFormatEdit({
           nls: this.nls,
           tr: tr
         });
+        if(this.config.sumfield && tr.fieldInfo.name === this.config.sumfield){
+          this.fieldformatedit.sumfield = true;
+          this.fieldformatedit.sumlabel = this.config.sumlabel;
+        }
         this.fieldformatedit.setConfig(tr.fieldInfo || {});
         this.popup4 = new Popup({
           titleLabel: name,
@@ -410,7 +548,11 @@ define([
       _onFieldEditOk: function () {
         var edits = {};
         var fieldInfo = this.fieldformatedit.getConfig();
-//        console.info(fieldInfo);
+        console.info(this.fieldformatedit.sumfield);
+        if(this.fieldformatedit.sumfield){
+          this.config.sumfield = fieldInfo.name;
+          this.config.sumlabel = this.fieldformatedit.sumlabel;
+        }
         if (fieldInfo.useutc) {
           edits.useutc = true;
         }else{
@@ -529,6 +671,7 @@ define([
             this.includeAllButton.enable();
           }
         }
+        this.updateSortingIcon(this.featureLayerDetails);
         this.layerUrl.proceedValue = true;
         this._checkProceed();
       },
@@ -557,7 +700,7 @@ define([
         var canProceed = true;
         html.setAttr(this.errorMessage, 'innerHTML', '');
         if (this.layerName.proceedValue) {
-          canProceed = canProceed && this.layerUrl.proceedValue && this.displayFieldsTable.getData().length > 0;
+          canProceed = canProceed && this.layerUrl.proceedValue; //&& this.displayFieldsTable.getData().length > 0;
         } else {
           canProceed = false;
         }
@@ -589,12 +732,12 @@ define([
       },
 
       _createDisplayField: function (fieldInfo, titleField) {
-//        console.info(fieldInfo);
         var isNumeric = (this._isNumberType(fieldInfo.type) || fieldInfo.isnumber);
         var rowData = {
           name: fieldInfo.name,
           alias: fieldInfo.alias || fieldInfo.name,
           title: fieldInfo.name === titleField,
+          popuponly: fieldInfo.popuponly,
           isnumber: isNumeric,
           isdate: (fieldInfo.type === "esriFieldTypeDate" || fieldInfo.isdate)
         };
@@ -615,6 +758,10 @@ define([
         }
         var result = this.displayFieldsTable.addRow(rowData);
         result.tr.fieldInfo = fieldInfo;
+        if(fieldInfo.name === this.config.sumfield){
+          result.tr.sumfield = true;
+          result.tr.sumlabel = this.config.sumlabel;
+        }
       },
 
       _getTitleField: function () {
@@ -684,7 +831,6 @@ define([
       _onSingleLinksEditOk: function () {
         var edits = {};
         var linkConfig = this.singleLinkedit.getConfig();
-//        console.info(linkConfig);
         edits.alias = linkConfig.alias;
         this.singleLinkedit.tr.singleLink = linkConfig;
         this.linksTable.editRow(this.singleLinkedit.tr, edits);
@@ -735,7 +881,6 @@ define([
       _onSingleExprEditOk: function () {
         var edits = {};
         var exprConfig = this.singleExpressionedit.getConfig();
-//        console.info(exprConfig);
         edits.alias = exprConfig.alias;
         this.singleExpressionedit.tr.singleExpression = exprConfig;
         this.expressionsTable.editRow(this.singleExpressionedit.tr, edits);
@@ -749,6 +894,124 @@ define([
         }
         this.singleExpressionedit = null;
         this.popup3 = null;
+      },
+
+      _onBtnSortFieldsClicked: function() {
+        var layerDefinition = this.featureLayerDetails;
+        if(!layerDefinition){
+          return;
+        }
+
+        if(!this._shouldEnableSorting(layerDefinition)){
+          return;
+        }
+
+        var sortFields = new SortFields({
+          nls: this.nls,
+          layerDefinition: layerDefinition.data,
+          orderByFields: lang.clone(this._currentOrderByFields),
+          validSortFieldTypes: this._validSortFieldTypes
+        });
+        var popup = new Popup({
+          width: 640,
+          height: 380,
+          titleLabel: this.nls.setSortingFields,
+          content: sortFields,
+          onClose: lang.hitch(this, function(){
+            sortFields.destroy();
+          }),
+          buttons: [{
+            label: this.nls.ok,
+            onClick: lang.hitch(this, function(){
+              var orderByFields = sortFields.getOrderByFields();
+              this._setOrderByFields(orderByFields);
+              popup.close();
+            })
+          }, {
+            label: this.nls.cancel,
+            onClick: lang.hitch(this, function(){
+              popup.close();
+            })
+          }]
+        });
+      },
+
+      _shouldEnableSorting: function(layerInfo){
+        return this._isServiceSupportsOrderBy(layerInfo.data);
+      },
+
+      _isServiceSupportsOrderBy: function(layerInfo) {
+        var isSupport = false;
+        if (layerInfo.advancedQueryCapabilities) {
+          if (layerInfo.advancedQueryCapabilities.supportsOrderBy) {
+            isSupport = true;
+          }
+        }
+        return isSupport;
+      },
+
+      updateSortingIcon: function(layerInfo){
+        if(this._shouldEnableSorting(layerInfo)){
+          html.addClass(this.btnSortFields, 'enabled');
+          domAttr.set(this.btnSortFields, 'title', this.nls.editSortBy);
+        }else{
+          html.removeClass(this.btnSortFields, 'enabled');
+          domAttr.set(this.btnSortFields, 'title', this.nls.sortDisabledMsg);
+        }
+      },
+
+      _getOrderByFields: function(){
+        return this._currentOrderByFields;
+      },
+
+      clear:function(){
+        html.removeClass(this.btnSortFields, 'enabled');
+        this._currentOrderByFields = [];
+      },
+
+      _setOrderByFields: function(orderByFields){
+        //such as ["STATE_NAME DESC"]
+
+        orderByFields = orderByFields || [];
+
+        //clear UI
+        this.sortFieldsDiv.innerHTML = "";
+
+        var sortFieldInnerHTML = "";
+
+        orderByFields = array.map(orderByFields, lang.hitch(this, function(item, i){
+          var splits = item.split(' ');
+          var fieldName = splits[0];
+          var sortType = 'ASC';
+          if(splits[1] && typeof splits[1] === 'string'){
+            splits[1] = splits[1].toUpperCase();
+            if(splits[1] === 'DESC'){
+              sortType = 'DESC';
+            }
+          }
+
+          var className = sortType.toLowerCase();
+
+          //update UI
+          var str = '<span>' + fieldName + '</span>' +
+          '<span class="sort-arrow ' + className + '"></span>';
+          if(i !== orderByFields.length - 1){
+            str += "<span>,&nbsp;</span>";
+          }
+
+          sortFieldInnerHTML += str;
+
+          var result = fieldName + " " + sortType;
+          return result;
+        }));
+
+        if(sortFieldInnerHTML){
+          sortFieldInnerHTML = "<span>&nbsp;&nbsp;</span>" + sortFieldInnerHTML;
+        }
+
+        this.sortFieldsDiv.innerHTML = sortFieldInnerHTML;
+
+        this._currentOrderByFields = orderByFields;
       }
 
     });

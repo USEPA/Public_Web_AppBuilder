@@ -1,0 +1,37 @@
+.mapprogress-setting{
+  height: 100%;
+  overflow-y: auto;
+}
+
+.mapprogress-setting .setting-table {
+  margin: 5px 200px;
+  border-spacing: 10px;
+  border-collapse: separate;
+}
+
+.mapprogress-setting .setting-table .thumbnail-img{
+  /*width: 40px;
+  height: 32px;*/
+  float: left;
+  margin-right: 20px;
+}
+
+.mapprogress-setting .setting-table .img-chooser{
+  width: 100px;
+  height: 60px;
+  position: absolute;
+}
+
+.mapprogress-setting .input-table > tbody > tr > .first{
+  width:auto;
+  text-align: left;
+  padding-right:15px;
+  padding-left:60px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mapprogress-setting .input-table > tbody > tr > .second{
+  width:660px;
+}

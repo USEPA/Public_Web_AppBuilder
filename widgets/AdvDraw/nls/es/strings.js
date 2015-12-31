@@ -37,6 +37,8 @@
     hectares: "Hectáreas",
     squareMeters: "Metros cuadrados",
     squareFeet: "Pies cuadrados",
-    squareYards: "Yardas cuadradas"
+    squareYards: "Yardas cuadradas",
+    undo: "Deshacer",
+    redo: "Rehacer"
   })
 );

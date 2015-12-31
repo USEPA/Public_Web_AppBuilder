@@ -1,0 +1,970 @@
+.widget-eLocate{
+  position:relative;
+  width:100%;
+  height:100%;
+  min-width:265px;
+  min-height:279px;
+}
+
+.widget-eLocate .button-clear {
+  float: right;
+  margin-right: 10px;
+  padding-bottom: 8px;
+}
+
+.widget-eLocate .unitDD{
+  width: 100%;
+  height: 32px;
+  margin-top: 12px;
+  position: relative;
+}
+
+.widget-eLocate .unitDDLbl{
+  width: 90px;
+  line-height: 32px;
+  float: left;
+  text-align: right;
+  padding-right:8px;
+}
+
+.widget-eLocate .unitSelect{
+  width: 200px;
+  position: absolute;
+  left: 90px;
+  top: 0;
+}
+
+.widget-eLocate .unitSelect .dijitSelectLabel{
+  padding: 1px 0px;
+  width: 161px;
+  overflow: hidden;
+  text-align: left;
+}
+
+.widget-eLocate .locate-btn {
+  cursor: pointer;
+  min-width: 70px;
+  display: inline-block;
+  padding: 12px;
+  font-size: 15px;
+  text-align: center;
+  background: none repeat scroll 0% 0% #528CC9;
+  vertical-align: middle;
+  color: #FFF;
+  border-radius: 5px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.widget-eLocate .btn-coordLocate,
+.widget-eLocate .btn-addressLocate{
+  float: right;
+}
+
+.widget-eLocate .revGeocodeDiv {
+  width: 100%;
+  text-align: center;
+}
+
+.widget-eLocate .revGeocodeBtn {
+  width: 40px;
+  height: 40px;
+  background-repeat: no-repeat;
+  text-align: center;
+  margin: 7px;
+  background-position: center center;
+  background-image: url("images/i_house.png");
+  background-color: #596679;
+  display: inline-block;
+  border-radius: 4px;
+  border: 2px solid gray;
+}
+
+.widget-eLocate .revGeocodeBtn:hover {
+  width: 40px;
+  height: 40px;
+  background-repeat: no-repeat;
+  text-align: center;
+  margin: 7px;
+  background-position: center center;
+  background-image: url("images/i_house.png");
+  background-color: #8b94a1;
+  display: inline-block;
+  border-radius: 4px;
+  border: 2px solid #596679;
+}
+
+.widget-eLocate .revGeocodeBtn.selected {
+  width: 40px;
+  height: 40px;
+  background-repeat: no-repeat;
+  text-align: center;
+  margin: 7px;
+  background-position: center center;
+  background-image: url("images/i_house.png");
+  background-color: #8b94a1;
+  display: inline-block;
+  border-radius: 4px;
+  border: 2px solid #596679;
+}
+
+.jimu-widget-frame>.widget-eLocate>.jimu-tab>.control{
+  margin:-14px -14px 0 -14px;
+}
+
+.jimu-widget-frame>.widget-eLocate>.jimu-tab>.jimu-viewstack,
+.jimu-container>.widget-eLocate>.jimu-tab>.jimu-viewstack {
+  position: absolute !important;
+  top:45px !important;
+  left:0 !important;
+  right:0 !important;
+  bottom:0 !important;
+  height: auto;
+  margin-bottom:-14px;
+}
+
+.widget-eLocate .eLocate-tab-node{
+  position:absolute !important;
+  width:100% !important;
+  height:auto !important;
+  top:0 !important;
+  bottom:0 !important;
+}
+
+.widget-eLocate .eLocate-tab-node-hidden {
+  position: absolute !important;
+  width: 100% !important;
+  height: auto !important;
+  top: 0 !important;
+  bottom: 0 !important;
+  display: none;
+}
+
+.widget-eLocate .result-div{
+  font-size:14px;
+  padding-left:10px;
+  padding-bottom:5px;
+}
+
+/*used for the controller List*/
+.widget-eLocate .eLocate-list {
+  position: absolute;
+  width: 100%;
+  height: auto;
+  left: 0;
+  right: 0;
+  top: 50px;
+  bottom: 0;
+  overflow-x: auto;
+  overflow-y: auto;
+}
+
+.eLocate-list-container{
+  min-width: 100%;
+  height: 100%;
+  vertical-align: middle;
+  float: left;
+  position: relative;
+}
+.eLocate-list-item{
+  line-height: 30px;
+  font-size: 12px;
+  white-space: pre;
+  position: relative;
+}
+.eLocate-list-item .label{
+  padding-left: 40px;
+  padding-right: 10px;
+  padding-bottom: 3px;
+  margin-right: 22px;
+  cursor:default;
+}
+.eLocate-list-item .labellink{
+  padding-left: 40px;
+  padding-right: 10px;
+  padding-bottom: 3px;
+  cursor:pointer;
+  outline: none;
+}
+.eLocate-list-item .iconDiv{
+  text-align: center;
+  position: absolute;
+  height: 100%;
+  left: 0;
+}
+.eLocate-list-item .linksdiv{
+  text-align: center;
+  width: 100%;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+.eLocate-list-item .linkIcon{
+  display: inline-block;
+}
+.eLocate-list-item .iconDiv:before{
+  content: '';
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+  margin-right: -0.25em; /* Adjusts for spacing */
+}
+.eLocate-list-item .iconDiv svg{
+  display: inline-block;
+  vertical-align: middle;
+}
+.eLocate-list-item.alt{
+  background-color: #ebebeb;
+}
+.eLocate-list-item.selected{
+  background-color: #d9dde0;
+}
+.eLocate-list-item.selected.alt{
+  background-color: #d9dde0;
+}
+.eLocate-list-item:hover{
+  background-color: #dcdcdc;
+}
+.eLocate-list-item.alt:hover{
+  background-color: #dcdcdc;
+}
+.eLocate-list-item.selected:hover{
+  background-color: #d9dde0;
+}
+.eLocate-list-item.selected.alt:hover{
+  background-color: #d9dde0;
+}
+.eLocate-list-item .removediv:before{
+  content: '';
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+  margin-right: -0.25em; /* Adjusts for spacing */
+}
+.eLocate-list-item .removediv svg{
+  display: inline-block;
+  vertical-align: middle;
+}
+.eLocate-list-item .removediv{
+  text-align: center;
+  position: absolute;
+  height: 100%;
+  width: 22px;
+  right: 0;
+}
+
+.eLocate-list-item .removedivImg{
+  display: inline-block;
+  vertical-align: middle;
+  background-image: url("images/i_remove_info.png");
+  background-repeat: no-repeat;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+/*Fixes for DartTheme list colors*/
+.DartTheme .widget-eLocate {
+  width: 98.5%;
+}
+
+.DartTheme .eLocate-list-item.alt {
+  background-color: #646464;
+}
+
+.DartTheme .eLocate-list-item.selected {
+  background-color: #959595;
+}
+
+.DartTheme .eLocate-list-item.selected.alt {
+  background-color: #d9dde0;
+}
+
+.DartTheme .eLocate-list-item:hover {
+  background-color: #555555;
+}
+
+.DartTheme .eLocate-list-item.alt:hover {
+  background-color: #555555;
+}
+
+.DartTheme .eLocate-list-item.selected:hover {
+  background-color: #555555;
+}
+
+.DartTheme .eLocate-list-item.selected.alt:hover {
+  background-color: #555555;
+}
+
+/*Handle themes style color*/
+
+.locate-btn,
+.locate-btn.btn-coordLocate,
+.locate-btn.btn-addressLocate{
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 1);
+}
+
+.locate-btn:hover,
+.locate-btn.btn-coordLocate:hover,
+.locate-btn.btn-addressLocate:hover{
+  background-color: rgb(0, 0, 0);
+  -ms-filter: "Alpha(opacity=70)";
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.JewelryBoxTheme.default .jimu-on-screen-widget-panel > .jimu-panel-title,
+.JewelryBoxTheme.default .locate-btn,
+.JewelryBoxTheme.default .jimu-draw-box .draw-item.jimu-state-active,
+.FoldableTheme jimu-draw-box .draw-item.jimu-state-active,
+.FoldableTheme .locate-btn,
+.FoldableTheme .esriPopup .titlePane,
+.JewelryBoxTheme.default .esriPopup .titlePane  {
+  background-color: rgb(89, 102, 121);
+  background-color: rgba(89, 102, 121, 1);
+}
+
+.JewelryBoxTheme.default .locate-btn:hover,
+.FoldableTheme .locate-btn:hover,
+.JewelryBoxTheme.default .jimu-draw-box .draw-item:hover,
+.FoldableTheme .jimu-draw-box .draw-item:hover {
+  background-color: rgb(89, 102, 121);
+  -ms-filter: "Alpha(opacity=70)";
+  background-color: rgba(89, 102, 121, 0.7);
+}
+
+.TabTheme .locate-btn,
+.TabTheme .jimu-draw-box .draw-item.jimu-state-active,
+.TabTheme .esriPopup .titlePane  {
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 1);
+}
+
+.TabTheme .locate-btn:hover,
+.TabTheme .jimu-draw-box .draw-item:hover {
+  background-color: rgb(0, 0, 0);
+  -ms-filter: "Alpha(opacity=70)";
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.BoxTheme.default .locate-btn,
+.BoxTheme.default .jimu-draw-box .draw-item.jimu-state-active,
+.BoxTheme.default .esriPopup .titlePane  {
+  background-color: rgb(100, 100, 100);
+  background-color: rgba(100, 100, 100, 1);
+}
+
+.BoxTheme.default .locate-btn:hover,
+.BoxTheme.default .jimu-draw-box .draw-item:hover {
+  background-color: rgb(100, 100, 100);
+  -ms-filter: "Alpha(opacity=70)";
+  background-color: rgba(100, 100, 100, 0.7);
+}
+
+.BillboardTheme.blue .locate-btn,
+.BillboardTheme.default .locate-btn,
+.BillboardTheme.green .locate-btn,
+.BillboardTheme.orange .locate-btn,
+.BillboardTheme.pink .locate-btn,
+.BillboardTheme.purple .locate-btn,
+.BillboardTheme.red .locate-btn,
+.BillboardTheme.turquoise .locate-btn,
+.BillboardTheme.blue .jimu-draw-box .draw-item.jimu-state-active,
+.BillboardTheme.default .jimu-draw-box .draw-item.jimu-state-active,
+.BillboardTheme.green .jimu-draw-box .draw-item.jimu-state-active,
+.BillboardTheme.orange .jimu-draw-box .draw-item.jimu-state-active,
+.BillboardTheme.pink .jimu-draw-box .draw-item.jimu-state-active,
+.BillboardTheme.purple .jimu-draw-box .draw-item.jimu-state-active,
+.BillboardTheme.red .jimu-draw-box .draw-item.jimu-state-active,
+.BillboardTheme.turquoise .jimu-draw-box .draw-item.jimu-state-active {
+  background-color: rgb(217, 221, 224);
+  color: #86909C;
+}
+
+.BillboardTheme.blue .locate-btn:hover,
+.BillboardTheme.default .locate-btn:hover,
+.BillboardTheme.green .locate-btn:hover,
+.BillboardTheme.orange .locate-btn:hover,
+.BillboardTheme.pink .locate-btn:hover,
+.BillboardTheme.purple .locate-btn:hover,
+.BillboardTheme.red .locate-btn:hover,
+.BillboardTheme.turquoise .locate-btn:hover,
+.BillboardTheme.blue .jimu-draw-box .draw-item:hover,
+.BillboardTheme.default .jimu-draw-box .draw-item:hover,
+.BillboardTheme.green .jimu-draw-box .draw-item:hover,
+.BillboardTheme.orange .jimu-draw-box .draw-item:hover,
+.BillboardTheme.pink .jimu-draw-box .draw-item:hover,
+.BillboardTheme.purple .jimu-draw-box .draw-item:hover,
+.BillboardTheme.red .jimu-draw-box .draw-item:hover,
+.BillboardTheme.turquoise .jimu-draw-box .draw-item:hover {
+  background-color: rgb(0, 0, 0);
+  -ms-filter: "Alpha(opacity=70)";
+  background-color: rgba(0, 0, 0, 0.5);
+  color: #fff;
+}
+
+.BillboardTheme.blue .esriPopup .titlePane,
+.DartTheme.blue .esriPopup .titlePane{
+  background-color: #2f70e4;
+}
+
+.BillboardTheme.default .esriPopup .titlePane{
+  background-color: #2e3641;
+}
+
+.DartTheme.default .esriPopup .titlePane {
+  background-color: #646464;
+}
+
+.BillboardTheme.green .esriPopup .titlePane{
+  background-color: #6db8ac;
+}
+
+.DartTheme.green .esriPopup .titlePane {
+  background-color: #80ab00;
+}
+
+.BillboardTheme.orange .esriPopup .titlePane{
+  background-color: #edbd35;
+}
+
+.DartTheme.orange .esriPopup .titlePane {
+  background-color: #ff9b00;
+}
+
+.BillboardTheme.pink .esriPopup .titlePane{
+  background-color: #fe6960;
+}
+
+.DartTheme.pink .esriPopup .titlePane {
+  background-color: #ed008c;
+}
+
+.BillboardTheme.purple .esriPopup .titlePane{
+  background-color: #856d9c;
+}
+
+.DartTheme.purple .esriPopup .titlePane {
+  background-color: #886197;
+}
+
+.BillboardTheme.red .esriPopup .titlePane{
+  background-color: #e83428;
+}
+
+.DartTheme.red .esriPopup .titlePane {
+  background-color: #cf0000;
+}
+
+.BillboardTheme.turquoise .esriPopup .titlePane{
+  background-color: #2d95a0;
+}
+
+.DartTheme.turquoise .esriPopup .titlePane {
+  background-color: #2faacd;
+}
+
+.FoldableTheme.default .jimu-on-screen-widget-panel > .jimu-panel-title,
+.FoldableTheme.default .locate-btn,
+.FoldableTheme.default .jimu-draw-box .draw-item.jimu-state-active,
+.FoldableTheme.default .esriPopup .titlePane  {
+  background-color: rgb(89, 102, 121);
+  background-color: rgba(89, 102, 121, 1);
+}
+
+.FoldableTheme.default .locate-btn:hover,
+.FoldableTheme.default .jimu-draw-box .draw-item:hover {
+  background-color: rgb(89, 102, 121);
+  -ms-filter: "Alpha(opacity=70)";
+  background-color: rgba(89, 102, 121, 0.7);
+}
+
+.JewelryBoxTheme.black .jimu-on-screen-widget-panel > .jimu-panel-title,
+.FoldableTheme.black .jimu-on-screen-widget-panel > .jimu-panel-title,
+.TabTheme.default .jimu-on-screen-widget-panel > .jimu-panel-title,
+.FoldableTheme.black .locate-btn,
+.TabTheme.default .locate-btn,
+.JewelryBoxTheme.black .locate-btn,
+.FoldableTheme.black .jimu-draw-box .draw-item.jimu-state-active,
+.TabTheme.default .jimu-draw-box .draw-item.jimu-state-active,
+.JewelryBoxTheme.black .jimu-draw-box .draw-item.jimu-state-active,
+.FoldableTheme.black .esriPopup .titlePane,
+.JewelryBoxTheme.black .esriPopup .titlePane,
+.TabTheme.default .esriPopup .titlePane  {
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 1);
+}
+
+.FoldableTheme.black .locate-btn:hover,
+.TabTheme.default .locate-btn:hover,
+.JewelryBoxTheme.black .locate-btn:hover,
+.FoldableTheme.black .jimu-draw-box .draw-item:hover,
+.TabTheme.default .jimu-draw-box .draw-item:hover,
+.JewelryBoxTheme.black .jimu-draw-box .draw-item:hover {
+  background-color: rgb(0, 0, 0);
+  -ms-filter: "Alpha(opacity=70)";
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.JewelryBoxTheme.cyan .jimu-on-screen-widget-panel > .jimu-panel-title,
+.FoldableTheme.cyan .jimu-on-screen-widget-panel > .jimu-panel-title,
+.FoldableTheme.cyan .locate-btn,
+.JewelryBoxTheme.cyan .locate-btn,
+.FoldableTheme.cyan .jimu-draw-box .draw-item.jimu-state-active,
+.JewelryBoxTheme.cyan .jimu-draw-box .draw-item.jimu-state-active,
+.JewelryBoxTheme.cyan .esriPopup .titlePane,
+.FoldableTheme.cyan .esriPopup .titlePane  {
+  background-color: rgb(38, 112, 48);
+  background-color: rgba(38, 112, 48, 1);
+}
+
+.FoldableTheme.cyan .locate-btn:hover,
+.JewelryBoxTheme.cyan .locate-btn:hover,
+.FoldableTheme.cyan .jimu-draw-box .draw-item:hover,
+.JewelryBoxTheme.cyan .jimu-draw-box .draw-item:hover {
+  background-color: rga(38, 112, 48);
+  -ms-filter: "Alpha(opacity=70)";
+  background-color: rgba(38, 112, 48, 0.7);
+}
+
+.TabTheme.cyan .jimu-on-screen-widget-panel > .jimu-panel-title,
+.TabTheme.cyan .locate-btn,
+.TabTheme.cyan .jimu-draw-box .draw-item.jimu-state-active,
+.TabTheme.cyan .esriPopup .titlePane  {
+  background-color: rgb(42, 170, 138);
+  background-color: rgba(42, 170, 138, 1);
+}
+
+.TabTheme.cyan .locate-btn:hover,
+.TabTheme.cyan .jimu-draw-box .draw-item:hover {
+  background-color: rga(42, 170, 138);
+  -ms-filter: "Alpha(opacity=70)";
+  background-color: rgba(42, 170, 138, 0.7);
+}
+
+.TabTheme.green .jimu-on-screen-widget-panel > .jimu-panel-title,
+.TabTheme.green .locate-btn,
+.TabTheme.green .jimu-draw-box .draw-item.jimu-state-active,
+.TabTheme.green .esriPopup .titlePane  {
+  background-color: rgb(5, 171, 8);
+  background-color: rgba(5, 171, 8, 1);
+}
+
+.TabTheme.green .locate-btn:hover,
+.TabTheme.green .jimu-draw-box .draw-item:hover {
+  background-color: rgb(5, 171, 8);
+  -ms-filter: "Alpha(opacity=70)";
+  background-color: rgba(5, 171, 8, 0.7);
+}
+
+.BoxTheme.green .locate-btn,
+.BoxTheme.green .jimu-draw-box .draw-item.jimu-state-active,
+.BoxTheme.green .esriPopup .titlePane  {
+  background-color: rgb(128, 171, 0);
+  background-color: rgba(128, 171, 0, 1);
+}
+
+.BoxTheme.green .locate-btn:hover,
+.BoxTheme.green .jimu-draw-box .draw-item:hover {
+  background-color: rgb(128, 171, 0);
+  -ms-filter: "Alpha(opacity=70)";
+  background-color: rgba(128, 171, 0, 0.7);
+}
+
+.BoxTheme.orange .locate-btn,
+.BoxTheme.orange .jimu-draw-box .draw-item.jimu-state-active,
+.BoxTheme.orange .esriPopup .titlePane {
+  background-color: rgb(255, 155, 0);
+  background-color: rgba(255, 155, 0, 1);
+}
+
+.BoxTheme.orange .locate-btn:hover,
+.BoxTheme.orange .jimu-draw-box .draw-item:hover {
+  background-color: rgb(255, 155, 0);
+  -ms-filter: "Alpha(opacity=70)";
+  background-color: rgba(255, 155, 0, 0.7);
+}
+
+.JewelryBoxTheme.green .jimu-on-screen-widget-panel > .jimu-panel-title,
+.FoldableTheme.green .jimu-on-screen-widget-panel > .jimu-panel-title,
+.FoldableTheme.green .locate-btn,
+.JewelryBoxTheme.green .locate-btn,
+.FoldableTheme.green .jimu-draw-box .draw-item.jimu-state-active,
+.JewelryBoxTheme.green .jimu-draw-box .draw-item.jimu-state-active,
+.JewelryBoxTheme.green .esriPopup .titlePane,
+.FoldableTheme.green .esriPopup .titlePane  {
+  background-color: rgb(42, 170, 138);
+  background-color: rgba(42, 170, 138, 1);
+}
+
+.FoldableTheme.green .locate-btn:hover,
+.JewelryBoxTheme.green .locate-btn:hover,
+.FoldableTheme.green .jimu-draw-box .draw-item:hover,
+.JewelryBoxTheme.green .jimu-draw-box .draw-item:hover {
+  background-color: rgb(42, 170, 138);
+  -ms-filter: "Alpha(opacity=70)";
+  background-color: rgba(42, 170, 138, 0.7);
+}
+
+.BoxTheme.turquoise .locate-btn,
+.BoxTheme.turquoise .jimu-draw-box .draw-item.jimu-state-active,
+.BoxTheme.turquoise .esriPopup .titlePane  {
+  background-color: rgb(47, 170, 205);
+  background-color: rgba(47, 170, 205, 1);
+}
+
+.BoxTheme.turquoise .locate-btn:hover,
+.BoxTheme.turquoise .jimu-draw-box .draw-item:hover {
+  background-color: rgb(47, 170, 205);
+  -ms-filter: "Alpha(opacity=70)";
+  background-color: rgba(47, 170, 205, 0.7);
+}
+
+.TabTheme.simpleblue .jimu-on-screen-widget-panel > .jimu-panel-title,
+.TabTheme.simpleblue .locate-btn,
+.TabTheme.simpleblue .jimu-draw-box .draw-item.jimu-state-active,
+.TabTheme.simpleblue .esriPopup .titlePane  {
+  background-color: rgb(52, 152, 219);
+  background-color: rgba(52, 152, 219, 1);
+}
+
+.TabTheme.simpleblue .locate-btn:hover,
+.TabTheme.simpleblue .jimu-draw-box .draw-item:hover {
+  background-color: rgb(52, 152, 219);
+  -ms-filter: "Alpha(opacity=70)";
+  background-color: rgba(52, 152, 219, 0.7);
+}
+
+.JewelryBoxTheme.red .jimu-on-screen-widget-panel > .jimu-panel-title,
+.FoldableTheme.red .jimu-on-screen-widget-panel > .jimu-panel-title,
+.TabTheme.red .jimu-on-screen-widget-panel > .jimu-panel-title,
+.FoldableTheme.red .locate-btn,
+.TabTheme.red .locate-btn,
+.JewelryBoxTheme.red .locate-btn,
+.FoldableTheme.red .jimu-draw-box .draw-item.jimu-state-active,
+.TabTheme.red .jimu-draw-box .draw-item.jimu-state-active,
+.JewelryBoxTheme.red .jimu-draw-box .draw-item.jimu-state-active,
+.JewelryBoxTheme.red .esriPopup .titlePane,
+.FoldableTheme.red .esriPopup .titlePane,
+.TabTheme.red .esriPopup .titlePane  {
+  background-color: rgb(201, 46, 73);
+  background-color: rgba(201, 46, 73, 1);
+}
+
+.FoldableTheme.red .locate-btn:hover,
+.TabTheme.red .locate-btn:hover,
+.JewelryBoxTheme.red .locate-btn:hover,
+.FoldableTheme.red .jimu-draw-box .draw-item:hover,
+.TabTheme.red .jimu-draw-box .draw-item:hover,
+.JewelryBoxTheme.red .jimu-draw-box .draw-item:hover {
+  background-color: rgb(201, 46, 73);
+  -ms-filter: "Alpha(opacity=70)";
+  background-color: rgba(201, 46, 73, 0.7);
+}
+
+.BoxTheme.red .locate-btn,
+.BoxTheme.red .jimu-draw-box .draw-item.jimu-state-active,
+.BoxTheme.red .esriPopup .titlePane  {
+  background-color: rgb(207, 0, 0);
+  background-color: rgba(207, 0, 0, 1);
+}
+
+.BoxTheme.red .locate-btn:hover,
+.BoxTheme.red .jimu-draw-box .draw-item:hover {
+  background-color: rgb(207, 0, 0);
+  -ms-filter: "Alpha(opacity=70)";
+  background-color: rgba(207, 0, 0, 0.7);
+}
+
+.BoxTheme.pink .locate-btn,
+.BoxTheme.pink .jimu-draw-box .draw-item.jimu-state-active,
+.BoxTheme.pink .esriPopup .titlePane  {
+  background-color: rgb(237, 0, 140);
+  background-color: rgba(237, 0, 140, 1);
+}
+
+.BoxTheme.pink .locate-btn:hover,
+.BoxTheme.pink .jimu-draw-box .draw-item:hover {
+  background-color: rgb(237, 0, 140);
+  -ms-filter: "Alpha(opacity=70)";
+  background-color: rgba(237, 0, 140, 0.7);
+}
+
+.JewelryBoxTheme.yellow .jimu-on-screen-widget-panel > .jimu-panel-title,
+.FoldableTheme.yellow .jimu-on-screen-widget-panel > .jimu-panel-title,
+.TabTheme.yellow .jimu-on-screen-widget-panel > .jimu-panel-title,
+.FoldableTheme.yellow .locate-btn,
+.TabTheme.yellow .locate-btn,
+.JewelryBoxTheme.yellow .locate-btn,
+.FoldableTheme.yellow .jimu-draw-box .draw-item.jimu-state-active,
+.TabTheme.yellow .jimu-draw-box .draw-item.jimu-state-active,
+.JewelryBoxTheme.yellow .jimu-draw-box .draw-item.jimu-state-active,
+.JewelryBoxTheme.yellow .esriPopup .titlePane,
+.FoldableTheme.yellow .esriPopup .titlePane,
+.TabTheme.yellow .esriPopup .titlePane  {
+  background-color: rgb(208, 125, 14);
+  background-color: rgba(208, 125, 14, 1);
+}
+
+.FoldableTheme.yellow .locate-btn:hover,
+.TabTheme.yellow .locate-btn:hover,
+.JewelryBoxTheme.yellow .locate-btn:hover,
+.FoldableTheme.yellow .jimu-draw-box .draw-item:hover,
+.TabTheme.yellow .jimu-draw-box .draw-item:hover,
+.JewelryBoxTheme.yellow .jimu-draw-box .draw-item:hover {
+  background-color: rgb(208, 125, 14);
+  -ms-filter: "Alpha(opacity=70)";
+  background-color: rgba(208, 125, 14, 0.7);
+}
+
+.JewelryBoxTheme.blue .jimu-on-screen-widget-panel > .jimu-panel-title,
+.FoldableTheme.blue .jimu-on-screen-widget-panel > .jimu-panel-title,
+.TabTheme.blue .jimu-on-screen-widget-panel > .jimu-panel-title,
+.FoldableTheme.blue .locate-btn,
+.TabTheme.blue .locate-btn,
+.JewelryBoxTheme.blue .locate-btn,
+.FoldableTheme.blue .jimu-draw-box .draw-item.jimu-state-active,
+.TabTheme.blue .jimu-draw-box .draw-item.jimu-state-active,
+.JewelryBoxTheme.blue .jimu-draw-box .draw-item.jimu-state-active,
+.JewelryBoxTheme.blue .esriPopup .titlePane,
+.FoldableTheme.blue .esriPopup .titlePane,
+.TabTheme.blue .esriPopup .titlePane  {
+  background-color: rgb(0, 95, 162);
+  background-color: rgba(0, 95, 162, 1);
+}
+
+.FoldableTheme.blue .locate-btn:hover,
+.TabTheme.blue .locate-btn:hover,
+.JewelryBoxTheme.blue .locate-btn:hover,
+.FoldableTheme.blue .jimu-draw-box .draw-item:hover,
+.TabTheme.blue .jimu-draw-box .draw-item:hover,
+.JewelryBoxTheme.blue .jimu-draw-box .draw-item:hover {
+  background-color: rgb(0, 95, 162);
+  -ms-filter: "Alpha(opacity=70)";
+  background-color: rgba(0, 95, 162, 0.7);
+}
+
+.BoxTheme.blue .locate-btn,
+.BoxTheme.blue .jimu-draw-box .draw-item.jimu-state-active,
+.BoxTheme.blue .esriPopup .titlePane  {
+  background-color: rgb(45, 112, 228);
+  background-color: rgba(45, 112, 228, 1);
+}
+
+.BoxTheme.blue .locate-btn:hover,
+.BoxTheme.blue .jimu-draw-box .draw-item:hover {
+  background-color: rgb(45, 112, 228);
+  -ms-filter: "Alpha(opacity=70)";
+  background-color: rgba(45, 112, 228, 0.7);
+}
+
+.JewelryBoxTheme.purple .jimu-on-screen-widget-panel > .jimu-panel-title,
+.FoldableTheme.purple .jimu-on-screen-widget-panel > .jimu-panel-title,
+.TabTheme.purple .jimu-on-screen-widget-panel > .jimu-panel-title,
+.FoldableTheme.purple .locate-btn,
+.TabTheme.purple .locate-btn,
+.JewelryBoxTheme.purple .locate-btn,
+.FoldableTheme.purple .jimu-draw-box .draw-item.jimu-state-active,
+.TabTheme.purple .jimu-draw-box .draw-item.jimu-state-active,
+.JewelryBoxTheme.purple .jimu-draw-box .draw-item.jimu-state-active,
+.JewelryBoxTheme.purple .esriPopup .titlePane,
+.FoldableTheme.purple .esriPopup .titlePane,
+.TabTheme.purple .esriPopup .titlePane  {
+  background-color: rgb(171, 109, 174);
+  background-color: rgba(171, 109, 174, 1);
+}
+
+.FoldableTheme.purple .locate-btn:hover,
+.TabTheme.purple .locate-btn:hover,
+.JewelryBoxTheme.purple .locate-btn:hover,
+.FoldableTheme.purple .jimu-draw-box .draw-item:hover,
+.TabTheme.purple .jimu-draw-box .draw-item:hover,
+.JewelryBoxTheme.purple .jimu-draw-box .draw-item:hover {
+  background-color: rgb(171, 109, 174);
+  -ms-filter: "Alpha(opacity=70)";
+  background-color: rgba(171, 109, 174, 0.7);
+}
+
+.BoxTheme.purple .locate-btn,
+.BoxTheme.purple .jimu-draw-box .draw-item.jimu-state-active,
+.BoxTheme.purple .esriPopup .titlePane  {
+  background-color: rgb(136, 97, 151);
+  background-color: rgba(136, 97, 151, 1);
+}
+
+.BoxTheme.purple .locate-btn:hover,
+.BoxTheme.purple .jimu-draw-box .draw-item:hover {
+  background-color: rgb(136, 97, 151);
+  -ms-filter: "Alpha(opacity=70)";
+  background-color: rgba(136, 97, 151, 0.7);
+}
+
+.LaunchpadTheme.style2 .locate-btn,
+.LaunchpadTheme.default .locate-btn,
+.LaunchpadTheme.style2 .jimu-draw-box .draw-item.jimu-state-active,
+.LaunchpadTheme.default .jimu-draw-box .draw-item.jimu-state-active,
+.LaunchpadTheme.style2 .esriPopup .titlePane,
+.LaunchpadTheme.default .esriPopup .titlePane  {
+  background-color: rgb(51, 51, 51);
+  background-color: rgba(51, 51, 51, 1);
+}
+
+.LaunchpadTheme.style2 .locate-btn:hover,
+.LaunchpadTheme.default .locate-btn:hover,
+.LaunchpadTheme.style2 .jimu-draw-box .draw-item:hover,
+.LaunchpadTheme.default .jimu-draw-box .draw-item:hover {
+  background-color: rgb(51, 51, 51);
+  -ms-filter: "Alpha(opacity=70)";
+  background-color: rgba(51, 51, 51, 0.7);
+}
+
+.jimu-draw-box .point-icon.jimu-state-active{
+  background-image: url(images/draw_point.png);
+}
+
+.jimu-draw-box .line-icon.jimu-state-active{
+  background-image: url(images/draw_line.png);
+}
+
+.jimu-draw-box .polyline-icon.jimu-state-active{
+  background-image: url(images/draw_polyline.png);
+}
+
+.jimu-draw-box .freehand-polyline-icon.jimu-state-active{
+  background-image: url(images/draw_freehand_polyline.png);
+}
+
+.jimu-draw-box .triangle-icon.jimu-state-active{
+  background-image: url(images/draw_triangle.png);
+}
+
+.jimu-draw-box .extent-icon.jimu-state-active{
+  background-image: url(images/draw_extent.png);
+}
+
+.jimu-draw-box .circle-icon.jimu-state-active{
+  background-image: url(images/draw_circle.png);
+}
+
+.jimu-draw-box .ellipse-icon.jimu-state-active{
+  background-image: url(images/draw_ellipse.png);
+}
+
+.jimu-draw-box .polygon-icon.jimu-state-active{
+  background-image: url(images/draw_polygon.png);
+}
+
+.jimu-draw-box .freehand-polygon-icon.jimu-state-active{
+  background-image: url(images/draw_freehand_polygon.png);
+}
+
+.LaunchpadTheme .jimu-draw-box .draw-item:hover {
+  color: #fff;
+}
+
+div.dijitArrowButton {
+  float: right;
+  height: 100%;
+}
+
+.dijitValidationTextBoxError input.dijitValidationInner,
+.dijitSelect input,
+.dijitTextBox input.dijitArrowButtonInner {
+  text-indent: -2em !important;
+  direction: ltr !important;
+  text-align: left !important;
+  height: 100% !important;
+}
+
+.jimu-draw-box .draw-item:hover {
+  background-color: unset;
+}
+
+.jimu-draw-box .draw-item.selected {
+  background-color: #C0C0C0;
+}
+
+.jimu-checkbox .label {
+  font-size: 12px;
+  margin: auto 5px;
+  cursor: default;
+}
+
+/*Fixes for DartTheme list colors*/
+.DartTheme .widget-eLocate {
+  width: 98%;
+}
+
+.DartTheme .eLocate-list-item.alt {
+  background-color: #646464;
+}
+
+.DartTheme .eLocate-list-item.selected {
+  background-color: #959595;
+}
+
+.DartTheme .eLocate-list-item.selected.alt {
+  background-color: #d9dde0;
+}
+
+.DartTheme .eLocate-list-item:hover {
+  background-color: #555555;
+}
+
+.DartTheme .eLocate-list-item.alt:hover {
+  background-color: #555555;
+}
+
+.DartTheme .eLocate-list-item.selected:hover {
+  background-color: #555555;
+}
+
+.DartTheme .eLocate-list-item.selected.alt:hover {
+  background-color: #555555;
+}
+
+.widget-eLocate .xCoordLblCls,
+.widget-eLocate .yCoordLblCls,
+.widget-eLocate .CoordHintLblCls,
+.widget-eLocate .unitDDLbl{
+  width: 90px;
+  line-height: 32px;
+  float: left;
+  text-align: right;
+  padding-right:8px;
+}
+
+.DartTheme .widget-eLocate .xCoordLblCls,
+.DartTheme .widget-eLocate .yCoordLblCls,
+.DartTheme .widget-eLocate .CoordHintLblCls,
+.DartTheme .widget-eLocate .unitDDLbl{
+  width: 75px;
+  line-height: 32px;
+  float: left;
+  text-align: right;
+  padding-right:8px;
+}
+
+.DartTheme .widget-eLocate .xCoordTextBoxCls,
+.DartTheme .widget-eLocate .yCoordTextBoxCls,
+.DartTheme .widget-eLocate .CoordHintTextCls,
+.DartTheme .widget-eLocate .unitSelect{
+  width: 190px;
+  line-height: 32px;
+}
+
+.DartTheme .widget-eLocate .unitSelect {
+  left: 75px;
+}
+
+.widget-eLocate .xCoordTextBoxCls,
+.widget-eLocate .yCoordTextBoxCls,
+.widget-eLocate .CoordHintTextCls,
+.widget-eLocate .unitSelect{
+  width: 200px;
+  line-height: 32px;
+}
+
+.widget-eLocate .tab.jimu-vcenter-text{
+  overflow: hidden;
+}

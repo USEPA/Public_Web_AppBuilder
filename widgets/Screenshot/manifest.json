@@ -1,0 +1,17 @@
+{
+    "name": "Screenshot",
+  "platform": "HTML",
+  "version": "1.0",
+  "wabVersion": "1.1",
+  "author": "Kevin MacLeod",
+  "description": "This widget saves a screenshot of the viewer window.",
+  "copyright": "",
+  "license": "http://www.apache.org/licenses/LICENSE-2.0",
+  "properties": {
+"inPanel": true,
+    "hasConfig": false,
+    "hasStyle": true,
+    "hasLocale": false,
+    "hasUIFile": false
+  }
+}

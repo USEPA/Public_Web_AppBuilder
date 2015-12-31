@@ -1,3 +1,7 @@
+///////////////////////////////////////////////////////////////////////////
+// Robert Scheitlin WAB Identify Widget
+///////////////////////////////////////////////////////////////////////////
+/*global define, console, setTimeout, clearTimeout*/
 define(['dojo/_base/declare',
         'dijit/_WidgetsInTemplateMixin',
         'jimu/BaseWidget',
@@ -25,6 +29,7 @@ define(['dojo/_base/declare',
         'esri/symbols/PictureMarkerSymbol',
         'esri/geometry/Polyline',
         'esri/symbols/SimpleLineSymbol',
+        'esri/Color',
         'esri/geometry/Polygon',
         'esri/geometry/Multipoint',
         'esri/geometry/Extent',
@@ -45,20 +50,23 @@ define(['dojo/_base/declare',
         'dojo/promise/all',
         'dojo/date',
         'dojo/date/locale',
-        './DrawBox',
+        'jimu/dijit/DrawBox',
         'jimu/utils',
         'jimu/dijit/LoadingShelter',
         'dojo/io-query',
         'esri/SpatialReference',
         'esri/tasks/ProjectParameters',
         'esri/geometry/webMercatorUtils',
+        'jimu/WidgetManager',
+        'jimu/PanelManager',
         'dijit/form/Select'],
   function (declare, _WidgetsInTemplateMixin, BaseWidget, TabContainer, List, IdentifyTask, IdentifyParameters,
     IdentifyResult, Message, Query, QueryTask, CodedValueDomain, Domain, GraphicsLayer, FeatureLayer, FeatureType, Field,
     RangeDomain, GeometryService, esriConfig, Graphic, graphicsUtils, Point, SimpleMarkerSymbol,
-    PictureMarkerSymbol, Polyline, SimpleLineSymbol, Polygon, Multipoint, Extent, Geometry, SimpleFillSymbol,
+    PictureMarkerSymbol, Polyline, SimpleLineSymbol, Color, Polygon, Multipoint, Extent, Geometry, SimpleFillSymbol,
     SimpleRenderer, Draw, PopupTemplate, esriRequest, TimeExtent, Deferred, ProgressBar, lang, on, aspect, html, array,
-    all, date, locale, DrawBox, utils, LoadingShelter, ioquery, SpatialReference, ProjectParameters, webMercatorUtils) {
+    all, date, locale, DrawBox, utils, LoadingShelter, ioquery, SpatialReference, ProjectParameters, webMercatorUtils,
+    WidgetManager, PanelManager) {
     return declare([BaseWidget, _WidgetsInTemplateMixin], { /*jshint unused: false*/
       baseClass: 'jimu-widget-identify',
       progressBar: null,
@@ -94,16 +102,16 @@ define(['dojo/_base/declare',
       enableMoverRec: true,
       infoWinMouseOver: null,
       infoWinMouseOut: null,
+      selSym: null,
+      wManager: null,
+      pManager: null,
+      resultFormatString: "",
 
       postCreate: function () {
         this.inherited(arguments);
-        this.resultSym = new PictureMarkerSymbol({
-          'url': this.folderUrl + 'images/i_info.png',
-          'height': '20',
-          'width': '20',
-          'type': 'esriPMS',
-          'angle': '0'
-        });
+        var pms = lang.clone(this.config.symbols.picturemarkersymbol);
+        pms.url = this.folderUrl + pms.url;
+        this.resultSym = new PictureMarkerSymbol(pms);
         this.gid = 1;
         if(this.config.disablelayerdropdown){
           html.setStyle(this.LayerDD, 'display', 'none');
@@ -124,6 +132,7 @@ define(['dojo/_base/declare',
         }
         this.configIdentLayers = [];
         this.excludeLayers = this.config.layers.excludelayer;
+        this._initResultFormatString();
         this._initIdentifySymbols();
         this._initTabContainer();
         this._initIdentifyLayers();
@@ -137,6 +146,22 @@ define(['dojo/_base/declare',
           this.graphicsLayer.on('mouse-over', lang.hitch(this, this.mouseOverGraphic));
           this.graphicsLayer.on('mouse-out', lang.hitch(this, this.mouseOutGraphic));
         }
+        this.wManager = WidgetManager.getInstance();
+        this.pManager = PanelManager.getInstance();
+        this._addThemeFixes();
+
+        this.own(on(this.domNode, 'mousedown', lang.hitch(this, function (event) {
+          event.stopPropagation();
+          if (event.altKey) {
+            var msgStr = this.nls.widgetverstr + ': ' + this.manifest.version;
+            msgStr += '\n' + this.nls.wabversionmsg + ': ' + this.manifest.wabVersion;
+            msgStr += '\n' + this.manifest.description;
+            new Message({
+              titleLabel: this.nls.widgetversion,
+              message: msgStr
+            });
+          }
+        })));
       },
 
       disableWebMapPopup: function() {
@@ -181,51 +206,96 @@ define(['dojo/_base/declare',
         }
       },
 
+      _initResultFormatString: function () {
+        var tBold = false, tItalic = false, tUnder = false, tColorHex = "#000000";
+        var vBold = false, vItalic = false, vUnder = false, vColorHex = "#000000";
+        this.resultFormatString = "";
+        if(this.config.resultFormat){
+          var attribName = '[attribname]';
+          tBold = this.config.resultFormat.attTitlesymbol.bold;
+          tItalic = this.config.resultFormat.attTitlesymbol.italic;
+          tUnder = this.config.resultFormat.attTitlesymbol.underline;
+          if(this.config.resultFormat.attTitlesymbol.color){
+            tColorHex = new Color(this.config.resultFormat.attTitlesymbol.color).toHex();
+          }
+          if(tBold){
+            attribName = "<strong>" + attribName + "</strong>";
+          }
+          if(tItalic){
+            attribName = "<em>" + attribName + "</em>";
+          }
+          if(tUnder){
+            attribName = "<u>" + attribName + "</u>";
+          }
+          if(tColorHex){
+            attribName = "<font color='" + tColorHex + "'>" + attribName + "</font>";
+          }
+          var attribValue = '[attribvalue]';
+          vBold = this.config.resultFormat.attValuesymbol.bold;
+          vItalic = this.config.resultFormat.attValuesymbol.italic;
+          vUnder = this.config.resultFormat.attValuesymbol.underline;
+          if(this.config.resultFormat.attValuesymbol.color){
+            vColorHex = new Color(this.config.resultFormat.attValuesymbol.color).toHex();
+          }
+          if(vBold){
+            attribValue = "<strong>" + attribValue + "</strong>";
+          }
+          if(vItalic){
+            attribValue = "<em>" + attribValue + "</em>";
+          }
+          if(vUnder){
+            attribValue = "<u>" + attribValue + "</u>";
+          }
+          if(vColorHex){
+            attribValue = "<font color='" + vColorHex + "'>" + attribValue + "</font>";
+          }
+          this.resultFormatString = attribName + ": " + attribValue + '<br>';
+        }else{
+          this.resultFormatString = '<font><em>[attribname]</em></font>: <font>[attribvalue]</font><br>';
+        }
+      },
+
       _initDrawBox: function () {
+        aspect.before(this.drawBox, "_activate", lang.hitch(this, function(){
+          this.publishData({message: "Deactivate_DrawTool"});
+        }));
         this.drawBox.setMap(this.map);
-        var enabledButtons = ['point'];
+        var enabledButtons = ['POINT'];
         if(this.config.enablelineselect){
-          enabledButtons.push('line');
+          enabledButtons.push('LINE');
         }
         if(this.config.enablepolylineselect){
-          enabledButtons.push('polyline');
+          enabledButtons.push('POLYLINE');
         }
         if(this.config.enablefreehandlineselect){
-          enabledButtons.push('freehand_polyline');
+          enabledButtons.push('FREEHAND_POLYLINE');
         }
         if(this.config.enabletriangleselect){
-          enabledButtons.push('triangle');
+          enabledButtons.push('TRIANGLE');
         }
         if(this.config.enableextentselect){
-          enabledButtons.push('extent');
+          enabledButtons.push('EXTENT');
         }
         if(this.config.enablecircleselect){
-          enabledButtons.push('circle');
+          enabledButtons.push('CIRCLE');
         }
         if(this.config.enableellipseselect){
-          enabledButtons.push('ellipse');
+          enabledButtons.push('ELLIPSE');
         }
         if(this.config.enablepolyselect){
-          enabledButtons.push('polygon');
+          enabledButtons.push('POLYGON');
         }
         if(this.config.enablefreehandpolyselect){
-          enabledButtons.push('freehand_polygon');
+          enabledButtons.push('FREEHAND_POLYGON');
         }
-        this.drawBox.setTypes(enabledButtons);
+        this.drawBox.geoTypes = enabledButtons;
+        this.drawBox._initTypes();
         this.drawBox.setPointSymbol(this.identMarkerSymbol);
         this.drawBox.setLineSymbol(this.identLineSymbol);
         this.drawBox.setPolygonSymbol(this.identFillSymbol);
-
-        aspect.after(this.drawBox, 'activate', lang.hitch(this, function() {
-          this.map.setInfoWindowOnClick(false);
-          this.disableWebMapPopup();
-        }));
-
-        aspect.after(this.drawBox, 'deactivate', lang.hitch(this, function() {
-          this.map.setInfoWindowOnClick(true);
-          this.enableWebMapPopup();
-        }));
-
+        if(this.keepActive){
+          this.drawBox.deactivateAfterDrawing = false;
+        }
       },
 
       _initIdentifyLayers: function () {
@@ -273,6 +343,10 @@ define(['dojo/_base/declare',
 
       startup: function () {
         this.inherited(arguments);
+        this.selSym = new SimpleFillSymbol(SimpleFillSymbol.STYLE_NULL,
+                                           new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
+                                           new Color([68,140,203]), 3), new Color([255,255,255,0]));
+        this.fetchData();
       },
 
       _initTabContainer: function () {
@@ -453,12 +527,6 @@ define(['dojo/_base/declare',
       _onDrawEnd:function(graphic, geotype, commontype){
         this._hideInfoWindow();
         this.drawBox.clear();
-        if(this.keepActive && this.drawBox.activate){
-          this.drawBox.activate(this.drawBox.lastTool);
-        }else{
-          this.drawBox.deactivate();
-          this.map.enableMapNavigation();
-        }
 
         this.graphicsLayer.clear();
         this.graphicsLayer.add(graphic);
@@ -502,6 +570,9 @@ define(['dojo/_base/declare',
 
         featureLayers = array.filter(featureLayers, lang.hitch(this, function (layer){
           if(layer.type && layer.type === 'Feature Layer'){
+            if(!layer.url || layer.url === '' || !layer.hasOwnProperty('url')){
+              return false;
+            }
             if(this.config.layers.onlythese === true){
               if(this.isService2beIdentified(layer)){
                 if(this.identifylayeroption === 'visible' || this.identifylayeroption === 'top'){
@@ -541,6 +612,9 @@ define(['dojo/_base/declare',
         }));
 
         layers = array.filter(layers, lang.hitch(this, function (layer) {
+          if(!layer.url || layer.url === '' || !layer.hasOwnProperty('url')){
+            return false;
+          }
           if(this.config.layers.onlythese === true){
             if(this.isService2beIdentified(layer)){
               if(this.identifylayeroption === 'visible' || this.identifylayeroption === 'top'){
@@ -591,6 +665,18 @@ define(['dojo/_base/declare',
           return layer.name;
         }));
 
+        var FeatLyrIds = array.map(featureLayers, lang.hitch(this, function (layer) {
+          return layer.id;
+        }));
+
+        var LyrNames = array.map(layers, lang.hitch(this, function (layer) {
+          return layer.name;
+        }));
+
+        var LyrIds = array.map(layers, lang.hitch(this, function (layer) {
+          return layer.id;
+        }));
+
         var params = this.createIdentifyParams(layers, geom);
         var params2 = this.createQueryParams(featureLayers, geom);
 
@@ -598,7 +684,9 @@ define(['dojo/_base/declare',
         var promises2 = [];
 
         for (var i = 0; i < tasks.length; i++) {
-          promises.push(tasks[i].execute(params[i]));
+          if(params[i].layerIds && params[i].layerIds.length > 0){
+            promises.push(tasks[i].execute(params[i]));
+          }
         }
 
         for (i = 0; i < tasks2.length; i++) {
@@ -611,7 +699,7 @@ define(['dojo/_base/declare',
           if(this.returngeometryforzoom){
             this.graphicsLayer.clear();
           }
-          this.showIdentifyResults(r, tasks);
+          this.showIdentifyResults(r, tasks, LyrNames, LyrIds);
         }), lang.hitch(this, function (err){
           console.info(err);
         }));
@@ -620,7 +708,7 @@ define(['dojo/_base/declare',
           if(this.returngeometryforzoom){
             this.graphicsLayer.clear();
           }
-          this.showQueryResults(r, tasks2, FeatLyrNames);
+          this.showQueryResults(r, tasks2, FeatLyrNames, FeatLyrIds);
         }), lang.hitch(this, function (err){
           console.info(err);
         }));
@@ -677,7 +765,7 @@ define(['dojo/_base/declare',
       removeGroupLayers: function(subLayers, layer) {
         var newSubLayers = [];
         for (var i = 0; i < subLayers.length; i++) {
-          if (layer.layerInfos[subLayers[i]].subLayerIds === null){
+          if (layer.layerInfos[subLayers[i]] && layer.layerInfos[subLayers[i]].subLayerIds === null){
             newSubLayers.push(subLayers[i]);
           }
         }
@@ -812,7 +900,7 @@ define(['dojo/_base/declare',
         return false;
       },
 
-      showIdentifyResults: function (r, itasks) {
+      showIdentifyResults: function (r, itasks, names, Ids) {
         this.numServicesIdent--;
         //if top is chosen and a result is already found than bail out of all other returns.
         if(this.identifyLayerOption === 'top' && this.resultFound){
@@ -834,6 +922,7 @@ define(['dojo/_base/declare',
 
         results = array.filter(results, lang.hitch(this, function (identifyResult, index) {
           var serviceUrl = taskUrls[index];
+          var currentLayer = this.map.getLayer(Ids[index]);
 //check if this is needed anymore
           if(this._isResultLayerExcluded(identifyResult, serviceUrl)){
             return false;
@@ -864,14 +953,11 @@ define(['dojo/_base/declare',
             return false;
           }
 
-
           var title = identifyResult.layerName;
           var obj = identifyResult.feature.attributes;
           var content = '';
           var rsltContent = '';
-          var br = '';
-          var line = '';
-          var label = '';
+          //var br = '<br>';
           var fld;
           var value;
           var identFields;
@@ -907,21 +993,33 @@ define(['dojo/_base/declare',
             var fldArr = [];
             for(var fd=0; fd<fields.length; fd++){
               fld = fields[fd];
-              var str = fld.name + '~';
-              if(fld.alias){
-                if(fld.alias === ''){
-                  str += 'NA~';
+              var str = fld.alias + '~';
+              if(fld.useralias){
+                if(fld.useralias === ''){
+                  if(fld.alias !== fld.name){
+                    str += fld.alias + '~';
+                  }else{
+                    str += 'NA~';
+                  }
                 }else{
-                  str += fld.alias + '~';
+                  str += fld.useralias + '~';
                 }
               }else{
-                str += 'NA~';
-              }
-              if(fld.dateformat){
-                if(fld.dateformat === ''){
-                  str += 'NA~';
+                if(fld.alias !== fld.name){
+                  str += fld.alias + '~';
                 }else{
-                  str += fld.dateformat + '~';
+                  str += 'NA~';
+                }
+              }
+              if(fld.isdate){
+                if(!fld.hasOwnProperty('dateformat')){
+                  str += 'MM/dd/yyyy~';
+                }else{
+                  if(fld.dateformat === ''){
+                    str += 'MM/dd/yyyy~';
+                  }else{
+                    str += fld.dateformat + '~';
+                  }
                 }
               }else{
                 str += 'NA~';
@@ -978,7 +1076,7 @@ define(['dojo/_base/declare',
                 if(identLinks[a].disablelinksifnull){
                   var lfields = this._getFieldsfromLink(identLinks[a].content);
                   for (var lf=0; lf<lfields.length; lf++){
-                    if(!obj[lfields[lf]] || obj[lfields[lf]] === ''){
+                    if(!obj[lfields[lf]] || obj[lfields[lf]] === '' || obj[lfields[lf]] === 'Null'){
                       linkFieldNull = true;
                       break;
                     }
@@ -1000,7 +1098,9 @@ define(['dojo/_base/declare',
                   disableinpopup: disableInPopUp,
                   popuptype: popupType
                 };
-                lyrIdLinks.push(lObj);
+                if(!linkFieldNull){
+                  lyrIdLinks.push(lObj);
+                }
               }
             }
 
@@ -1041,7 +1141,7 @@ define(['dojo/_base/declare',
               }
               if(numFormat !=='NA' && value !== 'Null' && value !== ''){
                 var args = numFormat.split('|');
-                /*value,percision,symbol,thousands,decimal*/
+                /*value, percision, symbol, thousands, decimal*/
                 value = this._formatNumber(value,args[0]||null,args[1]||null,args[2]||null);
               }
               if(curFormat !== 'NA' && value !== 'Null' && value !== ''){
@@ -1049,21 +1149,16 @@ define(['dojo/_base/declare',
                 /*value,percision,symbol,thousands,decimal*/
                 value = this._formatCurrency(value,args2[1]||null,args2[0]||null,args2[2]||null,args2[3]||null);
               }
-
               if(cArr[1] !== 'NA'){
-                content = content + cArr[1] + ': ' + value + br;
-                br = '<br>';
+                content = content + this.resultFormatString.replace('[attribname]', cArr[1]).replace('[attribvalue]', value);
               }else{
-                content = content + cArr[0] + ': ' + value + br;
-                br = '<br>';
+                content = content + this.resultFormatString.replace('[attribname]', cArr[0]).replace('[attribvalue]', value);
               }
               if(cArr[6] === 'false' || cArr[6] === 'NA'){
                 if(cArr[1] !== 'NA'){
-                  rsltContent = rsltContent + cArr[1] + ': ' + value + br;
-                  br = '<br>';
+                  rsltContent = rsltContent + this.resultFormatString.replace('[attribname]', cArr[1]).replace('[attribvalue]', value);
                 }else{
-                  rsltContent = rsltContent + cArr[0] + ': ' + value + br;
-                  br = '<br>';
+                  rsltContent = rsltContent + this.resultFormatString.replace('[attribname]', cArr[0]).replace('[attribvalue]', value);
                 }
               }
             }
@@ -1079,7 +1174,6 @@ define(['dojo/_base/declare',
             }else{
               idResult.rsltcontent = rsltContent;
             }
-            idResult.label = label;
             idResult.links = lyrIdLinks;
             idResult.alt = (index % 2 === 0);
             idResult.sym = this.resultSym;
@@ -1088,15 +1182,15 @@ define(['dojo/_base/declare',
             if(this.returngeometryforzoom && identifyResult.feature.geometry.spatialReference.wkid !== this.map.spatialReference.wkid){
               if (identifyResult.feature.geometry.spatialReference.wkid === 4326 && this.map.spatialReference.isWebMercator()){
                 identifyResult.feature.geometry = webMercatorUtils.geographicToWebMercator(identifyResult.feature.geometry);
-              }else{
+              }/*else{
                 projecting = true;
                 var projectParameters = new ProjectParameters();
                 projectParameters.geometries = [identifyResult.feature.geometry];
                 projectParameters.outSpatialReference = this.map.spatialReference;
-                //geometryService.project(projectParameters2, new AsyncResponder(projectResult,projectFault,[idResult,identifyResult,identForceScale,content,title,link]));
+                geometryService.project(projectParameters2, new AsyncResponder(projectResult,projectFault,[idResult,identifyResult,identForceScale,content,title,link]));
                 esriConfig.defaults.geometryService.project(projectParameters, lang.hitch(this, this.projectResults),
                                                        lang.hitch(this, this.onError));
-              }
+              }*/
             }
 
             if(this.identifyGeom.type === 'point'){
@@ -1113,7 +1207,7 @@ define(['dojo/_base/declare',
             idResult.removeResultMsg = this.nls.removeresultmessage;
             if(!projecting){
               var iGra = new Graphic(identifyResult.feature.geometry);
-              switch (identifyResult.feature.geometry.type){
+              switch (idResult.geometry.type){
                 case 'point':
                 case 'multipoint':{
                   iGra.symbol = this.identMarkerSymbol;
@@ -1168,19 +1262,19 @@ define(['dojo/_base/declare',
                   if(this.replacenullswithemptystring && (value === 'Null' || value === '<Null>')){
                     value = '';
                   }
-                  //value = value.replace(/>/g,'&gt;').replace(/</g,'&lt;');
-                  label = label + line + fld + ': ' + value;
-                  line = ', ';
-                  content = content + br + fld + ': ' + value;
-                  br = '<br>';
+                  content = content + this.resultFormatString.replace('[attribname]', fld).replace('[attribvalue]', value);
+                  //content = content + '<em><strong>' + fld + '</strong></em>: ' + value + br;
                 }
               }
 
               idResult.icon = this.folderUrl + 'images/i_info.png';
               idResult.title = identifyResult.layerName;
-              idResult.content = content;
-              idResult.rsltcontent = content;
-              idResult.label = label;
+              if(content.lastIndexOf('<br>') === (content.length - 4)){
+                idResult.content = content.substr(0,content.length - 4);
+              }else{
+                idResult.content = content;
+              }
+              idResult.rsltcontent = idResult.content;
               idResult.links = [];
               idResult.alt = (index % 2 === 0);
               idResult.sym = this.resultSym;
@@ -1189,15 +1283,15 @@ define(['dojo/_base/declare',
               if(this.returngeometryforzoom && identifyResult.feature.geometry.spatialReference.wkid !== this.map.spatialReference.wkid){
                 if (identifyResult.feature.geometry.spatialReference.wkid === 4326 && this.map.spatialReference.isWebMercator()){
                   identifyResult.feature.geometry = webMercatorUtils.geographicToWebMercator(identifyResult.feature.geometry);
-                }else{
+                }/*else{
                   projecting2 = true;
                   var projectParameters2 = new ProjectParameters();
                   projectParameters2.geometries = [identifyResult.feature.geometry];
                   projectParameters2.outSpatialReference = this.map.spatialReference;
-                  //geometryService.project(projectParameters2, new AsyncResponder(projectResult,projectFault,[idResult,identifyResult,identForceScale,content,title,link]));
+                  geometryService.project(projectParameters2, new AsyncResponder(projectResult,projectFault,[idResult,identifyResult,identForceScale,content,title,link]));
                   esriConfig.defaults.geometryService.project(projectParameters2, lang.hitch(this, this.projectResults),
                                                          lang.hitch(this, this.onError));
-                }
+                }*/
               }
 
               if(this.identifyGeom.type === 'point'){
@@ -1274,17 +1368,91 @@ define(['dojo/_base/declare',
         return results;
       },
 
-      _substitute:function(string, Attribs){
-        var lfields = this._getFieldsfromLink(string);
-        for (var lf=0; lf<lfields.length; lf++){
-          if(Attribs[lfields[lf]]){
-            string = string.replace(new RegExp('{' + lang.trim(lfields[lf]) + '}', 'g'), lang.trim(Attribs[lfields[lf]]));
+      _getFeatureType: function (layer, typeID) {
+        var result;
+        if (layer) {
+          for (var t = 0; t < layer.types.length; t++) {
+            var featureType = layer.types[t];
+            if (typeID === featureType.id) {
+              result = featureType;
+              break;
+            }
+          }
+        }
+        return result;
+      },
+
+      _getCodedValue: function (layer, fieldName, fieldValue, typeID) {
+        var result;
+        var codedValueDomain;
+        if (typeID) {
+          var featureType = this._getFeatureType(layer, typeID);
+          if (featureType) {
+            codedValueDomain = featureType.domains[fieldName];
+          }
+        } else {
+          var field = this._getField(layer, fieldName);
+          if (field) {
+            codedValueDomain = field.domain;
+          }
+        }
+        if (codedValueDomain) {
+          if(codedValueDomain.type === 'codedValue'){
+            for (var cv = 0; cv < codedValueDomain.codedValues.length; cv++) {
+              var codedValue = codedValueDomain.codedValues[cv];
+              if (fieldValue === codedValue.code) {
+                result = codedValue;
+                break;
+              }
+            }
+          }
+        }
+        return result;
+      },
+
+      _substitute:function(string, Attribs, currentLayer){
+        var lfields, alfields, fld, fld2Replace, lf;
+        if(currentLayer){
+          alfields = this._getFieldsfromLink(string, currentLayer);
+          lfields = this._getFieldsfromLink(string);
+          for (lf=0; lf<alfields.length; lf++){
+            if(Attribs[alfields[lf]]){
+              fld2Replace = lang.trim(lfields[lf]);
+              fld = this._getField(currentLayer, alfields[lf]);
+              if (fld.type === "esriFieldTypeString") {
+                string = string.replace(new RegExp('{' + fld2Replace + '}', 'g'), lang.trim(Attribs[alfields[lf]]));
+              } else {
+                string = string.replace(new RegExp('{' + fld2Replace + '}', 'g'), Attribs[alfields[lf]]);
+              }
+            }
+          }
+        }else{
+          lfields = this._getFieldsfromLink(string);
+          for (lf=0; lf<lfields.length; lf++){
+            if(Attribs[lfields[lf]]){
+              fld2Replace = lang.trim(lfields[lf]);
+              string = string.replace(new RegExp('{' + fld2Replace + '}', 'g'), Attribs[lfields[lf]]);
+            }
           }
         }
         return string;
       },
 
-      _getFieldsfromLink:function(strLink) {
+      _getField: function (layer, fieldName) {
+        var result;
+        if (layer) {
+          for (var f = 0; f < layer.fields.length; f++) {
+            var field = layer.fields[f];
+            if (fieldName === field.name) {
+              result = field;
+              break;
+            }
+          }
+        }
+        return result;
+      },
+
+      _getFieldsfromLink:function(strLink, currentLayer) {
         var retArr = [];
         var b1 = 0;
         var e1 = 0;
@@ -1294,6 +1462,17 @@ define(['dojo/_base/declare',
           if(b1 === -1 ){break;}
           e1 = strLink.indexOf('}', b1);
           fldName = strLink.substring(b1 + 1,e1);
+          //get the actual field name if the currentLayer is supplied
+          //console.info(currentLayer);
+          if(currentLayer){
+            for (var i=0; i < currentLayer.fields.length; i++){
+              var fld = currentLayer.fields[i];
+              if(fld.alias === fldName){
+                fldName = fld.name;
+                break;
+              }
+            }
+          }
           retArr.push(fldName);
         } while(e1 < strLink.length - 1);
         return retArr;
@@ -1339,8 +1518,7 @@ define(['dojo/_base/declare',
         alert(msg);
       },
 
-      projectResults: function (geometries, data) {
-/*todo i need to find a 9.3 server that has the SR bug issue so I can test this function*/
+     /* projectResults: function (geometries, data) {
         var idResult = data[0];
         var identifyResult = data[1];
         var identForceScale = data[2];
@@ -1408,7 +1586,7 @@ define(['dojo/_base/declare',
           this.disableTimer2();
           this.divResultMessage.textContent = this.nls.loadinglabel + ' ' + this.nls.layersremaining + ' ' + this.numServicesIdent;
         }
-      },
+      },*/
 
       _configurePopupTemplate: function(listItem){
         var popUpInfo = {};
@@ -1422,7 +1600,8 @@ define(['dojo/_base/declare',
           if (listItem.links[l].link){
             var pos = listItem.links[l].link.length - 4;
             var sfx = String(listItem.links[l].link).substr(pos, 4).toLowerCase();
-            if (((sfx === '.jpg') || (sfx === '.png') || (sfx === '.gif')) && listItem.links[l].popuptype !== 'text'){ // use PopUpMediaInfo if it is an image
+            if (((sfx === '.jpg') || (sfx === '.png') || (sfx === '.gif')) && listItem.links[l].popuptype !== 'text'){
+              // use PopUpMediaInfo if it is an image
               popUpMediaInfo = {};
               popUpMediaInfo.type = 'image';
               var val = {};
@@ -1452,6 +1631,7 @@ define(['dojo/_base/declare',
         }
 //        console.info(popUpInfo);
         var pt = new PopupTemplate(popUpInfo);
+        this.map.infoWindow.fillSymbol = this.selSym;
         return pt;
       },
 
@@ -1493,7 +1673,7 @@ define(['dojo/_base/declare',
         return (cURL.substr(-1) === '/') ? cURL.toUpperCase() + cId : cURL.toUpperCase() + '/' + cId;
       },
 
-      showQueryResults: function (r, qtasks, fnames) {
+      showQueryResults: function (r, qtasks, fnames, fIds) {
         this.numServicesIdent--;
         var results = [];
         for (var i = 0; i < r.length; i++) {
@@ -1528,9 +1708,7 @@ define(['dojo/_base/declare',
             continue;
           }
 
-          //this.iResultLen += r[i].features.length;
           for (var f = 0; f < r[i].features.length; f++) {
-            var feats = r[i].features;
             var gra = r[i].features[f];
             var title = '';
             var obj = gra.attributes;
@@ -1545,9 +1723,7 @@ define(['dojo/_base/declare',
             var identTitle = '';
             var identForceScale = false;
             var idResult= {};
-            var br = '';
-            var line = '';
-            var label = '';
+            var br = '<br>';
 
             for(var j=0; j<this.configIdentLayers.length; j++){
               identFields = null;
@@ -1562,6 +1738,7 @@ define(['dojo/_base/declare',
               }
             }
             if(identFields && !identFields.all){
+              var currentLayer = this.map.getLayer(fIds[i]);
               this.resultFound = true;
               this.gid ++;
               if(this.identifyLayerOption === 'top' && this.resultFound){
@@ -1572,22 +1749,34 @@ define(['dojo/_base/declare',
               var fldAlias;
               for(var fd=0; fd<fields.length; fd++){
                 fld = fields[fd];
-                fldAlias = (feats.fieldAliases && feats.fieldAliases[fld.name])?feats.fieldAliases[fld.name]:fld.name;
+                fldAlias = (r[i].fieldAliases && r[i].fieldAliases[fld.name])?r[i].fieldAliases[fld.name]:fld.name;
                 var str = fld.name + '~';
-                if(fld.alias){
-                  if(fld.alias === ''){
-                    str += fldAlias + '~';
+                if(fld.useralias){
+                  if(fld.useralias === ''){
+                    if(fld.alias !== fld.name){
+                      str += fld.alias + '~';
+                    }else{
+                      str += 'NA~';
+                    }
                   }else{
-                    str += fld.alias + '~';
+                    str += fld.useralias + '~';
                   }
                 }else{
-                  str += fldAlias + '~';
-                }
-                if(fld.dateformat){
-                  if(fld.dateformat === ''){
-                    str += 'NA~';
+                  if(fld.alias !== fld.name){
+                    str += fld.alias + '~';
                   }else{
-                    str += fld.dateformat + '~';
+                    str += 'NA~';
+                  }
+                }
+                if(fld.isdate){
+                  if(!fld.hasOwnProperty('dateformat')){
+                    str += 'MM/dd/yyyy~';
+                  }else{
+                    if(fld.dateformat === ''){
+                      str += 'MM/dd/yyyy~';
+                    }else{
+                      str += fld.dateformat + '~';
+                    }
                   }
                 }else{
                   str += 'NA~';
@@ -1642,9 +1831,9 @@ define(['dojo/_base/declare',
                     disableInPopUp = true;
                   }
                   if(identLinks[a].disablelinksifnull){
-                    var lfields = this._getFieldsfromLink(identLinks[a].content);
+                    var lfields = this._getFieldsfromLink(identLinks[a].content, currentLayer);
                     for (var lf=0; lf<lfields.length; lf++){
-                      if(!obj[lfields[lf]] || obj[lfields[lf]] === ''){
+                      if(!obj[lfields[lf]] || obj[lfields[lf]] === '' || obj[lfields[lf]] === 'Null'){
                         linkFieldNull = true;
                         break;
                       }
@@ -1653,11 +1842,11 @@ define(['dojo/_base/declare',
                   if(linkFieldNull){
                     link = '';
                   }else{
-                    link = this._substitute(identLinks[a].content, obj);
+                    link = this._substitute(identLinks[a].content, obj, currentLayer);
                   }
-                  var sub = this._substitute(identLinks[a].alias, obj);
+                  var sub = this._substitute(identLinks[a].alias, obj, currentLayer);
                   alias = (sub) ? sub : identLinks[a].alias;
-                  linkicon = this._substitute((identLinks[a].icon || this.folderUrl + 'images/w_link.png'), obj);
+                  linkicon = this._substitute((identLinks[a].icon || this.folderUrl + 'images/w_link.png'), obj, currentLayer);
                   popupType = identLinks[a].popuptype;
                   var lObj ={
                     link: link,
@@ -1666,13 +1855,19 @@ define(['dojo/_base/declare',
                     disableinpopup: disableInPopUp,
                     popuptype: popupType
                   };
-                  lyrIdLinks.push(lObj);
+                  if(!linkFieldNull){
+                    lyrIdLinks.push(lObj);
+                  }
                 }
               }
               for (var f3 = 0; f3 < fldArr.length; f3++) {
                 var cArr = fldArr[f3].split('~');
                 try{
-                  value = obj[cArr[0]] ? String(obj[cArr[0]]) : '';
+                  if(obj.hasOwnProperty(cArr[0])){
+                    value = String(obj[cArr[0]]);
+                  } else {
+                    value = '';
+                  }
                 } catch (error){
                   value = '';
                 }
@@ -1707,28 +1902,36 @@ define(['dojo/_base/declare',
                 if(numFormat !=='NA' && value !== 'Null' && value !== ''){
                   var args = numFormat.split('|');
                   /*value,percision,symbol,thousands,decimal*/
-                  value = this._formatNumber(value,args[0]||null,args[1]||null,args[2]||null);
+                  value = this._formatNumber(value, args[0] || null, args[1] || null, args[2] || null);
                 }
                 if(curFormat !== 'NA' && value !== 'Null' && value !== ''){
                   var args2 = curFormat.split('|');
-                  /*value,percision,symbol,thousands,decimal*/
-                  value = this._formatCurrency(value,args2[1]||null,args2[0]||null,args2[2]||null,args2[3]||null);
+                  /*value, percision, symbol, thousands, decimal*/
+                  value = this._formatCurrency(value, args2[1] || null, args2[0] || null, args2[2] || null, args2[3] || null);
+                }
+                var typeID = currentLayer.typeIdField ? obj[currentLayer.typeIdField] : null;
+                if (cArr[0] === currentLayer.typeIdField) {
+                  var featureType = this._getFeatureType(currentLayer, typeID);
+                  if (featureType && featureType.name) {
+                    value = featureType.name;
+                  }
+                } else {
+                  var codedValue = this._getCodedValue(currentLayer, cArr[0], obj[cArr[0]], typeID);
+                  if (codedValue) {
+                    value = codedValue.name;
+                  }
                 }
 
                 if(cArr[1] !== 'NA'){
-                  content = content + br + cArr[1] + ': ' + value;
-                  br = '<br>';
+                  content = content + this.resultFormatString.replace('[attribname]', cArr[1]).replace('[attribvalue]', value);
                 }else{
-                  content = content + br + cArr[0] + ': ' + value;
-                  br = '<br>';
+                  content = content + this.resultFormatString.replace('[attribname]', cArr[0]).replace('[attribvalue]', value);
                 }
                 if(cArr[6] === 'false' || cArr[6] === 'NA'){
                   if(cArr[1] !== 'NA'){
-                    rsltContent = rsltContent + br + cArr[1] + ': ' + value;
-                    br = '<br>';
+                    rsltContent = rsltContent + this.resultFormatString.replace('[attribname]', cArr[1]).replace('[attribvalue]', value);
                   }else{
-                    rsltContent = rsltContent + br + cArr[0] + ': ' + value;
-                    br = '<br>';
+                    rsltContent = rsltContent + this.resultFormatString.replace('[attribname]', cArr[0]).replace('[attribvalue]', value);
                   }
                 }
               }
@@ -1744,13 +1947,12 @@ define(['dojo/_base/declare',
               }else{
                 idResult.rsltcontent = rsltContent;
               }
-              idResult.label = label;
               idResult.links = lyrIdLinks;
               idResult.alt = (f % 2 === 0);
               idResult.sym = this.resultSym;
               var projecting = false;
               //Check if we have run into the SR bug of the IdentifyTask when going to an older ArcGIS Server version
-              if(this.returngeometryforzoom && gra.geometry.spatialReference.wkid !== this.map.spatialReference.wkid){
+              /*if(this.returngeometryforzoom && gra.geometry.spatialReference.wkid !== this.map.spatialReference.wkid){
                 if (gra.geometry.spatialReference.wkid === 4326 && this.map.spatialReference.isWebMercator()){
                   gra.geometry = webMercatorUtils.geographicToWebMercator(gra.geometry);
                 }else{
@@ -1758,11 +1960,11 @@ define(['dojo/_base/declare',
                   var projectParameters = new ProjectParameters();
                   projectParameters.geometries = [gra.geometry];
                   projectParameters.outSpatialReference = this.map.spatialReference;
-                  //geometryService.project(projectParameters2, new AsyncResponder(projectResult,projectFault,[idResult,identifyResult,identForceScale,content,title,link]));
+                  geometryService.project(projectParameters2, new AsyncResponder(projectResult,projectFault,[idResult,identifyResult,identForceScale,content,title,link]));
                   esriConfig.defaults.geometryService.project(projectParameters, lang.hitch(this, this.projectResults),
                                                          lang.hitch(this, this.onError));
                 }
-              }
+              }*/
 
               if(this.identifyGeom.type === 'point'){
                 idResult.centerpoint = this.identifyGeom;
@@ -1834,18 +2036,18 @@ define(['dojo/_base/declare',
                     if(this.replacenullswithemptystring && (value === 'Null' || value === '<Null>')){
                       value = '';
                     }
-                    label = label + line + fld + ': ' + value;
-                    line = ', ';
-                    content = content + br + fld + ': ' + value;
-                    br = '<br>';
+                    content = content + '<em><strong>' + fld + '</strong></em>: <font color="blue">' + value + '</font>' + br;
                   }
                 }
 
                 idResult.icon = this.folderUrl + 'images/i_info.png';
                 idResult.title = FeatureLayerName;
-                idResult.content = content;
-                idResult.rsltcontent = content;
-                idResult.label = label;
+                if(content.lastIndexOf('<br>') === (content.length - 4)){
+                  idResult.content = content.substr(0,content.length - 4);
+                }else{
+                  idResult.content = content;
+                }
+                idResult.rsltcontent = idResult.content;
                 idResult.links = [];
                 idResult.alt = (f % 2 === 0);
                 idResult.sym = this.resultSym;
@@ -1854,15 +2056,15 @@ define(['dojo/_base/declare',
                 if(this.returngeometryforzoom && gra.geometry.spatialReference.wkid !== this.map.spatialReference.wkid){
                   if (gra.geometry.spatialReference.wkid === 4326 && this.map.spatialReference.isWebMercator()){
                     gra.geometry = webMercatorUtils.geographicToWebMercator(gra.geometry);
-                  }else{
+                  }/*else{
                     projecting2 = true;
                     var projectParameters2 = new ProjectParameters();
                     projectParameters2.geometries = [gra.geometry];
                     projectParameters2.outSpatialReference = this.map.spatialReference;
-                    //geometryService.project(projectParameters2, new AsyncResponder(projectResult,projectFault,[idResult,identifyResult,identForceScale,content,title,link]));
+                    geometryService.project(projectParameters2, new AsyncResponder(projectResult,projectFault,[idResult,identifyResult,identForceScale,content,title,link]));
                     esriConfig.defaults.geometryService.project(projectParameters2, lang.hitch(this, this.projectResults),
                                                            lang.hitch(this, this.onError));
-                  }
+                  }*/
                 }
 
                 if(this.identifyGeom.type === 'point'){
@@ -1973,22 +2175,13 @@ define(['dojo/_base/declare',
         this.inherited(arguments);
       },
 
-      onOpen: function () {
-        var widgetTitlebar = this.domNode.parentNode.parentNode.parentNode.childNodes[0];
-        if(typeof widgetTitlebar.onmousedown !== "function") {
-           this.own(on(widgetTitlebar, 'mousedown', lang.hitch(this, function(event) {
-            event.stopPropagation();
-            if(event.altKey){
-              var msgStr = this.nls.widgetverstr + ': ' + this.manifest.version;
-              msgStr += '\n' + this.nls.wabversionmsg + ': ' + this.manifest.wabVersion;
-              msgStr += '\n' + this.manifest.description;
-              new Message({
-                titleLabel: this.nls.widgetversion,
-                message: msgStr
-              });
-            }
-          })));
+      onReceiveData: function(name, widgetId, data) {
+        if(data.message && data.message === "Deactivate_DrawTool"){
+          this.drawBox.deactivate();
         }
+      },
+
+      onOpen: function () {
         if(this.graphicsLayer){
           this.graphicsLayer.show();
           if(this.autoactivatedtool){
@@ -2025,6 +2218,26 @@ define(['dojo/_base/declare',
           this.map.infoWindow.hide();
           this.map.infoWindow.setTitle('');
           this.map.infoWindow.setContent('');
+        }
+      },
+
+      _addThemeFixes: function () {
+        /*Workaround for the LanunchPad theme not firing onClose and onOpen for the widget*/
+        if(this.appConfig.theme.name === "LaunchpadTheme"){
+          var tPanel = this.getPanel();
+          if(tPanel){
+            aspect.after(tPanel, "onClose", lang.hitch(this, this.onClose));
+            aspect.after(tPanel, "onOpen", lang.hitch(this, this.onOpen));
+          }
+        }
+        /*end work around for LaunchPad*/
+        /*Workaround for TabTheme moregroup not calling onClose and onOpen when the SidebarController is minimized*/
+        if(this.appConfig.theme.name === "TabTheme"){
+          var sidebarWidget = this.wManager.getWidgetsByName('SidebarController');
+          if (sidebarWidget[0]) {
+            aspect.after(sidebarWidget[0], "onMinimize", lang.hitch(this, this.onClose));
+            aspect.after(sidebarWidget[0], "onMaximize", lang.hitch(this, this.onOpen));
+          }
         }
       }
 

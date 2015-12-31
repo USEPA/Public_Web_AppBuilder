@@ -1,0 +1,287 @@
+@import url("../../common.css");
+
+.enhanced-bookmark-widget-bookmark-setting {
+  height: 100%;
+}
+
+.eBookmark-Edit{
+  height: 100%;
+  overflow-y: auto;
+}
+
+.eBookmark-Edit .setting-table {
+  margin: 5px 20px;
+  border-spacing: 10px;
+  border-collapse: separate;
+}
+
+.eBookmark-Edit .input-table > tbody > tr > .first{
+  width:auto;
+  text-align: left;
+  padding-right:15px;
+  white-space: nowrap;
+  max-width: 108px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.eBookmark-Edit .input-table > tbody > tr > .second{
+  width:660px;
+}
+
+.eBookmark-Edit-Folder{
+  height: 100%;
+  overflow-y: auto;
+}
+
+.eBookmark-Edit-Folder .setting-table {
+  margin: 5px 20px;
+  border-spacing: 10px;
+  border-collapse: separate;
+}
+
+.eBookmark-Edit-Folder .input-table > tbody > tr > .first{
+  width:auto;
+  text-align: left;
+  padding-right:15px;
+  white-space: nowrap;
+  max-width: 108px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.eBookmark-Edit-Folder .input-table > tbody > tr > .second{
+  width:660px;
+}
+
+.enhanced-bookmark-widget-bookmark-setting {
+  overflow: hidden;
+  height: 100%;
+}
+
+.enhanced-bookmark-widget-bookmark-setting .bookmarks-section{
+  margin-top: 0px;
+  clear: both;
+  width: 100%;
+  height: 100%;
+}
+
+.enhanced-bookmark-widget-bookmark-setting .bookmarks-section .bookmark-list-title{
+  height: 16px;
+  font-size: 14px;
+  color: #86909c;
+  margin-top: 4px;
+}
+
+.enhanced-bookmark-widget-bookmark-setting .bookmark-list-body {
+  height: 490px;
+  overflow-y: auto
+}
+
+.enhanced-bookmark-widget-bookmark-setting .bookmark-list-table{
+  width: 100%;
+  border-spacing: 0px;
+}
+
+.enhanced-bookmark-widget-bookmark-setting .bookmark-list-body{
+  border: 0px solid #999;
+}
+
+.enhanced-bookmark-widget-bookmark-setting .jimu-widget-row{
+
+}
+
+.enhanced-bookmark-widget-bookmark-setting .bookmark-row{
+  background-color: #ffffff;
+  height: 40px;
+}
+
+.enhanced-bookmark-widget-bookmark-setting .bookmark-row-mouseover{
+  background-color: #e3ecf2;
+}
+
+.enhanced-bookmark-widget-bookmark-setting .jimu-widget-row-selected{
+  background-color: #d9dde0;
+}
+
+.enhanced-bookmark-widget-bookmark-setting .jimu-widget-row-active{
+  background-color: #009cff;
+}
+
+.enhanced-bookmark-widget-bookmark-setting .jimu-widget-row-selected .col-bookmark-label{
+  color: #333;
+}
+.enhanced-bookmark-widget-bookmark-setting .jimu-widget-row-active .col-bookmark-label{
+  color: #fff;
+}
+
+.enhanced-bookmark-widget-bookmark-setting .col{
+  border: 0px solid;/*remove*/
+  border-bottom: 0px solid #ffffff;
+  /*************/
+}
+
+.enhanced-bookmark-widget-bookmark-setting .col1{
+}
+
+.enhanced-bookmark-widget-bookmark-setting .col2{
+  width: auto;
+  word-break: break-word;
+  cursor: pointer;
+}
+
+.enhanced-bookmark-widget-bookmark-setting .col3{
+  width: 24px;
+}
+
+.enhanced-bookmark-widget-bookmark-setting .begin-blank-div{
+  width: 12px;
+  height: 2px;
+}
+
+.enhanced-bookmark-widget-bookmark-setting .expand-div{
+  width: 13px;
+  height: 13px;
+  cursor: pointer;
+  font-size: 2px;
+  /*************/
+}
+
+.enhanced-bookmark-widget-bookmark-setting .expand-image{
+  margin-top: 4px;
+  font-size: 3px;
+  padding-left: 3px;
+}
+
+.jimu-rtl .enhanced-bookmark-widget-bookmark-setting .expand-image{
+  padding-left: 0;
+  padding-right: 3px;
+}
+
+.enhanced-bookmark-widget-bookmark-setting  .bookmark-list-imageExpand-down{
+  -moz-transform: scale(1) rotate(270deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg);
+  -webkit-transform: scale(1) rotate(270deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg);
+  -o-transform: scale(1) rotate(270deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg);
+  -ms-transform: scale(1) rotate(270deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg);
+  transform: scale(1) rotate(270deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg);
+}
+
+.enhanced-bookmark-widget-bookmark-setting  .bookmark-list-imageExpand-down-div{
+  background-color: #d9dde0;
+}
+
+.enhanced-bookmark-widget-bookmark-setting .icon-div{
+  width: 33px;
+  text-align: right;
+  display: none;
+}
+
+.enhanced-bookmark-widget-bookmark-setting .icon-image{
+  display: block;
+  margin: 0 auto;
+}
+
+.enhanced-bookmark-widget-bookmark-setting .col-blank{
+  width:17px;
+}
+.enhanced-bookmark-widget-bookmark-setting .col-select{
+  width: 17px;
+}
+
+.enhanced-bookmark-widget-bookmark-setting .col-reserve-blank{
+  width: 25px;
+}
+
+.enhanced-bookmark-widget-bookmark-setting .col-content{
+  color: #686868;
+  font-size: 12px;
+}
+
+.enhanced-bookmark-widget-bookmark-setting .div-content{
+  position: relative;
+  /*************/
+  color: #686868;
+  font-size: 12px;
+  border: 0px solid;
+}
+
+.enhanced-bookmark-widget-bookmark-setting .bookmark-list-body .col-bookmark-label{
+  color: #686868;
+}
+
+.enhanced-bookmark-widget-bookmark-setting .bookmark-sub-node{
+  display: none;
+  width:100%;
+  border-spacing: 0px;
+}
+
+.enhanced-bookmark-widget-bookmark-setting .bookmark-loading-img{
+  width: 24px;
+  height: 24px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 2;
+}
+
+.enhanced-bookmark-widget-bookmark-setting .actions-div{
+  position: relative;
+  width: 48px;
+  height: 24px;
+  margin-right: 4px;
+}
+
+.enhanced-bookmark-widget-bookmark-setting .bookmark-delete-img{
+  position: absolute;
+  left: 28px;
+  top: 4px;
+  cursor: pointer;
+}
+
+.enhanced-bookmark-widget-bookmark-setting .bookmark-edit-img{
+  position: absolute;
+  left: 4px;
+  top: 4px;
+  cursor: pointer;
+}
+
+.enhanced-bookmark-widget-bookmark-setting .Add-btn {
+  cursor: pointer;
+  min-width: 70px;
+  display: inline-block;
+  padding: 8px 8px 8px 28px;
+  font-size: 15px;
+  text-align: center;
+  vertical-align: middle;
+  color: #FFF;
+  border-radius: 5px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  position: relative;
+  background: none repeat scroll 0% 0% #528CC9;
+}
+
+.enhanced-bookmark-widget-bookmark-setting .Add-btn.disabled{
+  background: none repeat scroll 0% 0% #cccccc;
+  color: #999999;
+  cursor: not-allowed;
+}
+
+.enhanced-bookmark-widget-bookmark-setting .btn-folder {
+  width: 18px;
+  height: 18px;
+  margin-right: 3px;
+  position: absolute;
+  left: 6px;
+  top: 8px;
+}
+
+.enhanced-bookmark-widget-bookmark-setting .btn-bookmark {
+  width: 18px;
+  height: 18px;
+  margin-right: 3px;
+  position: absolute;
+  left: 6px;
+  top: 8px;
+}

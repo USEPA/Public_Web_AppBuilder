@@ -21,6 +21,18 @@
     squareFeet: "Pieds carrés",
     squareYards: "Yards carrés",
     distance: "Distances",
-    area: "Surfaces"
+    area: "Surfaces",
+    kilometersAbbreviation: "km",
+    milesAbbreviation: "mi",
+    metersAbbreviation: "m",
+    feetAbbreviation: "pi",
+    yardsAbbreviation: "yd",
+    squareKilometersAbbreviation: "km²",
+    squareMilesAbbreviation: "mi²",
+    acresAbbreviation: "ac",
+    hectaresAbbreviation: "ha",
+    squareMetersAbbreviation: "m²",
+    squareFeetAbbreviation: "pd²",
+    squareYardsAbbreviation: "yd²"
   })
 );

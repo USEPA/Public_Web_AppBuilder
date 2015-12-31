@@ -47,6 +47,8 @@ define(
       formatArray: null,
       returnfieldInfo: null,
       tr: null,
+      sumfield: null,
+      sumlabel: null,
 
       postCreate: function(){
         this.inherited(arguments);
@@ -56,9 +58,9 @@ define(
         this.thousandsSymbol.set('disabled', true);
         this.currencyCbx.set('status', false);
         this.currencySymboltxt.set('disabled', true);
-        this.own(on(this.percisionCbx, 'click', lang.hitch(this, '_onPercisionCbxChange')));
-        this.own(on(this.currencyCbx, 'click', lang.hitch(this, '_onCurrencyCbxChange')));
-        this.own(on(this.useThousandsCbx, 'click', lang.hitch(this, '_onUseThousandsCbxChange')));
+        this.percisionCbx.onChange = lang.hitch(this, '_onPercisionCbxChange');
+        this.currencyCbx.onChange = lang.hitch(this, '_onCurrencyCbxChange');
+        this.useThousandsCbx.onChange = lang.hitch(this, '_onUseThousandsCbxChange');
         this.own(on(this.selectDateFormat, 'change', lang.hitch(this, '_onSelectDateFormatChange')));
         if (this.popup){
           this.popup.enableButton(0);
@@ -99,6 +101,10 @@ define(
           });
           this.currencyCbx.set('status', true);
           this.currencyCbx.set('disabled', false);
+          if(this.sumfield){
+            this.useSumCbx.setValue(true);
+            this.tbSumLabel.set('value', this.sumlabel);
+          }
           if(fieldInfo.currencyformat){
             this.formatString = fieldInfo.currencyformat;
             this.formatArray = this.formatString.split('|');
@@ -124,9 +130,15 @@ define(
             this.formatArray = this.formatString.split('|');
             this.currencyCbx.set('disabled', true);
             this.currencySymboltxt.set('disabled', true);
-            this.percisionSpinner.set('value', parseInt(this.formatArray[0]));
-            this.percisionSymbol.set('value', this.formatArray[2]);
-            this.thousandsSymbol.set('value', this.formatArray[1]);
+            if (this.formatArray[0] || this.formatArray[2]){
+              this.percisionCbx.setValue(true);
+              this.percisionSpinner.set('value', parseInt(this.formatArray[0]));
+              this.percisionSymbol.set('value', this.formatArray[2]);
+            }
+            if (this.formatArray[1]){
+              this.useThousandsCbx.setValue(true);
+              this.thousandsSymbol.set('value', this.formatArray[1]);
+            }
           }
         }
       },
@@ -160,6 +172,9 @@ define(
         }else if (this.returnfieldInfo.isnumber || this._isNumberType(this.returnfieldInfo.type)){
           var currencyformat = '';
           var numberformat = '';
+          this.sumfield = this.useSumCbx.getValue();
+          this.sumlabel = this.tbSumLabel.get('value');
+
           if(this.currencyCbx.getValue()){
             currencyformat += this.currencySymboltxt.get('value') + "|";
             if(this.percisionCbx.getValue()){

@@ -12,11 +12,11 @@ define([
     ],
     function (declare, topic, domConstruct, lang, json, Geoprocessor, template, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin) {
         return declare(
-            [ _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin],
+            [_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin],
             {
                 templateString: template,
                 constructor: function (params) {
-                    lang.mixin(this,params || {});
+                    lang.mixin(this, params || {});
                     this.downloadAllConfiguration = null;
                 },
                 postCreate: function () {
@@ -34,7 +34,7 @@ define([
                     if (!downloadItems) {
                         return;
                     }
-                    var i, currentServiceName, currentServiceDownloadEntry, currentFeatureId, currentServiceLinks, currentServiceLink, serviceEntryNode,  serviceLinksList, linkListItem, linkNode, linkSizeNode;
+                    var i, currentServiceName, currentServiceDownloadEntry, currentFeatureId, currentServiceLinks, currentServiceLink, serviceEntryNode, serviceLinksList, linkListItem, linkNode, linkSizeNode;
                     //loop through download items object and add them to the view model
                     for (currentServiceName in downloadItems) {
                         if (downloadItems.hasOwnProperty(currentServiceName)) {
@@ -50,10 +50,20 @@ define([
                                         currentServiceLink = currentServiceLinks[i];
                                         linkListItem = domConstruct.create("li");
                                         domConstruct.place(linkListItem, serviceLinksList);
-                                        linkNode = domConstruct.create("a", {innerHTML: currentServiceLink.label, href: currentServiceLink.url, target: "_blank"});
-                                        linkSizeNode = domConstruct.create("span", {className: "exportDownloadListSizeValue", innerHTML: "(" + currentServiceLink.size + ")"});
+                                        linkNode = domConstruct.create("a", {
+                                            innerHTML: currentServiceLink.label,
+                                            href: currentServiceLink.url,
+                                            target: "_blank"
+                                        });
                                         domConstruct.place(linkNode, linkListItem);
-                                        domConstruct.place(linkSizeNode, linkListItem);
+                                        if (currentServiceLink.size) {
+                                            linkSizeNode = domConstruct.create("span", {
+                                                className: "exportDownloadListSizeValue",
+                                                innerHTML: "(" + currentServiceLink.size + ")"
+                                            });
+                                            domConstruct.place(linkSizeNode, linkListItem);
+
+                                        }
                                     }
                                 }
                             }

@@ -14,6 +14,13 @@
 // limitations under the License.
 ///////////////////////////////////////////////////////////////////////////
 //
+//  12/16/2015 - tested with WAB 1.3 and added nautical miles to the distance pick list.
+//  10/06/2015 - added editing capability to some geometries.  CLICK graphic to start and stop editing, CTRL-CLICK to delete a measure graphic.
+//  09/30/2015 - updated to remove unnecessary logic for IE - NIM094815: The mouse-drag event now works correctly using IE10 and IE11.
+//  09/29/2015 - added logic to use better area and length calculations using the API geometryEngine
+//               to work with geodesic and planar projections
+//  09/09/2015 - upgrade to new release of WAB 1.2
+//             - fixed problem with settings that was corrupting the WAB app
 //  04/06/2015 - upgrade to new release of WAB 1.1
 //             - use new JSAPI scaleUtils to get map units
 //             - added logic for Internet Explorer to measure all geometry types
@@ -31,6 +38,7 @@ define([
         'dijit/_WidgetsInTemplateMixin',
         'jimu/BaseWidget',
         'esri/layers/GraphicsLayer',
+		'esri/toolbars/edit',
         'esri/graphic',
         'esri/geometry/Extent',
         'esri/geometry/Point',
@@ -46,12 +54,14 @@ define([
         "esri/geometry/scaleUtils",
         'esri/geometry/webMercatorUtils',
         'esri/geometry/geodesicUtils',
+		'esri/geometry/geometryEngine',
         'dojo/_base/lang',
         'dojo/on',
         'dojo/_base/html',
         'dojo/_base/Color',
         'dojo/_base/query',
         'dojo/_base/array',
+		'dojo/_base/event',
         'dojo/touch',
         'dojo/has',
         'dijit/form/Select',
@@ -62,10 +72,10 @@ define([
         'jimu/utils',
         'dojo/sniff'
     ],
-    function(declare, _WidgetsInTemplateMixin, BaseWidget, GraphicsLayer, Graphic, Extent, Point,
+    function(declare, _WidgetsInTemplateMixin, BaseWidget, GraphicsLayer, Edit, Graphic, Extent, Point,
         SimpleMarkerSymbol, Polyline, SimpleLineSymbol, Polygon, SimpleFillSymbol,
-        TextSymbol, Font, SpatialReference, esriUnits, scaleUtils, webMercatorUtils, geodesicUtils, lang, on, html,
-        Color, Query, array, touch, has, Select, NumberSpinner, ViewStack, SymbolChooser,
+        TextSymbol, Font, SpatialReference, esriUnits, scaleUtils, webMercatorUtils, geodesicUtils, geometryEngine, lang, on, html,
+        Color, Query, array, event, touch, has, Select, NumberSpinner, ViewStack, SymbolChooser,
         DrawBox, jimuUtils, sniff) { /*jshint unused: false*/
         return declare([BaseWidget, _WidgetsInTemplateMixin], {
             name: 'Measure',
@@ -80,8 +90,14 @@ define([
             measureGraphicReturn: null,
             measureGraphicsLayer: null,
             measureSegment: 1,
-            measureCS: "",
-            mapUnits: "",
+			useGeodesic: true,
+			editingEnabled: false,
+			editToolbar: null,
+			editGraphicID: "",
+            editGraphic1: null,
+            editGraphic2: null,
+			measureEditVertex: null,
+			isEditable: false,
 
             postMixInProperties: function() {
                 this.inherited(arguments);
@@ -98,17 +114,61 @@ define([
                     views: [this.pointSection, this.lineSection, this.polygonSection]
                 });
                 html.place(this.viewStack.domNode, this.settingContent);
+				
+                this.textSymChooser.inputText.value = "Sample Text";
+                this.textSymChooser.textPreview.innerHTML = "Sample Text";
+				
 
                 this._initUnitSelect();
                 this._bindEvents();
                 this.measureGraphicsLayer = new GraphicsLayer();
                 this.measureGraphicsLayer.name = "Search Buffer Results";
                 this.map.addLayer(this.measureGraphicsLayer);
-                if (scaleUtils.getUnitValueForSR(this.map.spatialReference) == 1) {
-                    this.mapUnits = "METERS";
-                } else {
-                    this.mapUnits = "FEET";
-                }
+				this.drawBox.drawLayer = this.measureGraphicsLayer;
+				this.editToolbar = new Edit(this.map);
+				this.own(on(this.editToolbar, 'vertex-move-start', lang.hitch(this, this._editVertexStart)));
+				this.own(on(this.editToolbar, 'vertex-move-stop', lang.hitch(this, this._editVertexStop)));
+				this.own(on(this.editToolbar, 'vertex-delete', lang.hitch(this, this._vertexDelete)));
+				//this.own(on(this.editToolbar, 'vertex-move', lang.hitch(this, this._vertexMove)));
+				this.own(on(this.measureGraphicsLayer, "click", lang.hitch(this, function(evt) {
+					event.stop(evt);
+					//delete feature if ctrl key is depressed
+					if (evt.ctrlKey === true || evt.metaKey === true) {
+						var id = evt.graphic.attributes.id;
+						for (var i = this.measureGraphicsLayer.graphics.length-1; i >= 0; i--) {
+							var g = this.measureGraphicsLayer.graphics[i];
+							if (g.attributes.id === id) {
+								this.measureGraphicsLayer.remove(g);
+							}
+						}
+						this.editToolbar.deactivate();
+						this.editingEnabled = false;
+					} else {
+					//if (evt.shiftKey === true) {  //edit feature if shift key is depressed
+						// see if graphic is editable.  lines, polylines and polygons are editable.
+						if (evt.graphic.attributes.editable) {
+							if (this.editingEnabled === false) {
+								this.editingEnabled = true;
+								this.editToolbar.activate(Edit.EDIT_VERTICES, evt.graphic);
+								if (evt.graphic.geometry.type === 'polyline') {
+									this.viewStack.switchView(this.lineSection);
+								} else {
+									this.viewStack.switchView(this.polygonSection);
+								}
+							} else {
+								this.editToolbar.deactivate();
+								this.editingEnabled = false;
+							}
+						}
+					}
+				})));
+					
+				var wkid = this.map.spatialReference.wkid;
+				if (wkid === 102100 || wkid === 3857 || wkid === 102113 || wkid === 4326) {
+					this.useGeodesic = true;
+				} else {
+					this.useGeodesic = false;
+				}
             },
 
             _resetUnitsArrays: function() {
@@ -137,11 +197,30 @@ define([
                     this._setDrawDefaultSymbols();
                 })));
                 this.own(on(this.textSymChooser, 'change', lang.hitch(this, function(symbol) {
-                    this.drawBox.setTextSymbol(symbol);
+                    this._setDrawDefaultSymbols();
+                })));
+                this.own(on(this.helpImage, 'click', lang.hitch(this, function() {
+                    var win = window.open("widgets/Measure/help/index.html", "_blank");
+					win.focus();
                 })));
             },
 
             _onIconSelected: function(target, geotype, commontype) {
+				// create a unique ID that will be used to associate the drawn graphic and text measurement graphics
+				var d = new Date();
+				this.editGraphicID = "gra_" + d.getTime();
+				if (geotype === 'LINE' || geotype === 'POLYLINE' || geotype === 'POLYGON') {
+					this.isEditable = true;
+				} else {
+					this.isEditable = false;
+				}
+				
+				// if the user was editing, let's turn editing off
+				if (this.editingEnabled) {
+					this.editToolbar.deactivate();
+					this.editingEnabled = false;
+				}
+				
                 this.measureType = geotype;
                 this._setDrawDefaultSymbols();
                 if (commontype === 'point') {
@@ -175,8 +254,16 @@ define([
             },
 
             _onDrawEnd: function(graphic, geotype, commontype) {
+				// set graphic attributes
+				var att = {id: this.editGraphicID, editable: this.isEditable};
+				graphic.setAttributes(att);
+				
                 var geometry = graphic.geometry;
-                if (this.measureType == 'FREEHAND_POLYGON') {
+				var firstPoint = null;
+				var lastPoint = null;
+				var l; // number of segments
+				var pl = Polygon(geometry);
+                if (this.measureType === 'FREEHAND_POLYGON') {
                     // with this measure type we want to remove the last graphic
                     // as it completes the freehand polygon to the original start
                     // and makes the interactive measure incomplete
@@ -185,13 +272,12 @@ define([
                 }
                 if (has('ipad') || has('iphone') || has('android')) {
                     // measuring on mobile devices doesn't add the final segment measurements. 
-                    if (this.measureType == 'POLYLINE') {
-                        var firstPoint = null;
-                        var lastPoint = null;
-                        var l; // number of segments
-                        var pl = Polyline(geometry);
+                    if (this.measureType === 'POLYLINE') {
+                        firstPoint = null;
+                        lastPoint = null;
+                        pl = Polyline(geometry);
                         l = pl.paths[0].length;
-                        firstPoint = pl.getPoint(0, l - 2)
+                        firstPoint = pl.getPoint(0, l - 2);
                         lastPoint = pl.getPoint(0, l - 1);
                         if (l > 1) {
                             var segLength = this._calculateSegmentLength(firstPoint, lastPoint);
@@ -200,13 +286,12 @@ define([
                             this._addClickMeasure(midPT, angle, segLength);
                         }
                     }
-                    if (this.measureType == 'POLYGON') {
-                        var firstPoint = null;
-                        var lastPoint = null;
-                        var l; // number of segments
-                        var pl = Polygon(geometry);
+                    if (this.measureType === 'POLYGON') {
+                        firstPoint = null;
+                        lastPoint = null;
+                        pl = Polygon(geometry);
                         l = pl.rings[0].length;
-                        firstPoint = pl.getPoint(0, l - 2)
+                        firstPoint = pl.getPoint(0, l - 2);
                         lastPoint = pl.getPoint(0, l - 1);
                         if (l > 1) {
                             var segLength = this._calculateSegmentLength(firstPoint, lastPoint);
@@ -215,7 +300,7 @@ define([
                             this._addClickMeasure(midPT, angle, segLength);
                         }
                         // do this again to get the second to last measurement
-                        var fp = pl.getPoint(0, l - 3)
+                        var fp = pl.getPoint(0, l - 3);
                         var lp = pl.getPoint(0, l - 2);
                         if (l > 1) {
                             var segLength = this._calculateSegmentLength(fp, lp);
@@ -246,7 +331,7 @@ define([
                 }
                 if (commontype === 'polyline') {
                     //if(this.showMeasure.checked){
-                    if (this.measureType != 'LINE' && this.measureType != 'FREEHAND_POLYLINE') {
+                    if (this.measureType !== 'LINE' && this.measureType !== 'FREEHAND_POLYLINE') {
                         this._addLineMeasure(geometry);
                     }
                     if (geotype === 'POLYLINE') {
@@ -277,14 +362,14 @@ define([
                 // second pass adds text graphics
                 for (var i = 0; i < this.drawBox.drawLayer.graphics.length; i++) {
                     var gra = this.drawBox.drawLayer.graphics[i];
-                    if (gra.symbol.type == 'textsymbol') {
+                    if (gra.symbol.type === 'textsymbol') {
                         graArray.push(gra);
                     }
                 }
                 // first pass adds non text graphics
                 for (var i = 0; i < this.drawBox.drawLayer.graphics.length; i++) {
                     var gra = this.drawBox.drawLayer.graphics[i];
-                    if (gra.symbol.type != 'textsymbol') {
+                    if (gra.symbol.type !== 'textsymbol') {
                         graArray.push(gra);
                     }
                 }
@@ -307,12 +392,12 @@ define([
                 // get the graphic being drawn
                 var gra = this.drawBox.drawToolBar._graphic;
                 // the geometry may be null as drawing is beginning
-                if (gra.geometry != null) {
+                if (gra) {
                     // get the last point in the drawn graphic
                     var firstPoint = null;
                     var lastPoint = null;
                     var l; // number of segments
-                    if (gra.geometry.type == 'polyline') {
+                    if (gra.geometry.type === 'polyline') {
                         var pl = Polyline(gra.geometry);
                         l = pl.paths[0].length;
                         lastPoint = pl.getPoint(0, l - 1);
@@ -320,7 +405,7 @@ define([
                         // must be a polygon
                         var poly = Polygon(gra.geometry);
                         l = poly.rings[0].length;
-                        firstPoint = poly.getPoint(0, 0)
+                        firstPoint = poly.getPoint(0, 0);
                         lastPoint = poly.getPoint(0, l - 1);
                     }
                     var segLength = this._calculateSegmentLength(lastPoint, e.mapPoint);
@@ -328,14 +413,15 @@ define([
                     var midPT = this._calculateMidPoint(lastPoint, e.mapPoint);
                     if (l > this.measureSegment) {
                         // this means that we have started a new segment and need to leave the last measure in place
-                        var mg = new Graphic(this.measureGraphic.geometry, this.measureGraphic.symbol, null, null);
-                        this.measureGraphicsLayer.add(mg);
+						//var att = {id: this.editGraphicID, index: this.measureSegment};
+                        //var mg = new Graphic(this.measureGraphic.geometry, this.measureGraphic.symbol, att, null);
+                        //this.measureGraphicsLayer.add(mg);
                         this.measureGraphic = null;
                         this.measureSegment = l;
                     }
                     this._addSegmentMeasure(midPT, angle, segLength);
                     // lets get the return length to the beginning point
-                    if (l > 1 && gra.geometry.type == 'polygon') {
+                    if (l > 1 && gra.geometry.type === 'polygon') {
                         var mp = this._calculateMidPoint(firstPoint, e.mapPoint);
                         var sl = this._calculateSegmentLength(firstPoint, e.mapPoint);
                         var angle = this._calculateAngle(firstPoint, e.mapPoint);
@@ -345,6 +431,230 @@ define([
                 }
 
             },
+			
+			_editVertexStart: function(e) {
+				console.log("Started Vertex Edit");
+				// this is a good place to determine which measure dimension graphics we are going to edit
+				// depending on which vertex is chosen.
+				var gra = e.graphic;
+				this.editGraphicID = e.graphic.attributes.id;
+				var geomtype = gra.geometry.type;
+				var pl;
+				var l = 0;
+				if (geomtype === 'polyline') {
+					pl = new Polyline(gra.geometry);
+					l = pl.paths[0].length;
+				} else {
+					pl = new Polygon(gra.geometry);
+					l = pl.rings[0].length;
+				}
+				this._setDrawDefaultSymbols();
+				var isGhostVertex = e.vertexinfo.isGhost;
+				var pointIndex = e.vertexinfo.pointIndex;
+				if (isGhostVertex) {
+					// this is a ghost vertex that means we are splitting the line.  We need to add a new dimension graphic
+					// and update the other dimension graphics sequence numbers
+
+					// update the index numbers for the other dimension graphics
+					var g;
+					for (var i = 0; i < gra._graphicsLayer.graphics.length; i++) {
+						g = gra._graphicsLayer.graphics[i];
+						var att = g.attributes;
+						if (att.id === gra.attributes.id && att.index > pointIndex && att.index < 999) {
+							g.attributes.index += 1;
+						}
+					}					
+					// we are moving a vertex in the middle of the polyline and measuring 2 segments
+					this.editGraphic1 = this._findDimensionGraphic(gra._graphicsLayer, gra.attributes.id, pointIndex);
+					// new graphic for second dimension
+					var a = {id: this.editGraphic1.attributes.id, index: this.editGraphic1.attributes.index + 1};
+					this.editGraphic2 = new Graphic(this.editGraphic1.geometry, this.editGraphic1.symbol, a, null);
+					this.measureGraphicsLayer.add(this.editGraphic2);
+				} else {
+					// not a ghost vertex.  if the vertex is the first or last we will only be calculating one measure
+					// otherwise we will be calculating distances for two segments.
+					// find the dimension graphic that will be changed
+					if (pointIndex === 0) {
+						if (geomtype === 'polyline') {
+							this.editGraphic1 = this._findDimensionGraphic(gra._graphicsLayer, gra.attributes.id, pointIndex + 1);
+							this.editGraphic2 = null;
+						} else {
+							// get the first dimension and the last dimension for a polygon
+							this.editGraphic1 = this._findDimensionGraphic(gra._graphicsLayer, gra.attributes.id, pointIndex + 1);
+							this.editGraphic2 = this._findDimensionGraphic(gra._graphicsLayer, gra.attributes.id, l - 1);
+						}
+					} else if (pointIndex === l - 1) {
+						this.editGraphic1 = this._findDimensionGraphic(gra._graphicsLayer, gra.attributes.id, pointIndex);
+						this.editGraphic2 = null;
+					} else {
+						// we are moving a vertex in the middle of the polyline and measuring 2 segments
+						this.editGraphic1 = this._findDimensionGraphic(gra._graphicsLayer, gra.attributes.id, pointIndex);
+						this.editGraphic2 = this._findDimensionGraphic(gra._graphicsLayer, gra.attributes.id, pointIndex + 1);
+					}
+				}
+				// make the vertex information available globally
+				this.measureEditVertex = e;
+				// as per usual, we have to add logic to make this work with Internet Explorer...
+                if (has('ipad') || has('iphone') || has('android')) {
+                    this.measureMouseDragHandler = on(document, touch.move, lang.hitch(this, this._editVertex));
+                } else if (has("ie") === 9 || has("ie") === 10 || has("trident")) {
+					this.measureMoveHandler = on(this.map, "mouse-drag", lang.hitch(this, this._editVertex));
+					console.log("Using mouse-drag for IE");
+				} else {
+					this.measureMoveHandler = on(this.map, "mouse-move", lang.hitch(this, this._editVertex));
+				}
+				
+			},
+			
+			_findDimensionGraphic: function(graphicsLayer, id, index) {
+				var gra = null;
+				for (var i = 0; i < graphicsLayer.graphics.length; i++) {
+					var g = graphicsLayer.graphics[i];
+					var att = g.attributes;
+					if (att.id === id && index === att.index) {
+						gra = g;
+					}
+				}
+				return gra;
+			},
+			
+			_editVertexStop: function(e) {
+				console.log("Stopped Vertex Edit");
+				if (this.measureMoveHandler) {
+					this.measureMoveHandler.remove();
+				}
+				// remove the summary text graphics
+				var id = e.graphic.attributes.id;
+				for (var i = this.measureGraphicsLayer.graphics.length-1; i >= 0; i--) {
+					var g = this.measureGraphicsLayer.graphics[i];
+					if (g.attributes.id === id) {
+						// remove area and length summary graphics. we are going to recalculate and re-add them
+						if (g.attributes.index === 999) {
+							this.measureGraphicsLayer.remove(g);
+						}
+					}
+				}
+				if (e.graphic.geometry.type === 'polyline') {
+					this._addLineMeasure(e.graphic.geometry);
+				} else {
+					this._addPolygonMeasure(e.graphic.geometry);
+				}
+				
+                this.measureGraphic = null;
+                this.measureGraphic2 = null;
+                this.measureGraphicReturn = null;
+                this.measureSegment = 1;			
+				
+			},
+			
+			_vertexMove: function(e) {
+				console.log("Moving Vertex...");
+                // get the graphic being drawn
+                var gra = this.measureEditVertex.graphic;
+				var vi = this.measureEditVertex.vertexinfo;
+				var transform = e.transform;
+			},
+			
+			_editVertex: function(e) {
+				console.log("Editing Vertex...");
+                // get the graphic being drawn
+                var gra = this.measureEditVertex.graphic;
+				var vi = this.measureEditVertex.vertexinfo;
+				var transform = e.transform;
+                // the geometry may be null as drawing is beginning
+                if (gra) {
+                    // get the last point in the drawn graphic
+                    var stationaryPoint1 = null;
+                    var stationaryPoint2 = null;
+					var pl;
+					var l;
+                    if (gra.geometry.type === 'polyline') {
+                        pl = Polyline(gra.geometry);
+						l = pl.paths[0].length;
+                    } else {
+                        // must be a polygon
+                        pl = Polygon(gra.geometry);
+                        l = pl.rings[0].length;
+                    }
+					if (vi.isGhost) {
+						stationaryPoint1 = pl.getPoint(0, vi.pointIndex -1);
+						stationaryPoint2 = pl.getPoint(0, vi.pointIndex);
+					} else {
+						if (vi.pointIndex === 0) {
+							stationaryPoint1 = pl.getPoint(0, vi.pointIndex + 1);
+							if (gra.geometry.type === 'polygon') {
+								stationaryPoint2 = pl.getPoint(0, l - 2);
+							}
+						} else if (vi.pointIndex === l -1) {
+							stationaryPoint1 = pl.getPoint(0, vi.pointIndex -1);
+						} else {
+							// we are moving a vertex in the middle of the polyline and measuring 2 segments
+							stationaryPoint1 = pl.getPoint(0, vi.pointIndex -1);
+							stationaryPoint2 = pl.getPoint(0, vi.pointIndex +1);
+						}
+					}
+					// calculate the first segment dimension
+                    var segLength = this._calculateSegmentLength(stationaryPoint1, e.mapPoint);
+                    var angle = this._calculateAngle(stationaryPoint1, e.mapPoint);
+                    var midPT = this._calculateMidPoint(stationaryPoint1, e.mapPoint);
+                    this.measureGraphic = this.editGraphic1;
+                    this._addSegmentMeasure(midPT, angle, segLength);
+					// if not moving an end vertex, calculate the second segment dimension
+					if (stationaryPoint2) {
+						segLength = this._calculateSegmentLength(stationaryPoint2, e.mapPoint);
+						angle = this._calculateAngle(stationaryPoint2, e.mapPoint);
+						midPT = this._calculateMidPoint(stationaryPoint2, e.mapPoint);
+						this.measureGraphic2 = this.editGraphic2;
+						this._addSegmentMeasure2(midPT, angle, segLength);
+					}
+				}
+			},
+			
+			_vertexDelete: function(e) {
+				// routine to delete the selected vertex
+				var gra = e.graphic;
+				var vi = e.vertexinfo;
+				var a = 0;
+
+				// remove text graphics
+				for (var i = this.measureGraphicsLayer.graphics.length-1; i >= 0; i--) {
+					var g = this.measureGraphicsLayer.graphics[i];
+					if (g.attributes.id === this.editGraphicID && g.geometry.type === 'point') {
+						this.measureGraphicsLayer.remove(g);
+					}
+				}
+				
+				// add new measures to the line 
+				var pl;
+				var l;
+				if (gra.geometry.type === 'polyline') {
+					pl = Polyline(gra.geometry);
+					l = pl.paths[0].length;
+				} else {
+					// must be a polygon
+					pl = Polygon(gra.geometry);
+					l = pl.rings[0].length;
+				}
+				for (i = 1; i < l; i++) {
+					var pt1 = pl.getPoint(0, i -1);
+					var pt2 = pl.getPoint(0, i);
+					
+					// calculate the first segment dimension
+                    var segLength = this._calculateSegmentLength(pt1, pt2);
+                    var angle = this._calculateAngle(pt1, pt2);
+                    var midPT = this._calculateMidPoint(pt1, pt2);
+                    this.measureGraphic = null;
+					this.measureSegment = i;
+                    this._addSegmentMeasure(midPT, angle, segLength);
+				}
+				
+				if (gra.geometry.type === 'polyline') {
+					this._addLineMeasure(pl);
+				} else {
+					this._addPolygonMeasure(pl);
+				}
+								
+			},
 
             _measureClickSegment: function(e) {
                 // get the graphic being drawn
@@ -355,16 +665,16 @@ define([
                     var firstPoint = null;
                     var lastPoint = null;
                     var l; // number of segments
-                    if (gra.geometry.type == 'polyline') {
+                    if (gra.geometry.type === 'polyline') {
                         var pl = Polyline(gra.geometry);
                         l = pl.paths[0].length;
-                        firstPoint = pl.getPoint(0, l - 2)
+                        firstPoint = pl.getPoint(0, l - 2);
                         lastPoint = pl.getPoint(0, l - 1);
                     } else {
                         // must be a polygon
                         var poly = Polygon(gra.geometry);
                         l = poly.rings[0].length;
-                        firstPoint = poly.getPoint(0, l - 2)
+                        firstPoint = poly.getPoint(0, l - 2);
                         lastPoint = poly.getPoint(0, l - 1);
                     }
                     if (l > 1) {
@@ -382,14 +692,6 @@ define([
                 this.measureMouseDownHandler.remove();
                 if (has('ipad') || has('iphone') || has('android')) {
                     this.measureMouseDragHandler = on(document, touch.move, lang.hitch(this, this._measureDrag));
-                    // Really goofy logic to accommodate Internet Explorer.  (isn't there always...)
-                    // Tested with IE 8 too.  It just doesn't work.  IE9 uses drag, IE10 and IE11 both use move
-                } else if (has("ie") == 9) {
-                    this.measureMouseDragHandler = on(this.map, "mouse-drag", lang.hitch(this, this._measureDrag));
-                } else if (has("ie") == 10) {
-                    this.measureMouseDragHandler = on(this.map, "mouse-move", lang.hitch(this, this._measureDrag));
-                } else if (has("trident")) {
-                    this.measureMouseDragHandler = on(this.map, "mouse-move", lang.hitch(this, this._measureDrag));
                 } else {
                     this.measureMouseDragHandler = on(this.map, "mouse-drag", lang.hitch(this, this._measureDrag));
                 }
@@ -404,7 +706,7 @@ define([
                     var firstPoint = null;
                     var lastPoint = null;
                     var l; // number of segments
-                    if (this.measureType == 'LINE') {
+                    if (this.measureType === 'LINE') {
                         var pl = Polyline(gra.geometry);
                         firstPoint = pl.getPoint(0, 0);
                         var segLength = this._calculateSegmentLength(firstPoint, e.mapPoint);
@@ -412,7 +714,7 @@ define([
                         var midPT = this._calculateMidPoint(firstPoint, e.mapPoint);
                         this._addSegmentMeasure(midPT, angle, segLength);
                     }
-                    if (this.measureType == 'FREEHAND_POLYLINE') {
+                    if (this.measureType === 'FREEHAND_POLYLINE') {
                         var pl = Polyline(gra.geometry);
                         var segLength = this._calculatePolylineLength(pl);
                         if (has('ipad') || has('iphone') || has('android')) {
@@ -424,7 +726,7 @@ define([
                             this._addSegmentMeasure(e.mapPoint, 0, segLength);
                         }
                     }
-                    if (this.measureType == 'TRIANGLE') {
+                    if (this.measureType === 'TRIANGLE') {
                         var pl = Polygon(gra.geometry);
                         firstPoint = pl.getPoint(0, 1);
                         lastPoint = pl.getPoint(0, 2);
@@ -435,7 +737,7 @@ define([
                             this._addSegmentMeasure(midPT, angle, segLength);
                         }
                     }
-                    if (this.measureType == 'EXTENT') {
+                    if (this.measureType === 'EXTENT') {
                         var ext = gra._extent;
                         firstPoint = Point(ext.xmin, ext.ymax);
                         lastPoint = Point(ext.xmax, ext.ymax);
@@ -450,7 +752,7 @@ define([
                         var midPT = this._calculateMidPoint(fPoint, lPoint);
                         this._addSegmentMeasure2(midPT, angle, 'h: ' + segLength);
                     }
-                    if (this.measureType == 'CIRCLE') {
+                    if (this.measureType === 'CIRCLE') {
                         var ext = gra._extent;
                         var segLength = this._calculateSegmentLength(ext.getCenter(), e.mapPoint);
                         if (has('ipad') || has('iphone') || has('android')) {
@@ -462,7 +764,7 @@ define([
                             this._addSegmentMeasure(e.mapPoint, 0, 'r=' + segLength);
                         }
                     }
-                    if (this.measureType == 'ELLIPSE') {
+                    if (this.measureType === 'ELLIPSE') {
                         var ext = gra._extent;
                         firstPoint = Point(ext.xmin, ext.ymax);
                         lastPoint = Point(ext.xmax, ext.ymax);
@@ -470,8 +772,8 @@ define([
                         var angle = this._calculateAngle(firstPoint, lastPoint);
                         var midPT = this._calculateMidPoint(firstPoint, lastPoint);
                         this._addSegmentMeasure(midPT, angle, 'w: ' + segLength);
-                        fPoint = Point(ext.xmin, ext.ymin);
-                        lPoint = Point(ext.xmin, ext.ymax);
+                        var fPoint = Point(ext.xmin, ext.ymin);
+                        var lPoint = Point(ext.xmin, ext.ymax);
                         var segLength = this._calculateSegmentLength(fPoint, lPoint);
                         var angle = this._calculateAngle(fPoint, lPoint);
                         var midPT = this._calculateMidPoint(fPoint, lPoint);
@@ -496,32 +798,38 @@ define([
             },
 
             _calculateSegmentLength: function(pt1, pt2) {
-                var pl = new Polyline();
+                var pl = new Polyline(this.map.spatialReference);
                 pl.addPath([pt1, pt2]);
                 // we want the last point being drawn
-                var geoLine = webMercatorUtils.webMercatorToGeographic(pl);
                 var unit = this.distanceUnitSelect.value;
-                var lengths = geodesicUtils.geodesicLengths([geoLine], esriUnits[unit]);
+				var gsUnit = this._getUnitByEsriUnit(unit);
+				var geoLength = 0;
+				if (this.useGeodesic) {
+					geoLength = geometryEngine.geodesicLength(pl, gsUnit);
+				} else {
+					geoLength = geometryEngine.planarLength(pl, gsUnit);
+				}
                 var abbr = this._getDistanceUnitInfo(unit).label;
-                // map units either meters or feet
-                if (this.mapUnits == "FEET")
-                    lengths[0] = lengths[0] * 0.30480061;
-                var localeLength = jimuUtils.localizeNumber(lengths[0].toFixed(1));
+                var localeLength = jimuUtils.localizeNumber(geoLength.toFixed(1));
                 var length = localeLength + " " + abbr;
                 this.textSymChooser.inputText.value = length;
+                this.textSymChooser.textPreview.innerHTML = length;
                 return length;
             },
 
             _calculatePolylineLength: function(pl) {
                 // we want the last point being drawn
-                var geoLine = webMercatorUtils.webMercatorToGeographic(pl);
                 var unit = this.distanceUnitSelect.value;
-                var lengths = geodesicUtils.geodesicLengths([geoLine], esriUnits[unit]);
+				var gsUnit = this._getUnitByEsriUnit(unit);
+				var geoLength = 0;
+				if (this.useGeodesic) {
+					geoLength = geometryEngine.geodesicLength(pl, gsUnit);
+				} else {
+					geoLength = geometryEngine.planarLength(pl, gsUnit);
+				}
                 var abbr = this._getDistanceUnitInfo(unit).label;
                 // this is a placeholder for logic.  Need to add logic for actual map units either meters or feet
-                if (this.mapUnits == "FEET")
-                    lengths[0] = lengths[0] * 0.30480061;
-                var localeLength = jimuUtils.localizeNumber(lengths[0].toFixed(1));
+                var localeLength = jimuUtils.localizeNumber(geoLength.toFixed(1));
                 var length = localeLength + " " + abbr;
                 this.textSymChooser.inputText.value = length;
                 return length;
@@ -577,12 +885,14 @@ define([
                 var symbolFont = new Font(this.textSymChooser.textFontSize.value + "px", a, b, c, "Courier");
                 var fontColor = this.textSymChooser.textColor.color;
                 var textSymbol = new TextSymbol(length, symbolFont, fontColor);
+				var xOff = 0;
+				var yOff = 0;
                 if (angle >= 0 && angle < 45) {
                     xOff = 5;
                     yOff = 10;
                 } else if (angle > 45) {
                     xOff = 10;
-                    yOff = 5
+                    yOff = 5;
                 } else if (angle > -45 && angle < 0) {
                     xOff = 5;
                     yOff = 13;
@@ -592,12 +902,14 @@ define([
                 }
                 textSymbol.setOffset(xOff, yOff);
                 textSymbol.setAngle(angle);
-                if (this.measureGraphic == null) {
-                    this.measureGraphic = new Graphic(pt, textSymbol, null, null);
+                if (this.measureGraphic === null || this.measureGraphic._graphicsLayer === null) {
+					var att = {id: this.editGraphicID, index: this.measureSegment};
+                    this.measureGraphic = new Graphic(pt, textSymbol, att, null);
                     this.measureGraphicsLayer.add(this.measureGraphic);
                 } else {
                     this.measureGraphic.setGeometry(pt);
                     this.measureGraphic.setSymbol(textSymbol);
+					console.log("Moving Segment Measure...");
                 }
             },
 
@@ -608,12 +920,14 @@ define([
                 var symbolFont = new Font(this.textSymChooser.textFontSize.value + "px", a, b, c, "Courier");
                 var fontColor = this.textSymChooser.textColor.color;
                 var textSymbol = new TextSymbol(length, symbolFont, fontColor);
+				var xOff = 0;
+				var yOff = 0;
                 if (angle >= 0 && angle < 45) {
                     xOff = 5;
                     yOff = 10;
                 } else if (angle > 45) {
                     xOff = 10;
-                    yOff = 5
+                    yOff = 5;
                 } else if (angle > -45 && angle < 0) {
                     xOff = 5;
                     yOff = 13;
@@ -623,7 +937,8 @@ define([
                 }
                 textSymbol.setOffset(xOff, yOff);
                 textSymbol.setAngle(angle);
-                var gra = new Graphic(pt, textSymbol, null, null);
+				var att = {id: this.editGraphicID, index: 999};
+                var gra = new Graphic(pt, textSymbol, att, null);
                 this.measureGraphicsLayer.add(gra);
             },
 
@@ -634,12 +949,14 @@ define([
                 var symbolFont = new Font(this.textSymChooser.textFontSize.value + "px", a, b, c, "Courier");
                 var fontColor = this.textSymChooser.textColor.color;
                 var textSymbol = new TextSymbol(length, symbolFont, fontColor);
+				var xOff = 0;
+				var yOff = 0;
                 if (angle >= 0 && angle < 45) {
                     xOff = 5;
                     yOff = 10;
                 } else if (angle > 45) {
                     xOff = 10;
-                    yOff = 5
+                    yOff = 5;
                 } else if (angle > -45 && angle < 0) {
                     xOff = 5;
                     yOff = 13;
@@ -649,8 +966,9 @@ define([
                 }
                 textSymbol.setOffset(xOff, yOff);
                 textSymbol.setAngle(angle);
-                if (this.measureGraphic2 == null) {
-                    this.measureGraphic2 = new Graphic(pt, textSymbol, null, null);
+                if (this.measureGraphic2 === null) {
+					var att = {id: this.editGraphicID, index: this.measureSegment};
+                    this.measureGraphic2 = new Graphic(pt, textSymbol, att, null);
                     this.measureGraphicsLayer.add(this.measureGraphic2);
                 } else {
                     this.measureGraphic2.setGeometry(pt);
@@ -659,6 +977,13 @@ define([
             },
 
             _clear: function() {
+				
+				// if the user was editing, let's turn editing off
+				if (this.editingEnabled) {
+					this.editToolbar.deactivate();
+					this.editingEnabled = false;
+				}
+				
                 this.measureGraphicsLayer.clear();
             },
 
@@ -669,12 +994,14 @@ define([
                 var symbolFont = new Font(this.textSymChooser.textFontSize.value + "px", a, b, c, "Courier");
                 var fontColor = this.textSymChooser.textColor.color;
                 var textSymbol = new TextSymbol(length, symbolFont, fontColor);
+				var xOff = 0;
+				var yOff = 0;
                 if (angle >= 0 && angle < 45) {
                     xOff = 5;
                     yOff = 10;
                 } else if (angle > 45) {
                     xOff = 10;
-                    yOff = 5
+                    yOff = 5;
                 } else if (angle > -45 && angle < 0) {
                     xOff = 5;
                     yOff = 13;
@@ -684,10 +1011,13 @@ define([
                 }
                 textSymbol.setOffset(xOff, yOff);
                 textSymbol.setAngle(angle);
-                if (this.measureGraphicReturn == null) {
-                    this.measureGraphicReturn = new Graphic(pt, textSymbol, null, null);
+                if (this.measureGraphicReturn === null) {
+					var att = {id: this.editGraphicID, index: this.measureSegment + 1};
+                    this.measureGraphicReturn = new Graphic(pt, textSymbol, att, null);
                     this.measureGraphicsLayer.add(this.measureGraphicReturn);
                 } else {
+					// need to always make the return segment the highest number
+					this.measureGraphicReturn.attributes.index = this.measureSegment + 1;
                     this.measureGraphicReturn.setGeometry(pt);
                     this.measureGraphicReturn.setSymbol(textSymbol);
                 }
@@ -726,6 +1056,9 @@ define([
                 }, {
                     unit: 'KILOMETERS',
                     label: this.nls.kilometers
+                }, {
+                    unit: 'NAUTICAL_MILES',
+                    label: this.nls.nauticalMiles
                 }, {
                     unit: 'FEET',
                     label: this.nls.feet
@@ -832,21 +1165,73 @@ define([
             },
 
             _getLineSymbol: function() {
-                return this.lineSymChooser.getSymbol();
+				var sym = this.lineSymChooser.getSymbol();
+				if (this.editingEnabled) {
+					this._changeGraphicSymbol(sym);
+				}
+					
+                return sym;
             },
 
             _getPolygonSymbol: function() {
-                return this.fillSymChooser.getSymbol();
+				var sym = this.fillSymChooser.getSymbol();
+				if (this.editingEnabled) {
+					this._changeGraphicSymbol(sym);
+				}
+					
+                return sym;
             },
+			
+			_changeGraphicSymbol: function(sym) {
+				var gra = null;
+				for (var i = 0; i < this.measureGraphicsLayer.graphics.length; i++) {
+					var g = this.measureGraphicsLayer.graphics[i];
+					var att = g.attributes;
+					if (att.id === this.editToolbar._graphic.attributes.id && g.geometry.type !== 'point') {
+						if (g.geometry.type === 'polyline') {
+							var col = this.lineSymChooser.lineColor.color;
+							var a = 1 - this.lineSymChooser.lineAlpha.opacitySlider.value / 100;
+							var lc = new Color([col.r, col.g, col.b, a]);
+							var ls = new SimpleLineSymbol(this.lineSymChooser.lineStylesSelect.value, lc, this.lineSymChooser.lineWidth.value);
+							g.setSymbol(ls);
+						} else {
+							g.setSymbol(sym);
+						}
+					}
+				}
+			},
 
             _getTextSymbol: function() {
-                return this.textSymChooser.getSymbol();
+				var sym = this.textSymChooser.getSymbol();
+				if (this.editingEnabled) {
+					this._changeTextSymbol(this.editToolbar._graphic.attributes.id,sym);
+				}
+                return sym;
             },
+			
+			_changeTextSymbol: function(sym) {
+				for (var i = 0; i < this.measureGraphicsLayer.graphics.length; i++) {
+					var g = this.measureGraphicsLayer.graphics[i];
+					var att = g.attributes;
+					if (att.id === this.editToolbar._graphic.attributes.id && g.geometry.type === 'point') {
+						var a = Font.STYLE_ITALIC;
+						var b = Font.VARIANT_NORMAL;
+						var c = Font.WEIGHT_BOLD;
+						var symbolFont = new Font(this.textSymChooser.textFontSize.value + "px", a, b, c, "Courier");
+						var fontColor = this.textSymChooser.textColor.color;
+						var ts = new TextSymbol(g.symbol.text, symbolFont, fontColor);
+						ts.setAngle(g.symbol.angle);
+						ts.setOffset(g.symbol.xoffset, g.symbol.yoffset);
+						g.setSymbol(ts);
+					}
+				}
+			},
 
             _setDrawDefaultSymbols: function() {
                 this.drawBox.setPointSymbol(this._getPointSymbol());
                 this.drawBox.setLineSymbol(this._getLineSymbol());
                 this.drawBox.setPolygonSymbol(this._getPolygonSymbol());
+                this.drawBox.setTextSymbol(this._getTextSymbol());
             },
 
             onClose: function() {
@@ -854,69 +1239,125 @@ define([
                 this.enableWebMapPopup();
             },
 
-            _addLineMeasure: function(geometry) {
+            _addLineMeasure: function(pl) {
+				if (pl.paths[0].length < 3) {
+					return;
+				}
                 var a = Font.STYLE_ITALIC;
                 var b = Font.VARIANT_NORMAL;
                 var c = Font.WEIGHT_BOLD;
                 var symbolFont = new Font(this.textSymChooser.textFontSize.value + "px", a, b, c, "Courier");
                 var fontColor = this.textSymChooser.textColor.color;
-                var ext = geometry.getExtent();
+                var ext = pl.getExtent();
                 var center = ext.getCenter();
-                var geoLine = webMercatorUtils.webMercatorToGeographic(geometry);
                 var unit = this.distanceUnitSelect.value;
-                var lengths = geodesicUtils.geodesicLengths([geoLine], esriUnits[unit]);
+				var gsUnit = this._getUnitByEsriUnit(unit);
+				var geoLength = 0;
+				if (this.useGeodesic) {
+					geoLength = geometryEngine.geodesicLength(pl, gsUnit);
+				} else {
+					geoLength = geometryEngine.planarLength(pl, gsUnit);
+				}
                 var abbr = this._getDistanceUnitInfo(unit).label;
-                // this is a placeholder for logic.  Need to add logic for actual map units either meters or feet
-                if (this.mapUnits == "FEET")
-                    lengths[0] = lengths[0] * 0.30480061;
-                var localeLength = jimuUtils.localizeNumber(lengths[0].toFixed(1));
+                var localeLength = jimuUtils.localizeNumber(geoLength.toFixed(1));
                 var length = localeLength + " " + abbr;
                 var textSymbol = new TextSymbol(length, symbolFont, fontColor);
-                var labelGraphic = new Graphic(center, textSymbol, null, null);
-                this.drawBox.addGraphic(labelGraphic);
+				var att = {id: this.editGraphicID, index: 999};
+                var labelGraphic = new Graphic(center, textSymbol, att, null);
+               	this.measureGraphicsLayer.add(labelGraphic);
             },
 
-            _addPolygonMeasure: function(geometry) {
+            _addPolygonMeasure: function(pl) {
                 var a = Font.STYLE_ITALIC;
                 var b = Font.VARIANT_NORMAL;
                 var c = Font.WEIGHT_BOLD;
                 var symbolFont = new Font(this.textSymChooser.textFontSize.value + "px", a, b, c, "Courier");
                 var fontColor = this.textSymChooser.textColor.color;
-                var ext = geometry.getExtent();
+                var ext = pl.getExtent();
                 var center = ext.getCenter();
-                var geoPolygon = webMercatorUtils.webMercatorToGeographic(geometry);
                 var areaUnit = this.areaUnitSelect.value;
                 var areaAbbr = this._getAreaUnitInfo(areaUnit).label;
-                var areas = geodesicUtils.geodesicAreas([geoPolygon], esriUnits[areaUnit]);
-                // this is a placeholder for logic.  Need to add logic for actual map units either meters or feet
-                if (this.mapUnits == "FEET")
-                    areas[0] = areas[0] * .09290304;
-                var localeArea = jimuUtils.localizeNumber(areas[0].toFixed(1));
+				var gsUnit = this._getUnitByEsriUnit(areaUnit);
+				var geoArea = 0;
+				if (this.useGeodesic) {
+					geoArea = geometryEngine.geodesicArea(pl, gsUnit);
+				} else {
+					geoArea = geometryEngine.planarArea(pl, gsUnit);
+				}
+                var localeArea = jimuUtils.localizeNumber(geoArea.toFixed(1));
                 var area = localeArea + " " + areaAbbr;
 
-                var polyline = new Polyline(geometry.spatialReference);
-                var points = geometry.rings[0];
-                //points = points.slice(0, points.length - 1);
+                var polyline = new Polyline(pl.spatialReference);
+                var points = pl.rings[0];
                 polyline.addPath(points);
-                var geoPolyline = webMercatorUtils.webMercatorToGeographic(polyline);
                 var lengthUnit = this.distanceUnitSelect.value;
                 var lengthAbbr = this._getDistanceUnitInfo(lengthUnit).label;
-                var lengths = geodesicUtils.geodesicLengths([geoPolyline], esriUnits[lengthUnit]);
-                // this is a placeholder for logic.  Need to add logic for actual map units either meters or feet
-                if (this.mapUnits == "FEET")
-                    lengths[0] = lengths[0] * 0.30480061;
-                var localeLength = jimuUtils.localizeNumber(lengths[0].toFixed(1));
+				gsUnit = this._getUnitByEsriUnit(lengthUnit);
+				var geoLength = 0;
+				if (this.useGeodesic) {
+					geoLength = geometryEngine.geodesicLength(polyline, gsUnit);
+				} else {
+					geoLength = geometryEngine.planarLength(polyline, gsUnit);
+				}
+                var localeLength = jimuUtils.localizeNumber(geoLength.toFixed(1));
                 var length = localeLength + " " + lengthAbbr;
-                var text = area + "" + length;
                 var textSymbol = new TextSymbol(area, symbolFont, fontColor);
                 textSymbol.setOffset(0, this.textSymChooser.textFontSize.value);
-                var areaGraphic = new Graphic(center, textSymbol, null, null);
-                this.drawBox.addGraphic(areaGraphic);
+				var att = {id: this.editGraphicID, index: 999};
+                var areaGraphic = new Graphic(center, textSymbol, att, null);
+                this.measureGraphicsLayer.add(areaGraphic);
                 var textLSymbol = new TextSymbol(length, symbolFont, fontColor);
                 textLSymbol.setOffset(0, this.textSymChooser.textFontSize.value * -1);
-                var lengthGraphic = new Graphic(center, textLSymbol, null, null);
-                this.drawBox.addGraphic(lengthGraphic);
+	            var lengthGraphic = new Graphic(center, textLSymbol, att, null);
+               	this.measureGraphicsLayer.add(lengthGraphic);
             },
+	
+			_getUnitByEsriUnit: function(unit){
+				var gsUnit = -1;
+				var esriUn = esriUnits[unit];
+				switch(esriUn){
+					case esriUnits.KILOMETERS:
+						gsUnit = 9036;
+						break;
+					case esriUnits.MILES:
+						gsUnit = 9035;
+						break;
+					case esriUnits.NAUTICAL_MILES:
+						gsUnit = 9030;
+						break;
+					case esriUnits.METERS:
+						gsUnit = 9001;
+						break;
+					case esriUnits.FEET:
+						gsUnit = 9003;
+						break;
+					case esriUnits.YARDS:
+						gsUnit = 9096;
+						break;
+					case esriUnits.SQUARE_KILOMETERS:
+						gsUnit = 109414;
+						break;
+					case esriUnits.SQUARE_MILES:
+						gsUnit = 109413;
+						break;
+					case esriUnits.ACRES:
+						gsUnit = 109402;
+						break;
+					case esriUnits.HECTARES:
+						gsUnit = 109401;
+						break;
+					case esriUnits.SQUARE_METERS:
+						gsUnit = 109404;
+						break;
+					case esriUnits.SQUARE_FEET:
+						gsUnit = 109405;
+						break;
+					case esriUnits.SQUARE_YARDS:
+						gsUnit = 109442;
+						break;
+				}
+				return gsUnit;
+			},
 
             destroy: function() {
                 if (this.drawBox) {

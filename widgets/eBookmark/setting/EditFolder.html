@@ -1,0 +1,20 @@
+<div style="width: 100%">
+  <table class="setting-table input-table" cellspacing="0">
+      <tbody>
+        <tr>
+          <td title="${nls.title}" class="first">*${nls.title}</td>
+          <td class="second">
+            <input type="text" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-attach-point="name"
+            required="true" placeholder="${nls.title}" data-dojo-props="style:{width:'100%'},intermediateChanges:true"/>
+          </td>
+        </tr>
+        <tr>
+          <td class="first"></td>
+          <td class="second">
+            <div data-dojo-type="jimu/dijit/CheckBox" data-dojo-attach-point="expandedCbx"
+                 data-dojo-props="label:'${nls.expanded}',checked:true"></div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+</div>

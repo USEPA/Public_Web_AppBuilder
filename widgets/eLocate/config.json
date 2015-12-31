@@ -1,0 +1,91 @@
+{
+  "locator": {
+    "url": "http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer",
+    "name": "Esri World Geocoder",
+    "singleLineFieldName": "SingleLine",
+    "countryCode": ""
+  },
+  "keepinspectoractive": false,
+  "initialView": "coordinate",
+  "enablemouseoverrecordinfo": false,
+  "enablemouseovergraphicsinfo": true,
+  "zoomscale": 5000,
+  "forcescale": true,
+  "symbols": {
+    "coordpicturemarkersymbol": {
+      "type": "esriPMS",
+      "url": "images/i_pin1.png",
+      "contentType": "image/png",
+      "width": 20,
+      "height": 20
+    },
+    "geopicturemarkersymbol": {
+      "type": "esriPMS",
+      "url": "images/i_house.png",
+      "contentType": "image/png",
+      "height": 20,
+      "width": 20
+    },
+    "addresspicturemarkersymbol": {
+      "type": "esriPMS",
+      "url": "images/i_mailbox.png",
+      "contentType": "image/png",
+      "height": 20,
+      "width": 20
+    }
+  },
+  "pointunits": {
+    "pointunit":[
+      {
+        "wgs84option": "",
+        "wkid": 102100,
+        "ylabel": "Northing (Y):",
+        "xlabel": "Easting (X):",
+        "example": "-9555431.36, 3982180.11",
+        "name": "Map"
+      }, {
+        "wgs84option": "",
+        "wkid": 102629,
+        "ylabel": "Northing (Y):",
+        "xlabel": "Easting (X):",
+        "example": "656036.27, 1147053.29",
+        "name": "NAD83 AL East (SP Feet)"
+      }, {
+        "wgs84option": "dd",
+        "wkid": 4326,
+        "ylabel": "Latitude:",
+        "xlabel": "Longitude:",
+        "example": "-85.8337, 33.6531",
+        "name": "Decimal Degrees (WGS84)"
+      }, {
+        "wgs84option": "dms",
+        "wkid": 4326,
+        "ylabel": "Latitude:",
+        "xlabel": "Longitude:",
+        "example": "85-50-1.45 W, 33-39-10.99 N",
+        "name": "Degrees Minutes Seconds (WGS84)"
+      }, {
+        "wgs84option": "dm",
+        "wkid": 4326,
+        "ylabel": "Latitude:",
+        "xlabel": "Longitude:",
+        "example": "85-50 W, 33-39 N",
+        "name": "Degrees Minutes (WGS84)"
+      }, {
+        "wgs84option": "ddm",
+        "wkid": 4326,
+        "ylabel": "Latitude:",
+        "xlabel": "Longitude:",
+        "example": "85-50.0241 W, 33-39.1831 N",
+        "name": "Degrees Decimal Minutes (WGS84)"
+      }, {
+        "wgs84option": "",
+        "wkid": 26916,
+        "ylabel": "Y:",
+        "xlabel": "X:",
+        "example": "608140.63, 3724298.41",
+        "name": "NAD 1983 UTM 16N"
+      }
+    ]
+  }
+}

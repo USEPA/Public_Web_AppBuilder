@@ -1,0 +1,922 @@
+.jimu-widget-NetworkTrace-setting .body
+{
+    font-family: Avenir LT 35 Light;
+    color: #2b2d39;
+}
+
+.jimu-widget-NetworkTrace-setting .dijitValidationTextBox
+{
+    width: 780px;
+    margin-right: 10px;
+}
+
+.jimu-widget-NetworkTrace-setting .url-section .label
+{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 75px;
+    margin-top: 9px;
+    margin-right: 10px;
+}
+
+.jimu-widget-NetworkTrace-setting .dijitTreeRow
+{
+    width: 758px;
+}
+
+.jimu-widget-NetworkTrace-setting .taskRow
+{
+    float: left;
+    width: 100%;
+    margin-top: 5px;
+}
+
+.jimu-widget-NetworkTrace-setting .esriCTTaskInput
+{
+    float: left;
+    width: 50px;
+}
+
+.jimu-widget-NetworkTrace-setting .esriCTInputTitlepaneHolder, .jimu-widget-NetworkTrace-setting .esriCTOutputTitlepaneHolder
+{
+    width: 100%;
+    float: left;
+}
+
+.jimu-widget-NetworkTrace-setting .esriCTTaskData
+{
+    float: left;
+    width: 270px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: calc(100% - 50px);
+    font-size: 14px;
+    font-family: Avenir LT 35 Light;
+    color: #2b2d39;
+}
+
+.jimu-widget-NetworkTrace-setting .esriCTInputField, .jimu-widget-NetworkTrace-setting .esriCTOutputField
+{
+    cursor: pointer;
+    padding: 5px 5px 5px 40px;
+    font-size: 12px;
+    font-family: Avenir LT 35 Light;
+    height: 30px;
+    line-height: 20px;
+}
+
+.jimu-widget-NetworkTrace-setting .esriCTSelected, .jimu-widget-NetworkTrace-setting .esriCTSelectedOutput
+{
+    background-color: #E0EDF2 !important;
+    border-right: 3px solid #9ACA40 !important;
+    padding-left: 40px;
+    color: #15a4fa;
+    height: 30px;
+}
+
+.jimu-widget-NetworkTrace-setting .claro .dijitTitlePaneTitleFocus
+{
+    margin: 0;
+    padding: 0;
+    margin-top: 0;
+    padding-bottom: 0;
+}
+
+.jimu-widget-NetworkTrace-setting .esriCTInputTitlepaneHolder .dijitTitlePaneContentInner, .jimu-widget-NetworkTrace-setting .esriCTOutputTitlepaneHolder .dijitTitlePaneContentInner
+{
+    padding: 0;
+}
+
+.jimu-widget-NetworkTrace-setting .inputValue
+{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.jimu-widget-NetworkTrace-setting .jimu-btn
+{
+    max-width: 110px;
+}
+
+.jimu-widget-NetworkTrace-setting .esriCTtaskDataContainer
+{
+    padding-left: 40px;
+    font-size: 15px;
+    overflow-y: auto;
+    max-height: 100%;
+    height: calc(100% - 50px);
+    border-left: 1px solid #D9D9D9;
+}
+
+.jimu-widget-NetworkTrace-setting .esriCTtaskDataContainer .common-property .field
+{
+    margin-top: 10px;
+    min-height: 30px;
+    height: auto;
+    margin-left: 20px;
+}
+
+.jimu-widget-NetworkTrace-setting .esriCTtaskDataContainer .field
+{
+    position: relative;
+    overflow: hidden;
+    margin-top: 10px;
+    min-height: 30px;
+    height: auto;
+    margin-left: 20px;
+}
+
+.jimu-widget-NetworkTrace-setting .esriCTtaskDataContainer .field label
+{
+    width: 115px;
+    float: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-top: 5px;
+    vertical-align: middle;
+    padding: 3px;
+    font-family: Avenir LT 35 Light;
+    color: #2b2d39;
+    font-size: 12px;
+}
+
+.jimu-widget-NetworkTrace-setting .esriCTOutageFieldParams .esriCTFieldName
+{
+    width: 165px !important;
+}
+
+.jimu-widget-NetworkTrace-setting .esriCTtaskDataContainer .common-property .field .common-input, .jimu-widget-NetworkTrace-setting .othersData .field .common-input
+{
+    width: calc(100% - 125px);
+}
+
+.jimu-widget-NetworkTrace-setting .esriCTtaskDataContainer .field .jimu-checkbox
+{
+    width: 16px;
+    float: left;
+    margin-right: 7px;
+}
+
+.jimu-widget-NetworkTrace-setting .esriCTHidden
+{
+    display: none;
+}
+
+.jimu-widget-NetworkTrace-setting .dijitTreeRow
+{
+    padding: 4px 0 2px 0;
+    background-color: none;
+    background-color: transparent;
+    background-color: rgba(171, 214, 255, 0);
+    background-position: 0 0;
+    background-repeat: repeat-x;
+    border: solid 0 transparent;
+    color: #000000;
+}
+
+.jimu-widget-NetworkTrace-setting div.dijitTreeRow:hover
+{
+    background-color: #abd6ff;
+    transition-duration: 0.25s;
+    padding: 4px 0 2px 0;
+    border-color: #759dc0;
+    border-width: 0.5px 0;
+    color: #000000;
+    background-image: linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);
+}
+
+.jimu-widget-NetworkTrace-setting .esriCTInputTitlepaneHolder .dijitTitlePaneTitleClosed, .esriCTOutputTitlepaneHolder .dijitTitlePaneTitleClosed
+{
+    margin-bottom: 10px;
+    height: 30px;
+    background-color: #ffffff;
+    border: none;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.claro .dijitTitlePaneTextNode, .claro .dijitFieldsetLegendNode
+{
+    margin-left: 10px;
+    font-weight: bold;
+    font-family: Avenir LT 35 Light;
+    color: #2b2d39;
+    font-size: 14px;
+}
+
+.jimu-widget-NetworkTrace-setting .esriCTInputTitlepaneHolder .dijitTitlePaneTitleOpen, .esriCTOutputTitlepaneHolder .dijitTitlePaneTitleOpen
+{
+    background-color: #ffffff;
+    color: #000;
+    border: none;
+    background-image: none;
+    height: 30px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.jimu-widget-NetworkTrace-setting .dijitTitlePaneTitleFocus
+{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Other data CSS starts */
+
+.jimu-widget-NetworkTrace-setting .esriCTOtherHolder
+{
+    background-color: #ffffff;
+    float: left;
+    width: 100%;
+    padding: 4px;
+    vertical-align: middle;
+    height: 30px;
+    cursor: pointer;
+    padding-left: 23px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-weight: bold;
+    line-height: 20px;
+}
+
+.jimu-widget-NetworkTrace-setting .esriCTSelectedOthers
+{
+    background-color: #e3ecf2 !important;
+    border-left: 3px solid #15A4FA !important;
+}
+
+.jimu-widget-NetworkTrace-setting .esriCTLayoutLeft
+{
+    float: left;
+}
+
+.jimu-widget-NetworkTrace-setting .esriCTLayoutRight
+{
+    float: right;
+}
+
+.jimu-widget-NetworkTrace-setting .esriCTImg
+{
+    margin-bottom: 20px;
+}
+
+.jimu-widget-NetworkTrace-setting .esriCTFieldset
+{
+    border: 1px solid #d9dde0 !important;
+}
+
+.jimu-widget-NetworkTrace-setting .esriCTlegend
+{
+    margin-left: 7px;
+    margin-bottom: 16px;
+    color: #7AD;
+}
+
+.jimu-widget-NetworkTrace-setting .esriCTOthersData
+{
+    margin-left: 10px;
+}
+
+.jimu-widget-NetworkTrace-setting .esriCTHeight
+{
+    height: 25px;
+}
+
+/* Other data CSS ends */
+
+/* Outage area CSS starts */
+
+.jimu-widget-NetworkTrace-setting .esriCTtaskDataContainer .common-property .field .common-input, .outageData .field .common-input
+{
+    width: calc(100% - 125px);
+    color: #2b2d39;
+    font-family: Avenir LT 35 Light;
+}
+
+.jimu-widget-NetworkTrace-setting .esriCTSelectedOutageHolder, .jimu-widget-NetworkTrace-setting .esriCTSummaryHolder
+{
+    background-color: #ffffff;
+    float: left;
+    width: 100%;
+    padding: 4px;
+    vertical-align: middle;
+    margin-bottom: 10px;
+    height: 30px;
+    cursor: pointer;
+    padding-left: 23px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-weight: bold;
+    line-height: 20px;
+}
+
+.jimu-widget-NetworkTrace-setting .esriCTselectedOutage
+{
+    background-color: #e3ecf2 !important;
+    border-left: 3px solid #15A4FA !important;
+}
+
+.jimu-widget-NetworkTrace-setting .common-inputspin
+{
+    width: 200px;
+    float: left;
+}
+
+.jimu-widget-NetworkTrace-setting .esriCTunitsForOther
+{
+    font-size: 12px;
+    font-style: italic;
+}
+
+.jimu-widget-NetworkTrace-setting .esriCTOutageAreaDropDown
+{
+    width: 81%;
+    height: 30px;
+}
+
+.jimu-widget-NetworkTrace-setting .esriCTOutageAreaFieldName
+{
+    width: 200px;
+    height: 30px;
+}
+
+.jimu-widget-NetworkTrace-setting .esriCTOutageAreaParamValue
+{
+    width: 30%;
+    height: 30px;
+}
+
+.jimu-widget-NetworkTrace-setting .esriCTParamValue
+{
+    margin-top: 0px !important;
+    margin-right: 10px;
+}
+
+.jimu-widget-NetworkTrace-setting .jimu-symbol-chooser
+{
+    margin-left: 118px;
+}
+
+.jimu-widget-NetworkTrace-setting .esriCTDoubleLinedText
+{
+    margin-top: 0px !important;
+}
+
+.jimu-widget-NetworkTrace-setting .esriCTFloatLeftCommon
+{
+    float: left;
+}
+
+.jimu-widget-NetworkTrace-setting .esriCTOutputHelpText
+{
+    font-size: 10px;
+    margin-left: 115px;
+    width: 80%;
+    height: auto !important;
+    margin-top: 0px !important;
+    font-family: Avenir LT 35 Light;
+    color: #bbbdc3;
+}
+
+/* Outage area CSS ends */
+
+/* Hint text starts */
+
+.jimu-widget-NetworkTrace-setting .esriCTHintField
+{
+    font-size: 12px;
+    font-style: italic;
+    margin-left: 114px;
+    height: auto;
+    min-height: 10px;
+    margin-top: 5px;
+    font-family: Avenir LT 35 Light;
+    color: #bbbdc3;
+    float: left;
+    clear: both;
+}
+
+.jimu-widget-NetworkTrace-setting .esriCTSelectImageHint
+{
+    float: left;
+    width: 400px;
+}
+
+.jimu-widget-NetworkTrace-setting .esriCTfieldContainer
+{
+    height: auto;
+    margin-top: 0px;
+}
+
+.jimu-widget-NetworkTrace-setting .esriCTOutageFieldParams
+{
+    width: 80%;
+    float: left;
+    margin-left: 10px;
+    margin-top: 5px;
+}
+
+.jimu-widget-NetworkTrace-setting .esriCTThumbnailImgDiv
+{
+    width: 81px;
+    height: 78px;
+}
+
+.jimu-widget-NetworkTrace-setting .thumbnail-img
+{
+    width: 64px;
+    height: 64px;
+    margin-left: 9px;
+    margin-top: 7px;
+}
+
+.jimu-widget-NetworkTrace-setting .img-chooser
+{
+    width: 80px;
+    height: 74px;
+}
+
+.jimu-widget-NetworkTrace-setting .esriCTBrwoseImage
+{
+    width: 115px;
+    float: left;
+}
+
+.jimu-widget-NetworkTrace-setting .esriCTMargin
+{
+    margin-bottom: 10px;
+}
+
+.jimu-widget-NetworkTrace-setting .image_chooser_base
+{
+    position: absolute;
+    left: 0;
+    float: left;
+    border: 1px solid #d9d9d9;
+    border-radius: 5px;
+}
+
+.widget-setting-page .widget-setting
+{
+    height: calc(100% - 90px) !important;
+}
+
+.jimu-widget-NetworkTrace-setting .esriCTMainContainer
+{
+    width: 100%;
+    height: 100%;
+    float: left;
+    clear: both;
+    margin-top: 20px;
+}
+
+.jimu-widget-NetworkTrace-setting .esriCTFieldMappingHint
+{
+    font-family: Avenir LT 35 Light;
+    color: #bbbdc3;
+    font-size: 12px;
+    font-style: italic;
+    margin-bottom: 5px;
+    margin-left: 10px;
+}
+
+.jimu-widget-NetworkTrace-setting .esriCTFieldMappingLegend
+{
+    margin-left: 20px;
+    margin-bottom: 5px;
+    color: #7AD;
+}
+
+.jimu-widget-NetworkTrace-setting .esriCTFieldMapPadding
+{
+    font-family: Avenir LT 35 Light;
+    color: #bbbdc3;
+    font-size: 12px;
+    font-style: italic;
+    margin-left: 2px;
+    padding: 5px 0px 5px 0px;
+}
+
+.jimu-widget-NetworkTrace-setting .esriCTAutoZoomText
+{
+    width: 85% !important;
+}
+
+.jimu-widget-NetworkTrace-setting .esriCTSummaryHintField
+{
+    float: left;
+    color: #bbbdc3;
+    font-size: 12px;
+    font-style: italic;
+    height: auto;
+    margin: 5px 0px;
+    clear: both;
+}
+
+/* Hint text ends */
+
+/* Updated UI starts */
+
+.claro .dijitTitlePaneContentOuter
+{
+    border: none !important;
+}
+
+.dj_webkit .claro .dijitDisabled input, .claro .dijitTextBox, .claro .dijitTextBox .dijitInputInner
+{
+    font-family: Avenir LT 35 Light;
+    color: #2b2d39;
+    font-size: 12px;
+}
+
+.jimu-widget-NetworkTrace-setting .esriCTtaskDataContainer .common-property .fieldHeader, .jimu-widget-NetworkTrace-setting .esriCTtaskDataContainer .fieldHeader
+{
+    font-family: Avenir LT 35 Light;
+    color: #2b2d39;
+    font-size: 14px;
+    font-weight: bold;
+    padding-bottom: 10px;
+}
+
+.jimu-widget-NetworkTrace-setting .esriCTtaskDataContainer .esriCTSubFieldHeader
+{
+    font-family: Avenir LT 35 Light;
+    color: #2b2d39;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 10px 0px 10px 20px;
+}
+
+.jimu-widget-NetworkTrace-setting .esriCTInputOutputParameters .dijitValidationTextBox, .jimu-widget-NetworkTrace-setting .esriCTIntigerNumberTextBoxField
+{
+    width: 200px;
+}
+
+.jimu-widget-NetworkTrace-setting .claro .dijitTextBox .dijitInputInner
+{
+    font-size: 12px;
+    font-family: Avenir LT 35 Light;
+    color: #2b2d39;
+}
+
+.jimu-widget-NetworkTrace-setting .esriCTtaskDataContainer .field label.esriCTCheckboxLabel
+{
+    float: left;
+    margin-right: 7px;
+    width: auto;
+    margin-top: 0;
+}
+
+.jimu-widget-NetworkTrace-setting .esriCTtaskDataContainer .field .esriCTCheckboxHint
+{
+    margin-top: 0;
+    padding: 3px;
+    margin-left: 0px;
+    clear: none;
+}
+
+.jimu-widget-NetworkTrace-setting .esriCTFontStyle
+{
+    font-family: Avenir LT 35 Light;
+    color: #2b2d39;
+    font-size: 14px !important;
+    font-weight: bold;
+}
+
+
+.jimu-widget-NetworkTrace-setting .dijitSelect .dijitButtonContents
+{
+    border-style: none none none none;
+    background-color: #FFFFFF;
+}
+
+.claro .dijitSelect .dijitArrowButton
+{
+    background-color: #FFFFFF;
+    background-image: none;
+}
+
+.claro .dijitSpinner .dijitSpinnerButtonContainer
+{
+    background-color: #FFFFFF;
+    border: none;
+    padding-right: 10px;
+}
+
+.claro .dijitSelect .dijitInputField
+{
+    margin-right: 8px;
+}
+
+.claro .esriCTOutageField .dijitSelect .dijitInputField
+{
+    margin-right: 0px;
+}
+
+.dijitReset.dijitLeft.dijitButtonNode.dijitArrowButton.dijitUpArrowButton .dijitArrowButtonInner, .claro .dijitSpinner .dijitArrowButton
+{
+    background-color: #FFFFFF;
+    border: none;
+}
+
+.claro .dijitTextBox
+{
+    background-color: #FFFFFF;
+}
+
+.claro .dijitSpinner .dijitArrowButtonInner
+{
+    background-position: -138px center;
+}
+
+.claro .dijitSpinner .dijitUpArrowButtonHover .dijitArrowButtonInner
+{
+    background-position: -173px;
+}
+.dijitSpinner .dijitSpinnerButtonContainer .dijitUpArrowButton
+{
+    top: 7px;
+}
+
+.dijitSpinner .dijitSpinnerButtonContainer .dijitArrowButton
+{
+    height: 30%;
+}
+
+/* Updated UI ends */
+
+/** Summary tab starts **/
+
+.jimu-widget-NetworkTrace-setting .esriCTSummaryExpressionTextArea
+{
+    height: 100px;
+    width: 100%;
+    resize: none;
+}
+
+.jimu-widget-NetworkTrace-setting .urlButton
+{
+    border: 0px;
+    width: 60px;
+    margin-top: 29px;
+}
+
+.jimu-widget-NetworkTrace-setting .esriCTBtnEllipsis
+{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 19px;
+}
+
+.jimu-widget-NetworkTrace-setting .summaryData
+{
+    width: 100%;
+    height: 100%;
+}
+
+.jimu-widget-NetworkTrace-setting .ParameterDiv
+{
+    width: 100%;
+    height: 100%;
+}
+
+.jimu-widget-NetworkTrace-setting .esriCTMultiSelectParent
+{
+    position: relative;
+    margin: 0 auto;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+}
+
+.jimu-widget-NetworkTrace-setting .esriCTMultiSelectContainer
+{
+    float: left;
+    margin: 0 auto;
+    position: relative;
+    width: 33%;
+    height: 100%;
+}
+
+.jimu-widget-NetworkTrace-setting .esriCTLblContainer
+{
+    background-color: #EDF0F0;
+    padding: 9px;
+    text-align: left;
+    font-size: 14px;
+    font-weight: bold;
+    color: #2b2d39;
+    font-weight: bold;
+}
+
+.jimu-widget-NetworkTrace-setting .esriCTButtonContainer
+{
+    float: right;
+    position: relative;
+    margin: 0 auto;
+    clear: both;
+}
+
+.jimu-widget-NetworkTrace-setting .esriCTSummarySettingText
+{
+    font-size: 12px;
+    color: #2b2d39;
+    font-weight: bold;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+.jimu-widget-NetworkTrace-setting .esriCTSummaryEditorText
+{
+    font-size: 12px;
+    color: #2b2d39;
+    font-weight: bold;
+    clear: both;
+    margin-top: 10px;
+    max-width: 95%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    float: left;
+}
+
+.jimu-widget-NetworkTrace-setting .esriCTSummaryEditor
+{
+    float: left;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    margin-top: 10px;
+}
+
+.jimu-widget-NetworkTrace-setting .esriCTInputOutputOptions
+{
+    height: 30px;
+    padding-left: 10px;
+    padding-top: 6px;
+    text-align: left;
+    padding-bottom: 6px;
+    border-bottom: 1px solid #E3E6E7;
+}
+
+.jimu-widget-NetworkTrace-setting .esriCTBlankOptions
+{
+    height: 30px;
+    padding-left: 10px;
+    padding-top: 6px;
+    text-align: left;
+    padding-bottom: 6px;
+}
+
+.jimu-widget-NetworkTrace-setting .esriCTInputOutputOptionsBorderNone
+{
+    border-bottom: none !important;
+}
+
+.jimu-widget-NetworkTrace-setting .esriCTInputPanel
+{
+    width: 100%;
+    overflow: hidden;
+    float: left;
+    border-left: 1px solid #E3E6E7;
+    border-right: 1px solid #E3E6E7;
+    border-bottom: 1px solid #E3E6E7;
+}
+
+.jimu-widget-NetworkTrace-setting .esriCTFieldPanel
+{
+    overflow: hidden;
+    float: left;
+    width: 100%;
+    border-bottom: 1px solid #E3E6E7;
+}
+
+.jimu-widget-NetworkTrace-setting .esriCTOperatorPanel
+{
+    overflow: hidden;
+    float: left;
+    width: 100%;
+    border-left: 1px solid #E3E6E7;
+    border-right: 1px solid #E3E6E7;
+    border-bottom: 1px solid #E3E6E7;
+}
+
+.jimu-widget-NetworkTrace-setting .esriCTPanelSelect
+{
+    border: none;
+    width: 110%;
+}
+
+.jimu-widget-NetworkTrace-setting .esriCTOperatorPanelSelect
+{
+    border: none;
+    width: 110%;
+}
+
+.jimu-widget-NetworkTrace-setting .esriCTFieldPanelSelect
+{
+    border: none;
+    width: 110%;
+}
+
+.jimu-widget-NetworkTrace-setting .esriCTHidden
+{
+    visibility: hidden;
+}
+
+.jimu-widget-NetworkTrace-setting .esriCTInputOutputPanelLblContainer
+{
+    border-right: 1px solid #E3E6E7;
+}
+
+.jimu-widget-NetworkTrace-setting .esriCTOperatorPanelLblContainer
+{
+    border-left: 1px solid #E3E6E7;
+}
+
+.jimu-widget-NetworkTrace-setting .esriCTSummaryText
+{
+    color: #2b2d39;
+    font-size: 14px;
+    font-weight: bold;
+    padding-bottom: 10px;
+}
+
+.jimu-widget-NetworkTrace-setting .esriCTSummaryParentDiv
+{
+    margin-left: 20px;
+}
+
+.claro .jimu-widget-NetworkTrace-setting .dijitEditorIFrame
+{
+    background-color: #ffffff;
+    border: none !important;
+    width: 100% !important;
+    height: 91px !important;
+}
+
+.claro .dijitTitlePaneTitleActive, .claro .dijitSpinner .dijitDownArrowButtonActive
+{
+    background-image: none;
+}
+
+/** Summary tab ends **/
+
+/* Symbol preview starts */
+
+.jimu-widget-NetworkTrace-setting .esriCTPreview
+{
+    float: left;
+    margin-top: 5px;
+    width: 80px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.jimu-widget-NetworkTrace-setting .esriCTSymbolPreview
+{
+    float: left;
+    width: 50px;
+    border-radius: 3px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.jimu-widget-NetworkTrace-setting .url-section
+{
+    float: left;
+    width: 100%;
+}
+
+.jimu-widget-NetworkTrace-setting .service-browser
+{
+    float: left;
+    width: 90%;
+}
+
+.jimu-widget-NetworkTrace-setting .esriSetButton
+{
+    float: left;
+}
+
+.jimu-widget-NetworkTrace-setting .esriCTDisplayText
+{
+    margin-top: 30px;
+}
+
+.claro .dijitTextBox, .claro .dijitSelect
+{
+    border-color: #d9d9d9;
+}
+
+/* Symbol preview ends */

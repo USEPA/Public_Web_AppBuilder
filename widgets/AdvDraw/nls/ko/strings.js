@@ -37,6 +37,8 @@
     hectares: "헥타르",
     squareMeters: "제곱미터",
     squareFeet: "제곱피트",
-    squareYards: "제곱야드"
+    squareYards: "제곱야드",
+    undo: "실행 취소",
+    redo: "다시 실행"
   })
 );

@@ -21,11 +21,13 @@ define([
   'dijit/form/NumberTextBox',
   'dojo/store/Memory',
   'esri/request',
-  './PagingQueryTask'
+  './PagingQueryTask',
+  'dojo/keys',
+  'dojo/Evented'
 ],
   function(declare, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, template, lang,
   html, array, json, on, query, Deferred, FilteringSelect, ValidationTextBox, DateTextBox,
-  NumberTextBox, Memory, esriRequest,PagingQueryTask) {/*jshint unused: false*/
+  NumberTextBox, Memory, esriRequest,PagingQueryTask,keys,Evented) {/*jshint unused: false*/
     return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
       baseClass: 'widget-esearch-single-parameter',
       templateString: template,
@@ -215,8 +217,31 @@ define([
       },
 
       build:function(fieldInfo, value){
+        this.own(on(this.stringTextBox, 'keydown', lang.hitch(this, function(evt){
+          var keyNum = evt.keyCode !== undefined ? evt.keyCode : evt.which;
+          if (keyNum === 13) {
+            this.emit('sp-enter-pressed',{});
+          }
+        })));
+        this.own(on(this.numberTextBox, 'keydown', lang.hitch(this, function(evt){
+          var keyNum = evt.keyCode !== undefined ? evt.keyCode : evt.which;
+          if (keyNum === 13) {
+            this.emit('sp-enter-pressed',{});
+          }
+        })));
+        this.own(on(this.dateTextBox, 'keydown', lang.hitch(this, function(evt){
+          var keyNum = evt.keyCode !== undefined ? evt.keyCode : evt.which;
+          if (keyNum === 13) {
+            this.emit('sp-enter-pressed',{});
+          }
+        })));
         this.fieldInfo = fieldInfo;
         this.value = value;
+        if(value.hasOwnProperty('required') && value.required){
+          html.setStyle(this.requiredNode, 'display', '');
+        }else{
+          html.setStyle(this.requiredNode, 'display', 'none');
+        }
         this.promptNode.innerHTML = value.prompt||'';
         this.hintNode.innerHTML = value.textsearchhint||'';
         var shortType = this.value.fieldObj.shortType;
@@ -286,7 +311,7 @@ define([
           this.stringCodedValuesFS.set('displayedValue','');
           var estore = new Memory({data:[]});
           this.stringCodedValuesFS.set('store',estore);
-          if(codedValues){
+          if(codedValues && !uvField && !userList){
             stringCodedData = array.map(codedValues, lang.hitch(this, function(item, index) {
               //item:{name,code},name is the code description and code is code value.
               var dataItem = lang.mixin({}, item);
@@ -295,7 +320,7 @@ define([
             }));
             if(!this.isValueRequired){
               var dataItem3 = lang.mixin({}, {name:'',code:''});
-              dataItem3.id = stringCodedData.length - 1;
+              dataItem3.id = stringCodedData.length;
               stringCodedData.unshift(dataItem3);
             }
           }else if(uvField){
@@ -306,8 +331,12 @@ define([
                 uniqueCache = {};
                 this.layerUniqueCache[this.layerUri] = uniqueCache;
             }
-
-            var uniqueKey = uvField;
+            var uniqueKey;
+            if(this.layerDef){
+              uniqueKey = uvField + this.layerDef;
+            }else{
+              uniqueKey = uvField;
+            }
             var UniqueValArr = [];
             if (uniqueKey in uniqueCache){
               UniqueValArr = uniqueCache[uniqueKey];
@@ -331,10 +360,14 @@ define([
               this.pagingQueryTask.fieldName = uvField;
               this.pagingQueryTask.dateFormat = '';
               this.pagingQueryTask.version = this.layerDetails.currentVersion;
+              this.pagingQueryTask.maxRecordCount = this.layerDetails.maxRecordCount;
+              this.pagingQueryTask.isRequired = this.isValueRequired;
               if(this.layerDef){
                 this.pagingQueryTask.defExpr = this.layerDef;
               }
               this.pagingQueryTask.on('pagingComplete', lang.hitch(this, function(uniqueValuesArray){
+                html.setStyle(this.uniqueMessageTR, 'display', 'none');
+                this.uniqueMessageNode.innerHTML = '';
                 this.pagingAttempts = 0;
                 stringCodedData = array.map(uniqueValuesArray, lang.hitch(this, function(item, index) {
                   //item:{name,code}
@@ -342,7 +375,11 @@ define([
                   dataItem.id = index;
                   return dataItem;
                 }));
-                this.layerUniqueCache[this.layerUri][this.pagingQueryTask.fieldName] = stringCodedData;
+                if(this.layerDef){
+                  this.layerUniqueCache[this.layerUri][this.pagingQueryTask.fieldName + this.layerDef] = stringCodedData;
+                }else{
+                  this.layerUniqueCache[this.layerUri][this.pagingQueryTask.fieldName] = stringCodedData;
+                }
                 stringUniqueStore = new Memory({
                   data: stringCodedData
                 });
@@ -372,10 +409,24 @@ define([
                   this._showDijit(this.stringTextBox);
                   this._hideDijit(this.stringCodedValuesFS);
                   this.stringTextBox.set('value', valueObj.value || '');
+                  html.setStyle(this.uniqueMessageTR, 'display', 'none');
+                  this.uniqueMessageNode.innerHTML = '';
                 }
               }));
               this.pagingQueryTask.startup();
               this.pagingQueryTask.execute();
+              html.setStyle(this.uniqueMessageTR, 'display', 'table-row');
+              this.uniqueMessageNode.innerHTML = this.nls.uniqueValues;
+              this.pagingQueryTask.on('featuresTotal', lang.hitch(this, function(){
+                html.setStyle(this.uniqueMessageTR, 'display', 'table-row');
+                this.uniqueMessageNode.innerHTML = this.nls.processingUnique + this.pagingQueryTask.featuresProcessed +
+                  this.nls.of + this.pagingQueryTask.featuresTotal;
+              }));
+              this.pagingQueryTask.on('featuresProcessed', lang.hitch(this, function(){
+                html.setStyle(this.uniqueMessageTR, 'display', 'table-row');
+                this.uniqueMessageNode.innerHTML = this.nls.processingUnique + this.pagingQueryTask.featuresProcessed +
+                  this.nls.of + this.pagingQueryTask.featuresTotal;
+              }));
             }
           }else{
             var uaList;
@@ -428,6 +479,9 @@ define([
           this._showDijit(this.stringTextBox);
           this._hideDijit(this.stringCodedValuesFS);
           this.stringTextBox.set('value', (valueObj) ? valueObj.value : '');
+          if(this.isValueRequired){
+            this.stringTextBox.set('required', true);
+          }
         }
       },
 
@@ -460,6 +514,10 @@ define([
           var value2 = parseFloat(valueObj.value2);
           this.numberTextBox1.set('value',value1);
           this.numberTextBox2.set('value',value2);
+          if(this.isValueRequired){
+            this.numberTextBox1.set('required', true);
+            this.numberTextBox2.set('required', true);
+          }
         }else{
           html.setStyle(this.numberRangeTable,'display','none');
           if(this.layerDetails.typeIdField && this.layerDetails.typeIdField.toUpperCase() === fieldInfo.name.toUpperCase()){
@@ -474,6 +532,11 @@ define([
                 dataItem.id = index;
                 return dataItem;
               }));
+              if(!this.isValueRequired){
+                var dataItem3 = lang.mixin({}, {name:'',code:''});
+                dataItem3.id = numberCodedData.length;
+                numberCodedData.unshift(dataItem3);
+              }
               var numberCodedStore = new Memory({data:numberCodedData});
               this.numberCodedValuesFS.set('store',numberCodedStore);
               if(valueObj && !isNaN(valueObj.value)){
@@ -502,15 +565,20 @@ define([
             this.numberCodedValuesFS.set('displayedValue','');
             var estore = new Memory({data:[]});
             this.numberCodedValuesFS.set('store',estore);
-            if(codedValues){
+            if(codedValues && !uvField && !userList){
               numberCodedData2 = array.map(codedValues,lang.hitch(this,function(item,index){
                 //item:{name,code},name is the code description and code is code value.
                 var dataItem = lang.mixin({},item);
                 dataItem.id = index;
                 return dataItem;
               }));
+              if(!this.isValueRequired){
+                var dataItem4 = lang.mixin({}, {name:'',code:''});
+                dataItem4.id = numberCodedData2.length;
+                numberCodedData2.unshift(dataItem4);
+              }
               var numberCodedStore2 = new Memory({data:numberCodedData2});
-              this.numberCodedValuesFS.set('store',numberCodedStore2);
+              this.numberCodedValuesFS.set('store', numberCodedStore2);
               if(valueObj && !isNaN(valueObj.value)){
                 var number2 = parseFloat(valueObj.value);
                 var numberSelectedItems2 = array.filter(numberCodedData2,lang.hitch(this,function(item){
@@ -559,10 +627,13 @@ define([
                 this.pagingQueryTask.fieldName = uvField;
                 this.pagingQueryTask.dateFormat = '';
                 this.pagingQueryTask.version = this.layerDetails.currentVersion;
+                this.pagingQueryTask.maxRecordCount = this.layerDetails.maxRecordCount;
                 if(this.layerDef){
                   this.pagingQueryTask.defExpr = this.layerDef;
                 }
                 this.pagingQueryTask.on('pagingComplete', lang.hitch(this, function(uniqueValuesArray){
+                  html.setStyle(this.uniqueMessageTR, 'display', 'none');
+                  this.uniqueMessageNode.innerHTML = '';
                   this.pagingAttempts = 0;
                   numberCodedData2 = array.map(uniqueValuesArray, lang.hitch(this, function(item, index) {
                     //item:{name,code}
@@ -604,6 +675,18 @@ define([
                 }));
                 this.pagingQueryTask.startup();
                 this.pagingQueryTask.execute();
+                html.setStyle(this.uniqueMessageTR, 'display', 'table-row');
+                this.uniqueMessageNode.innerHTML = this.nls.uniqueValues;
+                this.pagingQueryTask.on('featuresTotal', lang.hitch(this, function(){
+                  html.setStyle(this.uniqueMessageTR, 'display', 'table-row');
+                  this.uniqueMessageNode.innerHTML = this.nls.processingUnique + this.pagingQueryTask.featuresProcessed +
+                    this.nls.of + this.pagingQueryTask.featuresTotal;
+                }));
+                this.pagingQueryTask.on('featuresProcessed', lang.hitch(this, function(){
+                  html.setStyle(this.uniqueMessageTR, 'display', 'table-row');
+                  this.uniqueMessageNode.innerHTML = this.nls.processingUnique + this.pagingQueryTask.featuresProcessed +
+                    this.nls.of + this.pagingQueryTask.featuresTotal;
+                }));
               }
             }else{
               var uaList;
@@ -626,31 +709,34 @@ define([
                   return parseFloat(item.code) === number2;
                 }));
                 if(numberSelectedItems3.length > 0){
-                  this.numberCodedValuesFS.set('value',numberSelectedItems3[0].id);
+                  this.numberCodedValuesFS.set('value', numberSelectedItems3[0].id);
                 }
                 else{
-                  this.numberCodedValuesFS.set('value',numberCodedData2[0].id);
+                  this.numberCodedValuesFS.set('value', numberCodedData2[0].id);
                 }
               }
               else{
-                this.numberCodedValuesFS.set('value',numberCodedData2[0].id);
+                this.numberCodedValuesFS.set('value', numberCodedData2[0].id);
               }
             }
           }else{
             var estore2 = new Memory({data:[]});
-            this.numberCodedValuesFS.set('store',estore2);
+            this.numberCodedValuesFS.set('store', estore2);
             this._type = 1;
             this._showDijit(this.numberTextBox);
             this._hideDijit(this.numberCodedValuesFS);
-            this.numberTextBox.set('value',value);
+            this.numberTextBox.set('value', value);
+            if(this.isValueRequired){
+              this.numberTextBox.set('required', true);
+            }
           }
         }
       },
 
       _buildDate: function(fieldInfo, value){/*jshint unused: false*/
-        html.setStyle(this.stringTextBoxContainer,'display','none');
-        html.setStyle(this.numberTextBoxContainer,'display','none');
-        html.setStyle(this.dateTextBoxContainer,'display','block');
+        html.setStyle(this.stringTextBoxContainer, 'display', 'none');
+        html.setStyle(this.numberTextBoxContainer, 'display', 'none');
+        html.setStyle(this.dateTextBoxContainer, 'display', 'block');
 
         var fieldObj = value.fieldObj;//name,shortType
         var valueObj = value.valueObj;//value,value1,value2
@@ -665,12 +751,19 @@ define([
             this.dateTextBox1.set('value', new Date(valueObj.value1));
             this.dateTextBox2.set('value', new Date(valueObj.value2));
           }
+          if(this.isValueRequired){
+            this.dateTextBox1.set('required', true);
+            this.dateTextBox2.set('required', true);
+          }
         }
         else{
           this._type = 1;
           html.setStyle(this.dateRangeTable,'display','none');
           this._showDijit(this.dateTextBox);
           this.dateTextBox.set('value', new Date(valueObj.value));
+          if(this.isValueRequired){
+            this.dateTextBox.set('required', true);
+          }
         }
       },
 

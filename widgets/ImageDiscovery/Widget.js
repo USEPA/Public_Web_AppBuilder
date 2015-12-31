@@ -21,7 +21,10 @@ define([
         "esri/geometry/Point",
         "esri/tasks/BufferParameters",
         "./base/SearchByBoundsWidget/SearchByBoundsWidget",
-        'esri/config'
+        'esri/config',
+        "./widgets/ImageDiscovery/lib/filesaver/Blob.js",
+        "./widgets/ImageDiscovery/lib/filesaver/FileSaver.js",
+        "./widgets/ImageDiscovery/lib/papa_parse.js"
     ],
     function (declare, BaseWidget, lang, domConstruct, ModelSupport, window, BaseDiscoveryMixin, DrawManager, IconSearch, ArchiveSearch, ArchiveResultProcessorMixin, IconResultProcessorMixin, CheckoutWidget, ResultsWidget, urlUtils, SearchFilter, IconSearchFilter, SearchSourcesWidget, UserAwareMixin, Point, BufferParameters, SearchByBoundsWidget, esriConfig) {
         return declare([BaseWidget, UserAwareMixin, ModelSupport, ArchiveResultProcessorMixin, IconResultProcessorMixin, BaseDiscoveryMixin], {
@@ -171,11 +174,12 @@ define([
                         nls: this.nls,
                         map: this.map,
                         webmapConfiguration: this.config.webmap,
+                        csvExportEnabled: this.config.csvExportEnabled,
                         reportingConfiguration: this.config.reporting,
                         hasDownloadService: this.hasDownloadService(),
                         useUTCDate: this.config.useUTCDate,
                         dateFormat: this.config.dateFormat,
-                        thumbnailLoadErrorImage: this.config.thumbnailLoadErrorImage,
+                        thumbnailLoadErrorImage: this.config.thumbnailLoadErrorImage
 
                     });
                     this.checkoutWidget.placeAt(window.body());
@@ -210,7 +214,7 @@ define([
                 this._archiveSearch = new ArchiveSearch({nls: this.nls, searchServices: this.config.searchServices});
             },
             _createDrawManager: function () {
-                this.drawManager = new DrawManager({ map: this.map, drawConstraints: this.config.drawConstraints });
+                this.drawManager = new DrawManager({map: this.map, drawConstraints: this.config.drawConstraints});
                 this.drawManager.on(this.drawManager.DRAW_END, lang.hitch(this, this.handleDrawEnd));
             },
             _initResultsWidget: function () {
@@ -242,6 +246,7 @@ define([
                 }
                 var params = {
                     nls: this.nls,
+                    exportEnabled: this.config.csvExportEnabled,
                     minDateRangeFilterDelta: this.config.minDateRangeFilterDelta,
                     createResultFilter: hasCloudCoverFieldOnService || hasAcquisitionDateOnService,
                     showCloudCoverFilter: hasCloudCoverFieldOnService,
@@ -279,8 +284,8 @@ define([
                     var callback = lang.hitch(this, this.handlePointBufferResponse);
                     var errback = lang.hitch(this, this.handlePointBufferError, graphic);
                     var params = new BufferParameters();
-                    params.geometries = [ graphic.geometry ];
-                    params.distances = [ pointBufferValue ];
+                    params.geometries = [graphic.geometry];
+                    params.distances = [pointBufferValue];
                     params.unit = parseInt(bufferUnits, 10);
                     params.bufferSpatialReference = graphic.geometry.spatialReference;
                     params.outSpatialReference = this.map.extent.spatialReference;

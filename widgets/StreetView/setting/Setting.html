@@ -4,8 +4,8 @@
       <tr>
         <td colspan="2">
           <div style="margin-top:20px;">
-            <input type="checkbox" data-dojo-attach-point="hideCbx" />
-            <span>${nls.hidestreetviewvwidowwhenminimized}</span>
+            <div data-dojo-type="jimu/dijit/CheckBox" data-dojo-attach-point="hideCbx"
+               data-dojo-props="label:'${nls.hidestreetviewvwidowwhenminimized}'"></div>
           </div>
         </td>
       </tr>
@@ -33,7 +33,7 @@
           <span nowrap>${nls.popupwidth}</span>
         </td>
         <td>
-          <input data-dojo-attach-point="svPopupWidth" data-dojo-type="dijit/form/NumberSpinner" data-dojo-props='required:true,value:500,smallDelta:1,largeDelta:10,constraints:{min:200},intermediateChanges:true' type="text" style="width:220px;" />
+          <input data-dojo-attach-point="svPopupWidth" data-dojo-type="dijit/form/NumberSpinner" data-dojo-props="required:true,value:500,smallDelta:1,largeDelta:10,constraints:{min:200},intermediateChanges:true" type="text" style="width:220px;" />
         </td>
       </tr>
       <tr>
@@ -41,7 +41,7 @@
           <span nowrap>${nls.popupheight}</span>
         </td>
         <td>
-          <input data-dojo-attach-point="svPopupHeight" data-dojo-type="dijit/form/NumberSpinner" data-dojo-props='required:true,value:600,smallDelta:1,largeDelta:10,constraints:{min:200},intermediateChanges:true' type="text" style="width:220px;" />
+          <input data-dojo-attach-point="svPopupHeight" data-dojo-type="dijit/form/NumberSpinner" data-dojo-props="required:true,value:600,smallDelta:1,largeDelta:10,constraints:{min:200},intermediateChanges:true" type="text" style="width:220px;" />
         </td>
       </tr>
     </tbody>
@@ -51,8 +51,7 @@
     <tbody>
       <tr>
         <td style="width:20%;">
-          <input type="checkbox" data-dojo-attach-point="addressControlCbx" />
-          <span>${nls.showaddresscontrol}</span>
+          <div data-dojo-type="jimu/dijit/CheckBox" data-dojo-attach-point="addressControlCbx" data-dojo-props="label:'${nls.showaddresscontrol}'"></div>
         </td>
         <td style="width:40%;">
           <table style="width:100%;" cellspacing="0">
@@ -84,8 +83,7 @@
       </tr>
       <tr>
         <td style="width:20%;">
-          <input type="checkbox" data-dojo-attach-point="panControlCbx" />
-          <span>${nls.showpancontrol}</span>
+          <div data-dojo-type="jimu/dijit/CheckBox" data-dojo-attach-point="panControlCbx" data-dojo-props="label:'${nls.showpancontrol}'"></div>
         </td>
         <td style="width:40%;">
           <table style="width:100%;" cellspacing="0">
@@ -117,8 +115,7 @@
       </tr>
       <tr>
         <td style="width:20%;">
-          <input type="checkbox" data-dojo-attach-point="zoomControlCbx" />
-          <span>${nls.showzoomcontrol}</span>
+          <div data-dojo-type="jimu/dijit/CheckBox" data-dojo-attach-point="zoomControlCbx" data-dojo-props="label:'${nls.showzoomcontrol}'"></div>
         </td>
         <td style="width:40%;">
           <table style="width:100%;" cellspacing="0">
@@ -172,22 +169,21 @@
     <tbody>
       <tr>
         <td style="width:50%;">
-          <input type="checkbox" data-dojo-attach-point="clickToGoCbx" />
-          <span>${nls.enableclicktogo}</span>
+          <div data-dojo-type="jimu/dijit/CheckBox" data-dojo-attach-point="clickToGoCbx" data-dojo-props="label:'${nls.enableclicktogo}'"></div>
         </td>
         <td style="width:50%;">
-          <input type="checkbox" data-dojo-attach-point="disableDoubleClickZoomCbx" />
-          <span>${nls.disabledoubleclickzoom}</span>
+          <div data-dojo-type="jimu/dijit/CheckBox" data-dojo-attach-point="disableDoubleClickZoomCbx"
+               data-dojo-props="label:'${nls.disabledoubleclickzoom}'"></div>
         </td>
       </tr>
       <tr>
         <td style="width:50%;">
-          <input type="checkbox" data-dojo-attach-point="imageDateControlCbx" />
-          <span>${nls.enableimagedatecontrol}</span>
+          <div data-dojo-type="jimu/dijit/CheckBox" data-dojo-attach-point="imageDateControlCbx"
+               data-dojo-props="label:'${nls.enableimagedatecontrol}'"></div>
         </td>
         <td style="width:50%;">
-          <input type="checkbox" data-dojo-attach-point="linksControlCbx" />
-          <span>${nls.enablelinkscontrol}</span>
+          <div data-dojo-type="jimu/dijit/CheckBox" data-dojo-attach-point="linksControlCbx"
+               data-dojo-props="label:'${nls.enablelinkscontrol}'"></div>
         </td>
       </tr>
     </tbody>

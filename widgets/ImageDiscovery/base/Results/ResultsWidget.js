@@ -22,10 +22,12 @@ define([
         "dojo/_base/connect",
         "dojo/topic",
         "dojo/dom-construct",
-        "dojo/dom-attr"
+        "dojo/dom-attr",
+        "./base/Export/ExportResultsManager"
     ],
-    function (declare, template, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, window, lang, BaseDiscoveryMixin, Evented, ResultList, CheckBox, ArchiveResultsGraphicsLayerSupport, ResultImageServiceLayerSupport, ModelSupport, CommonDates, ResultFilter, ResultSort, ReorderPreviews, AnalysisWidget, FeatureFilter, con, topic, domConstruct, domAttr) {
-        return declare([ _WidgetBase, _TemplatedMixin, ModelSupport, Evented, BaseDiscoveryMixin, _WidgetsInTemplateMixin], {
+    function (declare, template, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, window, lang, BaseDiscoveryMixin, Evented, ResultList, CheckBox, ArchiveResultsGraphicsLayerSupport, ResultImageServiceLayerSupport, ModelSupport, CommonDates, ResultFilter, ResultSort, ReorderPreviews, AnalysisWidget, FeatureFilter, con, topic, domConstruct, domAttr, ExportResultsManager) {
+        return declare([_WidgetBase, _TemplatedMixin, ModelSupport, Evented, BaseDiscoveryMixin, _WidgetsInTemplateMixin], {
+            exportEnabled: false,
             iconEnabled: false,
             showAcquisitionDateFilter: true,
             showCloudCoverFilter: true,
@@ -90,12 +92,16 @@ define([
                 this._createReorderPreviews();
                 domAttr.set(this.noSearchResultsMessageContainer, "innerHTML", this.noResultsMessage || this._defaultNoResultsMessage);
 
+                if (!this.exportEnabled) {
+                    this._hideNode(this.exportResultsIcon);
+                }
+
 
             },
             clear: function () {
                 this.currentSearchGeometry = null;
                 this.resultList.clear();
-                if(this.resultFilter) {
+                if (this.resultFilter) {
                     this.showResultFilterIcon();
                     this.resultFilter.clear();
                 }
@@ -105,7 +111,7 @@ define([
                 this.reorderPreviews.clear();
                 this.hideReorderPreview();
                 this.hideReorderPreviewButton();
-                if(this.resultFilter) {
+                if (this.resultFilter) {
                     this.hideResultFilter();
                     this.resultFilter.showFilters();
                 }
@@ -189,6 +195,17 @@ define([
                 }
                 return null;
             },
+            exportResultsToCSV: function () {
+                if (!this.exportResultsManager) {
+                    this.exportResultsManager = new ExportResultsManager({
+                        useUTCDate: this.useUTCDate,
+                        dateFormat: this.dateFormat
+                    });
+                }
+                var resultListItems = this.resultList.getUnfilteredResults();
+                this.exportResultsManager.resultFeaturesToCSV(resultListItems);
+
+            },
             createResultList: function () {
                 this._createResultList();
                 this.resultList.placeAt(this.resultEntriesContainer);
@@ -240,7 +257,10 @@ define([
                         this.imageServiceLayerAddedListener = null;
                     }
                 }
-                this.archiveImageServiceLayerSupport = new ResultImageServiceLayerSupport({map: this.map, rasterFunctionTemplate: this.resultLayerClipRasterFunctionTemplate});
+                this.archiveImageServiceLayerSupport = new ResultImageServiceLayerSupport({
+                    map: this.map,
+                    rasterFunctionTemplate: this.resultLayerClipRasterFunctionTemplate
+                });
                 if (this.currentSearchGeometry) {
                     this.archiveImageServiceLayerSupport.currentSearchGeometry = this.currentSearchGeometry;
                 }
@@ -366,6 +386,14 @@ define([
                 }
                 this.resultList.setResults(resultItems);
                 this.showMessage(this.nls.searchReturned + " " + resultItems.length + " " + this.nls.result + (resultItems.length === 1 ? "" : "s"));
+				if (this.resultFilter) {
+					var serviceLabels = [];
+					for (i = 0; i < resultServices.length; i++) {
+						serviceLabels.push(resultServices[i].label);
+					}
+					this.resultFilter.setServiceFilter(serviceLabels);
+				}
+
                 //set the filters
                 this.refreshResults();
             },
@@ -426,6 +454,9 @@ define([
                 }
                 featureFilterParameters.filteredArchiveSensorTypes = [];
                 featureFilterParameters.cloudCover = cloudCoverDecimalValue;
+				if (this.resultFilter) {
+					featureFilterParameters.selectedServices = this.resultFilter.getSelectedServices();
+				}
                 return featureFilterParameters;
             },
             handleSortChange: function (sortObj) {

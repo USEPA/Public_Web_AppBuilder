@@ -1,0 +1,77 @@
+﻿<div class="ParameterDiv">
+    <div class="fieldHeader">
+        ${nls.OthersHighlighter.others}</div>
+    <div class="esriCTSubFieldHeader">
+        ${nls.OthersHighlighter.othersHighlightertext}</div>
+    <div class="esriCTOthersData">
+        <div class="field esriCTMargin">
+            <div class="esriCTBrwoseImage" title="${nls.OthersHighlighter.selectImage}">
+                <label class="esriCTImg esriCTLayoutLeft" title="${nls.OthersHighlighter.selectImage}">
+                    ${nls.OthersHighlighter.selectImage}</label>
+            </div>
+            <div style="position: relative; float: left;">
+                <div class="image_chooser_base" data-dojo-attach-point="imageChooserBase">
+                </div>
+                <div class="esriCTThumbnailImgDiv" data-dojo-attach-point="thumbnailImgDiv">
+                    <img class="thumbnail-img" src="" data-dojo-attach-point="showImageChooser">
+                </div>
+            </div>
+            <div class="esriCTLayoutLeft esriCTHintField esriCTSelectImageHint">
+                ${nls.hintText.selectImageHintText}</div>
+        </div>
+        <div class="field">
+            <label class="esriCTLayoutLeft" title="${nls.OthersHighlighter.height}">
+                ${nls.OthersHighlighter.height}</label>
+            <input data-dojo-attach-point="spinnerImgHeight" data-dojo-type="dijit/form/NumberSpinner"
+                title="${nls.OthersHighlighter.height}" class="common-inputspin" value="100"
+                data-dojo-props="smallDelta:1, constraints:{min:1,places:0,pattern: '#'}" />
+            <label class="esriCTunitsForOther">
+                ${nls.OthersHighlighter.pixel}</label>
+            <div class="esriCTHintField">
+                ${nls.hintText.imageHeightHintText}</div>
+        </div>
+        <div class="field">
+            <label class="esriCTLayoutLeft" title="${nls.OthersHighlighter.width}">
+                ${nls.OthersHighlighter.width}</label>
+            <input data-dojo-attach-point="spinnerImgWidth" data-dojo-type="dijit/form/NumberSpinner"
+                title="${nls.OthersHighlighter.width}" class="common-inputspin" value="100" data-dojo-props="smallDelta:1, constraints:{min:1,places:0,pattern: '#'}" />
+            <label class="esriCTunitsForOther">
+                ${nls.OthersHighlighter.pixel}</label>
+            <div class="esriCTHintField">
+                ${nls.hintText.imageWidthHintText}</div>
+        </div>
+        <div class="field">
+            <label class="esriCTLayoutLeft" title="${nls.OthersHighlighter.timeout}">
+                ${nls.OthersHighlighter.timeout}</label>
+            <input data-dojo-attach-point="spinnerImgTimeout" data-dojo-type="dijit/form/NumberSpinner"
+                title="${nls.OthersHighlighter.timeout}" class="common-inputspin" value="1000"
+                data-dojo-props="smallDelta:1000, constraints:{min:1,places:0,pattern: '#'}" />
+            <label class="esriCTLayoutLeft esriCTunitsForOther">
+                ${nls.OthersHighlighter.milliseconds}</label><div class="esriCTHintField">
+                    ${nls.hintText.imgTimeoutHintText}</div>
+        </div>
+    </div>
+    <div class="esriCTSubFieldHeader esriCTDisplayText">
+        ${nls.OthersHighlighter.displayTextForButtonLegend}</div>
+    <div class="esriCTOthersData">
+        <div class="field">
+            <label class="esriCTImg esriCTLayoutLeft" title="${nls.OthersHighlighter.displayTextForButton}">
+                ${nls.OthersHighlighter.displayTextForButton}</label>
+            <input data-dojo-attach-point="displayTextforRun" data-dojo-type="dijit/form/ValidationTextBox"
+                title="${nls.OthersHighlighter.displayTextForButton}" class="common-input " data-dojo-props="required: true"
+                value="${nls.OthersHighlighter.displayTextforButtonDefaultValue}">
+        </div>
+    </div>
+    <div class="esriCTSubFieldHeader">
+        ${nls.OthersHighlighter.autoZoomAfterTrace}</div>
+    <div class="esriCTOthersData">
+        <div class="field">
+            <div data-dojo-type="jimu/dijit/CheckBox" data-dojo-attach-point="autoZoomAfterTrace"
+                class="jimu-checkbox" title="${nls.OthersHighlighter.zoomText}">
+            </div>
+            <label class="esriCTCheckboxLabel esriCTAutoZoomText" title="${nls.OthersHighlighter.zoomText}">
+                ${nls.OthersHighlighter.zoomText}
+            </label>
+        </div>
+    </div>
+</div>

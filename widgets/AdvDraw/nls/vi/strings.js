@@ -37,6 +37,8 @@
     hectares: "Hecta",
     squareMeters: "Mét vuông",
     squareFeet: "Feet vuông",
-    squareYards: "Thước vuông"
+    squareYards: "Thước vuông",
+    undo: "Hoàn tác",
+    redo: "Làm lại"
   })
 );

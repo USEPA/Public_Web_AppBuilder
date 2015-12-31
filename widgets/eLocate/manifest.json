@@ -1,0 +1,27 @@
+{
+  "name": "eLocate",
+  "label": "Enhanced Locate",
+  "2D":true,
+  "3D":false,
+  "type": "widget",
+  "platform": "HTML",
+  "version": "1.2.0.3",
+  "wabVersion": "1.3",
+  "author": "Robert Scheitlin",
+  "description": "This widget allows you to geocode and address, reverse geocode, and locate based on coordinates.",
+  "copyright": "2015",
+  "license": "http://www.apache.org/licenses/LICENSE-2.0",
+  "properties": {
+    "inPanel":true,
+    "hasLocale":true,
+    "hasStyle":true,
+    "hasConfig":true,
+    "hasUIFile":true,
+    "hasSettingPage":true,
+    "hasSettingUIFile":true,
+    "hasSettingLocale":true,
+    "hasSettingStyle":true,
+    "IsController":false,
+    "hasVersionManager": false
+  }
+}

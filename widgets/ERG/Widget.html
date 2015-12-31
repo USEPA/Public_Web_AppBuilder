@@ -5,7 +5,7 @@
                 <div data-dojo-attach-point="tabNode1" class="ergTabs">
                     <label>${nls.spillLocation}</label>
                     <div data-dojo-attach-point="drawSpillInfo">
-                        <div id="Point" title="${nls.spillLocation}" class="searchFeaturesIcon searchPoint"></div>
+                        <div data-dojo-attach-point="Point" title="${nls.spillLocation}" class="searchFeaturesIcon searchPoint"></div>
                     </div>
 
                     <br>
@@ -53,6 +53,7 @@
                     <br><br>
                     <label>OR</label>
                     <button class="btnWindDirection"
+                            data-dojo-attach-point="btnWindDirection"
                             data-dojo-attach-event="onclick:onLookupWindInfo">${nls.windDirectionLabel}
                     </button>
 
@@ -85,6 +86,7 @@
                             <div class="chart-section-item right-arrow arrow" data-dojo-attach-point="rightArrow"></div>
                         </div>
                         <div data-dojo-attach-point="description" style="margin-top:20px;"></div>
+                        <div data-dojo-attach-point="totalSum" style="font-weight:bold;text-align:center"></div>
                     </div>
                     <div class="noresults-section" data-dojo-attach-point="noresultsSection">
                         ${nls.noresult}

@@ -37,6 +37,8 @@
     hectares: "Hektary",
     squareMeters: "Čtvereční metry",
     squareFeet: "Čtvereční stopy",
-    squareYards: "Čtvereční yardy"
+    squareYards: "Čtvereční yardy",
+    undo: "Zpět",
+    redo: "Znovu"
   })
 );

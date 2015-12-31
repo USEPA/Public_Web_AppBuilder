@@ -1,16 +1,20 @@
 <div class="printResult" data-dojo-attach-point="resultNode" data-dojo-attach-event="onclick:_openPrint">
-    <table class="printResultTable">
-        <tr>
-            <td width="25px">
-                <span class="bold">${count}.</span>
-            </td>
-            <td width="30px">
-                <img src="${icon}">
-            </td>
-            <td data-dojo-attach-point="nameNode">
-                <div data-dojo-type="dijit.ProgressBar" data-dojo-props="value:Infinity,label:'${nls.creatingPrint}'">
-                </div>
-            </td>
-        </tr>
-    </table>
+  <table class="printResultTable">
+    <tr>
+      <td width="25px">
+        <span class="bold">${count}.</span>
+      </td>
+      <td width="30px">
+        <img src="${icon}">
+      </td>
+      <td data-dojo-attach-point="nameNode">
+        <div data-dojo-attach-point="progressBar" data-dojo-type="dijit/ProgressBar" data-dojo-props="value:Infinity,label:'${nls.creatingPrint}'"></div>
+        <span data-dojo-attach-point="successNode" class="bold" style="display:none;">${docName}</span>
+        <div data-dojo-attach-point="errNode" style="display:none;">
+          <span class="bold">${nls.printError}</span>
+          <div class="error-icon jimu-float-trailing"></div>
+        </div>
+      </td>
+    </tr>
+  </table>
 </div>

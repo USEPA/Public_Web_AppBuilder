@@ -11,12 +11,13 @@ define([
         "dojo/Deferred",
         "dijit/form/TextBox",
         "./model/ModelSupport",
-        "../BaseResultCreation" ,
+        "../BaseResultCreation",
         "./base/Reporting/ReportingWidget",
         "./base/Webmap/PortalPublisherWidget",
+        "./base/CsvExport/CsvExportWidget",
         "./base/Download/ImageryDownloadWidget"
     ],
-    function (declare, template, lang, topic, _WidgetBase, _TemplatedMixin, window, domAttr, domConstruct, Deferred, TextBox, ModelSupport, BaseResultCreation, ReportingWidget, PortalPublisherWidget, ImageryDownloadWidget) {
+    function (declare, template, lang, topic, _WidgetBase, _TemplatedMixin, window, domAttr, domConstruct, Deferred, TextBox, ModelSupport, BaseResultCreation, ReportingWidget, PortalPublisherWidget, CsvExportWidget, ImageryDownloadWidget) {
         return declare([_WidgetBase, _TemplatedMixin, BaseResultCreation, ModelSupport], {
 
             blockThumbHover: true,
@@ -37,7 +38,18 @@ define([
                 domConstruct.place(this._underlay, window.body());
                 this._createProgressBar();
                 this._createReportingWidget();
-                this._createWebmapWidget();
+                if (!this.webmapConfiguration.disabled) {
+                    this._createWebmapWidget();
+                }
+                else {
+                    this.disableWebmapFunctionality();
+                }
+                if (this.csvExportEnabled) {
+                    this._createCsvExportWidget();
+                }
+                else{
+                    this.disableCSVExportFunctionality();
+                }
                 this._createDownloadWidget();
                 this.on("downloadImageRequest", lang.hitch(this, this.handleDownloadImageryRequest));
             },
@@ -46,6 +58,12 @@ define([
                     nls: this.nls
                 });
                 this.downloadWidget.placeAt(this.downloadWidgetContainer);
+            },
+            _createCsvExportWidget: function () {
+                this.csvExportWidget = new CsvExportWidget({
+                    nls: this.nls
+                });
+                this.csvExportWidget.placeAt(this.csvExportWidgetContainer);
             },
             _createWebmapWidget: function () {
 
@@ -83,6 +101,12 @@ define([
                 domAttr.set(this.checkoutWidgetHeaderText, "innerHTML", this.nls.goToCart);
                 this._showNode(this._underlay);
                 this._showNode(this.domNode);
+                if (!this.webmapWidget && this.csvExportWidget) {
+                    this.showCSVExportTab();
+                }
+                if (this.csvExportWidget) {
+                    this.csvExportWidget.generateExportLinks();
+                }
                 this.hideMessageContainer();
             },
             /**
@@ -101,6 +125,9 @@ define([
              */
             handleStartCheckout: function (archiveEntries) {
                 this.currentCheckoutDeferred = new Deferred();
+                if (this.downloadWidget) {
+                    this.downloadWidget.clearDownloadList();
+                }
                 this.show();
                 this._hideNode(this.checkoutStatusCloseButton);
                 domConstruct.empty(this.orderItemsContainer);
@@ -130,7 +157,6 @@ define([
             },
             removeItemFromCart: function (feature, element) {
                 this.inherited(arguments);
-                var currentFeatureService = feature[this.COMMON_FIELDS.SERVICE_FIELD];
                 this.totalItemsInCartCount--;
                 //todo update this for download and order items
                 this.setTotalItems(this.totalItemsInCartCount);
@@ -143,7 +169,12 @@ define([
                         this.disableDownload();
                     }
                 }));
-                this.webmapWidget.showInputsContent();
+                if (this.webmapWidget) {
+                    this.webmapWidget.showInputsContent();
+                }
+                if (this.csvExportWidget) {
+                    this.csvExportWidget.generateExportLinks();
+                }
             },
             setTotalItems: function (orderItemCount) {
                 domAttr.set(this.totalOrderItemsElement, "innerHTML", orderItemCount + "");

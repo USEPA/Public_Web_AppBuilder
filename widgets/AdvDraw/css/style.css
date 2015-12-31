@@ -58,3 +58,30 @@
 .jimu-widget-draw .dijitReset.dijitLeft.dijitButtonNode.dijitArrowButton.dijitUpArrowButton .dijitArrowButtonInner{
 	width:100%;
 }
+
+.jimu-widget-draw .operations{
+	margin-top: 20px;
+	text-align: center;
+}
+
+.jimu-widget-draw .operations .jimu-btn{
+	padding: 0 18px;
+	height: 32px;
+	line-height: 33px;
+	margin-right: 10px;
+	margin-bottom: 10px;
+	min-width: 10px;
+}
+
+.jimu-rtl .jimu-widget-draw .operations .jimu-btn{
+	margin-right: 0;
+	margin-left: 10px;
+}
+
+.jimu-widget-draw .operations .jimu-btn.last-btn{
+	margin-right: 0;
+}
+
+.jimu-rtl .jimu-widget-draw .operations .jimu-btn.last-btn{
+	margin-left: 0;
+}

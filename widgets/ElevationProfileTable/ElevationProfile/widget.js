@@ -1,4 +1,4 @@
-define(["dojo/Evented", "dijit/_WidgetBase", "dijit/_OnDijitClickMixin", "dijit/_TemplatedMixin", "dijit/_WidgetsInTemplateMixin", "dojo/on", "dojo/aspect", "dojo/_base/declare", "dojo/_base/lang", "dojo/json", "dojo/_base/Deferred", "dojo/_base/array", "dojo/number", "dijit/registry", "dijit/Dialog", "dijit/Toolbar", "dijit/ToolbarSeparator", "dijit/layout/ContentPane", "dijit/form/Button", "dijit/form/ToggleButton", "dijit/form/CheckBox", "put-selector/put", "dojo/dom-geometry", "dojo/dom-style", "dojo/dom-class", "dojo/query", "dojo/_base/Color", "dojo/colors", "dojo/fx/easing", "dojox/charting/Chart", "dojox/charting/axis2d/Default", "dojox/charting/plot2d/Grid", "dojox/charting/plot2d/Areas", "dojox/charting/plot2d/Columns", "dojox/charting/plot2d/Lines", "dojox/charting/action2d/MouseIndicator", "dojox/charting/action2d/TouchIndicator", "dojox/charting/themes/ThreeD", "esri/config", "esri/sniff", "esri/request", "esri/dijit/Measurement", "esri/tasks/Geoprocessor", "esri/geometry/Point", "esri/geometry/Polyline", "esri/symbols/SimpleLineSymbol", "esri/symbols/SimpleMarkerSymbol", "esri/graphic", "esri/tasks/FeatureSet", "esri/tasks/LinearUnit", "esri/geometry/geodesicUtils", "esri/geometry/webMercatorUtils", "esri/Color", "esri/units", "dojo/i18n!esri/nls/jsapi", "dojo/i18n!./nls/strings", "dojo/text!./Widget.html", "xstyle/css!./css/style.css"], function (Evented, _WidgetBase, _OnDijitClickMixin, _TemplatedMixin, _WidgetsInTemplateMixin, on, aspect, declare, lang, JSON, Deferred, array, number, registry, Dialog, Toolbar, ToolbarSeparator, ContentPane, Button, ToggleButton, CheckBox, put, domGeometry, domStyle, domClass, query, Color, colors, easing, Chart, Default, Grid, Areas, Columns, Lines, MouseIndicator, TouchIndicator, ThreeD, esriConfig, esriSniff, esriRequest, Measurement, Geoprocessor, Point, Polyline, SimpleLineSymbol, SimpleMarkerSymbol, Graphic, FeatureSet, LinearUnit, geodesicUtils, webMercatorUtils, esriColor, Units, esriStrings, i18NStrings, dijitTemplate) {
+define(["dojo/Evented", "dijit/_WidgetBase", "dijit/_OnDijitClickMixin", "dijit/_TemplatedMixin", "dijit/_WidgetsInTemplateMixin", "dojo/on", "dojo/aspect", "dojo/_base/declare", "dojo/_base/lang", "dojo/json", "dojo/_base/Deferred", "dojo/_base/array", "dojo/number", "dijit/registry", "dijit/Dialog", "dijit/Toolbar", "dijit/ToolbarSeparator", "dijit/layout/ContentPane", "dijit/form/Button", "dijit/form/ToggleButton", "dijit/form/CheckBox", "put-selector/put", "dojo/dom-geometry", "dojo/dom-style", "dojo/dom-class", "dojo/query", "dojo/_base/Color", "dojo/colors", "dojo/fx/easing", "dojox/charting/Chart", "dojox/charting/axis2d/Default", "dojox/charting/plot2d/Grid", "dojox/charting/plot2d/Areas", "dojox/charting/plot2d/Columns", "dojox/charting/plot2d/Lines","dojox/charting/plot2d/MarkersOnly", "dojox/charting/action2d/MouseIndicator", "dojox/charting/action2d/TouchIndicator", "dojox/charting/themes/ThreeD", "esri/config", "esri/sniff", "esri/request", "esri/dijit/Measurement", "esri/tasks/Geoprocessor", "esri/geometry/Point", "esri/geometry/Polyline", "esri/symbols/SimpleLineSymbol", "esri/symbols/SimpleMarkerSymbol", "esri/graphic", "esri/tasks/FeatureSet", "esri/tasks/LinearUnit", "esri/geometry/geodesicUtils", "esri/geometry/webMercatorUtils", "esri/Color", "esri/units", "dojo/i18n!esri/nls/jsapi", "dojo/i18n!./nls/strings", "dojo/text!./Widget.html", "xstyle/css!./css/style.css"], function (Evented, _WidgetBase, _OnDijitClickMixin, _TemplatedMixin, _WidgetsInTemplateMixin, on, aspect, declare, lang, JSON, Deferred, array, number, registry, Dialog, Toolbar, ToolbarSeparator, ContentPane, Button, ToggleButton, CheckBox, put, domGeometry, domStyle, domClass, query, Color, colors, easing, Chart, Default, Grid, Areas, Columns, Lines, MarkersOnly, MouseIndicator, TouchIndicator, ThreeD, esriConfig, esriSniff, esriRequest, Measurement, Geoprocessor, Point, Polyline, SimpleLineSymbol, SimpleMarkerSymbol, Graphic, FeatureSet, LinearUnit, geodesicUtils, webMercatorUtils, esriColor, Units, esriStrings, i18NStrings, dijitTemplate) {
 
     /**
      *  ElevationsProfile
@@ -304,6 +304,14 @@ define(["dojo/Evented", "dijit/_WidgetBase", "dijit/_OnDijitClickMixin", "dijit/
         },
 
         /**
+         * Removes all vertical plots from the profile chart
+         * @private
+         */
+        _clearLOSMarkers: function () {
+            this.profileChart.updateSeries("losMarkers", [{x:0,y:0}]);
+        },
+
+        /**
          * DISPLAY HELP DIALOG
          *
          * @param hide
@@ -365,8 +373,6 @@ define(["dojo/Evented", "dijit/_WidgetBase", "dijit/_OnDijitClickMixin", "dijit/
                 "returnZ": true,
                 "returnM": true
             }).then(lang.hitch(this, function (results) {
-
-
                     if (results.length > 0) {
                         var profileOutput = results[0].value;
                         if (profileOutput.features.length > 0) {
@@ -433,7 +439,7 @@ define(["dojo/Evented", "dijit/_WidgetBase", "dijit/_OnDijitClickMixin", "dijit/
             var greenSym = new SimpleLineSymbol("solid", new esriColor([0,255,0]), 3);
             // Create point symbol
             var pointSymbol = new SimpleMarkerSymbol(
-                SimpleMarkerSymbol.STYLE_SQUARE, 6,
+                SimpleMarkerSymbol.STYLE_DIAMOND, 8,
                 new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new esriColor([0, 0, 0]), 1),
                 new esriColor([0, 0, 255]));
             // Create input feature set for GP Task
@@ -496,22 +502,28 @@ define(["dojo/Evented", "dijit/_WidgetBase", "dijit/_OnDijitClickMixin", "dijit/
             this.map.setMapCursor("wait");
             this._getProfile(geometry).then(lang.hitch(this, function (elevationInfo) {
                 this.elevationInfo = elevationInfo;
-                this._updateProfileChart();
+                this._updateProfileChart().then(lang.hitch(this, function () {
+                    if (this.applyLOS) {
+                        this.map.setMapCursor("wait");
+                        this._executeLOS(geometry).then(lang.hitch(this, function (losInfo) {
+                            this._updateProfileChartWithLosData(losInfo);
+                            this.map.setMapCursor("default");
+                        }), lang.hitch(this, function (error) {
+                            this.map.setMapCursor("default");
+                            alert(lang.replace("{message}\n\n{details.0}", error));
+                            this.emit("error", error);
+                        }));
+                    }
+                }), lang.hitch(this, function (error) {
+                    this.map.setMapCursor("default");
+                    this.emit("error", error);
+                }));
                 this.emit("display-profile", elevationInfo);
             }), lang.hitch(this, function (error) {
                 this.map.setMapCursor("default");
                 alert(lang.replace("{message}\n\n{details.0}", error));
                 this.emit("error", error);
             }));
-
-            if (this.applyLOS) {
-                this._executeLOS(geometry).then(lang.hitch(this, function (losInfo) {
-                    this._updateProfileChartWithLosData(losInfo);
-                }), lang.hitch(this, function (error) {
-                    alert(lang.replace("{message}\n\n{details.0}", error));
-                    this.emit("error", error);
-                }));
-            }
         },
 
         /**
@@ -523,6 +535,7 @@ define(["dojo/Evented", "dijit/_WidgetBase", "dijit/_OnDijitClickMixin", "dijit/
             this.elevationInfo = null;
             this._clearLOSGraphics();
             this._updateProfileChart();
+            this._clearLOSMarkers();
             this.emit("clear-profile", {});
         },
 
@@ -532,13 +545,17 @@ define(["dojo/Evented", "dijit/_WidgetBase", "dijit/_OnDijitClickMixin", "dijit/
          * @private
          */
         _updateProfileChart: function () {
+            var deferred = new Deferred();
             this.map.setMapCursor("wait");
             this._createProfileChart(this.elevationInfo).then(lang.hitch(this, function () {
                 this.map.setMapCursor("default");
+                return deferred.resolve();
             }), lang.hitch(this, function (error) {
                 this.map.setMapCursor("default");
                 this.emit("error", error);
+                return deferred.reject();
             }));
+            return deferred.promise;
         },
 
         _getClosestValueInArray: function (num, arr) {
@@ -576,17 +593,21 @@ define(["dojo/Evented", "dijit/_WidgetBase", "dijit/_OnDijitClickMixin", "dijit/
                     }
                 }))
                 if (itemList.length > 0) {
-                    this.losSeries = JSON.parse(JSON.stringify(this.elevationData));
+                    var losSeries = [];
                     array.forEach(this.elevationData, lang.hitch(this, function(elevData, idx) {
                         var seriesIdx = array.indexOf(itemList, idx);
-                        var newSeriesY = (seriesIdx !== -1) ? 1 : 0;
-                        this.losSeries[idx] = {
-                            x: elevData.x,
-                            y: newSeriesY
-                        };
+                        if (seriesIdx !== -1) {
+                            losSeries.push({
+                                x: elevData.x,
+                                y: elevData.y
+                            });
+                        }
                     }));
+
+
                     this.profileChart.dirty = true;
-                    this.profileChart.updateSeries("verticalLine", this.losSeries);
+                    this.profileChart.addSeries("losMarkers", losSeries, {plot: "losMarkers"});
+                    this.profileChart.movePlotToFront("losMarkers");
                     this.profileChart.render();
                 }
             }
@@ -764,16 +785,6 @@ define(["dojo/Evented", "dijit/_WidgetBase", "dijit/_OnDijitClickMixin", "dijit/
                 this.profileChart.updateSeries(waterDataSeriesName, waterData);
                 this.profileChart.updateSeries(elevationDataSeriesName, this.elevationData);
 
-                // LOS DATA
-                this.losSeries = JSON.parse(JSON.stringify(this.elevationData));
-                array.forEach(this.elevationData, lang.hitch(this, function(elevData, idx) {
-                    this.losSeries[idx] = {
-                        x: elevData.x,
-                        y: 0
-                    };
-                }));
-                this.profileChart.updateSeries("verticalLine", this.losSeries);
-
                 // RENDER CHART //
                 this.profileChart.render();
                 deferred.resolve();
@@ -847,16 +858,17 @@ define(["dojo/Evented", "dijit/_WidgetBase", "dijit/_OnDijitClickMixin", "dijit/
 
 
                 //Y2 AXIS for Line of sight
-                this.profileChart.addAxis("y2", {
-                    min: 0,
-                    max: 1.0,
-                    vertical: true,
-                    fontColor: "white",
-                    minorTicks: false,
-                    minorLabels: false,
-                    microTicks: false,
-                    leftBottom: false
-                });
+//                this.profileChart.addAxis("y2", {
+//                    min: yMin, //0,
+//                    max: yMax, //1.0,
+//                    vertical: true,
+//                    natural: true,
+//                    fontColor: "whitesmoke",
+//                    minorTicks: false,
+//                    minorLabels: false,
+//                    microTicks: false,
+//                    leftBottom: false
+//                });
 
                 // X AXIS //
                 this.profileChart.addAxis("x", {
@@ -901,17 +913,9 @@ define(["dojo/Evented", "dijit/_WidgetBase", "dijit/_OnDijitClickMixin", "dijit/
                 });
 
                 // LOS PLOT //
-                this.profileChart.addPlot("verticalLine", {
-                    type: Columns,
-                    stroke: {
-                        color: "blue",
-                        width: 0.75
-                    },
-                    gap: 1,
-                    minBarSize: 1,
-                    maxBarSize: 1,
-                    vAxis:"y2"
-                })
+                this.profileChart.addPlot("losMarkers", {
+                    type: MarkersOnly
+                });
 
                 // WATER DATA //
                 this.profileChart.addSeries(waterDataSeriesName, waterData, {
@@ -964,10 +968,7 @@ define(["dojo/Evented", "dijit/_WidgetBase", "dijit/_OnDijitClickMixin", "dijit/
                 });
 
                 // LOS DATA
-                this.losSeries = JSON.parse(JSON.stringify(this.elevationData));
-                this.profileChart.addSeries("verticalLine", this.losSeries, {
-                    plot: "verticalLine"
-                });
+                this.profileChart.addSeries("losMarkers",[{x:0,y:0}], {plot: "losMarkers", stroke: {color: "blue"}});
 
                 // RENDER CHART //
                 this.profileChart.render();

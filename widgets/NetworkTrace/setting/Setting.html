@@ -1,0 +1,45 @@
+﻿<div style="height: calc(100% - 15px); overflow: hidden !important;">
+    <div class="url-section">
+        <div class="label jimu-float-leading esriCTFontStyle" title="${nls.taskUrl}">
+            ${nls.taskUrl}</div>
+        <div class="service-browser jimu-float-trailing">
+            <table cellpadding="0" cellspacing="0" style="width: 100%; border-collapse: collapse;">
+                <tbody>
+                    <tr>
+                        <td>
+                            <div data-dojo-type="dijit/form/ValidationTextBox" data-dojo-attach-point="txtURL"
+                                data-dojo-props='required:true,trim:true,disabled:true' title="${nls.taskUrl}">
+                            </div>
+                        </td>
+                        <td>
+                            <div data-dojo-attach-event="onclick:_onChooseTaskClicked" id="validateUrl" class="jimu-btn jimu-float-trailing esriSetButton"
+                                title="${nls.validate}">
+                                ${nls.validate}</div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="esriCTMainContainer">
+        <div data-dojo-attach-point="taskData" class="esriCTTaskData">
+        </div>
+        <div data-dojo-attach-point="taskDataContainer" class="esriCTtaskDataContainer esriCTHidden"
+            id="taskDataContainerId">
+            <div data-dojo-attach-point="esriCTInputOutputParameters" class="esriCTInputOutputParameters">
+                <div class="section common-property">
+                    <div data-dojo-attach-point="inputProperty">
+                    </div>
+                    <div class="section esriCTHidden" data-dojo-attach-point="outputAdditionalProperty">
+                    </div>
+                </div>
+            </div>
+            <div class="summaryData esriCTHidden" data-dojo-attach-point="summaryTextData">
+            </div>
+            <div class="othersData esriCTHidden" data-dojo-attach-point="othersData">
+            </div>
+            <div class="outageData esriCTHidden" data-dojo-attach-point="outageData">
+            </div>
+        </div>
+    </div>
+</div>

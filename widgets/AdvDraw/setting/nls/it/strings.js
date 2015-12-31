@@ -21,6 +21,18 @@
     squareFeet: "Piedi quadrati",
     squareYards: "Iarde quadrate",
     distance: "Distanze",
-    area: "Aree"
+    area: "Aree",
+    kilometersAbbreviation: "km",
+    milesAbbreviation: "miglio",
+    metersAbbreviation: "m",
+    feetAbbreviation: "ft",
+    yardsAbbreviation: "yd",
+    squareKilometersAbbreviation: "km²",
+    squareMilesAbbreviation: "miglio²",
+    acresAbbreviation: "ac",
+    hectaresAbbreviation: "ha",
+    squareMetersAbbreviation: "m²",
+    squareFeetAbbreviation: "ft²",
+    squareYardsAbbreviation: "yd²"
   })
 );

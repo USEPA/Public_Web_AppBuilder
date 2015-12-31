@@ -2,9 +2,11 @@
   <div data-dojo-attach-point="tabIdentify">
     <div class="identify-tab-node" data-dojo-attach-point="tabNode1">
       <label>${nls.descriptionlabel}</label>
-      <br>
-      <div style="width:100%;height:40px" data-dojo-attach-point="LayerDD"><label data-dojo-attach-point="identifyFromLbl" style="width:25%;margin-top:10px;margin-bottom:10px;margin-right:10px;">${nls.idfrom}</label><select style="width:75%;margin-top:10px;margin-bottom:10px;" data-dojo-attach-point="identifyLayer" data-dojo-type="dijit/form/Select"></select></div>
-      <div data-dojo-attach-point="drawBox" data-dojo-type="widgets/Identify/DrawBox" data-dojo-props='types:["point","polyline","polygon"],showClear:false' style="margin-top:5px;"></div>
+      <div style="width:95%;margin-top:10px;" data-dojo-attach-point="LayerDD">
+        <label data-dojo-attach-point="identifyFromLbl" style="width:25%;margin-top:10px;margin-bottom:10px;margin-right:10px;">${nls.idfrom}</label>
+        <select style="width:100%;margin-top:10px;margin-bottom:10px;" data-dojo-attach-point="identifyLayer" data-dojo-type="dijit/form/Select"></select>
+      </div>
+      <div data-dojo-attach-point="drawBox" data-dojo-type="jimu/dijit/DrawBox" data-dojo-props="types:['point','polyline','polygon'],showClear:false" style="margin-top:5px;"></div>
     </div>
     <div class="identify-tab-node" data-dojo-attach-point="tabNode2">
       <div data-dojo-attach-point="progressbar"></div>

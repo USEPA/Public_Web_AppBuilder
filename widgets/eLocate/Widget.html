@@ -1,0 +1,57 @@
+<div>
+  <div data-dojo-attach-point="tabeLocate">
+    <div class="eLocate-tab-node-hidden" data-dojo-attach-point="tabNode1">
+      <label data-dojo-attach-point="locateDescLabel">${nls.locateDescLabel}</label>
+      <a class="button-clear" href="#" data-dojo-attach-point="btnClear1">${nls.clear}</a>
+      <input data-dojo-attach-point="AddressTextBox" data-dojo-type="dijit/form/TextBox"
+               data-dojo-props="required:false,trim:true" style="width:100%;clear: both;margin: 16px 0;" class="dijit-form-TextBox" />
+      <div style="height:44px;width:100%;">
+        <div data-dojo-type="jimu/dijit/CheckBox" data-dojo-attach-point="cbxAddSearchExtent"
+             data-dojo-props="checked: false,label:'${nls.limittomapextent}'" style="padding-top: 14px;"></div>
+        <div data-dojo-attach-point="btnAddressLocate" class="locate-btn btn-addressLocate" >${nls.locate}</div>
+      </div>
+    </div>
+    <div class="eLocate-tab-node-hidden" data-dojo-attach-point="tabNode2">
+      <label>${nls.coordDescLabel}</label>
+      <a class="button-clear" href="#" data-dojo-attach-point="btnClear2">${nls.clear}</a>
+      <div class="unitDD">
+        <label class="unitDDLbl">${nls.coordUnitLbl}</label>
+        <select data-dojo-attach-point="unitdd" data-dojo-type="dijit/form/Select" class="unitSelect"></select>
+      </div>
+      <div style="width: 100%;height: 32px;margin-top: 8px;clear:both;">
+        <label data-dojo-attach-point="xCoordLbl" class="xCoordLblCls"></label>
+        <input data-dojo-attach-point="xCoordTextBox" data-dojo-type="dijit/form/TextBox"
+               data-dojo-props="required:false,trim:true" class="xCoordTextBoxCls" />
+      </div>
+      <div style="width: 100%;height: 32px;margin-top: 8px;clear:both;">
+        <label data-dojo-attach-point="yCoordLbl" class="yCoordLblCls"></label>
+        <input data-dojo-attach-point="yCoordTextBox" data-dojo-type="dijit/form/TextBox"
+               data-dojo-props="required:false,trim:true" class="yCoordTextBoxCls" />
+      </div>
+      <div style="width: 100%;height: 32px;margin-top: 8px;clear:both;margin-bottom: 16px;">
+        <label data-dojo-attach-point="CoordHintLbl" class="CoordHintLblCls"></label>
+        <label data-dojo-attach-point="CoordHintText" class="CoordHintTextCls"
+               title="${nls.exampleClickTooltip}"></label>
+      </div>
+      <div data-dojo-attach-point="btnCoordLocate" class="locate-btn btn-coordLocate" >${nls.locate}</div>
+    </div>
+    <div class="eLocate-tab-node-hidden" data-dojo-attach-point="tabNode3">
+      <label>${nls.reverseDescLabel}</label>
+      <div class="revGeocodeDiv">
+        <div class="revGeocodeBtn" data-dojo-attach-point="revGeocodeBtn" title="${nls.revgeocodetip}"></div>
+      </div>
+    </div>
+    <div class="eLocate-tab-node-hidden" data-dojo-attach-point="tabNode4">
+      <div data-dojo-attach-point="progressbar"></div>
+      <div class="result-div" data-dojo-attach-point="divResult">
+        <label data-dojo-attach-point="divResultMessage">${nls.noresultsfoundlabel}</label>
+        <a style="float:right; margin-right:10px" href="#" data-dojo-attach-point="btnClear">${nls.clear}</a>
+      </div>
+      <hr>
+      <div data-dojo-type="widgets/eLocate/List" data-dojo-attach-point="list"
+           data-dojo-attach-event="click:_selectResultItem,mouseover:_overResultItem,mouseout:_outResultItem"
+           style="position:absolute;width:100%;height:auto;left:0;right:0;top:43px;bottom:0;overflow-x:auto;overflow-y:auto;"></div>
+    </div>
+  </div>
+  <div data-dojo-type="jimu/dijit/LoadingShelter" data-dojo-attach-point="shelter" data-dojo-props="hidden:true"></div>
+</div>

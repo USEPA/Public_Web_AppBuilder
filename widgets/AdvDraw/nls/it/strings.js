@@ -22,7 +22,7 @@
     markerColor: "Colore marcatore",
     outlineColor: "Colore contorno",
     lineColor: "Colore linea",
-    fillColor: "Colore riempimento",
+    fillColor: "Colore di riempimento",
     showMeasurements: "Mostra misurazioni",
     areaUnits: "Unità di superficie",
     distanceUnits: "Unità distanza",
@@ -37,6 +37,8 @@
     hectares: "Ettari",
     squareMeters: "Metri quadrati",
     squareFeet: "Piedi quadrati",
-    squareYards: "Iarde quadrate"
+    squareYards: "Iarde quadrate",
+    undo: "Annulla",
+    redo: "Ripeti"
   })
 );

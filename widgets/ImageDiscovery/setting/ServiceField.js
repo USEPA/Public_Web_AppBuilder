@@ -11,6 +11,7 @@ define([
         return declare(
             [_WidgetBase, _TemplatedMixin],
             {
+                serviceId: null,
                 field: null,
                 templateString: template,
                 enabled: false,

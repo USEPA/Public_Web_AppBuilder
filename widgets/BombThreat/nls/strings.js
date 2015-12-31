@@ -1,26 +1,14 @@
 define({
     root: {
+        tabBombLocation: "Bomb Location",
+        tabResults: "Results",
         selectType: "Select Bomb Type",
-        enterAddress: "Enter Address",
         drawPoint: "Draw Explosion Location",
-        labelSolve: "Run",
+        labelSolve: "Execute",
         labelClear: "Clear",
-        tabBombThreat: "Bomb Threat",
-        tabFacilities: "Facilities",
-        tabDemo: "Demographics",
-        select: "Select",
-        results: "Results",
-        selectLayer: "Select from layer:",
-        selectDrawtool: "Select draw tool:",
-        result: "Result:",
-        noresult: "No query results to display chart.",
-        nomedia: "There's no media in configuration!",
-        envelop: "Draw Rectangle",
-        circle: "Draw Circle",
-        ellipse: "Draw Ellipse",
-        polygon: "Draw Polygon",
-        freehand: "Draw Freehand Polygon",
-        clear:"Clear"
+        labelSelectBombLocation: "Select Bomb Location",
+        labelSelectCategoryType: "Select Category Type",
+        noresult: "No query results to display"
     },
     "zh-cn": true
 });

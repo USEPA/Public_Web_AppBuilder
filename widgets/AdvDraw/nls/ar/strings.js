@@ -37,6 +37,8 @@
     hectares: "هكتار",
     squareMeters: "أمتار مربعة",
     squareFeet: "قدم مربع",
-    squareYards: "ياردات مربعة"
+    squareYards: "ياردات مربعة",
+    undo: "تراجع",
+    redo: "تراجع"
   })
 );

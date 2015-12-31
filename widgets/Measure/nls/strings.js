@@ -1,7 +1,7 @@
 define({
   root: ({
     _widgetLabel: "Measure",
-    selectDrawMode: "Select drawing mode",
+    selectDrawMode: "Select measure tool",
     clear: "Clear",
     point: "Point",
     line: "Line",
@@ -23,6 +23,7 @@ define({
     distanceUnits: "Distance Units",
     kilometers: "Kilometers",
     miles: "Miles",
+    nauticalMiles: "Nautical Miles",
     meters: "Meters",
     feet: "Feet",
     yards: "Yards",

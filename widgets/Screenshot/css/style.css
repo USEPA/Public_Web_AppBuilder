@@ -1,0 +1,23 @@
+.jimu-widget-screenshot
+{
+/* base class applies to everything in widget*/
+}
+
+
+#btnPict {
+text-shadow: -2px 2px #346392;
+  background-image: linear-gradient(top, #6496c8, #346392);
+  box-shadow: inset 0 0 0 1px #27496d;
+  border: none;
+  border-radius: 5px;
+}
+
+#btnPict:hover,
+#btnPict.hover {
+  box-shadow: inset 0 0 0 1px #27496d,0 5px 15px #193047;
+}
+
+#btnPict:active,
+#btnPict.active {
+  box-shadow: inset 0 0 0 1px #27496d,inset 0 5px 30px #193047;
+}

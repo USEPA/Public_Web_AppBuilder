@@ -1,4 +1,7 @@
 .jimu-widget-printplus{
+  width: 100%;
+  height: 100%;
+  position: relative;
 }
 
 .jimu-widget-printplus .dijitSelect{
@@ -28,6 +31,13 @@
 .gis_PrintPlusDijit .printResultError {
   font-weight: bold;
   color: red;
+  cursor: help;
+}
+
+.gis_PrintPlusDijit .printResult .error-icon {
+  width: 16px;
+  height: 18px;
+  background: url(../images/error.png) center no-repeat;
 }
 
 .gis_PrintPlusDijit .printResultHover table:hover {
@@ -36,10 +46,7 @@
 }
 
 .gis_PrintPlusDijit .buttonActionBar {
-  /*background-color: #F2F2F2;
-  border: 1px solid #CDCDCD;*/
   padding: 3px 0px 2px 0px;
-  text-align: right;
   width: 100%;
 }
 
@@ -72,12 +79,15 @@
   width: 16px;
   height: 16px;
 }
+
 .gis_PrintPlusDijit .dijitArrowButtonContainer {
   width: 17px;
 }
+
 .gis_PrintPlusDijit .dijitSliderImageHandle {
   outline: none;
 }
+
 .unselectable {
   -moz-user-select:none;
   -webkit-user-select:none;

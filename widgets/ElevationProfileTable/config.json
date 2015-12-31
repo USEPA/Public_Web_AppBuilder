@@ -3,6 +3,6 @@
         "url": "http://elevation.arcgis.com/arcgis/rest/services/Tools/ElevationSync/GPServer"
     },
     "losSync": {
-        "url": "http://clt-kgonzago7l1:6080/arcgis/rest/services/LOS/GPServer"
+        "url": "http://afmcloud.esri.com/arcgis/rest/services/Analysis/LineOfSight/GPServer"
     }
 }

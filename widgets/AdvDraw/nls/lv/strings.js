@@ -37,6 +37,8 @@
     hectares: "Hektāri",
     squareMeters: "Kvadrātmetri",
     squareFeet: "Kvadrātpēdas",
-    squareYards: "Kvadrātjardi"
+    squareYards: "Kvadrātjardi",
+    undo: "Atsaukt",
+    redo: "Atcelt atsaukšanu"
   })
 );

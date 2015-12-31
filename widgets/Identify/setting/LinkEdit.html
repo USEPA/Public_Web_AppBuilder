@@ -6,7 +6,7 @@
           <td colspan="3">
             <table style="width:100%;" cellspacing="0">
               <tr>
-                <td style="width:50%;">
+                <td style="width:100%;">
                   <table style="width:100%;" cellspacing="0">
                     <tbody>
                       <tr>
@@ -14,13 +14,15 @@
                           <span>${nls.linkAlias}</span>
                         </td>
                         <td style="width:auto;">
-                          <input type="text" data-dojo-type="dijit/form/TextBox" data-dojo-attach-point="linkAlias" style="width:100%;" placeHolder="Name for the link" />
+                          <textarea style="width:100%; padding:0 3px;" rows="1" data-dojo-attach-point="linkAlias" placeholder="Name for the link"></textarea>
+                        </td>
+                        <td style="width:115px;vertical-align:top;">
+                          <div data-dojo-type="widgets/Identify/setting/AddFieldBtn" data-dojo-attach-point="linkAliasAddButton" />
                         </td>
                       </tr>
                     </tbody>
                   </table>
                 </td>
-                <td style="width:50%;" />
               </tr>
             </table>
           </td>
@@ -33,11 +35,9 @@
                   <table style="width:100%;" cellspacing="0">
                     <tbody>
                       <tr>
-                        <td style="width:auto;text-align:right;padding-right:15px;">
-                          <span>${nls.disablenulllink}</span>
-                        </td>
                         <td style="width:115px;">
-                          <div data-dojo-type="jimu/dijit/CheckBox" data-dojo-attach-point="disableNullLinkCbx" />
+                          <div data-dojo-type="jimu/dijit/CheckBox" data-dojo-attach-point="disableNullLinkCbx"
+                               data-dojo-props="label:'${nls.disablenulllink}'"/>
                         </td>
                       </tr>
                     </tbody>
@@ -47,11 +47,9 @@
                   <table style="width:100%;" cellspacing="0">
                     <tbody>
                       <tr>
-                        <td style="width:auto;text-align:right;padding-right:15px;">
-                          <span>${nls.disablelinkinpopup}</span>
-                        </td>
                         <td style="width:115px;">
-                          <div data-dojo-type="jimu/dijit/CheckBox" data-dojo-attach-point="disableLinkinPopUpCbx" />
+                          <div data-dojo-type="jimu/dijit/CheckBox" data-dojo-attach-point="disableLinkinPopUpCbx"
+                               data-dojo-props="label:'${nls.disablelinkinpopup}'"/>
                         </td>
                       </tr>
                     </tbody>
@@ -65,7 +63,7 @@
                           <span>${nls.popuplinktype}</span>
                         </td>
                         <td style="width:auto;">
-                          <select data-dojo-attach-point="selectLinkType" data-dojo-type="dijit/form/Select" data-dojo-props='style:{width:"200px"}'>
+                          <select data-dojo-attach-point="selectLinkType" data-dojo-type="dijit/form/Select" data-dojo-props="style:{width:'200px'}">
                             <option value="image" selected="selected">${nls.linkimage}</option>
                             <option value="text">${nls.linktext}</option>
                           </select>

@@ -1,0 +1,30 @@
+﻿<div class="ParameterDiv esriCTHidden">
+    <div class="fieldHeader">
+        ${nls.inputPanel.inputTask} - ${data.displayName}</div>
+    <div class="field" title="${nls.inputTooltip}">
+        <label title="${nls.inputTooltip}">
+            ${nls.inputTooltip}</label>
+        <input data-dojo-attach-point="inputTooltipData" data-dojo-type="dijit/form/ValidationTextBox"
+            title="${nls.inputTooltip}" class="common-input esriCTTooltipDataClass" value="${data.description}">
+    </div>
+    <div class="field" title="${nls.inputPanel.inputType}">
+        <label title="${nls.inputPanel.inputType}">
+            ${nls.inputPanel.inputType}</label>
+        <select data-dojo-attach-point="inputTypeData" id="${ObjId}" data-dojo-type="dijit/form/Select"
+            class="common-input" style="width: 200px; height: 30px;">
+            <option value="Flag">${nls.inputPanel.inputTypeFlag}</option>
+            <option value="Barrier">${nls.inputPanel.inputTypeBarriers}</option>
+            <option value="Skip">${nls.inputPanel.inputTypeSkip}</option>
+        </select>
+        <div class="esriCTHintField">
+            ${nls.hintText.inputTypeHint}</div>
+    </div>
+    <div class="field" title="${nls.symbol}">
+        <label title="${nls.symbol}">
+            ${nls.symbol}</label>
+        <div class="esriCTPreview" title="${nls.symbolSelecter.symbolPreviewLabal}">
+            ${nls.symbolSelecter.symbolPreviewLabal}:</div>
+        <div class="esriCTSymbolPreview" data-dojo-attach-point="symbolDataPreview">
+        </div>
+    </div>
+</div>

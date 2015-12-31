@@ -1,0 +1,54 @@
+﻿<div class="ParameterDiv">
+    <div class="esriCTSummaryText">
+        ${nls.summaryTab.summaryTabText}</div>
+    <div class="esriCTSummaryParentDiv">
+        <div class="esriCTSummarySettingText">
+            ${nls.summaryTab.summaryFieldsetText}</div>
+        <div class="esriCTMultiSelectParent">
+            <div class="esriCTMultiSelectContainer esriCTInputOutputPanelParentContainer">
+                <div class="esriCTLblContainer esriCTInputOutputPanelLblContainer">
+                    ${nls.summaryTab.inputOutput}
+                </div>
+                <div class="esriCTInputPanel" data-dojo-attach-point="inputOutputParameterPanel">
+                </div>
+            </div>
+            <div class="esriCTMultiSelectContainer" data-dojo-attach-point="fieldParentContainer">
+                <div class="esriCTLblContainer esriCTFieldPanelLblContainer">
+                    ${nls.summaryTab.field}
+                </div>
+                <div class="esriCTFieldPanel" data-dojo-attach-point="fieldPanel">
+                </div>
+            </div>
+            <div class="esriCTMultiSelectContainer esriCTOperatorParentContainer" data-dojo-attach-point="operatorParentContainer">
+                <div class="esriCTLblContainer esriCTOperatorPanelLblContainer">
+                    ${nls.summaryTab.operator}
+                </div>
+                <div class="esriCTOperatorPanel" data-dojo-attach-point="operatorPanel">
+                </div>
+            </div>
+        </div>
+        <div class="esriCTSummaryHintField">
+            ${nls.hintText.expressionHint}
+        </div>
+        <div class="esriCTButtonContainer">
+            <div style="float: left" title="${nls.summaryTab.expressionAddButtonText}" data-dojo-attach-event="onclick:_onClickAddExpressionBtn"
+                data-dojo-attach-point="addSummaryExpression" class="jimu-state-disabled jimu-btn jimu-float-trailing esriSetButton jimu-leading-margin1">
+                ${nls.summaryTab.expressionAddButtonText}
+            </div>
+            <div style="float: left;" title="${nls.summaryTab.expressionVerifyButtonText}" data-dojo-attach-event="onclick:_onClickVerifyExpressionBtn"
+                data-dojo-attach-point="verifySummaryExpression" class="jimu-state-disabled jimu-btn jimu-float-trailing esriSetButton jimu-leading-margin1">
+                ${nls.summaryTab.expressionVerifyButtonText}
+            </div>
+        </div>
+        <div class="esriCTSummaryEditorText">
+            ${nls.summaryTab.summaryEditorText}
+        </div>
+        <div class="esriCTSummaryEditor">
+            <div data-dojo-attach-point="editorContainer">
+            </div>
+            <div class="esriCTSummaryHintField">
+                ${nls.hintText.inputTextHint}
+            </div>
+        </div>
+    </div>
+</div>
