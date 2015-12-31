@@ -39,6 +39,10 @@
     squareFeet: "Čtvereční stopy",
     squareYards: "Čtvereční yardy",
     undo: "Zpět",
-    redo: "Znovu"
+    redo: "Znovu",
+    results: "Výsledky",
+    points: "Body",
+    lines: "Linie",
+    areas: "Oblasti"
   })
 );

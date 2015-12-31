@@ -9,6 +9,24 @@
     requiredInfo: "jest wymagane.",
     drawnOnMap: "Wynik zostaje wyświetlony na mapie.",
     clear: "Wyczyść",
-    error: "Błąd"
+    error: "Błąd",
+    noToolConfig: "Brak wstępnie skonfigurowanego zadania geoprzetwarzania.",
+    useUrlForGPInput: "Adres URL",
+    useUploadForGPInput: "Wczytaj plik",
+    selectFileToUpload: 'Wybierz plik...',
+    upload: 'Prześlij',
+    rasterFormat: 'Format danych wynikowych',
+    noFileSelected: 'Nie wybrano pliku!',
+    uploadSuccess:'Pomyślnie przesłano plik!',
+    url: "Adres URL",
+    showLayerContent: "Wyświetl zawartość warstwy",
+    invalidUrl: "Niepoprawny adres URL usługi obiektowej",
+    Feet: "Stopy",
+    Yards: "Jardy",
+    Miles: "Mile",
+    NauticalMiles: "Mile morskie",
+    Meter: "Metry",
+    Kilometers: "Kilometry",
+    urlPlaceholder: "adres URL zestawów obiektów"
   })
 );

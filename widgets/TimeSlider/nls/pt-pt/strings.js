@@ -1,7 +1,7 @@
 ﻿define(
    ({
     _widgetLabel: "Controlo Deslizante de Tempo",
-    enableTips: "Clique para iniciar o controlo deslizante de tempo",
+    enableTips: "Clique para exibir a barra deslizante do tempo.",
     disableTips: "Não há camadas com informação temporal  visíveis",
     timeExtent: "${FROMTIME} a ${ENDTIME}",
     layers: "camadas: ",

@@ -1,0 +1,9 @@
+{
+  "drsSOEURL": "http://datareviewer.arcgisonline.com/arcgis/rest/services/Samples/reviewerDashboard/MapServer/exts/DataReviewerServer",
+  "includeGeographicFilter":"true",
+  "numberChartSections":5,
+  "selectUrl": "http://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Demographics/ESRI_Census_USA/MapServer/1",
+  "selectMapUrl": "http://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Demographics/ESRI_Census_USA/MapServer",
+  "geometryServiceURL": "http://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Geometry/GeometryServer",
+  "dashboardFieldNames":[]
+}

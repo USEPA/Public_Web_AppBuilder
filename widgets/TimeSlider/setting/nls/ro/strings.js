@@ -1,5 +1,5 @@
 ﻿define(
    ({
-    showLayerLabels: "Afişaţi numele stratului tematic pe widget pentru straturile tematice care detectează timpul."
+    showLayerLabels: "Afişaţi numele straturilor tematice cu capabilităţi temporale în widget."
   })
 );

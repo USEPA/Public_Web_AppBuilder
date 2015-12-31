@@ -31,6 +31,22 @@
     setTask: "Iestatīt",
     setTaskTitle: "Iestatīt GP uzdevumu",
     enablePopup: "Iespējot uznirstošo logu",
-    unSupportGeometryType: "Nevar iestatīt renderētāju nezināma ģeometrijas tipa dēļ."
+    unSupportGeometryType: "Nevar iestatīt renderētāju nezināma ģeometrijas tipa dēļ.",
+    useUrlForGPInput: "URL",
+    useUploadForGPInput: "Augšupielādējiet failu",
+    selectFileToUpload: "Atlasiet failu...",
+    upload: "Augšupielādēt",
+    rasterFormat: "Rastra datu formāts",
+    noFileSelected: "Nav atlasīts fails!",
+    uploadSuccess:"Faila augšupielāde veiksmīga!",
+    showLayerContent: "Rādīt slāņa saturu",
+    Feet: "Pēdas",
+    Yards: "Jardi",
+    Miles: "Jūdzes",
+    NauticalMiles: "Jūras jūdzes",
+    Meter: "Metri",
+    Kilometers: "Kilometri",
+    urlPlaceholder: "elementu kopas URL",
+    allowToExport: "Atļaut eksportēt rezultātus"
   })
 );

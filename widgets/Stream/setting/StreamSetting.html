@@ -1,0 +1,32 @@
+<div>
+  <div data-dojo-attach-point="detailSection" class="detail">
+    <div>
+      <div class="titleContainer">
+        <label class="jimu-widget-title">${nls.streamControls}</label>
+      </div>
+      <div data-dojo-attach-point="startStopCheckBoxDiv" class="checkboxContainer jimu-widget-tooltip"></div>
+      <div data-dojo-attach-point="clearPreviousCheckBoxDiv" class="checkboxContainer jimu-widget-tooltip"></div>
+      <div data-dojo-attach-point="drawPreviousCheckBoxDiv" class="checkboxContainer jimu-widget-tooltip"></div>
+    </div>
+    <div>
+      <div class="titleContainer">
+        <label class="jimu-widget-title">${nls.streamFilter}</label>
+      </div>
+      <div data-dojo-attach-point="spatialFilterCheckBoxDiv" class="checkboxContainer jimu-widget-tooltip"></div>
+      <div data-dojo-attach-point="spatialChoices">
+        <div data-dojo-attach-point="mapExtentCheckBoxDiv" class="subCheckboxContainer jimu-widget-tooltip"></div>
+        <div class="subCheckboxContainer">
+          <div data-dojo-attach-point="drawExtentCheckBoxDiv" class="jimu-widget-tooltip" style="display:inline"></div>
+          <div data-dojo-attach-point="symbolPickerNode" style="display:none"></div>
+        </div>
+      </div>
+      <div>
+        <div data-dojo-attach-point="filterCheckBoxDiv" class="jimu-widget-tooltip"
+             class="checkboxContainer" style="display: inline-block"></div>
+        <div data-dojo-attach-point="filterIcon" class="filterIcon disabled jimu-leading-margin05"
+          data-dojo-attach-event="onClick: _showFilter"></div>
+      </div>
+    </div>
+  </div>
+  <div data-dojo-attach-point="shelter" data-dojo-type="jimu/dijit/LoadingShelter" data-dojo-props='hidden:true'></div>
+</div>

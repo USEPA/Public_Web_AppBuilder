@@ -21,11 +21,11 @@
     ok: "OK",
     cancel: "Annuler",
     result: "Enregistrement réussi",
-    spError: "Tous les fonds de carte ajoutés à la bibliothèque doivent avoir les mêmes références spatiales.",
+    spError: "Tous les fonds de carte ajoutés à la bibliothèque doivent avoir la même référence spatiale.",
     invalidTitle1:"Un fond de carte nommé \'",
     invalidTitle2:"\' existe déjà. Choisissez un autre titre.",
     invalidBasemapUrl1: "Ce type de couche ne peut pas être utilisé comme fond de carte.",
-    invalidBasemapUrl2: "Référence spatiale différente de la carte actuelle.",
+    invalidBasemapUrl2: "La référence spatiale du fond de carte que vous ajoutez est différente de celle de la carte actuelle.",
     addBaselayer: "Ajouter une couche de fonds de carte"
   })
 );

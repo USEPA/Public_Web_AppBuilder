@@ -5,7 +5,7 @@
     licenceAgree: "Concordo com",
     licenceTerm: "os termos da ArcGIS Web Application",
     labelContinue: "Continuar",
-    errorString: "* É necessário que concorde com a licença para proceder.",
+    errorString: "*Precisa concordar com a licença para continuar.",
     notShowAgain: "Não voltar a exibir este ecrã inicial-",
     ok: "OK",
     cancel: "Cancelar"

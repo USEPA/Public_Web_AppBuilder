@@ -19,6 +19,6 @@
     outputs: "Izvades",
     outputtip: "Piezīme. Elementu un tabulu izvades tiek pievienotas kartei kā darbības slāņi.",
     outputSaveInPortal: "Dati tika saglabāti jūsu portālā.",
-    privilegeError: "Lai izpildītu darbības ar analīzes rīku, jums ir vajadzīga izdevēja vai administratora loma."
+    privilegeError: "Jūsu lietotāja loma neļauj veikt analīzi. Lai veiktu analīzi, jūsu organizācijas administratoram jums jāpiešķir konkrētās <a href=\"http://doc.arcgis.com/en/arcgis-online/reference/roles.htm\" target=\"_blank\">privilēģijas</a>."
   })
 );

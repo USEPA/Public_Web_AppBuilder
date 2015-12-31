@@ -92,18 +92,23 @@ define([
         this.inherited(arguments);
 
         var fields = [{
+          name: 'id',
+          title: this.nls.id,
+          type: 'text',
+          unique: true,
+          hidden: true,
+          editable: false
+        }, {
           name: 'wkid',
           title: this.nls.wkid,
           type: 'text',
           'class': "wkid",
-          unique: true,
           hidden: true,
           editable: false
         }, {
           name: 'label',
           title: this.nls.label,
           type: 'text',
-          unique: true,
           editable: false
         }, {
           name: 'outputUnit',
@@ -144,10 +149,12 @@ define([
           actions: ['edit', 'up', 'down', 'delete']
         }];
         var args = {
+          autoHeight: false,
           fields: fields,
           selectable: false
         };
         this.outputCoordinateTable = new Table(args);
+        html.setStyle(this.outputCoordinateTable.domNode, 'height', '100%');
         this.outputCoordinateTable.placeAt(this.tableCoordinate);
         this.outputCoordinateTable.startup();
 
@@ -169,6 +176,7 @@ define([
             for (var i = 0; i < len; i++) {
               var wkid = parseInt(config.spatialReferences[i].wkid, 10);
               json.push({
+                id: i,
                 wkid: utils.standardizeWkid(wkid),
                 label: config.spatialReferences[i].label,
                 outputUnit: config.spatialReferences[i].outputUnit,
@@ -273,7 +281,7 @@ define([
         query('.row-edit-div', row).style('display', 'block');
 
         aspect.after(this.outputCoordinateTable, 'onBeforeRowUp', lang.hitch(this, function(tr) {
-          if (query(".body-section .simple-table-tr")[1] === tr) {
+          if (query(".body-section .simple-table-row")[1] === tr) {
             return false;
           }
         }), true);
@@ -359,6 +367,7 @@ define([
         var json = [];
         var len = data.length;
         for (var i = 0; i < len; i++) {
+          delete data[i].id;
           data[i].options = dojoJSON.parse(data[i].options);
           json.push(data[i]);
         }

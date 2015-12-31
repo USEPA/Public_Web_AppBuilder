@@ -8,11 +8,11 @@
         <img src="${icon}">
       </td>
       <td data-dojo-attach-point="nameNode">
-        <div data-dojo-attach-point="progressBar" data-dojo-type="dijit/ProgressBar" data-dojo-props="value:Infinity,label:'${nls.creatingPrint}'"></div>
+        <div data-dojo-attach-point="progressBar" data-dojo-type="dijit/ProgressBar" data-dojo-props='value:Infinity,label:"${nls.creatingPrint}"'></div>
         <span data-dojo-attach-point="successNode" class="bold" style="display:none;">${docName}</span>
         <div data-dojo-attach-point="errNode" style="display:none;">
           <span class="bold">${nls.printError}</span>
-          <div class="error-icon jimu-float-trailing"></div>
+          <div class="jimu-icon jimu-icon-error jimu-float-trailing"></div>
         </div>
       </td>
     </tr>

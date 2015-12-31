@@ -1,5 +1,6 @@
 ﻿define(
    ({
-    _widgetLabel: 'Suunnat'
+    _widgetLabel: "Reitti",
+    searchPlaceholder: "Etsi osoite tai paikka"
   })
 );

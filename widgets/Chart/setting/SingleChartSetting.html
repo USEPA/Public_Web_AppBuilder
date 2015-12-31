@@ -17,7 +17,10 @@
 						</td>
 						<td>
 							<div style="position:relative;overflow:hidden;width:100%;height:30px;">
-								<div class="url-text-box" data-dojo-attach-point="urlTextBox" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props='required:true,trim:true,disabled:true' style="display:inline-block;width:380px;min-width:380px;height:100%;"></div>
+								<div class="url-text-box" data-dojo-attach-point="urlTextBox"
+								data-dojo-type="dijit/form/ValidationTextBox"
+								data-dojo-props='required:true,trim:true,disabled:true'
+								style="display:inline-block;width:380px;min-width:380px;height:100%;"></div>
 								<div class="filter-icon" title="${nls.addFilterTip}" data-dojo-attach-point="filterIcon"></div>
 								<div class="jimu-btn btn-data-source jimu-float-trailing" data-dojo-attach-point="btnSetSource" data-dojo-attach-event="onclick:_onBtnSetClicked" title="${nls.set}">${nls.set}</div>
 							</div>
@@ -29,7 +32,11 @@
 							<span title="${nls.chartTitle}">${nls.chartTitle}</span>
 						</td>
 						<td>
-							<div data-dojo-attach-point="chartNameTextBox" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props='required:true,trim:true' data-dojo-attach-event="change:_onChartNameChanged" style="width:100%;"></div>
+							<div data-dojo-attach-point="chartNameTextBox"
+							data-dojo-type="dijit/form/ValidationTextBox"
+							data-dojo-props='required:true,trim:true'
+							data-dojo-attach-event="change:_onChartNameChanged,blur:_onChartNameBlurred"
+							style="width:100%;"></div>
 						</td>
 					</tr>
 					<tr>
@@ -38,7 +45,9 @@
 							<span title="${nls.description}">${nls.description}</span>
 						</td>
 						<td>
-							<textarea data-dojo-attach-point="descriptionTA" style="width:100%;height:34px;resize:none;"></textarea>
+							<textarea data-dojo-attach-point="descriptionTA"
+							data-dojo-attach-event="blur:_onDescriptionBlurred"
+							style="width:100%;height:34px;resize:none;"></textarea>
 						</td>
 					</tr>
 				</tbody>

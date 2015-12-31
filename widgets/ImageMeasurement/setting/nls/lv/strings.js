@@ -1,0 +1,50 @@
+﻿define(
+   ({
+    layerSelect: "Atlasīt attēla slāni",
+    displayMeasureResultInPopup: "Rādīt mērīšanas rezultātu uznirstošajā logā",
+    angularUnitSelect: "Noklusējuma leņķveida vienība",
+    linearUnitSelect: "Noklusējuma lineārā vienība",
+    areaUnitSelect: "Noklusējuma laukuma vienība",
+    displayOperationSelect: "Atlasīt mērīšanas darbības",
+    errorSectionMeasage: "Neviens slānis neatbalsta mērīšanas iespējas.",
+    unitLabel: {
+      esriInches: "Collas",
+      esriFeet: "Pēdas",
+      esriYards: "Jardi",
+      esriMiles: "Jūdzes",
+      esriNauticalMiles: "Jūras jūdzes",
+      esriMillimeters: "Milimetri",
+      esriCentimeters: "Centimetri",
+      esriDecimeters: "Decimetri",
+      esriMeters: "Metri",
+      esriKilometers: "Kilometri",
+      esriDURadians: "Radiāni",
+      esriDUDecimalDegrees: "Grādi",
+      esriSquareInches: "Kvadrātcollas",
+      esriSquareFeet: "Kv. pēdas",
+      esriSquareYards: "Kv. jardi",
+      esriAcres: "Akri",
+      esriSquareMiles: "Kv. jūdzes",
+      esriSquareMillimeters: "Kvadrātmilimetri",
+      esriSquareCentimeters: "Kvadrātcentimetri",
+      esriSquareDecimeters: "Kvadrātdecimetri",
+      esriSquareMeters: "Kv. metri",
+      esriAres: "Laukumi",
+      esriHectares: "Hektāri",
+      esriSquareKilometers: "Kv. kilometri"
+    },
+    operationLabel: {
+      esriMensurationPoint: "Punkts",
+      esriMensurationDistanceAndAngle: "Attālums un leņķis",
+      esriMensurationAreaAndPerimeter: "Laukums un perimetrs",
+      esriMensurationHeightFromBaseAndTop: "No pamatnes līdz augšai",
+      esriMensurationHeightFromBaseAndTopShadow: "No pamatnes līdz augšas ēnai",
+      esriMensurationHeightFromTopAndTopShadow: "No augšas līdz augšas ēnai",
+      esriMensurationCentroid: "Centroīds",
+      esriMensurationPoint3D: "Punkts (3D)",
+      esriMensurationDistanceAndAngle3D: "Attālums un leņķis (3D)",
+      esriMensurationAreaAndPerimeter3D: "Laukums un perimetrs (3D)",
+      esriMensurationCentroid3D: "Centroīds (3D)"
+    }
+  })
+);

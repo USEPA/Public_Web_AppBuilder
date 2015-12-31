@@ -1,6 +1,7 @@
 define({
   root: ({
-    _widgetLabel: 'Directions'
+    _widgetLabel: "Directions",
+    searchPlaceholder: "Find address or place"
   }),
   "ar": 1,
   "cs": 1,
@@ -28,5 +29,7 @@ define({
   "th": 1,
   "tr": 1,
   "vi": 1,
-  "zh-cn": 1
+  "zh-cn": 1,
+  "zh-hk": 1,
+  "zh-tw": 1
 });

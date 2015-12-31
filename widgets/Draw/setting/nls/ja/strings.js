@@ -33,6 +33,8 @@
     hectaresAbbreviation: "ha",
     squareMetersAbbreviation: "sq m",
     squareFeetAbbreviation: "sq ft",
-    squareYardsAbbreviation: "sq yd"
+    squareYardsAbbreviation: "sq yd",
+    defineUnits: "計測単位を定義します。",
+    operationalLayer: "マップの操作レイヤーとして描画を追加します。"
   })
 );

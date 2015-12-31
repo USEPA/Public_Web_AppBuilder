@@ -17,7 +17,24 @@
   right: 0;
   height: auto;
   top: 0;
+  bottom: 60px;
+}
+
+.jimu-widget-chart .btn-section{
+  position: absolute;
+  width: 100%;
+  left: 0;
+  right: 0;
   bottom: 0;
+  height: auto;
+  text-align: center;
+}
+
+.jimu-widget-chart .btn-section .btn-clear-all{
+  margin-left: auto;
+  margin-right: auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .jimu-widget-chart .chart-step{
@@ -43,8 +60,8 @@
 
 .jimu-widget-chart .chart-list .charts .execute-tip{
   line-height: 20px;
-  color: #66696c;
-  font-size: 14px;
+  /*color: #66696c;
+  font-size: 14px;*/
 }
 
 .jimu-widget-chart .chart-list .charts .charts-table-container{
@@ -53,9 +70,11 @@
 }
 
 .jimu-widget-chart .chart-list .charts .charts-table{
-  width: 100%;
+  width: 99%;
   border-collapse: collapse;
   table-layout: fixed;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .jimu-widget-chart .chart-list .charts .charts-table td{
@@ -92,28 +111,28 @@
   background-image: url(images/rtl_arrow_right1.png);
 }
 
-.jimu-widget-chart .chart-list .charts .charts-table>tbody>tr.selected td{
+/*.jimu-widget-chart .charts-table .jimu-table-row.jimu-state-active td{
   background: #d9dde0;
 }
 
-.jimu-widget-chart .chart-list .charts .charts-table>tbody>tr:hover td{
+.jimu-widget-chart .charts-table .jimu-table-row:hover td{
   background: #d9dde0;
   border-top: 1px solid #ffffff;
-}
+}*/
 
-.jimu-widget-chart .chart-list .charts .charts-table>tbody>tr.selected .third-td .arrow{
+.jimu-widget-chart .charts-table .jimu-table-row.jimu-state-active .third-td .arrow{
   background-image: url(images/arrow_right2.png);
 }
 
-.jimu-rtl .jimu-widget-chart .chart-list .charts .charts-table>tbody>tr.selected .third-td .arrow{
+.jimu-rtl .jimu-widget-chart .charts-table .jimu-table-row.jimu-state-active .third-td .arrow{
   background-image: url(images/rtl_arrow_right2.png);
 }
 
-.jimu-widget-chart .chart-list .charts .charts-table>tbody>tr:hover .third-td .arrow{
+.jimu-widget-chart .charts-table .jimu-table-row:hover .third-td .arrow{
   background-image: url(images/arrow_right2.png);
 }
 
-.jimu-rtl .jimu-widget-chart .chart-list .charts .charts-table>tbody>tr:hover .third-td .arrow{
+.jimu-rtl .jimu-widget-chart .charts-table .jimu-table-row:hover .third-td .arrow{
   background-image: url(images/rtl_arrow_right2.png);
 }
 
@@ -129,8 +148,8 @@
 .jimu-widget-chart .chart-list .no-chart-tip{
   display: none;
   line-height: 20px;
-  color: #66696c;
-  font-size: 14px;
+  /*color: #66696c;
+  font-size: 14px;*/
 }
 
 /* css for header */

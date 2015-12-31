@@ -55,6 +55,10 @@
   width: 120px;
 }
 
+.jimu-widget-coordinate-setting .coordinate-table{
+  height: 396px;
+}
+
 .jimu-widget-coordinate-setting .display-number,
 .jimu-widget-coordinate-setting .separator{
   margin-top: 10px;

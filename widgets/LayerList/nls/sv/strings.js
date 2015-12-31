@@ -15,7 +15,7 @@
     itemToAttributeTable: "Öppna attributtabell",
     itemShowItemDetails: "Visa objektinformation",
     empty: "tom",
-    removePopup: "Ta bort popup-ruta",
+    removePopup: "Inaktivera popupfönster",
     enablePopup: "Aktivera popup-ruta"
   })
 );

@@ -1,7 +1,7 @@
 ﻿define(
    ({
     _widgetLabel: "Joonistamine",
-    selectDrawMode: "Vali joonistamise režiim",
+    selectDrawMode: "Valige joonistusrežiim",
     clear: "Puhasta",
     point: "Punkt",
     line: "Joon",
@@ -39,6 +39,10 @@
     squareFeet: "Ruutjalga",
     squareYards: "Ruutjardi",
     undo: "Tühista",
-    redo: "Ennista"
+    redo: "Ennista",
+    results: "Tulemused",
+    points: "Punktid",
+    lines: "Jooned",
+    areas: "Pindalad"
   })
 );

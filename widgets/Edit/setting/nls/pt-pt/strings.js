@@ -16,6 +16,7 @@
     editpageAlias: "Nome Alternativo",
     editpageVisible: "Visível",
     editpageEditable: "Editável",
-    noLayers: "Não há camadas de elementos editáveis"
+    noLayers: "Não há camadas de elementos editáveis",
+    configureFields: "Configurar Campos de Camadas"
   })
 );

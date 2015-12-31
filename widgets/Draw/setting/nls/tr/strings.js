@@ -33,6 +33,8 @@
     hectaresAbbreviation: "ha",
     squareMetersAbbreviation: "m²",
     squareFeetAbbreviation: "ft²",
-    squareYardsAbbreviation: "yd kare"
+    squareYardsAbbreviation: "yd kare",
+    defineUnits: "Ölçüm birimlerini tanımlayın.",
+    operationalLayer: "Çizimi harita katmanının bir işlem katmanı olarak ekleyin."
   })
 );

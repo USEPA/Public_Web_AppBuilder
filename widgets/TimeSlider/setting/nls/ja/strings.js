@@ -1,5 +1,5 @@
 ﻿define(
    ({
-    showLayerLabels: "時間対応レイヤーのレイヤー名をウィジェットに表示"
+    showLayerLabels: "時間対応レイヤー名をウィジェットに表示します。"
   })
 );

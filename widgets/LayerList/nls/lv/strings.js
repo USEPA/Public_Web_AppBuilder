@@ -15,7 +15,7 @@
     itemToAttributeTable: "Atvērt atribūtu tabulu",
     itemShowItemDetails: "Parādīt vienību detaļas",
     empty: "tukšs",
-    removePopup: "Noņemt uznirstošo logu",
+    removePopup: "Atspējojiet uznirstošo logu",
     enablePopup: "Aktivizēt uznirstošo logu"
   })
 );

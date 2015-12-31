@@ -22,7 +22,7 @@ define([
   var mo = {};
 
   mo.getLayerObjects = function(theMap){
-    return LayerInfos.getInstance(theMap,theMap.itemInfo).then(function(
+    return LayerInfos.getInstance(theMap, theMap.itemInfo).then(function(
           layerInfosObject){
       var layerInfos = [];
       layerInfosObject.traversal(function(layerInfo){
@@ -40,7 +40,11 @@ define([
             resultArray.push(layerObject);
           }
         });
-        return resultArray;
+        return {
+          layerInfosObject: layerInfosObject,
+          layerInfos: layerInfos,
+          layerObjects: resultArray
+        };
       });
     });
   };

@@ -7,7 +7,7 @@
     next: "次へ",
     home: "ホーム",
     jobSubmitted: "送信しました。",
-    jobCancelled: "キャンセルしました。",
+    jobCancelled: "キャンセルされました。",
     jobFailed: "失敗しました",
     jobSuccess: "完了しました。",
     executing: "実行中",
@@ -19,6 +19,6 @@
     outputs: "出力",
     outputtip: "注意: フィーチャおよびテーブルの出力は操作レイヤーとしてマップに追加されます。",
     outputSaveInPortal: "データはポータルに保存されています。",
-    privilegeError: "解析ツールを実行するには、公開者ロールまたは管理者ロールが必要です。"
+    privilegeError: "このユーザー ロールでは、解析を実行できません。 解析を実行するには、組織サイトの管理者から特定の<a href=\"http://doc.arcgis.com/en/arcgis-online/reference/roles.htm\" target=\"_blank\">権限</a>を付与してもらう必要があります。"
   })
 );

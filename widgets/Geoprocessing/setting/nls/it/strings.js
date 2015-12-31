@@ -31,6 +31,22 @@
     setTask: "Imposta",
     setTaskTitle: "Imposta attività GP",
     enablePopup: "Abilita popup",
-    unSupportGeometryType: "Tipo di geometria sconosciuto. Impossibile impostare il renderer."
+    unSupportGeometryType: "Tipo di geometria sconosciuto. Impossibile impostare il renderer.",
+    useUrlForGPInput: "URL",
+    useUploadForGPInput: "Carica file",
+    selectFileToUpload: "Seleziona file...",
+    upload: "Caricamento",
+    rasterFormat: "Formato dati raster",
+    noFileSelected: "Nessun file selezionato.",
+    uploadSuccess:"Caricamento file riuscito.",
+    showLayerContent: "Mostra contenuto layer",
+    Feet: "Piede",
+    Yards: "Iarde",
+    Miles: "Miglia",
+    NauticalMiles: "Miglia nautiche",
+    Meter: "Metri",
+    Kilometers: "Chilometri",
+    urlPlaceholder: "URL insieme di feature",
+    allowToExport: "Consente di esportare i risultati"
   })
 );

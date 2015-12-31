@@ -39,6 +39,10 @@
     squareFeet: "Neliöjalkaa",
     squareYards: "Neliöjaardia",
     undo: "Kumoa",
-    redo: "Tee uudelleen"
+    redo: "Tee uudelleen",
+    results: "Tulokset",
+    points: "Pisteitä",
+    lines: "Viivoja",
+    areas: "Alueet"
   })
 );

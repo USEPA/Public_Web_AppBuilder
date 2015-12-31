@@ -31,6 +31,22 @@
     setTask: "Määra",
     setTaskTitle: "Määra GT toiming",
     enablePopup: "Luba hüpikaken",
-    unSupportGeometryType: "Renderdajat ei saa määrata, kuna geomeetria tüüp on tundmatu."
+    unSupportGeometryType: "Renderdajat ei saa määrata, kuna geomeetria tüüp on tundmatu.",
+    useUrlForGPInput: "URL",
+    useUploadForGPInput: "Faili üleslaadimine",
+    selectFileToUpload: "Vali fail...",
+    upload: "Lae üles",
+    rasterFormat: "Rasterandmete formaat",
+    noFileSelected: "Ühtegi faili pole valitud!",
+    uploadSuccess:"Faili üleslaadimine oli edukas!",
+    showLayerContent: "Kuva kihi sisu",
+    Feet: "Jalad",
+    Yards: "Jardid",
+    Miles: "Miilid",
+    NauticalMiles: "Meremiilid",
+    Meter: "Meetrid",
+    Kilometers: "Kilomeetrid",
+    urlPlaceholder: "objektikomplekti URL",
+    allowToExport: "Luba tulemused eksportida"
   })
 );

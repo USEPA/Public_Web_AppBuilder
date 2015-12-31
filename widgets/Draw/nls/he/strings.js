@@ -39,6 +39,10 @@
     squareFeet: "רגל מרובע",
     squareYards: "יארדים מרובעים",
     undo: "בטל",
-    redo: "בצע מחדש"
+    redo: "בצע מחדש",
+    results: "תוצאות",
+    points: "נקודות",
+    lines: "קווים",
+    areas: "שטחים"
   })
 );

@@ -21,11 +21,11 @@
     ok: "OK",
     cancel: "Annulla",
     result: "Salvataggio riuscito",
-    spError: "Tutte le mappe di base aggiunte alla galleria devono avere gli stessi riferimenti spaziali.",
+    spError: "Tutte le mappe di base aggiunte alla galleria devono avere lo stesso riferimento spaziale.",
     invalidTitle1:"Una mappa di base '",
     invalidTitle2:"' esiste già. Scegliere un altro titolo.",
     invalidBasemapUrl1: "Questo tipo di layer non può essere utilizzato come mappa di base.",
-    invalidBasemapUrl2: "Riferimento spaziale diverso rispetto alla mappa corrente.",
+    invalidBasemapUrl2: "La mappa di base che si sta aggiungendo ha un riferimento spaziale diverso dalla mappa corrente.",
     addBaselayer: "Aggiungi layer mappa base"
   })
 );

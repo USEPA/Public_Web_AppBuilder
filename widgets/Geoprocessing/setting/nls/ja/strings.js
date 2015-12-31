@@ -31,6 +31,22 @@
     setTask: "設定",
     setTaskTitle: "ジオプロセシング タスクの設定",
     enablePopup: "ポップアップの有効化",
-    unSupportGeometryType: "ジオメトリ タイプが不明なため、レンダラーを設定できません。"
+    unSupportGeometryType: "ジオメトリ タイプが不明なため、レンダラーを設定できません。",
+    useUrlForGPInput: "URL",
+    useUploadForGPInput: "ファイルのアップロード",
+    selectFileToUpload: "ファイルの選択...",
+    upload: "アップロード",
+    rasterFormat: "ラスター データ形式",
+    noFileSelected: "ファイルが選択されませんでした。",
+    uploadSuccess:"ファイルが正常にアップロードされました。",
+    showLayerContent: "レイヤー コンテンツの表示",
+    Feet: "フィート",
+    Yards: "ヤード",
+    Miles: "マイル",
+    NauticalMiles: "海里",
+    Meter: "メートル",
+    Kilometers: "キロメートル",
+    urlPlaceholder: "フィーチャ セット URL",
+    allowToExport: "結果のエクスポートを許可"
   })
 );

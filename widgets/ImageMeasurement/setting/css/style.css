@@ -1,0 +1,48 @@
+/* jimu-widget-coordinate-setting */
+.jimu-widget-ImageMeasurement-setting{
+  margin:0;
+  padding:0;
+  font-size:15px;
+}
+.jimu-widget-ImageMeasurement-setting .dijitArrowButtonContainer{
+  width: 17px;
+}
+.jimu-widget-ImageMeasurement-setting .dijitSelect{
+  height: 30px;
+  width: 96%;
+}
+.jimu-widget-ImageMeasurement-setting .setting-table > thead > tr > th,
+.jimu-widget-ImageMeasurement-setting .setting-table > tbody > tr > td{
+  height:40px;
+  line-height:40px;
+  vertical-align:middle;
+}
+
+.jimu-widget-ImageMeasurement-setting .input-table > tbody > tr > .first{
+  width:auto;
+  text-align: left;
+  padding-right:15px;
+}
+
+.jimu-widget-ImageMeasurement-setting .input-table > tbody > tr > .second{
+  width:200px;
+}
+
+.jimu-widget-ImageMeasurement-setting .input-table > tbody > tr > .third{
+  width:35px;
+}
+
+.settingsHidden {
+  display: none;
+}
+
+.dojoxCheckedMultiSelect {
+  margin-top: 4px;
+  margin-bottom: 3px;
+}
+
+.dojoxCheckedMultiSelect .dojoxCheckedMultiSelectWrapper {
+  height: 175px;
+  margin: 0px;
+  width: 250px;
+}

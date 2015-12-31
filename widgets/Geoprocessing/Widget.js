@@ -26,29 +26,37 @@ define([
   'jimu/dijit/TabContainer',
   'jimu/dijit/LoadingIndicator',
   'jimu/dijit/Message',
+  'jimu/utils',
   './editorManager',
   './resultRendererManager',
+  'esri/tasks/GPMessage',
   'esri/tasks/Geoprocessor',
   'esri/tasks/JobInfo',
   'esri/layers/ImageParameters',
   'esri/request',
   'esri/geometry/Extent',
-  'esri/graphicsUtils'
+  'esri/graphicsUtils',
+  './utils'
 ],
 function(declare, lang, array, html, on, Deferred, all,
-  BaseWidget, TabContainer, LoadingIndicator, Message, editorManager, resultRendererManager,
-  Geoprocessor, JobInfo, ImageParameters, esriRequest, Extent, graphicsUtils) {
+  BaseWidget, TabContainer, LoadingIndicator, Message, utils, editorManager,
+  resultRendererManager, GPMessage, Geoprocessor, JobInfo, ImageParameters,
+  esriRequest, Extent, graphicsUtils, gputils) {
   var clazz = declare([BaseWidget], {
     //these two properties is defined in the BaseWidget
     baseClass: 'jimu-widget-geoprocessing',
     name: 'Geoprocessing',
 
     startup: function(){
+      this.inherited(arguments);
+
       if(!this.config.taskUrl){
-        html.setStyle(this.domNode, 'display', 'none');
+        html.setStyle(this.toolNode, 'display', 'none');
+        html.setStyle(this.errorNode, 'display', '');
         return;
       }
       this.inputNodes = [];
+      this.drawTools = [];
 
       //each result will be displayed by dijit
       this.resultNodes = [];
@@ -109,7 +117,16 @@ function(declare, lang, array, html, on, Deferred, all,
       html.setAttr(this.helpLinkNode, 'href', this.config.helpUrl);
 
       this._generateUniqueID();
-      this._createInputNodes();
+      if(!("serverInfo" in this.config)){
+        //Load gp server info if it does not exist.
+        gputils.getServiceDescription(this.config.taskUrl).then(lang.hitch(this,
+          function(taskInfo){
+          this.config.serverInfo = taskInfo.serverInfo;
+          this._createInputNodes();
+        }));
+      }else{
+        this._createInputNodes();
+      }
     },
 
     executeGP: function(){
@@ -128,8 +145,27 @@ function(declare, lang, array, html, on, Deferred, all,
       }));
     },
 
+    onDeActive: function(){
+      array.forEach(this.drawTools, function(drawTool){
+        drawTool.deactivate();
+      });
+    },
+
     onExecuteComplete: function(results){
       this._hideLoading();
+
+      //show messages if there are warning or error
+      var msgs;
+      if(results.messages && results.messages.length > 0){
+        msgs = array.filter(results.messages, function(msg){
+          return msg.type === GPMessage.TYPE_WARNING ||
+                 msg.type === GPMessage.TYPE_ERROR;
+        });
+        if(msgs.length > 0){
+          this._createErrorMessages(msgs);
+        }
+      }
+
       //the results.results is an array of ParameterValue,
       //because it contains one or more parameters
       this._createOutputNodes(results.results);
@@ -198,13 +234,15 @@ function(declare, lang, array, html, on, Deferred, all,
     },
 
     onGetResultImageLayerComplate: function(result){
-      this.resultLayers.push(result.layer);
-      this.map.addLayer(result.layer);
-      if(result.layer.fullExtent){
-        this.map.setExtent(result.layer.fullExtent);
+      var lyr = result.layer;
+      lyr.title = this._getResultImageLayerLabel(lyr.url);
+      this.resultLayers.push(lyr);
+      this.map.addLayer(lyr);
+      if(lyr.fullExtent){
+        this.map.setExtent(lyr.fullExtent);
       }else{
         esriRequest({
-          url : result.layer.url,
+          url : lyr.url,
           content: {
             f: 'json',
             imageSR: this.map.spatialReference.wkid
@@ -214,16 +252,36 @@ function(declare, lang, array, html, on, Deferred, all,
         }).then(lang.hitch(this, function(layerInfo){
           if(layerInfo.value.mapImage.extent){
             var extent = new Extent(layerInfo.value.mapImage.extent);
-            result.layer.fullExtent = extent;
+            lyr.fullExtent = extent;
             this.map.setExtent(extent);
           }
         }));
       }
     },
 
+    /**
+     * Get the label of Result image layer name based on the url of the map
+     * service.
+     * @param  {string} url The map service url.
+     * @return {string}     The result image layer name.
+     */
+    _getResultImageLayerLabel: function(url){
+      var layerName = url.substring(url.lastIndexOf('/') + 1);
+      var ret = layerName;
+
+      array.some(this.config.outputParams, function(outputParam){
+        if(outputParam.name === layerName){
+          ret = outputParam.label;
+          return true;
+        }
+      }, this);
+
+      return ret;
+    },
+
     onError: function(error){
       this.loading.hide();
-      this.infoTextNode.innerHTML = error.error.message;
+      this.infoTextNode.innerHTML = utils.sanitizeHTML(error.error.message);
 
       html.removeClass(this.exeNode, 'jimu-state-disabled');
 
@@ -237,13 +295,13 @@ function(declare, lang, array, html, on, Deferred, all,
     },
 
     _generateUniqueID: function(){
-      this.uniqueID = this.id.replace(/[\/\.]/g,'_');
+      this.uniqueID = this.id.replace(/[\/\.]/g, '_');
     },
 
     _showLoading: function(text){
       this.loading.show();
       html.setStyle(this.infoNode, 'display', 'block');
-      this.infoTextNode.innerHTML = text? text: this.nls.executing;
+      this.infoTextNode.innerHTML = utils.sanitizeHTML(text? text: this.nls.executing);
     },
 
     _hideLoading: function(){
@@ -324,24 +382,21 @@ function(declare, lang, array, html, on, Deferred, all,
 
       this.resultNodes.push(ulNode);
 
-      array.forEach(messages,lang.hitch(this,function(msg){
+      array.forEach(messages, lang.hitch(this, function(msg){
         html.create('li', {
           'class': 'error-message',
-          innerHTML: msg.description
+          innerHTML: utils.sanitizeHTML(msg.description)
         }, ulNode);
       }));
     },
 
     _createOutputNodes: function(values){
       array.forEach(this.config.outputParams, function(param, i){
-        if(!param.visible){
-          return;
-        }
         this._createOutputNode(param, values[i]);
       }, this);
 
       var allFeatures = [];
-      array.forEach(values,lang.hitch(this, function(valueObj){
+      array.forEach(values, lang.hitch(this, function(valueObj){
         if(valueObj.dataType === "GPFeatureRecordSetLayer"){
           var features = valueObj.value && valueObj.value.features;
           if(features && features.length > 0){
@@ -379,7 +434,7 @@ function(declare, lang, array, html, on, Deferred, all,
       }, node);
       html.create('span', {
         'class': 'label-text',
-        innerHTML: param.label
+        innerHTML: utils.sanitizeHTML(param.label)
       }, labelNode);
       if(param.required){
         html.create('span', {
@@ -398,6 +453,10 @@ function(declare, lang, array, html, on, Deferred, all,
       });
       inputEditor.placeAt(editorContainerNode);
 
+      if(inputEditor.editorName === 'SelectFeatureSetFromDraw'){
+        this.drawTools.push(inputEditor);
+      }
+
       node.param = param;
       node.inputEditor = inputEditor;
       this.inputNodes.push(node);
@@ -409,25 +468,6 @@ function(declare, lang, array, html, on, Deferred, all,
     },
 
     _createOutputNode: function(param, value) {
-      var node = html.create('div', {
-        'class': 'output-node'
-      }, this.outputSectionNode);
-
-      this.resultNodes.push(node);
-
-      var labelNode = html.create('div', {
-        'class': 'output-label',
-        title: param.tooltip || param.label || '',
-        innerHTML: param.label
-      }, node);
-
-      node.param = param;
-      node.labelNode = labelNode;
-
-      var rendererContainerNode = html.create('div', {
-        'class': 'renderer-container'
-      }, node);
-
       var resultRenderer;
       try{
         resultRenderer = resultRendererManager.createResultRenderer(param, value, {
@@ -442,11 +482,34 @@ function(declare, lang, array, html, on, Deferred, all,
         });
       }
 
-      resultRenderer.placeAt(rendererContainerNode);
-      resultRenderer.startup();
-      node.resultRenderer = resultRenderer;
+      if(param.visible){
+        var node = html.create('div', {
+          'class': 'output-node'
+        }, this.outputSectionNode);
 
-      return node;
+        this.resultNodes.push(node);
+
+        var labelNode = html.create('div', {
+          'class': 'output-label',
+          title: param.tooltip || param.label || '',
+          innerHTML: utils.sanitizeHTML(param.label)
+        }, node);
+
+        node.param = param;
+        node.labelNode = labelNode;
+
+        var rendererContainerNode = html.create('div', {
+          'class': 'renderer-container'
+        }, node);
+
+        resultRenderer.placeAt(rendererContainerNode);
+        resultRenderer.startup();
+        node.resultRenderer = resultRenderer;
+
+        return node;
+      }else{
+        return null;
+      }
     }
   });
 

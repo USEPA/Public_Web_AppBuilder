@@ -25,7 +25,7 @@
     invalidTitle1:"底图 '",
     invalidTitle2:"' 已存在。请选择其它标题。",
     invalidBasemapUrl1: "此类型的图层不能用作底图。",
-    invalidBasemapUrl2: "当前地图的空间参考不同。",
+    invalidBasemapUrl2: "您正在添加的底图与当前地图拥有不同的空间参考。",
     addBaselayer: "添加底图图层"
   })
 );

@@ -6,6 +6,11 @@
 .jimu-widget-edit-setting .editable{
   width: 100px;
 }
+
+.jimu-widget-edit-setting .edit-fields{
+  width: 100px;
+}
+
 .jimu-widget-edit-setting .update{
   width: 200px;
 }
@@ -18,15 +23,16 @@
 
 .jimu-widget-edit-setting .input-table > tbody > tr > .first{
   width:auto;
-  text-align: right;
-}
-
-.jimu-rtl .jimu-widget-edit-setting .input-table > tbody > tr > .first{
+  min-width: 160px;
   text-align: left;
 }
 
+.jimu-rtl .jimu-widget-edit-setting .input-table > tbody > tr > .first{
+  text-align: right;
+}
+
 .jimu-widget-edit-setting .input-table > tbody > tr > .second{
-  width:500px;
+  width: auto;
 }
 
 

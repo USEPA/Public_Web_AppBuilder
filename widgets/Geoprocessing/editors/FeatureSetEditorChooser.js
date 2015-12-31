@@ -15,35 +15,47 @@
 ///////////////////////////////////////////////////////////////////////////
 
 define(['dojo/_base/declare',
+  'dojo/_base/lang',
   'dojo/_base/html',
   'dojo/on',
   'dojo/text!./FeatureSetEditorChooser.html',
   'dijit/_TemplatedMixin',
   'dijit/_WidgetsInTemplateMixin',
   'jimu/dijit/SymbolChooser',
+  'jimu/dijit/CheckBox',
   'jimu/utils',
   'esri/symbols/jsonUtils',
   '../BaseEditor',
   'dijit/form/RadioButton'
 ],
-function(declare, html, on, template, _TemplatedMixin, _WidgetsInTemplateMixin,
-  SymbolChooser, utils, jsonUtils, BaseEditor) {
+function(declare, lang, html, on, template, _TemplatedMixin, _WidgetsInTemplateMixin,
+  SymbolChooser, CheckBox, utils, jsonUtils, BaseEditor) {
   return declare([BaseEditor, _TemplatedMixin, _WidgetsInTemplateMixin], {
     baseClass: 'jimu-gp-editor-base jimu-gp-editor-fsec',
     templateString: template,
+    editorName: 'FeatureSetEditorChooser',
 
     postCreate: function(){
       this.inherited(arguments);
       this.value = {};
+
+      this.visibleCheckbox = new CheckBox({
+        checked: this.param.featureSetMode === 'url' && this.param.showUrlContent,
+        label: this.nls.showLayerContent,
+        onChange: lang.hitch(this, this._viewLayerContent)
+      });
+      this.visibleCheckbox.placeAt(this.visibleCheckboxDiv);
+
+      if(this.param.featureSetMode === 'url' && this.param.featureSetUrl){
+        this.featureSetUrl.setValue(this.param.featureSetUrl);
+      }
+
       if(this.param.featureSetMode){
         html.setAttr(this[this.param.featureSetMode + 'Mode'], 'checked', true);
         on.emit(this[this.param.featureSetMode + 'Mode'], 'click', {
           cancelable: true,
           bubble: true
         });
-      }
-      if(this.param.featureSetMode === 'url' && this.param.featureSetUrl){
-        this.featureSetUrl.setValue(this.param.featureSetUrl);
       }
     },
 
@@ -54,10 +66,19 @@ function(declare, html, on, template, _TemplatedMixin, _WidgetsInTemplateMixin,
       if(this.symbolChooser && html.getStyle(this.symbolChooserSection, 'display') === 'block'){
         this.value.symbol = this.symbolChooser.getSymbol().toJson();
       }
+      if(this.value.featureSetMode === 'url'){
+        this.value.showUrlContent = this.visibleCheckbox.getValue();
+      }
       return this.value;
     },
 
     _onDrawModeSelect: function(){
+      this._showSymbolChooser();
+      html.setStyle(this.urlOptionsDiv, 'display', 'none');
+      this.value.featureSetMode = 'draw';
+    },
+
+    _showSymbolChooser: function(){
       if(!this.param.defaultValue || !this.param.defaultValue.geometryType){
         //for now, we hide the symbol set if we dont know the geometry type.
         html.setStyle(this.symbolChooserSection, 'display', 'none');
@@ -74,22 +95,32 @@ function(declare, html, on, template, _TemplatedMixin, _WidgetsInTemplateMixin,
         }
         html.setStyle(this.symbolChooserSection, 'display', 'block');
       }
-
-      this.featureSetUrl.set('disabled', true);
-      this.value.featureSetMode = 'draw';
     },
 
     _onLayersModeSelect: function(){
       html.setStyle(this.symbolChooserSection, 'display', 'none');
-      this.featureSetUrl.set('disabled', true);
+      html.setStyle(this.urlOptionsDiv, 'display', 'none');
       this.value.featureSetMode = 'layers';
     },
 
     _onUrlModeSelect: function(){
-      html.setStyle(this.symbolChooserSection, 'display', 'none');
-      this.featureSetUrl.set('disabled', false);
-      this.value.featureSetMode = 'url';
-    }
+      html.setStyle(this.urlOptionsDiv, 'display', '');
 
+      if(this.visibleCheckbox.getValue()){
+        this._showSymbolChooser();
+      }else{
+        html.setStyle(this.symbolChooserSection, 'display', 'none');
+      }
+
+      this.value.featureSetMode = 'url';
+    },
+
+    _viewLayerContent: function(checked){
+      if(checked){
+        this._showSymbolChooser();
+      }else{
+        html.setStyle(this.symbolChooserSection, 'display', 'none');
+      }
+    }
   });
 });

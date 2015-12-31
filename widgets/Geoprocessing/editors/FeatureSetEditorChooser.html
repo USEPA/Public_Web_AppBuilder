@@ -1,13 +1,16 @@
 <div>
-	<div class="field">
+  <div class="field">
     <input name="mode" type="radio" data-dojo-attach-point="drawMode" data-dojo-props="" data-dojo-attach-event="onclick: _onDrawModeSelect" style="font-size: 10px;" class="jimu-leading-margin10"><label style="width: auto;" class="jimu-leading-margin025">${nls.drawOnMap}</label>
   </div>
   <div class="field">
     <input name="mode" type="radio" data-dojo-attach-point="layersMode" style="font-size: 10px;" data-dojo-attach-event="onclick: _onLayersModeSelect" class="jimu-leading-margin10"><label style=" width: auto;" class="jimu-leading-margin025">${nls.selectLayer}</label>
   </div>
-  <div class="field" style="height: 30px;">
+  <div class="field" style="height: 60px;">
     <input name="mode" type="radio" data-dojo-attach-point="urlMode" style="font-size: 10px;" data-dojo-attach-event="onclick: _onUrlModeSelect" class="jimu-leading-margin10"><label style="width: auto" class="jimu-leading-margin025">${nls.url}</label>
-    <input name="mode" data-dojo-type="jimu/dijit/URLInput" data-dojo-attach-point="featureSetUrl" data-dojo-props="placeholder: 'feature set URL'">
+    <div style="margin-top:5px;display:none;" data-dojo-attach-point="urlOptionsDiv">
+      <input name="mode" data-dojo-type="jimu/dijit/URLInput" data-dojo-attach-point="featureSetUrl" data-dojo-props='placeholder: "${nls.urlPlaceholder}"' class="jimu-leading-margin10" style="display: inline-block;">
+      <div data-dojo-attach-point="visibleCheckboxDiv" style="display: inline-block;"></div>
+    </div>
   </div>
   <div data-dojo-attach-point="symbolChooserSection">
     <label>${nls.symbol}:</label>

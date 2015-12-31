@@ -1,0 +1,10 @@
+{
+  "name": "AddService",
+  "platform": "HTML",
+  "version": "1.2",
+  "wabVersion": "1.1",
+  "author": "Damien Robinson - Spatial NI, Land & Property Services (N.Ireland)",
+  "description": "Add Map Service widget for WebApp Builder for Arcgis",
+  "copyright": "",
+  "license": "http://www.apache.org/licenses/LICENSE-2.0"	
+}

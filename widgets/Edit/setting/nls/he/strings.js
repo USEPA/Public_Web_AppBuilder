@@ -16,6 +16,7 @@
     editpageAlias: "שם נוסף",
     editpageVisible: "ניראה",
     editpageEditable: "ניתן לעריכה",
-    noLayers: "שכבות ישויות הניתנות לעריכה אינן זמינות"
+    noLayers: "שכבות ישויות הניתנות לעריכה אינן זמינות",
+    configureFields: "הגדר שדות שכבה"
   })
 );

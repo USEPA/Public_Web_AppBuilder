@@ -23,6 +23,7 @@ define(['dojo/_base/declare',
   'dijit/_TemplatedMixin',
   'dijit/_WidgetsInTemplateMixin',
   'jimu/dijit/Popup',
+  'jimu/utils',
   '../editorManager',
   '../EditorChooser',
   'dijit/form/TextBox',
@@ -30,8 +31,8 @@ define(['dojo/_base/declare',
 ],
 function(declare, lang, html, on, template, _WidgetBase, _TemplatedMixin,
   _WidgetsInTemplateMixin,
-  Popup, editorManager, EditorChooser) {
-  var clazz = declare([_WidgetBase,_TemplatedMixin, _WidgetsInTemplateMixin], {
+  Popup, utils, editorManager, EditorChooser) {
+  var clazz = declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
     baseClass: 'jimu-widget-setting-gp-param',
     templateString: template,
 
@@ -123,7 +124,7 @@ function(declare, lang, html, on, template, _WidgetBase, _TemplatedMixin,
       }
       this.spartLabelNode = html.create('div', {
         'class': 'input-label',
-        innerHTML: label,
+        innerHTML: utils.sanitizeHTML(label),
         style: {
           display: label === ''? 'none': 'inline-block'
         }
@@ -164,7 +165,7 @@ function(declare, lang, html, on, template, _WidgetBase, _TemplatedMixin,
             {
               label: this.nls.ok,
               onClick: lang.hitch(this, this._onEditorChange, editorChooser)
-            },{
+            }, {
               label: this.nls.cancel
             }
           ]

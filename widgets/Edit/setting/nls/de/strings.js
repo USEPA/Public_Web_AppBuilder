@@ -16,6 +16,7 @@
     editpageAlias: "Alias",
     editpageVisible: "Sichtbar",
     editpageEditable: "Editierbar",
-    noLayers: "Keine editierbaren Feature-Layer verfügbar"
+    noLayers: "Keine editierbaren Feature-Layer verfügbar",
+    configureFields: "Layer-Felder konfigurieren"
   })
 );

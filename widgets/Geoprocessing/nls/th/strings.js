@@ -9,6 +9,24 @@
     requiredInfo: "ที่จำเป็น",
     drawnOnMap: "ผลลัพธ์ถูกวาดลงบนแผนที่",
     clear: "ลบ",
-    error: "ข้อผิดพลาด"
+    error: "ข้อผิดพลาด",
+    noToolConfig: "ไม่มี การประมวลผลทางภูมิศาสตร์ (Geoprocessing Task) ที่กำหนดไว้ล่วงหน้า",
+    useUrlForGPInput: "URL",
+    useUploadForGPInput: "อัพโหลดไฟล์",
+    selectFileToUpload: 'เลือกไฟล์...',
+    upload: 'อัพโหลด',
+    rasterFormat: 'รูปแบบข้อมูลราสเตอร์',
+    noFileSelected: 'ไม่มีไฟล์ที่ถูกเลือก',
+    uploadSuccess:'อัพโหลดไฟล์สำเร็จ',
+    url: "URL",
+    showLayerContent: "แสดงรายละเอียดของชั้นข้อมูล",
+    invalidUrl: "คุณลักษณะที่ไม่ถูกต้องของ url",
+    Feet: "ฟุต",
+    Yards: "หลา",
+    Miles: "ไมล์",
+    NauticalMiles: "ไมล์ทะเล",
+    Meter: "เมตร",
+    Kilometers: "กิโลเมตร",
+    urlPlaceholder: "การตั้งค่าคุณลักษณะ URL"
   })
 );

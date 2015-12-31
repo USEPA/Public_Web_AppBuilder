@@ -19,6 +19,6 @@
     outputs: "Uitvoer",
     outputtip: "Opmerking: Object- en tabeluitvoer worden toegevoegd aan de folder als operationele lagen.",
     outputSaveInPortal: "De data wordt opgeslagen in uw portaal .",
-    privilegeError: "U heeft een rol als Publisher of Administrator nodig om de analyse uit te voeren."
+    privilegeError: "Uw gebruikersrol kan geen analyse uitvoeren. IOm de analyse te kunnen uitvoeren, moet de beheerder van uw organisatie u bepaalde <a href=\"http://doc.arcgis.com/en/arcgis-online/reference/roles.htm\" target=\"_blank\">machtigingen</a> verlenen."
   })
 );

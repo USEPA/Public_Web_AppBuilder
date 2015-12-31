@@ -21,11 +21,11 @@ define({
     ok: "OK",
     cancel: "Cancel",
     result: "Saved successfully",
-    spError: "All basemaps added to the gallery must have the same spatial references.",
+    spError: "All basemaps added to the gallery must have the same spatial reference.",
     invalidTitle1:"A basemap '",
     invalidTitle2:"' exists already. Please choose another title.",
     invalidBasemapUrl1: "This type of layer cannot be used as a basemap.",
-    invalidBasemapUrl2: "Different spatial reference from the current map.",
+    invalidBasemapUrl2: "The basemap you are adding has a different spatial reference from the current map.",
     addBaselayer: "Add Basemap Layer"
   }),
   "ar": 1,
@@ -54,5 +54,7 @@ define({
   "th": 1,
   "tr": 1,
   "vi": 1,
-  "zh-cn": 1
+  "zh-cn": 1,
+  "zh-hk": 1,
+  "zh-tw": 1
 });

@@ -1,6 +1,13 @@
 define({
   root: ({
-    showLegend: "Show Legend"
+    showLegend: "Show Legend",
+    controlPopupMenuTitle: "Choose which actions are shown in layer context menu.",
+    zoomto: "Zoom To",
+    transparency: "Transparency",
+    controlPopup: "Enable / Disable Pop-up",
+    moveUpAndDown: "Move up / Move down",
+    attributeTable: "Open Attribute Table",
+    url: "Description / Show Item Details / Download"
   }),
   "ar": 1,
   "cs": 1,
@@ -28,5 +35,7 @@ define({
   "th": 1,
   "tr": 1,
   "vi": 1,
-  "zh-cn": 1
+  "zh-cn": 1,
+  "zh-hk": 1,
+  "zh-tw": 1
 });

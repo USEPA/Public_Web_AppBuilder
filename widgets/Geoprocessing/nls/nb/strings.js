@@ -9,6 +9,24 @@
     requiredInfo: "er påkrevd.",
     drawnOnMap: "Resultatet tegnes på kartet.",
     clear: "Fjern",
-    error: "Feil"
+    error: "Feil",
+    noToolConfig: "Ingen forhåndskonfigurert geoprosesseringsoppgave tilgjengelig.",
+    useUrlForGPInput: "URL",
+    useUploadForGPInput: "Last opp fil",
+    selectFileToUpload: 'Velg fil...',
+    upload: 'Last opp',
+    rasterFormat: 'Rasterdataformat',
+    noFileSelected: 'Ingen fil er valgt!',
+    uploadSuccess:'Filen er lastet opp.',
+    url: "URL",
+    showLayerContent: "Vis laginnhold",
+    invalidUrl: "Ugyldig geoobjektstjeneste-URL",
+    Feet: "fot",
+    Yards: "Yards",
+    Miles: "Miles",
+    NauticalMiles: "Nautiske mil",
+    Meter: "meter",
+    Kilometers: "kilometer",
+    urlPlaceholder: "geoobjektsett-URL"
   })
 );

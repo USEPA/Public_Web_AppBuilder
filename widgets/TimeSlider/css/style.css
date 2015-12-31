@@ -6,49 +6,31 @@
 .jimu-widget-timeslider .esriTimeSlider{
 	z-index: 99;
 }
-.jimu-widget-timeslider .time-icon{
-	width: 30px;
+.jimu-widget-timeslider .no-time-content,
+.jimu-widget-timeslider .time-content{
+	position: relative;
+	display: none;
+	background: #8e8e8e;
+	background: rgba(0,0,0,0.4);
+	z-index: 0;
+}
+.jimu-widget-timeslider .no-time-content{
 	height: 30px;
-	border-radius: 5px;
-	margin-bottom: 1px;
-	padding: 5px;
-	background: #666;
-	background: rgba(0,0,0,0.2);
-}
-.jimu-widget-timeslider .enable-time-icon{
-	cursor: pointer;
-}
-.jimu-widget-timeslider .enable-time-icon:hover {
-	background: #333;
-	background-color: rgba(0,0,0,0.4);
-}
-.jimu-widget-timeslider .disable-time-icon{
-	cursor: not-allowed;
-}
-.jimu-widget-timeslider .time-icon-inner{
-	width: 20px;
-	height: 20px;
+	padding: 0px 10px;
+	line-height: 30px;
+	font-size: 14px;
+	color: #fff;
 }
 .jimu-widget-timeslider .time-content{
-	display: none;
 	height: 100px;
-	background: rgba(0,0,0,0.4);
 	padding-top: 20px;
 	opacity: 0;
+	/*background-color: #8e8e8e;*/
 }
-.jimu-widget-timeslider .time-content .time-close{
-	position: absolute;
-	right: 20px;
-	top: 10px;
-	background: url(images/x.png) center no-repeat;
-	width: 14px;
-	height: 14px;
-	cursor: pointer;
-}
-.jimu-rtl .jimu-widget-timeslider .time-content .time-close{
+/*.jimu-rtl .jimu-widget-timeslider .time-content .time-close{
 	left: 20px;
 	right: auto;
-}
+}*/
 .jimu-widget-timeslider .time-extent{
 	margin-bottom: 5px;
 	font-size: 14px;
@@ -63,8 +45,11 @@
 }
 .jimu-widget-timeslider .slider-content{
 	position: relative;
-	width: 670px;
+	max-width: 657px;
 	margin: auto;
+}
+.jimu-widget-timeslider .slider-content .esriTimeSlider{
+	width: 600px;
 }
 .jimu-widget-timeslider .speed-container{
 	position: relative;

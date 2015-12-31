@@ -9,6 +9,24 @@
     requiredInfo: "vaaditaan.",
     drawnOnMap: "Tulos piirretään kartalle.",
     clear: "Tyhjennä",
-    error: "Virhe"
+    error: "Virhe",
+    noToolConfig: "Yhtään ennalta määritettyä geoprosessointitehtävää ei ole käytettävissä.",
+    useUrlForGPInput: "URL-osoite",
+    useUploadForGPInput: "Lähetä tiedosto",
+    selectFileToUpload: 'Valitse tiedosto...',
+    upload: 'Lähetä',
+    rasterFormat: 'Rasteriaineiston muoto',
+    noFileSelected: 'Yhtään tiedostoa ei ole valittu.',
+    uploadSuccess:'Tiedoston lataus onnistui.',
+    url: "URL-osoite",
+    showLayerContent: "Näytä karttatason sisältö",
+    invalidUrl: "Virheellinen kohdepalvelun URL-osoite",
+    Feet: "Jalka",
+    Yards: "Jaardia",
+    Miles: "Mailia",
+    NauticalMiles: "Meripeninkulmaa",
+    Meter: "Metriä",
+    Kilometers: "Kilometriä",
+    urlPlaceholder: "kohderyhmän URL-osoite"
   })
 );

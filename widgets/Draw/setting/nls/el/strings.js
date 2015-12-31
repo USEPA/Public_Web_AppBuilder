@@ -33,6 +33,8 @@
     hectaresAbbreviation: "εκτάρ.",
     squareMetersAbbreviation: "τ.μ.",
     squareFeetAbbreviation: "τ.πόδ",
-    squareYardsAbbreviation: "τ.γιάρδ."
+    squareYardsAbbreviation: "τ.γιάρδ.",
+    defineUnits: "Καθορίστε τις μονάδες μέτρησης.",
+    operationalLayer: "Προσθέστε το σχέδιο ως επιχειρησιακό επίπεδο του χάρτη."
   })
 );

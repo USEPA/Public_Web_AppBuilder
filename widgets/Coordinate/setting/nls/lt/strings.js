@@ -1,12 +1,13 @@
 ﻿define(
    ({
+    id: 'ID',
     state: "Pagal nutylėjimą, koordinatės bus rodomos dabartinėje žemėlapių koordinačių sistemoje. Norėdami gauti koordinates kitose koordinačių sistemose, turite pridėti jas ir nurodyti atitinkamas transformacijas.",
     outputUnit: "Išvesties vienetas",
     wkid: "Išvesties WKID",
     label: "Išvesties koordinačių sistemos pavadinimas",
-    transformationWkid: 'Transformacijos WKID',
-    transformationLabel: 'Transformacijos žymė',
-    transformForward: 'Transformuoti perspektyviai',
+    transformationWkid: "Transformacijos WKID",
+    transformationLabel: "Transformacijos žymė",
+    transformForward: "Transformuoti perspektyviai",
     actions: "Veiksmai",
     warning: "Įveskite leistiną erdvinės charakteristikos WKID!",
     tfWarning: "Įveskite leistiną atraminių duomenų transformacijos WKID!",

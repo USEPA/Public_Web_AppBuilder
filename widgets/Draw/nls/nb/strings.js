@@ -39,6 +39,10 @@
     squareFeet: "Kvadratfot",
     squareYards: "Kvadratyard",
     undo: "Angre",
-    redo: "Gjør om"
+    redo: "Gjør om",
+    results: "Resultater",
+    points: "Punkt",
+    lines: "Linjer",
+    areas: "Områder"
   })
 );

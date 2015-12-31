@@ -16,6 +16,7 @@
     editpageAlias: "Alias",
     editpageVisible: "Zichtbaar",
     editpageEditable: "Bewerkbaar",
-    noLayers: "Er zijn geen bewerkbare objectlagen beschikbaar"
+    noLayers: "Er zijn geen bewerkbare objectlagen beschikbaar",
+    configureFields: "Laagvelden configureren"
   })
 );

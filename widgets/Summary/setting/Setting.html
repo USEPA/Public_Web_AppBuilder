@@ -1,0 +1,35 @@
+<div style="width:100%;height:100%;">
+  <div class="filter-group">
+    <span class="label">${nls.selectLayer}: </span>
+    <div data-dojo-attach-point="opLayers"></div>
+  </div>
+  <div class="checkbox-list-holder filter-group">
+    <span class="label">${nls.filterField}: </span>
+    <select data-dojo-type="dijit/form/Select" data-dojo-attach-point="filterSelect">
+    </select>
+  </div>
+  <hr/>
+  <div class="summary-section" data-dojo-attach-point="summarySection" onselectstart="return false;">
+    <div class="btn-add-section" data-dojo-attach-point="btnAddSummaryField">
+      <span class="btn-add-icon"></span>
+      <span class="btn-add-label">${nls.addField}</span>
+    </div>
+    <br/>
+    <div data-dojo-attach-point="summaryTable" data-dojo-type="jimu/dijit/SimpleTable" data-dojo-props='fields:[{name:"type",title:"${nls.type}","class":"label",type:"empty"},{name:"field",title:"${nls.field}","class":"label",type:"empty"},{name:"label",title:"${nls.label}","class":"label",type:"empty"},{name:"actions",title:"${nls.actions}","class":"actions",type:"actions",actions:["up","down","delete"]}]'></div>
+  </div>
+  <hr/>
+  <div class="common-group">
+    <span class="label"> ${nls.showFeatureCount}:</span>
+    <input data-dojo-attach-point="showFeatureCount" data-dojo-type="dijit/form/CheckBox" />
+    <span style="padding-left:20px;">
+            <span class="label"> ${nls.featureCountLabel}:</span>
+    <input data-dojo-attach-point="featureCountLabel" data-dojo-type="dijit/form/ValidationTextBox" />
+    </span>
+  </div>
+  <br/>
+  <div class="common-group">
+    <span class="label"> ${nls.displayCluster}:</span>
+    <input data-dojo-attach-point="displayCluster" data-dojo-type="dijit/form/CheckBox" />
+  </div>
+  <br/>
+</div>

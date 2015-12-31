@@ -1,7 +1,7 @@
 ﻿define(
    ({
     _widgetLabel: "Zeichnen",
-    selectDrawMode: "Zeichenmodus auswählen",
+    selectDrawMode: "Darstellungsmodus auswählen",
     clear: "Löschen",
     point: "Punkt",
     line: "Linie",
@@ -39,6 +39,10 @@
     squareFeet: "Quadratfuß",
     squareYards: "Quadratyard",
     undo: "Rückgängig",
-    redo: "Wiederholen"
+    redo: "Wiederholen",
+    results: "Ergebnisse",
+    points: "Punkte",
+    lines: "Linien",
+    areas: "Flächen"
   })
 );

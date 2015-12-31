@@ -33,6 +33,8 @@
     hectaresAbbreviation: "ha",
     squareMetersAbbreviation: "m²",
     squareFeetAbbreviation: "ft²",
-    squareYardsAbbreviation: "yd²"
+    squareYardsAbbreviation: "yd²",
+    defineUnits: "Definer måleenhetene.",
+    operationalLayer: "Legg til tegningen som et operativt lag i kartet."
   })
 );

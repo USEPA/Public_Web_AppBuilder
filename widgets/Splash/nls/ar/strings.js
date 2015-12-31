@@ -5,7 +5,7 @@
     licenceAgree: "أوافق على",
     licenceTerm: "شروط تطبيق ArcGIS على الويب",
     labelContinue: "تابع",
-    errorString: "* تتطلب الموافقة على الترخيص للمتابعة.",
+    errorString: "*تحتاج الموافقة على الترخيص للاستمرار.",
     notShowAgain: "لا تظهر شاشة البداية مرة أخرى.",
     ok: "موافق",
     cancel: "إلغاء الأمر"

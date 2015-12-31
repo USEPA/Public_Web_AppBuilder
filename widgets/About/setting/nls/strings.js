@@ -1,7 +1,9 @@
 define({
   root: ({
     instruction: "Create the content that displays in this widget.",
-    defaultContent: "Add text, links, and small graphics here."
+    defaultContent: "Add text, links, and small graphics here.",
+    productVersion: "Product Version: ",
+    kernelVersion: "Kernel Version: "
   }),
   "ar": 1,
   "cs": 1,
@@ -29,5 +31,7 @@ define({
   "th": 1,
   "tr": 1,
   "vi": 1,
-  "zh-cn": 1
+  "zh-cn": 1,
+  "zh-hk": 1,
+  "zh-tw": 1
 });

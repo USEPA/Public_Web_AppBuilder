@@ -36,22 +36,22 @@ define([
       baseClass: 'jimu-widget-chart-parameters',
       templateString: template,
       colors:{
-        c1:['#5d9cd3','#eb7b3a','#a5a5a5','#febf29','#4673c2','#72ad4c'],
-        c2:['#5d9cd3','#a5a5a5','#4673c2','#285f8f','#636363','#274577'],
-        c3:['#eb7b3a','#febf29','#72ad4c','#9c4618','#987214','44682e'],
-        c4:['#72ad4c','#4673c2','#febf29','#44682e','#274577','#987214'],
-        g1:['#43729b','#c4d5ea'],
-        g2:['#ac5928','#f5ccbf'],
-        g3:['#787878','#d8d8d8'],
-        g4:['#bb8b1b','#fee1be'],
-        g5:['#30538d','#c0c9e3'],
-        g6:['#517e36','#c9dbc2'],
-        g7:['#c4d5ea','#43729b'],
-        g8:['#f5ccbf','#ac5928'],
-        g9:['#d8d8d8','#787878'],
-        g10:['#fee1be','#bb8b1b'],
-        g11:['#c0c9e3','#30538d'],
-        g12:['#c9dbc2','#517e36']
+        c1:['#5d9cd3', '#eb7b3a', '#a5a5a5', '#febf29', '#4673c2', '#72ad4c'],
+        c2:['#5d9cd3', '#a5a5a5', '#4673c2', '#285f8f', '#636363', '#274577'],
+        c3:['#eb7b3a', '#febf29', '#72ad4c', '#9c4618', '#987214', '44682e'],
+        c4:['#72ad4c', '#4673c2', '#febf29', '#44682e', '#274577', '#987214'],
+        g1:['#43729b', '#c4d5ea'],
+        g2:['#ac5928', '#f5ccbf'],
+        g3:['#787878', '#d8d8d8'],
+        g4:['#bb8b1b', '#fee1be'],
+        g5:['#30538d', '#c0c9e3'],
+        g6:['#517e36', '#c9dbc2'],
+        g7:['#c4d5ea', '#43729b'],
+        g8:['#f5ccbf', '#ac5928'],
+        g9:['#d8d8d8', '#787878'],
+        g10:['#fee1be', '#bb8b1b'],
+        g11:['#c0c9e3', '#30538d'],
+        g12:['#c9dbc2', '#517e36']
       },
       palette: null,
       defaultSingleColor: '#5d9cd3',
@@ -114,16 +114,17 @@ define([
         this.palette.startup();
 
         //init multi color section
-        var colorfulValues = ['c1','c2','c3','c4'];
+        var colorfulValues = ['c1', 'c2', 'c3', 'c4'];
         array.forEach(colorfulValues, lang.hitch(this, function(colorValue){
-          var dom = html.create('div',{
+          var dom = html.create('div', {
             'class': 'multi-color colorful ' + colorValue
           }, this.colorfulContainer);
           dom.colorValue = colorValue;
         }));
-        var monochromaticValues = ['g1','g2','g3','g4','g5','g6','g7','g8','g9','g10','g11','g12'];
+        var monochromaticValues = ['g1', 'g2', 'g3', 'g4', 'g5', 'g6', 'g7', 'g8', 'g9', 'g10',
+          'g11', 'g12'];
         array.forEach(monochromaticValues, lang.hitch(this, function(colorValue){
-          var dom = html.create('div',{
+          var dom = html.create('div', {
             'class': 'multi-color monochromatic ' + colorValue
           }, this.monochromaticContainer);
           dom.colorValue = colorValue;
@@ -207,7 +208,7 @@ define([
       },
 
       _setMultiColorValue: function(colorValue){
-        var selector = '.'+colorValue;
+        var selector = '.' + colorValue;
         var divs = query(selector, this.multiColorSection);
         if(divs && divs.length > 0){
           var multiColorDiv = divs[0];
@@ -233,7 +234,7 @@ define([
           this.cbxAxisX.checked = true;
           this.cbxAxisY.checked = true;
         }
-        
+
         if(this.singleColor){
           this.showSingleColor();
         }

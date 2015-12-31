@@ -25,7 +25,7 @@
     invalidTitle1:"Een basiskaart '",
     invalidTitle2:"' bestaat al. Kies een andere titel.",
     invalidBasemapUrl1: "Dit laagtype kan niet worden gebruikt als een basiskaart.",
-    invalidBasemapUrl2: "Verschillende ruimtelijke referentie met huidige kaart.",
+    invalidBasemapUrl2: "De basiskaart die u toevoegt heeft een andere ruimtelijke referentie dan de huidige kaart.",
     addBaselayer: "Basiskaartlaag toevoegen"
   })
 );

@@ -1,0 +1,50 @@
+﻿define(
+   ({
+    layerSelect: "Valige pildikiht",
+    displayMeasureResultInPopup: "Kuva mõõtmise tulemused hüpikaknas",
+    angularUnitSelect: "Vaikimisi mõõtühik nurkadele",
+    linearUnitSelect: "Vaikimisi lineaarne mõõtühik",
+    areaUnitSelect: "Pindala vaikeühik",
+    displayOperationSelect: "Valige mõõtmistoimingud",
+    errorSectionMeasage: "Ükski kiht ei toeta mõõtmise funktsioone.",
+    unitLabel: {
+      esriInches: "Tollid",
+      esriFeet: "Jalad",
+      esriYards: "Jardid",
+      esriMiles: "Miilid",
+      esriNauticalMiles: "Meremiilid",
+      esriMillimeters: "millimeeter",
+      esriCentimeters: "Sentimeetrid",
+      esriDecimeters: "detsimeetrit",
+      esriMeters: "Meetrid",
+      esriKilometers: "Kilomeetrid",
+      esriDURadians: "Radiaanid",
+      esriDUDecimalDegrees: "Kraadi",
+      esriSquareInches: "Ruuttollides",
+      esriSquareFeet: "Ruutjalga",
+      esriSquareYards: "Ruutjardi",
+      esriAcres: "Aakrid",
+      esriSquareMiles: "Ruutmiili",
+      esriSquareMillimeters: "Ruutmillimeetrites",
+      esriSquareCentimeters: "Ruutsentimeetrites",
+      esriSquareDecimeters: "Ruutdetsimeetrites",
+      esriSquareMeters: "Ruutmeetrit",
+      esriAres: "Aarides",
+      esriHectares: "Hektarid",
+      esriSquareKilometers: "Ruutkilomeetrit"
+    },
+    operationLabel: {
+      esriMensurationPoint: "Punkt",
+      esriMensurationDistanceAndAngle: "Vahekaugus ja nurk",
+      esriMensurationAreaAndPerimeter: "Pindala ja ümbermõõt",
+      esriMensurationHeightFromBaseAndTop: "Alt tipuni",
+      esriMensurationHeightFromBaseAndTopShadow: "Alt tipuni – vari",
+      esriMensurationHeightFromTopAndTopShadow: "Tipust tipuni – vari",
+      esriMensurationCentroid: "Tsentroid",
+      esriMensurationPoint3D: "Punkt (3D)",
+      esriMensurationDistanceAndAngle3D: "Vahekaugus ja nurk (3D)",
+      esriMensurationAreaAndPerimeter3D: "Pindala ja ümbermõõt (3D)",
+      esriMensurationCentroid3D: "Tsentroid (3D)"
+    }
+  })
+);

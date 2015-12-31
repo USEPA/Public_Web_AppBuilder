@@ -16,6 +16,7 @@
     editpageAlias: "Alias",
     editpageVisible: "Visible",
     editpageEditable: "Editable",
-    noLayers: "No hay disponibles capas de entidades editables"
+    noLayers: "No hay disponibles capas de entidades editables",
+    configureFields: "Configurar campos de capa"
   })
 );

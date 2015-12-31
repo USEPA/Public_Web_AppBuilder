@@ -1,0 +1,10 @@
+{
+  "ImageMeasurement": {
+    "layerTitle": "",
+    "displayMeasureResultInPopup" : false,
+    "linearUnit": "esriKilometers",
+    "angularUnit": "esriDUDecimalDegrees",
+    "areaUnit": "esriSquareKilometers",
+    "displayOperations": []
+  }
+}

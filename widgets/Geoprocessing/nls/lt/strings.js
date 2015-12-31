@@ -9,6 +9,24 @@
     requiredInfo: "būtina.",
     drawnOnMap: "Rezultatas nupieštas žemėlapyje.",
     clear: "Valyti",
-    error: "Klaida"
+    error: "Klaida",
+    noToolConfig: "Iš anksto sukonfigūruotos geoduomenų apdorojimo užduoties nėra.",
+    useUrlForGPInput: "URL",
+    useUploadForGPInput: "Įkelti failą",
+    selectFileToUpload: 'Pasirinkite failą...',
+    upload: 'Nusiųsti',
+    rasterFormat: 'Rastrinių duomenų formatas',
+    noFileSelected: 'Nepasirinktas joks failas!',
+    uploadSuccess:'Failas įkeltas sėkmingai!',
+    url: "URL",
+    showLayerContent: "Rodyti sluoksnio turinį",
+    invalidUrl: "Netinkamas elementų paslaugos url",
+    Feet: "Pėdos",
+    Yards: "Jardai",
+    Miles: "Mylios",
+    NauticalMiles: "Jūrmylės",
+    Meter: "Metrai",
+    Kilometers: "Kilometrai",
+    urlPlaceholder: "elementui nustatytas URL"
   })
 );

@@ -7,13 +7,13 @@ function(BaseVersionManager) {
       upgrader: function(oldConfig){
         return oldConfig;
       }
-    },{
+    }, {
       version: '1.1',
       upgrader: function(oldConfig){
         var newConfig = oldConfig;
 
         var chart = null, types = null, colors = null, mode = null;
-        var fixedMultiColors = ['#5d9cd3','#eb7b3a','#a5a5a5','#febf29','#4673c2','#72ad4c'];
+        var fixedMultiColors = ['#5d9cd3', '#eb7b3a', '#a5a5a5', '#febf29', '#4673c2', '#72ad4c'];
 
         for(var i = 0; i < newConfig.charts.length; i++){
           chart = newConfig.charts[i];
@@ -71,6 +71,16 @@ function(BaseVersionManager) {
       }
     }, {
       version: '1.2',
+      upgrader: function(oldConfig){
+        return oldConfig;
+      }
+    }, {
+      version: '1.3',
+      upgrader: function(oldConfig){
+        return oldConfig;
+      }
+    }, {
+      version: '1.4',
       upgrader: function(oldConfig){
         return oldConfig;
       }

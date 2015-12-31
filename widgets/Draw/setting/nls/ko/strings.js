@@ -33,6 +33,8 @@
     hectaresAbbreviation: "ha",
     squareMetersAbbreviation: "sq m",
     squareFeetAbbreviation: "sq ft",
-    squareYardsAbbreviation: "sq yd"
+    squareYardsAbbreviation: "sq yd",
+    defineUnits: "측정 단위을 정의합니다.",
+    operationalLayer: "그리기를 맵의 운영 레이어로 추가합니다."
   })
 );

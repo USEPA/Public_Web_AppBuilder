@@ -9,6 +9,24 @@
     requiredInfo: "je vyžadováno.",
     drawnOnMap: "Výsledek je vykreslen na mapě.",
     clear: "Zruš",
-    error: "Chyba"
+    error: "Chyba",
+    noToolConfig: "Není k dispozici žádná geoprocessingová úloha.",
+    useUrlForGPInput: "URL",
+    useUploadForGPInput: "Nahrát soubor",
+    selectFileToUpload: 'Vybrat soubor…',
+    upload: 'Nahrát',
+    rasterFormat: 'Formát rastrových dat',
+    noFileSelected: 'Nebyl vybrán žádný soubor.',
+    uploadSuccess:'Nahrání souboru proběhlo úspěšně.',
+    url: "URL",
+    showLayerContent: "Zobrazit obsah vrstvy",
+    invalidUrl: "Neplatná adresa URL Feature Service",
+    Feet: "Stopy",
+    Yards: "Yardy",
+    Miles: "Míle",
+    NauticalMiles: "Námořní míle",
+    Meter: "Metry",
+    Kilometers: "Kilometry",
+    urlPlaceholder: "adresa URL sady prvků"
   })
 );

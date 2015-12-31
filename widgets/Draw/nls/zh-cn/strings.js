@@ -39,6 +39,10 @@
     squareFeet: "平方英尺",
     squareYards: "平方码",
     undo: "撤消",
-    redo: "恢复"
+    redo: "恢复",
+    results: "结果",
+    points: "点",
+    lines: "线",
+    areas: "面"
   })
 );

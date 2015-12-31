@@ -33,6 +33,8 @@
     hectaresAbbreviation: "ha",
     squareMetersAbbreviation: "čtver. m",
     squareFeetAbbreviation: "čtver. stopy",
-    squareYardsAbbreviation: "čtver. yd."
+    squareYardsAbbreviation: "čtver. yd.",
+    defineUnits: "Definujte jednotky měření.",
+    operationalLayer: "Přidejte výkres jako operační vrstvu mapy."
   })
 );

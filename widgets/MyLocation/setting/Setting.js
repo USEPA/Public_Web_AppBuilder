@@ -19,7 +19,7 @@ define([
     'dijit/_WidgetsInTemplateMixin',
     'jimu/BaseWidgetSetting',
     'dijit/form/NumberTextBox',
-    'dijit/form/CheckBox'
+    'jimu/dijit/CheckBox'
   ],
   function(
     declare,
@@ -48,9 +48,15 @@ define([
         }
         if (config.locateButton.highlightLocation ||
           config.locateButton.highlightLocation === undefined) {
-          this.highlightLocation.set('checked', true);
+          this.highlightLocation.setValue(true);
         } else {
-          this.highlightLocation.set('checked', false);
+          this.highlightLocation.setValue(false);
+        }
+        if (config.locateButton.useTracking ||
+          config.locateButton.useTracking === undefined) {
+          this.useTracking.setValue(true);
+        } else {
+          this.useTracking.setValue(false);
         }
       },
 
@@ -60,9 +66,10 @@ define([
           return false;
         }
         this.config.locateButton.geolocationOptions.timeout = parseInt(this.timeout.value, 10);
-        if (!this.config.locateButton.highlightLocatio) {
-          this.config.locateButton.highlightLocation = this.highlightLocation.checked;
-        }
+        // if (!this.config.locateButton.highlightLocation) {
+        this.config.locateButton.highlightLocation = this.highlightLocation.checked;
+        // }
+        this.config.locateButton.useTracking = this.useTracking.checked;
         return this.config;
       }
 

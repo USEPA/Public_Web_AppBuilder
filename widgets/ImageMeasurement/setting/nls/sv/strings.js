@@ -1,0 +1,50 @@
+﻿define(
+   ({
+    layerSelect: "Välj bildlagret",
+    displayMeasureResultInPopup: "Visa mätresultat i en popupruta",
+    angularUnitSelect: "Standardenhet för vinkel",
+    linearUnitSelect: "Standardenhet för linje",
+    areaUnitSelect: "Standardenhet för yta",
+    displayOperationSelect: "Välj mätåtgärder",
+    errorSectionMeasage: "Inga av lagren stöder mätfunktioner.",
+    unitLabel: {
+      esriInches: "Tum",
+      esriFeet: "Fot",
+      esriYards: "Yard",
+      esriMiles: "Engelska mil",
+      esriNauticalMiles: "Nautiska mil",
+      esriMillimeters: "Millimetrar",
+      esriCentimeters: "Centimeter",
+      esriDecimeters: "Decimeter",
+      esriMeters: "Meter",
+      esriKilometers: "Kilometer",
+      esriDURadians: "Radianer",
+      esriDUDecimalDegrees: "Grader",
+      esriSquareInches: "Kvadrattum",
+      esriSquareFeet: "Kvadratfot",
+      esriSquareYards: "Kvadratyard",
+      esriAcres: "Tunnland",
+      esriSquareMiles: "Engelska kvadratmil",
+      esriSquareMillimeters: "Kvadratmillimeter",
+      esriSquareCentimeters: "Kvadratcentimeter",
+      esriSquareDecimeters: "Kvadratdecimeter",
+      esriSquareMeters: "Kvadratmeter",
+      esriAres: "Ar",
+      esriHectares: "Hektar",
+      esriSquareKilometers: "Kvadratkilometer"
+    },
+    operationLabel: {
+      esriMensurationPoint: "Punkt",
+      esriMensurationDistanceAndAngle: "Avstånd och vinkel",
+      esriMensurationAreaAndPerimeter: "Område och omkrets",
+      esriMensurationHeightFromBaseAndTop: "Basen till toppen",
+      esriMensurationHeightFromBaseAndTopShadow: "Basen till toppen – skugga",
+      esriMensurationHeightFromTopAndTopShadow: "Toppen till toppen – skugga",
+      esriMensurationCentroid: "Centroid",
+      esriMensurationPoint3D: "Punkt (3D)",
+      esriMensurationDistanceAndAngle3D: "Avstånd och vinkel (3D)",
+      esriMensurationAreaAndPerimeter3D: "Område och omkrets (3D)",
+      esriMensurationCentroid3D: "Centroid (3D)"
+    }
+  })
+);

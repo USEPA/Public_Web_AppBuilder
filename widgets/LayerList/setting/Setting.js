@@ -18,7 +18,8 @@ define([
     'dojo/_base/declare',
     'jimu/BaseWidgetSetting',
     'dijit/_WidgetsInTemplateMixin',
-    'dijit/form/CheckBox'
+    'dijit/form/CheckBox',
+    'jimu/dijit/CheckBox'
   ],
   function(
     declare,
@@ -34,11 +35,28 @@ define([
       },
 
       setConfig: function(config) {
-        this.showLegend.setChecked(config.showLegend);
+        this.showLegend.setValue(config.showLegend);
+        if(config.contextMenu) {
+          this.zoomto.setValue(config.contextMenu.ZoomTo);
+          this.transparency.setValue(config.contextMenu.Transparency);
+          this.controlPopup.setValue(config.contextMenu.EnableOrDisablePopup);
+          this.moveupDown.setValue(config.contextMenu.MoveupOrMovedown);
+          this.table.setValue(config.contextMenu.OpenAttributeTable);
+          this.url.setValue(config.contextMenu.DescriptionOrShowItemDetailsOrDownload);
+        }
       },
 
       getConfig: function() {
-        this.config.showLegend = this.showLegend.checked;
+        this.config.showLegend = this.showLegend.getValue();
+        if(!this.config.contextMenu) {
+          this.config.contextMenu = {};
+        }
+        this.config.contextMenu.ZoomTo = this.zoomto.getValue();
+        this.config.contextMenu.Transparency = this.transparency.getValue();
+        this.config.contextMenu.EnableOrDisablePopup = this.controlPopup.getValue();
+        this.config.contextMenu.MoveupOrMovedown = this.moveupDown.getValue();
+        this.config.contextMenu.OpenAttributeTable = this.table.getValue();
+        this.config.contextMenu.DescriptionOrShowItemDetailsOrDownload = this.url.getValue();
         return this.config;
       }
 

@@ -7,7 +7,7 @@
     next: "Nästa",
     home: "Hem",
     jobSubmitted: "skickades.",
-    jobCancelled: "Avbruten.",
+    jobCancelled: "Avbröts.",
     jobFailed: "Misslyckades",
     jobSuccess: "Klart.",
     executing: "Kör",
@@ -19,6 +19,6 @@
     outputs: "Utdata",
     outputtip: "Obs! Geoobjektets och tabellens utdata har lagts till i kartan som operativa lager.",
     outputSaveInPortal: "Data har sparats i din portal.",
-    privilegeError: "Du måste ha rollen Utgivare eller Administratör om du vill köra analysverktyget."
+    privilegeError: "Din användarroll får inte utföra analyser. För att du ska kunna utföra analyser måste administratören för din organisation bevilja dig vissa <a href=\"http://doc.arcgis.com/en/arcgis-online/reference/roles.htm\" target=\"_blank\">behörigheter</a>."
   })
 );

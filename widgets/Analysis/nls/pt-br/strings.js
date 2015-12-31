@@ -19,6 +19,6 @@
     outputs: "Saídas",
     outputtip: "Nota: As saídas de tabela e feição são adicionadas no mapa como camadas operacionais.",
     outputSaveInPortal: "Os dados foram salvos no seu portal.",
-    privilegeError: "Você deve ter o papel de Administrador ou Publicador para executar a ferramenta de análise."
+    privilegeError: "Seu papel de usuário não pode executar análise. Para executar análise, o administrador da sua organização precisa conceder determinados <a href=\"http://doc.arcgis.com/en/arcgis-online/reference/roles.htm\" target=\"_blank\">privilégios</a>."
   })
 );

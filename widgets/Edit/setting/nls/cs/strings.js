@@ -16,6 +16,7 @@
     editpageAlias: "Přezdívka",
     editpageVisible: "Viditelná",
     editpageEditable: "Upravitelné",
-    noLayers: "K dispozici nejsou žádné vrstvy prvků, které by bylo možno upravit."
+    noLayers: "K dispozici nejsou žádné vrstvy prvků, které by bylo možno upravit.",
+    configureFields: "Konfigurovat pole vrstvy"
   })
 );

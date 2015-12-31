@@ -22,9 +22,10 @@ define([
   'dijit/_TemplatedMixin',
   'dojo/on',
   'dojo/query',
+  'jimu/utils',
   'dojo/mouse'
 ],
-function (declare, lang, html, _WidgetBase, _TemplatedMixin, on, query) {
+function (declare, lang, html, _WidgetBase, _TemplatedMixin, on, query, utils) {
   return declare([_WidgetBase, _TemplatedMixin], {
     templateString: '<div class="jimu-img-node"></div>',
     /**
@@ -45,7 +46,7 @@ function (declare, lang, html, _WidgetBase, _TemplatedMixin, on, query) {
       }, this.box);
       html.create('div', {
         'class': 'node-label',
-        'innerHTML': this.label,
+        'innerHTML': utils.sanitizeHTML(this.label),
         title: this.label
       }, this.domNode);
 

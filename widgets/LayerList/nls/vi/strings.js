@@ -15,7 +15,7 @@
     itemToAttributeTable: "Mở Bảng Thuộc tính",
     itemShowItemDetails: "Hiện Chi tiết của Mục",
     empty: "trống",
-    removePopup: "Ẩn cửa sổ pop-up",
+    removePopup: "Tắt Cửa sổ pop-up",
     enablePopup: "Bật Cửa sổ pop-up"
   })
 );

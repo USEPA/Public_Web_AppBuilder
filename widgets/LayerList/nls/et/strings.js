@@ -15,7 +15,7 @@
     itemToAttributeTable: "Ava atribuudi tabel",
     itemShowItemDetails: "Näita sisuobjekti detaile",
     empty: "tühi",
-    removePopup: "Eemalda hüpikaken",
+    removePopup: "Ära luba hüpikaknaid",
     enablePopup: "Luba hüpikaken"
   })
 );

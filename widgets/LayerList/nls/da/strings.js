@@ -15,7 +15,7 @@
     itemToAttributeTable: "Åbn attributtabel",
     itemShowItemDetails: "Vil elementoplysninger",
     empty: "tom",
-    removePopup: "Fjern pop-up",
+    removePopup: "Deaktivér pop-up",
     enablePopup: "Aktivér pop-up"
   })
 );

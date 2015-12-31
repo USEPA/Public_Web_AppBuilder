@@ -16,6 +16,7 @@
     editpageAlias: "Pseudonimas",
     editpageVisible: "Matoma",
     editpageEditable: "Redaguojama",
-    noLayers: "Galimų redaguoti elementų sluoksnių nėra"
+    noLayers: "Galimų redaguoti elementų sluoksnių nėra",
+    configureFields: "Konfigūruoti sluoksnio laukus"
   })
 );

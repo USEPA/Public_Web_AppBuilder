@@ -3,7 +3,7 @@
     _widgetLabel: "Analyse",
     executeAnalysisTip: "Klikk på et analyseverktøy for å utføre",
     noToolTip: "Ingen analyseverktøy er valgt",
-    back: "Bak",
+    back: "Tilbake",
     next: "Neste",
     home: "Hjem",
     jobSubmitted: "sendt.",
@@ -17,8 +17,8 @@
     learnMore: "Få mer informasjon",
     messages: "Meldinger",
     outputs: "Utdata",
-    outputtip: "Merknad: Geoobjekts- og tabellutdata legges til som operative lag.",
+    outputtip: "Merknad: Geoobjekts og tabell-resultater legges til som operative lag.",
     outputSaveInPortal: "Dataene er lagret i portalen.",
-    privilegeError: "Du må ha rollen som utgiver eller administrator for å utføre bruke analyseverktøyet."
+    privilegeError: "Brukerrollen din kan ikke utføre analyser. Hvis du vil utføre analyser, må administratoren i organisasjonen gi deg visse <a href=\"http://doc.arcgis.com/en/arcgis-online/reference/roles.htm\" target=\"_blank\">rettigheter</a>."
   })
 );

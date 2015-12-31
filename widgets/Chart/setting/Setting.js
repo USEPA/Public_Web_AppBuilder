@@ -132,8 +132,6 @@ function(declare, lang, array, on, _WidgetsInTemplateMixin, BaseWidgetSetting,
         var singleConfig = this.currentSCS.getConfig(true);
         if(singleConfig){
           this.currentSCS.tr.singleConfig = singleConfig;
-          this.currentSCS.destroy();
-          this.currentSCS = null;
         }
         else{
           return;
@@ -143,7 +141,7 @@ function(declare, lang, array, on, _WidgetsInTemplateMixin, BaseWidgetSetting,
       var args = {
         titleLabel: this.nls.setDataSource,
 
-        featureArgs: {
+        dijitArgs: {
           multiple: false,
           createMapResponse: this.map.webMapResponse,
           portalUrl: this.appConfig.portalUrl,
@@ -159,8 +157,13 @@ function(declare, lang, array, on, _WidgetsInTemplateMixin, BaseWidgetSetting,
         //{name, url, definition}
         featurePopup.close();
 
+        if(this.currentSCS){
+          this.currentSCS.destroy();
+          this.currentSCS = null;
+        }
+
         //var chartName = this._getSuitableQueryName(item.name);
-        var chartName = item.name||"";
+        var chartName = item.name || "";
         var addResult = this.chartList.addRow({name: chartName});
         if (addResult.success) {
           var tr = addResult.tr;
@@ -231,7 +234,7 @@ function(declare, lang, array, on, _WidgetsInTemplateMixin, BaseWidgetSetting,
       this.currentSCS = new SingleChartSetting(args);
       this.currentSCS.placeAt(this.singleChartContainer);
 
-      this.own(on(this.currentSCS,'name-change', lang.hitch(this, function(chartName){
+      this.own(on(this.currentSCS, 'name-change', lang.hitch(this, function(chartName){
         this.chartList.editRow(tr, {name: chartName});
       })));
 
@@ -247,7 +250,7 @@ function(declare, lang, array, on, _WidgetsInTemplateMixin, BaseWidgetSetting,
 
       //first bind event, then setConfig
       this.currentSCS.setConfig(tr.singleConfig);
-      
+
       return this.currentSCS;
     }
   });

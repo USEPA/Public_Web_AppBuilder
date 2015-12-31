@@ -15,7 +15,7 @@
     itemToAttributeTable: "打开属性表",
     itemShowItemDetails: "显示项目详细信息",
     empty: "空",
-    removePopup: "移除弹出窗口",
+    removePopup: "禁用弹出窗口",
     enablePopup: "启用弹出窗口"
   })
 );

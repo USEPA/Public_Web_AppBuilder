@@ -33,6 +33,8 @@
     hectaresAbbreviation: "ha",
     squareMetersAbbreviation: "sq m",
     squareFeetAbbreviation: "sq ft",
-    squareYardsAbbreviation: "sq yd"
+    squareYardsAbbreviation: "sq yd",
+    defineUnits: "Määritä mittayksiköt.",
+    operationalLayer: "Lisää piirros kartan toiminnallisena karttatasona."
   })
 );

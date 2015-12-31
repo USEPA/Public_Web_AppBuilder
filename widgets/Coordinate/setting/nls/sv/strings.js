@@ -1,12 +1,13 @@
 ﻿define(
    ({
+    id: 'ID',
     state: "Som standard visas koordinaterna i den aktuella kartans koordinatsystem. Om du vill hämta koordinater i andra koordinatsystem måste du lägga till dem och ange lämpliga omvandlingar.",
     outputUnit: "Utdataenhet",
     wkid: "Utdata-WKID",
     label: "Namn på koordinatsystem för utdata",
-    transformationWkid: 'Omvandlings-WKID',
-    transformationLabel: 'Omvandlingsetikett',
-    transformForward: 'Framåtomvandling',
+    transformationWkid: "Omvandlings-WKID",
+    transformationLabel: "Omvandlingsetikett",
+    transformForward: "Framåtomvandling",
     actions: "Åtgärder",
     warning: "Ange giltig WKID för geografisk referens!",
     tfWarning: "Ange giltig WKID för datumomvandling!",

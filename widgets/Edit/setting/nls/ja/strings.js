@@ -16,6 +16,7 @@
     editpageAlias: "エイリアス",
     editpageVisible: "表示",
     editpageEditable: "編集可能",
-    noLayers: "編集可能なフィーチャ レイヤーはありません"
+    noLayers: "編集可能なフィーチャ レイヤーはありません",
+    configureFields: "レイヤー フィールドの構成"
   })
 );

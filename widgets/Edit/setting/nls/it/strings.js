@@ -16,6 +16,7 @@
     editpageAlias: "Alias",
     editpageVisible: "Visibile",
     editpageEditable: "Modificabile",
-    noLayers: "Non sono disponibili feature layer modificabili"
+    noLayers: "Non sono disponibili feature layer modificabili",
+    configureFields: "Configura campi layer"
   })
 );

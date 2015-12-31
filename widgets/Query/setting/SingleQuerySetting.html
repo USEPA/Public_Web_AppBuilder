@@ -11,7 +11,7 @@
 									<div data-dojo-attach-point="urlTextBox" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props='required:true,trim:true,disabled:true' style="width:100%;"></div>
 								</td>
 								<td style="width:120px;">
-									<div data-dojo-attach-event="onclick:_onBtnSetSourceClicked" class="jimu-btn jimu-float-trailing" style="padding:7px 12px;">${nls.setSource}</div>
+									<div data-dojo-attach-event="onclick:_onBtnSetSourceClicked" class="jimu-btn jimu-float-trailing">${nls.setSource}</div>
 								</td>
 							</tr>
 						</tbody>
@@ -21,7 +21,7 @@
 			<tr>
 				<td class="first-td">${nls.queryName}</td>
 				<td class="second-td">
-					<div data-dojo-attach-point="queryNameTextBox" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props='required:true,trim:true' style="width:100%;" data-dojo-attach-event="change:_onQueryNameChanged"></div>
+					<div data-dojo-attach-point="queryNameTextBox" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props='required:true,trim:true' style="width:100%;" data-dojo-attach-event="change:_onQueryNameChanged,blur:_onQueryNameBlurred"></div>
 				</td>
 			</tr>
 		</tbody>
@@ -33,7 +33,7 @@
 		</div>
 		<div data-dojo-attach-point="resultsTabNode">
 			<div data-dojo-attach-point="popupContainer" style="width:90%;"></div>
-			<div class="symbol-section" style="margin-top:18px;">
+			<div data-dojo-attach-point="symbolSection" class="symbol-section" style="margin-top:18px;">
 				<div style="margin-bottom:11px;">${nls.setLayerSymbolTip}</div>
 				<div data-dojo-attach-point="layerSymbolPicker" data-dojo-type="jimu/dijit/SymbolPicker"></div>
 			</div>

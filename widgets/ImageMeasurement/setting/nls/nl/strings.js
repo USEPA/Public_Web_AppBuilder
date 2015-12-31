@@ -1,0 +1,50 @@
+﻿define(
+   ({
+    layerSelect: "Selecteer de beeldlaag",
+    displayMeasureResultInPopup: "Meetresultaten weergeven in een pop-up",
+    angularUnitSelect: "Standaard hoekeenheid",
+    linearUnitSelect: "Standaard lineaire eenheid",
+    areaUnitSelect: "Standaard oppervlakte-eenheid",
+    displayOperationSelect: "Selecteer meetopdrachten",
+    errorSectionMeasage: "Geen van de lagen ondersteunen mensuratiemogelijkheden.",
+    unitLabel: {
+      esriInches: "Inch",
+      esriFeet: "Voet",
+      esriYards: "Yard",
+      esriMiles: "Mijl",
+      esriNauticalMiles: "Zeemijl",
+      esriMillimeters: "Millimeter",
+      esriCentimeters: "Centimeter",
+      esriDecimeters: "Decimeter",
+      esriMeters: "Meter",
+      esriKilometers: "Kilometer",
+      esriDURadians: "Radialen",
+      esriDUDecimalDegrees: "Graden",
+      esriSquareInches: "Vierkante inch",
+      esriSquareFeet: "Vierkante voet",
+      esriSquareYards: "Vierkante yard",
+      esriAcres: "Acres",
+      esriSquareMiles: "Vierkante mile",
+      esriSquareMillimeters: "Viekante millimeter",
+      esriSquareCentimeters: "Vierkante centimeter",
+      esriSquareDecimeters: "Vierkante decimeters",
+      esriSquareMeters: "Vierkante meter",
+      esriAres: "Are",
+      esriHectares: "Hectare",
+      esriSquareKilometers: "Vierkante kilometer"
+    },
+    operationLabel: {
+      esriMensurationPoint: "Punt",
+      esriMensurationDistanceAndAngle: "Afstand en hoek",
+      esriMensurationAreaAndPerimeter: "Oppervlakte en omtrek",
+      esriMensurationHeightFromBaseAndTop: "Basis naar boven",
+      esriMensurationHeightFromBaseAndTopShadow: "Basis naar boven-Schaduw",
+      esriMensurationHeightFromTopAndTopShadow: "Boven naar boven-Schaduw",
+      esriMensurationCentroid: "Zwaartepunt",
+      esriMensurationPoint3D: "Punt (3D)",
+      esriMensurationDistanceAndAngle3D: "Afstand en hoek (3D)",
+      esriMensurationAreaAndPerimeter3D: "Oppervlakte en omtrek (3D)",
+      esriMensurationCentroid3D: "Zwaartepunt (3D)"
+    }
+  })
+);

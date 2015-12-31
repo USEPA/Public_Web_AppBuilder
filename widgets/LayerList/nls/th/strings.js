@@ -15,7 +15,7 @@
     itemToAttributeTable: "เปิดตารางข้อมูลคุณลักษณะ",
     itemShowItemDetails: "แสดงรายละเอียดข้อมูล",
     empty: "ว่าง",
-    removePopup: "ลบป๊อปอัพ",
+    removePopup: "แสดงป๊อปอัพ",
     enablePopup: "ใช้ป๊อปอัพ"
   })
 );

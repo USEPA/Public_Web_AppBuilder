@@ -19,6 +19,6 @@
     outputs: "Dados de Saída",
     outputtip: "Nota: Os dados de saída de elementos e de tabela são adicionados ao mapa como camadas operacionais.",
     outputSaveInPortal: "Os dados foram guardados no seu portal.",
-    privilegeError: "Precisa de ter o papel de Publicador ou Administrador para executar a ferramenta de análise."
+    privilegeError: "O seu papel de utilizador não permite efectuar análises. De forma a poder efectuar análises, o administrador da sua organização necessita atribuir-lhe determinados  <a href=\"http://doc.arcgis.com/en/arcgis-online/reference/roles.htm\" target=\"_blank\">privilégios</a>."
   })
 );

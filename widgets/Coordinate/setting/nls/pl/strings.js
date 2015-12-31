@@ -1,12 +1,13 @@
 ﻿define(
    ({
+    id: 'ID',
     state: "Domyślnie współrzędne są wyświetlane w bieżącym układzie współrzędnych mapy.  Aby uzyskać współrzędne w innych układach współrzędnych, konieczne jest ich dodanie i podanie odpowiednich transformacji.",
     outputUnit: "Jednostka danych wynikowych",
     wkid: "Identyfikator WKID wynikowych danych",
     label: "Wynikowa nazwa układu współrzędnych",
-    transformationWkid: 'Identyfikator (WKID) transformacji',
-    transformationLabel: 'Etykieta transformacji',
-    transformForward: 'Transfomuj dalej',
+    transformationWkid: "Identyfikator (WKID) transformacji",
+    transformationLabel: "Etykieta transformacji",
+    transformForward: "Transfomuj dalej",
     actions: "Operacje",
     warning: "Wprowadź prawidłowy identyfikator WKID odniesienia przestrzennego!",
     tfWarning: "Wprowadź prawidłowy identyfikator WKID transformacji układu odniesienia!",

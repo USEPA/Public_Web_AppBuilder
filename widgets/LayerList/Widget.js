@@ -19,28 +19,19 @@ define([
     'dojo/_base/declare',
     'dojo/_base/lang',
     'dojo/_base/array',
-    'dojo/dom-construct',
-    'dojo/dom-geometry',
     'dojo/dom',
     'dojo/on',
-    'dojo/_base/unload',
-    'dojo/aspect',
     'dojo/query',
-    'jimu/dijit/Selectionbox',
+    'dijit/registry',
     './LayerListView',
-    './PopupMenu',
-    'dojo/dom-style',
     './NlsStrings',
-    'jimu/LayerInfos/LayerInfoFactory',
-    'jimu/LayerInfos/LayerInfos',
-    'dojo/promise/all'
+    'jimu/LayerInfos/LayerInfos'
   ],
-  function(BaseWidget, declare, lang, array, domConstruct, domGeometry, dom, on, baseUnload,
-  aspect, query, Selectionbox, LayerListView, PopupMenu, domStyle, NlsStrings, LayerInfoFactory,
-  LayerInfos, all) {
+  function(BaseWidget, declare, lang, array, dom, on,
+  query, registry, LayerListView, NlsStrings, LayerInfos) {
+
     var clazz = declare([BaseWidget], {
-      /*jshint unused: false*/
-      //these two properties is defined in the BaseWiget 
+      //these two properties is defined in the BaseWiget
       baseClass: 'jimu-widget-layerList',
       name: 'layerList',
 
@@ -53,6 +44,7 @@ define([
       operLayerInfos: null,
 
       startup: function() {
+        this.inherited(arguments);
         NlsStrings.value = this.nls;
         // summary:
         //    this function will be called when widget is started.
@@ -60,48 +52,25 @@ define([
         //    according to webmap or basemap to create LayerInfos instance
         //    and initialize operLayerInfos;
         //    show layers list;
-        //    bind events of layerList and create popup menu.
-        // var mapLayers;
-        // LayerInfoFactory.getInstance(this.map).init().then(lang.hitch(this, function(){
-        //   if (this.map.itemId) {
-        // this.operLayerInfos = 
-        //   new LayerInfos(this.map.itemInfo.itemData.baseMap.baseMapLayers,
-        //                  this.map.itemInfo.itemData.operationalLayers,
-        //                  this.map);
-        //   } else {
-        //     mapLayers = this._obtainMapLayers();
-        //     this.operLayerInfos = new LayerInfos(mapLayers.basemapLayers,
-        //                                          mapLayers.operationalLayers, this.map);
-        //   }
-
-        //   this.showLayers();
-        //   this.bindEvents();
-        //   dom.setSelectable(this.layersSection, false);
-        // }));
+        //    bind events for layerLis;
 
         if (this.map.itemId) {
           LayerInfos.getInstance(this.map, this.map.itemInfo)
-          .then(lang.hitch(this, function(operLayerInfos) {
-            this.operLayerInfos = operLayerInfos;
-            this.showLayers();
-            //this.bindEvents();
-            this.own(on(this.operLayerInfos,
-                        'layerInfosChanged',
-                        lang.hitch(this, this._onLayerInfosChanged)));
-            dom.setSelectable(this.layersSection, false);
-          }));
+            .then(lang.hitch(this, function(operLayerInfos) {
+              this.operLayerInfos = operLayerInfos;
+              this.showLayers();
+              this.bindEvents();
+              dom.setSelectable(this.layersSection, false);
+            }));
         } else {
           var itemInfo = this._obtainMapLayers();
           LayerInfos.getInstance(this.map, itemInfo)
-          .then(lang.hitch(this, function(operLayerInfos) {
-            this.operLayerInfos = operLayerInfos;
-            this.showLayers();
-            //this.bindEvents();
-            this.own(on(this.operLayerInfos,
-                        'layerInfosChanged',
-                        lang.hitch(this, this._onLayerInfosChanged)));
-            dom.setSelectable(this.layersSection, false);
-          }));
+            .then(lang.hitch(this, function(operLayerInfos) {
+              this.operLayerInfos = operLayerInfos;
+              this.showLayers();
+              this.bindEvents();
+              dom.setSelectable(this.layersSection, false);
+            }));
         }
       },
 
@@ -124,22 +93,6 @@ define([
             operationalLayers: []
           }
         };
-        // array.forEach(this.map.layerIds.concat(this.map.graphicsLayerIds), function(layerId) {
-        //   var layer = this.map.getLayer(layerId);
-        //   if (layer.isOperationalLayer) {
-        //     operLayers.push({
-        //       layerObject: layer,
-        //       title: layer.label || layer.title || layer.name || layer.id || " ",
-        //       id: layer.id || " "
-        //     });
-        //   } else {
-        //     basemapLayers.push({
-        //       layerObject: layer,
-        //       id: layer.id || " "
-        //     });
-        //   }
-        // }, this);
-
         array.forEach(this.map.graphicsLayerIds, function(layerId) {
           var layer = this.map.getLayer(layerId);
           if (layer.isOperationalLayer) {
@@ -171,24 +124,6 @@ define([
         return retObj;
       },
 
-
-
-      _layerFilter: function(layerId, basemapLayers, operLayers) {
-        var layer = this.map.getLayer(layerId);
-        if (layer.isOperationalLayer) {
-          operLayers.push({
-            layerObject: layer,
-            title: layer.label || layer.title || layer.name || layer.id || " ",
-            id: layer.id || " "
-          });
-        } else {
-          basemapLayers.push({
-            layerObject: layer,
-            id: layer.id || " "
-          });
-        }
-      },
-
       showLayers: function() {
         // summary:
         //    create a LayerListView module used to draw layers list in browser.
@@ -199,93 +134,70 @@ define([
         }).placeAt(this.layerListBody);
       },
 
-      _createPopupMenu: function() {
-        // summary:
-        //    popup menu is a dijit used to do some operations of layer
-        this.popupMenu = new PopupMenu({
-          layerListWidget: this
-        });
-        domConstruct.place(this.popupMenu.domNode, this.domNode);
-      },
-
       _clearLayers: function() {
         // summary:
-        //    clear layer list 
+        //   clear layer list
         //domConstruct.empty(this.layerListTable);
         if (this.layerListView && this.layerListView.destroyRecursive) {
           this.layerListView.destroyRecursive();
         }
       },
 
-      flag: true,
+      _refresh: function() {
+        this._clearLayers();
+        this.showLayers();
+      },
 
+      /****************
+       * Event
+       ***************/
       bindEvents: function() {
         // summary:
         //    bind events are listened by this module
-        var handleRemove, handleRemoves;
-        //this.own(aspect.after(this.map, "onLayerAddResult",
-        //  lang.hitch(this, this._onLayersChange)));
-        this.own(on(this.map, "layer-add-result", lang.hitch(this, this._onLayersChange)));
-        //handleRemove = aspect.after(this.map, "onLayerRemove",
-        //  lang.hitch(this, this._onLayersChange));
-        handleRemove = on(this.map, "layer-remove", lang.hitch(this, this._onLayersChange));
-        this.own(handleRemove);
-        //aspect.after(this.map, "onLayerReorder", lang.hitch(this, this._onLayersChange));
-        //this.own(on(this.map, "LayersAddResult", lang.hitch(this, this._onLayersChangeAdds)));
-        //this.own(on(this.map, "layers-add-result", lang.hitch(this, this._onLayersChange)));
-        //handleRemoves =  aspect.after(this.map, "onLayersRemoved",
-        //  lang.hitch(this, this._onLayersChange));
-        //handleRemoves = on(this.map, "layers-removed", lang.hitch(this, this._onLayersChange));
-        //this.own(handleRemoves);
-        //aspect.after(this.map, "onLayersReorder", lang.hitch(this, this._onLayersChange));
+        this.own(on(this.operLayerInfos,
+          'layerInfosChanged',
+          lang.hitch(this, this._onLayerInfosChanged)));
 
-        baseUnload.addOnUnload(function() {
-          handleRemove.remove();
-          handleRemoves.remove();
+        this.own(on(this.operLayerInfos,
+          'tableInfosChanged',
+          lang.hitch(this, this._onLayerInfosChanged)));
+
+        this.own(this.operLayerInfos.on('layerInfosIsVisibleChanged',
+          lang.hitch(this, this._onLayerInfosIsVisibleChanged)));
+
+        this.own(on(this.operLayerInfos,
+          'updated',
+          lang.hitch(this, this._onLayerInfosObjUpdated)));
+      },
+
+      _onLayerInfosChanged: function(/*layerInfo, changedType*/) {
+        this._refresh();
+      },
+
+      _onLayerInfosIsVisibleChanged: function(changedLayerInfos) {
+        array.forEach(changedLayerInfos, function(layerInfo) {
+          query("[class~='visible-checkbox-" + layerInfo.id + "']", this.domNode)
+          .forEach(function(visibleCheckBoxDomNode) {
+            var visibleCheckBox = registry.byNode(visibleCheckBoxDomNode);
+            if(layerInfo.isVisible()) {
+              visibleCheckBox.check();
+            } else {
+              visibleCheckBox.uncheck();
+            }
+          }, this);
+
         });
-
-        // map infowindow
-        // on(this.map.infoWindow, "show", lang.hitch(this, function(){
-        //   all(this.map.infoWindow.deferreds).then(lang.hitch(this, function() {
-        //     var features = [];
-        //     if (this.map.infoWindow.features.length > 0) {
-        //       features.push(this.map.infoWindow.features[0]);
-        //       this.flag = true;
-        //     }
-        //     this.map.infoWindow.setFeatures(features);
-        //   }), function() {
-
-        //   });
-
-        // }));
-
-        // on(this.map.infoWindow, "hide", lang.hitch(this, function(){
-        //   if (this.flag) {
-        //     this.map.infoWindow.show();
-        //     this.flag = false;
-        //   }
-        // }));
       },
 
-      _onLayersChange: function(evt) {
+      _onLayerInfosObjUpdated: function() {
+        this._refresh();
+      },
+
+      onAppConfigChanged: function(appConfig, reason, changedData){
         /*jshint unused: false*/
-        // summary:
-        //    response to any layer change.
-        // description:
-        //    udate LayerInfos data, cleare layer list and redraw
-        if (evt.layer.declaredClass !== "esri.layers.GraphicsLayer") {
-          this.operLayerInfos.update();
-          this._clearLayers();
-          this.showLayers();
-        }
-      },
-
-      _onLayerInfosChanged: function(layerInfo, changedType) {
-        this._clearLayers();
-        this.showLayers();
+        this.appConfig = appConfig;
       }
-
     });
-    //clazz.hasConfig = false;
+
     return clazz;
   });

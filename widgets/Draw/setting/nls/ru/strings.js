@@ -33,6 +33,8 @@
     hectaresAbbreviation: "га",
     squareMetersAbbreviation: "кв. м.",
     squareFeetAbbreviation: "кв. футы",
-    squareYardsAbbreviation: "кв. ярды"
+    squareYardsAbbreviation: "кв. ярды",
+    defineUnits: "Задать единицы измерений.",
+    operationalLayer: "Добавить на карту чертеж, как операционный слой."
   })
 );

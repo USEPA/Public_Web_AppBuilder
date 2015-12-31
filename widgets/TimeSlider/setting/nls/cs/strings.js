@@ -1,5 +1,5 @@
 ﻿define(
    ({
-    showLayerLabels: "Umožňuje zobrazovat názvy vrstev ve widgetu vrstev s časovými informacemi."
+    showLayerLabels: "Umožňuje zobrazovat ve widgetu názvy vrstev s časovými informacemi."
   })
 );

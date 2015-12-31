@@ -1,0 +1,17 @@
+<div>
+  <div class="stream-list">
+    <div class="stream-list-head" style="overflow:hidden;">
+      <div class="jimu-float-leading jimu-widget-title">${nls.streamLayers}</div>
+    </div>
+    <div class="stream-list-content">
+      <div class="stream-list-table" data-dojo-type="jimu/dijit/SimpleTable"
+        data-dojo-attach-point="streamList"
+        data-dojo-attach-event="row-select:_onStreamLayerSelected"
+        data-dojo-props='autoHeight:false,selectable:true,fields:[{name:"name",title:"${nls.name}",width:"auto",type:"text",editable:false}]'
+        style="height:100%;"></div>
+    </div>
+  </div>
+  <div class="single-stream-container" data-dojo-attach-point="singleStreamContainer">
+  </div>
+  <div data-dojo-attach-point="shelter" data-dojo-type="jimu/dijit/LoadingShelter" data-dojo-props='hidden:true'></div>
+</div>

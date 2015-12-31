@@ -21,7 +21,8 @@ define([
     'dojo/_base/html',
     'dojo/on',
     'dojo/_base/lang',
-    'jimu/dijit/Message'
+    'jimu/dijit/Message',
+    'dojo/touch'
   ],
   function(
     declare,
@@ -29,8 +30,7 @@ define([
     LocateButton,
     html,
     on,
-    lang,
-    Message) {
+    lang) {
     var clazz = declare([BaseWidget], {
 
       name: 'MyLocation',
@@ -38,31 +38,71 @@ define([
 
       startup: function() {
         this.inherited(arguments);
+        this.placehoder = html.create('div', {
+          'class': 'place-holder'
+        }, this.domNode);
 
         if (window.navigator.geolocation) {
-          var json = this.config.locateButton;
-          json.map = this.map;
-          var geoLocate = new LocateButton(json);
-          geoLocate.startup();
-          html.place(geoLocate.domNode, this.domNode);
-          this.own(on(geoLocate, "locate", lang.hitch(this, this.locate)));
+          this.own(on(this.placehoder, 'click', lang.hitch(this, this.onLocationClick)));
         } else {
-          html.create('div', {
-            'class': 'place-holder',
-            title: this.nls.browserError
-          }, this.domNode);
+          html.setAttr(this.placehoder, 'title', this.nls.browserError);
         }
       },
 
-      locate: function(parameters){
-        if(parameters.error){
-          console.error(parameters.error.message);
-          new Message({
-            message: this.nls.failureFinding
-          });
+      onLocationClick: function() {
+        if (html.hasClass(this.domNode, "onCenter") ||
+          html.hasClass(this.domNode, "locating")) {
+          html.removeClass(this.domNode, "onCenter");
+          html.removeClass(this.placehoder, "tracking");
+          this._destroyGeoLocate();
+        } else {
+          this._createGeoLocate();
+          this.geoLocate.locate();
+          html.addClass(this.placehoder, "locating");
         }
-      }
+      },
 
+      onLocate: function(parameters) {
+        html.removeClass(this.placehoder, "locating");
+        if (this.geoLocate.useTracking) {
+          html.addClass(this.placehoder, "tracking");
+        }
+
+        if (parameters.error) {
+          console.error(parameters.error);
+          // new Message({
+          //   message: this.nls.failureFinding
+          // });
+        } else {
+          html.addClass(this.domNode, "onCenter");
+          this.neverLocate = false;
+        }
+      },
+
+      _createGeoLocate: function() {
+        var json = this.config.locateButton;
+        json.map = this.map;
+        // json.useTracking = true;
+        json.centerAt = true;
+        this.geoLocate = new LocateButton(json);
+        this.geoLocate.startup();
+
+        this.geoLocate.own(on(this.geoLocate, "locate", lang.hitch(this, this.onLocate)));
+      },
+
+      _destroyGeoLocate: function() {
+        if (this.geoLocate) {
+          this.geoLocate.clear();
+          this.geoLocate.destroy();
+        }
+
+        this.geoLocate = null;
+      },
+
+      destroy: function() {
+        this._destroyGeoLocate();
+        this.inherited(arguments);
+      }
     });
     clazz.inPanel = false;
     clazz.hasUIFile = false;

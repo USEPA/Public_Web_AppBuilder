@@ -16,6 +16,7 @@
     editpageAlias: "Ψευδώνυμο",
     editpageVisible: "Ορατό",
     editpageEditable: "Επεξεργάσιμο",
-    noLayers: "Δεν υπάρχουν διαθέσιμα feature layers με δυνατότητα επεξεργασίας"
+    noLayers: "Δεν υπάρχουν διαθέσιμα feature layers με δυνατότητα επεξεργασίας",
+    configureFields: "Διαμόρφωση πεδίων θεματικού επιπέδου"
   })
 );

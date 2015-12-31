@@ -31,6 +31,22 @@
     setTask: "Ange",
     setTaskTitle: "Ange geobearbetningsåtgärd:",
     enablePopup: "Aktivera popup-fönster",
-    unSupportGeometryType: "Det går inte att ställa in renderaren på grund av att geometritypen är okänd."
+    unSupportGeometryType: "Det går inte att ställa in renderaren på grund av att geometritypen är okänd.",
+    useUrlForGPInput: "URL",
+    useUploadForGPInput: "Överför fil",
+    selectFileToUpload: "Välj fil ...",
+    upload: "Överför",
+    rasterFormat: "Rasterdataformat",
+    noFileSelected: "Ingen fil har valts!",
+    uploadSuccess:"Filen har överförts!",
+    showLayerContent: "Visa lagrets innehåll",
+    Feet: "Fot",
+    Yards: "Yard",
+    Miles: "Engelska mil",
+    NauticalMiles: "Nautiska mil",
+    Meter: "Meter",
+    Kilometers: "Kilometer",
+    urlPlaceholder: "URL till geoobjektsuppsättning",
+    allowToExport: "Tillåt export av resultat"
   })
 );

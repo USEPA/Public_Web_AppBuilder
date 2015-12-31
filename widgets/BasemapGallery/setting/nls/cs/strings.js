@@ -25,7 +25,7 @@
     invalidTitle1:"Podkladová mapa \'",
     invalidTitle2:"\' již existuje. Zvolte jiný název.",
     invalidBasemapUrl1: "Vrstvu tohoto typu nelze použít jako podkladovou mapu.",
-    invalidBasemapUrl2: "Souřadnicový systém se liší od systému aktuální mapy.",
+    invalidBasemapUrl2: "Souřadnicový systém přidávané podkladové mapy se liší od souřadnicového systému současné mapy.",
     addBaselayer: "Přidat vrstvu podkladové mapy"
   })
 );

@@ -9,6 +9,24 @@
     requiredInfo: "ir obligāts.",
     drawnOnMap: "Rezultāts tiek zīmēts kartē.",
     clear: "Notīrīt",
-    error: "Kļūda"
+    error: "Kļūda",
+    noToolConfig: "Nav pieejams neviens iepriekš konfigurēts ģeodatu apstrādes uzdevums.",
+    useUrlForGPInput: "URL",
+    useUploadForGPInput: "Augšupielādējiet failu",
+    selectFileToUpload: 'Atlasiet failu...',
+    upload: 'Augšupielādēt',
+    rasterFormat: 'Rastra datu formāts',
+    noFileSelected: 'Nav atlasīts fails!',
+    uploadSuccess:'Faila augšupielāde veiksmīga!',
+    url: "URL",
+    showLayerContent: "Rādīt slāņa saturu",
+    invalidUrl: "Nederīgs elementu pakalpojuma URL",
+    Feet: "Pēdas",
+    Yards: "Jardi",
+    Miles: "Jūdzes",
+    NauticalMiles: "Jūras jūdzes",
+    Meter: "Metri",
+    Kilometers: "Kilometri",
+    urlPlaceholder: "elementu kopas URL"
   })
 );

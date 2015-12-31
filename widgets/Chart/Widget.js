@@ -21,6 +21,7 @@ define([
     'dojo/_base/html',
     'dojo/_base/array',
     'dojo/_base/fx',
+    'dojo/Deferred',
     'dijit/_WidgetsInTemplateMixin',
     'jimu/BaseWidget',
     'jimu/dijit/Message',
@@ -37,9 +38,10 @@ define([
     './Preview',
     'jimu/dijit/LoadingShelter'
   ],
-  function(declare, lang, query, html, array, fx, _WidgetsInTemplateMixin, BaseWidget,
+  function(declare, lang, query, html, array, fx, Deferred, _WidgetsInTemplateMixin, BaseWidget,
     Message, DrawBox, jimuUtils, FilterUtils, EsriQuery, QueryTask, GraphicsLayer,
     SimpleRenderer, symbolJsonUtils, esriRequest, graphicsUtils, Preview) {
+
     return declare([BaseWidget, _WidgetsInTemplateMixin], {
       name: 'Chart',
       baseClass: 'jimu-widget-chart',
@@ -69,6 +71,7 @@ define([
         this.nls.color = this.nls.color || "Color";
         this.nls.colorful = this.nls.colorful || "Colorful";
         this.nls.monochromatic = this.nls.monochromatic || "Monochromatic";
+        this.nls.clearResults = window.jimuNls.drawBox.clear;
         if(this.config){
           this._updateConfig();
         }
@@ -112,12 +115,21 @@ define([
         }
       },
 
+      onActive: function(){
+        this.map.setInfoWindowOnClick(false);
+      },
+
+      onDeActive: function(){
+        //deactivate method of DrawBox dijit will call this.map.setInfoWindowOnClick(true) inside
+        this.drawBox.deactivate();
+      },
+
       onClose: function(){
         if(this.tempResultLayer){
           this.tempResultLayer.hide();
         }
         this._hideInfoWindow();
-        this._resetDrawBox();
+        this.drawBox.clear();
         this.preview.onClose();
         this.inherited(arguments);
       },
@@ -130,8 +142,6 @@ define([
       },
 
       destroy: function(){
-        this._hideInfoWindow();
-        this._resetDrawBox();
         this._clickClearButton(true);
         this.inherited(arguments);
       },
@@ -142,7 +152,7 @@ define([
 
       _initDrawBox: function(){
         this.drawBox = new DrawBox({
-          types: ['point','polyline','polygon'],
+          types: ['point', 'polyline', 'polygon'],
           map: this.map,
           showClear: true,
           keepOneGraphic: true
@@ -166,11 +176,11 @@ define([
         var cbxName = "Chart_" + uniqueId;
         this.cbxUseMapExtent.name = cbxName;
         this.cbxDrawGraphic.name = cbxName;
-        
+
         this.isValidConfig = this._isConfigValid();
         if(!this.isValidConfig){
-          html.setStyle(this.chartsNode,'display','none');
-          html.setStyle(this.invalidConfigNode,{
+          html.setStyle(this.chartsNode, 'display', 'none');
+          html.setStyle(this.invalidConfigNode, {
             display: 'block',
             left: 0
           });
@@ -187,25 +197,24 @@ define([
 
         array.forEach(charts, lang.hitch(this, function(singleConfig, index){
           var name = singleConfig.name;
-          var strTr = '<tr class="single-chart">'+
-          '<td class="first-td"></td>'+
-          '<td class="second-td">'+
-            '<div class="chart-name-div"></div>'+
-          '</td>'+
-          '<td class="third-td">'+
-            '<div class="arrow"></div>'+
-          '</td>'+
+          var strTr = '<tr class="single-chart jimu-table-row">' +
+          '<td class="first-td"></td>' +
+          '<td class="second-td">' +
+            '<div class="chart-name-div"></div>' +
+          '</td>' +
+          '<td class="third-td">' +
+            '<div class="arrow"></div>' +
+          '</td>' +
           '</tr>';
           var tr = html.toDom(strTr);
           var chartNameDiv = query(".chart-name-div", tr)[0];
-          chartNameDiv.innerHTML = name;
+          chartNameDiv.innerHTML = jimuUtils.stripHTML(name);
           html.place(tr, this.chartsTbody);
           tr.singleConfig = singleConfig;
-          if(index % 2 === 0){
-            html.addClass(tr,'even');
-          }
-          else{
-            html.addClass(tr,'odd');
+          if (index % 2 === 0) {
+            html.addClass(tr, 'even');
+          } else {
+            html.addClass(tr, 'odd');
           }
         }));
       },
@@ -225,12 +234,13 @@ define([
 
       _clickClearButton: function(/*optional*/ dontSlide){
         this._hideInfoWindow();
+        this.drawBox.clear();
         this._removeTempResultLayer();
         this._clearResultPage();
         //the default value of dontSlide is false.
         //if true, it means the widgte will destroy and it needn't slide.
         if(!dontSlide){
-          this._fromCurrentPageToQueryList();
+          this._fromCurrentPageToChartList();
         }
       },
 
@@ -273,9 +283,9 @@ define([
         this.currentAttrs.chartTr = tr;
         this.currentAttrs.config = lang.clone(singleConfig);
         this.currentAttrs.layerInfo = this.currentAttrs.chartTr.layerInfo;//may be null
-        
-        query('tr.single-chart', this.chartsTbody).removeClass('selected');
-        html.addClass(this.currentAttrs.chartTr, 'selected');
+
+        query('tr.single-chart', this.chartsTbody).removeClass('jimu-state-active');
+        html.addClass(this.currentAttrs.chartTr, 'jimu-state-active');
 
         var callback = lang.hitch(this, function() {
           this.currentAttrs.layerInfo = this.currentAttrs.chartTr.layerInfo;
@@ -318,7 +328,7 @@ define([
         }
       },
 
-      _fromCurrentPageToQueryList: function(){
+      _fromCurrentPageToChartList: function(){
         html.setStyle(this.chartList, 'display', 'block');
 
         if(html.getStyle(this.chartParams, 'display') === 'block'){
@@ -362,7 +372,7 @@ define([
       },
 
       _onBtnClearAllClicked: function(){
-        this._clickClearButton();
+        this._clickClearButton(false);
       },
 
       _resetDrawBox: function(){
@@ -402,9 +412,9 @@ define([
 
       _onBtnParamsBackClicked: function(){
         this._resetDrawBox();
-        html.setStyle(this.chartList,'display','block');
-        html.setStyle(this.chartParams,'display','block');
-        html.setStyle(this.chartResults,'display','none');
+        html.setStyle(this.chartList, 'display', 'block');
+        html.setStyle(this.chartParams, 'display', 'block');
+        html.setStyle(this.chartResults, 'display', 'none');
         this._slide(this.chartList, -100, 0);
         this._slide(this.chartParams, 0, 100);
       },
@@ -445,7 +455,7 @@ define([
 
         this._resetDrawBox();
 
-        html.setStyle(this.chartList, 'display','none');
+        html.setStyle(this.chartList, 'display', 'none');
         html.setStyle(this.chartParams, 'display', 'block');
         html.setStyle(this.chartResults, 'display', 'block');
         this._slide(this.chartParams, 0, -100);
@@ -497,7 +507,7 @@ define([
             array.forEach(featureSet.features, lang.hitch(this, function(feature){
               this.tempResultLayer.add(feature);
             }));
-            
+
             this._zoomToLayer(this.tempResultLayer);
           }
         }), lang.hitch(this, function(err){
@@ -512,7 +522,7 @@ define([
 
       _updatePreviewHeight: function() {
         var box = html.getContentBox(this.domNode);
-        var h = Math.max(box.h - 60, 150);
+        var h = Math.max(box.h - 120, 150);
 
         //update preview height
         html.setStyle(this.preview.domNode, 'height', h + 'px');
@@ -530,6 +540,7 @@ define([
       },
 
       _query: function(where, outFields, /*optional*/ geometry){
+        var def = new Deferred();
         var queryParams = new EsriQuery();
         queryParams.where = where;
         if(geometry){
@@ -538,8 +549,25 @@ define([
         queryParams.outSpatialReference = this.map.spatialReference;
         queryParams.returnGeometry = true;
         queryParams.outFields = outFields;
-        var queryTask = new QueryTask(this.currentAttrs.config.url);
-        return queryTask.execute(queryParams);
+        var url = this.currentAttrs.config.url;
+        var queryTask = new QueryTask(url);
+        queryTask.execute(queryParams).then(lang.hitch(this, function(featureSet){
+          def.resolve(featureSet);
+        }), lang.hitch(this, function(err){
+          //maybe a joined layer
+          if(err && err.code === 400){
+            queryParams.outFields = ["*"];
+            var queryTask2 = new QueryTask(url);
+            queryTask2.execute(queryParams).then(lang.hitch(this, function(featureSet2){
+              def.resolve(featureSet2);
+            }), lang.hitch(this, function(err2){
+              def.reject(err2);
+            }));
+          }else{
+            def.reject(err);
+          }
+        }));
+        return def;
       },
 
       _clearResultPage: function(){
@@ -549,10 +577,16 @@ define([
 
       _zoomToLayer: function(gl){
         try{
-          var ext = graphicsUtils.graphicsExtent(gl.graphics);
-          if(ext){
-            ext = ext.expand(1.4);
-            this.map.setExtent(ext);
+          //some graphics maybe don't have geometry, so need to filter graphics here by geometry
+          var graphics = array.filter(gl.graphics, function(g){
+            return !!g.geometry;
+          });
+          if(graphics.length > 0){
+            var ext = graphicsUtils.graphicsExtent(graphics);
+            if(ext){
+              ext = ext.expand(1.4);
+              this.map.setExtent(ext);
+            }
           }
         }
         catch(e){
@@ -568,15 +602,15 @@ define([
       },
 
       _onBtnResultsBackClicked: function(){
-        var showDom,hideDom;
+        var showDom, hideDom;
 
         showDom = this.chartParams;
         hideDom = this.chartList;
 
-        html.setStyle(hideDom,'display','none');
-        html.setStyle(showDom,{
-          display:'block',
-          left:'-100%'
+        html.setStyle(hideDom, 'display', 'none');
+        html.setStyle(showDom, {
+          display: 'block',
+          left: '-100%'
         });
         this._slide(showDom, -100, 0);
         this._slide(this.chartResults, 0, 100);

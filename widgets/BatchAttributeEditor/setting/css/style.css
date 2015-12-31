@@ -1,0 +1,128 @@
+.solutions-widget-batcheditor-setting {
+	margin: 0;
+	padding: 0;
+	font-size: 15px;
+}
+
+.solutions-widget-batcheditor-setting .dijitArrowButtonContainer {
+	width: 17px;
+}
+
+.solutions-widget-batcheditor-setting .dijitSelect {
+	height: 30px;
+	width: 100%;
+}
+.solutions-widget-batcheditor-setting .editable {
+	width: 100px;
+}
+.solutions-widget-batcheditor-setting .symbolselector {
+	width: 140px;
+}
+.hide {
+	display: none;
+}
+
+/*Shared Page*/
+.solutions-widget-batcheditor-setting .settings-heading {
+	font-size: 14px;
+	margin-top: 15px;
+	color: #2b2d39;
+}
+.solutions-widget-batcheditor-setting .settings-description {
+	font-size: 12px;
+	margin-top: 15px;
+	margin-left: 10px;
+	margin-right: 10px;
+	color: #2b2d39;
+}
+.solutions-widget-batcheditor-setting .settings-error {
+	font-size: 12px;
+	font-style: italic;
+	color: #999999;
+}
+.solutions-widget-batcheditor-setting .settings-nolayer-error {
+	font-size: 12px;
+	font-style: italic;
+	color: #999999;
+	margin-left: 10px;
+	margin-right: 10px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+.batcheditor-settings-error {
+	font-size: 12px;
+	font-style: italic;
+	color: #999999;
+}
+
+/*Navigation Buttons*/
+.solutions-widget-batcheditor-setting .settings-navigation-table > tbody > tr > .controls {
+	width: 100%;
+}
+.solutions-widget-batcheditor-setting .settings-navigation-table > tbody > tr > td {
+
+	vertical-align: middle;
+	font-size: 1em;
+}
+
+/*Page 1*/
+.solutions-widget-batcheditor-setting .setting-tool-table {
+	margin-top: 20px;
+	margin-left: 10px;
+	margin-right: 10px;
+	border-width: 0px;
+}
+.solutions-widget-batcheditor-setting .setting-tool-table > tbody > tr > .controls {
+	width: 100%;
+}
+.solutions-widget-batcheditor-setting .setting-tool-table > tbody > tr > td > span {
+	margin-left: 5px;
+	margin-right: 5px;
+}
+.solutions-widget-batcheditor-setting .setting-tool-table > tbody > tr > td > input {
+	margin-left: 0px;
+	margin-right: 0px;
+}
+.solutions-widget-batcheditor-setting  .setting-tool-table > thead > tr > th, .solutions-widget-batcheditor-setting  .setting-tool-table > tbody > tr > td {
+	line-height: 22px;
+	vertical-align: middle;
+	font-size: 12px;
+}
+
+/*Page 2*/
+.solutions-widget-batcheditor-setting .setting-layer-table {
+	margin-left: 10px;
+	margin-right: 10px;
+	margin-top: 20px;
+	margin-bottom: 10px;
+}
+.solutions-widget-batcheditor-setting .setting-layer-toggle-checkbox-group {
+	margin-left: 10px;
+	margin-right: 10px;
+	margin-top: 15px;
+}
+.solutions-widget-batcheditor-setting .setting-layer-toggle-checkbox {
+	margin-left: 0px;
+	margin-right: 0px;
+}
+.solutions-widget-batcheditor-setting .setting-layer-toggle-checkbox-text {
+	font-size: 12px;
+	color: #2b2d39;
+}
+
+/*Page 3*/
+.solutions-widget-batcheditor-setting .setting-common-fields-table {
+	margin: 15px;
+	padding-left: 15px;
+	padding-right: 15px;
+}
+
+.solutions-widget-batcheditor-setting .footer {
+	text-align: right;
+}
+
+.footer {
+	padding-top: 5px;
+	width: 100%;
+	height: 30px;
+}

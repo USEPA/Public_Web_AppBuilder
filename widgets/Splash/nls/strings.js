@@ -5,7 +5,7 @@ define({
     licenceAgree: "I agree to",
     licenceTerm: "ArcGIS Web Application Terms",
     labelContinue: "Continue",
-    errorString: "* You need to agree to the licence to continue.",
+    errorString: "* You need to agree to the license to continue.",
     notShowAgain: "Do not show this splash screen again.",
     ok: "OK",
     cancel: "Cancel"
@@ -36,5 +36,7 @@ define({
   "th": 1,
   "tr": 1,
   "vi": 1,
-  "zh-cn": 1
+  "zh-cn": 1,
+  "zh-hk": 1,
+  "zh-tw": 1
 });

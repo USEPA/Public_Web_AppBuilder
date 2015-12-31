@@ -28,7 +28,7 @@ define([
   'jimu/utils',
   'jimu/dijit/TabContainer3',
   'jimu/dijit/Message',
-  'jimu/dijit/_FeaturelayerSourcePopup',
+  'jimu/dijit/_QueryableLayerSourcePopup',
   './PopupConfig',
   'esri/request',
   'esri/symbols/jsonUtils',
@@ -38,7 +38,7 @@ define([
   'dijit/form/ValidationTextBox'
 ],
 function(declare, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, template, lang,
-  array, html, on, Evented, jimuUtils, TabContainer3, Message, _FeaturelayerSourcePopup,
+  array, html, on, Evented, jimuUtils, TabContainer3, Message, _QueryableLayerSourcePopup,
   PopupConfig, esriRequest, esriSymbolJsonUtils, Filter) {
   return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, Evented], {
     baseClass: 'jimu-widget-single-query-setting',
@@ -71,7 +71,7 @@ function(declare, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, templat
       if(!this._isObject(this.config)){
         return;
       }
-      var url = config.url||'';
+      var url = config.url || '';
       var validUrl = url && typeof url === 'string';
       if(!validUrl){
         return;
@@ -90,7 +90,7 @@ function(declare, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, templat
           content:{f:'json'},
           callbackParamName:'callback'
         });
-        def.then(lang.hitch(this,function(response){
+        def.then(lang.hitch(this, function(response){
           if(!this.domNode){
             return;
           }
@@ -99,7 +99,7 @@ function(declare, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, templat
           this._layerDefinition = response;
           this._layerDefinition.url = url;
           this._resetByConfig(this.config, this._layerDefinition);
-        }),lang.hitch(this,function(err){
+        }), lang.hitch(this, function(err){
           console.error(err);
           if(!this.domNode){
             return;
@@ -119,7 +119,8 @@ function(declare, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, templat
         },
         popup: '',
         resultsSymbol:'',
-        objectIdField:''
+        objectIdField:'',
+        orderByFields: []
       };
 
       if(!this._layerDefinition){
@@ -129,14 +130,15 @@ function(declare, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, templat
       }
       config.url = this._layerDefinition.url;
 
-      if(!this.queryNameTextBox.validate()){
+      var queryName = jimuUtils.stripHTML(this.queryNameTextBox.get('value'));
+      if(!queryName){
         this.showValidationErrorTip(this.queryNameTextBox);
         return null;
       }
-      config.name = this.queryNameTextBox.get('value');
+      config.name = queryName;
 
       var filterObj = this.filter.toJson();
-      if (!filterObj || !filterObj.expr) {
+      if (!filterObj) {
         new Message({
           message: this.nls.setFilterTip
         });
@@ -148,14 +150,21 @@ function(declare, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, templat
       if(!popup){
         return null;
       }
+      config.orderByFields = popup.orderByFields;
+      delete popup.orderByFields;
       config.popup = popup;
 
-      var sym1 = this.layerSymbolPicker.getSymbol();
-      if(sym1){
-        config.resultsSymbol = sym1.toJson();
-      }
-      else{
-        return null;
+      if(this._isTable(this._layerDefinition)){
+        //if it is table, we don't save the symbol info
+        config.resultsSymbol = null;
+      }else{
+        var sym1 = this.layerSymbolPicker.getSymbol();
+        if(sym1){
+          config.resultsSymbol = sym1.toJson();
+        }
+        else{
+          return null;
+        }
       }
 
       if(this._layerDefinition.objectIdField){
@@ -163,7 +172,7 @@ function(declare, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, templat
       }
       else{
         var fields = this._layerDefinition.fields;
-        var oidFieldInfos = array.filter(fields,lang.hitch(this,function(fieldInfo){
+        var oidFieldInfos = array.filter(fields, lang.hitch(this, function(fieldInfo){
           return fieldInfo.type === 'esriFieldTypeOID';
         }));
         if(oidFieldInfos.length > 0){
@@ -259,18 +268,23 @@ function(declare, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, templat
 
     _getRandomString: function(){
       var str = Math.random().toString();
-      str = str.slice(2,str.length);
+      str = str.slice(2, str.length);
       return str;
     },
 
     _onQueryNameChanged: function(){
-      this.emit('name-change',this.queryNameTextBox.get('value'));
+      this.emit('name-change', this.queryNameTextBox.get('value'));
+    },
+
+    _onQueryNameBlurred: function(){
+      var value = jimuUtils.stripHTML(this.queryNameTextBox.get('value'));
+      this.queryNameTextBox.set('value', value);
     },
 
     _clear: function(){
-      this.urlTextBox.set('value','');
+      this.urlTextBox.set('value', '');
       this._layerDefinition = null;
-      this.queryNameTextBox.set('value','');
+      this.queryNameTextBox.set('value', '');
       this.filter.reset();
       this.tab.showShelter();
       this.popupConfig.clear();
@@ -281,7 +295,7 @@ function(declare, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, templat
       var args = {
         titleLabel: this.nls.setDataSource,
 
-        featureArgs: {
+        dijitArgs: {
           multiple: false,
           createMapResponse: this.map.webMapResponse,
           portalUrl: this.appConfig.portalUrl,
@@ -291,29 +305,56 @@ function(declare, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, templat
         }
       };
 
-      var featurePopup = new _FeaturelayerSourcePopup(args);
-      this.own(on(featurePopup, 'ok', lang.hitch(this, function(item){
+      var sourcePopup = new _QueryableLayerSourcePopup(args);
+      this.own(on(sourcePopup, 'ok', lang.hitch(this, function(item){
         //{name, url, definition}
-        featurePopup.close();
-        this.setNewLayerDefinition(item.name, item.url, item.definition);
+        var radioType = sourcePopup.getSelectedRadioType();
+        sourcePopup.close();
+        sourcePopup = null;
+        var queryName = null;
+        var expr = null;
+        if(radioType === 'map'){
+          var layerObject = item.layerInfo && item.layerInfo.layerObject;
+          if(layerObject && typeof layerObject.getDefinitionExpression === 'function'){
+            expr = layerObject.getDefinitionExpression();
+          }
+        }
+        this.setNewLayerDefinition(item.name, item.url, item.definition, queryName, expr);
       })));
-      this.own(on(featurePopup, 'cancel', lang.hitch(this, function(){
-        featurePopup.close();
+      this.own(on(sourcePopup, 'cancel', lang.hitch(this, function(){
+        sourcePopup.close();
+        sourcePopup = null;
       })));
 
-      featurePopup.startup();
+      sourcePopup.startup();
     },
 
-    setNewLayerDefinition: function(name, url, definition, /* optional */ queryName){
+    setNewLayerDefinition: function(name, url, definition,/*optional*/ queryName,/*optional*/ expr){
       definition.name = name;
       definition.url = url;
       var oldUrl = this._layerDefinition && this._layerDefinition.url;
       if (url !== oldUrl) {
-        this._resetByNewLayerDefinition(definition, queryName);
+        this._resetByNewLayerDefinition(definition, queryName, expr);
       }
     },
 
-    _resetByNewLayerDefinition: function(layerInfo, /* optional */ queryName){
+    _isImageServiceLayer: function(layerInfo) {
+      return (layerInfo.url.indexOf('/ImageServer') > -1);
+    },
+
+    _isTable: function(layerInfo){
+      return layerInfo.type === 'Table';
+    },
+
+    _showSymbolSection: function(){
+      html.setStyle(this.symbolSection, 'display', 'block');
+    },
+
+    _hideSymbolSection: function(){
+      html.setStyle(this.symbolSection, 'display', 'none');
+    },
+
+    _resetByNewLayerDefinition: function(layerInfo,/*optional*/ queryName,/*optional*/ defaultExpr){
       this._clear();
       if(!layerInfo){
         return;
@@ -327,46 +368,63 @@ function(declare, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, templat
       //reset filter
       this.filter.reset();
       if(this._layerDefinition){
-        this.filter.buildByExpr(url, '1=1', this._layerDefinition);
+        var expr = defaultExpr || '1=1';
+        this.filter.buildByExpr(url, expr, this._layerDefinition);
       }
 
       //reset popupConfig
-      var fields = array.map(layerInfo.fields, lang.hitch(this, function(fieldInfo){
-        var item = lang.mixin({},fieldInfo);
-        item.visible = false;
-        item.specialType = 'none';
-        return item;
-      }));
       var popupTitle = '';
+
       if(layerInfo.displayField){
-        popupTitle = '${'+layerInfo.displayField+'}';
+        popupTitle = '${' + layerInfo.displayField + '}';
       }
+
       this.popupConfig.setConfig({
         title: popupTitle,
-        fields: fields
+        fields: [],
+        orderByFields: []
       });
 
+      this.popupConfig.updateSortingIcon(this._layerDefinition);
+
       //reset symbol
-      var geoType = jimuUtils.getTypeByGeometryType(layerInfo.geometryType);
       var symType = '';
-      if(geoType === 'point'){
-        symType = 'marker';
-      }
-      else if(geoType === 'polyline'){
-        symType = 'line';
-      }
-      else if(geoType === 'polygon'){
+      if(this._isImageServiceLayer(layerInfo)){
         symType = 'fill';
+      } else if(this._isTable(layerInfo)){
+        symType = '';
+      } else{
+        if(layerInfo.geometryType){
+          var geoType = jimuUtils.getTypeByGeometryType(layerInfo.geometryType);
+
+          if(geoType === 'point'){
+            symType = 'marker';
+          }
+          else if(geoType === 'polyline'){
+            symType = 'line';
+          }
+          else if(geoType === 'polygon'){
+            symType = 'fill';
+          }
+        }
       }
+
       if(symType){
+        //if the layer is feature layer or image service layer, we should let user to configure
+        //result symbol
+        this._showSymbolSection();
         this.layerSymbolPicker.showByType(symType);
+      }else{
+        //if the layer is a table, symType will be empty
+        this._hideSymbolSection();
+        this.layerSymbolPicker.reset();
       }
     },
 
     _resetByConfig:function(cfg, layerInfo){
-      var config = lang.clone(cfg);//lang.mixin({},cfg);
-      this.urlTextBox.set('value',config.url);
-      this.queryNameTextBox.set('value',config.name||'');
+      var config = lang.clone(cfg);
+      this.urlTextBox.set('value', config.url);
+      this.queryNameTextBox.set('value', config.name || '');
 
       //reset filter
       var filterInfo = config.filter;
@@ -386,49 +444,38 @@ function(declare, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, templat
       this.popupConfig.clear();
       if(!this._isObject(config.popup)){
         config.popup = {
-          fields:[],
-          title:''
+          title:'',
+          fields:[]
         };
       }
-      if(!(config.popup.fields && config.popup.fields.length >=0)){
+      if(!(config.popup.fields && config.popup.fields.length >= 0)){
         config.popup.fields = [];
       }
       if(!config.popup.title){
         config.popup.title = '';
       }
 
-      var visibleFieldInfos=array.filter(config.popup.fields,lang.hitch(this,function(fieldInfo){
-        return fieldInfo.showInInfoWindow;
-      }));
-
-      var visibleFieldNames = array.map(visibleFieldInfos, lang.hitch(this, function(fieldInfo) {
-        return fieldInfo.name;
-      }));
-
-      var fields = array.map(layerInfo.fields, lang.hitch(this, function(fieldInfo) {
-        var item;
-        var index = visibleFieldNames.indexOf(fieldInfo.name);
-        if (index >= 0) {
-          var configFieldInfo = visibleFieldInfos[index];
-          item = lang.mixin({}, configFieldInfo);
-          item.visible = true;
-        } else {
-          item = lang.mixin({}, fieldInfo);
-          item.specialType = 'none';
-          item.visible = false;
-        }
-
-        return item;
-      }));
-
       this.popupConfig.setConfig({
         title: config.popup.title,
-        fields: fields
+        fields: config.popup.fields,
+        orderByFields: config.orderByFields
       });
 
+      this.popupConfig.updateSortingIcon(layerInfo);
+
       //reset symbol
-      var sym1 = esriSymbolJsonUtils.fromJson(config.resultsSymbol);
-      this.layerSymbolPicker.showBySymbol(sym1);
+      if(this._isTable(layerInfo)){
+        //if it is a table, we should not allow user configure result symbol
+        this._hideSymbolSection();
+        this.layerSymbolPicker.reset();
+      }else{
+        //it is a feature layer or an image service layer
+        this._showSymbolSection();
+        if(config.resultsSymbol){
+          var sym1 = esriSymbolJsonUtils.fromJson(config.resultsSymbol);
+          this.layerSymbolPicker.showBySymbol(sym1);
+        }
+      }
     },
 
     _isObject:function(o){

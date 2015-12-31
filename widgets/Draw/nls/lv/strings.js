@@ -1,7 +1,7 @@
 ﻿define(
    ({
     _widgetLabel: "Zīmēt",
-    selectDrawMode: "Izvēlēties zīmēšanas režīmu",
+    selectDrawMode: "Atlasiet zīmēšanas režīmu",
     clear: "Notīrīt",
     point: "Virsotne",
     line: "Līnija",
@@ -39,6 +39,10 @@
     squareFeet: "Kvadrātpēdas",
     squareYards: "Kvadrātjardi",
     undo: "Atsaukt",
-    redo: "Atcelt atsaukšanu"
+    redo: "Atcelt atsaukšanu",
+    results: "Rezultāti",
+    points: "Punkti",
+    lines: "Līnijas",
+    areas: "Platības"
   })
 );

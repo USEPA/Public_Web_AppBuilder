@@ -33,6 +33,8 @@
     hectaresAbbreviation: "هكتار",
     squareMetersAbbreviation: "متر مربع",
     squareFeetAbbreviation: "قدم مربع",
-    squareYardsAbbreviation: "ياردة مربعة"
+    squareYardsAbbreviation: "ياردة مربعة",
+    defineUnits: "تعريف وحدات القياس.",
+    operationalLayer: "إضافة الرسم باعتباره طبقة تشغيلية بالخريطة."
   })
 );

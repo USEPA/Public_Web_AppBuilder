@@ -1,0 +1,53 @@
+<div>
+  <div data-dojo-attach-point="panelBottom" class="panelBottom">
+    <!--Panel Container -->
+    <div data-dojo-attach-point="panelContainer" class="panelContainer">
+      <!-- Panel Incident -->
+      <div id="tabPanel0" class="IMT_tabPanel">
+        <div class="IMT_tabPanelContent" style="width: 660px">
+          <div id="incidentsLocate" class="IMTcol">
+            <div class="label">
+              ${nls.locate_incident}
+            </div>
+            <br/>
+            <div class="colBar">
+              <span class="btn32"> <img id="btn0"> </img> </span>
+              <span class="btn32"> <img id="btn1"> </img> </span>
+              <span class="btn32"> <img id="btn2"> </img> </span>
+              <span class="btn32 btnClear" data-dojo-attach-event="onclick:_clear"> <img id="btn3"> </img> </span>
+            </div>
+          </div>
+          <div id="incidentsDistance" class="IMTcol">
+            <div class="label" data-dojo-attach-point="buffer_lbl"></div>
+            <br/>
+            <div class="colBar">
+              <div id="horizontalSliderDiv" data-dojo-attach-point="horizontalSliderDiv"></div>
+              <div style="text-align:center; margin-top: -4px;">
+                <input data-dojo-type="dijit/form/TextBox" style="width:60px;align:left;" data-dojo-attach-point="sliderValue" name="sliderValue" value="15" />
+              </div>
+            </div>
+          </div>
+          <div data-dojo-attach-point="div_reverse_geocoding" class="IMTcol" style="visibility:hidden">
+            <div class="label">
+              ${nls.reverse_geocoded_address}
+            </div>
+            </br>
+            <div class="label" style="width:100%;" data-dojo-attach-point="div_reversed_address"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Panel Message -->
+    <div id="panelMessage" data-dojo-attach-point="messageNode">
+      <span id="msgText" data-dojo-attach-point="messageTextNode"></span>
+    </div>
+    <!-- Panel Footer -->
+    <div id="panelFooter" data-dojo-attach-point="footerNode">
+      <div id="panelFooterContent" data-dojo-attach-point="footerContentNode">
+        <!-- Tabs -->
+        <div id="IMT_tabs" data-dojo-attach-point="tabsNode"></div>
+      </div>
+      <div id="panelClose" data-dojo-attach-event="onclick:_close"></div>
+    </div>
+  </div>
+</div>

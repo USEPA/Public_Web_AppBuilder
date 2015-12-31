@@ -25,7 +25,7 @@
     invalidTitle1:"'",
     invalidTitle2:"' 베이스맵이 이미 있습니다. 다른 제목을 선택하세요.",
     invalidBasemapUrl1: "이 레이어 유형은 베이스맵으로 사용할 수 없습니다.",
-    invalidBasemapUrl2: "현재 맵과 다른 공간 기준 체계가 있습니다.",
+    invalidBasemapUrl2: "추가 중인 베이스맵에 현재 맵과 다른 공간 기준 체계가 있습니다.",
     addBaselayer: "베이스맵 레이어 추가"
   })
 );

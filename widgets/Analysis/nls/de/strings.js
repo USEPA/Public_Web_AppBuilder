@@ -19,6 +19,6 @@
     outputs: "Ausgaben",
     outputtip: "Hinweis: Feature- und Tabellenausgaben werden in der Karte als operationale Layer hinzugefügt.",
     outputSaveInPortal: "Die Daten wurden in Ihrem Portal gespeichert.",
-    privilegeError: "Ihnen sollte die Publisher- oder Administratorrolle zugewiesen sein, um dieses Analysewerkzeug ausführen zu können."
+    privilegeError: "Ihre Benutzerrolle kann keine Analyse durchführen. Um eine Analyse durchführen zu können, muss der Administrator Ihrer Organisation Ihnen bestimmte <a href=\"http://doc.arcgis.com/en/arcgis-online/reference/roles.htm\" target=\"_blank\">Berechtigungen</a> zuweisen."
   })
 );

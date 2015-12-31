@@ -34,12 +34,6 @@
   cursor: help;
 }
 
-.gis_PrintDijit .printResult .error-icon {
-  width: 16px;
-  height: 18px;
-  background: url(../images/error.png) center no-repeat;
-}
-
 .gis_PrintDijit .printResultHover table:hover {
   background-color: #D4E7F8;
   cursor: pointer;

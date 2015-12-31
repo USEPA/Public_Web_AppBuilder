@@ -15,7 +15,7 @@
     itemToAttributeTable: "속성 테이블 열기",
     itemShowItemDetails: "항목 세부정보 보기",
     empty: "비어 있음",
-    removePopup: "팝업 제거",
+    removePopup: "팝업 비활성화",
     enablePopup: "팝업 활성화"
   })
 );

@@ -1,5 +1,6 @@
 ﻿define(
    ({
-    _widgetLabel: 'Norādījumi'
+    _widgetLabel: "Norādījumi",
+    searchPlaceholder: "Atrast adresi vai vietu"
   })
 );

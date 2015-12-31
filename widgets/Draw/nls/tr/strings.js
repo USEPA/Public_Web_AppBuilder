@@ -1,7 +1,7 @@
 ﻿define(
    ({
     _widgetLabel: "Çiz",
-    selectDrawMode: "Çizim modu seç",
+    selectDrawMode: "Çizim modunu seç",
     clear: "Temizle",
     point: "Nokta",
     line: "Çizgi",
@@ -39,6 +39,10 @@
     squareFeet: "Feet kare",
     squareYards: "Yarda kare",
     undo: "Geri Al",
-    redo: "Yinele"
+    redo: "Yinele",
+    results: "Sonuçlar",
+    points: "Noktalar",
+    lines: "Çizgiler",
+    areas: "Alanlar"
   })
 );

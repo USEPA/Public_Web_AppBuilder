@@ -16,6 +16,7 @@
     editpageAlias: "별칭",
     editpageVisible: "표시",
     editpageEditable: "편집 가능",
-    noLayers: "편집 가능한 피처 레이어를 사용할 수 없음"
+    noLayers: "편집 가능한 피처 레이어를 사용할 수 없음",
+    configureFields: "레이어 필드 구성"
   })
 );

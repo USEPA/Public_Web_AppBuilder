@@ -16,6 +16,7 @@
     editpageAlias: "اسم مستعار",
     editpageVisible: "مرئي",
     editpageEditable: "يمكن تحريره",
-    noLayers: "لا تتوفر أي طبقات معالم يمكن تحريرها"
+    noLayers: "لا تتوفر أي طبقات معالم يمكن تحريرها",
+    configureFields: "تكوين حقول الطبقات"
   })
 );

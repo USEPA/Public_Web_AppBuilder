@@ -15,7 +15,7 @@
     itemToAttributeTable: "Öznitelik Tablosunu Aç",
     itemShowItemDetails: "Öğe Ayrıntılarını Göster",
     empty: "boş",
-    removePopup: "Açılan Pencereyi Kaldır",
+    removePopup: "Açılır Pencereleri Devre Dışı Bırak",
     enablePopup: "Açılan Pencereyi Etkinleştir"
   })
 );

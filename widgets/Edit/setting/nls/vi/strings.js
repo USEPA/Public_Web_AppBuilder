@@ -16,6 +16,7 @@
     editpageAlias: "Bí danh",
     editpageVisible: "Hiển thị",
     editpageEditable: "Có thể chỉnh sửa",
-    noLayers: "Không có lớp đối tượng nào có thể chỉnh sửa"
+    noLayers: "Không có lớp đối tượng nào có thể chỉnh sửa",
+    configureFields: "Cấu hình Trường Lớp"
   })
 );

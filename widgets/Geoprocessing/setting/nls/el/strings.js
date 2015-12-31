@@ -31,6 +31,22 @@
     setTask: "Ορισμός",
     setTaskTitle: "Ορισμός εργασίας GP",
     enablePopup: "Ενεργοποίηση αναδυόμενου παραθύρου",
-    unSupportGeometryType: "Δεν είναι δυνατός ο καθορισμός της απεικόνισης λόγω άγνωστου τύπου γεωμετρίας."
+    unSupportGeometryType: "Δεν είναι δυνατός ο καθορισμός της απεικόνισης λόγω άγνωστου τύπου γεωμετρίας.",
+    useUrlForGPInput: "URL",
+    useUploadForGPInput: "Φόρτωση αρχείου",
+    selectFileToUpload: "Επιλογή αρχείου...",
+    upload: "Μεταφόρτωση",
+    rasterFormat: "Μορφότυπος πλεγματικών δεδομένων",
+    noFileSelected: "Δεν επιλέχθηκε αρχείο!",
+    uploadSuccess:"Το αρχείο φορτώθηκε με επιτυχία!",
+    showLayerContent: "Εμφάνιση περιεχομένου θεματικού επιπέδου",
+    Feet: "Πόδια",
+    Yards: "Γιάρδες",
+    Miles: "Μίλια",
+    NauticalMiles: "Ναυτικά μίλια",
+    Meter: "Μέτρα",
+    Kilometers: "Χιλιόμετρα",
+    urlPlaceholder: "URL συνόλου στοιχείων",
+    allowToExport: "Να επιτραπεί η εξαγωγή αποτελεσμάτων"
   })
 );

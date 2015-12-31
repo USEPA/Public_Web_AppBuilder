@@ -31,6 +31,22 @@
     setTask: "הגדר",
     setTaskTitle: "הגדר משימת GP",
     enablePopup: "אפשר חלון קופץ",
-    unSupportGeometryType: "לא ניתן להגדיר Renderer בשל סוג גיאומטריה לא מוכר."
+    unSupportGeometryType: "לא ניתן להגדיר Renderer בשל סוג גיאומטריה לא מוכר.",
+    useUrlForGPInput: "URL",
+    useUploadForGPInput: "טעינת קובץ",
+    selectFileToUpload: "בחר קובץ...",
+    upload: "העלאה",
+    rasterFormat: "פורמט נתוני רסטר",
+    noFileSelected: "לא נבחר קובץ!",
+    uploadSuccess:"טעינת הקובץ בוצעה בהצלחה!",
+    showLayerContent: "הצג תוכן שכבה",
+    Feet: "רגל",
+    Yards: "יארד",
+    Miles: "מיילים",
+    NauticalMiles: "מיילים ימיים",
+    Meter: "מטרים",
+    Kilometers: "קילומטרים",
+    urlPlaceholder: "URL של סט ישויות",
+    allowToExport: "אפשר לייצא תוצאות"
   })
 );

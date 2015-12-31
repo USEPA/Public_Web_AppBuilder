@@ -4,10 +4,11 @@
   width: 100%;
   height: 100%;
   overflow: hidden;
+  position: relative;
 }
 .jimu-widget-bookmark .add-section{
-  position: relative; 
-  height: 30px; 
+  position: relative;
+  height: 30px;
   margin-top: 7px;
   overflow: visible;
 }
@@ -32,21 +33,29 @@
   cursor: pointer;
 }
 .jimu-widget-bookmark .btn-add .jimu-center-img{
-  border-top: 1px solid rgba(255, 255, 255, 0.2); 
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
   background-image: url(images/add.png);
 }
 .jimu-widget-bookmark .jimu-state-error{
   margin-top: 4px;
   visibility: hidden;
 }
+.jimu-widget-bookmark .bookmark-list{
+  position: absolute;
+  top: 60px;
+  bottom: 35px;
+  width: 100%;
+}
 .jimu-widget-bookmark .play-section{
   overflow: hidden;
   margin-top: 20px;
+  position: absolute;
+  bottom: 0;
 }
 .jimu-widget-bookmark .jimu-btn{
   float: none;
   margin: auto;
-  width: 150px;
+  width: 100%;
 }
 
 .FoldableTheme.green .jimu-widget-bookmark .btn-add{

@@ -16,6 +16,7 @@
     editpageAlias: "Takma Ad",
     editpageVisible: "Görünür",
     editpageEditable: "Düzenlenebilir",
-    noLayers: "Düzenlenebilir detay katmanı yok"
+    noLayers: "Düzenlenebilir detay katmanı yok",
+    configureFields: "Katman Alanlarını Yapılandır"
   })
 );

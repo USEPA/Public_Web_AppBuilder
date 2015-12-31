@@ -1,12 +1,13 @@
 ﻿define(
    ({
+    id: 'ID',
     state: "默认情况下，该坐标将显示在当前地图的坐标系中。要获取其他坐标系中的坐标，您需要添加这些坐标系并指定相应变换。",
     outputUnit: "输出单位",
     wkid: "输出 WKID",
     label: "输出坐标系名称",
-    transformationWkid: '变换 WKID',
-    transformationLabel: '变换标签',
-    transformForward: '正向变换',
+    transformationWkid: "变换 WKID",
+    transformationLabel: "变换标签",
+    transformForward: "正向变换",
     actions: "操作",
     warning: "请输入有效的空间参考 WKID!",
     tfWarning: "请输入有效的基准面变换 WKID!",

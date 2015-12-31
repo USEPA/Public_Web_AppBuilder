@@ -25,7 +25,7 @@
     invalidTitle1:"Taustakartta '",
     invalidTitle2:"' on jo olemassa. Valitse toinen otsikko.",
     invalidBasemapUrl1: "Tämän tyyppistä karttatasoa ei voi käyttää taustakarttana.",
-    invalidBasemapUrl2: "Nykyisellä kartalla on erilainen koordinaatistotieto.",
+    invalidBasemapUrl2: "Lisättävän taustakartan koordinaattijärjestelmä ei ole sama kuin nykyisessä kartassa.",
     addBaselayer: "Lisää taustakarttataso"
   })
 );

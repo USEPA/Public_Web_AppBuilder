@@ -1,8 +1,8 @@
 define({
   root: ({
     _widgetLabel: "Swipe",
-    swipeText: " Select the layer you want to swipe.",
-    spyglassText: "Select the layer to appear within the spyglass.",
+    swipeText: " Select the layer you want to swipe",
+    spyglassText: "Select the layer to appear within the spyglass",
     disableTips: "Click to disable the swipe tool",
     enableTips: "Click to enable the swipe tool"
   }),
@@ -32,5 +32,7 @@ define({
   "th": 1,
   "tr": 1,
   "vi": 1,
-  "zh-cn": 1
+  "zh-cn": 1,
+  "zh-hk": 1,
+  "zh-tw": 1
 });

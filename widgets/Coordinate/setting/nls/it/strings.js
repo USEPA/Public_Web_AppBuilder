@@ -1,12 +1,13 @@
 ﻿define(
    ({
+    id: 'ID',
     state: "Per impostazione predefinita, le coordinate verranno visualizzate nel sistema di coordinate della mappa corrente. Per ottenere le coordinate in altri sistemi di coordinate, è necessario aggiungerle e specificare le trasformazioni appropriate.",
     outputUnit: "Unità di output",
     wkid: "WKID di output",
     label: "Nome sistema di coordinate di output",
-    transformationWkid: 'WKID trasformazione',
-    transformationLabel: 'Etichetta trasformazione',
-    transformForward: 'Trasformazione in avanti',
+    transformationWkid: "WKID trasformazione",
+    transformationLabel: "Etichetta trasformazione",
+    transformForward: "Trasformazione in avanti",
     actions: "Azioni",
     warning: "Immettere un WKID valido per i riferimenti spaziali.",
     tfWarning: "Immettere un WKID valido per la trasformazione dei riferimenti.",

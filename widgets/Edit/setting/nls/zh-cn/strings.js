@@ -16,6 +16,7 @@
     editpageAlias: "别名",
     editpageVisible: "可见",
     editpageEditable: "可编辑",
-    noLayers: "没有可用的可编辑要素图层"
+    noLayers: "没有可用的可编辑要素图层",
+    configureFields: "配置图层字段"
   })
 );

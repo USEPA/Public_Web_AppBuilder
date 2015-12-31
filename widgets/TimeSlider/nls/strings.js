@@ -1,7 +1,7 @@
 define({
   root: ({
     _widgetLabel: "Time Slider",
-    enableTips: "Click to play the time slider.",
+    enableTips: "Click to display the time slider.",
     disableTips: "No time-aware layers are visible.",
     timeExtent: "${FROMTIME} to ${ENDTIME}",
     layers: "Layers: ",
@@ -33,5 +33,7 @@ define({
   "th": 1,
   "tr": 1,
   "vi": 1,
-  "zh-cn": 1
+  "zh-cn": 1,
+  "zh-hk": 1,
+  "zh-tw": 1
 });

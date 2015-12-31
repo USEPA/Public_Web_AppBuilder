@@ -1,0 +1,50 @@
+﻿define(
+   ({
+    layerSelect: "Görüntü Katmanı Seç",
+    displayMeasureResultInPopup: "Ölçüm sonuçlarını açılır pencerede görüntüle",
+    angularUnitSelect: "Varsayılan Açı Birimi",
+    linearUnitSelect: "Varsayılan Lineer Birim",
+    areaUnitSelect: "Varsayılan Alan Birimi",
+    displayOperationSelect: "Ölçme işlemlerini seç",
+    errorSectionMeasage: "Ölçme özelliklerini destekleyen katman yok.",
+    unitLabel: {
+      esriInches: "İnç",
+      esriFeet: "Fit",
+      esriYards: "Yarda",
+      esriMiles: "Mil",
+      esriNauticalMiles: "Deniz Mili",
+      esriMillimeters: "Milimetre",
+      esriCentimeters: "Santimetre",
+      esriDecimeters: "Desimetre",
+      esriMeters: "Metre",
+      esriKilometers: "Kilometre",
+      esriDURadians: "Radyan",
+      esriDUDecimalDegrees: "Derece",
+      esriSquareInches: "İnç Kare",
+      esriSquareFeet: "Fit Kare",
+      esriSquareYards: "Yarda Kare",
+      esriAcres: "İngiliz Dönümü",
+      esriSquareMiles: "Mil Kare",
+      esriSquareMillimeters: "Milimetre Kare",
+      esriSquareCentimeters: "Santimetre Kare",
+      esriSquareDecimeters: "Desimetre Kare",
+      esriSquareMeters: "Metre Kare",
+      esriAres: "Ar",
+      esriHectares: "Hektar",
+      esriSquareKilometers: "Kilometre Kare"
+    },
+    operationLabel: {
+      esriMensurationPoint: "Nokta",
+      esriMensurationDistanceAndAngle: "Mesafe ve Açı",
+      esriMensurationAreaAndPerimeter: "Alan ve Çevre",
+      esriMensurationHeightFromBaseAndTop: "Tabandan En Üste",
+      esriMensurationHeightFromBaseAndTopShadow: "Tabandan En Üst Gölgeye",
+      esriMensurationHeightFromTopAndTopShadow: "En Üstten En Üst Gölgeye",
+      esriMensurationCentroid: "Ortalama Nokta",
+      esriMensurationPoint3D: "Nokta (3B)",
+      esriMensurationDistanceAndAngle3D: "Mesafe ve Açı (3B)",
+      esriMensurationAreaAndPerimeter3D: "Alan ve Çevre (3B)",
+      esriMensurationCentroid3D: "Merkez Nokta (3B)"
+    }
+  })
+);

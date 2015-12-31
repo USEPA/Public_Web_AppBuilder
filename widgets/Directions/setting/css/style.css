@@ -24,40 +24,29 @@
 	padding-right: 10px;
 }
 
-.jimu-widget-directions-setting .search-delay{
-	margin-left: 20px;
+.jimu-widget-directions-setting .travelmodes-td{
+	padding-left: 10px;
 }
 
-.jimu-rtl .jimu-widget-directions-setting .search-delay{
-	margin-left: 0;
-	margin-right: 20px;
+.jimu-rtl .jimu-widget-directions-setting .travelmodes-td{
+	padding-left: 0;
+	padding-right: 10px;
 }
 
-.jimu-widget-directions-setting .min-characters{
-	margin-left:20px;
+.jimu-widget-directions-setting .trafficlayer-td{
+	padding-left: 10px;
 }
 
-.jimu-rtl .jimu-widget-directions-setting .min-characters{
-	margin-left: 0;
-	margin-right: 20px;
+.jimu-rtl .jimu-widget-directions-setting .trafficlayer-td{
+	padding-left: 0;
+	padding-right: 10px;
 }
 
-.jimu-widget-directions-setting .length-units{
-	white-space: normal;
-	margin-left: 20px;
+.jimu-widget-directions-setting .auto-complete-td span{
+	margin-left: 10px;
 }
 
-.jimu-rtl .jimu-widget-directions-setting .length-units{
-	margin-left: 0;
-	margin-right: 20px;
-}
-
-.jimu-widget-directions-setting .impedance-attribute{
-	white-space: normal;
-	margin-left: 20px;
-}
-
-.jimu-rtl .jimu-widget-directions-setting .impedance-attribute{
-	margin-left: 0;
-	margin-right: 20px;
+.jimu-rtl .jimu-widget-directions-setting .auto-complete-td span{
+	margin-left: 0px;
+	margin-right: 10px;
 }

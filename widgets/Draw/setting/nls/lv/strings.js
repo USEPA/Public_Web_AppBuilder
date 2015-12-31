@@ -33,6 +33,8 @@
     hectaresAbbreviation: "ha",
     squareMetersAbbreviation: "kvadrātmetri",
     squareFeetAbbreviation: "kvadrātpēdas",
-    squareYardsAbbreviation: "kvadrātjardi"
+    squareYardsAbbreviation: "kvadrātjardi",
+    defineUnits: "Definējiet mērvienības.",
+    operationalLayer: "Pievienojiet zīmējumu kā kartes darbību slāni."
   })
 );

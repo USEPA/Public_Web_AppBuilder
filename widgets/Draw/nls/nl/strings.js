@@ -39,6 +39,10 @@
     squareFeet: "Vierkante voet",
     squareYards: "Vierkante yard",
     undo: "Ongedaan maken",
-    redo: "Opnieuw uitvoeren"
+    redo: "Opnieuw uitvoeren",
+    results: "Resultaten",
+    points: "Punten",
+    lines: "Lijnen",
+    areas: "Gebieden"
   })
 );

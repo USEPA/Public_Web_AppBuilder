@@ -31,6 +31,22 @@
     setTask: "Ayarla",
     setTaskTitle: "GP Görevi Belirle",
     enablePopup: "Açılan pencereyi etkinleştir",
-    unSupportGeometryType: "Bilinmeyen geometri türü nedeniyle işleyici ayarlanamıyor."
+    unSupportGeometryType: "Bilinmeyen geometri türü nedeniyle işleyici ayarlanamıyor.",
+    useUrlForGPInput: "URL",
+    useUploadForGPInput: "Dosya yükle",
+    selectFileToUpload: "Dosya seç...",
+    upload: "Yükle",
+    rasterFormat: "Raster veri formatı",
+    noFileSelected: "Dosya seçilmedi!",
+    uploadSuccess:"Dosya başarıyla yüklendi!",
+    showLayerContent: "Katman içeriğini göster",
+    Feet: "Fit",
+    Yards: "Yarda",
+    Miles: "Mil",
+    NauticalMiles: "Deniz Mili",
+    Meter: "Metre",
+    Kilometers: "Kilometre",
+    urlPlaceholder: "detay kümesi URL\'si",
+    allowToExport: "Sonuçları aktarmaya izin ver"
   })
 );

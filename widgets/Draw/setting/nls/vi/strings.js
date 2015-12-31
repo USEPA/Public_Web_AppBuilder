@@ -33,6 +33,8 @@
     hectaresAbbreviation: "ha",
     squareMetersAbbreviation: "m2",
     squareFeetAbbreviation: "ft2",
-    squareYardsAbbreviation: "yd2"
+    squareYardsAbbreviation: "yd2",
+    defineUnits: "Xác định đơn vị đo lường.",
+    operationalLayer: "Thêm hình vẽ làm lớp hoạt động của bản đồ."
   })
 );

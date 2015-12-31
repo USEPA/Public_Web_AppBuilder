@@ -1,0 +1,75 @@
+<div style="width:100%;">
+  <table  data-dojo-attach-point="geoFilterSettingsTable" class="setting-table input-table jimu-leading-padding05 jimu-align-leading" cellspacing="0">
+    <tbody>
+      <tr>
+        <td class="first">${nls.drsSOEURL}</td>
+        <td class="second" colspan="2">
+
+        <table cellpadding="0" cellspacing="0" style="width:100%;border-collapse:collapse;">
+            <tbody>
+              <tr>
+                <td style="width:auto;">
+                  <input type="text" data-dojo-type="dijit/form/ValidationTextBox" required="true" 
+                  data-dojo-attach-point="drsSOEURL" style="width:100%;"/>
+                </td>
+                <td style="width:80px;">
+                 <div data-dojo-attach-event="onclick:_onBtnSetSourceClicked" class="jimu-btn  jimu-float-trailing" style="padding:0px 15px !important;">${nls.setSource}</div>       
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          </td>
+      </tr>
+       <tr>
+        <td class="first">${nls.chartSection}</td>
+        <td class="second" colspan="2">
+          <input data-dojo-type="dijit/form/NumberTextBox" required="true" 
+          data-dojo-attach-point="chartDataSections" data-dojo-props='style:{width:"50px"},constraints:{min:1,max:10,places:0},
+          invalidMessage:"Please enter a numeric value.",
+          rangeMessage:"Please enter values between 1 and 10."'/>
+        </td>
+      </tr>
+      <tr>
+      <td class="first">${nls.selectByGeography}</td>
+      <td><input style="margin-left: 8px;" data-dojo-attach-point="includeGeoFilter" name="includeGeoFilter" data-dojo-type="dijit/form/CheckBox" /></td>
+
+      </tr>
+       <div data-dojo-attach-point="geoFilterSettings" >
+      <tr class='dynamicRow'>
+        <td class="first">${nls.selectMapUrl}</td>
+        <td class="second"  colspan="2">
+          <input type="text" data-dojo-type="dijit/form/ValidationTextBox"
+          data-dojo-attach-point="selectMapUrl" style="width:100%;" />
+        </td>
+       
+      </tr>
+      <tr class='dynamicRow'>
+        <td class="first">${nls.selectUrl}</td>
+        <td class="second"  colspan="2">
+          <input type="text" data-dojo-type="dijit/form/ValidationTextBox" required="true"
+          data-dojo-attach-point="selectUrl" style="width:100%;" />
+        </td>
+      
+      </tr>
+      
+      <tr class='dynamicRow'>
+        <td class="first">${nls.geometryServiceURL}</td>
+        <td class="second"  colspan="2">
+         <input type="text" data-dojo-type="dijit/form/ValidationTextBox"
+          data-dojo-attach-point="geometryServiceURL" style="width:100%;" />
+        </td>
+       
+      </tr>
+      </div>
+      <tr> 
+        <td colspan="2">
+         <div data-dojo-attach-point="dashboardFieldNameInfos"></div>
+        <div data-dojo-attach-point="dashboardFieldNameInfosError" style="display:none; padding: 5px;"></div>
+    
+        </td>
+         
+        </tr>
+
+    </tbody>
+  </table>
+ </div>

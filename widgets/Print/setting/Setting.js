@@ -20,7 +20,6 @@ define([
     'dijit/_WidgetsInTemplateMixin',
     "dojo/_base/lang",
     'dojo/on',
-    'dojo/json',
     'dojo/Deferred',
     "dojo/dom-style",
     "dojo/dom-attr",
@@ -28,6 +27,7 @@ define([
     'jimu/dijit/Message',
     'jimu/portalUtils',
     'jimu/portalUrlUtils',
+    'jimu/utils',
     "dojo/store/Memory",
     'dijit/form/ValidationTextBox',
     'dijit/form/ComboBox'
@@ -38,7 +38,6 @@ define([
     _WidgetsInTemplateMixin,
     lang,
     on,
-    dojoJSON,
     Deferred,
     domStyle,
     domAttr,
@@ -46,6 +45,7 @@ define([
     Message,
     portalUtils,
     portalUrlUtils,
+    utils,
     Memory) {
     return declare([BaseWidgetSetting, _WidgetsInTemplateMixin], {
 
@@ -63,7 +63,6 @@ define([
 
       onUrlChange: function() {
         var taskUrl = this.serviceURL.get('value');
-        var _handleAs = 'json';
         if (taskUrl) {
           domStyle.set(this.checkProcessDiv, "display", "");
           this.memoryFormat.data = {};
@@ -74,26 +73,29 @@ define([
           this.defaultLayout.set('value', "");
           domStyle.set(this.defaultFormat.domNode.parentNode.parentNode, 'display', 'none');
           domStyle.set(this.defaultLayout.domNode.parentNode.parentNode, 'display', 'none');
-          
+
           var serviceUrl = portalUrlUtils.setHttpProtocol(this.serviceURL.get('value'));
           var portalNewPrintUrl = portalUrlUtils.getNewPrintUrl(this.appConfig.portalUrl);
 
           if (serviceUrl === portalNewPrintUrl ||
             /sharing\/tools\/newPrint$/.test(serviceUrl)) {
-            _handleAs = 'text';
+            domStyle.set(this.checkProcessDiv, "display", "none");
+            domStyle.set(this.defaultFormat.domNode.parentNode.parentNode, 'display', 'none');
+            domStyle.set(this.defaultLayout.domNode.parentNode.parentNode, 'display', 'none');
+          } else {
+            this._getPrintTaskInfo(taskUrl);
           }
-          this._getPrintTaskInfo(taskUrl, _handleAs);
         }
       },
 
-      _getPrintTaskInfo: function(taskUrl, handle) {
+      _getPrintTaskInfo: function(taskUrl) {
         // portal own print url: portalname/arcgis/sharing/tools/newPrint
         esriRequest({
           url: taskUrl,
           content: {
             f: "json"
           },
-          handleAs: handle || "json",
+          handleAs: "json",
           callbackParamName: "callback",
           timeout: 60000,
           load: lang.hitch(this, this._handlePrintInfo),
@@ -114,36 +116,7 @@ define([
         });
       },
 
-      _handlePrintInfo: function(rData) {
-        var data = null;
-        try {
-          if (typeof rData === 'string') {
-            data = dojoJSON.parse(rData);
-          } else {
-            data = rData;
-          }
-
-          //{"error":{"code":499,"message":"Token Required","details":[]}}
-          if (data.error && data.error.code) {
-            var taskUrl = this.serviceURL.get('value');
-            this._getPrintTaskInfo(taskUrl, 'json');
-            return;
-          }
-        } catch (err) {
-          var serviceUrl = portalUrlUtils.setHttpProtocol(this.serviceURL.get('value')),
-            portalNewPrintUrl = portalUrlUtils.getNewPrintUrl(this.appConfig.portalUrl);
-
-          if (serviceUrl === portalNewPrintUrl ||
-            /sharing\/tools\/newPrint$/.test(serviceUrl)) { // portal own print url
-            domStyle.set(this.checkProcessDiv, "display", "none");
-            domStyle.set(this.defaultFormat.domNode.parentNode.parentNode, 'display', 'none');
-            domStyle.set(this.defaultLayout.domNode.parentNode.parentNode, 'display', 'none');
-          } else {
-            this._handleError(err);
-          }
-          return;
-        }
-
+      _handlePrintInfo: function(data) {
         domStyle.set(this.checkProcessDiv, "display", "none");
         domStyle.set(this.defaultFormat.domNode.parentNode.parentNode, 'display', '');
         domStyle.set(this.defaultLayout.domNode.parentNode.parentNode, 'display', '');
@@ -192,20 +165,32 @@ define([
         this.loadPrintURL(config);
 
         if (config.defaultTitle) {
-          this.defaultTitle.set('value', config.defaultTitle);
+          this.defaultTitle.set('value', utils.stripHTML(config.defaultTitle));
         } else {
           this.defaultTitle.set('value', "ArcGIS WebMap");
         }
 
         if (config.defaultAuthor) {
-          this.defaultAuthor.set('value', config.defaultAuthor);
+          this.defaultAuthor.set('value', utils.stripHTML(config.defaultAuthor));
         } else {
           this.defaultTitle.set('value', "Web AppBuilder for ArcGIS");
         }
 
         if (config.defaultCopyright) {
-          this.defaultCopyright.set('value', config.defaultCopyright);
+          this.defaultCopyright.set('value', utils.stripHTML(config.defaultCopyright));
         }
+      },
+
+      _onTitleBlur: function() {
+        this.defaultTitle.set('value', utils.stripHTML(this.defaultTitle.get('value')));
+      },
+
+      _onAuthorBlur: function() {
+        this.defaultAuthor.set('value', utils.stripHTML(this.defaultAuthor.get('value')));
+      },
+
+      _onCopyrightBlur: function() {
+        this.defaultCopyright.set('value', utils.stripHTML(this.defaultCopyright.get('value')));
       },
 
       getConfig: function() {
@@ -222,9 +207,9 @@ define([
           return false;
         }
         this.config.serviceURL = this.serviceURL.get('value');
-        this.config.defaultTitle = this.defaultTitle.get('value');
-        this.config.defaultAuthor = this.defaultAuthor.get('value');
-        this.config.defaultCopyright = this.defaultCopyright.get('value');
+        this.config.defaultTitle = utils.stripHTML(this.defaultTitle.get('value'));
+        this.config.defaultAuthor = utils.stripHTML(this.defaultAuthor.get('value'));
+        this.config.defaultCopyright = utils.stripHTML(this.defaultCopyright.get('value'));
         this.config.defaultFormat = this.defaultFormat.get('value');
         this.config.defaultLayout = this.defaultLayout.get('value');
         return this.config;
@@ -254,7 +239,8 @@ define([
           }
         }), lang.hitch(this, function(err) {
           new Message({
-            message: this.nls.portalConnectionError
+            message: this.nls.portalConnectionError || // there need a nls string!!!
+            (err && err.message) || 'portal connection error'
           });
           printDef.reject('error');
           console.error(err);

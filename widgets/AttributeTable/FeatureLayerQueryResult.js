@@ -11,7 +11,6 @@ define([
   dojo,
   Deferred
 ){
-
   var FeatureLayerQueryResult = function (result) {
     if (!result) {
       return result;
@@ -20,7 +19,7 @@ define([
     if (result.then) {
       result = lang.delegate(result);
     }
-    
+
     if (!result.total) {
       result.total = Deferred.when(result, function (result) {
         return esri._isDefined(result.total) ? result.total : (result.length || 0);

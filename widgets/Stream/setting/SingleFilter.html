@@ -1,0 +1,19 @@
+<div>
+  <div class="single-filter-container">
+    <div>
+      <span class="jimu-widget-normal">${nls.filterName}</span>
+      <input data-dojo-type="dijit/form/ValidationTextBox"
+        data-dojo-props="required:true"
+        data-dojo-attach-point="filterNameEditor">
+    </div>
+    <div style="position:relative;">
+      <div data-dojo-attach-point="singleFilterContent"></div>
+      <div data-dojo-attach-point="filterMask" class="mask"></div>
+      <span class="jimu-widget-normal mask-tip" data-dojo-attach-point="filterMaskTip">
+        ${nls.filterReadOnly}
+      </span>
+    </div>
+  </div>
+  <div data-dojo-attach-point="shelter" data-dojo-type="jimu/dijit/LoadingShelter"
+       data-dojo-props='hidden:true'></div>
+</div>

@@ -1,5 +1,5 @@
 ﻿define(
    ({
-    showLayerLabels: "Hiển thị các tên lớp trên tiện ích cho những lớp có thông tin thời gian."
+    showLayerLabels: "Hiển thị các tên lớp theo thời gian trên tiện ích."
   })
 );

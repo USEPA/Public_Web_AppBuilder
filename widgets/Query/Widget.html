@@ -1,5 +1,5 @@
 <div>
-  <div class="query-widget-content">
+  <div class="jimu-widget-normal query-widget-content">
     <div data-dojo-attach-point="queryList" class="query-step query-list">
       <div data-dojo-attach-point="queriesNode" class="queries">
         <div class="execute-tip">
@@ -74,7 +74,7 @@
         <div class="operational">
           <input type="checkbox" data-dojo-attach-point="cbxOperational" checked="false" />
           <label data-dojo-attach-point="operationalLayerLabel">${nls.operationalLayerTip}</label>
-          <div data-dojo-attach-point="operationalTipDiv" class="operational-tip-div">${nls.operationalTip}</div>
+          <div data-dojo-attach-point="operationalTipDiv" class="jimu-widget-note operational-tip-div">${nls.operationalTip}</div>
         </div>
       </div>
     </div>
@@ -103,7 +103,8 @@
   </div>
 
   <div class="btn-section">
-    <div data-dojo-attach-point="btnClearAll" data-dojo-attach-event="onclick:_onBtnClearAllClicked" class="jimu-btn btn-clear-all" title="${nls.clearResults}" >${nls.clearResults}</div>
+    <div data-dojo-attach-point="btnClearAll" data-dojo-attach-event="onclick:_onBtnClearAllClicked" 
+    class="jimu-btn jimu-priority-secondary btn-clear-all" title="${nls.clearResults}" >${nls.clearResults}</div>
   </div>
   
   <div data-dojo-attach-point="shelter" data-dojo-type="jimu/dijit/LoadingShelter" data-dojo-props='hidden:true'></div>

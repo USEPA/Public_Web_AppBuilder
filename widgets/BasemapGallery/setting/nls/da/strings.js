@@ -21,11 +21,11 @@
     ok: "OK",
     cancel: "Annuller",
     result: "Gemt",
-    spError: "Alle baggrundskort, der er føjet til galleriet, skal have de samme  spatiale referencer.",
+    spError: "Alle baggrundskort, der er føjet til galleriet, skal have den samme  spatiale reference.",
     invalidTitle1:"Et baggrundskort '",
     invalidTitle2:"' findes i forvejen. Vælg en anden titel.",
     invalidBasemapUrl1: "Denne type lag kan ikke bruges som baggrundskort.",
-    invalidBasemapUrl2: "Det aktuelle kort har en anden spatial reference.",
+    invalidBasemapUrl2: "Det baggrundskort, du er ved at tilføje, har en anden spatial reference end det aktuelle kort.",
     addBaselayer: "Tilføj baggrundskortlag"
   })
 );

@@ -4,7 +4,6 @@ define(
     "dojo/_base/array",
     'dojo/_base/html',
     "dojo/on",
-    "dojo/dom-attr",
     "dojo/query",
     "dijit/_WidgetsInTemplateMixin",
     "dijit/registry",
@@ -22,7 +21,6 @@ define(
     array,
     html,
     on,
-    domAttr,
     query,
     _WidgetsInTemplateMixin,
     registry,
@@ -32,80 +30,82 @@ define(
     ServiceURLInput,
     SRUtils,
     jimuUtils,
-    utils){
+    utils) {
     return declare([BaseWidgetSetting, _WidgetsInTemplateMixin], {
       baseClass: "jimu-basemapgallery-Edit",
       ImageChooser: null,
       templateString: template,
       validUrl: false,
       mapName: null,
-      subLayerUrlNum:  0,
+      subLayerUrlNum: 0,
       urlInputS: [],
       baseMapSRID: null,
       spatialReference: null,
 
-      postCreate: function(){
+      postCreate: function() {
         this.inherited(arguments);
 
         this.imageChooser = new ImageChooser({
-          displayImg: this.showImageChooser,
+          cropImage: true,
+          defaultSelfSrc: this.folderUrl + "images/default.jpg",
+          showSelfImg: true,
+          format: [ImageChooser.GIF, ImageChooser.JPEG, ImageChooser.PNG],
           goldenWidth: 84,
           goldenHeight: 67
         });
 
         html.addClass(this.imageChooser.domNode, 'img-chooser');
-        html.place(this.imageChooser.domNode, this.imageChooserBase);
+        html.place(this.imageChooser.domNode, this.imageChooserBase, 'replace');
 
         this.own(on(this.url, 'Change', lang.hitch(this, '_onServiceUrlChange')));
         this.title.proceedValue = false;
         this.own(on(this.title, 'Change', lang.hitch(this, '_onBaseMapTitleChange')));
         this.url.proceedValue = false;
         this.url.setProcessFunction(lang.hitch(this, '_onServiceFetch', this.url),
-                                    lang.hitch(this, '_onServiceFetchError'));
+          lang.hitch(this, '_onServiceFetchError'));
       },
 
-      startup: function(){
+      startup: function() {
         var thumbnailUrl;
-        if (this.basemap && this.basemap.title){
+        if (this.basemap && this.basemap.title) {
           this.title.set('value', this.basemap.title);
         }
-        if (this.basemap && this.basemap.thumbnailUrl){
+        if (this.basemap && this.basemap.thumbnailUrl) {
           if (this.basemap.thumbnailUrl.indexOf('//') === 0) {
             thumbnailUrl = this.basemap.thumbnailUrl + this.token;
           } else {
             thumbnailUrl = jimuUtils.processUrlInWidgetConfig(this.basemap.thumbnailUrl,
-                                                              this.folderUrl);
+              this.folderUrl);
           }
         } else {
           thumbnailUrl = this.folderUrl + "images/default.jpg";
         }
-        domAttr.set(this.showImageChooser, 'src', thumbnailUrl);
-        this.imageChooser.imageData = thumbnailUrl;
+        this.imageChooser.setDefaultSelfSrc(thumbnailUrl);
 
-        if (this.basemap && this.basemap.layers){
-          if(utils.isNoUrlLayerMap(this.basemap)) {
+        if (this.basemap && this.basemap.layers) {
+          if (utils.isNoUrlLayerMap(this.basemap)) {
             html.destroy(this.urlPart);
             html.setStyle(this.secondTable, 'display', 'none');
             html.setStyle(this.settingContentDiv, 'height', '150px');
           } else {
             var numLayer = this.basemap.layers.length;
-            if(this.basemap.layers[0] && this.basemap.layers[0].url) {
+            if (this.basemap.layers[0] && this.basemap.layers[0].url) {
               this.url.set('value', this.basemap.layers[0].url);
             }
-            for (var j = 1; j < numLayer; j++){
+            for (var j = 1; j < numLayer; j++) {
               this.addLayerUrl(this.basemap.layers[j].url);
             }
           }
         }
       },
 
-      _onServiceUrlChange: function(){
+      _onServiceUrlChange: function() {
         this.popup.disableButton(0);
       },
 
       _checkTitle: function(title) {
         var validTitle = true;
-        for(var i = 0; i < this.basemaps.length; i++) {
+        for (var i = 0; i < this.basemaps.length; i++) {
           if (this.basemaps[i].title === title) {
             if (this.basemap && this.basemap.title === title) {
               validTitle = true;
@@ -117,7 +117,7 @@ define(
         return validTitle;
       },
 
-      _onBaseMapTitleChange: function(title){
+      _onBaseMapTitleChange: function(title) {
         // this._checkRequiredField();
         var validTitle = this._checkTitle(title);
         var errorMessage = null;
@@ -138,7 +138,7 @@ define(
         html.setAttr(this.errorMassage, 'innerHTML', '');
         if (this.title.proceedValue) {
           urlDijits = this._getUrlDijits();
-          for(var i = 0; i < urlDijits.length; i++) {
+          for (var i = 0; i < urlDijits.length; i++) {
             canProceed = canProceed && urlDijits[i].proceedValue;
           }
         } else {
@@ -154,20 +154,20 @@ define(
         }
       },
 
-      _onServiceFetch: function(urlDijit, evt){
+      _onServiceFetch: function(urlDijit, evt) {
         var result = false;
         var errorMessage = null;
         var url = evt.url.replace(/\/*$/g, '');
         if (this._isStringEndWith(url, '/MapServer') ||
-            this._isStringEndWith(url, '/ImageServer')) {
+          this._isStringEndWith(url, '/ImageServer')) {
           var curMapSpatialRefObj = this.map.spatialReference;
           var basemapSpatialRefObj = evt.data.spatialReference ||
-                                     evt.data.extent.spatialReference ||
-                                     evt.data.initialExtent.spatialReference ||
-                                     evt.data.fullExtent.spatialReference;
+            evt.data.extent.spatialReference ||
+            evt.data.initialExtent.spatialReference ||
+            evt.data.fullExtent.spatialReference;
           if (curMapSpatialRefObj &&
-              basemapSpatialRefObj &&
-              SRUtils.isSameSR(curMapSpatialRefObj.wkid, basemapSpatialRefObj.wkid)) {
+            basemapSpatialRefObj &&
+            SRUtils.isSameSR(curMapSpatialRefObj.wkid, basemapSpatialRefObj.wkid)) {
             urlDijit.proceedValue = true;
             result = true;
           } else {
@@ -185,14 +185,13 @@ define(
         return result;
       },
 
-      _isStringEndWith: function(s,endS){
+      _isStringEndWith: function(s, endS) {
         return (s.lastIndexOf(endS) + endS.length === s.length);
       },
 
-      _onServiceFetchError: function(){
-      },
+      _onServiceFetchError: function() {},
 
-      onAddLayerUrl: function(){
+      onAddLayerUrl: function() {
         this.addLayerUrl();
       },
 
@@ -211,11 +210,13 @@ define(
         }, urlTrDom);
 
         var urlInput = new ServiceURLInput({
-            placeHolder: this.nls.urlPH,
-            required: true,
-            proceedValue: 0,
-            style:{width:"100%"}
-          }).placeAt(urlSecondTdDom);
+          placeHolder: this.nls.urlPH,
+          required: true,
+          proceedValue: 0,
+          style: {
+            width: "100%"
+          }
+        }).placeAt(urlSecondTdDom);
         html.addClass(urlInput.domNode, "url_field_dom");
 
         if (url) {
@@ -227,19 +228,19 @@ define(
         }, urlThirdTdDom);
 
         urlInput.setProcessFunction(lang.hitch(this, '_onServiceFetch', urlInput),
-                                    lang.hitch(this, '_onServiceFetchError'));
+          lang.hitch(this, '_onServiceFetchError'));
         this.own(on(deleteSpanDom, 'click', lang.hitch(this, '_onDeleteClick', urlTrDom)));
         this._checkProceed();
       },
 
-      _onDeleteClick:function(urlTrDom){
+      _onDeleteClick: function(urlTrDom) {
         html.destroy(urlTrDom);
         this._checkProceed();
       },
 
       _getUrlDijits: function() {
         var urlDijits = [];
-        query(".url_field_dom", this.firstTable).forEach(lang.hitch(this, function(urlDom){
+        query(".url_field_dom", this.firstTable).forEach(lang.hitch(this, function(urlDom) {
           urlDijits.push(registry.byNode(urlDom));
         }));
         return urlDijits;
@@ -247,19 +248,21 @@ define(
 
       _getEditedBaseMap: function() {
         var basemap = {
-          title: this.title.value,
+          title: jimuUtils.stripHTML(this.title.value),
           thumbnailUrl: utils.getStanderdUrl(this.imageChooser.imageData),
           layers: [],
           spatialReference: (this.basemap && this.basemap.spatialReference) ||
-                            this.map.spatialReference
+            this.map.spatialReference
         };
 
         // do not update basmaps if map is bingMap or openstreetMap
-        if(utils.isNoUrlLayerMap(this.basemap)) {
+        if (utils.isNoUrlLayerMap(this.basemap)) {
           basemap.layers = this.basemap.layers;
         } else {
           array.forEach(this._getUrlDijits(), function(urlDijit) {
-            basemap.layers.push({url: urlDijit.value});
+            basemap.layers.push({
+              url: urlDijit.value
+            });
           }, this);
         }
 
@@ -267,9 +270,9 @@ define(
       },
 
       _onEditOk: function(settingWidget) {
-        if(this.basemap) {
+        if (this.basemap) {
           //this.basemap = this._getEditedBaseMap();
-          settingWidget.basemaps[settingWidget._findBaseMapByTitle(this.basemap.title)]=
+          settingWidget.basemaps[settingWidget._findBaseMapByTitle(this.basemap.title)] =
             this._getEditedBaseMap();
         } else {
           settingWidget.basemaps.push(this._getEditedBaseMap());

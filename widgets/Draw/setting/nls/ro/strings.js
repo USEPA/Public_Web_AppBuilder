@@ -33,6 +33,8 @@
     hectaresAbbreviation: "ha",
     squareMetersAbbreviation: "m pătraţi",
     squareFeetAbbreviation: "ft pătraţi",
-    squareYardsAbbreviation: "yd pătraţi"
+    squareYardsAbbreviation: "yd pătraţi",
+    defineUnits: "Definiţi unităţile de măsură.",
+    operationalLayer: "Adăugaţi desenul ca strat tematic operaţional al hărţii."
   })
 );

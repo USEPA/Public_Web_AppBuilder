@@ -16,6 +16,7 @@
     editpageAlias: "Aizstājvārds",
     editpageVisible: "Redzams",
     editpageEditable: "Rediģējams",
-    noLayers: "Nav pieejams neviens rediģējams elementu slānis"
+    noLayers: "Nav pieejams neviens rediģējams elementu slānis",
+    configureFields: "Konfigurēt slāņa laukus"
   })
 );

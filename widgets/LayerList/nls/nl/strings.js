@@ -15,7 +15,7 @@
     itemToAttributeTable: "Attribuuttabel openen",
     itemShowItemDetails: "Itemdetails weergeven",
     empty: "leeg",
-    removePopup: "Pop-up verwijderen",
+    removePopup: "Pop-up uitschakelen",
     enablePopup: "Pop-up inschakelen"
   })
 );

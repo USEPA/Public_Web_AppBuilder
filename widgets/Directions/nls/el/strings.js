@@ -1,5 +1,6 @@
 ﻿define(
    ({
-    _widgetLabel: 'Οδηγίες'
+    _widgetLabel: "Οδηγίες",
+    searchPlaceholder: "Αναζήτηση διεύθυνσης ή μέρους"
   })
 );

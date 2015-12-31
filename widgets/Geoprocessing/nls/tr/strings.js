@@ -9,6 +9,24 @@
     requiredInfo: "gereklidir.",
     drawnOnMap: "Sonuç haritada çizilidir.",
     clear: "Temizle",
-    error: "Hata"
+    error: "Hata",
+    noToolConfig: "Önceden yapılandırılmış coğrafi işlem görevi yok.",
+    useUrlForGPInput: "URL",
+    useUploadForGPInput: "Dosya yükle",
+    selectFileToUpload: 'Dosya seç...',
+    upload: 'Yükle',
+    rasterFormat: 'Raster veri formatı',
+    noFileSelected: 'Dosya seçilmedi!',
+    uploadSuccess:'Dosya yükleme başarılı!',
+    url: "URL",
+    showLayerContent: "Katman içeriğini göster",
+    invalidUrl: "Geçersiz detay hizmeti url\'si",
+    Feet: "Fit",
+    Yards: "Yarda",
+    Miles: "Mil",
+    NauticalMiles: "Deniz Mili",
+    Meter: "Metre",
+    Kilometers: "Kilometre",
+    urlPlaceholder: "detay kümesi URL\'si"
   })
 );

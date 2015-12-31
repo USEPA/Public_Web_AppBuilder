@@ -1,5 +1,5 @@
 ﻿define(
    ({
-    _widgetLabel: "Messwert"
+    _widgetLabel: "Messen"
   })
 );

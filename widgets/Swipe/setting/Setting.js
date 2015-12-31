@@ -67,7 +67,7 @@ define([
           if (!this.domNode) {
             return;
           }
-          
+
           this.swipeLayers.set('options', data);
         }), function(err) {
           console.log(err);

@@ -7,7 +7,7 @@
     next: "Avanti",
     home: "Home",
     jobSubmitted: "sottomesso.",
-    jobCancelled: "Annullato.",
+    jobCancelled: "Operazione annullata.",
     jobFailed: "Non riuscito",
     jobSuccess: "Riuscito.",
     executing: "In esecuzione",
@@ -19,6 +19,6 @@
     outputs: "Output",
     outputtip: "Nota: gli output di feature e tabelle vengono aggiunti alle mappe come layer operativi.",
     outputSaveInPortal: "Dati salvati nel portale.",
-    privilegeError: "È necessario disporre del ruolo Editore o Amministratore per eseguire lo strumento di analisi."
+    privilegeError: "Il ruolo utente assegnato non consente di eseguire analisi. Per poter eseguire l\'analisi, l\'amministratore dell\'organizzazione deve concedere agli utenti determinati <a href=\"http://doc.arcgis.com/en/arcgis-online/reference/roles.htm\" target=\"_blank\">privilegi</a>."
   })
 );

@@ -23,6 +23,7 @@ define([
   'dojo/_base/Color',
   'dojo/on',
   'dojo/Evented',
+  'dojo/Deferred',
   'dijit/_WidgetBase',
   'dijit/_TemplatedMixin',
   'dijit/_WidgetsInTemplateMixin',
@@ -48,7 +49,7 @@ define([
   'esri/tasks/QueryTask',
   'esri/symbols/jsonUtils'
 ],
-function(declare, lang, array, html, query, Color, on, Evented, _WidgetBase,
+function(declare, lang, array, html, query, Color, on, Evented, Deferred, _WidgetBase,
   _TemplatedMixin, _WidgetsInTemplateMixin, Tooltip, Select, template,
   ValidationTextBox, TooltipDialog, dojoPopup, jimuUtils, TabContainer3, Filter,
   LoadingShelter, _FeaturelayerSourcePopup, SymbolPicker, Message, SimpleTable,
@@ -184,7 +185,7 @@ function(declare, lang, array, html, query, Color, on, Evented, _WidgetBase,
       }
 
       this.config = config;
-      var url = config.url||'';
+      var url = config.url || '';
       var validUrl = url && typeof url === 'string';
       if(!validUrl){
         return;
@@ -238,7 +239,8 @@ function(declare, lang, array, html, query, Color, on, Evented, _WidgetBase,
       config.url = this.urlTextBox.get('value');
 
       var filter = this.filter.toJson();
-      if(!filter){
+      var expr = filter && filter.expr;
+      if(!expr){
         if(showError){
           if(this.tab.viewStack.getSelectedLabel() !== this.nls.preview){
             this._showTooltipDialog(this.filterTooltipDialog, this.urlTextBox.domNode);
@@ -250,6 +252,7 @@ function(declare, lang, array, html, query, Color, on, Evented, _WidgetBase,
       config.filter = filter;
 
       var chartName = this.chartNameTextBox.get('value');
+      chartName = jimuUtils.stripHTML(chartName);
       if(!chartName){
         if(showError){
           this._showMessage(this.nls.setChartTitleTip);
@@ -258,10 +261,10 @@ function(declare, lang, array, html, query, Color, on, Evented, _WidgetBase,
       }
       config.name = chartName;
 
-      config.description = this.descriptionTA.value;
+      config.description = jimuUtils.stripHTML(this.descriptionTA.value);
 
       config.mode = this.chartModeSelect.get('value');
-      
+
       if(this.columnCbx.checked){
         config.column = this.columnParameters.getConfig();
       }
@@ -277,7 +280,7 @@ function(declare, lang, array, html, query, Color, on, Evented, _WidgetBase,
       if(this.lineCbx.checked){
         config.line = this.lineParameters.getConfig();
       }
-      
+
       if(!this.columnCbx.checked && !this.pieCbx.checked &&
        !this.barCbx.checked && !this.lineCbx.checked){
         if(showError){
@@ -490,9 +493,9 @@ function(declare, lang, array, html, query, Color, on, Evented, _WidgetBase,
     _initFilter: function(){
       var str = '<div>' +
         '<div class="filter-div"></div>' +
-        '<div class="operations" style="overflow:hidden;">'+
-          '<div class="jimu-btn  jimu-float-trailing btn-cancel" style="padding:6px;"></div>' +
-          '<div class="jimu-btn  jimu-float-trailing btn-ok" style="padding:6px;"></div>' +
+        '<div class="operations" style="overflow:hidden;">' +
+          '<div class="jimu-btn  jimu-float-trailing btn-cancel"></div>' +
+          '<div class="jimu-btn  jimu-float-trailing btn-ok"></div>' +
         '</div>' +
       '</div>';
       var ttdContent = html.toDom(str);
@@ -501,7 +504,7 @@ function(declare, lang, array, html, query, Color, on, Evented, _WidgetBase,
       var btnCancel = query('.btn-cancel', ttdContent)[0];
       btnOk.innerHTML = this.nls.ok;
       btnCancel.innerHTML = this.nls.close;
-      
+
       if(window.isRTL){
         btnOk.style.marginLeft = "20px";
       }
@@ -512,7 +515,7 @@ function(declare, lang, array, html, query, Color, on, Evented, _WidgetBase,
       this.filterTooltipDialog = new TooltipDialog({
         content: ttdContent
       });
-      
+
       this.filter = new Filter();
       this.filter.allExpsBox.style.maxHeight = "300px";
       this.filter.allExpsBox.style.overflowY = "auto";
@@ -836,7 +839,7 @@ function(declare, lang, array, html, query, Color, on, Evented, _WidgetBase,
       var tooltipDialog = new TooltipDialog({
         content: ttdContent
       });
-      
+
       return tooltipDialog;
     },
 
@@ -884,25 +887,26 @@ function(declare, lang, array, html, query, Color, on, Evented, _WidgetBase,
       this._updateParametersDijit();
     },
 
+    _onChartNameBlurred: function(){
+      var value = jimuUtils.stripHTML(this.chartNameTextBox.get('value'));
+      this.chartNameTextBox.set('value', value);
+    },
+
     _onChartNameChanged: function(){
-      this.emit('name-change',this.chartNameTextBox.get('value'));
+      this.emit('name-change', this.chartNameTextBox.get('value'));
     },
 
-    _onDescriptionFocus: function(){
-      html.setStyle(this.descriptionTA, 'height', '62px');
-    },
-
-    _onDescriptionBlur: function(){
-      html.setStyle(this.descriptionTA, 'height', '30px');
+    _onDescriptionBlurred: function(){
+      this.descriptionTA.value = jimuUtils.stripHTML(this.descriptionTA.value);
     },
 
     _clear: function(){
       //reset general
       this._layerDefinition = null;
-      this.urlTextBox.set('value','');
+      this.urlTextBox.set('value', '');
       this.filter.reset();
 
-      this.chartNameTextBox.set('value','');
+      this.chartNameTextBox.set('value', '');
 
       this.descriptionTA.value = '';
 
@@ -943,7 +947,7 @@ function(declare, lang, array, html, query, Color, on, Evented, _WidgetBase,
       var args = {
         titleLabel: this.nls.setDataSource,
 
-        featureArgs: {
+        dijitArgs: {
           multiple: false,
           createMapResponse: this.map.webMapResponse,
           portalUrl: this.appConfig.portalUrl,
@@ -1060,10 +1064,11 @@ function(declare, lang, array, html, query, Color, on, Evented, _WidgetBase,
       //categoryFieldSelect
       var categoryFieldTypes = [this._stringFieldType].concat(lang.clone(this._numberFieldTypes));
 
-      var availableCategoryFieldInfos=array.filter(fieldInfos,lang.hitch(this,function(fieldInfo){
+      var availableCategoryFieldInfos = array.filter(fieldInfos,
+        lang.hitch(this, function(fieldInfo){
         return categoryFieldTypes.indexOf(fieldInfo.type) >= 0;
       }));
-      
+
       this.categoryFieldSelect.removeOption(this.categoryFieldSelect.getOptions());
 
       var selectedCategoryFieldValue = '';
@@ -1135,8 +1140,8 @@ function(declare, lang, array, html, query, Color, on, Evented, _WidgetBase,
       var filter = config.filter;
       // this.whereClause.innerHTML = filter.expr;
       this.filter.buildByFilterObj(layerInfo.url, filter, layerInfo);
-      this.chartNameTextBox.set('value', config.name||layerInfo.name||'');
-      this.descriptionTA.value = config.description||'';
+      this.chartNameTextBox.set('value', config.name || layerInfo.name || '');
+      this.descriptionTA.value = config.description || '';
 
       //details
       //reset categoryFieldSelect, featureAxisLabelSelect, valueFields
@@ -1192,7 +1197,7 @@ function(declare, lang, array, html, query, Color, on, Evented, _WidgetBase,
         else{
           this.ascRadio.checked = true;
         }
-        
+
         setPieConfig();
       }
       else if(config.mode === 'field'){
@@ -1262,8 +1267,7 @@ function(declare, lang, array, html, query, Color, on, Evented, _WidgetBase,
       this.tab.showShelter();
       this.showBigShelter();
 
-      var queryTask = new QueryTask(config.url);
-      queryTask.execute(queryParams).then(lang.hitch(this, function(featureSet) {
+      this._queryFeatures(queryParams, config.url).then(lang.hitch(this, function(featureSet) {
         if(!this.domNode){
           return;
         }
@@ -1290,6 +1294,28 @@ function(declare, lang, array, html, query, Color, on, Evented, _WidgetBase,
         this.tab.hideShelter();
         this.hideBigShelter();
       }));
+    },
+
+    _queryFeatures: function(queryParams, url){
+      var def = new Deferred();
+      var queryTask = new QueryTask(url);
+      queryTask.execute(queryParams).then(lang.hitch(this, function(featureSet){
+        def.resolve(featureSet);
+      }), lang.hitch(this, function(err){
+        //maybe a joined layer
+        if(err && err.code === 400){
+          queryParams.outFields = ["*"];
+          var queryTask2 = new QueryTask(url);
+          queryTask2.execute(queryParams).then(lang.hitch(this, function(featureSet2){
+            def.resolve(featureSet2);
+          }), lang.hitch(this, function(err2){
+            def.reject(err2);
+          }));
+        }else{
+          def.reject(err);
+        }
+      }));
+      return def;
     }
 
   });

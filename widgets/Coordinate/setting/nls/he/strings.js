@@ -1,12 +1,13 @@
 ﻿define(
    ({
+    id: 'מספר זיהוי',
     state: "כברירת מחדל, הקואורדינטות יוצגו במערכת הקואורדינטות של המפה הנוכחית. להצגת קואורדינטות במערכת קואורדינטות אחרת, יש להוסיף אותן ולהגדיר המרה מתאימה.",
     outputUnit: "יחידת פלט",
     wkid: "פלט WKID",
     label: "שם מערכת קואורדינטות הפלט",
-    transformationWkid: 'המרת WKID',
-    transformationLabel: 'תוית המרה',
-    transformForward: 'המרה קדימה',
+    transformationWkid: "המרת WKID",
+    transformationLabel: "תוית המרה",
+    transformForward: "המרה קדימה",
     actions: "פעולות",
     warning: "אנא הכנס WKID של ייחוס מרחבי תקין!",
     tfWarning: "אנא הכנס WKID של דטום ייחוס מרחבי תקין!",

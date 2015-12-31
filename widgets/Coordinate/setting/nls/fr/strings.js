@@ -1,12 +1,13 @@
 ﻿define(
    ({
+    id: 'ID',
     state: "Par défaut, les coordonnées s\'affichent dans le système de coordonnées de la carte actuelle. Pour obtenir des coordonnées dans d\'autres systèmes de coordonnées, vous devez les ajouter et indiquer les transformations appropriées.",
     outputUnit: "Unité en sortie",
     wkid: "WKID en sortie",
     label: "Nom du système de coordonnées en sortie",
-    transformationWkid: 'WKID de transformation',
-    transformationLabel: 'Etiquette de transformation',
-    transformForward: 'Transformation avant',
+    transformationWkid: "WKID de transformation",
+    transformationLabel: "Etiquette de transformation",
+    transformForward: "Transformation avant",
     actions: "Actions",
     warning: "Entrez un WKID de référence spatiale valide !",
     tfWarning: "Entrez un WKID de transformation de datum valide !",

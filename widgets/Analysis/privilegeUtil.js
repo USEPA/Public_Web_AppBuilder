@@ -15,135 +15,143 @@
 ///////////////////////////////////////////////////////////////////////////
 
 define([
+  'dojo/_base/declare',
   'dojo/_base/lang',
-  'dojo/_base/array',
+  'dojo/Deferred',
   'jimu/portalUtils',
   'jimu/portalUrlUtils',
-  'esri/kernel'
-], function(lang, array, portalUtils, portalUrlUtils, esriNs) {
-  var mo = {};
-  var ALLOWED_ROLES=[
-    'org_admin',
-    'account_admin',
-    'org_publisher',
-    'account_publisher'
-  ];
+  'jimu/Role',
+  'esri/kernel',
+  './PortalAnalysis'
+], function(declare, lang, Deferred, portalUtils, portalUrlUtils, Role, esriNs, PortalAnalysis) {
+  return declare([], {
+    userRole: null,
+    userPortalUrl: null,
+    portalAnalysis: null,
+    portalSelf: null,
+    portalUrl: null,
 
-  mo.loadPrivileges = function(portalUrl){
-    this.userProfile = null;
-    var portal = portalUtils.getPortal(portalUrl);
+    constructor: function(portalUrl){
+      this.portalUrl = portalUrl;
+    },
 
-    if(portal.haveSignIn()){
-      return this._loadUserInfo(portal);
-    }else{
-      return this._signIn(portal);
-    }
-  };
+    _clearLoadedInfo: function(){
+      this.userRole = null;
+      this.userPortalUrl = null;
+      this.portalAnalysis = null;
+      this.portalSelf = null;
+      this.portalUrl = null;
+    },
 
-  mo._signIn = function(portal){
-    return portal.loadSelfInfo().then(lang.hitch(this, function(info){
-      var portalHost = portalUtils.getPortal(info.portalHostname);
-      if(portalHost === null){
-        return false;
+    loadPrivileges: function(portalUrl){
+      if(portalUrl && this.portalUrl !== portalUrl){
+        this._clearLoadedInfo();
+        this.portalUrl = portalUrl;
+      }
+
+      if(this._privilegeLoaded()){
+        var def = new Deferred();
+        def.resolve(true);
+        return def;
+      }
+
+      var portal = portalUtils.getPortal(portalUrl);
+      if(portal.haveSignIn()){
+        return this._loadUserInfo(portal);
       }else{
-        return portalHost.signIn().then(lang.hitch(this, function(credential){
-          return this._loadUserInfo(portalHost, credential);
-        }));
+        return this._signIn(portal);
       }
-    }));
-  };
+    },
 
-  mo._registerOrgCredential = function(credential, orgPortalUrl){
-    orgPortalUrl = portalUrlUtils.getStandardPortalUrl(orgPortalUrl);
-    var c = lang.clone(credential.toJson());
-    var restUrl = orgPortalUrl + '/sharing/rest';
-    c.server = restUrl;
-    c.resources = [restUrl];
-    esriNs.id.registerToken(c);
-  };
-
-  mo._loadUserInfo = function(portal, credential){
-    return portal.loadSelfInfo().then(lang.hitch(this, function(res){
-      if(!res.urlKey){
-        return false;
-      }
-      if(res && res.user){
-        this.userProfile = {
-          role:res.user.role || res.user.id,
-          isCustomRole: ('roleId' in res.user),
-          portalUrl: res.urlKey + '.' + res.customBaseUrl,
-          privileges:{}
-        };
-        array.forEach(res.user.privileges,function(privilege){
-          //privilege pattern: "premium:user:spatialanalysis"
-          if(typeof privilege === 'string'){
-            var values = privilege.split(':');
-            if(values.length === 3){
-              this.userProfile.privileges[values[2]] = true;
-            }
-          }
-        },this);
-        if(credential){
-          this._registerOrgCredential(credential,this.userProfile.portalUrl);
+    _signIn: function(portal){
+      return portal.loadSelfInfo().then(lang.hitch(this, function(info){
+        var portalHost = portalUtils.getPortal(info.portalHostname);
+        if(portalHost === null){
+          return false;
+        }else{
+          return portalHost.signIn().then(lang.hitch(this, function(credential){
+            return this._loadUserInfo(portalHost, credential);
+          }));
         }
-        return true;
+      }));
+    },
+
+    _registerOrgCredential: function(credential, orgPortalUrl){
+      orgPortalUrl = portalUrlUtils.getStandardPortalUrl(orgPortalUrl);
+      var c = lang.clone(credential.toJson());
+      var restUrl = orgPortalUrl + '/sharing/rest';
+      c.server = restUrl;
+      c.resources = [restUrl];
+      esriNs.id.registerToken(c);
+    },
+
+    _loadUserInfo: function(portal, credential){
+      return portal.loadSelfInfo().then(lang.hitch(this, function(res){
+        if(res.urlKey){
+          this.userPortalUrl = res.urlKey + '.' + res.customBaseUrl;
+        }else{
+          this.userPortalUrl = this.portalUrl;
+        }
+        if(res && res.user) {
+          this.userRole = new Role({
+            id: (res.user.roleId) ? res.user.roleId : res.user.role,
+            role: res.user.role
+          });
+          if(res.user.privileges) {
+            this.userRole.setPrivileges(res.user.privileges);
+          }
+          this.portalSelf = res;
+          if(credential){
+            this._registerOrgCredential(credential, this.userProfile.portalUrl);
+          }
+          this.portalAnalysis = new PortalAnalysis(this.userRole,
+              this.portalSelf);
+          return true;
+        }else{
+          return false;
+        }
+      }));
+    },
+
+    _privilegeLoaded: function(){
+      return this.portalSelf !== null;
+    },
+
+    getUser: function(){
+      if(this._privilegeLoaded()){
+        return this.portalSelf.user;
       }else{
-        return false;
+        return null;
       }
-    }));
-  };
+    },
 
-  mo._privilegeLoaded = function(){
-    return typeof this.userProfile !== 'undefined' &&
-        this.userProfile !== null;
-  };
-
-  mo.getUserPortal = function(){
-    if(this._privilegeLoaded()){
-      return this.userProfile.portalUrl;
-    }else{
-      return null;
-    }
-  };
-
-  mo.isAnalysisAvailable = function(){
-    if(this._privilegeLoaded()){
-      if(this.userProfile.isCustomRole){
-        /*
-          Custom role
-          To use any of the analysis tool, you will need the following privileges:
-          1. Create, update and delete content
-          2. Publish hosted features
-          3. Spatial Analysis
-        */
-        return this._hasPrivilege('createItem') &&
-            this._hasPrivilege('publishFeatures') &&
-            this._hasPrivilege('spatialanalysis');
-      }else{//built-in role
-        return (array.indexOf(ALLOWED_ROLES,this.userProfile.role) !== -1);
+    isAdmin: function(){
+      if(this._privilegeLoaded()){
+        return this.userRole.isAdmin();
+      }else{
+        return null;
       }
-    }else{
-      return false;
-    }
-  };
+    },
 
-  mo.hasPrivileges = function(privileges){
-    if(lang.isArray(privileges)){
-      return array.every(privileges, function(privilege){
-        return this._hasPrivilege(privilege);
-      },this);
-    }else{
-      return true;
-    }
-  };
+    getUserPortal: function(){
+      if(this._privilegeLoaded()){
+        return this.userPortalUrl;
+      }else{
+        return null;
+      }
+    },
 
-  mo._hasPrivilege = function(privilege){
-    if(this._privilegeLoaded()){
-      return this.userProfile.privileges[privilege]===true;
-    }else{
-      return false;
-    }
-  };
+    isPortal: function(){
+      return this.portalSelf !== null && this.portalSelf.isPortal === true;
+    },
 
-  return mo;
+    //check to show analysis UX
+    canPerformAnalysis: function(){
+      return this.portalAnalysis.canPerformAnalysis();
+    },
+
+    hasPrivileges: function(privileges){
+      return this.portalAnalysis.hasPrivileges(privileges);
+    }
+  });
 });

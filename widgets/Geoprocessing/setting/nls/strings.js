@@ -31,7 +31,23 @@ define({
     setTask: "Set",
     setTaskTitle: "Set GP Task",
     enablePopup: "Enable popup",
-    unSupportGeometryType: "Can not set renderer because of unknown geometry type."
+    unSupportGeometryType: "Can not set renderer because of unknown geometry type.",
+    useUrlForGPInput: "URL",
+    useUploadForGPInput: "Upload file",
+    selectFileToUpload: "Select file...",
+    upload: "Upload",
+    rasterFormat: "Raster data format",
+    noFileSelected: "No file selected!",
+    uploadSuccess:"Uploaded file successfully!",
+    showLayerContent: "Show layer content",
+    Feet: "Feet",
+    Yards: "Yards",
+    Miles: "Miles",
+    NauticalMiles: "Nautical Miles",
+    Meter: "Meters",
+    Kilometers: "Kilometers",
+    urlPlaceholder: "feature set URL",
+    allowToExport: "Allow to export results"
   }),
   "ar": 1,
   "cs": 1,
@@ -59,5 +75,7 @@ define({
   "th": 1,
   "tr": 1,
   "vi": 1,
-  "zh-cn": 1
+  "zh-cn": 1,
+  "zh-hk": 1,
+  "zh-tw": 1
 });

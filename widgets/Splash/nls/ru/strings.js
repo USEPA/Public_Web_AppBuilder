@@ -5,7 +5,7 @@
     licenceAgree: "Я согласен",
     licenceTerm: "Условия использования ArcGIS Web Application",
     labelContinue: "Продолжить",
-    errorString: "* Вам нужно принять условия лицензии для продолжения.",
+    errorString: "* Для продолжения необходимо согласиться с лицензией.",
     notShowAgain: "Не показывать это окно снова.",
     ok: "OK",
     cancel: "Отмена"

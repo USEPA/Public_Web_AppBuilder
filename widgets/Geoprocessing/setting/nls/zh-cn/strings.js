@@ -31,6 +31,22 @@
     setTask: "设置",
     setTaskTitle: "设置 GP 任务",
     enablePopup: "启用弹出窗口",
-    unSupportGeometryType: "由于几何类型未知，因此无法设置渲染器。"
+    unSupportGeometryType: "由于几何类型未知，因此无法设置渲染器。",
+    useUrlForGPInput: "URL",
+    useUploadForGPInput: "上传文件",
+    selectFileToUpload: "选择文件...",
+    upload: "上传",
+    rasterFormat: "栅格数据格式",
+    noFileSelected: "未选择任何文件!",
+    uploadSuccess:"文件上传成功!",
+    showLayerContent: "显示图层内容",
+    Feet: "英尺",
+    Yards: "码",
+    Miles: "英里",
+    NauticalMiles: "海里",
+    Meter: "米",
+    Kilometers: "公里",
+    urlPlaceholder: "要素集 URL",
+    allowToExport: "允许导出结果"
   })
 );

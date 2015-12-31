@@ -152,8 +152,7 @@ define([
           if(i === basemaps.length) {
             basemaps.push(webmapBasemap);
           }
-          
-        
+
           for (i = 0; i < basemaps.length; i++) {
             var n = basemaps[i].layers.length;
             var layersArray = [];
@@ -220,7 +219,7 @@ define([
         // if (layers.length > 0) {
         //   this.publishData(layers);
         // }
-        if (this.isPreload) {
+        if (this.isOnScreen) {
           PanelManager.getInstance().closePanel(this.id + '_panel');
         }
       }

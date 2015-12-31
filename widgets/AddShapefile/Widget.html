@@ -1,0 +1,16 @@
+<div style="padding-left:4px;">
+  <p>Add a zipped shapefile to the map.</p><p>Visit the
+    <a target="_blank" href="http://doc.arcgis.com/en/arcgis-online/reference/shapefiles.htm">Shapefiles</a> help topic for information and limitations.</p>
+      <form enctype="multipart/form-data" method="post" data-dojo-attach-point="uploadForm">
+      <div class="field">
+          <label class="file-upload">
+              <span><strong>Add File</strong></span>
+              <input type="file" name="file" data-dojo-attach-point="inFile" />
+          </label>
+      </div>
+      </form>
+      <button id="remove-shapefile" data-dojo-attach-event="click: onRemoveShapefile">
+      Remove File</button>
+      <span class="file-upload-status" style="opacity:1;" data-dojo-attach-point="uploadstatus"></span>
+      <div id="fileInfo">&nbsp;</div>
+</div>

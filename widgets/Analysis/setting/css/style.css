@@ -97,12 +97,16 @@
 
 .jimu-widget-analysis-setting .name-td{
   margin-left: 20px;
-  width: 200px;
+  width: 230px;
 }
 
 .jimu-rtl .jimu-widget-analysis-setting .name-td{
   margin-left: auto;
   margin-right: 20px;
+}
+
+.jimu-widget-analysis-setting .setting-td{
+  width: 110px;
 }
 
 .jimu-widget-analysis-setting .name-for-checkbox{
@@ -144,6 +148,10 @@
   font-size: 14px;
 }
 
+.jimu-widget-analysis-setting .tools-table > tbody > tr.setting{
+  height: auto;
+}
+
 .jimu-widget-analysis-setting .tools-table > tbody > tr.selected{
   /*border-left: 6px solid #15a4fa;*/
   border-left: 0;
@@ -161,4 +169,48 @@
 
 .jimu-widget-analysis-setting .tools-table > tbody > tr:not(.disabled):hover > td{
   background:#e2f6ff;
+}
+
+.jimu-widget-analysis-setting .setting-icon{
+  cursor: pointer;
+}
+
+/*use arrow box*/
+.jimu-widget-analysis-singleToolSetting{
+  position: relative;
+  background: #ffffff;
+  border: 1px solid #A3A3A3;
+}
+
+.jimu-widget-analysis-singleToolSetting:after, .jimu-widget-analysis-singleToolSetting:before {
+  bottom: 100%;
+  left: 29%;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+}
+
+.jimu-widget-analysis-singleToolSetting:after {
+  border-color: rgba(255, 255, 255, 0);
+  border-bottom-color: #ffffff;
+  border-width: 30px;
+  margin-left: -30px;
+}
+
+.jimu-widget-analysis-singleToolSetting:before {
+  border-color: rgba(163, 163, 163, 0);
+  border-bottom-color: #A3A3A3;
+  border-width: 31px;
+  margin-left: -31px;
+}
+
+.jimu-widget-analysis-singleToolSetting .control-section{
+  margin-top: 5px;
+}
+
+.jimu-widget-analysis-singleToolSetting .control-option{
+  margin-bottom: 10px;
 }

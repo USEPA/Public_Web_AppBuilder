@@ -33,6 +33,8 @@
     hectaresAbbreviation: "ha",
     squareMetersAbbreviation: "sq m",
     squareFeetAbbreviation: "sq ft",
-    squareYardsAbbreviation: "yd²"
+    squareYardsAbbreviation: "yd²",
+    defineUnits: "Bepaal de maateenheden.",
+    operationalLayer: "Voeg de tekening toe als een operationele laag van de kaart."
   })
 );

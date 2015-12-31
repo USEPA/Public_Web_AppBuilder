@@ -16,6 +16,7 @@
     editpageAlias: "Alias",
     editpageVisible: "Nähtav",
     editpageEditable: "Muudetav",
-    noLayers: "Muudetavaid objektikihte pole saadaval"
+    noLayers: "Muudetavaid objektikihte pole saadaval",
+    configureFields: "Kihi väljade seadistamine"
   })
 );

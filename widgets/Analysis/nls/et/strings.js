@@ -19,6 +19,6 @@
     outputs: "Väljundid",
     outputtip: "Märkus. Objekti- ja tabeliväljundid lisatakse kaardile töökihtidena.",
     outputSaveInPortal: "Andmed on salvestatud Teie portaali.",
-    privilegeError: "Analüüsi tööriista kasutamiseks peaks Teil olema publitseerija või administraatori roll."
+    privilegeError: "Teie kasutajaroll ei saa analüüsi teostada. Analüüsi teostamiseks peab Teie asutuse administraator määrama Teile teatud <a href=\"http://doc.arcgis.com/en/arcgis-online/reference/roles.htm\" target=\"_blank\">õigused</a>."
   })
 );

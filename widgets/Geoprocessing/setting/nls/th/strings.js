@@ -31,6 +31,22 @@
     setTask: "ตั้ง",
     setTaskTitle: "ตั้งค่าการทำงานของ GP",
     enablePopup: "เปิดแสดงป็อปอัพ",
-    unSupportGeometryType: "ไม่สามารถกำหนดการเรนเดอร์ เนื่องจากไม่ทราบประเภทเรขาคณิต"
+    unSupportGeometryType: "ไม่สามารถกำหนดการเรนเดอร์ เนื่องจากไม่ทราบประเภทเรขาคณิต",
+    useUrlForGPInput: "URL",
+    useUploadForGPInput: "อัพโหลดไฟล์",
+    selectFileToUpload: "เลือกไฟล์...",
+    upload: "อัพโหลด",
+    rasterFormat: "รูปแบบข้อมูลราสเตอร์",
+    noFileSelected: "ไม่มีไฟล์ที่ถูกเลือก",
+    uploadSuccess:"อัพโหลดไฟล์สำเร็จ",
+    showLayerContent: "แสดงรายละเอียดชั้นข้อมูล",
+    Feet: "ฟุต",
+    Yards: "หลา",
+    Miles: "ไมล์",
+    NauticalMiles: "ไมล์ทะเล",
+    Meter: "เมตร",
+    Kilometers: "กิโลเมตร",
+    urlPlaceholder: "การตั้งค่าคุณลักษณะ URL",
+    allowToExport: "ยอมให้ส่งผลลัพธ์ออกไปได้"
   })
 );

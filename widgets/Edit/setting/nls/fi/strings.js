@@ -16,6 +16,7 @@
     editpageAlias: "Alias",
     editpageVisible: "Näkyvä",
     editpageEditable: "Muokattavissa",
-    noLayers: "Muokattavia kohdekarttatasoja ei ole käytettävissä"
+    noLayers: "Muokattavia kohdekarttatasoja ei ole käytettävissä",
+    configureFields: "Määritä karttatason kentät"
   })
 );

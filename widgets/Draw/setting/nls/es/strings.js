@@ -33,6 +33,8 @@
     hectaresAbbreviation: "ha",
     squareMetersAbbreviation: "m²",
     squareFeetAbbreviation: "ft²",
-    squareYardsAbbreviation: "yd²"
+    squareYardsAbbreviation: "yd²",
+    defineUnits: "Define las unidades de medida.",
+    operationalLayer: "Agrega el dibujo como capa operativa del mapa."
   })
 );

@@ -31,6 +31,22 @@
     setTask: "Establecer",
     setTaskTitle: "Establecer tarea de geoprocesamiento",
     enablePopup: "Habilitar ventana emergente",
-    unSupportGeometryType: "No se puede definir el renderizador porque el tipo de geometría es desconocido."
+    unSupportGeometryType: "No se puede definir el renderizador porque el tipo de geometría es desconocido.",
+    useUrlForGPInput: "URL",
+    useUploadForGPInput: "Cargar archivo",
+    selectFileToUpload: "Seleccionar archivo...",
+    upload: "Cargar",
+    rasterFormat: "Formato de datos ráster",
+    noFileSelected: "No hay ningún archivo seleccionado",
+    uploadSuccess:"Archivo cargado correctamente",
+    showLayerContent: "Mostrar contenido de capa",
+    Feet: "Pies",
+    Yards: "Yardas",
+    Miles: "Millas",
+    NauticalMiles: "Millas Náuticas",
+    Meter: "Metros",
+    Kilometers: "Kilómetros",
+    urlPlaceholder: "Dirección URL del conjunto de entidades",
+    allowToExport: "Permitir la exportación de resultados"
   })
 );

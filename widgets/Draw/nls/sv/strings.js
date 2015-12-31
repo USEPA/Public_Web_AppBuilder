@@ -39,6 +39,10 @@
     squareFeet: "Square feet",
     squareYards: "Square yards",
     undo: "Ångra",
-    redo: "Upprepa"
+    redo: "Upprepa",
+    results: "Resultat",
+    points: "Punkter",
+    lines: "Linjer",
+    areas: "Ytor"
   })
 );

@@ -1,0 +1,50 @@
+﻿define(
+   ({
+    layerSelect: "Chọn Lớp Hình ảnh",
+    displayMeasureResultInPopup: "Hiển thị kết quả đo lường trong cửa sổ pop-up",
+    angularUnitSelect: "Đơn vị Góc Mặc định",
+    linearUnitSelect: "Đơn vị Tuyến tính Mặc định",
+    areaUnitSelect: "Đơn vị Diện tích Mặc định",
+    displayOperationSelect: "Chọn hoạt động đo lường",
+    errorSectionMeasage: "Không có lớp nào hỗ trợ tính năng đo lường.",
+    unitLabel: {
+      esriInches: "Inch",
+      esriFeet: "Feet",
+      esriYards: "Thước",
+      esriMiles: "Dặm",
+      esriNauticalMiles: "Hải lý",
+      esriMillimeters: "Milimét",
+      esriCentimeters: "Xentimét",
+      esriDecimeters: "Đềximét",
+      esriMeters: "Mét",
+      esriKilometers: "Kilômét",
+      esriDURadians: "Radian",
+      esriDUDecimalDegrees: "Độ",
+      esriSquareInches: "Inch Vuông",
+      esriSquareFeet: "Feet vuông",
+      esriSquareYards: "Thước vuông",
+      esriAcres: "Acre",
+      esriSquareMiles: "Dặm vuông",
+      esriSquareMillimeters: "Milimét Vuông",
+      esriSquareCentimeters: "Xentimét Vuông",
+      esriSquareDecimeters: "Đềximét Vuông",
+      esriSquareMeters: "Mét vuông",
+      esriAres: "Are",
+      esriHectares: "Hecta",
+      esriSquareKilometers: "Kilômét vuông"
+    },
+    operationLabel: {
+      esriMensurationPoint: "Điểm",
+      esriMensurationDistanceAndAngle: "Khoảng cách và Góc",
+      esriMensurationAreaAndPerimeter: "Khu vực và Chu vi",
+      esriMensurationHeightFromBaseAndTop: "Nền đến Trên cùng",
+      esriMensurationHeightFromBaseAndTopShadow: "Nền đến Trên cùng-Bóng",
+      esriMensurationHeightFromTopAndTopShadow: "Trên cùng đến Trên cùng-Bóng",
+      esriMensurationCentroid: "Trọng tâm",
+      esriMensurationPoint3D: "Điểm (3D)",
+      esriMensurationDistanceAndAngle3D: "Khoảng cách và Góc (3D)",
+      esriMensurationAreaAndPerimeter3D: "Diện tích và Chu vi (3D)",
+      esriMensurationCentroid3D: "Trọng tâm (3D)"
+    }
+  })
+);

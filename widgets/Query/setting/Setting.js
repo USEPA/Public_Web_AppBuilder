@@ -21,7 +21,7 @@ define([
   'dojo/on',
   'dijit/_WidgetsInTemplateMixin',
   'jimu/BaseWidgetSetting',
-  'jimu/dijit/_FeaturelayerSourcePopup',
+  'jimu/dijit/_QueryableLayerSourcePopup',
   'jimu/utils',
   'jimu/filterUtils',
   './SingleQuerySetting',
@@ -29,8 +29,8 @@ define([
   'jimu/dijit/TabContainer'
 ],
 function(declare, lang, array, on, _WidgetsInTemplateMixin, BaseWidgetSetting,
-  _FeaturelayerSourcePopup, jimuUtils,  FilterUtils, SingleQuerySetting) {
-  
+  _QueryableLayerSourcePopup, jimuUtils,  FilterUtils, SingleQuerySetting) {
+
   return declare([BaseWidgetSetting, _WidgetsInTemplateMixin], {
     baseClass: 'jimu-widget-query-setting',
     currentSQS: null,
@@ -82,7 +82,7 @@ function(declare, lang, array, on, _WidgetsInTemplateMixin, BaseWidgetSetting,
       var queries = this.config && this.config.queries;
       var validConfig = queries && queries.length >= 0;
       if(validConfig){
-        array.forEach(queries,lang.hitch(this, function(singleConfig, index){
+        array.forEach(queries, lang.hitch(this, function(singleConfig, index){
           var addResult = this.queryList.addRow({name: singleConfig.name || ''});
           var tr = addResult.tr;
           tr.singleConfig = lang.clone(singleConfig);
@@ -127,7 +127,7 @@ function(declare, lang, array, on, _WidgetsInTemplateMixin, BaseWidgetSetting,
       this.currentSQS = new SingleQuerySetting(args);
       this.currentSQS.placeAt(this.singleQueryContainer);
 
-      this.own(on(this.currentSQS,'name-change', lang.hitch(this, function(queryName){
+      this.own(on(this.currentSQS, 'name-change', lang.hitch(this, function(queryName){
         this.queryList.editRow(tr, {name: queryName});
       })));
 
@@ -141,7 +141,7 @@ function(declare, lang, array, on, _WidgetsInTemplateMixin, BaseWidgetSetting,
 
       //first bind event, then setConfig, don't startup here
       this.currentSQS.setConfig(this.currentSQS.config);
-      
+
       return this.currentSQS;
     },
 
@@ -150,8 +150,6 @@ function(declare, lang, array, on, _WidgetsInTemplateMixin, BaseWidgetSetting,
         var singleConfig = this.currentSQS.getConfig();
         if(singleConfig){
           this.currentSQS.tr.singleConfig = singleConfig;
-          this.currentSQS.destroy();
-          this.currentSQS = null;
         }
         else{
           return;
@@ -161,7 +159,7 @@ function(declare, lang, array, on, _WidgetsInTemplateMixin, BaseWidgetSetting,
       var args = {
         titleLabel: this.nls.setDataSource,
 
-        featureArgs: {
+        dijitArgs: {
           multiple: false,
           createMapResponse: this.map.webMapResponse,
           portalUrl: this.appConfig.portalUrl,
@@ -171,28 +169,44 @@ function(declare, lang, array, on, _WidgetsInTemplateMixin, BaseWidgetSetting,
         }
       };
 
-      var featurePopup = new _FeaturelayerSourcePopup(args);
-      this.own(on(featurePopup, 'ok', lang.hitch(this, function(item){
+      var sourcePopup = new _QueryableLayerSourcePopup(args);
+      this.own(on(sourcePopup, 'ok', lang.hitch(this, function(item){
         //{name, url, definition}
-        featurePopup.close();
+        var radioType = sourcePopup.getSelectedRadioType();
+        sourcePopup.close();
+        sourcePopup = null;
+
+        if(this.currentSQS){
+          this.currentSQS.destroy();
+          this.currentSQS = null;
+        }
 
         //var queryName = this._getSuitableQueryName(item.name);
-        var queryName = item.name||"";
+        var queryName = item.name || "";
         var addResult = this.queryList.addRow({name: queryName});
         if (addResult.success) {
           var tr = addResult.tr;
           this.queryList.selectRow(tr);
           if(this.currentSQS){
-            this.currentSQS.setNewLayerDefinition(item.name, item.url, item.definition, queryName);
+            var expr = null;
+            if(radioType === 'map'){
+              var layerObject = item.layerInfo && item.layerInfo.layerObject;
+              if(layerObject && typeof layerObject.getDefinitionExpression === 'function'){
+                expr = layerObject.getDefinitionExpression();
+              }
+            }
+            this.currentSQS.setNewLayerDefinition(item.name, item.url, item.definition,
+                                                  queryName, expr);
           }
         }
       })));
 
-      this.own(on(featurePopup, 'cancel', lang.hitch(this, function(){
-        featurePopup.close();
+      this.own(on(sourcePopup, 'cancel', lang.hitch(this, function(){
+        sourcePopup.close();
+        sourcePopup = null;
       })));
 
-      featurePopup.startup();
+      sourcePopup.startup();
     },
 
     _getSuitableQueryName: function(name){
@@ -239,6 +253,6 @@ function(declare, lang, array, on, _WidgetsInTemplateMixin, BaseWidgetSetting,
         this._createSingleQuerySetting(tr);
       }
     }
-    
+
   });
 });

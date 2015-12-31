@@ -59,7 +59,7 @@ define([
 
       startup: function() {
         this.inherited(arguments);
-        if(!this.map) {
+        if (!this.map) {
           domStyle.set(this.baseMapsDiv, 'display', 'none');
           return;
         }
@@ -76,22 +76,22 @@ define([
         // load basemap from portal/AGOL or config file.
         // save all basemap to this.basemaps cache,
         // and save this.basemaps to config after save config.
-        if(config.basemapGallery.basemaps.length === 0) {
+        if (config.basemapGallery.basemaps.length === 0) {
           var loading = new LoadingShelter();
           loading.placeAt(this.baseMapsDiv);
           loading.startup();
           utils._loadPortalBaseMaps(this.appConfig.portalUrl, this.map.spatialReference)
-          .then(lang.hitch(this, function(basemaps) {
-            this.basemaps = basemaps;
-            this.refreshMapGallary();
-            loading.destroy();
-          }), function() {
-            loading.destroy();
-          });
+            .then(lang.hitch(this, function(basemaps) {
+              this.basemaps = basemaps;
+              this.refreshMapGallary();
+              loading.destroy();
+            }), function() {
+              loading.destroy();
+            });
         } else {
           var len = config.basemapGallery.basemaps.length;
           var configuration = config.basemapGallery.basemaps;
-          for (var i = 0; i < len; i++){
+          for (var i = 0; i < len; i++) {
             this.basemaps.push({
               title: configuration[i].title,
               thumbnailUrl: configuration[i].thumbnailUrl,
@@ -117,22 +117,22 @@ define([
         return -1;
       },
 
-      onAddBaseMapClick: function(){
+      onAddBaseMapClick: function() {
         this._openEdit(null, null);
       },
 
-      refreshMapGallary:function(){
+      refreshMapGallary: function() {
         this.clearBaseMapsDiv();
         this._createMapItems();
         return true;
       },
 
       _createMapItems: function() {
-        for(var i = 0;i < this.basemaps.length; i++){
+        for (var i = 0; i < this.basemaps.length; i++) {
           // basemap does not have title means basemap load failed.
-          if(this.basemaps[i].title) {
+          if (this.basemaps[i].title) {
             var mapItem = this._createMapItem(this.basemaps[i]);
-            html.place(mapItem,this.baseMapsDiv);
+            html.place(mapItem, this.baseMapsDiv);
           }
         }
       },
@@ -140,22 +140,22 @@ define([
       _createMapItem: function(webMap) {
         /*jshint unused: false*/
         var str = "<div class='map-item-div jimu-float-leading'>" + "<div class='map-item-bg'>" +
-                  "<div class='map-item-thumbnail'></div>" +
-                  "<div class='map-item-delete-icon'></div>" +
-                  "<div class='map-item-detail-icon'></div>" +
-                  "<span class='map-item-title'></span>" + "</div>";
+          "<div class='map-item-thumbnail'></div>" +
+          "<div class='map-item-delete-icon'></div>" +
+          "<div class='map-item-detail-icon'></div>" +
+          "<span class='map-item-title'></span>" + "</div>";
         var mapItem = html.toDom(str);
         var mapItemBg = query('.map-item-bg', mapItem)[0];
         var mapItemThumbnail = query('.map-item-thumbnail', mapItem)[0];
         var mapItemTitle = query('.map-item-title', mapItem)[0];
-        var mapItemDeleteIcon = query('.map-item-delete-icon',mapItem)[0];
+        var mapItemDeleteIcon = query('.map-item-delete-icon', mapItem)[0];
         this.own(on(mapItemDeleteIcon,
-                    'click',
-                    lang.hitch(this, this._onMapItemDeleteClick, mapItem, webMap)));
-        var mapItemEditIcon = query('.map-item-detail-icon',mapItem)[0];
+          'click',
+          lang.hitch(this, this._onMapItemDeleteClick, mapItem, webMap)));
+        var mapItemEditIcon = query('.map-item-detail-icon', mapItem)[0];
         this.own(on(mapItemEditIcon,
-                    'click',
-                    lang.hitch(this, this._onMapItemEditClick, mapItem, webMap)));
+          'click',
+          lang.hitch(this, this._onMapItemEditClick, mapItem, webMap)));
         mapItem.item = webMap;
 
         var thumbnailUrl;
@@ -178,25 +178,27 @@ define([
         }
         html.setStyle(mapItemThumbnail, 'backgroundImage', "url(" + thumbnailUrl + ")");
 
-        mapItemTitle.innerHTML = webMap.title;
-        mapItemTitle.title = webMap.title;
+        mapItemTitle.innerHTML = jimuUtils.stripHTML(webMap.title);
+        mapItemTitle.title = jimuUtils.stripHTML(webMap.title);
 
         if (!SRUtils.isSameSR(this.map.spatialReference.wkid, webMap.spatialReference.wkid)) {
           html.setStyle(mapItemThumbnail, "border", "1px solid red");
-          var mapItemWarning = html.create('div', {'class': 'map-item-warning-icon'}, mapItemBg);
+          var mapItemWarning = html.create('div', {
+            'class': 'map-item-warning-icon'
+          }, mapItemBg);
           html.attr(mapItemWarning, 'title', this.nls.invalidBasemapUrl2);
         }
         return mapItem;
       },
 
-      clearBaseMapsDiv:function(){
+      clearBaseMapsDiv: function() {
         var mapItemDoms = query('.map-item-div', this.domNode);
-        for (var i = 0; i< mapItemDoms.length;i++){
+        for (var i = 0; i < mapItemDoms.length; i++) {
           html.destroy(mapItemDoms[i]);
         }
       },
 
-      _openEdit: function(mapItem, basemap){
+      _openEdit: function(mapItem, basemap) {
         /*jshint unused: false*/
         var edit = new Edit({
           nls: this.nls,
@@ -215,29 +217,27 @@ define([
           content: edit,
           container: 'main-page',
           width: 840,
-          buttons: [
-            {
-              label: this.nls.ok,
-              key:keys.ENTER,
-              disable: true,
-              //onClick: lang.hitch(this, '_onEditOk')
-              onClick: lang.hitch(edit, edit._onEditOk, this)
-            },{
-              label: this.nls.cancel,
-              key:keys.ESCAPE,
-              onClose: lang.hitch(edit, edit._onEditClose, this)
-            }
-          ]
+          buttons: [{
+            label: this.nls.ok,
+            key: keys.ENTER,
+            disable: true,
+            //onClick: lang.hitch(this, '_onEditOk')
+            onClick: lang.hitch(edit, edit._onEditOk, this)
+          }, {
+            label: this.nls.cancel,
+            key: keys.ESCAPE,
+            onClose: lang.hitch(edit, edit._onEditClose, this)
+          }]
         });
         edit.startup();
       },
 
-      _onMapItemEditClick:function(mapItem, basemap, event){
+      _onMapItemEditClick: function(mapItem, basemap, event) {
         this._openEdit(mapItem, basemap);
         event.stopPropagation();
       },
 
-      _onMapItemDeleteClick:function(mapItem, basemap, event){
+      _onMapItemDeleteClick: function(mapItem, basemap, event) {
         html.destroy(mapItem);
         var index = this._findBaseMapByTitle(basemap.title);
         if (index >= 0) {

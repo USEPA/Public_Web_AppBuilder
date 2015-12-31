@@ -16,6 +16,7 @@
     editpageAlias: "Alias",
     editpageVisible: "Synlig",
     editpageEditable: "Redigérbar",
-    noLayers: "Ingen redigérbare vektorlag er tilgængelige"
+    noLayers: "Ingen redigérbare vektorlag er tilgængelige",
+    configureFields: "Konfigurér lagfelter"
   })
 );

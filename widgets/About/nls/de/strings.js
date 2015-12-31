@@ -1,5 +1,5 @@
 ﻿define(
    ({
-    _widgetLabel: "Info zu"
+    _widgetLabel: "Info"
   })
 );

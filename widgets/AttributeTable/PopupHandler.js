@@ -8,9 +8,7 @@ define([
 ], function(
   declare, lang, _WidgetBase, on, LayerInfos, InfoWindowAction
 ) {
-
   return declare([_WidgetBase], {
-
     postCreate: function() {
       this.inherited(arguments);
       LayerInfos.getInstance(this.map, this.map.itemInfo)
@@ -52,7 +50,19 @@ define([
           selectedFeature._layer &&
           selectedFeature._layer.relationships &&
           (selectedFeature._layer.relationships.length > 0)) {
-        this.showRelatedTableBtn.enableButtonNode();
+        var layerInfo = this.layerInfos.getLayerInfoById(selectedFeature._layer.id);
+        if(layerInfo) {
+          layerInfo.getRelatedTableInfoArray()
+          .then(lang.hitch(this, function(relatedTableInfoArray) {
+            if(relatedTableInfoArray.length > 0) {
+              this.showRelatedTableBtn.enableButtonNode();
+            } else {
+              this.showRelatedTableBtn.disableButtonNode();
+            }
+          }));
+        } else {
+          this.showRelatedTableBtn.disableButtonNode();
+        }
       } else {
         this.showRelatedTableBtn.disableButtonNode();
       }

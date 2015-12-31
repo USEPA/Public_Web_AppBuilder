@@ -33,6 +33,8 @@
     hectaresAbbreviation: "เฮกเตอร์",
     squareMetersAbbreviation: "ตร.ม.",
     squareFeetAbbreviation: "ตร.ฟุต",
-    squareYardsAbbreviation: "ตร.หลา"
+    squareYardsAbbreviation: "ตร.หลา",
+    defineUnits: "กำหนดหน่วยการวัด",
+    operationalLayer: "เพิ่มรูปวาดที่เป็นชั้นการดำเนินงานของแผนที่"
   })
 );

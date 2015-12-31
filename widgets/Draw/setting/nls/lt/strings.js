@@ -33,6 +33,8 @@
     hectaresAbbreviation: "ha",
     squareMetersAbbreviation: "kv. m.",
     squareFeetAbbreviation: "kv. pėd.",
-    squareYardsAbbreviation: "kv. jard."
+    squareYardsAbbreviation: "kv. jard.",
+    defineUnits: "Nurodykite matavimo vienetus.",
+    operationalLayer: "Pridėkite piešinį kaip žemėlapio darbinį sluoksnį."
   })
 );

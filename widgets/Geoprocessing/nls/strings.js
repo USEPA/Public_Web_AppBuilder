@@ -9,7 +9,25 @@ define({
     requiredInfo: "is required.",
     drawnOnMap: "The result is drawn on the map.",
     clear: "Clear",
-    error: "Error"
+    error: "Error",
+    noToolConfig: "No preconfigured geoprocessing task available.",
+    useUrlForGPInput: "URL",
+    useUploadForGPInput: "Upload file",
+    selectFileToUpload: 'Select file...',
+    upload: 'Upload',
+    rasterFormat: 'Raster data format',
+    noFileSelected: 'No file selected!',
+    uploadSuccess:'File upload success!',
+    url: "URL",
+    showLayerContent: "Show layer content",
+    invalidUrl: "Invalid feature service url",
+    Feet: "Feet",
+    Yards: "Yards",
+    Miles: "Miles",
+    NauticalMiles: "Nautical Miles",
+    Meter: "Meters",
+    Kilometers: "Kilometers",
+    urlPlaceholder: "feature set URL"
   }),
   "ar": 1,
   "cs": 1,
@@ -37,5 +55,7 @@ define({
   "th": 1,
   "tr": 1,
   "vi": 1,
-  "zh-cn": 1
+  "zh-cn": 1,
+  "zh-hk": 1,
+  "zh-tw": 1
 });

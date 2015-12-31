@@ -16,7 +16,7 @@
                     </td>
                     <td>
                         <input type="select" data-dojo-type="dijit/form/Select" data-dojo-props="name:'layout',style:'width:100%;'"
-                        data-dojo-attach-point="layoutDijit" />
+                        data-dojo-attach-point="layoutDijit" data-dojo-attach-event="Change:onLayoutChange"/>
                     </td>
                 </tr>
                 <tr style="display: none">
@@ -48,12 +48,11 @@
                                     ${nls.preserve}:
                                 </td>
                                 <td>
-                                    <input type="radio" data-dojo-type="dijit/form/RadioButton" data-dojo-props="name:'preserveScale',checked:true,value:'true'"
-                                    />
-                                    ${nls.mapScale}&nbsp;&nbsp;
-                                    <input type="radio" data-dojo-type="dijit/form/RadioButton" data-dojo-props="name:'preserveScale',value:'false'"
-                                    />
-                                    ${nls.mapExtent}
+                                    <input type="radio" data-dojo-attach-point="printWidgetMapScale" data-dojo-type="dijit/form/RadioButton" data-dojo-props="name:'preserveScale',checked:true,value:'true'"
+                                    /><label data-dojo-attach-point="printWidgetMapScaleLabel">${nls.mapScale}</label>
+                                    <br />
+                                    <input type="radio" data-dojo-attach-point="printWidgetMapExtent" data-dojo-type="dijit/form/RadioButton" data-dojo-props="name:'preserveScale',value:'false'"
+                                    /><label data-dojo-attach-point="printWidgetMapExtentLabel">${nls.mapExtent}</label>
                                 </td>
                                 <tr>
                                     <td>
@@ -88,6 +87,11 @@
                                     <input type="text" data-dojo-attach-point="copyrightNode" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props="name:'copyright',trim:true,required:false,style:'width:100%;'" />
                                 </td>
                             </tr>
+                        </table>
+                    </div>
+                    <div data-dojo-type="dijit/form/Form" data-dojo-attach-point="customTextElementsDijit">
+                        <table cellspacing="5" style="width:100%;" data-dojo-attach-point="customTextElementsTable">
+
                         </table>
                     </div>
                     <div data-dojo-type="dijit/form/Form" data-dojo-attach-point="layoutFormDijit">

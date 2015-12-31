@@ -25,6 +25,7 @@ function(declare, array, rendererUtils, RendererChooser, BaseEditor, simpleEdito
   var clazz = declare([BaseEditor], {
 
     baseClass: 'jimu-gp-editor-base jimu-gp-editor-fsre',
+    editorName: 'FeatureSetRendererEditor',
 
     postCreate: function(){
       this.inherited(arguments);

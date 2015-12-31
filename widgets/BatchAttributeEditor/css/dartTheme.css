@@ -1,0 +1,24 @@
+.jimu-simple-table .simple-table-row .editable-div, .jimu-simple-table .simple-table-row .normal-text-div {
+	color: #000000 !important;
+	outline: none;
+}
+
+.solutions-widget-batcheditor .jimu-simple-table .simple-table-field {
+	color: #000000 !important;
+	padding-left: 0px;
+	padding-right: 0px;
+}
+
+.solutions-widget-batcheditor .jimu-simple-table .simple-table-cell {
+	padding-left: 0px;
+	padding-right: 0px;
+}
+.solutions-widget-batcheditor .widget-layers-table {
+	margin: 0px -10px 0px -10px;
+	font-size: 12px;
+}
+
+.solutions-widget-batcheditor .maxRecordInIntro {
+	color: #8A0808 !important;
+	font-weight: bold;
+}

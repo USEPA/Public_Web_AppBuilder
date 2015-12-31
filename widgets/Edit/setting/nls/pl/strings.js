@@ -16,6 +16,7 @@
     editpageAlias: "Alias",
     editpageVisible: "Widoczne",
     editpageEditable: "Edytowalne",
-    noLayers: "Brak warstw obiektu możliwych do edycji"
+    noLayers: "Brak warstw obiektu możliwych do edycji",
+    configureFields: "Skonfiguruj pola warstwy"
   })
 );

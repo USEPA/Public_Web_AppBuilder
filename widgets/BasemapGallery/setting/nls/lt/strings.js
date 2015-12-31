@@ -21,11 +21,11 @@
     ok: "Gerai",
     cancel: "Atšaukti",
     result: "Išsaugota sėkmingai",
-    spError: "Visi į galeriją pridėti pagrindo žemėlapiai privalo būti toje pačioje koordinačių sistemoje.",
+    spError: "Visi į galeriją įtraukti pagrindo žemėlapiai privalo būti toje pačioje koordinačių sistemoje.",
     invalidTitle1:"Pagrindo žemėlapis '",
     invalidTitle2:"' jau yra. Pasirinkite kitą pavadinimą.",
     invalidBasemapUrl1: "Šis sluoksnio tipas negali būti naudojamas kaip pagrindo žemėlapis.",
-    invalidBasemapUrl2: "Kita nei dabartinio žemėlapio koordinačių sistema.",
+    invalidBasemapUrl2: "Pagrindo žemėlapis, kurį norite įtraukti, esamame žemėlapyje yra kitoje koordinačių sistemoje.",
     addBaselayer: "Pridėti pagrindo žemėlapio sluoksnį"
   })
 );

@@ -16,6 +16,7 @@
     editpageAlias: "Pseudonim",
     editpageVisible: "Vizibil",
     editpageEditable: "Editabil",
-    noLayers: "Nu sunt disponibile straturi tematice de obiecte spaţiale editabile"
+    noLayers: "Nu sunt disponibile straturi tematice de obiecte spaţiale editabile",
+    configureFields: "Configurare câmpuri strat tematic"
   })
 );

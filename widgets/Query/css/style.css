@@ -1,6 +1,6 @@
 .jimu-widget-query{
   position: relative;
-  width: 100%;
+  width: 99%;
   height: 100%;
   min-width: 222px;
   min-height: 237px;
@@ -30,8 +30,6 @@
 .jimu-widget-query .btn-section .btn-clear-all{
   margin-left: auto;
   margin-right: auto;
-  color: #528cc9;
-  background: transparent;
   overflow: hidden;
   text-overflow: ellipsis;
 }
@@ -59,8 +57,8 @@
 
 .jimu-widget-query .query-list .queries .execute-tip{
   line-height: 20px;
-  color: #66696c;
-  font-size: 14px;
+  /*color: #66696c;
+  font-size: 14px;*/
 }
 
 .jimu-widget-query .query-list .queries .queries-table-container{
@@ -69,9 +67,11 @@
 }
 
 .jimu-widget-query .query-list .queries .queries-table{
-  width: 100%;
+  width: 99%;
   border-collapse: collapse;
   table-layout: fixed;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .jimu-widget-query .query-list .queries .queries-table td{
@@ -84,10 +84,10 @@
   cursor: pointer;
 }
 
-.jimu-widget-query .query-list .queries .queries-table .second-td{
+/*.jimu-widget-query .query-list .queries .queries-table .second-td{
   color: #686868;
   font-size: 12px;
-}
+}*/
 
 .jimu-widget-query .query-list .queries .queries-table .query-name-div{
   width: 100%;
@@ -108,28 +108,28 @@
   background-image: url(images/rtl_arrow_right1.png);
 }
 
-.jimu-widget-query .query-list .queries .queries-table>tbody>tr.selected td{
+/*.jimu-widget-query .query-list .queries .queries-table>tbody>tr.jimu-state-active td{
   background: #d9dde0;
 }
 
 .jimu-widget-query .query-list .queries .queries-table>tbody>tr:hover td{
   background: #d9dde0;
   border-top: 1px solid #ffffff;
-}
+}*/
 
-.jimu-widget-query .query-list .queries .queries-table>tbody>tr.selected .third-td .arrow{
+.jimu-widget-query .queries-table .jimu-table-row.jimu-state-active .third-td .arrow{
   background-image: url(images/arrow_right2.png);
 }
 
-.jimu-rtl .jimu-widget-query .query-list .queries .queries-table>tbody>tr.selected .third-td .arrow{
+.jimu-rtl .jimu-widget-query .queries-table .jimu-table-row.jimu-state-active .third-td .arrow{
   background-image: url(images/rtl_arrow_right2.png);
 }
 
-.jimu-widget-query .query-list .queries .queries-table>tbody>tr:hover .third-td .arrow{
+.jimu-widget-query .queries-table .jimu-table-row:hover .third-td .arrow{
   background-image: url(images/arrow_right2.png);
 }
 
-.jimu-rtl .jimu-widget-query .query-list .queries .queries-table>tbody>tr:hover .third-td .arrow{
+.jimu-rtl .jimu-widget-query .queries-table .jimu-table-row:hover .third-td .arrow{
   background-image: url(images/rtl_arrow_right2.png);
 }
 
@@ -145,8 +145,8 @@
 .jimu-widget-query .query-list .no-query-tip{
   display: none;
   line-height: 20px;
-  color: #66696c;
-  font-size: 14px;
+  /*color: #66696c;
+  font-size: 14px;*/
 }
 
 /* css for header */
@@ -164,7 +164,7 @@
   left: 0;
   top: 0;
   text-align: center;
-  font-size: 14px;
+  /*font-size: 14px;*/
   color: #86909c;
 }
 
@@ -263,7 +263,6 @@
   width: auto;
   margin-top: 5px;
   margin-left: 15px;
-  color: #ccc;
 }
 
 .jimu-rtl .jimu-widget-query .query-params .operational-tip-div{
@@ -310,7 +309,7 @@
   padding-right: 15px;
 }
 
-.jimu-widget-query .query-results .results-table>tbody>tr.query-result-item.even>td{
+/*.jimu-widget-query .query-results .results-table>tbody>tr.query-result-item.even>td{
   background-color: #f0f0f0;
 }
 
@@ -318,23 +317,24 @@
   background-color: #ffffff;
 }
 
-.jimu-widget-query .query-results .results-table>tbody>tr.query-result-item.selected>td{
+.jimu-widget-query .query-results .results-table>tbody>tr.query-result-item.jimu-state-active>td{
   background-color: #D9DDE0;
 }
 
 .jimu-widget-query .query-results .results-table>tbody>tr.query-result-item>td:hover{
   background-color: #D9DDE0;
-}
+}*/
 
 .jimu-widget-query .query-results .results-table>tbody>tr.query-result-item>td .feature-attributes{
   margin-top: 4px;
   width: 100%;
+  table-layout: fixed;
+  word-break: break-all;
 }
 
 .jimu-widget-query .query-results .query-result-item td.attr-name{
   padding: 2px 5px 5px 2px;
   color: #888888;
-  width: 40%;
 }
 
 .jimu-widget-query .query-results .query-result-item td.attr-value{
@@ -378,7 +378,7 @@
   background-color: #ffffff;
 }
 
-.jimu-widget-query .query-result-item.selected .relationship-attr.dijitTitlePane .dijitTitlePaneTitleClosed {
+.jimu-widget-query .query-result-item.jimu-state-active .relationship-attr.dijitTitlePane .dijitTitlePaneTitleClosed {
   background-color: #d9dde0 !important;
 }
 
@@ -399,86 +399,22 @@
   color: #686868;
 }
 
-.jimu-widget-query .relationship-attr.dijitTitlePane .dijitTitlePaneContentInner span {
+/*.jimu-widget-query .relationship-attr.dijitTitlePane .dijitTitlePaneContentInner span {
   margin-top: 4px;
   display: inline-block;
+}*/
+
+.jimu-widget-query .relationship-attr.dijitTitlePane .dijitTitlePaneContentInner .related-row{
+  margin-top: 4px;
+  overflow: hidden;
 }
 
-/* css for jimu-widget-query-single-parameter */
-.jimu-widget-query-single-parameter .dijit-form-Select>tbody>tr>td{
-  height: 23px;
+.jimu-widget-query .relationship-attr.dijitTitlePane .dijitTitlePaneContentInner .related-row .related-name{
+  width: 40%;
 }
 
-.jimu-widget-query-single-parameter .dijit-form-Select>tbody>tr>td>.dijitButtonText{
-  height: 20px;
-  height: 20px !important;
-}
-
-.jimu-widget-query-single-parameter .dijit-form-FilteringSelect>div.dijitArrowButton.dijitDownArrowButton{
-  width:20px;
-  height: 100%;
-}
-
-.jimu-widget-query-single-parameter .dijit-form-FilteringSelect>div.dijitArrowButton.dijitDownArrowButton>input{
-  padding: 0;
-  border: 0;
-  display: inline-block;
-  height: 100%;
-  height: 100% !important;
-}
-
-.jimu-widget-query-single-parameter .dijit-form-ValidationTextBox>div.dijitInputField{
-  height: 100%;
-}
-
-.jimu-widget-query-single-parameter .dijit-form-ValidationTextBox>div.dijitInputField>input.dijitInputInner{
-  margin: 0;
-  padding:0;
-  height: 100%;
-  height: 100% !important;
-}
-
-.jimu-widget-query-single-parameter .dijit-form-NumberTextBox>div.dijitInputField{
-  height: 100%;
-}
-
-.jimu-widget-query-single-parameter .dijit-form-NumberTextBox>div.dijitInputField>input.dijitInputInner{
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  padding:0 !important;
-  height: 100% !important;
-}
-
-.jimu-widget-query-single-parameter .dijit-form-DateTextBox>.dijitRight{
-  width:17px;
-  width:17px !important;
-  height: 100%;
-}
-
-.jimu-widget-query-single-parameter .dijit-form-DateTextBox>.dijitRight .dijitInputField{
-  border: 0;
-  line-height: 24px;
-}
-
-.jimu-widget-query-single-parameter .dijitSelectLabel.dijitValidationTextBoxLabel{
-  width:52px;
-  max-width:52px;
-  overflow:hidden;
-  max-width:52px !important;
-  overflow:hidden !important;
-}
-
-.jimu-widget-query-single-parameter .prompt{
-  font-size: 12px;
-  color: #686868;
-}
-
-.jimu-widget-query-single-parameter .hint{
-  font-style: italic;
-  font-size: 12px;
-  color: #d9dde0;
-  margin-top: 5px;
+.jimu-widget-query .relationship-attr.dijitTitlePane .dijitTitlePaneContentInner .related-row .related-value{
+  width: 60%;
 }
 
 /* css for query popup */
@@ -497,6 +433,9 @@
 }
 
 .query-popup .query-popup-table{
+  width: 100%;
+  table-layout: fixed;
+  word-break: break-all;
   border-collapse: collapse;
 }
 

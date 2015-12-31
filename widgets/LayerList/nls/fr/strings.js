@@ -15,7 +15,7 @@
     itemToAttributeTable: "Ouvrir la table attributaire",
     itemShowItemDetails: "Afficher les détails de l\'élément",
     empty: "vide",
-    removePopup: "Supprimer la fenêtre contextuelle",
+    removePopup: "Désactiver la fenêtre contextuelle",
     enablePopup: "Activer la fenêtre contextuelle"
   })
 );

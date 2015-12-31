@@ -1,0 +1,50 @@
+﻿define(
+   ({
+    layerSelect: "Valitse kuvan karttataso",
+    displayMeasureResultInPopup: "Näytä mittaustulokset ponnahdusikkunassa",
+    angularUnitSelect: "Oletuskulmayksikkö",
+    linearUnitSelect: "Oletuslineaariyksikkö",
+    areaUnitSelect: "Oletuspinta-alayksikkö",
+    displayOperationSelect: "Valitse mittaustoiminnot",
+    errorSectionMeasage: "Karttatasot eivät tue mittaustoimintoja.",
+    unitLabel: {
+      esriInches: "Tuumaa",
+      esriFeet: "Jalkaa",
+      esriYards: "Jaardia",
+      esriMiles: "Mailia",
+      esriNauticalMiles: "Meripeninkulmaa",
+      esriMillimeters: "Millimetriä",
+      esriCentimeters: "Senttimetriä",
+      esriDecimeters: "Desimetriä",
+      esriMeters: "Metriä",
+      esriKilometers: "Kilometriä",
+      esriDURadians: "Radiaaneina",
+      esriDUDecimalDegrees: "Asteet",
+      esriSquareInches: "Neliötuumaa",
+      esriSquareFeet: "Neliöjalkaa",
+      esriSquareYards: "Neliöjaardia",
+      esriAcres: "Aaria",
+      esriSquareMiles: "Neliömailia",
+      esriSquareMillimeters: "Neliömillimetriä",
+      esriSquareCentimeters: "Neliösenttimetriä",
+      esriSquareDecimeters: "Neliödesimetriä",
+      esriSquareMeters: "Neliömetriä",
+      esriAres: "Aaria",
+      esriHectares: "Hehtaaria",
+      esriSquareKilometers: "Neliökilometriä"
+    },
+    operationLabel: {
+      esriMensurationPoint: "Piste",
+      esriMensurationDistanceAndAngle: "Etäisyys ja kulma",
+      esriMensurationAreaAndPerimeter: "Alue ja ympärysmitta",
+      esriMensurationHeightFromBaseAndTop: "Alaosa yläosaan",
+      esriMensurationHeightFromBaseAndTopShadow: "Alaosa yläosan varjostukseen",
+      esriMensurationHeightFromTopAndTopShadow: "Yläosa yläosan varjostukseen",
+      esriMensurationCentroid: "Painopiste",
+      esriMensurationPoint3D: "Piste (3D)",
+      esriMensurationDistanceAndAngle3D: "Etäisyys ja kulma (3D)",
+      esriMensurationAreaAndPerimeter3D: "Alue ja ympärysmitta (3D)",
+      esriMensurationCentroid3D: "Painopiste (3D)"
+    }
+  })
+);

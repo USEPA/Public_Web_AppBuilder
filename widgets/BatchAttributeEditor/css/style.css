@@ -1,0 +1,117 @@
+@import url("customDrawBox.css");
+/*form*/
+.solutions-widget-batcheditor .widget-draw-control {
+	margin: 10px 0px 0px 0px;
+}
+
+.solutions-widget-batcheditor .hide {
+	display: none;
+}
+
+.solutions-widget-batcheditor .widget-intro {
+	margin: 0px 5px 20px 5px;
+	font-size: 14px;
+	color: #777777;
+	line-height: 150%;
+}
+
+/*shared*/
+.solutions-widget-batcheditor .widget-error {
+	font-size: 14px;
+	color: #8A0808;
+}
+.solutions-widget-batcheditor td.simple-table-td.normal-text-td.syncProcessing {
+	color: mediumorchid;
+}
+.solutions-widget-batcheditor td.simple-table-td.normal-text-td.syncComplete {
+	color: #777777;
+}
+.solutions-widget-batcheditor td.simple-table-td.normal-text-td.syncSkipped {
+	color: orange;
+}
+
+/*Layers Results*/
+.solutions-widget-batcheditor .widget-layers-table {
+	margin: 0px -14px 0px -14px;
+	font-size: 12px;
+}
+
+.solutions-widget-batcheditor .widget-layers-table .selectioncount {
+	width: 60px;
+}
+
+.solutions-widget-batcheditor td.simple-table-td.normal-text-td.maxRecordCount {
+	color: #8A0808;
+}
+
+.solutions-widget-batcheditor .layerInIntro {
+	font-weight: bold;
+	color: #000000;
+}
+
+.solutions-widget-batcheditor .maxRecordInIntro {
+	color: #8A0808;
+	font-weight: bold;
+}
+/*Loading Message*/
+.solutions-widget-batcheditor .loading-indicator {
+	/* Loading status */
+	height: 100%;
+	width: 100%;
+	z-index: 500;
+	position: absolute;
+	top: 0;
+	left: 0;
+	overflow: hidden;
+	background: rgba(128, 128, 128, 0.10);
+	background-position: center center;
+	background-image: url(../images/preloader.gif);
+	background-repeat: no-repeat;
+}
+
+/*Controls*/
+.solutions-widget-batcheditor .widget-controls {
+	width: 100%;
+	margin-top: 15px;
+}
+
+.solutions-widget-batcheditor .clearBtn {
+	margin-right: 5px;
+	margin-left: 5px;
+	float: right !important;
+	display: inline-block !important;
+}
+
+.solutions-widget-batcheditor .widget-results {
+	font-size: 14px;
+	font-weight: italic;
+	color: #777777;
+	margin-left: 10px;
+	margin-right: 10px;
+	margin-bottom: 10px;
+}
+
+.solutions-widget-batcheditor .filtered {
+	color: #000000;
+	font-weight: bold;
+}
+
+.jimu-simple-table .simple-table-title {
+	color: #000000;
+	font-weight: bold;
+	background-color: #E3E3E3;
+}
+
+.jimu-icon-edit {
+	background-image: url(../css/images/edit_gray_normal.png);
+	background-position: 0px 0px;
+	width: 16px;
+	height: 16px;
+}
+
+.jimu-icon-edit:hover {
+	background-image: url(../css/images/edit_gray_hover.png);
+	background-position: 0px 0px;
+	width: 16px;
+	height: 16px;
+}

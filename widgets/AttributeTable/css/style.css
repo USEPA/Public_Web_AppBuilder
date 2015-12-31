@@ -1,21 +1,22 @@
-.jimu-widget-attributetable{
-  z-index: 101;/*above map's attribute*/
-}
-.jimu-widget-attributetable .jimu-loading-indicator{
-  z-index: 1000;
-}
 .jimu-widget-attributetable-main .tabStripButton{
   height: 24px !important;
 }
-.jimu-widget-attributetable, .jimu-widget-attributetable-main{
-  width: 100%;
+.jimu-widget-attributetable,
+.jimu-widget-attributetable-main{
+  /*width: 100%;*/
   height: 100%;
   left: 0px;
   bottom: 0px;
   background-color: #efefef;
 }
+.jimu-widget-attributetable{
+  height: auto;
+}
 .jimu-widget-attributetable-main{
   overflow: hidden;
+}
+.jimu-widget-attributetable .jimu-widget-attributetable-main .dijitToolbar {
+  position: relative;
 }
 .jimu-widget-attributetable-move{
   width: 100%;
@@ -27,6 +28,9 @@
 }
 .jimu-widget-attributetable-move:hover .jimu-widget-attributetable-thumb{
   background-color: #fff;
+}
+.jimu-widget-attributetable .draging{
+  background-color: gray;
 }
 .jimu-widget-attributetable-thumb{
   background: #B0B0B0 none;
@@ -62,15 +66,10 @@
   top: -17px;
   margin: auto;
   position: absolute;
-  background-color: #efefef;
   cursor: pointer;
-  border: 1px solid #fff;
   border-radius: 2px 2px 0 0;
   background-position: center;
   background-repeat: no-repeat;
-}
-.jimu-widget-attributetable-bar:hover{
-  background-color: #bfbfbf;
 }
 .jimu-widget-attributetable-bar.open{
   background-image: url(images/arrow_down.png);
@@ -78,8 +77,14 @@
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
 }
+.jimu-widget-attributetable-bar.open:hover{
+  background-image: url(images/arrow_down_hover.png);
+}
 .jimu-widget-attributetable-bar.close{
   background-image: url(images/arrow_up.png)
+}
+.jimu-widget-attributetable-bar.close:hover{
+  background-image: url(images/arrow_up_hover.png);
 }
 .jimu-widget-attributetable-arrowImage{
   width: 30px;
@@ -102,23 +107,20 @@
 }
 .jimu-widget-attributetable .dijitTabContainerTopChildWrapper,
 .jimu-widget-attributetable .dijitTabContainerTopChildWrapper .dijitContentPane{
-  height: 100%;
+  height: 100% !important;
+  width: 100% !important;
+}
+.jimu-widget-attributetable .dijitToggleButton.dijitToggleButtonChecked .dijitButtonText{
+  font-weight: bold;
+  color: #518dca;
 }
 
 .jimu-widget-attributetable .esriAttributeTable{
   width: 100%;
-  height: 100%; 
+  height: 100%;
   position: relative;
 }
-.jimu-widget-attributetable .esriAttributeTableToolbar{
-  width: 100%;
-  height: 30px;
-  left: 0px;
-  top: 0px;
-  z-index: 100;
-  position: relative;
-}
-.jimu-widget-attributetable .dgrid-sortable { 
+.jimu-widget-attributetable .dgrid-sortable {
   font-weight: bold;
 }
 .jimu-widget-attributetable .dgrid-cell {
@@ -126,7 +128,7 @@
   width: 100px;
 }
 .jimu-widget-attributetable .dgrid-row .dgrid-cell {
-  border:medium none;  
+  border:medium none;
   padding: 7px 3px;
   border-right: 1px solid #CCCCCC;
 }
@@ -171,7 +173,7 @@ background-color:#E1F0FB;
 }
 .jimu-rtl .dgrid-hider-menu-label {
   padding-left: 0;
-  padding-right: 20px; 
+  padding-right: 20px;
 }
 .jimu-rtl .jimu-widget-attributetable .dgrid-pagination .dgrid-status{
   float: right !important;
@@ -192,6 +194,11 @@ background-color:#E1F0FB;
 }
 .esriAttributeTableSelectAllImage{
   background-image: url("../images/select.png");
+  width: 13px;
+  height: 13px;
+}
+.esriAttributeTableFilterImage{
+  background-image: url("../images/filter.png");
   width: 13px;
   height: 13px;
 }
@@ -229,4 +236,27 @@ background-color:#E1F0FB;
   background-image: url("../images/columns.png");
   width: 13px;
   height: 13px;
+}
+
+.jimu-widget-attributetable .jimu-widget-attributetable-main .dijitToolbar .close-button {
+  position: absolute;
+  right: 0;
+}
+.jimu-rtl .jimu-widget-attributetable .jimu-widget-attributetable-main .dijitToolbar .close-button {
+  right: auto;
+  left: 0;
+}
+
+.jimu-widget-attributetable .jimu-loading-indicator {
+  z-index: 100;
+}
+
+.jimu-widget-attributetable .jimu-widget-attributetable-feature-table{
+  height: 100%;
+  position: relative;
+}
+
+.jimu-widget-attributetable .jimu-widget-attributetable-relationship-table{
+  height: 100%;
+  position: relative;
 }

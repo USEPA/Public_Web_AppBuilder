@@ -33,6 +33,8 @@
     hectaresAbbreviation: "האקטר‬",
     squareMetersAbbreviation: "מטר רבוע",
     squareFeetAbbreviation: "‏‫רגל רבוע",
-    squareYardsAbbreviation: "יארד רבוע"
+    squareYardsAbbreviation: "יארד רבוע",
+    defineUnits: "הגדר את יחידות המדידה.",
+    operationalLayer: "הוסף את השרטוט כשכבה תפעולית במפה."
   })
 );

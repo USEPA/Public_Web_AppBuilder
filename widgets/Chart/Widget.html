@@ -49,7 +49,7 @@
               <tbody>
                 <tr class="current-extent-tr">
                   <td>
-                    <input type="radio" data-dojo-attach-point="cbxUseMapExtent" checked data-dojo-attach-event="onclick:_onCbxUseMapExtentClicked" />  
+                    <input type="radio" data-dojo-attach-point="cbxUseMapExtent" checked data-dojo-attach-event="onclick:_onCbxUseMapExtentClicked" />
                   </td>
                   <td class="current-extent-td">
                     <label data-dojo-attach-point="labelUseMapExtent" class="map-extent-tip">${nls.useCurrentMapExtent}</label>
@@ -79,12 +79,14 @@
             <div class="back-icon jimu-float-leading"></div>
             <div class="back-tip jimu-float-leading" data-dojo-attach-point="btnResultsBack">${nls.chartParams}</div>
           </div>
-        </div>      
+        </div>
       </div>
       <div class="results-container" data-dojo-attach-point="resultsContainer">
       </div>
     </div>
   </div>
-  
+  <div class="btn-section">
+    <div data-dojo-attach-point="btnClearAll" data-dojo-attach-event="onclick:_onBtnClearAllClicked" class="jimu-btn jimu-priority-secondary btn-clear-all" title="${nls.clearResults}">${nls.clearResults}</div>
+  </div>
   <div data-dojo-attach-point="shelter" data-dojo-type="jimu/dijit/LoadingShelter" data-dojo-props='hidden:true'></div>
 </div>

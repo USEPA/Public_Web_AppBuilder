@@ -1,12 +1,13 @@
 ﻿define(
    ({
+    id: 'Kimlik',
     state: "Varsayılan olarak koordinatlar geçerli haritanın koordinat sisteminde görüntülenecek. Diğer koordinat sistemlerindeki koordinatları almak için bunları eklemeniz ve uygun dönüşümleri belirtmeniz gerekir.",
     outputUnit: "Çıktı Birimi",
     wkid: "Çıktı WKID\'si",
     label: "Çıktı Koordinat Sistemi Adı",
-    transformationWkid: 'Dönüştürme WKID\'si',
-    transformationLabel: 'Dönüştürme Etiketi',
-    transformForward: 'İleri Doğru Dönüştür',
+    transformationWkid: "Dönüştürme WKID\'si",
+    transformationLabel: "Dönüştürme Etiketi",
+    transformForward: "İleri Doğru Dönüştür",
     actions: "İşlemler",
     warning: "Geçerli mekansal başvuru WKID\'si girin!",
     tfWarning: "Geçerli veri dönüştürme WKID\'si girin!",

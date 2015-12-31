@@ -4,9 +4,9 @@ define([
   'dojo/_base/html',
   'dojo/_base/lang',
   'dojo/query',
-  'dojo/on',
   'dojo/Deferred',
   'jimu/dijit/DropMenu',
+  'jimu/dijit/LoadingIndicator',
   'dijit/_TemplatedMixin',
   'dijit/form/HorizontalSlider',
   'dijit/form/HorizontalRuleLabels',
@@ -14,127 +14,200 @@ define([
   'dojo/dom-style',
   './NlsStrings',
   './PopupMenuInfo'
-], function(declare, array, html, lang, query, on, Deferred, DropMenu,
-_TemplatedMixin, HorizSlider, HorzRuleLabels, template, domStyle, NlsStrings, PopupMenuInfo) {
+], function(declare, array, html, lang, query, Deferred, DropMenu, LoadingIndicator,
+  _TemplatedMixin, HorizSlider, HorzRuleLabels, template, domStyle, NlsStrings, PopupMenuInfo) {
   return declare([DropMenu, _TemplatedMixin], {
     templateString: template,
     popupMenuInfo: null,
-    _popupMenuInfoDef: null,
+    loading: null,
     _deniedItems: null,
+    _deniedItemsFromConfig: null,
     _layerInfo: null,
     constructor: function() {
       this.nls = NlsStrings.value;
-      this._deniedItems = [];
-      this._popupMenuInfoDef = new Deferred();
     },
 
-    _getDropMenuPosition: function(){
+    postCreate: function() {
+      this.inherited(arguments);
+      this._initDeniedItems();
+      this.loading = new LoadingIndicator({
+        hidden: true
+      });
+      this.loading.placeAt(this.popupMenuNode);
+      if(!this.hasContentMenu()) {
+        this.hide();
+      }
+    },
+
+    _initDeniedItems: function() {
+      var deniedItemsFromConfigKeys = [];
+      var menuItemDictionary = {
+        "ZoomTo": "zoomto",
+        "Transparency": "transparency",
+        "EnableOrDisablePopup": "controlPopup",
+        "MoveupOrMovedown": "moveup movedown",
+        "OpenAttributeTable": "table",
+        "DescriptionOrShowItemDetailsOrDownload": "url"
+      };
+      this._deniedItems = [];
+      this._deniedItemsFromConfig = [];
+      // ignore if this._config.contextMenu has not configured.
+      // compatible with old version app.
+      for (var menuItem in this._config.contextMenu) {
+        if(this._config.contextMenu.hasOwnProperty(menuItem) &&
+            (typeof this._config.contextMenu[menuItem] !== 'function') &&
+            this._config.contextMenu[menuItem] === false) {
+          deniedItemsFromConfigKeys =
+            deniedItemsFromConfigKeys.concat(menuItemDictionary[menuItem].split(" "));
+        }
+      }
+
+      array.forEach(deniedItemsFromConfigKeys,
+                    lang.hitch(this, function(deniedItemKey) {
+        this._deniedItemsFromConfig.push({
+          'key': deniedItemKey,
+          'denyType': 'hidden'
+        });
+      }));
+    },
+
+    _getDropMenuPosition: function() {
       return {
         top: "28px",
-        //left: "-107px"
-        left: 12 - html.getStyle(this.dropMenuNode, 'width') + 'px'
+        right: "4px",
+        zIndex: 1
       };
     },
 
     _getTransNodePosition: function() {
       return {
-        top: "15px",
+        top: "28px",
         //left: "-107px"
-        left: -174 - html.getStyle(this.dropMenuNode, 'width') + 'px'
+        left: -1 * html.getStyle(this.transparencyDiv, 'width') + 'px'
       };
     },
 
-    _onBtnClick: function(){
-      // if(!this.dropMenuNode){
-      //   PopupMenuInfo.create(this._layerInfo, this._appConfig)
-      //   .then(lang.hitch(this, function(popupMenuInfo) {
-      //     this.items = popupMenuInfo.getDisplayItems();
-      //     this.popupMenuInfo = popupMenuInfo;
-      //     this._createDropMenuNode();
-      //     this.own(on(this.dropMenuNode, 'click', lang.hitch(this, function(evt){
-      //       evt.stopPropagation();
-      //     })));
-      //     this._popupMenuInfoDef.resolve(popupMenuInfo);
-      //   }));
-      // }
-    },
+    _onBtnClick: function() {},
 
-    btnClick: function() {
-      if(!this.dropMenuNode){
-        PopupMenuInfo.create(this._layerInfo, this._appConfig)
-        .then(lang.hitch(this, function(popupMenuInfo) {
-          this.items = popupMenuInfo.getDisplayItems();
-          this.popupMenuInfo = popupMenuInfo;
-          this._createDropMenuNode();
-          this.own(on(this.dropMenuNode, 'click', lang.hitch(this, function(evt){
-            evt.stopPropagation();
-          })));
-          this._popupMenuInfoDef.resolve(popupMenuInfo);
-        }));
-      }
-    },
-
-    getPopupMenuInfo: function() {
-      // var def = new Deferred();
-      // if(this.popupMenuInfo) {
-      //   def.resolve(this.popupMenuInfo);
-      // } else {
-      //   PopupMenuInfo.create(this._layerInfo).then(lang.hitch(this, function(popupMenuInfo) {
-      //     this.popupMenuInfo = popupMenuInfo;
-      //     def.resolve(popupMenuInfo);
-      //   }));
-      // }
-      // return def;
-      return this._popupMenuInfoDef;
-    },
-
-    // will call after openDropMenu 
+    // will call after openDropMenu
     _refresh: function() {
       this._denyItems();
+      this._changeItemsUI();
     },
 
     _denyItems: function() {
-      var itemNodes = query("div[class~='menu-item']", this.dropMenuNode)
-      .forEach(function(itemNode){
+      var itemNodes = query("[class~='menu-item-identification']", this.dropMenuNode);
+      itemNodes.forEach(function(itemNode) {
         html.removeClass(itemNode, "menu-item-dissable");
-      });
-      array.forEach(this._deniedItems, function(itemKey) {
-        itemNodes.forEach(function(itemNode){
-          if (html.getAttr(itemNode, 'itemId') === itemKey) {
+        html.removeClass(itemNode, "menu-item-hidden");
+      }, this);
+      html.removeClass(this.dropMenuNode, "no-border");
+      array.forEach(this._deniedItems, function(deniedItem) {
+        var itemNode = query("div[itemId='" + deniedItem.key + "']", this.dropMenuNode)[0];
+        if (itemNode) {
+          if (deniedItem.denyType === "disable") {
             html.addClass(itemNode, "menu-item-dissable");
-            if(itemKey === 'url') {
-              query(".menu-item-description", itemNode).forEach(function(itemA){
+            if (deniedItem.key === 'url') {
+              query(".menu-item-description", itemNode).forEach(function(itemA) {
                 html.setAttr(itemA, 'href', '#');
                 html.removeAttr(itemA, 'target');
               });
             }
+          } else {
+            html.addClass(itemNode, "menu-item-hidden");
           }
-        });
+        }
       }, this);
-    },
 
-    selectItem: function(item){
-      var index = this._deniedItems.indexOf(item.key);
-      if (index === -1) {
-        this.emit('onMenuClick', item);
+      // handle separator line
+      var lastDisplayItemNodeIndex = -1;
+      for (var i = 0; i < itemNodes.length; i++) {
+        if (html.hasClass(itemNodes[i], 'menu-item-line')) {
+          if (lastDisplayItemNodeIndex === -1 ||
+            html.hasClass(itemNodes[lastDisplayItemNodeIndex], 'menu-item-line')) {
+            html.addClass(itemNodes[i], "menu-item-hidden");
+          }
+        }
+
+        if (!html.hasClass(itemNodes[i], 'menu-item-hidden')) {
+          lastDisplayItemNodeIndex = i;
+        }
+      }
+      // Hide last item if that is a line.
+      var displayItemNodes = array.filter(itemNodes, function(itemNode) {
+        return !html.hasClass(itemNode, 'menu-item-hidden');
+      });
+      if (displayItemNodes.length === 0) {
+        html.addClass(this.dropMenuNode, "no-border");
+      } else {
+        if (html.hasClass(displayItemNodes[displayItemNodes.length - 1], 'menu-item-line')) {
+          html.addClass(displayItemNodes[displayItemNodes.length - 1], "menu-item-hidden");
+        }
       }
     },
 
-    openDropMenu: function(deniedItemsDef){
-      // if (deniedItems) {
-      //   this._deniedItems = deniedItems;
-      // } else {
-      //   this._deniedItems = [];
-      // }
-
-      deniedItemsDef.then(lang.hitch(this, function(deniedItems) {
-        this._deniedItems = deniedItems;
-        this._refresh();
-      }));
-      this.inherited(arguments);
+    _changeItemsUI: function() {
+      //handle controlPopup item.
+      var itemNode = query("[itemid=controlPopup]", this.dropMenuNode)[0];
+      if (itemNode && this._layerInfo.controlPopupInfo) {
+        if (this._layerInfo.controlPopupInfo.enablePopup) {
+          html.setAttr(itemNode, 'innerHTML', this.nls.removePopup);
+        } else {
+          html.setAttr(itemNode, 'innerHTML', this.nls.enablePopup);
+        }
+      }
     },
 
-    closeDropMenu: function(){
+    selectItem: function(item, evt) {
+      var found = false;
+      for (var i = 1; i < this._deniedItems.length; i++) {
+        if (this._deniedItems[i].key === item.key) {
+          found = true;
+          break;
+        }
+      }
+      if (!found) {
+        this.emit('onMenuClick', item);
+      }
+      evt.stopPropagation(evt);
+    },
+
+    openDropMenu: function() {
+      var inheritedCallBack = lang.hitch(this, this.inherited, arguments);
+      var popupMenuInfoDef = new Deferred();
+      this.loading.show();
+      if (!this.dropMenuNode) {
+        // create popupMenuInfo first.
+        PopupMenuInfo.create(this._layerInfo, this.layerListWidget)
+          .then(lang.hitch(this, function(popupMenuInfo) {
+            // set environment and create.
+            this.items = popupMenuInfo.getDisplayItems();
+            this.popupMenuInfo = popupMenuInfo;
+            this._createDropMenuNode();
+            popupMenuInfoDef.resolve(this.popupMenuInfo);
+          }));
+      } else {
+        popupMenuInfoDef.resolve(this.popupMenuInfo);
+      }
+
+      popupMenuInfoDef.then(lang.hitch(this, function() {
+        // get deniedItems
+        this.popupMenuInfo.getDeniedItems().then(lang.hitch(this, function(deniedItems) {
+          this._deniedItems = this._deniedItemsFromConfig.concat(deniedItems);
+          // deny items
+          this._refresh();
+          // display dropMenuNode.
+          inheritedCallBack(arguments);
+          this.loading.hide();
+        }), lang.hitch(this, function() {
+          this.loading.hide();
+        }));
+      }), lang.hitch(this, function() {
+        this.loading.hide();
+      }));
+    },
+
+    closeDropMenu: function() {
       this.inherited(arguments);
       this.hideTransNode();
     },
@@ -153,7 +226,7 @@ _TemplatedMixin, HorizSlider, HorzRuleLabels, template, domStyle, NlsStrings, Po
         this.transHorizSlider.set("value", 1 - transValue);
       }
       domStyle.set(this.transparencyDiv, "top", this._getTransNodePosition().top);
-      if(isRTL) {
+      if (isRTL) {
         domStyle.set(this.transparencyDiv, "right", this._getTransNodePosition().left);
       } else {
         domStyle.set(this.transparencyDiv, "left", this._getTransNodePosition().left);
@@ -166,22 +239,48 @@ _TemplatedMixin, HorizSlider, HorzRuleLabels, template, domStyle, NlsStrings, Po
     },
 
     _createTransparencyWidget: function() {
-      this.transHorizSlider= new HorizSlider({
+      this.transHorizSlider = new HorizSlider({
         minimum: 0,
         maximum: 1,
         intermediateChanges: true
       }, this.transparencyBody);
 
-      this.own(this.transHorizSlider.on("change", lang.hitch(this, function(newTransValue){
-        var data = {newTransValue: newTransValue};
-        this.emit('onMenuClick', {key: 'transparencyChanged'}, data);
+      this.own(this.transHorizSlider.on("change", lang.hitch(this, function(newTransValue) {
+        var data = {
+          newTransValue: newTransValue
+        };
+        this.emit('onMenuClick', {
+          key: 'transparencyChanged'
+        }, data);
       })));
 
       new HorzRuleLabels({
         container: "bottomDecoration"
       }, this.transparencyRule);
-    }
-    
+    },
 
+    hide: function() {
+      domStyle.set(this.domNode, 'display', 'none');
+    },
+
+    show: function() {
+      domStyle.set(this.domNode, 'display', 'block');
+    },
+
+    hasContentMenu: function() {
+      var hasContentMenu = false;
+      var item;
+      if(this._config.contextMenu) {
+        for (item in this._config.contextMenu) {
+          if(this._config.contextMenu.hasOwnProperty(item) &&
+             (typeof this._config.contextMenu[item] !== 'function')) {
+            hasContentMenu = hasContentMenu || this._config.contextMenu[item];
+          }
+        }
+      } else {
+        hasContentMenu = true;
+      }
+      return hasContentMenu;
+    }
   });
 });

@@ -30,10 +30,7 @@ define([
     'jimu/dijit/DrawBox',
     'jimu/utils',
     'jimu/filterUtils',
-    './Parameters',
-    'esri/tasks/query',
-    'esri/tasks/QueryTask',
-    'esri/tasks/RelationshipQuery',
+    'jimu/dijit/FilterParameters',
     'esri/layers/GraphicsLayer',
     'esri/layers/FeatureLayer',
     'esri/renderers/SimpleRenderer',
@@ -41,13 +38,14 @@ define([
     'esri/symbols/jsonUtils',
     'esri/lang',
     'esri/request',
-    'esri/graphicsUtils',
+    './SingleTask',
     'jimu/dijit/LoadingShelter'
   ],
   function(declare, lang, query, html, array, fx, all, Deferred, _WidgetsInTemplateMixin,
-    TitlePane, BaseWidget, Message, DrawBox, jimuUtils, FilterUtils, Parameters,
-    EsriQuery, QueryTask, RelationshipQuery, GraphicsLayer, FeatureLayer, SimpleRenderer,
-    InfoTemplate, symbolJsonUtils, esriLang, esriRequest, graphicsUtils) {
+    TitlePane, BaseWidget, Message, DrawBox, jimuUtils, FilterUtils, FilterParameters,
+    GraphicsLayer, FeatureLayer, SimpleRenderer, InfoTemplate, symbolJsonUtils, esriLang,
+    esriRequest, SingleTask) {
+
     return declare([BaseWidget, _WidgetsInTemplateMixin], {
       name: 'Query',
       baseClass: 'jimu-widget-query',
@@ -57,32 +55,34 @@ define([
 
       operationalLayers: null,
 
-      //test:
-      //http://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer
-      //http://map.floridadisaster.org/GIS/rest/services/Events/FL511_Feeds/MapServer/4
-      //http://maps.usu.edu/ArcGIS/rest/services/MudLake/MudLakeMonitoringSites/MapServer/0
+      currentSingleTask: null,
 
-      _resetCurrentAttrs: function(){
-        this.currentAttrs = {
-          queryTr:null,
-          config:null,
-          layerInfo:null,//{relationships:[{id,name,relatedTableId,fields}]}
-          askForValues: null,
-          query:{
-            maxRecordCount: 1000,
-            resultLayer: null,//GraphicsLayer or FeatureLayer
-            where:'',
-            nextIndex: 0,
-            objectIds:[]//optional
-          }
-        };
+      _getCurrentAttrs: function(){
+        if(this.currentSingleTask){
+          return this.currentSingleTask.getCurrentAttrs();
+        }
+        return null;
       },
+
+      /*
+      test:
+      http://map.floridadisaster.org/GIS/rest/services/Events/FL511_Feeds/MapServer/4
+      http://maps.usu.edu/ArcGIS/rest/services/MudLake/MudLakeMonitoringSites/MapServer/0
+      http://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer/0
+      1. if queryType is 1, it means that the query supports OrderBy and Pagination.
+         such as: http://services2.arcgis.com/K1Xet5rYYN1SOWtq/ArcGIS/rest/services/
+         USA_hostingFS/FeatureServer/0
+      2. if queryType is 2, it means that the query supports objectIds, but
+         doesn't support OrderBy or Pagination.
+         such as: http://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer
+      3. if queryType is 3, it means that the query doesn't support objectIds.
+      */
 
       postMixInProperties: function(){
         this.inherited(arguments);
         this.operationalLayers = [];
         var strClearResults = this.nls.clearResults;
-        var tip = esriLang.substitute({clearResults:strClearResults},this.nls.operationalTip);
+        var tip = esriLang.substitute({clearResults:strClearResults}, this.nls.operationalTip);
         this.nls.operationalTip = tip;
         if(this.config){
           this._updateConfig();
@@ -124,18 +124,27 @@ define([
         }
       },
 
+      onActive: function(){
+        this.map.setInfoWindowOnClick(false);
+      },
+
+      onDeActive: function(){
+        //deactivate method of DrawBox dijit will call this.map.setInfoWindowOnClick(true) inside
+        this.drawBox.deactivate();
+      },
+
       onClose:function(){
         if(this.tempResultLayer){
           this.tempResultLayer.hide();
         }
         this._hideInfoWindow();
-        this._resetDrawBox();
+        this.drawBox.clear();
         this.inherited(arguments);
       },
 
       destroy:function(){
         this._hideInfoWindow();
-        this._resetDrawBox();
+        this.drawBox.clear();
         this._removeAllResultLayers(true);
         this.inherited(arguments);
       },
@@ -147,6 +156,26 @@ define([
         jimuUtils.combineRadioCheckBoxWithLabel(this.cbxOperational, this.operationalLayerLabel);
       },
 
+      _isServiceSupportsOrderBy: function(layerInfo){
+        var isSupport = false;
+        if(layerInfo.advancedQueryCapabilities){
+          if(layerInfo.advancedQueryCapabilities.supportsOrderBy){
+            isSupport = true;
+          }
+        }
+        return isSupport;
+      },
+
+      _isServiceSupportsPagination: function(layerInfo){
+        var isSupport = false;
+        if(layerInfo.advancedQueryCapabilities){
+          if(layerInfo.advancedQueryCapabilities.supportsPagination){
+            isSupport = true;
+          }
+        }
+        return isSupport;
+      },
+
       _tryLocaleNumber: function(value){
         var result = jimuUtils.localizeNumber(value);
         if(result === null || result === undefined){
@@ -156,7 +185,7 @@ define([
       },
 
       _tryLocaleDate: function(date){
-        var result = jimuUtils.localizeDate(date,{selector:'date'});
+        var result = jimuUtils.localizeDate(date);
         if(!result){
           result = date.toLocaleDateString();
         }
@@ -213,8 +242,8 @@ define([
           if(layer){
             this.map.removeLayer(layer);
           }
-          layers[0]=null;
-          layers.splice(0,1);
+          layers[0] = null;
+          layers.splice(0, 1);
         }
         this.operationalLayers = [];
       },
@@ -225,7 +254,7 @@ define([
 
       _initDrawBox: function(){
         this.drawBox = new DrawBox({
-          types: ['point','polyline','polygon'],
+          types: ['point', 'polyline', 'polygon'],
           map: this.map,
           showClear: true,
           keepOneGraphic: true
@@ -236,20 +265,18 @@ define([
 
       _initSelf:function(){
         var uniqueId = jimuUtils.getRandomString();
-        var cbxName = "Query_"+uniqueId;
+        var cbxName = "Query_" + uniqueId;
         this.cbxUseMapExtent.name = cbxName;
         this.cbxDrawGraphic.name = cbxName;
 
-        this.paramsDijit = new Parameters({
-          nls: this.nls
-        });
+        this.paramsDijit = new FilterParameters();
         this.paramsDijit.placeAt(this.parametersDiv);
         this.paramsDijit.startup();
 
         this.isValidConfig = this._isConfigValid();
         if(!this.isValidConfig){
-          html.setStyle(this.queriesNode,'display','none');
-          html.setStyle(this.invalidConfigNode,{
+          html.setStyle(this.queriesNode, 'display', 'none');
+          html.setStyle(this.invalidConfigNode, {
             display:'block',
             left:0
           });
@@ -266,34 +293,34 @@ define([
           return;
         }
 
-        array.forEach(queries,lang.hitch(this,function(singleConfig,index){
+        array.forEach(queries, lang.hitch(this, function(singleConfig, index){
           var name = singleConfig.name;
-          var strTr = '<tr class="single-query">'+
-          '<td class="first-td"></td>'+
-          '<td class="second-td">'+
-            '<div class="query-name-div"></div>'+
-          '</td>'+
-          '<td class="third-td">'+
-            '<div class="arrow"></div>'+
-          '</td>'+
+          var strTr = '<tr class="single-query jimu-table-row">' +
+          '<td class="first-td"></td>' +
+          '<td class="second-td">' +
+            '<div class="query-name-div"></div>' +
+          '</td>' +
+          '<td class="third-td">' +
+            '<div class="arrow"></div>' +
+          '</td>' +
           '</tr>';
           var tr = html.toDom(strTr);
           var queryNameDiv = query(".query-name-div", tr)[0];
-          queryNameDiv.innerHTML = name;
+          queryNameDiv.innerHTML = jimuUtils.stripHTML(name);
           html.place(tr, this.queriesTbody);
           tr.singleConfig = singleConfig;
-          if(index%2 === 0){
-            html.addClass(tr,'even');
+          if(index % 2 === 0){
+            html.addClass(tr, 'even');
           }
           else{
-            html.addClass(tr,'odd');
+            html.addClass(tr, 'odd');
           }
         }));
       },
 
       _slide:function(dom, startLeft, endLeft){
         html.setStyle(dom, 'display', 'block');
-        html.setStyle(dom, 'left', startLeft+"%");
+        html.setStyle(dom, 'left', startLeft + "%");
         fx.animateProperty({
           node: dom,
           properties:{
@@ -304,7 +331,7 @@ define([
             }
           },
           duration: 500,
-          onEnd: lang.hitch(this,function(){
+          onEnd: lang.hitch(this, function(){
             html.setStyle(dom, 'left', endLeft);
             if(endLeft === 0){
               html.setStyle(dom, 'display', 'block');
@@ -317,60 +344,67 @@ define([
       },
 
       _onQueryListClicked:function(event){
-        var target = event.target||event.srcElement;
-        var tr = jimuUtils.getAncestorDom(target,lang.hitch(this,function(dom){
-          return html.hasClass(dom,'single-query');
-        }),10);
+        var target = event.target || event.srcElement;
+        var tr = jimuUtils.getAncestorDom(target, lang.hitch(this, function(dom){
+          return html.hasClass(dom, 'single-query');
+        }), 10);
         if(!tr){
           return;
         }
 
         var singleConfig = tr.singleConfig;
-        this._resetCurrentAttrs();
-        this.currentAttrs.queryTr = tr;
-        this.currentAttrs.config = lang.clone(singleConfig);
-        this.currentAttrs.layerInfo = this.currentAttrs.queryTr.layerInfo;//may be null
+        var currentAttrs = SingleTask.getCleanCurrentAttrsTemplate();
 
-        var filterInfo = this.currentAttrs.config.filter;
-        var parts = filterInfo.parts;
-        this.currentAttrs.askForValues = array.some(parts, lang.hitch(this, function(item) {
-          if (item.parts) {
-            return array.some(item.parts, lang.hitch(this, function(part) {
-              return part.interactiveObj;
-            }));
-          } else {
-            return item.interactiveObj;
-          }
-        }));
+        this.currentSingleTask = new SingleTask(this.map, currentAttrs);
 
-        if(this.currentAttrs.askForValues){
+        currentAttrs.queryTr = tr;
+        currentAttrs.config = lang.clone(singleConfig);
+        currentAttrs.layerInfo = currentAttrs.queryTr.layerInfo;//may be null
+
+        var filterInfo = currentAttrs.config.filter;
+        var filterUtils = new FilterUtils();
+        currentAttrs.askForValues = filterUtils.isAskForValues(filterInfo);
+
+        if(currentAttrs.askForValues){
           html.setStyle(this.parametersDiv, 'display', 'block');
         }
         else{
           html.setStyle(this.parametersDiv, 'display', 'none');
         }
 
-        query('tr.single-query',this.queriesTbody).removeClass('selected');
-        html.addClass(this.currentAttrs.queryTr,'selected');
+        query('tr.single-query', this.queriesTbody).removeClass('jimu-state-active');
+        html.addClass(currentAttrs.queryTr, 'jimu-state-active');
 
         var callback = lang.hitch(this, function() {
-          this.currentAttrs.layerInfo = this.currentAttrs.queryTr.layerInfo;
+          var layerDefinition = currentAttrs.queryTr.layerInfo;
+          currentAttrs.layerInfo = layerDefinition;
+
+          if(this._isServiceSupportsOrderBy(layerDefinition) &&
+            this._isServiceSupportsPagination(layerDefinition)){
+            currentAttrs.queryType = 1;
+          }else if(this._isSupportObjectIds(layerDefinition)){
+            currentAttrs.queryType = 2;
+          }
+          else{
+            currentAttrs.queryType = 3;
+          }
+
           this._fromQueryListToQueryParams();
         });
 
-        if(this.currentAttrs.queryTr.layerInfo){
+        if(currentAttrs.queryTr.layerInfo){
           callback();
         }
         else{
-          var layerUrl = this.currentAttrs.config.url;
+          var layerUrl = currentAttrs.config.url;
           this.shelter.show();
           this._getLayerInfoWithRelationships(layerUrl).then(lang.hitch(this, function(layerInfo){
             if (!this.domNode) {
               return;
             }
             this.shelter.hide();
-            this.currentAttrs.queryTr.layerInfo = layerInfo;
-            this.currentAttrs.layerInfo = this.currentAttrs.queryTr.layerInfo;
+            currentAttrs.queryTr.layerInfo = layerInfo;
+            currentAttrs.layerInfo = currentAttrs.queryTr.layerInfo;
             callback();
           }), lang.hitch(this, function(err){
             console.error(err);
@@ -493,11 +527,12 @@ define([
       _fromQueryListToQueryParams:function(){
         //reset UI of params page
         this._resetQueryParamsPage();
-        var layerUrl = this.currentAttrs.config.url;
+        var currentAttrs = this._getCurrentAttrs();
+        var layerUrl = currentAttrs.config.url;
         // this.btnResultsBack.innerHTML = '&lt; ' + this.nls.parameters;
-        var partsObj = lang.clone(this.currentAttrs.config.filter);
-        this.paramsDijit.url = layerUrl;
-        this.paramsDijit.build(partsObj, this.currentAttrs.layerInfo);
+        var partsObj = lang.clone(currentAttrs.config.filter);
+        // this.paramsDijit.url = layerUrl;
+        this.paramsDijit.build(layerUrl, currentAttrs.layerInfo, partsObj);
 
         //slide
         var showDom = this.queryParams;
@@ -520,9 +555,9 @@ define([
 
       _onBtnParamsBackClicked:function(){
         this._resetDrawBox();
-        html.setStyle(this.queryList,'display','block');
-        html.setStyle(this.queryParams,'display','block');
-        html.setStyle(this.queryResults,'display','none');
+        html.setStyle(this.queryList, 'display', 'block');
+        html.setStyle(this.queryParams, 'display', 'block');
+        html.setStyle(this.queryResults, 'display', 'none');
         this._slide(this.queryList, -100, 0);
         this._slide(this.queryParams, 0, 100);
       },
@@ -533,32 +568,36 @@ define([
         this._clearResultPage();
         html.setStyle(this.resultsNumberDiv, 'display', 'none');
 
-        var layerInfo = this.currentAttrs.layerInfo;
+        var currentAttrs = this._getCurrentAttrs();
+
+        var layerInfo = currentAttrs.layerInfo;
 
         //query{maxRecordCount,resultLayer,where,nextIndex,objectIds}
         //set query.where
-        if(this.currentAttrs.askForValues){
-          var newExpr = this.paramsDijit.getNewFilterExpr();
+        if(currentAttrs.askForValues){
+          var newExpr = this.paramsDijit.getFilterExpr();
           var validExpr = newExpr && typeof newExpr === 'string';
           if(!validExpr){
             return;
           }
-          this.currentAttrs.query.where = newExpr;
+          currentAttrs.query.where = newExpr;
         }
         else{
-          this.currentAttrs.query.where = this.currentAttrs.config.filter.expr;
+          currentAttrs.query.where = currentAttrs.config.filter.expr;
         }
 
         //set query.maxRecordCount
-        this.currentAttrs.query.maxRecordCount = layerInfo.maxRecordCount || 1000;
+        //maxRecordCount is added at 10.1
+        currentAttrs.query.maxRecordCount = layerInfo.maxRecordCount || 1000;
 
         //set query.nextIndex
-        this.currentAttrs.query.nextIndex = 0;
+        currentAttrs.query.nextIndex = 0;
 
         //set query.objectIds
-        this.currentAttrs.query.objectIds = [];
+        currentAttrs.query.objectIds = [];
 
-        var where = this.currentAttrs.query.where;
+        var where = currentAttrs.query.where;
+
         var geometry = null;
 
         if(this.cbxUseSpatial.checked){
@@ -578,6 +617,9 @@ define([
           }
         }
 
+        //set query.geometry
+        currentAttrs.query.geometry = geometry;
+
         if(this.tempResultLayer){
           this.map.removeLayer(this.tempResultLayer);
         }
@@ -588,17 +630,59 @@ define([
 
         this._resetDrawBox();
 
-        html.setStyle(this.queryList, 'display','none');
+        html.setStyle(this.queryList, 'display', 'none');
         html.setStyle(this.queryParams, 'display', 'block');
         html.setStyle(this.queryResults, 'display', 'block');
         this._slide(this.queryParams, 0, -100);
         this._slide(this.queryResults, 100, 0);
 
-        if(this._isSupportObjectIds(layerInfo)){
-          this._doQuery_SupportObjectIds(where, geometry);
-        }
-        else{
-          this._doQuery_NotSupportObjectIds(where, geometry);
+        // this.currentSingleTask.executeQueryForFirstTime();
+        var resultLayer = currentAttrs.query.resultLayer;
+
+        var callback = lang.hitch(this, function(response) {
+          if (!this.domNode) {
+            return;
+          }
+          this.shelter.hide();
+          var allCount = currentAttrs.query.allCount;
+          this.numSpan.innerHTML = jimuUtils.localizeNumber(allCount);
+          if (allCount > 0) {
+            if (resultLayer instanceof FeatureLayer) {
+              this._addOperationalLayer(resultLayer);
+            }
+            var features = response.features;
+            var relatedResults = response.relatedResults;
+            var relatedTableIds = response.relatedTableIds;
+            this._addResultItems(features, resultLayer, relatedResults, relatedTableIds);
+          }
+        });
+
+        var errorCallback = lang.hitch(this, function(err) {
+          console.error(err);
+          if (!this.domNode) {
+            return;
+          }
+          this.shelter.hide();
+          if (resultLayer) {
+            this.map.removeLayer(resultLayer);
+          }
+          resultLayer = null;
+          this._showQueryErrorMsg();
+        });
+
+        if(currentAttrs.queryType === 1){
+          html.setStyle(this.resultsNumberDiv, 'display', 'block');
+          this.shelter.show();
+          this.currentSingleTask.doQuery_SupportOrderByAndPagination(where, geometry)
+          .then(callback, errorCallback);
+        }else if(currentAttrs.queryType === 2){
+          html.setStyle(this.resultsNumberDiv, 'display', 'block');
+          this.shelter.show();
+          this.currentSingleTask.doQuery_SupportObjectIds(where, geometry)
+          .then(callback, errorCallback);
+        }else{
+          this.currentSingleTask.doQuery_NotSupportObjectIds(where, geometry)
+          .then(callback, errorCallback);
         }
       },
 
@@ -613,31 +697,60 @@ define([
         return currentVersion >= 10.0 || layerInfo.hasOwnProperty('typeIdField');
       },
 
+      _isImageServiceLayer: function(url) {
+        return (url.indexOf('/ImageServer') > -1);
+      },
+
+      _isTable: function(layerDefinition){
+        return layerDefinition.type === "Table";
+      },
+
       _createQueryResultLayer: function(){
         var resultLayer = null;
+        var renderer = null;
 
-        var symbol = symbolJsonUtils.fromJson(this.currentAttrs.config.resultsSymbol);
-        var renderer = new SimpleRenderer(symbol);
+        var currentAttrs = this._getCurrentAttrs();
+
+        if(currentAttrs.config.resultsSymbol){
+          //if the layer is a table, resultsSymbol will be null
+          var symbol = symbolJsonUtils.fromJson(currentAttrs.config.resultsSymbol);
+          renderer = new SimpleRenderer(symbol);
+        }
 
         if (this.cbxOperational.checked) {
           //new a feature layer
-          var layerInfo = lang.clone(this.currentAttrs.layerInfo);
-          var queryName = this._getBestQueryName(this.currentAttrs.config.name||'');
+          var layerInfo = lang.clone(currentAttrs.layerInfo);
+          var queryName = this._getBestQueryName(currentAttrs.config.name || '');
 
           //override layerInfo
           layerInfo.name = queryName;
-          layerInfo.drawingInfo.renderer = renderer.toJson();
+          //ImageServiceLayer doesn't have drawingInfo
+          if(!layerInfo.drawingInfo){
+            layerInfo.drawingInfo = {};
+          }
+          if(renderer){
+            layerInfo.drawingInfo.renderer = renderer.toJson();
+          }
+
           layerInfo.drawingInfo.transparency = 0;
           layerInfo.minScale = 0;
           layerInfo.maxScale = 0;
           layerInfo.effectiveMinScale = 0;
           layerInfo.effectiveMaxScale = 0;
           layerInfo.defaultVisibility = true;
+          delete layerInfo.extent;
+
+          //only keep necessary fields
+          var necessaryFieldNames = this._getOutputFields();
+          layerInfo.fields = array.filter(layerInfo.fields, lang.hitch(this, function(fieldInfo){
+            return necessaryFieldNames.indexOf(fieldInfo.name) >= 0;
+          }));
 
           var featureCollection = {
             layerDefinition: layerInfo,
             featureSet: null
           };
+          //Fornow, we should not add the FeatureLayer into map.
           resultLayer = new FeatureLayer(featureCollection);
         } else {
           //use graphics layer
@@ -645,11 +758,13 @@ define([
           resultLayer = this.tempResultLayer;
         }
 
-        this.currentAttrs.query.resultLayer = resultLayer;
+        currentAttrs.query.resultLayer = resultLayer;
         this.queryResults.resultLayer = resultLayer;
 
         //set renderer
-        resultLayer.setRenderer(renderer);
+        if(renderer){
+          resultLayer.setRenderer(renderer);
+        }
 
         return resultLayer;
       },
@@ -674,185 +789,54 @@ define([
         return finalName;
       },
 
-      /*--------------------query support objectIds------------------------*/
-      _doQuery_SupportObjectIds: function(where, geometry){
-        html.setStyle(this.resultsNumberDiv, 'display', 'block');
-        var resultLayer = this.currentAttrs.query.resultLayer;
-
-        this.shelter.show();
-        var defIDs = this._queryIds(where, geometry);
-        defIDs.then(lang.hitch(this, function(objectIds){
-          if(!this.domNode){
-            return;
-          }
-
-          var hasResults = objectIds && objectIds.length > 0;
-
-          if(hasResults){
-            if(resultLayer instanceof FeatureLayer){
-              this._addOperationalLayer(resultLayer);
-            }
-          }else{
-            this.shelter.hide();
-            return;
-          }
-
-          var allCount = objectIds.length;
-          this.numSpan.innerHTML = jimuUtils.localizeNumber(allCount);
-          this.currentAttrs.query.objectIds = objectIds;
-          this.currentAttrs.query.nextIndex = 0;//reset nextIndex
-          var maxRecordCount = this.currentAttrs.query.maxRecordCount;
-
-          var partialIds = [];
-          if (allCount > maxRecordCount) {
-            partialIds = objectIds.slice(0, maxRecordCount);
-          } else {
-            partialIds = objectIds;
-          }
-
-          //do query by objectIds
-          var promises = [];
-          var def = this._queryByObjectIds(partialIds, true);
-          promises.push(def);
-          var relatedDefs = this._queryRelatedFeaturesById(partialIds);
-          array.forEach(relatedDefs,function(relatedDef){
-            promises.push(relatedDef.promise);
-          });
-
-          var relatedTableIds = array.map(relatedDefs,function(relatedDef){
-            return relatedDef.relationshipId;
-          });
-
-          all(promises).then(lang.hitch(this,function(results){
-            if (!this.domNode) {
-              return;
-            }
-            // this.currentAttrs.query.nextIndex += partialIds.length;
-            this.shelter.hide();
-            var features = results[0].features;
-            this.currentAttrs.query.maxRecordCount= features.length;
-            this.currentAttrs.query.nextIndex += features.length;
-
-            this._addResultItems(features, resultLayer, results.slice(1), relatedTableIds);
-            this._zoomToLayer(resultLayer);
-          }), lang.hitch(this, function(err){
-            console.error(err);
-            if (!this.domNode) {
-              return;
-            }
-            this.shelter.hide();
-            if(resultLayer){
-              this.map.removeLayer(resultLayer);
-            }
-            resultLayer = null;
-            this._showQueryErrorMsg();
-          }));
-        }), lang.hitch(this, function(err){
-          console.error(err);
-          if(!this.domNode){
-            return;
-          }
-          this.shelter.hide();
-          if(resultLayer){
-            this.map.removeLayer(resultLayer);
-          }
-          resultLayer = null;
-          this._showQueryErrorMsg();
-        }));
-      },
-
       _onResultsScroll:function(){
         if(!jimuUtils.isScrollToBottom(this.resultsContainer)){
           return;
         }
 
-        var layerInfo = this.currentAttrs.layerInfo;
+        //this.currentSingleTask.executeQueryWhenScrollToBottom();
+        var currentAttrs = this._getCurrentAttrs();
 
-        if(!this._isSupportObjectIds(layerInfo)){
-          return;
-        }
+        var resultLayer = currentAttrs.query.resultLayer;
 
-        var resultLayer = this.currentAttrs.query.resultLayer;
-        var maxRecordCount = this.currentAttrs.query.maxRecordCount;
-        var allObjectIds = this.currentAttrs.query.objectIds;
-        var nextIndex = this.currentAttrs.query.nextIndex;
-        if(nextIndex >= allObjectIds.length){
-          return;
-        }
-
-        var countLeft = allObjectIds.length - nextIndex;
-        var queryNum = Math.min(countLeft, maxRecordCount);
-        var partialIds = allObjectIds.slice(nextIndex, nextIndex + queryNum);
-        if(partialIds.length === 0){
-          return;
-        }
-
-        this.shelter.show();
-        //do query by objectIds
-        var promises = [];
-        var def = this._queryByObjectIds(partialIds, true);
-        promises.push(def);
-        var relatedDefs = this._queryRelatedFeaturesById(partialIds);
-        array.forEach(relatedDefs,function(relatedDef){
-          promises.push(relatedDef.promise);
-        });
-
-        var relatedTableIds = array.map(relatedDefs,function(relatedDef){
-          return relatedDef.relationshipId;
-        });
-
-        all(promises).then(lang.hitch(this,function(results){
+        var callback = lang.hitch(this, function(response) {
           if (!this.domNode) {
-            return;
-          }
-
-          this.shelter.hide();
-          var features = results[0].features;
-          this.currentAttrs.query.nextIndex += features.length;
-          this._addResultItems(features, resultLayer, results.slice(1), relatedTableIds);
-        }), lang.hitch(this, function(err){
-          console.error(err);
-          if (!this.domNode) {
-            return;
-          }
-          this._showQueryErrorMsg();
-          this.shelter.hide();
-        }));
-      },
-
-      /*--------------------query doesn't support objectIds-------------------------*/
-      _doQuery_NotSupportObjectIds: function(where, geometry){
-        html.setStyle(this.resultsNumberDiv, 'display', 'none');
-        var resultLayer = this.currentAttrs.query.resultLayer;
-
-        this.shelter.show();
-        this._query(where, geometry).then(lang.hitch(this, function(response){
-          if(!this.domNode){
             return;
           }
           this.shelter.hide();
           var features = response.features;
-          if(features.length > 0){
-            if(resultLayer instanceof FeatureLayer){
-              this._addOperationalLayer(resultLayer);
-            }
-            this._addResultItems(features, resultLayer);
-            this._zoomToLayer(resultLayer);
-          }
-        }), lang.hitch(this, function(err){
+          var relatedResults = response.relatedResults;
+          var relatedTableIds = response.relatedTableIds;
+          this._addResultItems(features, resultLayer, relatedResults, relatedTableIds);
+        });
+
+        var errorCallback = lang.hitch(this, function(err) {
           console.error(err);
-          if(!this.domNode){
+          if (!this.domNode) {
             return;
           }
-          this.shelter.hide();
-          if(resultLayer){
-            this.map.removeLayer(resultLayer);
-          }
-          resultLayer = null;
           this._showQueryErrorMsg();
-        }));
-      },
+          this.shelter.hide();
+        });
 
+        var nextIndex = currentAttrs.query.nextIndex;
+
+        if(currentAttrs.queryType === 1){
+          var allCount = currentAttrs.query.allCount;
+          if(nextIndex >= allCount){
+            return;
+          }
+
+          this.currentSingleTask.onResultsScroll_SupportOrderByAndPagination()
+          .then(callback, errorCallback);
+        }else if(currentAttrs.queryType === 2){
+          var allObjectIds = currentAttrs.query.objectIds;
+          if(nextIndex >= allObjectIds.length){
+            return;
+          }
+          this.currentSingleTask.onResultsScroll_SupportObjectIds().then(callback, errorCallback);
+        }
+      },
 
       /*-------------------------common functions----------------------------------*/
       _clearResultPage: function(){
@@ -864,7 +848,7 @@ define([
 
       _unSelectResultTr: function(){
         if(this.queryResults.resultTr){
-          html.removeClass(this.queryResults.resultTr,'selected');
+          html.removeClass(this.queryResults.resultTr, 'jimu-state-active');
         }
         this.queryResults.resultTr = null;
       },
@@ -873,87 +857,66 @@ define([
         this._unSelectResultTr();
         this.queryResults.resultTr = tr;
         if(this.queryResults.resultTr){
-          html.addClass(this.queryResults.resultTr, 'selected');
+          html.addClass(this.queryResults.resultTr, 'jimu-state-active');
         }
       },
 
       _zoomToLayer: function(gl){
-        try{
-          var ext = graphicsUtils.graphicsExtent(gl.graphics);
+        var currentAttrs = this._getCurrentAttrs();
+        if(!this._isTable(currentAttrs.layerInfo)){
+          var ext = jimuUtils.graphicsExtent(gl.graphics, 1.4);
           if(ext){
-            ext = ext.expand(1.4);
             this.map.setExtent(ext);
           }
         }
-        catch(e){
-          console.error(e);
-        }
+      },
+
+      _getObjectIdField: function(){
+        var currentAttrs = this._getCurrentAttrs();
+        return currentAttrs.config.objectIdField;
       },
 
       _getOutputFields: function(){
-        var objectIdField = this.currentAttrs.config.objectIdField;
-        var fields = this.currentAttrs.config.popup.fields;
-        var outFields = array.map(fields, lang.hitch(this,function(fieldInfo){
+        var currentAttrs = this._getCurrentAttrs();
+        var fields = currentAttrs.config.popup.fields;
+        var outFields = array.map(fields, lang.hitch(this, function(fieldInfo){
           return fieldInfo.name;
         }));
+        //we need to add objectIdField into outFields because relationship query
+        //needs objectId infomation
+        var objectIdField = currentAttrs.config.objectIdField;
         if(array.indexOf(outFields, objectIdField) < 0){
           outFields.push(objectIdField);
         }
+        //"Name:${CITY_NAME}, Population: ${POP}"
+        var title = currentAttrs.config.popup.title;
+        //["${CITY_NAME}", "${POP}"]
+        var matches = title.match(/\$\{\w+\}/g);
+        if(matches && matches.length > 0){
+          array.forEach(matches, lang.hitch(this, function(match){
+            //"${CITY_NAME}"
+            var fieldName = match.replace('${', '').replace('}', '');
+            if(outFields.indexOf(fieldName) < 0){
+              outFields.push(fieldName);
+            }
+          }));
+        }
+
+        var allFieldInfos = currentAttrs.layerInfo.fields;
+        var allFieldNames = array.map(allFieldInfos, lang.hitch(this, function(fieldInfo){
+          return fieldInfo.name;
+        }));
+        //make sure every fieldName of outFields exists in fieldInfo
+        outFields = array.filter(outFields, lang.hitch(this, function(fieldName){
+          return allFieldNames.indexOf(fieldName) >= 0;
+        }));
+
         return outFields;
       },
 
-      _queryIds: function(where, /*optional*/ geometry){
-        var queryParams = new EsriQuery();
-        queryParams.where = where;
-        if(geometry){
-          queryParams.geometry = geometry;
-        }
-        queryParams.returnGeometry = false;
-        queryParams.outSpatialReference = this.map.spatialReference;
-        var queryTask = new QueryTask(this.currentAttrs.config.url);
-        return queryTask.executeForIds(queryParams);
-      },
-
-      _queryByObjectIds: function(objectIds, returnGeometry){
-        var queryParams = new EsriQuery();
-        queryParams.returnGeometry = !!returnGeometry;
-        queryParams.outSpatialReference = this.map.spatialReference;
-        queryParams.outFields = this._getOutputFields();
-        queryParams.objectIds = objectIds;
-        var queryTask = new QueryTask(this.currentAttrs.config.url);
-        return queryTask.execute(queryParams);
-      },
-
       _getCurrentRelationships: function(){
-        return this.currentAttrs.queryTr.layerInfo.relationships||[];
-      },
-
-      _queryRelatedFeaturesById: function(objectIds){
-        var promises = [];
-        var relationships = this._getCurrentRelationships();
-        if(relationships && relationships.length > 0){
-          var queryTask = new QueryTask(this.currentAttrs.config.url);
-
-          array.forEach(relationships,lang.hitch(this,function(relationship){
-            var relationParam = new RelationshipQuery();
-            relationParam.objectIds = objectIds;
-            relationParam.relationshipId = relationship.id;
-
-            var outFields = array.map(relationship.fields, function(fieldInfo){
-              return fieldInfo.name;
-            });
-
-            relationParam.outFields = outFields;
-            relationParam.returnGeometry = false;
-
-            var defered = queryTask.executeRelationshipQuery(relationParam);
-            promises.push({
-              relationshipId: relationship.id,
-              promise: defered
-            });
-          }));
-        }
-        return promises;
+        var currentAttrs = this._getCurrentAttrs();
+        return currentAttrs.queryTr.layerInfo.relationships || [];
       },
 
       _findRelationshipInfo: function(relationshipId){
@@ -989,67 +952,59 @@ define([
         return fields;
       },
 
-      _query: function(where, /*optional*/ geometry){
-        var queryParams = new EsriQuery();
-        queryParams.where = where;
-        if(geometry){
-          queryParams.geometry = geometry;
-        }
-        queryParams.outSpatialReference = this.map.spatialReference;
-        queryParams.returnGeometry = true;
-        queryParams.outFields = this._getOutputFields();
-        var queryTask = new QueryTask(this.currentAttrs.config.url);
-        return queryTask.execute(queryParams);
+      _getPopupFieldsWithFieldInfos: function(){
+        var currentAttrs = this._getCurrentAttrs();
+        var result = [];
+        var allFieldInfos = lang.clone(currentAttrs.layerInfo.fields);
+        var fieldInfosHash = {};
+        array.forEach(allFieldInfos, lang.hitch(this, function(fieldInfo){
+          fieldInfosHash[fieldInfo.name] = fieldInfo;
+        }));
+        var popupFields = lang.clone(currentAttrs.config.popup.fields);
+        array.forEach(popupFields, lang.hitch(this, function(popupFieldInfo){
+          //popupFieldInfo:{name,alias,specialType}
+          var fieldName = popupFieldInfo.name;
+          var fieldInfo = fieldInfosHash[fieldName];
+          if(fieldInfo){
+            //use popupFieldInfo.alias override fieldInfo.alias
+            //add popupFieldInfo.specialType into fieldInfo.specialType
+            fieldInfo = lang.mixin(fieldInfo, popupFieldInfo);
+            result.push(fieldInfo);
+          }
+        }));
+        return result;
       },
 
       _addResultItems: function(features, resultLayer, relatedResults, relatedTableIds){
         //var featuresCount = features.length;
+        var currentAttrs = this._getCurrentAttrs();
+        var sym = null;
 
-        var sym = symbolJsonUtils.fromJson(this.currentAttrs.config.resultsSymbol);
-        var popup = this.currentAttrs.config.popup;
-        /*var fieldNames = array.map(popup.fields,lang.hitch(this,function(fieldInfo){
-          return fieldInfo.name;
-        }));*/
+        if(currentAttrs.config.resultsSymbol){
+          //if the layer is a table, resultsSymbol will be null
+          sym = symbolJsonUtils.fromJson(currentAttrs.config.resultsSymbol);
+        }
 
-        var fieldInfosInAttrContent = array.filter(popup.fields,lang.hitch(this,function(fieldInfo){
-          return fieldInfo.showInInfoWindow;
-        }));
+        var allFieldInfos = lang.clone(currentAttrs.layerInfo.fields);
+
+        var popupFields = this._getPopupFieldsWithFieldInfos();
 
         array.forEach(features, lang.hitch(this, function(feature, i){
           var trClass = '';
-          if(i%2 === 0){
+          if(i % 2 === 0){
             trClass = 'even';
           }
           else{
             trClass = 'odd';
           }
 
-          //process attributes
-          var attributes = feature.attributes;
-          array.forEach(popup.fields, lang.hitch(this, function(fieldInfo){
-            var fieldName = fieldInfo.name;
-            if(attributes.hasOwnProperty(fieldName)){
-              var fieldValue = attributes[fieldName];
-              if(fieldInfo.type === 'esriFieldTypeDate'){
-                if(fieldValue){
-                  var date = new Date(parseInt(fieldValue, 10));
-                  fieldValue = this._tryLocaleDate(date);
-                  attributes[fieldName] = fieldValue;
-                }
-              }
-              if(fieldValue === null){
-                attributes[fieldName] = this.nls.noValue;
-              }
-            }
-          }));
-
           //relationship attributes
           var relatedFeatures = [];
           if(relatedResults && relatedResults.length > 0){
-            var objectIdField = this.currentAttrs.config.objectIdField;
+            var objectIdField = currentAttrs.config.objectIdField;
             var objectId = feature.attributes[objectIdField];
 
-            array.forEach(relatedResults,lang.hitch(this,function(relatedResult,idx){
+            array.forEach(relatedResults, lang.hitch(this, function(relatedResult, idx){
               if(relatedResult[objectId]){
                 var relatedName = this._findRelationshipName(relatedTableIds[idx]);
                 var features = relatedResult[objectId].features;
@@ -1064,24 +1019,31 @@ define([
           }
 
           if(feature.geometry){
-            feature.setSymbol(sym);
-            resultLayer.add(feature);
+            if(sym){
+              feature.setSymbol(sym);
+            }
           }
+
+          resultLayer.add(feature);
 
           var options = {
             feature: feature,
-            titleTemplate: popup.title,
-            fieldInfosInAttrContent: fieldInfosInAttrContent,
+            allFieldInfos: allFieldInfos,
+            titleTemplate: currentAttrs.config.popup.title,
+            fieldInfosInAttrContent: popupFields,
             trClass: trClass,
             relatedFeatures: relatedFeatures
           };
 
           this._createQueryResultItem(options);
         }));
+
+        this._zoomToLayer(resultLayer);
       },
 
       _createQueryResultItem:function(options){
         var feature = options.feature;
+        var allFieldInfos = options.allFieldInfos;
         var titleTemplate = options.titleTemplate;
         var fieldInfosInAttrContent = options.fieldInfosInAttrContent;
         var trClass = options.trClass;
@@ -1092,17 +1054,22 @@ define([
           return;
         }
 
-        var strItem = '<tr class="query-result-item" cellpadding="0" cellspacing="0">' +
-        '<td><span class="result-item-title"></span>'+
-        '<table class="feature-attributes" valign="top">'+
+        var strItem = '<tr class="jimu-table-row jimu-table-row-separator query-result-item" ' +
+        ' cellpadding="0" cellspacing="0">' +
+        '<td><span class="result-item-title"></span>' +
+        '<table class="feature-attributes" valign="top">' +
+        '<colgroup><col width="40%" /><col width="60%" /></colgroup>' +
         '<tbody></tbody></table></td></tr>';
         var trItem = html.toDom(strItem);
         html.addClass(trItem, trClass);
         html.place(trItem, this.resultsTbody);
         trItem.feature = feature;
-        var spanTitle = query("span.result-item-title",trItem)[0];
-        var tbody = query("tbody",trItem)[0];
-        var title = esriLang.substitute(attributes, titleTemplate);
+        var spanTitle = query("span.result-item-title", trItem)[0];
+        var tbody = query("tbody", trItem)[0];
+        //We should not set value to attributes[fieldName] because it will influence the display
+        //value in Attribute widget.
+        var displayAttributes = jimuUtils.getBestDisplayAttributes(attributes, allFieldInfos);
+        var title = esriLang.substitute(displayAttributes, titleTemplate);
         if(!title){
           title = this.nls.noValue;
         }
@@ -1113,45 +1080,35 @@ define([
         array.forEach(fieldInfosInAttrContent, lang.hitch(this, function(fieldInfo){
           var fieldName = fieldInfo.name;
           var fieldAlias = fieldInfo.alias || fieldName;
-          var fieldValue = attributes[fieldName];
+          var displayValue = displayAttributes[fieldName];
 
-          if(typeof fieldValue === 'number'){
-            if(fieldInfo.domain && fieldInfo.domain.type === 'codedValue'){
-              array.some(fieldInfo.domain.codedValues, function(codedValue){
-                if(codedValue.code === fieldValue){
-                  fieldValue = codedValue.name;
-                  return true;
-                }
-              });
-            }else{
-              fieldValue = this._tryLocaleNumber(fieldValue);
-            }
-          }
-
-          var fieldValueInWidget = fieldValue;
-          var fieldValueInPopup = fieldValue;
+          var fieldValueInWidget = displayValue;
+          var fieldValueInPopup = displayValue;
           var specialType = fieldInfo.specialType;
           if(specialType === 'image'){
-            if(fieldValue && typeof fieldValue === 'string'){
-              fieldValueInWidget = '<a href="'+fieldValue+'" target="_blank">'+fieldValue+'</a>';
-              fieldValueInPopup = '<img src="'+fieldValue+'" />';
+            if(displayValue && typeof displayValue === 'string'){
+              fieldValueInWidget = '<a href="' + displayValue +
+              '" target="_blank">' + displayValue + '</a>';
+              fieldValueInPopup = '<img src="' + displayValue + '" />';
             }
           }
           else if(specialType === 'link'){
-            if(fieldValue && typeof fieldValue === 'string'){
-              fieldValueInWidget = '<a href="'+fieldValue+'" target="_blank">'+fieldValue+'</a>';
+            if(displayValue && typeof displayValue === 'string'){
+              fieldValueInWidget = '<a href="' + displayValue +
+              '" target="_blank">' + displayValue + '</a>';
               fieldValueInPopup = fieldValueInWidget;
             }
+          }
+
+          if (displayValue === null || displayValue === undefined) {
+            fieldValueInWidget = fieldValueInPopup = "";
           }
 
           var strFieldTr = '<tr><td class="attr-name">' + fieldAlias +
           ':</td><td class="attr-value">' + fieldValueInWidget + '</td></tr>';
           var fieldTr = html.toDom(strFieldTr);
           html.place(fieldTr, tbody);
-          /*var rowStr = fieldAlias+": "+fieldValueInPopup;
-          if(i !== fieldInfosInAttrContent.length-1){
-            rowStr+='<br/>';
-          }*/
+
           var rowStr = '<tr valign="top">' +
             '<td class="attr-name">' + fieldAlias + '</td>' +
             '<td class="attr-value">' + fieldValueInPopup + '</td>' +
@@ -1160,9 +1117,11 @@ define([
         }));
 
         //related features
-        array.forEach(relatedFeatures,lang.hitch(this,function(relatedFeature){
+        array.forEach(relatedFeatures, lang.hitch(this, function(relatedFeature){
           var trNode = html.create('tr');
-          var tdNode = html.create('td',{colspan: 2},trNode);
+          var tdNode = html.create('td', {
+            colspan: 2
+          }, trNode);
           var relationContainter = html.create('div');
           var titlePane = new TitlePane({
             title: this.nls.attributesFromRelationship + ': ' + relatedFeature.name,
@@ -1172,26 +1131,26 @@ define([
           });
           titlePane.placeAt(tdNode);
           html.place(trNode, tbody);
-          /*var rowStr = '<br/>' + this.nls.attributesFromRelationship + ": " +
-              relatedFeature.name + '<br/>';*/
+
           var rowStr = '<tr valign="top">' +
             '<td class="attr-name" colspan="2">' + this.nls.attributesFromRelationship + ": " +
-              relatedFeature.name +'<td>' +
+              relatedFeature.name + '<td>' +
           '</tr>';
           rowsStr += rowStr;
 
           var relatedFields = this._findRelationshipFields(relatedFeature.tableId);
 
-          array.forEach(relatedFeature.features, lang.hitch(this, function(feature,i){
-            var strFieldTr = '<span>' + (i+1) + '</span><br/>';
+          array.forEach(relatedFeature.features, lang.hitch(this, function(feature, i){
+            var strFieldTr = '<span>' + (i + 1) + '</span><br/>';
             var fieldTr = html.toDom(strFieldTr);
             html.place(fieldTr, relationContainter);
-            //var rowStr = (i+1) + '<br/>';
-            var rowStr = '<tr valign="top"><td class="attr-name" colspan="2">'+(i+1)+'</td><tr>';
+
+            var rowStr = '<tr valign="top"><td class="attr-name" colspan="2">' +
+            (i + 1) + '</td><tr>';
             rowsStr += rowStr;
 
             if(relatedFields){
-              array.forEach(relatedFields, lang.hitch(this,function(relatedFieldInfo){
+              array.forEach(relatedFields, lang.hitch(this, function(relatedFieldInfo){
                 var fieldValue = feature.attributes[relatedFieldInfo.name];
 
                 if(relatedFieldInfo.type === 'esriFieldTypeDate'){
@@ -1212,18 +1171,26 @@ define([
                   }
                 }
 
-                var strFieldTr = '<span>' + (relatedFieldInfo.alias || relatedFieldInfo.name) +
-                ' : ' + fieldValue + '</span><br/>';
-                var fieldTr = html.toDom(strFieldTr);
-                html.place(fieldTr, relationContainter);
-                //var rowStr = (relatedFieldInfo.alias || relatedFieldInfo.name) + " : " +
-                //    fieldValue + '<br/>';
+
+
+                // var strFieldTr = '<span>' + (relatedFieldInfo.alias || relatedFieldInfo.name) +
+                // ' : ' + fieldValue + '</span><br/>';
+                // var fieldTr = html.toDom(strFieldTr);
+                // html.place(fieldTr, relationContainter);
+
                 var relatedAlias = relatedFieldInfo.alias || relatedFieldInfo.name;
-                var rowStr = '<tr valign="top">'+
-                    '<td class="attr-name">' + relatedAlias + '</td>'+
-                    '<td class="attr-value">' + fieldValue + '</td>'+
+                var rowStr = '<tr valign="top">' +
+                    '<td class="attr-name">' + relatedAlias + '</td>' +
+                    '<td class="attr-value">' + fieldValue + '</td>' +
                   '</tr>';
                 rowsStr += rowStr;
+
+                var strFieldRow = '<div class="related-row">' +
+                    '<div class="related-name jimu-float-leading">' + relatedAlias + ':</div>' +
+                    '<div class="related-value jimu-float-leading">' + fieldValue + '</div>' +
+                '</div>';
+                var fieldRowDiv = html.toDom(strFieldRow);
+                html.place(fieldRowDiv, relationContainter);
               }));
             }
           }));
@@ -1233,12 +1200,14 @@ define([
 
         if(rowsStr){
           infoTemplateContent += '<div class="hzLine"></div>';
-          infoTemplateContent +='<table class="query-popup-table" cellpadding="0" cellspacing="0">'+
+          infoTemplateContent += '<table class="query-popup-table" ' +
+          ' cellpadding="0" cellspacing="0">' +
+          '<colgroup><col width="40%" /><col width="60%" /></colgroup>' +
           '<tbody>' + rowsStr + '</tbody></table>';
         }
 
         infoTemplateContent = '<div class="query-popup">' + infoTemplateContent + '</div>';
-        
+
         trItem.infoTemplateContent = infoTemplateContent;
         var infoTemplate = new InfoTemplate();
         //if title is empty, popup header will disappear
@@ -1252,13 +1221,13 @@ define([
       },
 
       _onResultsTableClicked: function(event){
-        var target = event.target||event.srcElement;
-        if(!html.isDescendant(target,this.resultsTable)){
+        var target = event.target || event.srcElement;
+        if(!html.isDescendant(target, this.resultsTable)){
           return;
         }
-        var tr = jimuUtils.getAncestorDom(target, lang.hitch(this,function(dom){
-          return html.hasClass(dom,'query-result-item');
-        }),10);
+        var tr = jimuUtils.getAncestorDom(target, lang.hitch(this, function(dom){
+          return html.hasClass(dom, 'query-result-item');
+        }), 10);
         if(!tr){
           return;
         }
@@ -1269,13 +1238,13 @@ define([
         //var featureAttrTable = query(".feature-attributes",tr)[0];
         //var attrTable = lang.clone(featureAttrTable);
 
-        html.addClass(tr,'selected');
+        html.addClass(tr, 'jimu-state-active');
         var feature = tr.feature;
         var geometry = feature.geometry;
         if(geometry){
           var infoContent = tr.infoTemplateContent;
           var geoType = geometry.type;
-          var centerPoint,extent;
+          var centerPoint, extent;
           var def = null;
 
           if(geoType === 'point' || geoType === 'multipoint'){
@@ -1285,11 +1254,19 @@ define([
               var currentLevel = this.map.getLevel();
               var level2 = Math.floor(maxLevel * 2 / 3);
               var zoomLevel = Math.max(currentLevel, level2);
-              this.map.setLevel(zoomLevel).then(lang.hitch(this, function(){
-                this.map.centerAt(centerPoint).then(lang.hitch(this, function(){
+              if(this.map.getMaxZoom() >= 0){
+                //use tiled layer as base map
+                this.map.setLevel(zoomLevel).then(lang.hitch(this, function(){
+                  this.map.centerAt(centerPoint).then(lang.hitch(this, function(){
+                    def.resolve();
+                  }));
+                }));
+              }else{
+                //use dynamic layer
+                this.map.centerAt(centerPoint).then(lang.hitch(this, function() {
                   def.resolve();
                 }));
-              }));
+              }
             });
 
             if(geoType === 'point'){
@@ -1359,13 +1336,13 @@ define([
       },
 
       _onBtnResultsBackClicked: function(){
-        var showDom,hideDom;
+        var showDom, hideDom;
 
         showDom = this.queryParams;
         hideDom = this.queryList;
 
-        html.setStyle(hideDom,'display','none');
-        html.setStyle(showDom,{
+        html.setStyle(hideDom, 'display', 'none');
+        html.setStyle(showDom, {
           display:'block',
           left:'-100%'
         });

@@ -1,67 +1,177 @@
-.jimu-widget-wireless div:first-child {
-    color: red;
+
+.solutions-widget-geolookup .widgetDescription {
+    text-align: left;
+    color: #66696C;
+    font-family: proxima-nova;
+    font-style: normal;
+    margin: 0px 0px 20px 0px;
+    font-size: 14px;
 }
 
-.widgetDescription {
-    text-align: center;
-    color: black;
-    font-family: Century Gothic;
-    margin: 15px 0 15px 0;
-    font-size: 1.4em;
-}
-
-.uploadBox {
+.solutions-widget-geolookup .uploadBox {
     margin: 30px 0 15px 0;
     float: left;
 }
 
-.hide {
+.solutions-widget-geolookup .hide {
     display: none;
 }
 
+/*
 input[type="file"] {
     position: fixed;
     top: -1000px;
 }
+*/
+
+.solutions-widget-geolookup .fileInputNonHTML5 {
+    position: fixed;
+}
+
+.solutions-widget-geolookup .fileInputHTML5 {
+    position: fixed;
+    width: 0px;
+    height: 0px;
+}
+
+.solutions-widget-geolookup .divCheckPlot {
+    text-align: left;
+    color: #686868;
+    font-family: proxima-nova;
+    font-style: normal;
+    font-size: 12px;
+    padding-bottom: 10px;
+}
+
 
 /*Results Table*/
 .solutions-widget-geolookup .widgets-results-table {
     margin: 1px;
-    
+
 }
 
- .controls {
+
+.solutions-widget-geolookup .tblActionContainer {
+	width: 100%;
+    padding-bottom: 30px;
+}
+
+.solutions-widget-geolookup .tdCSVButton {
+	text-align: left;
+	width: 100%;
+}
+
+.solutions-widget-geolookup .tdDownloadButton {
+	text-align: right;
+	width: 25%;
+}
+
+.solutions-widget-geolookup .tdClearButton {
+	text-align: right;
+	width: 25%;
+}
+
+.solutions-widget-geolookup .clear-CSVresult {
+    text-align: right;
+    color: #51b1fe;
+    font-family: proxima-nova;
+    font-style: normal;
+    margin: 0px 0px 0px 0px;
+    font-size: 14px;
+    cursor:pointer;
+}
+
+.solutions-widget-geolookup .download-CSVresult {
+    text-align: left;
+    color: #51b1fe;
+    font-family: proxima-nova;
+    font-style: normal;
+    margin: 0px 10px 0px 0px;
+    font-size: 14px;
+    cursor:pointer;
+}
+
+
+ .solutions-widget-geolookup .controls {
         width: 100%;
-        height: 60px;
-        line-height: 40px;
+        height: 42px;
         vertical-align: middle;
-        padding-top: 10px;
-        padding-bottom: 10px;
-        margin-bottom: 10px;
-        margin-top: 10px;
-        font-size:1.1em;
+        padding-top: 0px;
+        padding-bottom: 0px;
+        margin-bottom: 0px;
+        margin-top: 0px;
+        font-size:12px;
     }
 
 
 
-.status {
+.solutions-widget-geolookup .status {
     background-repeat: no-repeat;
-    background-position: center;
+    background-position: left;
     width: 20px;
-    
+
 }
 
-.processing {
-    content: url("./images/processing.png");
+.solutions-widget-geolookup .processing {
+    content: url("./images/processing.gif");
 }
 
-.complete {
+.solutions-widget-geolookup .processing:before {
+    content: url("./images/processing.gif");
+}
+
+.solutions-widget-geolookup .tdProcessing {
+	width: 30px;
+	text-align: left;
+}
+
+.solutions-widget-geolookup .complete {
     content: url("./images/complete.png");
 }
 
-.result-text {
-    margin-left:10px;
-    font-family: Century Gothic;
+.solutions-widget-geolookup .complete:before {
+    content: url("./images/complete.png");
 }
 
+.solutions-widget-geolookup .error {
+    content: url("./images/x_symbol_red.png");
+}
+
+.solutions-widget-geolookup .error:before {
+    content: url("./images/x_symbol_red.png");
+}
+
+.solutions-widget-geolookup .bypass {
+    content: url("");
+}
+
+.solutions-widget-geolookup .results-header {
+    color: #66696C;
+    font-family: proxima-nova;
+    font-style: Semibold;
+    font-size: 14px;
+    padding-bottom: 0px;
+}
+
+.solutions-widget-geolookup .result-text {
+    color: #686868;
+    font-family: proxima-nova;
+    font-style: normal;
+    font-size: 12px;
+}
+
+.solutions-widget-geolookup .errorLink {
+	color: #0000FF;
+	cursor:pointer;
+    font-family: proxima-nova;
+    font-style: normal;
+    font-size: 12px;
+}
+
+.solutions-widget-geolookup .errorList {
+    color: #686868;
+    font-family: proxima-nova;
+    font-style: normal;
+    font-size: 12px;
+}
 

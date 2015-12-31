@@ -39,6 +39,10 @@
     squareFeet: "ตารางนิ้ว",
     squareYards: "ตารางหลา",
     undo: "ยกเลิก",
-    redo: "ทำอีกครั้ง"
+    redo: "ทำอีกครั้ง",
+    results: "ผลลัพธ์",
+    points: "จุด",
+    lines: "เส้นทาง",
+    areas: "พื้นที่"
   })
 );

@@ -16,6 +16,7 @@
     editpageAlias: "Alias",
     editpageVisible: "Synlig",
     editpageEditable: "Redigerbar",
-    noLayers: "Inga redigerbara geoobjektslager är tillgängliga"
+    noLayers: "Inga redigerbara geoobjektslager är tillgängliga",
+    configureFields: "Konfigurera lagerfält"
   })
 );

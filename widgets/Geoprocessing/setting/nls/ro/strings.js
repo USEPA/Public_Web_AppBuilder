@@ -31,6 +31,22 @@
     setTask: "Setare",
     setTaskTitle: "Setare operaţie GP",
     enablePopup: "Activare pop-up",
-    unSupportGeometryType: "Nu se poate seta autorul reproducerii deoarece tipul de geometrie este necunoscut."
+    unSupportGeometryType: "Nu se poate seta autorul reproducerii deoarece tipul de geometrie este necunoscut.",
+    useUrlForGPInput: "URL",
+    useUploadForGPInput: "Încărcare fişier",
+    selectFileToUpload: "Selectare fişier...",
+    upload: "Încărcare",
+    rasterFormat: "Format date raster",
+    noFileSelected: "Niciun fişier selectat!",
+    uploadSuccess:"Fişier încărcat cu succes!",
+    showLayerContent: "Afişare conţinut strat tematic",
+    Feet: "Ft",
+    Yards: "Iarzi",
+    Miles: "Mile",
+    NauticalMiles: "Mile marine",
+    Meter: "Metri",
+    Kilometers: "Kilometri",
+    urlPlaceholder: "URL set de obiecte spaţiale",
+    allowToExport: "Permitere exportare rezultate"
   })
 );

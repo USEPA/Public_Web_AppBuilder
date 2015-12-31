@@ -21,11 +21,11 @@
     ok: "OK",
     cancel: "Abbrechen",
     result: "Speichern erfolgreich",
-    spError: "Alle Grundkarten, die der Galerie hinzugefügt wurden, müssen dieselben Raumbezüge aufweisen.",
+    spError: "Alle Grundkarten, die der Galerie hinzugefügt wurden, müssen denselben Raumbezug aufweisen.",
     invalidTitle1:"Die Grundkarte '",
     invalidTitle2:"' ist bereits vorhanden. Wählen Sie einen anderen Titel aus.",
     invalidBasemapUrl1: "Dieser Layer-Typ kann nicht als Grundkarte verwendet werden.",
-    invalidBasemapUrl2: "Anderer Raumbezug aus der aktuellen Karte.",
+    invalidBasemapUrl2: "Die Grundkarte, die Sie hinzufügen, weist einen anderen Raumbezug als die aktuelle Karte auf.",
     addBaselayer: "Grundkarten-Layer hinzufügen"
   })
 );

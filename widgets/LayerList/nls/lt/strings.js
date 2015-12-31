@@ -15,7 +15,7 @@
     itemToAttributeTable: "Atidaryti atributų lentelę",
     itemShowItemDetails: "Rodyti elemento aprašą",
     empty: "tuščia",
-    removePopup: "Pašalinti iškylančius langus",
+    removePopup: "Išjungti iškylančius langus",
     enablePopup: "Įjungti iškylančius langus"
   })
 );

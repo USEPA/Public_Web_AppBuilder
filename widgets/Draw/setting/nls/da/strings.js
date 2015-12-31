@@ -33,6 +33,8 @@
     hectaresAbbreviation: "ha",
     squareMetersAbbreviation: "kvadrat-m",
     squareFeetAbbreviation: "kvadratfod",
-    squareYardsAbbreviation: "kvadratyard"
+    squareYardsAbbreviation: "kvadratyard",
+    defineUnits: "Definér måleenheder.",
+    operationalLayer: "Tilføj tegning som et operationelt lag i kortet."
   })
 );

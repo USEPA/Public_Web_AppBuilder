@@ -36,5 +36,6 @@
   }, {
     "unit": "SQUARE_YARDS",
     "abbr": "sq yd"
-  }]
+  }],
+  "isOperationalLayer": false
 }
