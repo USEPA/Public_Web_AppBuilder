@@ -19,6 +19,6 @@
     outputs: "פלט",
     outputtip: "הערה: פלט המתקבל מישויות וטבלאות נוסף למפה כשכבות תפעוליות.",
     outputSaveInPortal: "הנתונים נשמרו בפורטל שלך.",
-    privilegeError: "עליך להיות מוגדר כמפרסם או כמנהל כדי שתוכל לבצע ניתוח."
+    privilegeError: "תפקיד המשתמש שלך לא יכול לבצע ניתוח. כדי לבצע ניתוח, מנהל המערכת של הארגון שלך צריך להעניק לך <a href=\"http://doc.arcgis.com/en/arcgis-online/reference/roles.htm\" target=\"_blank\">הרשאות</a> מסוימות."
   })
 );

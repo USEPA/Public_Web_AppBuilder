@@ -1,12 +1,13 @@
 define({
   root: ({
+    id: 'ID',
     state: "By default, coordinates will display in current map’s coordinate system. To get coordinates in other coordinate systems, you need to add them and specify appropriate transformations.",
     outputUnit: "Output Unit",
     wkid: "Output WKID",
     label: "Output Coordinate System Name",
-    transformationWkid: 'Transformation WKID',
-    transformationLabel: 'Transformation Label',
-    transformForward: 'Transform Forward',
+    transformationWkid: "Transformation WKID",
+    transformationLabel: "Transformation Label",
+    transformForward: "Transform Forward",
     actions: "Actions",
     warning: "Please input valid spatial reference WKID!",
     tfWarning: "Please input valid datum transformation WKID!",
@@ -71,5 +72,7 @@ define({
   "th": 1,
   "tr": 1,
   "vi": 1,
-  "zh-cn": 1
+  "zh-cn": 1,
+  "zh-hk": 1,
+  "zh-tw": 1
 });

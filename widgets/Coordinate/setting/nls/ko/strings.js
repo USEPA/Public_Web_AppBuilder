@@ -1,12 +1,13 @@
 ﻿define(
    ({
+    id: 'ID',
     state: "기본 설정에 따라 좌표는 현재 맵의 좌표체계에서 표시됩니다. 다른 좌표체계의 좌표를 가져오려면 좌표를 추가하고 적절한 변환을 지정해야 합니다.",
     outputUnit: "결과 단위",
     wkid: "결과 WKID",
     label: "대상 좌표체계 이름",
-    transformationWkid: '변환 WKID',
-    transformationLabel: '변환 레이블',
-    transformForward: '순방향 변환',
+    transformationWkid: "변환 WKID",
+    transformationLabel: "변환 레이블",
+    transformForward: "순방향 변환",
     actions: "작업",
     warning: "올바른 공간 기준체계 WKID를 입력하세요.",
     tfWarning: "올바른 데이텀 변환 WKID를 입력하세요.",

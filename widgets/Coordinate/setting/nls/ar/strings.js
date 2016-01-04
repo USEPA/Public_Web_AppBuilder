@@ -1,12 +1,13 @@
 ﻿define(
    ({
+    id: 'مُعرف',
     state: "افتراضيًا، سيتم عرض الإحداثيات في النظام الإحداثي الحالي للخريطة. للحصول على الإحداثيات في الأنظمة الإحداثية الأخرى، يتعين عليك إضافتها وتحديد عمليات التحويل المناسبة.",
     outputUnit: "الوحدة الناتجة",
     wkid: "WKID الناتجة",
     label: "اسم النظام الإحداثي الناتج",
-    transformationWkid: 'تحويل WKID',
-    transformationLabel: 'تسمية التحويل',
-    transformForward: 'تحويل للأمام',
+    transformationWkid: "تحويل WKID",
+    transformationLabel: "تسمية التحويل",
+    transformForward: "تحويل للأمام",
     actions: "الأفعال",
     warning: "الرجاء إدخال الإسناد المكاني الصحيح WKID!",
     tfWarning: "الرجاء إدخال تحويل سطح الأنساب الصحيح WKID!",

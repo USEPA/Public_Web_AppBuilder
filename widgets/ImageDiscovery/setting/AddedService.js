@@ -10,25 +10,25 @@ define([
         "./ServiceField",
         "dojo/dom-class",
         "dojo/dom-attr",
-        "dijit/form/Select"
+        "dijit/form/Select",
+        "dojox/uuid/Uuid",
+        "dojox/uuid/generateTimeBasedUuid"
     ],
-    function (declare, template, lang, _WidgetBase, _TemplatedMixin, esriRequest, domConstruct, array, ServiceField, domClass, domAttr, Select) {
+    function (declare, template, lang, _WidgetBase, _TemplatedMixin, esriRequest, domConstruct, array, ServiceField, domClass, domAttr, Select, Uuid, generateTimeBasedUuid) {
         return declare(
             [_WidgetBase, _TemplatedMixin],
             {
-
                 ignoreFields: ["Shape", "Shape_Length", "Shape_Area"],
                 templateString: template,
                 downloadableService: false,
                 constructor: function (params) {
+                    Uuid.setGenerator(generateTimeBasedUuid);
                     lang.mixin(this, params || {});
                     this.config = {
                         url: "",
                         queryWhereClauseAppend: "Category = 1",
                         label: "",
-                        commonFields: {
-
-                        },
+                        commonFields: {},
                         enabledOnLoad: true,
                         detailsFields: [
                             {
@@ -36,9 +36,7 @@ define([
                                 "name": "__serviceLabel"
                             }
                         ],
-                        displayFields: [
-
-                        ]
+                        displayFields: []
                     };
 
                     this.serviceUrl = "";
@@ -132,7 +130,11 @@ define([
                         if (array.indexOf(this.ignoreFields, currField.name) > -1) {
                             continue;
                         }
-                        serviceField = new ServiceField({field: currField, nls: this.nls});
+                        serviceField = new ServiceField({
+                            field: currField,
+                            nls: this.nls,
+                            serviceId: "id_" +this.generateUUID()
+                        });
                         this.serviceFields.push(serviceField);
                         this.serviceFieldsByName[currField.name] = serviceField;
                         domConstruct.place(serviceField.domNode, this.serviceDisplayFields);
@@ -292,7 +294,12 @@ define([
 
                     }
 
+                },
+                generateUUID: function () {
+                    var uuid = new Uuid();
+                    return uuid.toString();
                 }
+
             });
 
     });

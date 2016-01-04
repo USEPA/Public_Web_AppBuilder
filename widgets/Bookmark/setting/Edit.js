@@ -3,7 +3,6 @@ define(
     "dojo/_base/lang",
     'dojo/_base/html',
     "dojo/on",
-    "dojo/dom-attr",
     "dijit/_WidgetsInTemplateMixin",
     "jimu/BaseWidgetSetting",
     'esri/geometry/Extent',
@@ -17,7 +16,6 @@ define(
     lang,
     html,
     on,
-    domAttr,
     _WidgetsInTemplateMixin,
     BaseWidgetSetting,
     Extent,
@@ -33,42 +31,48 @@ define(
       extent:  {},
       portalUrl: null,
       itemId: null,
+      isInWebmap: false,
+      mapOptions: null,
 
       postCreate: function(){
         this.inherited(arguments);
         this.imageChooser = new ImageChooser({
-          displayImg: this.showImageChooser,
+          cropImage: true,
+          defaultSelfSrc: this.folderUrl + "images/thumbnail_default.png",
+          showSelfImg: true,
+          format: [ImageChooser.GIF, ImageChooser.JPEG, ImageChooser.PNG],
           goldenWidth: 100,
           goldenHeight: 60
         });
         this.own(on(this.name, 'Change', lang.hitch(this, '_onNameChange')));
         html.addClass(this.imageChooser.domNode, 'img-chooser');
         html.place(this.imageChooser.domNode, this.imageChooserBase, 'replace');
-        domAttr.set(this.showImageChooser, 'src', this.folderUrl + "images/thumbnail_default.png");
       },
 
       setConfig: function(bookmark){
+        var args = {
+          portalUrl : this.portalUrl,
+          itemId: this.itemId
+        };
+
         if (bookmark.name){
           this.name.set('value', bookmark.name);
         }
         if (bookmark.thumbnail){
           var thumbnailValue = utils.processUrlInWidgetConfig(bookmark.thumbnail, this.folderUrl);
-          html.setAttr(this.showImageChooser, 'src', thumbnailValue);
-          this.imageChooser.imageData = thumbnailValue;
+          this.imageChooser.setDefaultSelfSrc(thumbnailValue);
         }
         if (bookmark.extent){
-          this.extentChooser = new ExtentChooser({
-            portalUrl : this.portalUrl,
-            itemId: this.itemId,
-            initExtent: new Extent(bookmark.extent)
-          }, this.extentChooserNode);
-        }else{
-          this.extentChooser = new ExtentChooser({
-            portalUrl : this.portalUrl,
-            itemId: this.itemId
-          }, this.extentChooserNode);
+          args.initExtent = new Extent(bookmark.extent);
+        }
+        if(this.mapOptions && this.mapOptions.lods){
+          args.lods = this.mapOptions.lods;
+        }
+        if(bookmark.isInWebmap){
+          this.isInWebmap = true;
         }
 
+        this.extentChooser = new ExtentChooser(args, this.extentChooserNode);
         this.own(on(this.extentChooser, 'extentChange', lang.hitch(this, this._onExtentChange)));
       },
 
@@ -76,7 +80,8 @@ define(
         var bookmark = {
           name: this.name.get("value"),
           extent: this.extentChooser.getExtent(),
-          thumbnail: this.imageChooser.imageData
+          thumbnail: this.imageChooser.imageData,
+          isInWebmap: this.isInWebmap
         };
         return bookmark;
       },

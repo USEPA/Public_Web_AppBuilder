@@ -39,6 +39,10 @@
     squareFeet: "Ft. la pătrat",
     squareYards: "Yd. la pătrat",
     undo: "Anulare",
-    redo: "Repetare"
+    redo: "Repetare",
+    results: "Rezultate",
+    points: "Puncte",
+    lines: "Linii",
+    areas: "Suprafeţe"
   })
 );

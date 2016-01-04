@@ -1,0 +1,36 @@
+<div>
+  <div class="jimu-widget-title" data-dojo-attach-point="controlLabelSection">
+    ${nls.streamControls}
+  </div>
+  <div class="controlButton stop" data-dojo-attach-point="startBtn">
+    <div class="jimu-float-leading jimu-leading-margin1 runningIcon"></div>
+    <label class="jimu-widget-normal jimu-leading-margin1 btnLabel"
+           data-dojo-attach-point="startBtnLabel">${nls.stopStreaming}</label>
+  </div>
+  <div class="controlButton" data-dojo-attach-point="clearBtn">
+    <div class="jimu-float-leading jimu-leading-margin1 clearIcon"></div>
+    <label class="jimu-widget-normal jimu-leading-margin1 btnLabel">${nls.clearObservation}</label>
+  </div>
+  <div data-dojo-attach-point="drawPreviousSection" class="drawControl">
+    <label class="jimu-widget-normal btnLabel">${nls.previousObservations}&nbsp;</label>
+    <input data-dojo-type="dijit/form/NumberSpinner" style="height:32px;width:30%;float:right;"
+           data-dojo-props="smallDelta:1, intermediateChanges:true, constraints:{min:1,max:100,places:0}"
+           data-dojo-attach-point="previousSpinner"
+    />
+    <div style="clear:both"></div>
+  </div>
+  <div class="jimu-widget-title filterLabel"
+      data-dojo-attach-point="filterLabelSection">
+    ${nls.streamFilter}
+  </div>
+  <div data-dojo-attach-point="spatialFilterControl" class="filterControl">
+    <div data-dojo-attach-point="spatialFilterToggleDiv"></div>
+  </div>
+  <div data-dojo-attach-point="spatialFilterSection" class="filterControl" style="display:none">
+  </div>
+  <div data-dojo-attach-point="attrFilterControl" class="filterControl">
+    <div data-dojo-attach-point="attrFilterToggleDiv"></div>
+  </div>
+  <div data-dojo-attach-point="attrFilterSection" class="filterControl" style="display:none">
+  </div>
+</div>

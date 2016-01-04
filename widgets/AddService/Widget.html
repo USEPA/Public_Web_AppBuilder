@@ -1,0 +1,23 @@
+
+<div>
+	<div>
+		<div><input class="jimu-radio" type="radio" name="addservice" value="dynMapServ" data-dojo-attach-point="dynMapServ">Dynamic Map Service</div><br>
+		<div><input class="jimu-radio" type="radio" name="addservice" value="tileMapServ" data-dojo-attach-point="tileMapServ">Tiled/Cached Map Service</div><br>
+		<div><input class="jimu-radio" type="radio" name="addservice" value="imageServ" data-dojo-attach-point="imageServ">Image Service</div><br>
+		<div><input class="jimu-radio" type="radio" name="addservice" value="wms" data-dojo-attach-point="wms">WMS Service</div><br>
+	</div>
+	<br>
+	<div>
+		<input class="jimu-input" data-dojo-attach-point="urlTextbox" style="width: 100%">
+	</div>
+	<br>
+	<div>
+		<button class="jimu-btn" type="button" data-dojo-attach-event="ondijitclick:addMapService" style="float: right;">Add Service</button>
+		<button class="jimu-btn" type="button" data-dojo-attach-event="ondijitclick:clearTextBox" style="float: right;">Clear</button>
+	</div>
+	<br>
+	<div data-dojo-attach-point="message">
+	</div>
+</div>
+
+

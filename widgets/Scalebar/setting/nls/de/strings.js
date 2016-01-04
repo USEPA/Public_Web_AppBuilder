@@ -4,7 +4,7 @@
     style: "Style",
     dual: "dual",
     english: "Englisch",
-    metric: "Metrik",
+    metric: "Metrisch",
     ruler: "Lineal",
     line: "Linie"
   })

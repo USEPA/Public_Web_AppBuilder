@@ -46,6 +46,7 @@ define([
     'esri/symbols/jsonUtils',
     'esri/graphic',
     'esri/graphicsUtils',
+    'esri/lang',
     'jimu/utils',
     './common/Parameters',
     'jimu/dijit/LoadingIndicator',
@@ -54,8 +55,9 @@ define([
   function(declare, lang, array, html, query, Color, on, has, _WidgetBase, _TemplatedMixin,
     _WidgetsInTemplateMixin, TooltipDialog, dojoPopup, template, Chart, DefaultAxis, InvisibleAxis,
     Columns, Bars, Lines, Pie, ClusteredColumns, ClusteredBars, Tooltip, Highlight,
-    MoveSlice, Magnify, SimpleTheme, symbolJsonUtils, Graphic, graphicsUtils, jimuUtils,
+    MoveSlice, Magnify, SimpleTheme, symbolJsonUtils, Graphic, graphicsUtils, esriLang, jimuUtils,
     Parameters) {
+
     return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
       baseClass: 'jimu-widget-chart-preview',
       templateString: template,
@@ -112,9 +114,16 @@ define([
         var headerBox = html.getMarginBox(this.resultsHeader);
         var descriptionBox = html.getMarginBox(this.descriptionNode);
         var itemHeight = thisBox.h - headerBox.h - descriptionBox.h;
-        query('.chart-section-item', this.domNode).forEach(lang.hitch(this, function(domItem) {
+        /*query('.chart-section-item', this.domNode).forEach(lang.hitch(this, function(domItem) {
           html.setStyle(domItem, 'height', itemHeight + 'px');
-        }));
+        }));*/
+        var arrowHeight = 60;
+        if(itemHeight < arrowHeight){
+          arrowHeight = itemHeight;
+        }
+        html.setStyle(this.leftArrow, 'height', arrowHeight + 'px');
+        html.setStyle(this.rightArrow, 'height', arrowHeight + 'px');
+        html.setStyle(this.chartContainer, 'height', itemHeight + 'px');
         var box = html.getContentBox(this.chartContainer);
         return box;
       },
@@ -146,9 +155,9 @@ define([
           this.layerDefinition = args.layerDefinition;
           this.resultLayer = args.resultLayer;
 
-          this.chartTitle.innerHTML = this.config.name || "";
+          this.chartTitle.innerHTML = jimuUtils.stripHTML(this.config.name || "");
           this.chartTitle.title = this.chartTitle.innerHTML;
-          this.descriptionNode.innerHTML = this.config.description || "";
+          this.descriptionNode.innerHTML = jimuUtils.stripHTML(this.config.description || "");
 
           html.setStyle(this.resultsSection, 'display', 'block');
 
@@ -191,7 +200,7 @@ define([
 
           this.charts = createResult.charts;
           this.paramsDijits = createResult.paramsDijits;
-          this.tooltipDialogs = array.map(this.paramsDijits,lang.hitch(this,function(paramsDijit){
+          this.tooltipDialogs = array.map(this.paramsDijits, lang.hitch(this, function(paramsDijit){
             var ttdContent = html.create('div');
             paramsDijit.placeAt(ttdContent);
             var tooltipDialog = new TooltipDialog({
@@ -283,7 +292,7 @@ define([
         this.currentChartIndex = -1;
         var chartDivs = query('.chart-div', this.chartContainer);
         chartDivs.style({display:'none'});
-        query("li",this.pagingUl).removeClass('selected');
+        query("li", this.pagingUl).removeClass('selected');
         this._hideAllTooltipDialogs();
 
         if(!this.charts){
@@ -322,8 +331,8 @@ define([
         this.tooltipDialogs = [];
         html.empty(this.pagingUl);
         html.empty(this.chartContainer);
-        html.setStyle(this.resultsSection,'display','none');
-        html.setStyle(this.noresultsSection,'display','none');
+        html.setStyle(this.resultsSection, 'display', 'none');
+        html.setStyle(this.noresultsSection, 'display', 'none');
       },
 
       _recreateChart: function(index){
@@ -345,8 +354,8 @@ define([
         var chartDiv = chartDivs[index];
         html.setStyle(chartDiv, 'display', 'block');
         var chartBox = this._calculateChartBox();
-        html.setStyle(chartDiv, 'width', chartBox.w+'px');
-        html.setStyle(chartDiv, 'height', chartBox.h+'px');
+        html.setStyle(chartDiv, 'width', chartBox.w + 'px');
+        html.setStyle(chartDiv, 'height', chartBox.h + 'px');
 
         var createSelf = this.charts[index].createSelf;
         this.charts[index].createSelf = null;
@@ -397,7 +406,8 @@ define([
                 var plot = chart.getPlot('default');
                 if(plot && plot.declaredClass === "dojox.charting.plot2d.Pie") {
                   if (plot.opt) {
-                    var radius = Math.floor(Math.min(chartBox.w, chartBox.h) / 2 / this.pieScale)-3;
+                    var radius = Math.floor(Math.min(chartBox.w, chartBox.h) / 2 / this.pieScale);
+                    radius -= 3;
                     plot.opt.radius = radius;
                   }
                 }
@@ -472,7 +482,7 @@ define([
 
       _getHighLightMarkerSymbol:function(){
         var sym = symbolJsonUtils.fromJson(this.config.symbol);
-        var size =  Math.max(sym.size||0, sym.width||0, sym.height, 18);
+        var size = Math.max(sym.size || 0, sym.width || 0, sym.height, 18);
         size += 1;
 
         var symJson = {
@@ -532,7 +542,13 @@ define([
         if(features && features.length > 0){
           var extent = null;
           try{
-            extent = graphicsUtils.graphicsExtent(features);
+            //some graphics maybe don't have geometry, so need to filter graphics here by geometry
+            var fs = array.filter(features, function(f){
+              return !!f.geometry;
+            });
+            if(fs.length > 0){
+              extent = graphicsUtils.graphicsExtent(fs);
+            }
           }
           catch(e){
             console.error(e);
@@ -639,15 +655,28 @@ define([
       },
 
       _tryLocaleNumber: function(value){
-        var result = jimuUtils.localizeNumber(value);
-        if(result === null || result === undefined){
-          result = value;
+        var result = value;
+        if(esriLang.isDefined(value) && isFinite(value)){
+          try{
+            //if pass "abc" into localizeNumber, it will return null
+            var a = jimuUtils.localizeNumber(value);
+            if(typeof a === "string"){
+              result = a;
+            }
+          }catch(e){
+            console.error(e);
+          }
         }
+        //make sure the retun value is string
+        result += "";
         return result;
       },
 
-      _tryGetSubtypeDescription: function(fieldName, value){
-        var description = this._tryLocaleNumber(value);
+      _getBestDisplayValue: function(fieldName, value){
+        var displayValue = this._tryLocaleNumber(value);
+
+        //check subtype description
+        //http://services1.arcgis.com/oC086ufSSQ6Avnw2/arcgis/rest/services/Parcels/FeatureServer/0
         if(this.layerDefinition.typeIdField === fieldName){
           var types = this.layerDefinition.types;
           if(types && types.length > 0){
@@ -655,11 +684,32 @@ define([
               return item.id === value;
             }));
             if(typeObjs.length > 0){
-              description = typeObjs[0].name;
+              displayValue = typeObjs[0].name;
+              return displayValue;
             }
           }
         }
-        return description;
+
+        //check codedValue
+        //http://jonq/arcgis/rest/services/BugFolder/BUG_000087622_CodedValue/FeatureServer/0
+        //http://services1.arcgis.com/oC086ufSSQ6Avnw2/arcgis/rest/services/Parcels/FeatureServer/0
+        var fieldInfo = this._getFieldInfo(fieldName);
+        if(fieldInfo){
+          if(fieldInfo.domain){
+            var codedValues = fieldInfo.domain.codedValues;
+            if(codedValues && codedValues.length > 0){
+              array.some(codedValues, function(item){
+                if(item.code === value){
+                  displayValue = item.name;
+                  return true;
+                }else{
+                  return false;
+                }
+              });
+            }
+          }
+        }
+        return displayValue;
       },
 
       _getFieldAliasArray: function(fieldNames){
@@ -671,19 +721,23 @@ define([
 
       _getFieldAlias: function(fieldName){
         var fieldAlias = fieldName;
+        var fieldInfo = this._getFieldInfo(fieldName);
+        if(fieldInfo){
+          fieldAlias = fieldInfo.alias || fieldAlias;
+        }
+        return fieldAlias;
+      },
+
+      _getFieldInfo: function(fieldName){
         if(this.layerDefinition){
           var fieldInfos = this.layerDefinition.fields;
-          var fieldInfo = null;
-          if(fieldInfos){
-            for(var i = 0; i < fieldInfos.length; i++){
-              fieldInfo = fieldInfos[i];
-              if(fieldInfo && fieldInfo.name === fieldName){
-                return fieldInfo.alias||fieldInfo.name;
-              }
+          for(var i = 0; i < fieldInfos.length; i++){
+            if(fieldInfos[i].name === fieldName){
+              return fieldInfos[i];
             }
           }
         }
-        return fieldAlias;
+        return null;
       },
 
       _isNumberField: function(fieldName){
@@ -704,7 +758,7 @@ define([
         if(config.colors.length === 2){
           //gradient colors
           colors = this._createGradientColors(config.colors[0],
-                                              config.colors[config.colors.length-1],
+                                              config.colors[config.colors.length - 1],
                                               count);
         }
         else{
@@ -719,17 +773,51 @@ define([
       },
 
       _createPieTheme: function(pieParams, colorCount){
+        /* jshint loopfunc:true */
         var config = lang.clone(pieParams);
         var inputColors = config.colors;
         var outputColors = [];
         if(inputColors.length === 2){
           //gradient colors
           outputColors = this._createGradientColors(inputColors[0],
-                                                    inputColors[inputColors.length-1],
+                                                    inputColors[inputColors.length - 1],
                                                     colorCount);
         }
         else{
-          outputColors = inputColors;
+          if(colorCount <=  inputColors.length){
+            outputColors = inputColors;
+          }else{
+            var inputDojoColors = array.map(inputColors, function(inputColor){
+              return new Color(inputColor);
+            });
+            var minRatio = 0.5;
+            var maxRatio = 1.5;
+            var deltaRatio = 0.1;
+            var count = Math.ceil(colorCount / inputColors.length);
+            var offsetCount = Math.floor(count / 2);
+            var offsetRatio = deltaRatio * offsetCount;
+            minRatio = Math.max(1 - offsetRatio, minRatio);
+            maxRatio = Math.min(1 + offsetRatio, maxRatio);
+
+            deltaRatio = (maxRatio - minRatio) / count;
+            var ratio = minRatio;
+
+            for(var i = 0; i < count; i++){
+              array.forEach(inputDojoColors, lang.hitch(this, function(dojoColor){
+                var r = Math.min(Math.floor(dojoColor.r * ratio), 255);
+                var g = Math.min(Math.floor(dojoColor.g * ratio), 255);
+                var b = Math.min(Math.floor(dojoColor.b * ratio), 255);
+                var color = new Color();
+                color.r = r;
+                color.g = g;
+                color.b = b;
+                var strColor = color.toHex();
+                outputColors.push(strColor);
+              }));
+              ratio += deltaRatio;
+            }
+            outputColors = outputColors.slice(0, colorCount);
+          }
         }
 
         var seriesThemes = array.map(outputColors, lang.hitch(this, function(color){
@@ -738,14 +826,10 @@ define([
 
         var args = {
           series: {
-            stroke: null
+            stroke: {width: 1.5, color: "#fff"}
           },
           seriesThemes: seriesThemes
         };
-
-        if(inputColors.length === 2){
-          args.series.stroke = {width: 1.5, color: "#fff"};
-        }
 
         var theme = new SimpleTheme(args);
         return theme;
@@ -766,7 +850,7 @@ define([
           r = parseInt(c1.r + deltaR * i, 10);
           g = parseInt(c1.g + deltaG * i, 10);
           b = parseInt(c1.b + deltaB * i, 10);
-          c.setColor([r,g,b]);
+          c.setColor([r, g, b]);
           colors.push(c.toHex());
         }
         return colors;
@@ -847,13 +931,13 @@ define([
         var isAsc = config.sortOrder !== 'des';
 
         //filter features with number values firstly
-        var fs = args.featureSet.features;
+        /*var fs = args.featureSet.features;
         args.featureSet.features = array.filter(fs, lang.hitch(this, function(feature){
           return array.every(valueFields, lang.hitch(this, function(fieldName){
             var attributes = feature.attributes;
             return attributes && this._isNumber(attributes[fieldName]);
           }));
-        }));
+        }));*/
 
         //[{category:'a',valueFields:[10,100,2],dataFeatures:[f1]}]
         //only one data feature
@@ -958,13 +1042,13 @@ define([
         var isAsc = config.sortOrder !== 'des';
 
         //filter features with number values firstly
-        var fs = args.featureSet.features;
+        /*var fs = args.featureSet.features;
         args.featureSet.features = array.filter(fs, lang.hitch(this, function(feature){
           return array.every(valueFields, lang.hitch(this, function(fieldName){
             var attributes = feature.attributes;
             return attributes && this._isNumber(attributes[fieldName]);
           }));
-        }));
+        }));*/
 
         var data = [];//[{category:'a',valueFields:[10,100,2],dataFeatures:[f1,f2...]}]
 
@@ -991,16 +1075,21 @@ define([
 
         var categoryObj = null;
         for (var uniqueValue in uniqueValuesHash) {
-          if(this._isNumberField(categoryField)){
-            uniqueValue = parseFloat(uniqueValue);
-          }
-
           categoryObj = uniqueValuesHash[uniqueValue];
 
+          if(this._isNumberField(categoryField)){
+            //uniqueValue maybe string or null, like "7", null
+            //so we should not call this._isNumber(uniqueValue)
+            if(esriLang.isDefined(uniqueValue)){
+              //convert number string to number
+              uniqueValue = parseFloat(uniqueValue);
+            }
+          }
+
           //calculate summarize values for one category
-          categoryObj.valueFields = array.map(valueFields,lang.hitch(this,function(fieldName){
+          categoryObj.valueFields = array.map(valueFields, lang.hitch(this, function(fieldName){
             //for one category and for one valueField
-            var values = array.map(categoryObj.dataFeatures,lang.hitch(this, function(feature){
+            var values = array.map(categoryObj.dataFeatures, lang.hitch(this, function(feature){
               return feature.attributes[fieldName];
             }));
 
@@ -1010,21 +1099,32 @@ define([
             } else if (operation === 'min') {
               summarizeValue = Infinity;
             }
-
+            //use nonNullValueCount to record how many feature values are not null for the fieldName
+            var nonNullValueCount = 0;
             array.forEach(values, lang.hitch(this, function(value){
-              if(operation === 'average' || operation === 'sum'){
-                summarizeValue += value;
-              }
-              else if(operation === 'max'){
-                summarizeValue = Math.max(summarizeValue, value);
-              }
-              else if(operation === 'min'){
-                summarizeValue = Math.min(summarizeValue, value);
+              if(this._isNumber(value)){
+                nonNullValueCount++;
+                if(operation === 'average' || operation === 'sum'){
+                  summarizeValue += value;
+                }
+                else if(operation === 'max'){
+                  summarizeValue = Math.max(summarizeValue, value);
+                }
+                else if(operation === 'min'){
+                  summarizeValue = Math.min(summarizeValue, value);
+                }
               }
             }));
 
-            if(operation === 'average'){
-              summarizeValue = summarizeValue / values.length;
+            if(nonNullValueCount > 0){
+              if(operation === 'average'){
+                //summarizeValue = summarizeValue / values.length;
+                summarizeValue = summarizeValue / nonNullValueCount;
+              }
+            }else{
+              //if all values for the fieldName are null, we set summarizeValue to null, no matter
+              //what's the value of operation
+              summarizeValue = 0;
             }
 
             return summarizeValue;
@@ -1130,7 +1230,7 @@ define([
           seriesArray.push([]);
         }
         array.forEach(data, lang.hitch(this, function(item, index){
-          var text = this._tryGetSubtypeDescription(labelOrCategoryField, item.category);
+          var text = this._getBestDisplayValue(labelOrCategoryField, item.category);
           labels.push({
             value: index + 1,
             text: text
@@ -1140,10 +1240,10 @@ define([
             var fieldName = valueFields[i];
             var aliasName = valueAliases[i];
             var a = this.nls.category;
-            var c = this._tryGetSubtypeDescription(fieldName,num);
+            var c = this._getBestDisplayValue(fieldName, num);
             seriesArray[i].push({
               y: num,
-              tooltip: "<div style='color:green;margin-right:10px;'>" +
+              tooltip: "<div style='color:green;margin:5px 10px;'>" +
               "<span style='white-space:nowrap'>" + a + " : " + text + "</span><br/><br/>" +
               "<span style='white-space:nowrap;'>" + aliasName + " : " + c + "</span>" +
               "</div>"
@@ -1153,6 +1253,8 @@ define([
 
         //construct chart
         var columnChart = new Chart(chartDiv);
+
+        columnChart.setTheme(this._createTransparentTheme());
 
         columnChart.addPlot('default', {
           type: ClusteredColumns,
@@ -1192,9 +1294,9 @@ define([
           var fieldName = valueFields[i];
           columnChart.addSeries(fieldName, series, {
             stroke: {
-              color: colors[i%colors.length]
+              color: colors[i % colors.length]
             },
-            fill: colors[i%colors.length]
+            fill: colors[i % colors.length]
           });
         }
 
@@ -1225,7 +1327,7 @@ define([
           seriesArray.push([]);
         }
         array.forEach(data, lang.hitch(this, function(item, index){
-          var text = this._tryGetSubtypeDescription(labelOrCategoryField, item.category);
+          var text = this._getBestDisplayValue(labelOrCategoryField, item.category);
           labels.push({
             value: index + 1,
             text: text
@@ -1235,10 +1337,10 @@ define([
             var fieldName = valueFields[i];
             var aliasName = valueAliases[i];
             var a = this.nls.category;
-            var c = this._tryGetSubtypeDescription(fieldName,num);
+            var c = this._getBestDisplayValue(fieldName, num);
             seriesArray[i].push({
               y: num,
-              tooltip: "<div style='color:green;margin-right:10px;'>" +
+              tooltip: "<div style='color:green;margin:5px 10px;'>" +
               "<span style='white-space:nowrap'>" + a + " : " + text + "</span><br/><br/>" +
               "<span style='white-space:nowrap;'>" + aliasName + " : " + c + "</span>" +
               "</div>"
@@ -1248,6 +1350,8 @@ define([
 
         //construct chart
         var barChart = new Chart(chartDiv);
+
+        barChart.setTheme(this._createTransparentTheme());
 
         barChart.addPlot('default', {
           type: ClusteredBars,
@@ -1280,9 +1384,9 @@ define([
           var fieldName = valueFields[i];
           barChart.addSeries(fieldName, series, {
             stroke: {
-              color: colors[i%colors.length]
+              color: colors[i % colors.length]
             },
-            fill: colors[i%colors.length]
+            fill: colors[i % colors.length]
           });
         }
 
@@ -1313,20 +1417,23 @@ define([
           seriesArray.push([]);
         }
         array.forEach(data, lang.hitch(this, function(item, index){
-          var text = this._tryGetSubtypeDescription(labelOrCategoryField, item.category);
+          var text = this._getBestDisplayValue(labelOrCategoryField, item.category);
           labels.push({
             value: index + 1,
             text: text
           });
           for(var i = 0; i < item.valueFields.length; i++){
-            var num = item.valueFields[i];
+            //item.valueFields[i] maybe a number or null
+            //so num should be a number or NaN
+            var num = parseFloat(item.valueFields[i]);
             var fieldName = valueFields[i];
             var aliasName = valueAliases[i];
             var a = this.nls.category;
-            var c = this._tryGetSubtypeDescription(fieldName,num);
+            var c = this._getBestDisplayValue(fieldName, num);
+            var y = isNaN(num) ? 0 : num;
             seriesArray[i].push({
-              y: num,
-              tooltip: "<div style='color:green;margin-right:10px;'>" +
+              y: y,
+              tooltip: "<div style='color:green;margin:5px 10px;'>" +
               "<span style='white-space:nowrap'>" + a + " : " + text + "</span><br/><br/>" +
               "<span style='white-space:nowrap;'>" + aliasName + " : " + c + "</span>" +
               "</div>"
@@ -1336,6 +1443,8 @@ define([
 
         //construct chart
         var lineChart = new Chart(chartDiv);
+
+        lineChart.setTheme(this._createTransparentTheme());
 
         lineChart.addPlot('default', {
           type: Lines,
@@ -1367,9 +1476,9 @@ define([
           var fieldName = valueFields[i];
           lineChart.addSeries(fieldName, series, {
             stroke: {
-              color: colors[i%colors.length]
+              color: colors[i % colors.length]
             },
-            fill: colors[i%colors.length]
+            fill: colors[i % colors.length]
           });
         }
 
@@ -1411,7 +1520,7 @@ define([
         }));
 
         array.forEach(data, lang.hitch(this, function(item, index){
-          var text = this._tryGetSubtypeDescription(labelOrCategoryField, item.category);
+          var text = this._getBestDisplayValue(labelOrCategoryField, item.category);
           labels.push({
             value: index + 1,
             text: text
@@ -1422,11 +1531,11 @@ define([
             var aliasName = valueAliases[i];
             var percent = this._tryLocaleNumber((num / sums[i] * 100).toFixed(1)) + "%";
             var a = this.nls.category;
-            var c = this._tryGetSubtypeDescription(fieldName,num);
+            var c = this._getBestDisplayValue(fieldName, num);
             seriesArray[i].push({
               y: Math.abs(num),
               text: text,
-              tooltip: "<div style='color:green;margin-right:10px;'>" +
+              tooltip: "<div style='color:green;margin:5px 10px;'>" +
               "<span style='white-space:nowrap'>" + a + " : " + text + "</span><br/><br/>" +
               "<span style='white-space:nowrap;'>" + aliasName + " : " + c + "</span><br/><br/>" +
               "<span style='white-space:nowrap'>" + percent + "</span>" +
@@ -1439,6 +1548,8 @@ define([
         var pieChart = new Chart(chartDiv);
 
         var theme = this._createPieTheme(pieParams, data.length);
+        theme.plotarea.fill = "transparent";
+        theme.chart.fill = "transparent";
         pieChart.setTheme(theme);
 
         pieChart.addPlot('default', {
@@ -1500,6 +1611,9 @@ define([
         for(var fieldValue in statisticsHash){
           fieldValueObj = statisticsHash[fieldValue];//{count:count1,dataFeatures:[f1,f2...]}
           if(this._isNumberField(categoryField)){
+            //fieldValue maybe string or null, like "7", "null"
+            //convert number string to number
+            //if fieldValue is "null", fieldValue will be set to NaN
             fieldValue = parseFloat(fieldValue);
           }
           data.push({
@@ -1602,15 +1716,16 @@ define([
           var num = item.count;
           var fieldValue = item.fieldValue;
           var b = jimuUtils.localizeNumber(num);
-          var text = this._tryGetSubtypeDescription(categoryField, fieldValue);
+          var text = this._getBestDisplayValue(categoryField, fieldValue);
           labels.push({
             value: index + 1,
             text: text
           });
           series.push({
             y: num,
-            tooltip: "<div style='color:green;margin-right:10px;'>" +
-            "<span style='white-space:nowrap;'>" + categoryAlias + " : "+text+"</span><br/><br/>" +
+            tooltip: "<div style='color:green;margin:5px 10px;'>" +
+            "<span style='white-space:nowrap;'>" + categoryAlias + " : " + text +
+            "</span><br/><br/>" +
             "<span style='white-space:nowrap;'>" + this.nls.count + " : " + b + "</span>" +
             "</div>"
           });
@@ -1618,6 +1733,8 @@ define([
 
         //construct chart
         var columnChart = new Chart(chartDiv);
+
+        columnChart.setTheme(this._createTransparentTheme());
 
         columnChart.addPlot('default', {
           type: Columns,
@@ -1682,15 +1799,16 @@ define([
           var num = item.count;
           var fieldValue = item.fieldValue;
           var b = jimuUtils.localizeNumber(num);
-          var text = this._tryGetSubtypeDescription(categoryField, fieldValue);
+          var text = this._getBestDisplayValue(categoryField, fieldValue);
           labels.push({
             value: index + 1,
             text: text
           });
           series.push({
             y: num,
-            tooltip: "<div style='color:green;margin-right:10px;'>" +
-            "<span style='white-space:nowrap;'>" + categoryAlias + " : "+text+"</span><br/><br/>" +
+            tooltip: "<div style='color:green;margin:5px 10px;'>" +
+            "<span style='white-space:nowrap;'>" + categoryAlias + " : " + text +
+            "</span><br/><br/>" +
             "<span style='white-space:nowrap;'>" + this.nls.count + " : " + b + "</span>" +
             "</div>"
           });
@@ -1698,6 +1816,9 @@ define([
 
         //construct chart
         var barChart = new Chart(chartDiv);
+
+        barChart.setTheme(this._createTransparentTheme());
+
         barChart.addPlot('default', {
           type: Bars,
           enableCache: true,
@@ -1759,7 +1880,7 @@ define([
           var num = item.count;
           var fieldValue = item.fieldValue;
           var b = jimuUtils.localizeNumber(num);
-          var text = this._tryGetSubtypeDescription(categoryField, fieldValue);
+          var text = this._getBestDisplayValue(categoryField, fieldValue);
 
           labels.push({
             value: index + 1,
@@ -1769,8 +1890,9 @@ define([
           series.push({
             y: num,
             text: '',
-            tooltip: "<div style='color:green;margin-right:10px;'>" +
-            "<span style='white-space:nowrap;'>" + categoryAlias + " : "+text+"</span><br/><br/>" +
+            tooltip: "<div style='color:green;margin:5px 10px;'>" +
+            "<span style='white-space:nowrap;'>" + categoryAlias + " : " + text +
+            "</span><br/><br/>" +
             "<span style='white-space:nowrap;'>" + this.nls.count + " : " + b + "</span>" +
             "</div>"
           });
@@ -1778,6 +1900,8 @@ define([
 
         //construct chart
         var lineChart = new Chart(chartDiv);
+
+        lineChart.setTheme(this._createTransparentTheme());
 
         lineChart.addPlot('default', {
           type: Lines,
@@ -1844,7 +1968,7 @@ define([
         array.forEach(data, lang.hitch(this, function(item, index){
           var num = item.count;
           var fieldValue = item.fieldValue;
-          var text = this._tryGetSubtypeDescription(categoryField, fieldValue);
+          var text = this._getBestDisplayValue(categoryField, fieldValue);
           var percent = this._tryLocaleNumber((num / sum * 100).toFixed(1)) + "%";
           var b = jimuUtils.localizeNumber(num);
           var c = this.nls.count;
@@ -1857,8 +1981,9 @@ define([
           series.push({
             text: text,
             y: num,
-            tooltip: "<div style='color:green;margin-right:10px;'>" +
-            "<span style='white-space:nowrap;'>" + categoryAlias + " : "+text+"</span><br/><br/>" +
+            tooltip: "<div style='color:green;margin:5px 10px;'>" +
+            "<span style='white-space:nowrap;'>" + categoryAlias + " : " + text +
+            "</span><br/><br/>" +
             "<span style='white-space:nowrap;'>" + c + " : " + b + "</span><br/><br/>" +
             "<span style='white-space:nowrap;'>" + percent + "</span>" +
             "</div>"
@@ -1869,6 +1994,8 @@ define([
         var pieChart = new Chart(chartDiv);
 
         var theme = this._createPieTheme(pieParams, data.length);
+        theme.plotarea.fill = "transparent";
+        theme.chart.fill = "transparent";
         pieChart.setTheme(theme);
 
         pieChart.addPlot('default', {
@@ -1903,13 +2030,13 @@ define([
         var operation = config.operation;
 
         //filter features with number values firstly
-        var fs = args.featureSet.features;
+        /*var fs = args.featureSet.features;
         args.featureSet.features = array.filter(fs, lang.hitch(this, function(feature){
           return array.every(valueFields, lang.hitch(this, function(fieldName){
             var attributes = feature.attributes;
             return attributes && this._isNumber(attributes[fieldName]);
           }));
-        }));
+        }));*/
 
         var attributesList = array.map(args.featureSet.features, lang.hitch(this, function(feature){
           return feature.attributes;
@@ -1918,6 +2045,7 @@ define([
         var data = {};//{fieldName1:value1,fieldName2:value2}
 
         array.forEach(valueFields, lang.hitch(this, function(fieldName){
+          //init default statistics value
           data[fieldName] = 0;
           if(operation === 'max'){
             data[fieldName] = -Infinity;
@@ -1925,33 +2053,37 @@ define([
           else if(operation === 'min'){
             data[fieldName] = Infinity;
           }
-        }));
 
-        array.forEach(attributesList, lang.hitch(this, function(attributes){
-          array.forEach(valueFields, lang.hitch(this, function(fieldName){
+          //use nonNullValueCount to record how many feature values are not null for the fieldName
+          var nonNullValueCount = 0;
+
+          array.forEach(attributesList, lang.hitch(this, function(attributes){
             var fieldValue = attributes[fieldName];
-            if(data.hasOwnProperty(fieldName)){
-              if(operation === 'average' || operation === 'sum'){
-                data[fieldName] += fieldValue;
+            if (this._isNumber(fieldValue)) {
+              nonNullValueCount++;
+              if (data.hasOwnProperty(fieldName)) {
+                if (operation === 'average' || operation === 'sum') {
+                  data[fieldName] += fieldValue;
+                } else if (operation === 'max') {
+                  data[fieldName] = Math.max(data[fieldName], fieldValue);
+                } else if (operation === 'min') {
+                  data[fieldName] = Math.min(data[fieldName], fieldValue);
+                }
+              } else {
+                data[fieldName] = fieldValue;
               }
-              else if(operation === 'max'){
-                data[fieldName] = Math.max(data[fieldName], fieldValue);
-              }
-              else if(operation === 'min'){
-                data[fieldName] = Math.min(data[fieldName], fieldValue);
-              }
-            }
-            else{
-              data[fieldName] = fieldValue;
             }
           }));
-        }));
 
-        if(operation === 'average'){
-          array.forEach(valueFields, lang.hitch(this, function(fieldName){
-            data[fieldName] /= attributesList.length;
-          }));
-        }
+          if(nonNullValueCount > 0){
+            if(operation === 'average'){
+              //data[fieldName] /= attributesList.length;
+              data[fieldName] = data[fieldName] / nonNullValueCount;
+            }
+          }else{
+            data[fieldName] = 0;
+          }
+        }));
 
         array.forEach(types, lang.hitch(this, function(type, i){
           try {
@@ -2025,7 +2157,7 @@ define([
 
           series.push({
             y: num,
-            tooltip: "<div style='color:green;margin-right:10px;'>" +
+            tooltip: "<div style='color:green;margin:5px 10px;'>" +
             "<span style='white-space:nowrap;'>" + aliasName + " : " + a + "</span>" +
             "</div>"
           });
@@ -2033,6 +2165,8 @@ define([
 
         //construct chart
         var columnChart = new Chart(chartDiv);
+
+        columnChart.setTheme(this._createTransparentTheme());
 
         columnChart.addPlot('default', {
           type: Columns,
@@ -2103,7 +2237,7 @@ define([
 
           series.push({
             y: num,
-            tooltip: "<div style='color:green;margin-right:10px;'>" +
+            tooltip: "<div style='color:green;margin:5px 10px;'>" +
             "<span style='white-space:nowrap;'>" + aliasName + " : " + a + "</span>" +
             "</div>"
           });
@@ -2111,6 +2245,9 @@ define([
 
         //construct chart
         var barChart = new Chart(chartDiv);
+
+        barChart.setTheme(this._createTransparentTheme());
+
         barChart.addPlot('default', {
           type: Bars,
           enableCache: true,
@@ -2178,7 +2315,7 @@ define([
 
           series.push({
             y: num,
-            tooltip: "<div style='color:green;margin-right:10px;'>" +
+            tooltip: "<div style='color:green;margin:5px 10px;'>" +
             "<span style='white-space:nowrap;'>" + aliasName + " : " + a + "</span>" +
             "</div>"
           });
@@ -2186,6 +2323,8 @@ define([
 
         //construct chart
         var lineChart = new Chart(chartDiv);
+
+        lineChart.setTheme(this._createTransparentTheme());
 
         lineChart.addPlot('default', {
           type: Lines,
@@ -2262,7 +2401,7 @@ define([
           series.push({
             text: aliasName,
             y: Math.abs(num),
-            tooltip: "<div style='color:green;margin-right:10px;'>" +
+            tooltip: "<div style='color:green;margin:5px 10px;'>" +
             "<span style='white-space:nowrap;'>" + aliasName + " : " + a + "</span><br/><br/>" +
             "<span style='white-space:nowrap;'>" + percent + "</span>" +
             "</div>"
@@ -2272,7 +2411,9 @@ define([
         //construct chart
         var pieChart = new Chart(chartDiv);
 
-        var theme = this._createPieTheme(pieParams, valueFields.length);
+        var theme = this._createPieTheme(pieParams, data.length);
+        theme.plotarea.fill = "transparent";
+        theme.chart.fill = "transparent";
         pieChart.setTheme(theme);
 
         pieChart.addPlot('default', {
@@ -2295,6 +2436,15 @@ define([
           this._createFieldModePieChart, args, chartDiv, data, paramsDijit);
 
         return pieChart;
+      },
+
+      _createTransparentTheme: function() {
+        var params = {
+          plotarea: {fill: "transparent"},
+          chart: {fill: "transparent"}
+        };
+        var theme = new SimpleTheme(params);
+        return theme;
       }
     });
   });

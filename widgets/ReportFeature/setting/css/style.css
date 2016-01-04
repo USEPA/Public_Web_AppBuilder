@@ -1,0 +1,27 @@
+.drs-widget-report-feature-setting{
+  margin:0;
+  padding:0;
+  font-size:15px;
+}
+
+.drs-widget-report-feature-setting .setting-table > thead > tr > th,.drs-widget-report-feature-setting .setting-table > tbody > tr > td{
+  height:40px;
+  line-height:40px;
+  vertical-align:middle;
+}
+
+.drs-widget-report-feature-setting .input-table > tbody > tr > .first{
+  width:auto;
+ }
+
+.drs-widget-report-feature-setting .input-table > tbody > tr > .second{
+    width:120px;
+}
+
+.drs-widget-report-feature-setting .input-table > tbody > tr > .third{
+  width:35px;
+}
+.drs-widget-report-feature-setting .revTechnician-item{
+  display: inline-block;
+  vertical-align: middle;
+}

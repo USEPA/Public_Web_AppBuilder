@@ -27,8 +27,9 @@ define(['dojo/_base/declare',
 ],
 function(declare, lang, array, template, _TemplatedMixin, BaseEditor,
   FeatureSetRendererEditor, PopupConfig, TabContainer, CheckBox) {
-  var clazz = declare([BaseEditor,_TemplatedMixin], {
+  var clazz = declare([BaseEditor, _TemplatedMixin], {
     baseClass: 'jimu-gp-editor-base jimu-gp-editor-fsrse',
+    editorName: 'FeatureSetResultEditor',
 
     templateString: template,
     featureSetRendererEditor:null,
@@ -37,14 +38,14 @@ function(declare, lang, array, template, _TemplatedMixin, BaseEditor,
     args:null,
 
     constructor:function(o){
-      this.args = lang.mixin({},o);
+      this.args = lang.mixin({}, o);
     },
 
     postCreate: function(){
       this.inherited(arguments);
       var tabs = [{title: this.nls.renderer, content: this.rendererTab},
       {title: this.nls.popup, content: this.popupConfigTab}];
-      this.tab = new TabContainer({tabs:tabs,isNested:true});
+      this.tab = new TabContainer({tabs:tabs, isNested:true});
       this.tab.placeAt(this.domNode);
       this.tab.startup();
       this.featureSetRendererEditor = new FeatureSetRendererEditor(this.args);
@@ -57,11 +58,11 @@ function(declare, lang, array, template, _TemplatedMixin, BaseEditor,
         }
         var popup = this.args.param.popup;
         if(popup){
-          var fieldNames = array.map(popup.fields,function(item){
+          var fieldNames = array.map(popup.fields, function(item){
             return item.name;
           });
-          popupArgs.fields = array.map(popupArgs.fields,function(fieldInfo){
-            var visible = array.indexOf(fieldNames,fieldInfo.name) >= 0;
+          popupArgs.fields = array.map(popupArgs.fields, function(fieldInfo){
+            var visible = array.indexOf(fieldNames, fieldInfo.name) >= 0;
             fieldInfo.visible = visible;
             return fieldInfo;
           });

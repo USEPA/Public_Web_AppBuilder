@@ -1,0 +1,641 @@
+.jimu-widget-ServiceFeasbility-setting .fldSetServiceAreaParameters
+{
+    border: 1px solid #a0acbf;
+    padding-left: 5px;
+    padding-bottom: 5px;
+    padding-top: 15px;
+    margin-top: 15px;
+    width: 934px;
+}
+
+.jimu-widget-ServiceFeasbility-setting .fldSetClosestFacilityParameters
+{
+    border: 1px solid #a0acbf;
+    padding-left: 5px;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    margin-top: 15px;
+    margin-bottom: 5px;
+}
+
+.jimu-widget-ServiceFeasbility-setting .fieldSetLegend
+{
+    color: #48494B;
+}
+
+.jimu-widget-ServiceFeasbility-setting .SFlabel
+{
+    width: 330px !important;
+    padding: 5px;
+    word-break: break-all;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    float: left;
+    padding-left: 0px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.jimu-widget-ServiceFeasbility-setting .row
+{
+    clear: both;
+}
+
+.jimu-widget-ServiceFeasbility-setting .inputbox input
+{
+    width: 59%;
+    height: 30px;
+}
+
+.jimu-widget-ServiceFeasbility-setting .inputbox select
+{
+    width: 59%;
+    display: inline-block;
+}
+
+.jimu-widget-ServiceFeasbility-setting .inputbox table
+{
+    width: 590px;
+}
+
+.jimu-widget-ServiceFeasbility-setting .chkbox
+{
+    width: 59%;
+    float: left;
+    padding: 10px 5px 5px 5px;
+}
+
+.jimu-widget-ServiceFeasbility-setting .inputurlbox input, .jimu-widget-ServiceFeasbility-setting .setClosestURL
+{
+    width: 480px;
+    height: 30px;
+}
+
+.jimu-widget-ServiceFeasbility-setting .urlButton
+{
+    margin: -2px 10px 0px 0px;
+    border: 0px;
+    width: 10%;
+}
+
+.claro .dijitArrowButtonContainer
+{
+    width: 30px !important;
+}
+
+.jimu-widget-ServiceFeasbility-setting .esriCTInputTextbox
+{
+    width: 593px;
+    float: left;
+}
+
+.jimu-widget-ServiceFeasbility-setting .divBusinessesLayerContainer
+{
+    margin-bottom: 4px;
+    margin-top: 4px;
+}
+
+.jimu-widget-ServiceFeasbility-setting .divAccessPointLayersContainer
+{
+    margin-bottom: 4px;
+    margin-top: 4px;
+}
+
+.jimu-widget-ServiceFeasbility-setting .divRouteLengthUnitsContainer
+{
+    margin-bottom: 4px;
+    margin-top: 4px;
+}
+
+.jimu-widget-ServiceFeasbility-setting .divBusinessListContainer
+{
+    margin-bottom: 4px;
+    margin-top: 4px;
+}
+
+.jimu-widget-ServiceFeasbility-setting .divServiceAreaParametersContainer
+{
+    margin-bottom: 4px;
+    margin-top: 4px;
+}
+
+.jimu-widget-ServiceFeasbility-setting .divBufferDistanceContainer
+{
+    margin-bottom: 4px;
+    margin-top: 4px;
+}
+
+.jimu-widget-ServiceFeasbility-setting .divBufferUnitsContainer
+{
+    margin-bottom: 4px;
+    margin-top: 4px;
+}
+
+.jimu-widget-ServiceFeasbility-setting .divBufferWKIDContainer
+{
+    margin-bottom: 4px;
+    margin-top: 4px;
+}
+
+.jimu-widget-ServiceFeasbility-setting .divClosestFacilityParametersContainer
+{
+    margin-bottom: 4px;
+    margin-top: 4px;
+    width: 930px;
+}
+
+.jimu-widget-ServiceFeasbility-setting .divClosestFacilityURLContainer
+{
+    margin-bottom: 4px;
+    margin-top: 4px;
+}
+
+.jimu-widget-ServiceFeasbility-setting .divFacilitySearchDistanceContainer
+{
+    margin-bottom: 4px;
+    margin-top: 4px;
+}
+
+.jimu-widget-ServiceFeasbility-setting .divImpedanceAttributeContainer
+{
+    margin-bottom: 4px;
+    margin-top: 4px;
+}
+
+.jimu-widget-ServiceFeasbility-setting .divCutoffDistanceContainer
+{
+    margin-bottom: 4px;
+    margin-top: 4px;
+}
+
+.jimu-widget-ServiceFeasbility-setting .esriCTattributeParamLookup
+{
+    width: 910px;
+    margin-top: 15px;
+}
+
+.jimu-widget-ServiceFeasbility-setting .esriCTAttributeTextArea
+{
+    width: 475px !important;
+    height: 70px !important;
+    font: inherit;
+    font-size: 14px;
+    text-align: justify;
+}
+
+.jimu-widget-ServiceFeasbility-setting .esriCTHidden
+{
+    display: none;
+}
+
+.jimu-widget-ServiceFeasbility-setting .esriCTBusinessLayerChecks
+{
+    float: left;
+    width: 20px;
+    height: 30px;
+    display: inline-block;
+}
+
+.jimu-widget-ServiceFeasbility-setting .esriCTTargetLayerLabel
+{
+    width: 46px;
+}
+
+.jimu-widget-ServiceFeasbility-setting .esriCTSymbolData
+{
+    float: left;
+}
+
+.jimu-widget-ServiceFeasbility-setting .esriCTCheckboxLabel
+{
+    margin-left: 8px;
+}
+
+.jimu-widget-ServiceFeasbility-setting .esriCTSaveBusinessLayerLabel .esriCTSaveRouteLayerLabel
+{
+    display: inline-block;
+}
+
+.jimu-widget-ServiceFeasbility-setting .esriCTSaveTargetLabel
+{
+    float: left;
+    width: 270px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.jimu-widget-ServiceFeasbility-setting .esriCTRouteLayerCheckBlock
+{
+    width: 90%;
+    margin-left: 37px;
+}
+
+.jimu-widget-ServiceFeasbility-setting .chkbox .divAceessPointLayersCheckboxes .jimu-checkbox
+{
+    width: 100%;
+}
+
+/* Attributes parameter value starts */
+
+.jimu-widget-ServiceFeasbility-setting .esriCTAttrParamContainer
+{
+    border-collapse: separate;
+    border-spacing: 10px;
+    width: 100%;
+    float: left;
+}
+
+.jimu-widget-ServiceFeasbility-setting .esriCTAttrParamRow
+{
+    display: table-row;
+}
+
+.jimu-widget-ServiceFeasbility-setting .esriCTAttrParamColumn
+{
+    display: table-cell;
+    padding: 5px;
+}
+
+.jimu-widget-ServiceFeasbility-setting .esriCTAttrParamCheckBox
+{
+    min-width: 5%;
+    max-width: 5%;
+}
+
+.jimu-widget-ServiceFeasbility-setting .esriCTAttrParamName
+{
+    max-width: 223px;
+    width: 223px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.jimu-widget-ServiceFeasbility-setting .esriCTAttrParamDropDown
+{
+    min-width: 19%;
+    max-width: 19%;
+}
+
+.jimu-widget-ServiceFeasbility-setting .esriCTAttrParamMinLabel
+{
+    min-width: 5%;
+    max-width: 5%;
+}
+
+.jimu-widget-ServiceFeasbility-setting .esriCTAttrParamValueLabel
+{
+    min-width: 5%;
+    max-width: 5%;
+}
+
+.jimu-widget-ServiceFeasbility-setting .esriCTAttrParamMinValue
+{
+    min-width: 8%;
+    max-width: 8%;
+}
+
+.jimu-widget-ServiceFeasbility-setting .esriCTAttrParamValueDropDown
+{
+    min-width: 8%;
+    max-width: 8%;
+}
+
+.jimu-widget-ServiceFeasbility-setting .esriCTAttrParamMaxLabel
+{
+    min-width: 5%;
+    max-width: 5%;
+}
+
+.jimu-widget-ServiceFeasbility-setting .esriCTAttrParamMaxValue
+{
+    min-width: 8%;
+    max-width: 8%;
+}
+
+.jimu-widget-ServiceFeasbility-setting .esriCTAttrParamHidden
+{
+    visibility: hidden;
+}
+
+.jimu-widget-ServiceFeasbility-setting .esriCTAttrParamDisplay
+{
+    display: none;
+}
+
+.jimu-widget-ServiceFeasbility-setting .esriCTAttrParamMinTextBox
+{
+    width: inherit;
+}
+
+.jimu-widget-ServiceFeasbility-setting .esriCTAttrParamMaxTextBox
+{
+    width: inherit;
+}
+
+.jimu-widget-ServiceFeasbility-setting .esriCTAttrParamHiddenColumn
+{
+    display: none !important;
+}
+
+/* Attributes parameter value ends */
+
+/* Image Highlighter */
+
+.jimu-widget-ServiceFeasbility-setting .thumbnail-img
+{
+    width: 100px;
+    height: 67px;
+}
+
+.jimu-widget-ServiceFeasbility-setting .img-chooser
+{
+    width: 100px;
+    height: 67px;
+    position: absolute !important;
+}
+
+.jimu-widget-ServiceFeasbility-setting .esriCTBrwoseImage
+{
+    width: 115px;
+    float: left;
+}
+
+.jimu-widget-ServiceFeasbility-setting .esriCTMargin
+{
+    margin-bottom: 10px;
+}
+
+.jimu-widget-ServiceFeasbility-setting .image_chooser_base
+{
+    float: left;
+}
+
+.jimu-widget-ServiceFeasbility-setting .esriCTTargetLayerAlign
+{
+    float: left;
+    width: 590px;
+}
+
+.jimu-widget-ServiceFeasbility-setting .esriCTTargetLayerWidth
+{
+    width: 100%;
+}
+
+.jimu-widget-ServiceFeasbility-setting .esriCTHint
+{
+    color: #ccc;
+    font-size: 12px;
+    width: 490px;
+    font-style: italic;
+    word-break: break-word;
+    display: inline-block;
+}
+
+.jimu-widget-ServiceFeasbility-setting .esriCTSelectImageHint
+{
+    margin-left: 330px;
+}
+
+.jimu-widget-ServiceFeasbility-setting .esriCTMargin
+{
+    margin: 4px 0px 4px 0px;
+}
+
+.jimu-widget-ServiceFeasbility-setting .esriCTMarginForLookupHint
+{
+    margin-left: 330px;
+}
+
+.jimu-widget-ServiceFeasbility-setting .esriCTEllipsis
+{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.jimu-widget-ServiceFeasbility-setting .esriCTEllipsisFieldSet
+{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 500px;
+}
+
+.jimu-widget-ServiceFeasbility-setting .esriCTBtnEllipsis
+{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 9%;
+}
+
+.jimu-widget-ServiceFeasbility-setting .esriCTBtnRefresh
+{
+    margin-top: 2%;
+}
+
+.jimu-popup .button-container .jimu-popup-btn
+{
+    max-width: 100px;
+}
+
+.jimu-widget-ServiceFeasbility-setting .esriCTAttrParamEllipsis
+{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 60px;
+}
+
+.jimu-widget-ServiceFeasbility-setting .esriCTAttrPos
+{
+    width: 600px;
+}
+
+.jimu-widget-ServiceFeasbility-setting .esriCTMainAttrPos
+{
+    float: left;
+    width: 40%;
+}
+
+.claro .dijitSelect
+{
+    background-color: #f0f0f0;
+    height: 30px;
+    width: 165px;
+}
+
+.jimu-widget-ServiceFeasbility-setting .esriCTFieldMargin
+{
+    margin-left: 4%;
+}
+
+.jimu-widget-ServiceFeasbility-setting .esriCTLeftAlign
+{
+    float: left;
+}
+
+.jimu-widget-ServiceFeasbility-setting .esriCTMarginForFieldMapping
+{
+    margin-right: 300px;
+    margin-bottom: 3%;
+    float: left;
+}
+
+.jimu-widget-ServiceFeasbility-setting .esriCTWidth
+{
+    width: 95%;
+}
+
+.jimu-widget-ServiceFeasbility-setting .esriCTparamaterwidth
+{
+    width: 100%;
+    float: left;
+    min-height: 40px;
+}
+
+.jimu-widget-ServiceFeasbility-setting .esriCTParameterMargin
+{
+    margin-bottom: 1%;
+}
+
+.jimu-widget-ServiceFeasbility-setting .esriCTParameterValueMargin
+{
+    margin-left: 3%;
+    float: left;
+}
+
+.jimu-widget-ServiceFeasbility-setting .esriCTIndendedTextBoxMargin
+{
+    margin-left: 259px;
+}
+
+.jimu-widget-ServiceFeasbility-setting .esriCTAttrLabelWidth
+{
+    width: 25%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.jimu-widget-ServiceFeasbility-setting .esriCTValueLabelMargin
+{
+    margin-right: 15px;
+    margin-top: 6px;
+}
+
+.jimu-widget-ServiceFeasbility-setting .esriCTIndendedMargin
+{
+    margin-left: 75px;
+    float: left;
+    width: 92%;
+    min-height: 40px;
+    margin-top: 7px;
+}
+
+.jimu-widget-ServiceFeasbility-setting .esriCTIndendedTextAlign
+{
+    /*width: 17%;*/
+    width: 230px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.jimu-widget-ServiceFeasbility-setting .esriCTIndendedTextBoxAlign
+{
+    float: left;
+    width: 120px;
+    margin-left: 25px;
+}
+
+.jimu-widget-ServiceFeasbility-setting .esriCTNonRestrictionUserInputMargin
+{
+    float: left;
+    width: 120px;
+    margin-left: 15px;
+}
+
+.jimu-widget-ServiceFeasbility-setting .esriCTIndendedMinMargin
+{
+    margin: 6px 0px 0px 43px;
+}
+
+.jimu-widget-ServiceFeasbility-setting .esriCTIndendedMaxMargin
+{
+    margin: 6px 0px 0px 15px;
+}
+
+.jimu-widget-ServiceFeasbility-setting .esriCTDefaultContainerWidth
+{
+    width: 70%;
+}
+
+.jimu-widget-ServiceFeasbility-setting .esriCTMarginNR
+{
+    margin-left: 0px;
+}
+
+.jimu-widget-ServiceFeasbility-setting .esriCTMarginInded
+{
+    margin-left: 127px;
+}
+
+.jimu-widget-ServiceFeasbility-setting .esriCTunitsForOther
+{
+    width: 200px;
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-top: 8px;
+    vertical-align: middle;
+    padding: 3px;
+    font-size: 12px;
+    font-style: italic;
+}
+
+.jimu-widget-ServiceFeasbility-setting .esriCTMinMaxLabel
+{
+    width: 45px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.jimu-widget-ServiceFeasbility-setting .esriCTValueLabel
+{
+    width: 75px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.jimu-widget-ServiceFeasbility-setting .esriCTLayoutLeft
+{
+    float: left;
+}
+
+.jimu-widget-ServiceFeasbility-setting .esriCTBusinessOptinalDiv
+{
+    width: 910px;
+}
+
+.jimu-widget-ServiceFeasbility-setting .esriCTInputBeforeAfter
+{
+    margin-right: 5px;
+}
+
+.jimu-widget-ServiceFeasbility-setting .esriCTLabelBeforeAfter
+{
+    margin-right: 15px;
+}
+
+.jimu-widget-ServiceFeasbility-setting .esriCTBeforeOrAfterOpt
+{
+    margin: 5px 0 0 0;
+    padding: 9px 5px 0px 0;
+}

@@ -9,6 +9,24 @@
     requiredInfo: "được yêu cầu.",
     drawnOnMap: "Kết quả được vẽ trên bản đồ.",
     clear: "Xóa",
-    error: "Lỗi"
+    error: "Lỗi",
+    noToolConfig: "Không có tác vụ địa xử lý nào được cấu hình sẵn.",
+    useUrlForGPInput: "URL",
+    useUploadForGPInput: "Tải lên tệp",
+    selectFileToUpload: 'Chọn tệp...',
+    upload: 'Tải lên',
+    rasterFormat: 'Định dạng dữ liệu raster',
+    noFileSelected: 'Không có tệp được chọn!',
+    uploadSuccess:'Tải lên tệp thành công!',
+    url: "URL",
+    showLayerContent: "Hiển thị nội dung lớp",
+    invalidUrl: "Url của dịch vụ đối tượng không hợp lệ",
+    Feet: "Feet",
+    Yards: "Thước",
+    Miles: "Dặm",
+    NauticalMiles: "Hải lý",
+    Meter: "Mét",
+    Kilometers: "Kilômét",
+    urlPlaceholder: "URL tập hợp đối tượng"
   })
 );

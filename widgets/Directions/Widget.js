@@ -18,22 +18,33 @@ define([
     'dojo/_base/declare',
     'jimu/BaseWidget',
     'esri/dijit/Directions',
+    'esri/tasks/locator',
     'esri/tasks/RouteParameters',
     'esri/request',
-    'dojo/aspect',
+    'esri/graphicsUtils',
+    'esri/layers/ArcGISDynamicMapServiceLayer',
+    'dojo/on',
     'dojo/_base/lang',
+    'dojo/_base/html',
+    'dojo/_base/array',
     'dojo/_base/config',
     'dojo/Deferred',
     'dojo/promise/all',
     'jimu/portalUtils'
   ],
-  function(declare, BaseWidget, Directions, RouteParameters, esriRequest, aspect, lang,
-    dojoConfig, Deferred, all, portalUtils) {
+  function(declare, BaseWidget, Directions, Locator, RouteParameters, esriRequest, graphicsUtils,
+    ArcGISDynamicMapServiceLayer, on, lang, html, array, dojoConfig, Deferred, all,
+    portalUtils) {
+
     return declare([BaseWidget], {
+      name: 'Directions',
+      baseClass: 'jimu-widget-directions',
       _dijitDirections:null,
       _routeTaskUrl: "//route.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World",
       _locatorUrl: "//geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer",
-      _active: false,//save last active state
+      _active: true,//save last active state
+      _dijitDef: null,
+      _trafficLayer: null,
 
       onOpen: function(){
         this._show();
@@ -53,6 +64,24 @@ define([
 
       onMaximize: function(){
         this._show();
+      },
+
+      onDeActive: function(){
+        this._deactivateDirections();
+        this._enableWebMapPopup();
+      },
+
+      getDirectionsDijit: function(){
+        if(!this._dijitDef){
+          this._dijitDef = new Deferred();
+        }
+        if(this._dijitDef.isFulfilled()){
+          this._dijitDef = new Deferred();
+        }
+        if(this._dijitDirections){
+          this._dijitDef.resolve(this._dijitDirections);
+        }
+        return this._dijitDef;
       },
 
       _handlePopup: function(){
@@ -79,6 +108,10 @@ define([
         if(this.map.activeDirectionsWidget === this._dijitDirections){
           this.map.activeDirectionsWidget = null;
         }
+        if(this._trafficLayer){
+          this.map.removeLayer(this._trafficLayer);
+          this._trafficLayer = null;
+        }
         this._handlePopup();
         this.inherited(arguments);
       },
@@ -104,30 +137,76 @@ define([
             }
           }
 
-          this._dijitDirections = new Directions({
+          var options = {
             map: this.map,
-            geocoderOptions: this.config.geocoderOptions,
+            searchOptions: this.config.searchOptions,
             routeParams: routeParams,
             routeTaskUrl: this.config.routeTaskUrl,
             dragging: true,
             showClearButton: true
-          });
-          this._dijitDirections.placeAt(this.directionController);
+          };
+
+          if(this.config.trafficLayerUrl){
+            this._trafficLayer = new ArcGISDynamicMapServiceLayer(this.config.trafficLayerUrl);
+            options.trafficLayer = this._trafficLayer;
+            options.traffic = true;
+          }else{
+            options.traffic = false;
+          }
+
+          if(this.config.travelModesUrl){
+            options.travelModesServiceUrl = this.config.travelModesUrl;
+          }
+
+          this._dijitDirections = new Directions(options);
+          html.place(this._dijitDirections.domNode, this.directionController);
           this._dijitDirections.startup();
-          if(typeof this._dijitDirections.activate === 'function'){
-            this.own(aspect.after(this._dijitDirections, "activate",
-                                  lang.hitch(this, this._handlePopup)));
-          }
-          if(typeof this._dijitDirections.deactivate === 'function'){
-            this.own(aspect.after(this._dijitDirections, "deactivate",
-                                  lang.hitch(this, this._handlePopup)));
-          }
-          //this._dijitDirections.deactivate();
-          this._deactivateDirections();
+
+          this.own(on(this._dijitDirections,
+                     'directions-finish',
+                     lang.hitch(this, this._onDirectionsFinish)));
+
+          this.own(on(this._dijitDirections,
+                      'map-click-active',
+                      lang.hitch(this, this._handlePopup)));
+
+          this._activateDirections();
           this._storeLastActiveState();
+
+          if(this._dijitDef && this._dijitDef.isFulfilled()){
+            this._dijitDef.resolve(this._dijitDirections);
+          }
         }), lang.hitch(this, function(err){
           console.error(err);
         }));
+      },
+
+      _onDirectionsFinish: function(evt){
+        if(evt && evt.result){
+          var routeResults = evt.result.routeResults;
+          if(lang.isArrayLike(routeResults) && routeResults.length > 0){
+            var routes = [];
+            array.forEach(routeResults, function(routeResult){
+              if(routeResult.route){
+                routes.push(routeResult.route);
+              }
+            });
+            if(routes.length > 0){
+              var ext = null;
+              try{
+                ext = graphicsUtils.graphicsExtent(routes);
+                if(ext){
+                  ext = ext.expand(1.3);
+                }
+              }catch(e){
+                console.log(e);
+              }
+              if(ext){
+                this.map.setExtent(ext);
+              }
+            }
+          }
+        }
       },
 
       _preProcessConfig:function(){
@@ -142,22 +221,47 @@ define([
           }];
         }
 
+        var placeholder = this.config.geocoderOptions.geocoders[0].placeholder;
+
+        if(!placeholder){
+          if(!this.config.routeTaskUrl){
+            //user doesn't open the setting page, we use the default placeholder
+            placeholder = this.nls.searchPlaceholder;
+          }
+        }
+
+        this.config.searchOptions = {
+          enableSuggestions: this.config.geocoderOptions.autoComplete,
+          maxResults: this.config.geocoderOptions.maxLocations,
+          minCharacters: this.config.geocoderOptions.minCharacters,
+          suggestionDelay: this.config.geocoderOptions.searchDelay,
+          sources: [{
+            locator: null,
+            name: '',
+            singleLineFieldName: '',
+            outFields: ["*"],
+            placeholder: placeholder
+          }]
+        };
+
         var def = new Deferred();
-        all([this._getRouteTaskUrl(),this._getLocatorUrl()]).then(lang.hitch(this,function(results){
+        all([this._getRouteTaskUrl(), this._getLocatorUrl(), this._getTravelModesUrl()]).then(
+          lang.hitch(this, function(results){
           this.config.routeTaskUrl = results[0];
-          var geocodeArgs = this.config.geocoderOptions.geocoders[0];
-          geocodeArgs.url = results[1];
+          var locatorUrl = results[1];
+          this.config.travelModesUrl = results[2];
           esriRequest({
-            url: geocodeArgs.url,
+            url: locatorUrl,
             hanleAs:'json',
             content:{
               f:'json'
             },
             callbackParamName:'callback'
           }).then(lang.hitch(this, function(geocodeMeta){
-            geocodeArgs.singleLineFieldName = geocodeMeta.singleLineAddressField &&
-             geocodeMeta.singleLineAddressField.name || '';
-            geocodeArgs.name = geocodeMeta.serviceDescription || '';
+            this.config.searchOptions.sources[0].locator = new Locator(locatorUrl);
+            this.config.searchOptions.sources[0].name = geocodeMeta.serviceDescription || '';
+            this.config.searchOptions.sources[0].singleLineFieldName =
+             geocodeMeta.singleLineAddressField && geocodeMeta.singleLineAddressField.name || '';
             def.resolve();
           }), lang.hitch(this, function(err){
             console.error(err);
@@ -219,6 +323,31 @@ define([
         return def;
       },
 
+      _getTravelModesUrl: function(){
+        var def = new Deferred();
+        if(this.config.travelModesUrl){
+          def.resolve(this.config.travelModesUrl);
+        }else{
+          if(this.config.routeTaskUrl){
+            //user has opend the setting page
+            def.resolve(this.config.travelModesUrl);
+          }else{
+            //user doesn't open the setting page
+            this.portal.loadSelfInfo().then(lang.hitch(this, function(response){
+              if(response && response.helperServices && response.helperServices.routingUtilities){
+                def.resolve(response.helperServices.routingUtilities.url);
+              }else{
+                def.resolve("");
+              }
+            }), lang.hitch(this, function(err){
+              console.error(err);
+              def.reject(err);
+            }));
+          }
+        }
+        return def;
+      },
+
       _hide: function(){
         if(this._dijitDirections){
           this._storeLastActiveState();
@@ -234,7 +363,7 @@ define([
 
       _storeLastActiveState: function(){
         if(this._dijitDirections){
-          this._active = this._dijitDirections.active;
+          this._active = this._dijitDirections.mapClickActive;
         }
       },
 
@@ -255,9 +384,6 @@ define([
           if(typeof this._dijitDirections.activate === 'function'){
             this._dijitDirections.activate();
           }
-          if(typeof this._dijitDirections._activate === 'function'){
-            this._dijitDirections._activate(true);
-          }
         }
       },
 
@@ -265,9 +391,6 @@ define([
         if(this._dijitDirections){
           if(typeof this._dijitDirections.deactivate === 'function'){
             this._dijitDirections.deactivate();
-          }
-          if(typeof this._dijitDirections._activate === 'function'){
-            this._dijitDirections._activate(false);
           }
         }
       }

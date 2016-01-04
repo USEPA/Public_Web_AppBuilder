@@ -3,7 +3,7 @@
   "label": "Print Plus",
   "type": "widget",
   "platform": "HTML",
-  "version": "1.1.4",
+  "version": "1.1.6",
   "wabVersion": "1.1",
   "author": "Esri R&D Center Beijing, Dave Spriggs, Larry Stout",
   "description": "The PrintPlus Widget will print the map to several file formats using several layouts.  It shows the selected layout on the map so you won't have to guess what will be printed.",

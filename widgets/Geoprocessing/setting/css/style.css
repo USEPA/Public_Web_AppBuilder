@@ -183,6 +183,11 @@
 }
 
 /*layer order*/
+.jimu-widget-setting-gp .jimu-widget-setting-gp-layer-order{
+  width: 100%;
+  height: auto;
+  margin-top: 10px;
+}
 .jimu-widget-setting-gp .layer-node{
   overflow: hidden;
   margin-top: 10px;
@@ -203,6 +208,12 @@
   color: rgba(0, 0, 0, 0.4);
 }
 /* options */
+.jimu-widget-setting-gp .jimu-widget-setting-gp-options{
+  width: 100%;
+  height: auto;
+  margin-top: 10px;
+}
+
 .jimu-widget-setting-gp .jimu-widget-setting-gp-options .field{
   margin-top: 10px;
   height: 36px;
@@ -264,4 +275,43 @@
 .jimu-rtl .jimu-widget-setting-gp .jimu-widget-setting-gp-options .field .option-help-url{
   left: 10px;
   right: 115px;
+}
+
+.jimu-widget-setting-gp .param-node{
+  border-left: 0;
+  border-right: 0;
+  position: relative;
+}
+
+.jimu-widget-setting-gp .param-node .action-group{
+  position: absolute;
+  width: 5px;
+  height: 20px;
+  left: 5px;
+  top: 5px;
+  background-image: none;
+  background-repeat: no-repeat;
+  background-position: -22px -101px;
+  cursor: move;
+}
+
+.jimu-widget-setting-gp .dojoDndItemOver .action-group{
+  background-image: url(images/ago_sprite.png);
+}
+
+.jimu-widget-setting-gp .dojoDndItemOver .action-group:hover{
+  background-position: -38px -101px;
+}
+
+.jimu-rtl .jimu-widget-setting-gp .param-node .action-group{
+  left: auto;
+  right: 5px;
+}
+
+.dojoDndAvatarHeader{
+  display: none;
+}
+
+.dojoDndAvatarItem{
+  display: block;
 }

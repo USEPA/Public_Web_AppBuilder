@@ -40,6 +40,10 @@ define([
       startup: function() {
         this.inherited(arguments);
         this._initPrinter();
+        domStyle.set(this.domNode.parentNode, {
+          paddingLeft: '10px',
+          paddingRight: '10px'
+        });
       },
       
       _initPrinter: function() {

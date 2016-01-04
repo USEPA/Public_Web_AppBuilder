@@ -1,12 +1,13 @@
 ﻿define(
    ({
+    id: 'Tunnus',
     state: "Oletusarvon mukaan koordinaatit näytetään nykyisen kartan koordinaattijärjestelmässä. Jos haluat noutaa koordinaatit toisesta koordinaattijärjestelmästä, sinun on lisättävä ne ja määritettävä asianmukaiset transformaatiot.",
     outputUnit: "Tulosyksikkö",
     wkid: "Tulosaineiston WKID",
     label: "Anna koordinaattijärjestelmän nimi",
-    transformationWkid: 'Transformaatio WKID',
-    transformationLabel: 'Transformaation tunnusteksti',
-    transformForward: 'Transformoi eteenpäin',
+    transformationWkid: "Transformaatio WKID",
+    transformationLabel: "Transformaation tunnusteksti",
+    transformForward: "Transformoi eteenpäin",
     actions: "Toimet",
     warning: "Anna kelvollinen koordinaattijärjestelmän WKID!",
     tfWarning: "Anna kelvollinen datumin transformaatio WKID!",

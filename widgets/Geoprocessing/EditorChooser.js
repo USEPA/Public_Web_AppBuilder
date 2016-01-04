@@ -21,9 +21,10 @@ define(['dojo/_base/declare',
   'dojo/on',
   'dojo/query',
   'dijit/_WidgetBase',
-  'dijit/form/Select'
+  'dijit/form/Select',
+  'jimu/utils'
 ],
-function(declare, lang, html, array, on, query, _WidgetBase, Select) {
+function(declare, lang, html, array, on, query, _WidgetBase, Select, utils) {
   //summary:
   var clazz = declare([_WidgetBase], {
 
@@ -68,7 +69,7 @@ function(declare, lang, html, array, on, query, _WidgetBase, Select) {
       }, this.box);
       html.create('div', {
         'class': 'node-label',
-        'innerHTML': editor.label
+        'innerHTML': utils.sanitizeHTML(editor.label)
       }, node);
 
       if(editor.name === 'LayerFieldChooser'){

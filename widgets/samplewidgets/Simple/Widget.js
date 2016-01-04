@@ -10,10 +10,5 @@ function(declare, BaseWidget) {
       alert(this.map.id);
     }
   });
-
-  clazz.hasStyle = false;
-  clazz.hasUIFile = false;
-  clazz.hasLocale = false;
-  clazz.hasConfig = false;
   return clazz;
 });

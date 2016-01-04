@@ -2,6 +2,7 @@
 @import "../base/Reporting/theme/style";
 @import "../base/Webmap/theme/style";
 @import "../base/Download/theme/style";
+@import "../base/CsvExport/theme/style";
 
 $default-border: 1px solid #DFDFDF;
 
@@ -63,13 +64,11 @@ $default-border: 1px solid #DFDFDF;
       position: relative;
       min-height: 225px;
       width: 98%;
-      height: 100%;
       margin-top: 5px;
       border: 1px solid #DFDFDF;
       background: ghostwhite;
       .checkoutWidgetTabContent {
         padding: 10px;
-        height: 90%;
       }
     }
   }
@@ -160,9 +159,11 @@ $default-border: 1px solid #DFDFDF;
     }
   }
 
+
   .orderReviewContainer {
     overflow: auto;
-    height: 90%;
+    //height: 86%;
+    max-height:350px;
     max-width: 500px;
     padding: 0 5px;
     @extend %default-list-style;
@@ -170,6 +171,7 @@ $default-border: 1px solid #DFDFDF;
       margin: 10px 0;
       font-size: 12pt;
     }
+
 
   }
 
@@ -197,7 +199,7 @@ $default-border: 1px solid #DFDFDF;
   }
 
   .checkoutContent {
-    height: 75%;
+    //height: 75%;
     width: 100%;
     padding: 1%;
 
@@ -318,4 +320,18 @@ $default-border: 1px solid #DFDFDF;
     cursor: default;
   }
 
+}
+
+.exportCSVLinksList {
+  list-style-type: none;
+}
+
+.exportCSVLinksListItem {
+  text-decoration: underline;
+  cursor: pointer;
+  opacity: .7;
+}
+
+.exportCSVLinksListItem:hover {
+  opacity: 1.0;
 }

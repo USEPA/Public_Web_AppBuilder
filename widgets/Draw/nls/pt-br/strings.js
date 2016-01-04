@@ -39,6 +39,10 @@
     squareFeet: "Pés quadrados",
     squareYards: "Jardas quadradas",
     undo: "Desfazer",
-    redo: "Refazer"
+    redo: "Refazer",
+    results: "Resultados",
+    points: "Pontos",
+    lines: "Linhas",
+    areas: "Áreas"
   })
 );

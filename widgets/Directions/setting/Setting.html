@@ -1,20 +1,44 @@
 <div style="width:100%;height:auto;">
 	<table style="width:100%;" cellspacing="0">
+		<colgroup>
+			<col width="187px" />
+			<col width="auto" />
+		</colgroup>
 		<tbody>
 			<tr>
-				<td style="width:187px;">
+				<td>
 					<span class="jimu-ellipsis">${nls.routeUrl}</span>
 				</td>
 				<td class="route-td">
-					<input data-dojo-attach-point="routeUrl" data-dojo-type="jimu/dijit/URLInput" type="text" style="width:100%;" />
+					<input data-dojo-attach-point="routeUrl" data-dojo-type="jimu/dijit/ServiceURLInput"
+					data-dojo-attach-props="trim:true" type="text" style="width:100%;" placeHolder="${_routeTaskUrl}" />
 				</td>
 			</tr>
 			<tr>
-				<td style="width:100px;">
+				<td>
 					<span class="jimu-ellipsis">${nls.locatorUrl}</span>
 				</td>
 				<td class="locator-td">
-					<input data-dojo-attach-point="locatorUrl" data-dojo-type="jimu/dijit/URLInput" type="text" style="width:100%;" />
+					<input data-dojo-attach-point="locatorUrl" data-dojo-type="jimu/dijit/ServiceURLInput"
+					data-dojo-attach-props="trim:true" type="text" style="width:100%;" placeHolder="${_locatorUrl}" />
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<span>${nls.travelModesUrl}</span>
+				</td>
+				<td class="travelmodes-td">
+					<input data-dojo-attach-point="travelModesUrl" data-dojo-type="jimu/dijit/ServiceURLInput"
+					data-dojo-attach-props="trim:true" type="text" style="width:100%;" placeHolder="${_travelModesUrl}" />
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<span>${nls.trafficLayerUrl}</span>
+				</td>
+				<td class="trafficlayer-td">
+					<input data-dojo-attach-point="trafficLayerUrl" data-dojo-type="jimu/dijit/ServiceURLInput"
+					data-dojo-attach-props="trim:true" type="text" style="width:100%;" placeHolder="${_trafficLayerUrl}" />
 				</td>
 			</tr>
 		</tbody>
@@ -23,9 +47,8 @@
 	<table style="width:100%;" cellspacing="0">
 		<tbody>
 			<tr>
-				<td style="width:50%;">
+				<td style="width:50%;" class="auto-complete-td" data-dojo-attach-point="autoCompleteTd">
 					<span>${nls.autoComplete}</span>
-					<input data-dojo-attach-point="autoComplete" type="checkbox" />
 				</td>
 				<td style="width:50%;">
 					<table style="width:100%;" cellspacing="0">

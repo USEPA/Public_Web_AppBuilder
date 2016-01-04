@@ -17,6 +17,9 @@ define([
   './DefaultSearchSymEdit',
   './DefaultBufferEdit',
   './SpatialRelationshipsEdit',
+  './GraphicalEdit',
+  './DisableTabEdit',
+  './ResultFormatEdit',
   'jimu/dijit/Message',
   'jimu/dijit/Popup',
   'dojo/keys',
@@ -26,9 +29,10 @@ define([
   'esri/request',
   'dojo/dom-attr'
 ],
-function(declare, lang, array, html, query, on,json, _WidgetsInTemplateMixin,BaseWidgetSetting,
-          SimpleTable,SingleSearchEdit,DefaultSearchSymEdit,DefaultBufferEdit,SpatialRelationshipsEdit,
-          Message,Popup,keys,NumberTextBox,TextBox,Select,esriRequest,domAttr) {/*jshint unused: false*/
+function(declare, lang, array, html, query, on,json, _WidgetsInTemplateMixin, BaseWidgetSetting,
+          SimpleTable, SingleSearchEdit, DefaultSearchSymEdit, DefaultBufferEdit, SpatialRelationshipsEdit,
+          GraphicalEdit, DisableTabEdit, ResultFormatEdit, Message, Popup, keys, NumberTextBox, TextBox,
+          Select, esriRequest, domAttr) {/*jshint unused: false*/
   return declare([BaseWidgetSetting,_WidgetsInTemplateMixin], {
     baseClass: 'widget-esearch-setting',
     ds: null,
@@ -36,15 +40,23 @@ function(declare, lang, array, html, query, on,json, _WidgetsInTemplateMixin,Bas
     layerInfoCache: null,
     bufferDefaults:null,
     spatialrelationships:null,
+    graphicalsearchoptions:null,
+    disabledTabs: null,
     popup: null,
     popup2: null,
     popup3: null,
     popup4: null,
     popup5: null,
+    popup6: null,
+    popup7: null,
+    popup8: null,
     popupSRedit: null,
+    popupGOedit: null,
+    popupDisableTabedit: null,
     defaultBufferedit: null,
     defaultSingleSearchedit: null,
     defaultSearchSymedit: null,
+    popupformatedit: null,
 
     postCreate:function(){
       this.inherited(arguments);
@@ -55,10 +67,11 @@ function(declare, lang, array, html, query, on,json, _WidgetsInTemplateMixin,Bas
     },
 
     setConfig:function(config){
+      console.info(this);
       //hack the 'Learn more about this widget link'
       setTimeout(function(){
         var helpLink = dojo.query('.help-link');
-        helpLink[0].href = 'http://gis.calhouncounty.org/WAB/V1.1/widgets/eSearch/help/eSearch_Help.htm';
+        helpLink[0].href = 'http://gis.calhouncounty.org/WAB/V1.3/widgets/eSearch/help/eSearch_Help.htm';
         html.setStyle(helpLink[0],'display','block');
       },600);
 
@@ -67,19 +80,16 @@ function(declare, lang, array, html, query, on,json, _WidgetsInTemplateMixin,Bas
       if(!this.config){
         return;
       }
+      this.graphicalsearchoptions = this.config.graphicalsearchoptions;
       this._initSearchesTable();
-      this.shareCbx.checked = this.config.shareResult === true;
-      this.multiCbx.checked = this.config.multipartgraphicsearchchecked === true;
-      this.toleranceCbx.checked = this.config.addpointtolerancechecked === true;
-      if(this.config.toleranceforpointgraphicalselection){
-        this.pointTolerance.set('value',parseInt(this.config.toleranceforpointgraphicalselection,10));
-      }else{
-        this.pointTolerance.set('value',6);
-      }
-      this.autoZoomCbx.checked = this.config.autozoomtoresults || true;
-      this.keepGraphicalEnabledCbx.checked = this.config.keepgraphicalsearchenabled || false;
-      if(this.config.zoomScale){
-        this.zoomScale.set('value',parseInt(this.config.zoomScale,10));
+      this.enablePopupsCbx.setValue(this.config.enablePopupsOnResultClick);
+      this.limit2MapExtCbx.setValue(this.config.limitsearch2mapextentchecked);
+      this.exportSearchURLCbx.setValue(this.config.exportsearchurlchecked);
+      var isAutoZoom = (this.config.hasOwnProperty('autozoomtoresults') && !this.config.autozoomtoresults)? false : true;
+      this.autoZoomCbx.setValue(isAutoZoom);
+      this.mouseOverGraphicsCbx.setValue(this.config.mouseovergraphics || false);
+      if(this.config.hasOwnProperty('disabledtabs')){
+        this.disabledTabs = this.config.disabledtabs;
       }
       if(this.config.initialView){
         this.selectInitialView.set('value', this.config.initialView);
@@ -91,20 +101,23 @@ function(declare, lang, array, html, query, on,json, _WidgetsInTemplateMixin,Bas
     getConfig:function(){
       var config = {};
       config.layers = this._getAllLayers();
-      config.zoomScale = parseInt(this.zoomScale.get('value'),10);
-      config.shareResult = this.shareCbx.checked;
       config.initialView = this.selectInitialView.get('value');
-      config.multipartgraphicsearchchecked = this.multiCbx.checked;
-      config.addpointtolerancechecked = this.toleranceCbx.checked;
-      config.keepgraphicalsearchenabled = this.keepGraphicalEnabledCbx.checked;
-      config.autozoomtoresults = this.autoZoomCbx.checked;
-      config.toleranceforpointgraphicalselection = parseInt(this.pointTolerance.get('value'),10);
+      if(this.disabledTabs && this.disabledTabs.length > 0){
+        config.disabledtabs = this.disabledTabs;
+      }
+      config.enablePopupsOnResultClick = this.enablePopupsCbx.getValue();
+      config.exportsearchurlchecked = this.exportSearchURLCbx.getValue();
+      config.limitsearch2mapextentchecked = this.limit2MapExtCbx.getValue();
+      config.autozoomtoresults = this.autoZoomCbx.getValue();
+      config.mouseovergraphics = this.mouseOverGraphicsCbx.getValue();
       config.bufferDefaults = this.bufferDefaults;
       config.spatialrelationships = this.spatialrelationships;
+      config.graphicalsearchoptions = this.graphicalsearchoptions;
       config.symbols = {};
       if(this.config.symbols){
         config.symbols = lang.mixin({},this.config.symbols);
       }
+      config.resultFormat = this.config.resultFormat;
       this.config = lang.mixin({},config);
       return config;
     },
@@ -164,6 +177,94 @@ function(declare, lang, array, html, query, on,json, _WidgetsInTemplateMixin,Bas
       this.popupSRedit.startup();
     },
 
+    _onGOEditOk: function() {
+      var config = this.popupGOedit.getConfig();
+
+      if (config.length < 0) {
+        new Message({
+          message: this.nls.warning
+        });
+        return;
+      }
+      this.graphicalsearchoptions = config;
+      this.popup5.close();
+    },
+
+    _onGOEditClose: function() {
+      this.popupGOedit = null;
+      this.popup5 = null;
+    },
+
+    _openGOEdit: function(title, config) {
+      this.popupGOedit = new GraphicalEdit({
+        nls: this.nls,
+        config: config || {}
+      });
+
+      this.popup5 = new Popup({
+        titleLabel: title,
+        autoHeight: true,
+        content: this.popupGOedit,
+        container: 'main-page',
+        width: 880,
+        buttons: [{
+          label: this.nls.ok,
+          key: keys.ENTER,
+          onClick: lang.hitch(this, '_onGOEditOk')
+        }, {
+          label: this.nls.cancel,
+          key: keys.ESCAPE
+        }],
+        onClose: lang.hitch(this, '_onGOEditClose')
+      });
+      html.addClass(this.popup5.domNode, 'widget-setting-popup');
+      this.popupGOedit.startup();
+    },
+
+    _onDTEditOk: function() {
+      var DTs = this.popupDisableTabedit.getConfig();
+
+      if (DTs.length < 0) {
+        new Message({
+          message: this.nls.warning
+        });
+        return;
+      }
+      this.disabledTabs = DTs;
+      this.popup7.close();
+    },
+
+    _onDTEditClose: function() {
+      this.popupDisableTabedit = null;
+      this.popup7 = null;
+    },
+
+    _openDTEdit: function(title, disTabs) {
+      this.popupDisableTabedit = new DisableTabEdit({
+        nls: this.nls,
+        config: disTabs || {}
+      });
+
+      this.popup7 = new Popup({
+        titleLabel: title,
+        autoHeight: true,
+        content: this.popupDisableTabedit,
+        container: 'main-page',
+        width: 640,
+        buttons: [{
+          label: this.nls.ok,
+          key: keys.ENTER,
+          onClick: lang.hitch(this, '_onDTEditOk')
+        }, {
+          label: this.nls.cancel,
+          key: keys.ESCAPE
+        }],
+        onClose: lang.hitch(this, '_onDTEditClose')
+      });
+      html.addClass(this.popup7.domNode, 'widget-setting-popup');
+      this.popupDisableTabedit.startup();
+    },
+
     _onBufferEditOk: function() {
       var bConfig = this.defaultBufferedit.getConfig();
 
@@ -193,7 +294,7 @@ function(declare, lang, array, html, query, on,json, _WidgetsInTemplateMixin,Bas
         autoHeight: true,
         content: this.defaultBufferedit,
         container: 'main-page',
-        height: 485,
+        height: 505,
         buttons: [{
           label: this.nls.ok,
           key: keys.ENTER,
@@ -229,7 +330,8 @@ function(declare, lang, array, html, query, on,json, _WidgetsInTemplateMixin,Bas
     _openSymbolEdit: function(title, dSym) {
       this.defaultSearchSymedit = new DefaultSearchSymEdit({
         nls: this.nls,
-        config: dSym || {}
+        config: dSym || {},
+        widget:  this
       });
 
       this.popup4 = new Popup({
@@ -274,7 +376,7 @@ function(declare, lang, array, html, query, on,json, _WidgetsInTemplateMixin,Bas
         this.defaultSingleSearchedit.tr.singleSearch = sConfig;
       }
 
-      this.popup5.close();
+      this.popup6.close();
       this.popupState = '';
     },
 
@@ -283,7 +385,7 @@ function(declare, lang, array, html, query, on,json, _WidgetsInTemplateMixin,Bas
         this.searchesTable.deleteRow(this.defaultSingleSearchedit.tr);
       }
       this.defaultSearchSymedit = null;
-      this.popup5 = null;
+      this.popup6 = null;
     },
 
     _openSingleSearchEdit: function(title, tr) {
@@ -296,7 +398,7 @@ function(declare, lang, array, html, query, on,json, _WidgetsInTemplateMixin,Bas
         tr: tr
       });
 
-      this.popup5 = new Popup({
+      this.popup6 = new Popup({
         titleLabel: title,
         autoHeight: true,
         content: this.defaultSingleSearchedit,
@@ -311,8 +413,45 @@ function(declare, lang, array, html, query, on,json, _WidgetsInTemplateMixin,Bas
         }],
         onClose: lang.hitch(this, '_onSingleSearchEditClose')
       });
-      html.addClass(this.popup5.domNode, 'widget-setting-popup');
+      html.addClass(this.popup6.domNode, 'widget-setting-popup');
       this.defaultSingleSearchedit.startup();
+    },
+
+    _onFormatEditOk: function() {
+      this.config.resultFormat = this.popupformatedit.getConfig().format;
+      this.popup8.close();
+      this.popupState = '';
+    },
+
+    _onFormatEditClose: function() {
+      this.popupfromatedit = null;
+      this.popup8 = null;
+    },
+
+    _openFormatEdit: function(title) {
+      this.popupformatedit = new ResultFormatEdit({
+        nls: this.nls,
+        config: this.config || {}
+      });
+
+      this.popup8 = new Popup({
+        titleLabel: title,
+        autoHeight: true,
+        content: this.popupformatedit,
+        container: 'main-page',
+        width: 540,
+        buttons: [{
+          label: this.nls.ok,
+          key: keys.ENTER,
+          onClick: lang.hitch(this, '_onFormatEditOk')
+        }, {
+          label: this.nls.cancel,
+          key: keys.ESCAPE
+        }],
+        onClose: lang.hitch(this, '_onFormatEditClose')
+      });
+      html.addClass(this.popup8.domNode, 'widget-setting-format');
+      this.popupformatedit.startup();
     },
 
     _bindEvents:function(){
@@ -329,11 +468,20 @@ function(declare, lang, array, html, query, on,json, _WidgetsInTemplateMixin,Bas
       this.own(on(this.btnSymSearch,'click',lang.hitch(this,function(){
         this._openSymbolEdit(this.nls.editDefaultSym, this.config);
       })));
+      this.own(on(this.btnFormatResults,'click',lang.hitch(this,function(){
+        this._openFormatEdit(this.nls.editResultFormat);
+      })));
       this.own(on(this.btnBufferSearch,'click',lang.hitch(this,function(){
         this._openBufferEdit(this.nls.updateBuffer, this.config);
       })));
       this.own(on(this.btnSpatialSearch,'click',lang.hitch(this,function(){
         this._openSREdit(this.nls.addspatalrelationships, this.spatialrelationships.spatialrelationship);
+      })));
+      this.own(on(this.btnGraphicalSearch,'click',lang.hitch(this,function(){
+        this._openGOEdit(this.nls.addgraphicalsearchoptions, this.graphicalsearchoptions);
+      })));
+      this.own(on(this.btnDisableTabs,'click',lang.hitch(this,function(){
+        this._openDTEdit(this.nls.editdisabledtaboptions, this.disabledTabs);
       })));
       this.own(on(this.searchesTable,'actions-edit',lang.hitch(this,function(tr){
         this.popupState = 'EDIT';
@@ -345,7 +493,7 @@ function(declare, lang, array, html, query, on,json, _WidgetsInTemplateMixin,Bas
     },
 
     reset:function(){
-      this.zoomScale.set('value',10000);
+      /*this.zoomScale.set('value',10000);*/
       this.searchesTable.clear();
     },
 
@@ -357,10 +505,6 @@ function(declare, lang, array, html, query, on,json, _WidgetsInTemplateMixin,Bas
       this.searchesTable.clear();
       var layers = this.config && this.config.layers;
       array.forEach(layers, lang.hitch(this, function(layerConfig, index) {
-        /*var args = {
-          config:layerConfig,
-          layerindex: index
-        };*/
         this._createSingleSearch(layerConfig);
       }));
     },

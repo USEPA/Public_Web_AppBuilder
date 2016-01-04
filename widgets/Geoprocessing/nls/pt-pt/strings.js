@@ -9,6 +9,24 @@
     requiredInfo: "é necessário.",
     drawnOnMap: "O resultado encontra-se desenhado no mapa.",
     clear: "Limpar",
-    error: "Erro"
+    error: "Erro",
+    noToolConfig: "Não está disponível qualquer tarefa de geoprocessamento disponível.",
+    useUrlForGPInput: "URL",
+    useUploadForGPInput: "Carregar ficheiro",
+    selectFileToUpload: 'Seleccionar ficheiro...',
+    upload: 'Carregar',
+    rasterFormat: 'Formato de dados raster',
+    noFileSelected: 'Nenhum ficheiro seleccionado!',
+    uploadSuccess:'Ficheiro actualizado com sucesso!',
+    url: "URL",
+    showLayerContent: "Exibir conteúdo da camada",
+    invalidUrl: "Url de serviço de elementos inválido",
+    Feet: "Pés",
+    Yards: "Jardas",
+    Miles: "Milhas",
+    NauticalMiles: "Milhas Náuticas",
+    Meter: "Metros",
+    Kilometers: "Quilômetros",
+    urlPlaceholder: "URL de conjunto de elementos"
   })
 );

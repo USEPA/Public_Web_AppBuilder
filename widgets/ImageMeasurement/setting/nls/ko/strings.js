@@ -1,0 +1,50 @@
+﻿define(
+   ({
+    layerSelect: "이미지 레이어 선택",
+    displayMeasureResultInPopup: "팝업에 측정 결과 보기",
+    angularUnitSelect: "기본 각도 단위",
+    linearUnitSelect: "기본 선형 단위",
+    areaUnitSelect: "기본 면적 단위",
+    displayOperationSelect: "측정 작업 선택",
+    errorSectionMeasage: "측정 기능을 지원하는 레이어가 없습니다.",
+    unitLabel: {
+      esriInches: "인치",
+      esriFeet: "피트",
+      esriYards: "야드",
+      esriMiles: "마일",
+      esriNauticalMiles: "해리",
+      esriMillimeters: "밀리미터",
+      esriCentimeters: "센티미터",
+      esriDecimeters: "데시미터",
+      esriMeters: "미터",
+      esriKilometers: "킬로미터",
+      esriDURadians: "라디안",
+      esriDUDecimalDegrees: "도",
+      esriSquareInches: "제곱인치",
+      esriSquareFeet: "제곱피트",
+      esriSquareYards: "제곱야드",
+      esriAcres: "에이커",
+      esriSquareMiles: "제곱마일",
+      esriSquareMillimeters: "제곱밀리미터",
+      esriSquareCentimeters: "제곱센티미터",
+      esriSquareDecimeters: "제곱데시미터",
+      esriSquareMeters: "제곱미터",
+      esriAres: "아르",
+      esriHectares: "헥타르",
+      esriSquareKilometers: "제곱킬로미터"
+    },
+    operationLabel: {
+      esriMensurationPoint: "포인트",
+      esriMensurationDistanceAndAngle: "거리 및 각도",
+      esriMensurationAreaAndPerimeter: "면적 및 둘레",
+      esriMensurationHeightFromBaseAndTop: "바닥에서 상단",
+      esriMensurationHeightFromBaseAndTopShadow: "바닥에서 상단 그림자",
+      esriMensurationHeightFromTopAndTopShadow: "상단에서 상단 그림자",
+      esriMensurationCentroid: "중심",
+      esriMensurationPoint3D: "포인트(3D)",
+      esriMensurationDistanceAndAngle3D: "거리 및 각도(3D)",
+      esriMensurationAreaAndPerimeter3D: "면적 및 둘레(3D)",
+      esriMensurationCentroid3D: "중심(3D)"
+    }
+  })
+);

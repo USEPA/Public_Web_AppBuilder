@@ -166,29 +166,28 @@ define([
           on(this.widgetOpacityBtn, 'click', lang.hitch(this, function(evt) {
             evt.stopImmediatePropagation();  //This keeps the widget from minimizing when the opacity button is clicked.
             if (this._womWidgetPanel.folded === false || this._womWidgetPanel.containerNode.clientHeight > 0) {
-              popup.open({
-                parent: this, 
-                popup: this._womTooltipDialog,
-                around: this.widgetOpacityBtn,
-                orient: ['below', 'below-alt', 'above', 'above-alt'],
-                onCancel: lang.hitch(this, function() {
-                  domStyle.set(this._womTooltipDialog.domNode, 'opacity', 0.0);
-                  popup.close(this._womTooltipDialog);
-                })
-              });
-              
-              fx.fadeIn({
-                node: this._womTooltipDialog.domNode,
-                duration: 350
-              }).play();
-              
-              this._womOpen = true;
+              if (this._womOpen) {
+                this._womFadeOut(this._womTooltipDialog.domNode, 0);
+              } else {
+                popup.open({
+                  parent: this, 
+                  popup: this._womTooltipDialog,
+                  around: this.widgetOpacityBtn,
+                  orient: ['below', 'below-alt', 'above', 'above-alt'],
+                  onCancel: lang.hitch(this, function() {
+                    domStyle.set(this._womTooltipDialog.domNode, 'opacity', 0.0);
+                    popup.close(this._womTooltipDialog);
+                  })
+                });
+                
+                fx.fadeIn({
+                  node: this._womTooltipDialog.domNode,
+                  duration: 350
+                }).play();
+                
+                this._womOpen = true;
+              }
             }
-          }));
-          
-          // Start fading out the tooltip dialog immediately when the user clicks the close button.
-          query('.jimu-widget-opacity .close-button-area', this._womTooltipDialog.contentsNode).on('click', lang.hitch(this, function() {
-            this._womFadeOut(this._womTooltipDialog.domNode, 0);
           }));
           
           // This is for when the widget is folded or unfolded.
@@ -237,6 +236,7 @@ define([
       if (this._womWidgetPanel.folded) {
         domStyle.set(this._womTooltipDialog.domNode, 'opacity', 0.0);
         popup.close(this._womTooltipDialog);
+        this._womOpen = false;
       }
     },
     

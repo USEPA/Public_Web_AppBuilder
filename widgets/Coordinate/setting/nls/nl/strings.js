@@ -1,12 +1,13 @@
 ﻿define(
    ({
+    id: 'ID',
     state: "Standaard worden de coördinaten weergegeven in het huidige coördinaatsysteem van de kaart. Om de coördinaten in andere coördinatensystemen te krijgen, moet u ze toevoegen en toepasselijke transformaties specificeren..",
     outputUnit: "Uitvoereenheid",
     wkid: "Uitvoer-WKID",
     label: "Naam van uitvoercoördinatensysteem",
-    transformationWkid: 'Transformatie-WKID',
-    transformationLabel: 'Transformatielabel',
-    transformForward: 'Naar voren transformeren',
+    transformationWkid: "Transformatie-WKID",
+    transformationLabel: "Transformatielabel",
+    transformForward: "Naar voren transformeren",
     actions: "Handelingen",
     warning: "Voer een geldige WKID van ruimtelijke referentie in.",
     tfWarning: "Voer een geldige WKID van datumtransformatie in.",

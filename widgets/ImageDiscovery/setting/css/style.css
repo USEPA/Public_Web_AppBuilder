@@ -125,11 +125,11 @@ width: 95%;
     padding: 4px;
 
 }
-.generalSettingsSortingEntry{
+.generalSettingsSortingEntry,.generalSettingsWebmapEntry{
     margin: 15px 0;
     
 }
-.generalSettingsSortContainer{
+.generalSettingsSortContainer, .generalSettingsWebmapContainer{
     margin: 10px 0;
     
 }

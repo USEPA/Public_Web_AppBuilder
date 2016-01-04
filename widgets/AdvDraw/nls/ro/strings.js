@@ -37,6 +37,8 @@
     hectares: "Hectare",
     squareMeters: "Metri pătraţi",
     squareFeet: "Ft. la pătrat",
-    squareYards: "Yd. la pătrat"
+    squareYards: "Yd. la pătrat",
+    undo: "Anulare",
+    redo: "Repetare"
   })
 );

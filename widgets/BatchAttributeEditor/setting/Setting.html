@@ -1,0 +1,108 @@
+<div style="width:100%;">
+
+<div data-dojo-attach-point="controlNode"></div>
+
+    <div data-dojo-attach-point="firstPageDiv">
+        <div class="settings-heading" data-dojo-attach-point="tableToolHeader">${nls.page1.selectToolHeader}</div>
+        <div class="settings-description" data-dojo-attach-point="tableToolDescription">${nls.page1.selectToolDesc}</div>
+
+        <table class="setting-tool-table" cellspacing="0">
+            <tbody>
+                    <td>
+                         <input type="radio" data-dojo-attach-point="selectByShape"
+                               data-dojo-type="dijit/form/RadioButton" value="selectByShape" checked />
+                        <span>${nls.page1.selectByShape}</span>
+                    </td>
+                </tr>
+                <tr class="controls">
+                    <td>
+                        <input type="radio" data-dojo-attach-point="selectByFeature"
+                               data-dojo-type="dijit/form/RadioButton" value="selectByFeature" />
+                        <span>${nls.page1.selectBySpatQuery}</span>
+
+                    </td>
+                </tr>
+                <tr class="controls">
+                    <td>
+                        <input type="radio" data-dojo-attach-point="selectByFeatureQuery"
+                               data-dojo-type="dijit/form/RadioButton" value="selectByFeatureQuery" />
+                        <span>${nls.page1.selectByAttQuery}</span>
+
+                    </td>
+                </tr>
+                <!--
+                <tr class="controls">
+                    <td>
+                        <input type="radio" data-dojo-attach-point="selectByQuery"
+                               data-dojo-type="dijit/form/RadioButton" value="selectByQuery" />
+                        <span>${nls.page1.selectByQuery}</span>
+                    </td>
+                </tr>
+				-->
+            </tbody>
+        </table><br />
+
+        <table class="settings-navigation-table" data-dojo-attach-point="pageOneControls" cellspacing="0">
+            <tbody>
+
+                <tr class="controls">
+
+                    <td>
+                        <div class="jimu-btn" data-dojo-attach-event="click:page1ToPage2">${nls.next}</div>
+                        <span class="settings-error" data-dojo-attach-point="settingsFirstPageError" style="display:none">${nls.page1.toolNotSelected}</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <span class="settings-error" data-dojo-attach-point="settingsFirstPageSaveError" style="display:none">${nls.errorOnOk}</span>
+    </div>
+    <div data-dojo-attach-point="secondPageDiv" style="display:none">
+
+
+        <div class="settings-heading" data-dojo-attach-point="layersToolHeader">${nls.page2.layersToolHeader}</div>
+        <div class="settings-description" data-dojo-attach-point="layersToolDesc">${nls.page2.layersToolDesc}</div>
+
+        <div class="setting-layer-table" data-dojo-attach-point="tableLayerInfos"></div>
+        <div data-dojo-attach-point="tableLayerInfosError" class="settings-nolayer-error" style="display:none">${nls.page2.noEditableLayers}</div>
+        <div class="setting-layer-toggle-checkbox-group">
+            <div class="setting-layer-toggle-checkbox" data-dojo-type="dijit/form/CheckBox" data-dojo-attach-point="toggleLayers"></div>
+            <span class="setting-layer-toggle-checkbox-text">${nls.page2.toggleLayers}</span>
+        </div>
+
+        <table class="settings-navigation-table" data-dojo-attach-point="pageTwoControls" cellspacing="0">
+            <tbody>
+
+                <tr class="controls">
+
+                    <td>
+                        <div class="jimu-btn" data-dojo-attach-event="click:page2ToPage1">${nls.back}</div>
+                        <div class="jimu-btn" data-dojo-attach-event="click:page2ToPage3">${nls.next}</div>
+                        <span class="settings-error" data-dojo-attach-point="settingsSecondPageError" style="display:none">${nls.page2.noLayersSelected}</span>
+
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <span class="settings-error" data-dojo-attach-point="settingsSecondPageSaveError" style="display:none">${nls.errorOnOk}</span>
+
+    </div>
+    <div data-dojo-attach-point="thirdPageDiv" style="display:none">
+
+        <div class="settings-heading" data-dojo-attach-point="tableCommonFieldHeader">${nls.page3.commonFieldsHeader}</div>
+        <div class="settings-description" data-dojo-attach-point="tableCommonFieldDesc">${nls.page3.commonFieldsDesc}</div>
+
+        <div class="setting-common-fields-table" data-dojo-attach-point="tableCommonFields"></div><br />
+        <div data-dojo-attach-point="tableCommonFieldsError" class="settings-error" style="display:none">${nls.page3.noCommonFields}</div><br />
+        <table class="settings-navigation-table" data-dojo-attach-point="pageThreeControls" cellspacing=" 0">
+            <tbody>
+                <tr class="controls">
+                    <td>
+                        <div class="jimu-btn" data-dojo-attach-event="click:page3ToPage2">${nls.back}</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <span class="settings-error" data-dojo-attach-point="settingsThirdPageSaveError" style="display:none">${nls.errorOnOk}</span>
+    </div>
+
+</div>

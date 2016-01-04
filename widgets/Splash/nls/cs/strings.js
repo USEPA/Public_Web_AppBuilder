@@ -5,7 +5,7 @@
     licenceAgree: "Souhlasím s",
     licenceTerm: "podmínkami webové aplikace ArcGIS",
     labelContinue: "Pokračovat",
-    errorString: "* Chcete-li pokračovat, je třeba vyslovit souhlas s licenčními podmínkami.",
+    errorString: "* Chcete-li pokračovat, je třeba odsouhlasit licenční podmínky.",
     notShowAgain: "Příště tuto úvodní obrazovku nezobrazovat.",
     ok: "OK",
     cancel: "Storno"

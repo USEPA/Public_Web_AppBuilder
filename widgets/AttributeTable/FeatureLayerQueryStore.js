@@ -8,7 +8,6 @@ define([
 ], function(
   declare, lang, array, Query, QueryTask, FeatureLayerQueryResult
 ) {
-
   var FeatureLayerQueryStore = declare(null, {
 
     queryUrl: "",
@@ -33,6 +32,7 @@ define([
       this.totalCount = options.totalCount;
       this.batchCount = options.batchCount || 25;
       this.idProperty = this.layer.objectIdField;
+      this.spatialFilter = options.spatialFilter;
 
       if (this.layer && this.layer.url) {
         this.queryTask = new QueryTask(this.layer.url);
@@ -50,16 +50,16 @@ define([
       var queryObj = new Query();
       var start = (options && options.start) || 0;
       var count = /*options.count ||*/ this.batchCount;
+      var filterIds = null;
+
+      if (typeof query === 'function') {
+        filterIds = query(this._entityData);
+      } else if (Object.prototype.toString.call(query) === '[object Array]') {
+        filterIds = query;
+      }
 
       if (this.objectIds) {
-        var filterIds = null;
-        if (typeof query === 'function') {
-          filterIds = array.filter(this.objectIds, lang.hitch(this, function(item) {
-            return query(item);
-          }));
-        } else {
-          filterIds = this.objectIds;
-        }
+        filterIds = filterIds ? filterIds : this.objectIds;
         if (filterIds.length >= (start + this.batchCount)) {
           queryObj.objectIds = filterIds.slice(start, start + count);
         } else {
@@ -67,10 +67,27 @@ define([
         }
       } else {
         // server supports paging
-        queryObj.start = start;
-        queryObj.num = count; // doesn't matter if there are not <num> features left
-        queryObj.where = this.where;
-        queryObj.orderByFields = this.orderByFields;
+        if (filterIds && filterIds.length > 0) {
+          if (filterIds.length >= (start + this.batchCount)) {
+            queryObj.objectIds = filterIds.slice(start, start + count);
+          } else {
+            queryObj.objectIds = filterIds.slice(start);
+          }
+        } else {
+          queryObj.start = start;
+          queryObj.num = count; // doesn't matter if there are not <num> features left
+          queryObj.where = this.where;
+          queryObj.geometry = this.spatialFilter;
+          queryObj.spatialRelationship = Query.SPATIAL_REL_INTERSECTS;
+        }
+
+        var sort = options.sort;
+        if (sort && sort.length > 0) {
+          var orderByFields = array.map(sort, function(s) {
+            return s.attribute + " " + (s.descending ? "DESC" : "ASC");
+          });
+          queryObj.orderByFields = orderByFields; //this.orderByFields;
+        }
       }
 
       queryObj.returnGeometry = false;

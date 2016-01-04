@@ -1,5 +1,5 @@
 ﻿define(
    ({
-    _widgetLabel: "Schaltfläche \"Startseite\""
+    _widgetLabel: "Schaltfläche \"Standardausdehnung\""
   })
 );

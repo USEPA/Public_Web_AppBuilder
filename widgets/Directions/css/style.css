@@ -4,3 +4,17 @@
 .jimu-widget-locator .simpleGeocoder .esriGeocoderResults{
   border: 1px solid #666;
 }
+
+.dj_rtl .jimu-widget-directions .simpleDirections .arcgisSearch .searchGroup .searchInput{
+  width: 100%;
+  box-sizing: border-box;
+  height: 34px;
+  line-height: 34px;
+  padding: 6px 4px;
+  border-radius: 4px;
+  border-left: 1px solid #57585A !important;
+}
+
+.dj_rtl .simpleDirections .esriDirectionsTabButton{
+  border-left: 1px solid #A6A6A6;
+}

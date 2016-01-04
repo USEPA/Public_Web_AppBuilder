@@ -74,3 +74,66 @@
   height: 30px;
   line-height: 30px;
 }
+
+.jimu-widget-single-query-setting .title-sorting-table{
+  table-layout:fixed;
+  width:100%;
+}
+
+.jimu-widget-single-query-setting .title-sorting-table > tbody > tr > td{
+  padding-top: 3px;
+  padding-bottom: 3px;
+}
+
+.jimu-query-setting-popup-config .btn-add-fields{
+  cursor: pointer;
+}
+
+.jimu-query-setting-popup-config .btn-sort-fields{
+  width: 14px;
+  height: 14px;
+  background: center center no-repeat url(images/edit_disabled.png);
+  cursor: default;
+}
+
+.jimu-query-setting-popup-config .btn-sort-fields.enabled{
+  background: center center no-repeat url(images/edit_enabled.png);
+  cursor: pointer;
+}
+
+.jimu-query-setting-popup-config .sort-fields-div{
+  width: 100%;
+  height: 30px;
+  line-height: 30px;
+  border: 1px solid #d2dae2;
+  background-color: #e3ecf2;
+  color: #7989a0;
+  font-size: 14px;
+}
+
+.jimu-query-setting-popup-config .sort-fields-div span{
+  float: left;
+  display: inline-block;
+  height: 30px;
+  line-height: 30px;
+}
+
+.jimu-query-setting-popup-config .sort-arrow{
+  width: 13px;
+}
+
+.jimu-query-setting-popup-config .sort-arrow.asc{
+  background: center center no-repeat url(images/up_arrow.png);
+}
+
+.jimu-query-setting-popup-config .sort-arrow.desc{
+  background: center center no-repeat url(images/down_arrow.png);
+}
+
+.jimu-query-setting-sort-fields .add-with-icon{
+  margin-top: 4px;
+}
+
+.jimu-query-setting-sort-fields .sort-tip{
+  display: inline-block;
+}

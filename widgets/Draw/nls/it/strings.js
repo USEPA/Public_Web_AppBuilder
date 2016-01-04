@@ -39,6 +39,10 @@
     squareFeet: "Piedi quadrati",
     squareYards: "Iarde quadrate",
     undo: "Annulla",
-    redo: "Ripeti"
+    redo: "Ripeti",
+    results: "Risultati",
+    points: "Punti",
+    lines: "Linee",
+    areas: "Aree"
   })
 );

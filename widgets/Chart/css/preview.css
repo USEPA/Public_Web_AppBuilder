@@ -80,6 +80,7 @@
   background-repeat: no-repeat;
   background-position: center center;
   cursor:pointer;
+  height: 60px;
 }
 
 .jimu-widget-chart-preview .chart-section .arrow:hover{

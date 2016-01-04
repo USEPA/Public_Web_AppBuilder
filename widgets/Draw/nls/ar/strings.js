@@ -39,6 +39,10 @@
     squareFeet: "قدم مربع",
     squareYards: "ياردات مربعة",
     undo: "تراجع",
-    redo: "تراجع"
+    redo: "تراجع",
+    results: "نتائج",
+    points: "النقاط",
+    lines: "خطوط",
+    areas: "مساحات"
   })
 );

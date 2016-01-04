@@ -1,0 +1,158 @@
+<div>
+    <div class="item">
+        <div class="content">
+            <div data-dojo-attach-point="tabContainerNetworkTrace">
+                <div class="inputTab" data-dojo-attach-point="inputTabPanel">
+                    <div class="tracePanel" data-dojo-attach-point="tracePanel">
+                        <div class="traceControls">
+                            <div class="btnFlagStyle">
+                                <div class="flagbutton" data-dojo-attach-point="btnFlag" data-dojo-attach-event="onclick:_onFlagButtonClick">
+                                </div>
+                                <label class="flagLabel" data-dojo-attach-point="flagLabel" for="btnFlag">
+                                </label>
+                            </div>
+                            <div class="btnBarrierStyle esriCTHidden">
+                                <div class="barrierButton" data-dojo-attach-point="btnBarrier" data-dojo-attach-event="onclick:_onBarrierButtonClick">
+                                </div>
+                                <label class="barrierLabel" data-dojo-attach-point="barrierLabel" for="btnBarrier">
+                                </label>
+                            </div>
+                        </div>
+                        <div class="traceButtons">
+                            <div class="jimu-btn jimu-state-disabled esriCTBtnClear" data-dojo-attach-point="btnTrace"
+                                type="submit" disabled data-dojo-attach-event="onclick:_onTraceButtonClick">
+                            </div>
+                            <div class="jimu-btn" data-dojo-attach-point="btnClear" type="submit" data-dojo-attach-event="onclick:_onClearButtonClick">
+                                ${nls.clearButtonValue}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="esriCTInputBarrierTabContainer" data-dojo-attach-point="InputBarrierTabContent">
+                        <div class="esriCTInputLocationTab" data-dojo-attach-point="inputLocTab" data-dojo-attach-event="onclick:_onInputLocTabClick">
+                            <div class="esriCTlblLoc" data-dojo-attach-point="lblInputLoc">
+                                ${nls.lblInputLocHeader}</div>
+                            <div class="esriCTTabRightimg" data-dojo-attach-point="inputLocRightCaretIcon">
+                            </div>
+                        </div>
+                        <div class="esriCTBarrierLocationTab" data-dojo-attach-point="barrierLocTab" data-dojo-attach-event="onclick:_onBarrierLocTabClick">
+                            <div class="esriCTlblLoc" data-dojo-attach-point="lblBlockLoc">
+                                ${nls.lblBlockLocHeader}</div>
+                            <div class="esriCTTabRightimg">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="resultPanelContainer" data-dojo-attach-point="outputTab">
+                    <div class="esriCTLayerInformationContainer" data-dojo-attach-point="resultLayersInformationContainer">
+                    </div>
+                    <div class="resultPanelStyle" data-dojo-attach-point="resultPanel">
+                        <div class="dijitheadPaneTitle esriCTBorderNone" data-dojo-attach-point="headPaneTitle">
+                            <div class="resultsHeadText">
+                                <div class="esriCTImageDiv">
+                                    <div class="esriCTSaveToLayerButton esriCTHidden" data-dojo-attach-point="btnSaveToLayer"
+                                        data-dojo-attach-event="onclick:_onSaveToLayerButtonClick">
+                                    </div>
+                                    <div class="esriCTExportToCSVButton esriCTHidden" data-dojo-attach-point="btnExportToLayer"
+                                        data-dojo-attach-event="onclick:_onExportToLayerButtonClick">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div data-dojo-attach-point="resultsLayerNamesContainer" class="esriCTResultsLayerNamesContainer">
+                    </div>
+                </div>
+            </div>
+            <div class="runIconidle" data-dojo-attach-point="loadingIcon">
+            </div>
+            <div data-dojo-attach-point="layerFeaturesContainer" class="esriCTResultsLayerFeaturesContainer">
+            </div>
+            <div data-dojo-attach-point="SaveToLayerPanel">
+                <div data-dojo-attach-point="saveToLayerDiv" class="esriCTMainDiv">
+                    <div data-dojo-attach-point="TopDiv" class="esriCTTopDiv">
+                        <div class="esriCTResultContainerHeader">
+                            <div class="esriCThyperlinkDiv" data-dojo-attach-event="onclick:_onBackButtonClick">
+                                &lt;${nls.backButtonValue}
+                            </div>
+                            <div class="esriCTTitleSaveToLayer">
+                                ${nls.lblSaveToLayer}
+                            </div>
+                        </div>
+                    </div>
+                    <div data-dojo-attach-point="bottomDiv" class="esriCTbottomDiv">
+                        <div data-dojo-attach-point="outageCheckBoxMainDiv" class="esriCTCommonDiv">
+                            <div class="chkbox" data-dojo-attach-point="outageCheckBoxDiv">
+                            </div>
+                        </div>
+                        <div data-dojo-attach-point="outageAreaVisibiltyDiv" class="esriCTOutageAreaVisibilty">
+                            <div data-dojo-attach-point="outageAreaSelectDiv">
+                            </div>
+                            <div data-dojo-attach-point="textBoxDiv" class="esriCTCommonDiv">
+                                <div data-dojo-attach-point="resultParametersCount">
+                                </div>
+                            </div>
+                        </div>
+                        <div style="float: left; width: 100%;">
+                            <div data-dojo-attach-point="groupcheckBoxDiv">
+                                <div>
+                                    <div class="esriCTChkMargin" data-dojo-attach-point="chkLayerDiv">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div data-dojo-attach-point="btnSaveParentDiv">
+                            <div data-dojo-attach-point="btnSaveDiv" class="esriCTSaveButton">
+                                <div class="jimu-btn" data-dojo-attach-point="btnSave" type="submit" data-dojo-attach-event="onclick:_onSaveClick">
+                                    ${nls.lblSaveButtonValue}
+                                </div>
+                                <div class="esriCThiddenDIV">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div data-dojo-attach-point="exportToCSVPanel">
+                <div data-dojo-attach-point="exportToCSVDiv" class="esriCTMainDiv">
+                    <div data-dojo-attach-point="exportToCSVTopDiv" class="esriCTTopDiv">
+                        <div class="esriCTResultContainerHeader">
+                            <div class="esriCThyperlinkDiv" data-dojo-attach-event="onclick:_onBackButtonClick">
+                                &lt;${nls.backButtonValue}
+                            </div>
+                            <div class="esriCTTitleSaveToLayer">
+                                ${nls.lblExportToCSV}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="esriCTbottomDiv">
+                        <div data-dojo-attach-point="exportToCSVBottomDiv">
+                        </div>
+                        <div data-dojo-attach-point="exportToCSVButtonDiv">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="esriCTInputBarrierLoc" data-dojo-attach-point="inputLocDiv">
+                <div class="esriCTInputBarrierLocHeader">
+                    <div class="esriCTBackButtonLink" data-dojo-attach-point="inputBackClick">
+                        &lt;${nls.backButtonValue}</div>
+                    <div class="esriCTCountLabel" data-dojo-attach-point="flagCountLabel">
+                        ${nls.lblInputLocHeader}</div>
+                </div>
+                <div class="esriCTInputBarrierContent" data-dojo-attach-point="flagLocContent">
+                </div>
+            </div>
+            <div class="esriCTInputBarrierLoc" data-dojo-attach-point="barrierLocDiv">
+                <div class="esriCTInputBarrierLocHeader">
+                    <div class="esriCTBackButtonLink" data-dojo-attach-point="barrierBackClick">
+                        &lt;${nls.backButtonValue}
+                    </div>
+                    <div class="esriCTCountLabel" data-dojo-attach-point="barrierCountLabel">
+                        ${nls.lblBlockLocHeader}</div>
+                </div>
+                <div class="esriCTInputBarrierContent" data-dojo-attach-point="barrierLocContent">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

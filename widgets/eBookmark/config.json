@@ -1,0 +1,95 @@
+{
+  "addbookmarks": true,
+  "bookmarks": [
+    {
+      "name": "Canada Sites",
+      "items": [
+        {
+          "name": "Victoria, BC, Canada",
+          "extent": {
+            "xmax": -13722700,
+            "xmin": -13740900,
+            "ymax": 6181400,
+            "ymin": 6174200,
+            "spatialReference": {
+              "wkid": 102100
+            }
+          }
+        },
+        {
+          "name": "Vancouver, BC, Canada",
+          "extent": {
+            "xmax": -13661500,
+            "xmin": -13734100,
+            "ymax": 6336500,
+            "ymin": 6307700,
+            "spatialReference": {
+              "wkid": 102100
+            }
+          }
+        }
+      ],
+      "expanded": true
+    },
+    {
+      "name": "US Sites",
+      "items": [
+        {
+          "name": "US Cities",
+          "items": [
+            {
+              "name": "Dallas, Texas",
+              "extent": {
+                "xmin": -10814036.483405419,
+                "ymin": 3835456.193535918,
+                "xmax": -10725369.53059458,
+                "ymax": 3896605.8161640824,
+                "spatialReference": {
+                  "wkid": 102100
+                }
+              }
+            },
+            {
+              "name": "San Diego, California",
+              "extent": {
+                "xmax": -13022840.0354,
+                "xmin": -13059529.809,
+                "ymax": 3866264.9695,
+                "ymin": 3848512.4696,
+                "spatialReference": {
+                  "wkid": 102100
+                }
+              }
+            }
+          ],
+          "expanded": true
+        },
+        {
+          "name": "Washington",
+          "extent": {
+            "xmin": -14141549.17787237,
+            "ymin": 5553595.086614755,
+            "xmax": -12722877.932899877,
+            "ymax": 6531989.048664751,
+            "spatialReference": {
+              "wkid": 102100
+            }
+          }
+        },
+        {
+          "name": "Michigan",
+          "extent": {
+            "xmin": -10050416.221927123,
+            "ymin": 4886070.932883748,
+            "xmax": -8631744.97695463,
+            "ymax": 5864464.894933744,
+            "spatialReference": {
+              "wkid": 102100
+            }
+          }
+        }
+      ],
+      "expanded": true
+    }
+  ]
+}

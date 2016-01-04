@@ -1,5 +1,6 @@
 ﻿define(
    ({
-    _widgetLabel: 'Маршрут'
+    _widgetLabel: "Маршрут",
+    searchPlaceholder: "Найти адрес или место"
   })
 );

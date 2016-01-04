@@ -5,73 +5,90 @@
       <span class="btn-add-icon"></span>
       <span class="btn-add-label">${nls.addSearch}</span>
     </div>
-    <div class="searches-table" data-dojo-attach-point="searchesTable" data-dojo-type="jimu/dijit/SimpleTable" data-dojo-props='fields:[{name:"name",title:"${nls.searchTitle}",class:"search-title",type:"text",editable:false},{name:"actions",title:"${nls.actions}",class:"actions",width:"120px",type:"actions",actions:["up","down","edit","delete"]}]'></div>
-    <table class="zoom-scale-table">
+    <div class="searches-table" data-dojo-attach-point="searchesTable" data-dojo-type="jimu/dijit/SimpleTable" data-dojo-props="_rowHeight:40,autoHeight:false,selectable:true,fields:[{name:'name',title:'${nls.searchTitle}','class':'search-title',type:'text',editable:false},{name:'actions',title:'${nls.actions}','class':'actions',width:'120px',type:'actions',actions:['up','down','edit','delete']}]"></div>
+    <table style="width:100%;margin-top:20px;">
       <tbody>
+        <!--<tr>
+          <td style="vertical-align:text-top;width:50%;">
+            <div data-dojo-type="jimu/dijit/CheckBox" data-dojo-attach-point="toleranceCbx" data-dojo-props="label:'${nls.addTolerance}'"></div>
+          </td>
+          <td style="vertical-align:text-top;width:50%;">
+            <div data-dojo-type="jimu/dijit/CheckBox" data-dojo-attach-point="keepGraphicalEnabledCbx"
+                 data-dojo-props="label:'${nls.keepGraphicalEnabled}'"></div>
+          </td>
+        </tr>-->
         <tr>
-          <td style="vertical-align:text-top;">${nls.zoomScale}</td>
-          <td style="vertical-align:text-top;">
-            <div >
-              <span>1:</span>
-              <input type="text" data-dojo-attach-point="zoomScale" data-dojo-type="dijit/form/NumberTextBox"
-              data-dojo-props='style:{width:"266px"},required:true,value:10000,constraints:{min:0,places:0}' />
-            </div>
+          <td style="vertical-align:text-top;width:50%;">
+            <div data-dojo-type="jimu/dijit/CheckBox" data-dojo-attach-point="autoZoomCbx" data-dojo-props="label:'${nls.autoZoom}'"></div>
+          </td>
+          <td style="vertical-align:text-top;width:50%;">
+            <div data-dojo-type="jimu/dijit/CheckBox" data-dojo-attach-point="mouseOverGraphicsCbx" data-dojo-props="label:'${nls.graphicInteract}'"></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align:text-top;width:50%;">
+            <div data-dojo-type="jimu/dijit/CheckBox" data-dojo-attach-point="exportSearchURLCbx" data-dojo-props="label:'${nls.enableExportSearchURL}',checked:'true'"></div>
+          </td>
+          <td style="vertical-align:text-top;width:50%;">
+            <div data-dojo-type="jimu/dijit/CheckBox" data-dojo-attach-point="enablePopupsCbx" data-dojo-props="label:'${nls.showResultsPopup}',checked:'true'"></div>
+          </td>
+        </tr>
+        <tr>
+          <!--<td style="vertical-align:text-top;width:50%;">
+            <div data-dojo-type="jimu/dijit/CheckBox" data-dojo-attach-point="multiCbx" data-dojo-props="label:'${nls.useMultiGraphics}'"></div>
+          </td>-->
+          <td style="vertical-align:text-top;width:50%;">
+            <div data-dojo-type="jimu/dijit/CheckBox" data-dojo-attach-point="limit2MapExtCbx" data-dojo-props="label:'${nls.limit2mapextent}'"></div>
           </td>
         </tr>
       </tbody>
     </table>
-    <div style="margin-top:20px;">
-      <input type="checkbox" data-dojo-attach-point="shareCbx" />
-      <span>${nls.operationalLayerTip}</span>
-    </div>
-        <div style="margin-top:20px;">
-      <input type="checkbox" data-dojo-attach-point="multiCbx" />
-      <span>${nls.useMultiGraphics}</span>
-    </div>
-        <div style="margin-top:20px;">
-      <input type="checkbox" data-dojo-attach-point="toleranceCbx" />
-      <span>${nls.addTolerance}</span>
-    </div>
-        <div style="margin-top:20px;">
-      <input type="checkbox" data-dojo-attach-point="keepGraphicalEnabledCbx" />
-      <span>${nls.keepGraphicalEnabled}</span>
-    </div>
-        <div style="margin-top:20px;">
-      <input type="checkbox" data-dojo-attach-point="autoZoomCbx" />
-      <span>${nls.autoZoom}</span>
-    </div>
-       <table class="point-tolerance-table" style="margin-top:20px;">
+    <!--<table class="point-tolerance-table" style="margin-top:20px;">
       <tbody>
         <tr>
-          <td style="vertical-align:text-top;">${nls.pointTolerance}</td>
+          <td style="vertical-align:text-top;padding-right: 8px;">${nls.pointTolerance}</td>
           <td style="vertical-align:text-top;">
             <input type="text" data-dojo-attach-point="pointTolerance" data-dojo-type="dijit/form/NumberTextBox"
-              data-dojo-props='style:{width:"150px"},required:true,value:6,constraints:{min:0,places:0,max:30}' />
+              data-dojo-props="style:{width:'150px'},required:true,value:6,constraints:{min:0,places:0,max:30}" />
           </td>
         </tr>
       </tbody>
-    </table>
-        <div style="margin-top:20px;">
-          <span>${nls.initialView}: </span>
-          <select data-dojo-attach-point="selectInitialView"
-              data-dojo-type="dijit/form/Select">
-                <option value="text" selected="selected">${nls.selectByAttribute}</option>
-                <option value="graphical">${nls.selectFeatures}</option>
-          </select>
-        </div>
-        <div style="margin-top:20px;">
-          <div class="btn-sym-section" data-dojo-attach-point="btnSymSearch" style="margin-right:10px;">
-      <span class="btn-edit-icon"></span>
-      <span class="btn-edit-sym-label">${nls.editDefaultSym}</span>
-          </div>
-          <div class="btn-buffer-section" data-dojo-attach-point="btnBufferSearch" style="margin-right:10px;">
-              <span class="btn-edit-icon"></span>
-              <span class="btn-edit-buffer-label">${nls.editDefaultBuffer}</span>
-          </div>
-          <div class="btn-spatial-section" data-dojo-attach-point="btnSpatialSearch" style="margin-right:10px;">
-              <span class="btn-edit-icon"></span>
-              <span class="btn-edit-spatial-label">${nls.editDefaultSpatial}</span>
-          </div>
-        </div>
+    </table>-->
+    <div style="margin-top:20px;">
+      <span>${nls.initialView}: </span>
+      <select data-dojo-attach-point="selectInitialView"
+          data-dojo-type="dijit/form/Select">
+          <option value="text" selected="selected">${nls.selectByAttribute}</option>
+          <option value="graphical">${nls.selectFeatures}</option>
+      </select>
+    </div>
+    <div style="margin-top:20px;">
+      <div class="btn-sym-section" data-dojo-attach-point="btnSymSearch" style="margin-right:10px;">
+        <span class="btn-edit-icon"></span>
+        <span class="btn-edit-sym-label">${nls.editDefaultSym}</span>
+      </div>
+      <div class="btn-buffer-section" data-dojo-attach-point="btnBufferSearch" style="margin-right:10px;">
+        <span class="btn-edit-icon"></span>
+        <span class="btn-edit-buffer-label">${nls.editDefaultBuffer}</span>
+      </div>
+      <div class="btn-spatial-section" data-dojo-attach-point="btnSpatialSearch" style="margin-right:10px;">
+        <span class="btn-edit-icon"></span>
+        <span class="btn-edit-spatial-label">${nls.editDefaultSpatial}</span>
+      </div>
+      <div class="btn-graphical-section" data-dojo-attach-point="btnGraphicalSearch" style="margin-right:10px;">
+        <span class="btn-edit-icon"></span>
+        <span class="btn-edit-graphical-label">${nls.editDefaultGraphical}</span>
+      </div>
+    </div>
+    <div style="margin-top:20px;">
+      <div class="btn-disable-section" data-dojo-attach-point="btnDisableTabs" style="margin-right:10px;">
+        <span class="btn-edit-icon"></span>
+        <span class="btn-edit-disable-label">${nls.disableTabs}</span>
+      </div>
+      <div class="btn-format-section" data-dojo-attach-point="btnFormatResults" style="margin-right:10px;">
+        <span class="btn-edit-icon"></span>
+        <span class="btn-edit-format-label">${nls.editResultFormat}</span>
+      </div>
+    </div>
   </div>
 </div>

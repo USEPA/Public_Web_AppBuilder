@@ -16,7 +16,7 @@ define(
   'dijit/form/TextBox',
   'dijit/form/RadioButton',
   'dijit/form/Form',
-  'jimu/dijit/LayerFieldChooser',
+  'widgets/Identify/setting/LayerFieldChooser',
   'widgets/Identify/setting/IncludeAllButton',
   'widgets/Identify/setting/IncludeButton',
   'jimu/dijit/SimpleTable',
@@ -116,6 +116,9 @@ define(
             name: item.name,
             alias: item.alias
           };
+          if (item.useralias !== item.alias){
+            retVal.useralias = item.useralias;
+          }
           if (item.dateformat) {
             retVal.dateformat = item.dateformat;
           }
@@ -255,8 +258,10 @@ define(
         //console.info(fieldInfo);
         var isNumeric = (this._isNumberType(fieldInfo.type) || fieldInfo.isnumber);
         var rowData = {
-          name: (this.adding) ? fieldInfo.alias : fieldInfo.name,
+          /*name: (this.adding) ? fieldInfo.alias : fieldInfo.name,*/
+          name: fieldInfo.name,
           alias: fieldInfo.alias || fieldInfo.name,
+          useralias: fieldInfo.useralias || fieldInfo.alias || fieldInfo.name,
           popuponly: fieldInfo.popuponly,
           isnumber: isNumeric,
           isdate: (fieldInfo.type === 'esriFieldTypeDate' || fieldInfo.isdate)
@@ -303,6 +308,8 @@ define(
           urlDijit.proceedValue = true;
           result = true;
           this.featureLayerDetails = evt;
+          this.layerName.set('value', lang.trim(this.featureLayerDetails.data.name));
+          this.layerName.proceedValue = true;
           this._refreshLayerFields();
         } else {
           urlDijit.proceedValue = false;

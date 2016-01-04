@@ -1,35 +1,46 @@
 <div style="width:100%;">
-    <div data-dojo-attach-point="fieldsPage" class="hide">
-        <label data-dojo-attach-point="layername"></label><br />
+    <div data-dojo-type="dijit/Dialog" data-dojo-attach-point="fieldsPage" title="${nls.settingsConfigureTitle}">
+    	<div class="dijitDialogPaneContent" data-dojo-attach-point="fieldsContainer">
+        <label data-dojo-attach-point="layername">${nls.fieldTable.label}</label><p style="height:15px;">
         <div data-dojo-attach-point="tableFieldInfos"></div>
+       </div>
+	    <div class="dijitDialogPaneActionBar">
+	        <div class="jimu-btn" data-dojo-attach-point="ok" data-dojo-attach-event="click:saveFields" >${nls.okBtn}</div>
+	        <div class="jimu-btn" data-dojo-attach-point="cancel" data-dojo-attach-event="click:cancelFields" >${nls.cancelBtn}</div>
+	    </div>
     </div>
 
-    <div data-dojo-attach-point="advSettingsPage" class="hide">
+    <div data-dojo-type="dijit/Dialog" data-dojo-attach-point="advSettingsPage" title="${nls.advSettings.label}">
 
         <table class="setting-adv-table" cellspacing="0">
             <tbody>
-
+                <tr class="controls">
+                    <td colspan="2">
+                        <span class="adv-settings-subTitle">${nls.advSettings.subTitle}</span>
+                    </td>
+                </tr>
                 <tr class="controlsMulti">
 
-                    <td>
-                        <span>${nls.advSettings.latFieldsDesc}</span>
+                    <td><span>${nls.advSettings.latFieldsDesc}</span></td>
 
-                        <textarea class="textArea" data-dojo-attach-point="advSettingsLatValues" data-dojo-type="dijit/form/SimpleTextarea"></textarea>
+                    <td><textarea class="textAreaCoord" data-dojo-attach-point="advSettingsLatValues" data-dojo-type="dijit/form/SimpleTextarea"></textarea>
                     </td>
                 </tr>
                 <tr class="controlsMulti">
 
                     <td>
                         <span>${nls.advSettings.longFieldsDesc}</span>
-
-                        <textarea class="textArea" data-dojo-attach-point="advSettingsLongValues" data-dojo-type="dijit/form/SimpleTextarea"></textarea>
+					</td>
+					<td>
+                        <textarea class="textAreaCoord" data-dojo-attach-point="advSettingsLongValues" data-dojo-type="dijit/form/SimpleTextarea"></textarea>
                     </td>
                 </tr>
                 <tr class="controls">
 
                     <td>
                         <span>${nls.advSettings.intersectFieldDesc}</span>
-
+					</td>
+					<td>
                         <div class="textBox" data-dojo-attach-point="advSettingsIntersectField" data-dojo-type="dijit/form/TextBox"></div>
                     </td>
                 </tr>
@@ -37,25 +48,63 @@
 
                     <td>
                         <span>${nls.advSettings.intersectInDesc}</span>
-
+					</td>
+					<td>
                         <div class="textBox" data-dojo-attach-point="advSettingsIntersectInValue" data-dojo-type="dijit/form/TextBox"></div>
                     </td>
-                 
+
                 </tr>
                 <tr class="controls">
 
                     <td>
                         <span>${nls.advSettings.intersectOutDesc}</span>
-
+					</td>
+					<td>
                         <div class="textBox" data-dojo-attach-point="advSettingsIntersectOutValue" data-dojo-type="dijit/form/TextBox"></div>
                     </td>
                 </tr>
+                <tr class="controls">
+                    <td>
+                        <span>${nls.advSettings.maxRowCount}</span>
+					</td>
+					<td>
+                        <div class="textBox" data-dojo-attach-point="advSettingsMaxRowCount" data-dojo-type="dijit/form/TextBox"></div>
+                    </td>
+                </tr>
+                <tr class="controls">
+                    <td>
+                        <span>${nls.advSettings.cacheNumberDesc}</span>
+					</td>
+					<td>
+                        <div class="textBox" data-dojo-attach-point="advSettingsCacheNumber" data-dojo-type="dijit/form/TextBox"></div>
+                    </td>
+                </tr>
             </tbody>
-        </table><br />
+        </table>
+	    <div class="dijitDialogPaneActionBar">
+	        <div class="jimu-btn" data-dojo-attach-point="ok" data-dojo-attach-event="click:saveAdv" >${nls.okBtn}</div>
+	        <div class="jimu-btn" data-dojo-attach-point="cancel" data-dojo-attach-event="click:cancelAdv" >${nls.cancelBtn}</div>
+	    </div>
     </div>
+
+	<div data-dojo-type="dijit/Dialog" data-dojo-id="symbolDial" data-dojo-attach-point="symbolDial" title="${nls.chooseSymbol}">
+	    <table class="dijitDialogPaneContentArea">
+	        <tr>
+	            <td><div data-dojo-attach-point="symbolPicker" data-dojo-type="jimu/dijit/SymbolChooser" data-dojo-props='type:"marker"'></div></td>
+	        </tr>
+	    </table>
+
+	    <div class="dijitDialogPaneActionBar">
+	        <div class="jimu-btn" data-dojo-attach-point="ok" data-dojo-attach-event="click:saveSymbol" >${nls.okBtn}</div>
+	        <div class="jimu-btn" data-dojo-attach-point="cancel" data-dojo-attach-event="click:cancelSymbol" >${nls.cancelBtn}</div>
+	    </div>
+
+	</div>
+
+
     <div data-dojo-attach-point="mainPage" style="width:100%;">
 
-        <div class="settings-heading" data-dojo-attach-point="settingsHeader">${nls.settingsHeader}</div>
+        <!-- <div class="settings-heading" data-dojo-attach-point="settingsHeader">${nls.settingsHeader}</div>  -->
         <div class="settings-description" data-dojo-attach-point="settingsDesc">${nls.settingsDesc}</div>
         <div class="setting-layer-table" data-dojo-attach-point="tableLayerInfos"></div><br />
         <div class="settings-error" data-dojo-attach-point="tableLayerInfosError" style="display:none">${nls.noPolygonLayers}</div><br />
@@ -64,14 +113,23 @@
                 <tr >
                     <td class="symbolItemLeft">
                         <label data-dojo-attach-point="symbolWithinLabel" for="symbolWithin">${nls.symbolArea.symbolLabelWithin}</label>
-                        <div data-dojo-attach-point="symbolWithin" id="symbolWithin" data-dojo-type="jimu/dijit/SymbolChooser" data-dojo-props='type:"marker"'></div>
                     </td>
+                    <td>
+                    	<span class="symPreview" data-dojo-attach-point="symbolInPreview"></span>
+                    </td>
+                </tr>
+                <tr>
                     <td class="symbolItemLeft">
                         <label data-dojo-attach-point="symbolOutsideLabel" for="symbolOutside">${nls.symbolArea.symbolLabelOutside}</label>
-                        <div data-dojo-attach-point="symbolOutside" id="symbolOutside" data-dojo-type="jimu/dijit/SymbolChooser" data-dojo-props='type:"marker"'></div>
+                    </td>
+                    <td>
+                    	<span class="symPreview" data-dojo-attach-point="symbolOutPreview"></span>
                     </td>
                 </tr>
             </tbody>
         </table>
+        <div class="jimu-btn" data-dojo-attach-point="btnAdvSettings2" data-dojo-attach-event="click:showAdvSettings">${nls.advSettingsBtn}</div>
+
+        <div class='settings-error hideGLItem'  data-dojo-attach-point="btnErrorMsg"></div>
     </div>
 </div>

@@ -1,0 +1,94 @@
+﻿<div class="ParameterDiv esriCTHidden">
+    <div class="fieldHeader">
+        ${nls.outputPanel.outputTask} - ${data.displayName}</div>
+    <div class="field esriCTOutputOutageField" title="${nls.inputLabel}">
+        <label title="${nls.inputLabel}">
+            ${nls.inputLabel}</label>
+        <input data-dojo-attach-point="outputLabelData" data-dojo-type="dijit/form/ValidationTextBox"
+            class="common-input esriCTLabelClass" value="${data.displayName}" data-dojo-props="required: true,  invalidMessage:'Enter alphabets only.'">
+        <div class="esriCTHintField">
+            ${nls.hintText.labelTextHint}</div>
+    </div>
+    <div class="field esriCTHidden" title="${nls.outputPanel.skip}" data-dojo-attach-point="skippableCheckboxBlock">
+        <div data-dojo-type="jimu/dijit/CheckBox" data-dojo-attach-point="skippable" class="jimu-checkbox">
+        </div>
+        <label class="esriCTCheckboxLabel" title="${nls.outputPanel.skip}">
+            ${nls.outputPanel.skip}</label>
+        <div class="esriCTHintField esriCTCheckboxHint">
+            (${nls.hintText.skippableHint})</div>
+    </div>
+    <div class="field skippableDropdownDiv esriCTHidden" title="${nls.outputPanel.uniqueIDField}"
+        data-dojo-attach-point="skippableDropdownDiv">
+        <label title="${nls.outputPanel.uniqueIDField}">
+            ${nls.outputPanel.uniqueIDField}</label>
+        <select data-dojo-attach-point="inputTypeData" id="${ObjId}" data-dojo-type="dijit/form/Select"
+            class="common-input" style="width: 78%; height: 30px;">
+        </select>
+        <div class="esriCTHintField">
+            ${nls.hintText.skippableFieldHint}</div>
+    </div>
+    <div class="field" title="${nls.inputTooltip}">
+        <label title="${nls.inputTooltip}">
+            ${nls.inputTooltip}</label>
+        <input data-dojo-attach-point="outputTooltipData" data-dojo-type="dijit/form/ValidationTextBox"
+            class="common-input esriCTTooltipDataClass" value="${data.description}" data-dojo-props="required: true,  invalidMessage:'Enter alphabets only.'">
+    </div>
+    <div class="field esriCTOutputOutageField" title="${nls.outputPanel.outputDisplay}">
+        <label title="${nls.outputPanel.outputDisplay}">
+            ${nls.outputPanel.outputDisplay}</label>
+        <input data-dojo-attach-point="outputDisplayText" data-dojo-type="dijit/form/ValidationTextBox"
+            class="common-input esriCToutputDisplayDataClass" data-dojo-props="required: true,  invalidMessage:'Enter alphabets only.'">
+        <div class="esriCTHintField">
+            ${nls.hintText.displayTextHint}</div>
+        <div class="esriCTOutputHelpText esriCTOutputOutageField" data-dojo-attach-point="outputDisplayHelpText">
+        </div>
+    </div>
+    <div class="field" title="${nls.outputPanel.outputminScale}">
+        <label title="${nls.outputPanel.outputminScale}">
+            ${nls.outputPanel.outputminScale}</label>
+        <input class="esriCTIntigerNumberTextBoxField common-inputspin esriCTOutputMinScaleDataClass"
+            data-dojo-attach-point="outputMinScaleData" data-dojo-type="dijit/form/NumberSpinner"
+            value="0" data-dojo-props="required: true,smallDelta:1, constraints:{min:0,places:0,pattern: '#'}" />
+    </div>
+    <div class="field" title="${nls.outputPanel.outputmaxScale}">
+        <label title="${nls.outputPanel.outputmaxScale}">
+            ${nls.outputPanel.outputmaxScale}</label>
+        <input class="esriCTIntigerNumberTextBoxField common-inputspin esriCTOutputMaxScaleDataClass"
+            data-dojo-attach-point="outputMaxScaleData" data-dojo-type="dijit/form/NumberSpinner"
+            value="0" data-dojo-props="required: true, smallDelta:1, constraints:{min:0,places:0,pattern: '#'}" />
+    </div>
+    <div class="field" title="${nls.outputPanel.outputExport}">
+        <div data-dojo-type="jimu/dijit/CheckBox" data-dojo-attach-point="outputExport" class="jimu-checkbox">
+        </div>
+        <label class="esriCTCheckboxLabel" title="${nls.outputPanel.outputExport}">
+            ${nls.outputPanel.outputExport}</label>
+        <div class="esriCTHintField esriCTCheckboxHint">
+            (${nls.hintText.exportToCSVHint})</div>
+    </div>
+    <div class="field" title="${nls.outputPanel.outputLayer}">
+        <div data-dojo-type="jimu/dijit/CheckBox" data-dojo-attach-point="outputLayer" class="jimu-checkbox">
+        </div>
+        <label class="esriCTCheckboxLabel" title="${nls.outputPanel.outputLayer}">
+            ${nls.outputPanel.outputLayer}</label>
+        <div class="esriCTHintField esriCTCheckboxHint">
+            (${nls.hintText.saveToLayerHint})</div>
+    </div>
+    <div class="field outputTargetLayer esriCTHidden" title="${nls.outputPanel.outputLayerType}"
+        data-dojo-attach-point="selectOutputLayerType">
+        <label title="${nls.outputPanel.outputLayerType}">
+            ${nls.outputPanel.outputLayerType}</label>
+        <select data-dojo-attach-point="outputLayerType" data-dojo-type="dijit/form/Select"
+            class="common-input" style="width: 78%; height: 30px;">
+        </select>
+        <div class="esriCTHintField">
+            ${nls.hintText.outputLayerType}</div>
+    </div>
+    <div class="field" title="${nls.symbol}">
+        <label title="${nls.symbol}">
+            ${nls.symbol}</label>
+        <div class="esriCTPreview" title="${nls.symbolSelecter.symbolPreviewLabal}">
+            ${nls.symbolSelecter.symbolPreviewLabal}:</div>
+        <div class="esriCTSymbolPreview" data-dojo-attach-point="symbolDataPreview">
+        </div>
+    </div>
+</div>

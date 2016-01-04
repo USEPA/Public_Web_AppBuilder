@@ -1,0 +1,50 @@
+﻿define(
+   ({
+    layerSelect: "Selecciona la capa de imágenes",
+    displayMeasureResultInPopup: "Mostrar resultados de medida en una ventana emergente",
+    angularUnitSelect: "Unidad angular predeterminada",
+    linearUnitSelect: "Unidad lineal predeterminada",
+    areaUnitSelect: "Unidad de área predeterminada",
+    displayOperationSelect: "Seleccionar operaciones de medida",
+    errorSectionMeasage: "Ninguna de las capas admite las funciones de medición.",
+    unitLabel: {
+      esriInches: "Pulgadas",
+      esriFeet: "Pies",
+      esriYards: "Yardas",
+      esriMiles: "Millas",
+      esriNauticalMiles: "Millas Náuticas",
+      esriMillimeters: "Milímetros",
+      esriCentimeters: "Centímetros",
+      esriDecimeters: "Decímetros",
+      esriMeters: "Metros",
+      esriKilometers: "Kilómetros",
+      esriDURadians: "Radianes",
+      esriDUDecimalDegrees: "Grados",
+      esriSquareInches: "Pulg. cuadr.",
+      esriSquareFeet: "Pies cuadrados",
+      esriSquareYards: "Yardas cuadradas",
+      esriAcres: "Acres",
+      esriSquareMiles: "Millas cuadradas",
+      esriSquareMillimeters: "Milímetros cuadr.",
+      esriSquareCentimeters: "Centímetros cuadr.",
+      esriSquareDecimeters: "Decímetros cuadr.",
+      esriSquareMeters: "Metros cuadrados",
+      esriAres: "Áreas",
+      esriHectares: "Hectáreas",
+      esriSquareKilometers: "Kilómetros cuadrados"
+    },
+    operationLabel: {
+      esriMensurationPoint: "Punto",
+      esriMensurationDistanceAndAngle: "Distancia y ángulo",
+      esriMensurationAreaAndPerimeter: "Área y perímetro",
+      esriMensurationHeightFromBaseAndTop: "De la base a la parte superior",
+      esriMensurationHeightFromBaseAndTopShadow: "De la base a la sombra superior",
+      esriMensurationHeightFromTopAndTopShadow: "De la parte superior a la sombra superior",
+      esriMensurationCentroid: "Centroide",
+      esriMensurationPoint3D: "Punto (3D)",
+      esriMensurationDistanceAndAngle3D: "Distancia y ángulo (3D)",
+      esriMensurationAreaAndPerimeter3D: "Área y perímetro (3D)",
+      esriMensurationCentroid3D: "Centroide (3D)"
+    }
+  })
+);

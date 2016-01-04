@@ -17,21 +17,21 @@
 define([
   'dojo/_base/lang',
   'dojo/_base/array'
-], function(lang,array) {
+], function(lang, array) {
   var mo = {};
 
-  mo.isValidateTool = function(layerObjects, toolConfig){
-    var isValid = false;
+  mo.isValid = function(res, toolConfig, privilegeUtil){
+    var isValid = false, layerObjects = res.layerObjects;
     if(toolConfig.dijitID.indexOf('MergeLayers') !== -1){
       isValid = this.mergeAvailable(layerObjects);
     }else if(toolConfig.dijitID.indexOf('ExtractData') !== -1){
-      isValid = this.extractAvailable(layerObjects);
+      isValid = this.extractAvailable(res, privilegeUtil);
     }else{
       var requiredParam = null;
       if('requiredParam' in toolConfig){
         requiredParam = toolConfig.requiredParam;
       }
-      isValid = this.paramAvailable(layerObjects,toolConfig.analysisLayer, requiredParam);
+      isValid = this.paramAvailable(layerObjects, toolConfig.analysisLayer, requiredParam);
     }
     return isValid;
   };
@@ -39,22 +39,66 @@ define([
   mo.mergeAvailable = function(layerObjects){
     //check if there are two layers with the same geometry type
     return array.some(layerObjects, function(layerA){
-      return array.some(layerObjects,function(layerB){
+      return array.some(layerObjects, function(layerB){
         return (layerB !== layerA && layerB.geometryType === layerA.geometryType);
       });
     });
   };
 
-  mo.extractAvailable = function(layerObjects){
+  mo.extractAvailable = function(res, privilegeUtil){
     //check if there is a layer having Extract capability
     //capabilities is a string, like "Create, Delete, Query, Extract"
-    return array.some(layerObjects,function(layer){
-      if(layer.capabilities){
-        return layer.capabilities.indexOf('Extract') >= 0;
-      }else{
-        return false;
+    var user = privilegeUtil.getUser(),
+        layerInfos = res.layerInfos,
+        mapNotesLayerInfoArray = res.layerInfosObject.getMapNotesLayerInfoArray(),
+        ret = false;
+
+    array.forEach(layerInfos, function(layerInfo){
+      var isMapNotes = this._isMapNotes(mapNotesLayerInfoArray, layerInfo);
+      var isGeoRSS = (layerInfo.layerObject.declaredClass === 'esri.layers.GeoRSSLayer');
+      var isCSV = (layerInfo.layerObject.declaredClass === 'esri.layers.CSVLayer');
+      var isFeatCol = layerInfo.layerObject.type === 'FeatureCollection';
+      var isGroupFeatColl = isFeatCol && !isMapNotes;
+      var subLayerInfos;
+
+      if(isFeatCol || isGeoRSS || isCSV || isMapNotes){
+        if(isGeoRSS || isCSV){
+          ret = this._addExtractCapability(layerInfo);
+        }else if(isMapNotes || isGroupFeatColl){
+          subLayerInfos = layerInfo.getSubLayers();
+          if (subLayerInfos && subLayerInfos.length > 0){
+            array.forEach(subLayerInfos, function(subLayerInfo){
+              ret = this._addExtractCapability(subLayerInfo);
+            }, this);
+          }
+        }else{// else just one layer, e.g. CSV
+          ret = this._addExtractCapability(layerInfo);
+        }
+      }else if(privilegeUtil.isAdmin() && layerInfo.layerObject.url &&
+          layerInfo.layerObject.url.indexOf('/' + user.accountId + '/') > -1){
+        // is real admin, custom roles are not allowed here (so far)
+        ret = this._addExtractCapability(layerInfo);
       }
+    }, this);
+
+    return ret;
+  };
+
+  mo._isMapNotes = function(mapNotesLayerInfoArray, layerInfo){
+    return array.some(mapNotesLayerInfoArray, function(item){
+      return item.id === layerInfo.id;
     });
+  };
+
+  mo._addExtractCapability = function(layerInfo){
+    if(layerInfo.layerObject.capabilities) {
+      if(layerInfo.layerObject.capabilities.indexOf("Extract") === -1) {
+        layerInfo.layerObject.capabilities = layerInfo.layerObject.capabilities + ",Extract";
+      }
+    }else {
+      layerInfo.layerObject.capabilities = "Extract";
+    }
+    return true;
   };
 
   mo.paramAvailable = function(layerObjects, analysisLayer, requiredParam){
@@ -79,7 +123,7 @@ define([
 
   function findMatchedFeatureLayer(layerObjects, geomTypes, excludeLayerId){
     var matchedLayerId = null;
-    array.some(layerObjects, lang.hitch(this,function(layer){
+    array.some(layerObjects, lang.hitch(this, function(layer){
       if(layer && excludeLayerId !== layer.id){
         if(geomTypes.length === 1){
           if(geomTypes[0] === '*' || geomTypes[0] === layer.geometryType){

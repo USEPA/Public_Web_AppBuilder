@@ -39,6 +39,10 @@
     squareFeet: "Feet vuông",
     squareYards: "Thước vuông",
     undo: "Hoàn tác",
-    redo: "Làm lại"
+    redo: "Làm lại",
+    results: "Kết quả",
+    points: "Điểm",
+    lines: "Đường",
+    areas: "Khu vực"
   })
 );

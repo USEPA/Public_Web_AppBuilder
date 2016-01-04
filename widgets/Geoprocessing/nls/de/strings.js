@@ -9,6 +9,24 @@
     requiredInfo: "ist erforderlich.",
     drawnOnMap: "Das Ergebnis wird auf der Karte dargestellt.",
     clear: "Löschen",
-    error: "Fehler"
+    error: "Fehler",
+    noToolConfig: "Kein vorkonfigurierter Geoverarbeitungs-Task verfügbar.",
+    useUrlForGPInput: "URL",
+    useUploadForGPInput: "Datei hochladen",
+    selectFileToUpload: 'Datei auswählen...',
+    upload: 'Hochladen',
+    rasterFormat: 'Raster-Datenformat',
+    noFileSelected: 'Keine Datei ausgewählt!',
+    uploadSuccess:'Datei wurde erfolgreich hochgeladen!',
+    url: "URL",
+    showLayerContent: "Layer-Inhalt anzeigen",
+    invalidUrl: "Ungültige Feature-Service-URL",
+    Feet: "Fuß",
+    Yards: "Yard",
+    Miles: "Meilen",
+    NauticalMiles: "Seemeilen",
+    Meter: "Meter",
+    Kilometers: "Kilometer",
+    urlPlaceholder: "Feature-Set-URL"
   })
 );

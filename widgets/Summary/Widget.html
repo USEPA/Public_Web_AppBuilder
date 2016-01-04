@@ -1,0 +1,49 @@
+<div>
+  <div class="panelBottom">
+    <!-- Panel Main -->
+    <div id="panelMain">
+      <!-- Panel Container -->
+      <div id="panelContainer" data-dojo-attach-point="containerNode">
+        <div id="panel0" class="col" data-dojo-attach-point="panel0Node">
+          <div id="title0" class="titleCounter" data-dojo-attach-point="title0Node"></div>
+          <div id="counter0" class="counter" data-dojo-attach-point="counter0Node"></div>
+          <div id="units0" class="units" data-dojo-attach-point="units0Node"></div>
+        </div>
+        <div id="panel1" class="col line" data-dojo-attach-point="panel1Node">
+          <div id="title1" class="titleCounter" data-dojo-attach-point="title1Node"></div>
+          <div id="counter1" class="counter" data-dojo-attach-point="counter1Node"></div>
+          <div id="units1" class="units" data-dojo-attach-point="units1Node"></div>
+        </div>
+        <div id="panel2" class="col line" data-dojo-attach-point="panel2Node">
+          <div id="title2" class="titleCounter" data-dojo-attach-point="title2Node"></div>
+          <div id="counter2" class="counter" data-dojo-attach-point="counter2Node"></div>
+          <div id="units2" class="units" data-dojo-attach-point="units2Node"></div>
+        </div>
+        <div id="panel3" class="col line" data-dojo-attach-point="panel3Node">
+          <div id="title3" class="titleCounter" data-dojo-attach-point="title3Node"></div>
+          <div id="counter3" class="counter" data-dojo-attach-point="counter3Node"></div>
+          <div id="units3" class="units" data-dojo-attach-point="units3Node"></div>
+        </div>
+      </div>
+    </div>
+    <!-- Panel Nav -->
+    <div id="panelNav">
+      <ul class="navigation" data-dojo-attach-point="pagesListNode"></ul>
+    </div>
+    <!-- Panel Message -->
+    <div id="panelMessage" data-dojo-attach-point="messageNode">
+      <span id="msgText" data-dojo-attach-point="messageTextNode"></span>
+    </div>
+    <!-- Panel Footer -->
+    <div id="panelFooter" data-dojo-attach-point="footerNode">
+      <div id="panelLabel" data-dojo-attach-point="labelNode"></div>
+      <div id="panelClose" data-dojo-attach-event="onclick:_close"></div>
+      <div id="panelFooterContent" data-dojo-attach-point="footerContentNode">
+        <span id="labelFilter">${nls.filter}</span>
+        <div id="panelFilter">
+          <select id="selFilter" data-dojo-attach-point="filterNode"></select>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

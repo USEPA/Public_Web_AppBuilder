@@ -31,6 +31,22 @@
     setTask: "설정",
     setTaskTitle: "GP 작업 설정",
     enablePopup: "팝업 사용",
-    unSupportGeometryType: "알 수 없는 지오메트리 유형으로 인해 렌더러를 설정할 수 없습니다."
+    unSupportGeometryType: "알 수 없는 지오메트리 유형으로 인해 렌더러를 설정할 수 없습니다.",
+    useUrlForGPInput: "URL",
+    useUploadForGPInput: "파일 업로드",
+    selectFileToUpload: "파일 선택...",
+    upload: "업로드",
+    rasterFormat: "래스터 데이터 형식",
+    noFileSelected: "선택한 파일 없음",
+    uploadSuccess:"파일 업로드 완료",
+    showLayerContent: "레이어 콘텐츠 보기",
+    Feet: "피트",
+    Yards: "야드",
+    Miles: "마일",
+    NauticalMiles: "해리",
+    Meter: "미터",
+    Kilometers: "킬로미터",
+    urlPlaceholder: "기능 모음 URL",
+    allowToExport: "결과 내보내기 허용"
   })
 );

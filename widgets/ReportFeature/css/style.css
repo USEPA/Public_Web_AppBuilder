@@ -1,0 +1,60 @@
+.drs-widget-report-feature .report-feature-content{
+  position: relative;
+  width:100%;
+  height:100%;
+}
+.drs-widget-report-feature>.jimu-tab>.control{
+  margin:-14px -14px 0px -14px;
+}
+.drs-widget-report-feature .drs-loading-features {
+  background: url('../images/loading.gif') no-repeat left center;
+  padding-left: 20px;
+}
+
+.drs-info-window-form .drs-input-err {
+  border-color: #f00;
+}
+
+.drs-info-window-form label {
+  display: block;
+  margin-top: 1em;
+}
+
+.drs-info-window-form .drs-buttons {
+  margin-top: 1em;
+ /* width: 95%;*/
+}
+
+.drs-info-window-form textarea.jimu-input {
+  width: 100%;
+}
+
+.TabTheme .drs-widget-report-feature .jimu-tab>.control>.tab.jimu-state-selected{
+  border-top: 0;
+}
+.drs-widget-report-feature .jimu-widget-frame.jimu-container {
+    overflow-x: auto;
+    overflow-y: auto;
+    position: relative;
+    padding: 0px 0px 14px 0px;
+    background-color: white;
+
+}
+.drs-widget-report-feature .selectLayer{
+    border-color: #d2dae2;
+    background-color: #fafafc;
+    color: #555555;
+    font-size: 14x;
+}
+.drs-widget-report-feature .selectLayer:active{
+    border-color: #c3c3c3;
+    background-color: #ffffff;
+    color: #000000;
+    font-family: "AVENIR LT STD 35 LIGHT";
+    font-size: 14x;
+}
+.drs-infowindow-input{
+  width:100%;
+  padding: 1px 3px 0 0;
+  font-size: 13px;
+}

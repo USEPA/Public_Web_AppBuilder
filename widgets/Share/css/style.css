@@ -26,6 +26,8 @@
 }
 
 .share-dialog-icon:visited {
+  color: rgb(0, 0, 0);
+  -ms-filter: "Alpha(opacity=50)";
   color: rgba(0, 0, 0, 0.5);
 }
 
@@ -35,6 +37,8 @@
 }
 
 .share-dialog-icon:hover {
+  color: rgb(0, 0, 0);
+  -ms-filter: "Alpha(opacity=80)";
   color: rgba(0, 0, 0, 0.8);
 }
 
@@ -47,6 +51,18 @@
   color: #777;
   border: 1px solid #dcdcdc;
   margin: 0 0 10px;
+}
+
+.DartTheme .share-map-url {
+  background-color: rgb(0, 0, 0);
+  -ms-filter: "Alpha(opacity=25)";
+  background-color: rgba(0, 0, 0, 0.25);
+}
+
+.DartTheme .map-size-select {
+  background-color: rgb(0, 0, 0);
+  -ms-filter: "Alpha(opacity=25)";
+  background-color: rgba(0, 0, 0, 0.25);
 }
 
 .map-size-container {
@@ -83,340 +99,787 @@
   margin: 0 0 10px;
 }
 
+.DartTheme .share-dialog-textarea {
+  background-color: rgb(0, 0, 0);
+  -ms-filter: "Alpha(opacity=25)";
+  background-color: rgba(0, 0, 0, 0.25);
+}
+
+.DartTheme .icon-link:hover,
+.DartTheme .icon-mail-alt:hover,
+.DartTheme .icon-gplus:hover,
+.DartTheme .icon-facebook-squared:hover,
+.DartTheme .icon-twitter:hover{
+  -ms-filter: "Alpha(opacity=70)";
+  opacity: 0.7;
+}
+
+.FoldableTheme .icon-link,
+.JewelryBoxTheme.default .icon-link,
+.FoldableTheme .icon-mail-alt,
+.JewelryBoxTheme.default .icon-mail-alt,
+.FoldableTheme .icon-gplus,
+.JewelryBoxTheme.default .icon-gplus,
+.FoldableTheme .icon-facebook-squared,
+.JewelryBoxTheme.default .icon-facebook-squared,
+.FoldableTheme .icon-twitter,
+.JewelryBoxTheme.default .icon-twitter {
+  color: rgb(89, 102, 121);
+  color: rgba(89, 102, 121, 1);
+}
+
+.JewelryBoxTheme.default .jimu-on-screen-widget-panel > .jimu-panel-title{
+  background-color: rgb(89, 102, 121);
+  background-color: rgba(89, 102, 121, 1);
+}
+
+.FoldableTheme .icon-link:hover,
+.JewelryBoxTheme.default .icon-link:hover,
+.FoldableTheme .icon-mail-alt:hover,
+.JewelryBoxTheme.default .icon-mail-alt:hover,
+.FoldableTheme .icon-gplus:hover,
+.JewelryBoxTheme.default .icon-gplus:hover,
+.FoldableTheme .icon-facebook-squared:hover,
+.JewelryBoxTheme.default .icon-facebook-squared:hover,
+.FoldableTheme .icon-twitter:hover,
+.JewelryBoxTheme.default .icon-twitter:hover{
+  color: rgb(89, 102, 121);
+  -ms-filter: "Alpha(opacity=70)";
+  color: rgba(89, 102, 121, 0.7);
+}
+
+.TabTheme .icon-link,
+.TabTheme .icon-mail-alt,
+.TabTheme .icon-gplus,
+.TabTheme .icon-facebook-squared,
+.TabTheme .icon-twitter {
+  color: rgb(0, 0, 0);
+  color: rgba(0, 0, 0, 1);
+}
+
+.TabTheme .icon-link:hover,
+.TabTheme .icon-mail-alt:hover,
+.TabTheme .icon-gplus:hover,
+.TabTheme .icon-facebook-squared:hover,
+.TabTheme .icon-twitter:hover {
+  color: rgb(0, 0, 0);
+  -ms-filter: "Alpha(opacity=70)";
+  color: rgba(0, 0, 0, 0.7);
+}
+
+.BoxTheme.default .icon-link,
+.BoxTheme.default .icon-mail-alt,
+.BoxTheme.default .icon-gplus,
+.BoxTheme.default .icon-facebook-squared,
+.BoxTheme.default .icon-twitter {
+  color: rgb(100, 100, 100);
+  color: rgba(100, 100, 100, 1);
+}
+
+.BoxTheme.default .icon-link:hover,
+.BoxTheme.default .icon-mail-alt:hover,
+.BoxTheme.default .icon-gplus:hover,
+.BoxTheme.default .icon-facebook-squared:hover,
+.BoxTheme.default .icon-twitter:hover {
+  color: rgb(100, 100, 100);
+  -ms-filter: "Alpha(opacity=70)";
+  color: rgba(100, 100, 100, 0.7);
+}
+
+.BillboardTheme.turquoise .icon-link,
+.BillboardTheme.turquoise .icon-mail-alt,
+.BillboardTheme.turquoise .icon-gplus,
+.BillboardTheme.turquoise .icon-facebook-squared,
+.BillboardTheme.turquoise .icon-twitter {
+  color: #2d95a0;
+}
+
+.BillboardTheme.turquoise .icon-link:hover,
+.BillboardTheme.turquoise .icon-mail-alt:hover,
+.BillboardTheme.turquoise .icon-gplus:hover,
+.BillboardTheme.turquoise .icon-facebook-squared:hover,
+.BillboardTheme.turquoise .icon-twitter:hover {
+  color: rgb(45, 149, 160);
+  -ms-filter: "Alpha(opacity=70)";
+  color: rgba(45, 149, 160, 0.5);
+}
+
+.FoldableTheme.default .icon-link,
+.FoldableTheme.default .icon-mail-alt,
+.FoldableTheme.default .icon-gplus,
+.FoldableTheme.default .icon-facebook-squared,
 .FoldableTheme.default .icon-twitter {
-  color: rgba(89, 102, 121, 0.5);
+  color: rgb(89, 102, 121);
+  color: rgba(89, 102, 121, 1);
 }
 
+.FoldableTheme.default .jimu-on-screen-widget-panel > .jimu-panel-title {
+  background-color: rgb(89, 102, 121);
+  background-color: rgba(89, 102, 121, 1);
+}
+
+.FoldableTheme.default .icon-link:hover,
+.FoldableTheme.default .icon-mail-alt:hover,
+.FoldableTheme.default .icon-gplus:hover,
+.FoldableTheme.default .icon-facebook-squared:hover,
 .FoldableTheme.default .icon-twitter:hover {
-  color: rgba(89, 102, 121, 1);
-}
-
-.FoldableTheme.black .icon-twitter,
-.TabTheme.default .icon-twitter {
-  color: rgba(0, 0, 0, 0.5);
-}
-
-.FoldableTheme.black .icon-twitter:hover,
-.TabTheme.default .icon-twitter:hover {
-  color: rgba(0, 0, 0, 1);
-}
-
-.icon-twitter {
-  color: rgba(0, 0, 0, 0.5);
-}
-
-.icon-twitter:hover {
-  color: rgba(0, 0, 0, 1);
-}
-
-.FoldableTheme.red .icon-twitter,
-.TabTheme.red .icon-twitter {
-  color: rgba(201, 46, 73, 0.5);
-}
-
-.FoldableTheme.red .icon-twitter:hover,
-.TabTheme.red .icon-twitter:hover {
-  color: rgba(201, 46, 73, 1);
-}
-
-.TabTheme.simpleblue .icon-twitter {
-  color: rgba(52, 152, 219, 0.5);
-}
-
-.TabTheme.simpleblue .icon-twitter:hover {
-  color: rgba(52, 152, 219, 1);
-}
-
-.FoldableTheme.green .icon-twitter {
-  color: rgba(42, 170, 138, 0.5);
-}
-
-.FoldableTheme.green .icon-twitter:hover {
-  color: rgba(42, 170, 138, 1);
-}
-
-.FoldableTheme.cyan .icon-twitter {
-  color: rgba(177, 211, 212, 0.5);
-}
-
-.FoldableTheme.cyan .icon-twitter:hover {
-  color: rgba(177, 211, 212, 1);
-}
-
-.FoldableTheme.purple .icon-twitter,
-.TabTheme.purple .icon-twitter {
-  color: rgba(171, 109, 174, 0.5);
-}
-
-.FoldableTheme.purple .icon-twitter:hover,
-.TabTheme.purple .icon-twitter:hover {
-  color: rgba(171, 109, 174, 1);
-}
-
-.FoldableTheme.red .icon-twitter,
-.TabTheme.red .icon-twitter {
-  color: rgba(201, 46, 73, 0.5);
-}
-
-.FoldableTheme.red .icon-twitter:hover,
-.TabTheme.red .icon-twitter:hover {
-  color: rgba(201, 46, 73, 1);
-}
-
-.FoldableTheme.default .icon-facebook-squared {
-  color: rgba(89, 102, 121, 0.5);
-}
-
-.FoldableTheme.default .icon-facebook-squared:hover {
-  color: rgba(89, 102, 121, 1);
-}
-
-.FoldableTheme.black .icon-facebook-squared,
-.TabTheme.default .icon-facebook-squared {
-  color: rgba(0, 0, 0, 0.5);
-}
-
-.FoldableTheme.black .icon-facebook-squared:hover,
-.TabTheme.default .icon-facebook-squared:hover {
-  color: rgba(0, 0, 0, 1);
-}
-
-.icon-facebook-squared {
-  color: rgba(0, 0, 0, 0.5);
-}
-
-.icon-facebook-squared:hover {
-  color: rgba(0, 0, 0, 1);
-}
-
-.FoldableTheme.green .icon-facebook-squared {
-  color: rgba(42, 170, 138, 0.5);
-}
-
-.FoldableTheme.green .icon-facebook-squared:hover {
-  color: rgba(42, 170, 138, 1);
-}
-
-.FoldableTheme.cyan .icon-facebook-squared {
-  color: rgba(177, 211, 212, 0.5);
-}
-
-.FoldableTheme.cyan .icon-facebook-squared:hover {
-  color: rgba(177, 211, 212, 1);
-}
-
-.FoldableTheme.red .icon-facebook-squared,
-.TabTheme.red .icon-facebook-squared {
-  color: rgba(201, 46, 73, 0.5);
-}
-
-.FoldableTheme.red .icon-facebook-squared:hover,
-.TabTheme.red .icon-facebook-squared:hover {
-  color: rgba(201, 46, 73, 1);
-}
-
-.FoldableTheme.purple .icon-facebook-squared,
-.TabTheme.purple .icon-facebook-squared {
-  color: rgba(171, 109, 174, 0.5);
-}
-
-.FoldableTheme.purple .icon-facebook-squared:hover,
-.TabTheme.purple .icon-facebook-squared:hover {
-  color: rgba(171, 109, 174, 1);
-}
-
-.TabTheme.simpleblue .icon-facebook-squared {
-  color: rgba(52, 152, 219, 0.5);
-}
-
-.TabTheme.simpleblue .icon-facebook-squared:hover {
-  color: rgba(52, 152, 219, 1);
-}
-
-.FoldableTheme.default .icon-gplus {
-  color: rgba(89, 102, 121, 0.5);
-}
-
-.FoldableTheme.default .icon-gplus:hover {
-  color: rgba(89, 102, 121, 1);
-}
-
-.FoldableTheme.black .icon-gplus,
-.TabTheme.default .icon-gplus {
-  color: rgba(0, 0, 0, 0.5);
-}
-
-.FoldableTheme.black .icon-gplus:hover,
-.TabTheme.default .icon-gplus:hover {
-  color: rgba(0, 0, 0, 1);
-}
-
-.FoldableTheme.cyan .icon-gplus {
-  color: rgba(177, 211, 212, 0.5);
-}
-
-.FoldableTheme.cyan .icon-gplus:hover {
-  color: rgba(177, 211, 212, 1);
-}
-
-.TabTheme.simpleblue .icon-gplus {
-  color: rgba(52, 152, 219, 0.5);
-}
-
-.TabTheme.simpleblue .icon-gplus:hover {
-  color: rgba(52, 152, 219, 1);
-}
-
-.FoldableTheme.green .icon-gplus {
-  color: rgba(42, 170, 138, 0.5);
-}
-
-.FoldableTheme.green .icon-gplus:hover {
-  color: rgba(42, 170, 138, 1);
-}
-
-.FoldableTheme.red .icon-gplus,
-.TabTheme.red .icon-gplus {
-  color: rgba(201, 46, 73, 0.5);
-}
-
-.FoldableTheme.red .icon-gplus:hover,
-.TabTheme.red .icon-gplus:hover {
-  color: rgba(201, 46, 73, 1);
-}
-
-.FoldableTheme.purple .icon-gplus,
-.TabTheme.purple .icon-gplus {
-  color: rgba(171, 109, 174, 0.5);
-}
-
-.FoldableTheme.purple .icon-gplus:hover,
-.TabTheme.purple .icon-gplus:hover {
-  color: rgba(171, 109, 174, 1);
-}
-
-.FoldableTheme.default .icon-mail-alt {
-  color: rgba(89, 102, 121, 0.5);
-}
-
-.FoldableTheme.default .icon-mail-alt:hover {
-  color: rgba(89, 102, 121, 1);
-}
-
-.FoldableTheme.black .icon-mail-alt,
-.TabTheme.default .icon-mail-alt {
-  color: rgba(0, 0, 0, 0.5);
-}
-
-.FoldableTheme.black .icon-mail-alt:hover,
-.TabTheme.default .icon-mail-alt:hover {
-  color: rgba(0, 0, 0, 1);
-}
-
-.TabTheme.simpleblue .icon-mail-alt {
-  color: rgba(52, 152, 219, 0.5);
-}
-
-.TabTheme.simpleblue .icon-mail-alt:hover {
-  color: rgba(52, 152, 219, 1);
-}
-
-.FoldableTheme.green .icon-mail-alt {
-  color: rgba(42, 170, 138, 0.5);
-}
-
-.FoldableTheme.green .icon-mail-alt:hover {
-  color: rgba(42, 170, 138, 1);
-}
-
-.FoldableTheme.cyan .icon-mail-alt {
-  color: rgba(177, 211, 212, 0.5);
-}
-
-.FoldableTheme.cyan .icon-mail-alt:hover {
-  color: rgba(177, 211, 212, 1);
-}
-
-.FoldableTheme.red .icon-mail-alt,
-.TabTheme.red .icon-mail-alt {
-  color: rgba(201, 46, 73, 0.5);
-}
-
-.FoldableTheme.red .icon-mail-alt:hover,
-.TabTheme.red .icon-mail-alt:hover {
-  color: rgba(201, 46, 73, 1);
-}
-
-.FoldableTheme.purple .icon-mail-alt,
-.TabTheme.purple .icon-mail-alt {
-  color: rgba(171, 109, 174, 0.5);
-}
-
-.FoldableTheme.purple .icon-mail-alt:hover,
-.TabTheme.purple .icon-mail-alt:hover {
-  color: rgba(171, 109, 174, 1);
-}
-
-.FoldableTheme.default .icon-link {
-  color: rgba(89, 102, 121, 0.5);
-}
-
-.FoldableTheme.default .icon-link:hover {
-  color: rgba(89, 102, 121, 1);
+  color: rgb(89, 102, 121);
+  -ms-filter: "Alpha(opacity=70)";
+  color: rgba(89, 102, 121, 0.7);
 }
 
 .FoldableTheme.black .icon-link,
-.TabTheme.default .icon-link {
-  color: rgba(0, 0, 0, 0.5);
-}
-
-.FoldableTheme.black .icon-link:hover,
-.TabTheme.default .icon-link:hover {
+.TabTheme.default .icon-link,
+.JewelryBoxTheme.black .icon-link,
+.FoldableTheme.black .icon-mail-alt,
+.TabTheme.default .icon-mail-alt,
+.JewelryBoxTheme.black .icon-mail-alt,
+.FoldableTheme.black .icon-gplus,
+.TabTheme.default .icon-gplus,
+.JewelryBoxTheme.black .icon-gplus,
+.FoldableTheme.black .icon-facebook-squared,
+.TabTheme.default .icon-facebook-squared,
+.JewelryBoxTheme.black .icon-facebook-squared,
+.FoldableTheme.black .icon-twitter,
+.TabTheme.default .icon-twitter,
+.JewelryBoxTheme.black .icon-twitter,
+.BillboardTheme.default .icon-link,
+.BillboardTheme.default .icon-mail-alt,
+.BillboardTheme.default .icon-gplus,
+.BillboardTheme.default .icon-facebook-squared,
+.BillboardTheme.default .icon-twitter{
+  color: rgb(0, 0, 0);
   color: rgba(0, 0, 0, 1);
 }
 
-.FoldableTheme.cyan .icon-link {
-  color: rgba(177, 211, 212, 0.5);
+.JewelryBoxTheme.black .jimu-on-screen-widget-panel > .jimu-panel-title,
+.FoldableTheme.black .jimu-on-screen-widget-panel > .jimu-panel-title,
+.TabTheme.default .jimu-on-screen-widget-panel > .jimu-panel-title {
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 1);
 }
 
-.FoldableTheme.cyan .icon-link:hover {
-  color: rgba(177, 211, 212, 1);
+.FoldableTheme.black .icon-link:hover,
+.TabTheme.default .icon-link:hover,
+.JewelryBoxTheme.black .icon-link:hover,
+.FoldableTheme.black .icon-mail-alt:hover,
+.TabTheme.default .icon-mail-alt:hover,
+.JewelryBoxTheme.black .icon-mail-alt:hover,
+.FoldableTheme.black .icon-gplus:hover,
+.TabTheme.default .icon-gplus:hover,
+.JewelryBoxTheme.black .icon-gplus:hover,
+.FoldableTheme.black .icon-facebook-squared:hover,
+.TabTheme.default .icon-facebook-squared:hover,
+.JewelryBoxTheme.black .icon-facebook-squared:hover,
+.FoldableTheme.black .icon-twitter:hover,
+.TabTheme.default .icon-twitter:hover,
+.JewelryBoxTheme.black .icon-twitter:hover,
+.BillboardTheme.default .icon-link:hover,
+.BillboardTheme.default .icon-mail-alt:hover,
+.BillboardTheme.default .icon-gplus:hover,
+.BillboardTheme.default .icon-facebook-squared:hover,
+.BillboardTheme.default .icon-twitter:hover {
+  color: rgb(0, 0, 0);
+  -ms-filter: "Alpha(opacity=50)";
+  color: rgba(0, 0, 0, 0.5);
 }
 
-.FoldableTheme.green .icon-link {
-  color: rgba(42, 170, 138, 0.5);
+.FoldableTheme.cyan .icon-link,
+.JewelryBoxTheme.cyan .icon-link,
+.FoldableTheme.cyan .icon-mail-alt,
+.JewelryBoxTheme.cyan .icon-mail-alt,
+.FoldableTheme.cyan .icon-gplus,
+.JewelryBoxTheme.cyan .icon-gplus,
+.FoldableTheme.cyan .icon-facebook-squared,
+.JewelryBoxTheme.cyan .icon-facebook-squared,
+.FoldableTheme.cyan .icon-twitter,
+.JewelryBoxTheme.cyan .icon-twitter {
+  color: rgb(38, 112, 48);
+  color: rgba(38, 112, 48, 1);
 }
 
-.FoldableTheme.green .icon-link:hover {
+.JewelryBoxTheme.cyan .jimu-on-screen-widget-panel > .jimu-panel-title,
+.FoldableTheme.cyan .jimu-on-screen-widget-panel > .jimu-panel-title {
+  background-color: rgb(38, 112, 48);
+  background-color: rgba(38, 112, 48, 1);
+}
+
+.FoldableTheme.cyan .icon-link:hover,
+.JewelryBoxTheme.cyan .icon-link:hover,
+.FoldableTheme.cyan .icon-mail-alt:hover,
+.JewelryBoxTheme.cyan .icon-mail-alt:hover,
+.FoldableTheme.cyan .icon-gplus:hover,
+.JewelryBoxTheme.cyan .icon-gplus:hover,
+.FoldableTheme.cyan .icon-facebook-squared:hover,
+.JewelryBoxTheme.cyan .icon-facebook-squared:hover,
+.FoldableTheme.cyan .icon-twitter:hover,
+.JewelryBoxTheme.cyan .icon-twitter:hover {
+  color: rga(38, 112, 48);
+  -ms-filter: "Alpha(opacity=70)";
+  color: rgba(38, 112, 48, 0.7);
+}
+
+.TabTheme.cyan .icon-link,
+.TabTheme.cyan .icon-mail-alt,
+.TabTheme.cyan .icon-gplus,
+.TabTheme.cyan .icon-facebook-squared,
+.TabTheme.cyan .icon-twitter {
+  color: rgb(42, 170, 138);
   color: rgba(42, 170, 138, 1);
 }
 
-.TabTheme.simpleblue .icon-link {
-  color: rgba(52, 152, 219, 0.5);
+.TabTheme.cyan .jimu-on-screen-widget-panel > .jimu-panel-title {
+  background-color: rgb(42, 170, 138);
+  background-color: rgba(42, 170, 138, 1);
 }
 
-.TabTheme.simpleblue .icon-link:hover {
+.TabTheme.cyan .icon-link:hover,
+.TabTheme.cyan .icon-mail-alt:hover,
+.TabTheme.cyan .icon-gplus:hover,
+.TabTheme.cyan .icon-facebook-squared:hover,
+.TabTheme.cyan .icon-twitter:hover {
+  color: rga(42, 170, 138);
+  -ms-filter: "Alpha(opacity=70)";
+  color: rgba(42, 170, 138, 0.7);
+}
+
+.TabTheme.green .icon-link,
+.TabTheme.green .icon-mail-alt,
+.TabTheme.green .icon-gplus,
+.TabTheme.green .icon-facebook-squared,
+.TabTheme.green .icon-twitter {
+  color: rgb(5, 171, 8);
+  color: rgba(5, 171, 8, 1);
+}
+
+.TabTheme.green .jimu-on-screen-widget-panel > .jimu-panel-title {
+  background-color: rgb(5, 171, 8);
+  background-color: rgba(5, 171, 8, 1);
+}
+
+.TabTheme.green .icon-link:hover,
+.TabTheme.green .icon-mail-alt:hover,
+.TabTheme.green .icon-gplus:hover,
+.TabTheme.green .icon-facebook-squared:hover,
+.TabTheme.green .icon-twitter:hover {
+  color: rgb(5, 171, 8);
+  -ms-filter: "Alpha(opacity=70)";
+  color: rgba(5, 171, 8, 0.7);
+}
+
+.BoxTheme.green .icon-link,
+.BoxTheme.green .icon-mail-alt,
+.BoxTheme.green .icon-gplus,
+.BoxTheme.green .icon-facebook-squared,
+.BoxTheme.green .icon-twitter {
+  color: rgb(128, 171, 0);
+  color: rgba(128, 171, 0, 1);
+}
+
+.BoxTheme.green .icon-link:hover,
+.BoxTheme.green .icon-mail-alt:hover,
+.BoxTheme.green .icon-gplus:hover,
+.BoxTheme.green .icon-facebook-squared:hover,
+.BoxTheme.green .icon-twitter:hover {
+  color: rgb(128, 171, 0);
+  -ms-filter: "Alpha(opacity=70)";
+  color: rgba(128, 171, 0, 0.7);
+}
+
+.BoxTheme.orange .icon-link,
+.BoxTheme.orange .icon-mail-alt,
+.BoxTheme.orange .icon-gplus,
+.BoxTheme.orange .icon-facebook-squared,
+.BoxTheme.orange .icon-twitter {
+  color: rgb(255, 155, 0);
+  color: rgba(255, 155, 0, 1);
+}
+
+.BoxTheme.orange .icon-link:hover,
+.BoxTheme.orange .icon-mail-alt:hover,
+.BoxTheme.orange .icon-gplus:hover,
+.BoxTheme.orange .icon-facebook-squared:hover,
+.BoxTheme.orange .icon-twitter:hover {
+  color: rgb(255, 155, 0);
+  -ms-filter: "Alpha(opacity=70)";
+  color: rgba(255, 155, 0, 0.7);
+}
+
+.BillboardTheme.orange .icon-link,
+.BillboardTheme.orange .icon-mail-alt,
+.BillboardTheme.orange .icon-gplus,
+.BillboardTheme.orange .icon-facebook-squared,
+.BillboardTheme.orange .icon-twitter {
+  color: rgb(237, 189, 53);
+  color: rgba(237, 189, 53, 1);
+}
+
+.BillboardTheme.orange .icon-link:hover,
+.BillboardTheme.orange .icon-mail-alt:hover,
+.BillboardTheme.orange .icon-gplus:hover,
+.BillboardTheme.orange .icon-facebook-squared:hover,
+.BillboardTheme.orange .icon-twitter:hover {
+  color: rgb(237, 189, 53);
+  -ms-filter: "Alpha(opacity=70)";
+  color: rgba(237, 189, 53, 0.7);
+}
+
+.BillboardTheme.green .icon-link,
+.BillboardTheme.green .icon-mail-alt,
+.BillboardTheme.green .icon-gplus,
+.BillboardTheme.green .icon-facebook-squared,
+.BillboardTheme.green .icon-twitter{
+  color: rgb(109, 184, 172);
+  color: rgba(109, 184, 172, 1);
+}
+
+.BillboardTheme.green .icon-link:hover,
+.BillboardTheme.green .icon-mail-alt:hover,
+.BillboardTheme.green .icon-gplus:hover,
+.BillboardTheme.green .icon-facebook-squared:hover,
+.BillboardTheme.green .icon-twitter:hover{
+  color: rgb(109, 184, 172);
+  -ms-filter: "Alpha(opacity=70)";
+  color: rgba(109, 184, 172, 0.7);
+}
+
+.FoldableTheme.green .icon-link,
+.JewelryBoxTheme.green .icon-link,
+.FoldableTheme.green .icon-mail-alt,
+.JewelryBoxTheme.green .icon-mail-alt,
+.FoldableTheme.green .icon-gplus,
+.JewelryBoxTheme.green .icon-gplus,
+.FoldableTheme.green .icon-facebook-squared,
+.JewelryBoxTheme.green .icon-facebook-squared,
+.FoldableTheme.green .icon-twitter,
+.JewelryBoxTheme.green .icon-twitter {
+  color: rgb(42, 170, 138);
+  color: rgba(42, 170, 138, 1);
+}
+
+.JewelryBoxTheme.green .jimu-on-screen-widget-panel > .jimu-panel-title,
+.FoldableTheme.green .jimu-on-screen-widget-panel > .jimu-panel-title {
+  background-color: rgb(42, 170, 138);
+  background-color: rgba(42, 170, 138, 1);
+}
+
+.FoldableTheme.green .icon-link:hover,
+.JewelryBoxTheme.green .icon-link:hover,
+.FoldableTheme.green .icon-mail-alt:hover,
+.JewelryBoxTheme.green .icon-mail-alt:hover,
+.FoldableTheme.green .icon-gplus:hover,
+.JewelryBoxTheme.green .icon-gplus:hover,
+.FoldableTheme.green .icon-facebook-squared:hover,
+.JewelryBoxTheme.green .icon-facebook-squared:hover,
+.FoldableTheme.green .icon-twitter:hover,
+.JewelryBoxTheme.green .icon-twitter:hover {
+  color: rgb(42, 170, 138);
+  -ms-filter: "Alpha(opacity=70)";
+  color: rgba(42, 170, 138, 0.7);
+}
+
+.BoxTheme.turquoise .icon-link,
+.BoxTheme.turquoise .icon-mail-alt,
+.BoxTheme.turquoise .icon-gplus,
+.BoxTheme.turquoise .icon-facebook-squared,
+.BoxTheme.turquoise .icon-twitter {
+  color: rgb(47, 170, 205);
+  color: rgba(47, 170, 205, 1);
+}
+
+.BoxTheme.turquoise .icon-link:hover,
+.BoxTheme.turquoise .icon-mail-alt:hover,
+.BoxTheme.turquoise .icon-gplus:hover,
+.BoxTheme.turquoise .icon-facebook-squared:hover,
+.BoxTheme.turquoise .icon-twitter:hover {
+  color: rgb(47, 170, 205);
+  -ms-filter: "Alpha(opacity=70)";
+  color: rgba(47, 170, 205, 0.7);
+}
+
+.TabTheme.simpleblue .icon-link,
+.TabTheme.simpleblue .icon-mail-alt,
+.TabTheme.simpleblue .icon-gplus,
+.TabTheme.simpleblue .icon-facebook-squared,
+.TabTheme.simpleblue .icon-twitter {
+  color: rgb(52, 152, 219);
   color: rgba(52, 152, 219, 1);
 }
 
-.FoldableTheme.red .icon-link,
-.TabTheme.red .icon-link {
-  color: rgba(201, 46, 73, 0.5);
+.TabTheme.simpleblue .jimu-on-screen-widget-panel > .jimu-panel-title {
+  background-color: rgb(52, 152, 219);
+  background-color: rgba(52, 152, 219, 1);
 }
 
-.FoldableTheme.red .icon-link:hover,
-.TabTheme.red .icon-link:hover {
+.TabTheme.simpleblue .icon-link:hover,
+.TabTheme.simpleblue .icon-mail-alt:hover,
+.TabTheme.simpleblue .icon-gplus:hover,
+.TabTheme.simpleblue .icon-facebook-squared:hover,
+.TabTheme.simpleblue .icon-twitter:hover{
+  color: rgb(52, 152, 219);
+  -ms-filter: "Alpha(opacity=70)";
+  color: rgba(52, 152, 219, 0.7);
+}
+
+.BillboardTheme.blue .icon-link:hover,
+.BillboardTheme.blue .icon-mail-alt:hover,
+.BillboardTheme.blue .icon-gplus:hover,
+.BillboardTheme.blue .icon-facebook-squared:hover,
+.BillboardTheme.blue .icon-twitter:hover{
+  color: rgb(47, 112, 228);
+  -ms-filter: "Alpha(opacity=70)";
+  color: rgba(47, 112, 228, 0.7);
+}
+
+.BillboardTheme.blue .icon-link,
+.BillboardTheme.blue .icon-mail-alt,
+.BillboardTheme.blue .icon-gplus,
+.BillboardTheme.blue .icon-facebook-squared,
+.BillboardTheme.blue .icon-twitter {
+  color: rgb(47, 112, 228);
+  color: rgba(47, 112, 228, 1);
+}
+
+.BillboardTheme.red .icon-link:hover,
+.BillboardTheme.red .icon-mail-alt:hover,
+.BillboardTheme.red .icon-gplus:hover,
+.BillboardTheme.red .icon-facebook-squared:hover,
+.BillboardTheme.red .icon-twitter:hover{
+  color: rgb(232, 52, 40);
+  -ms-filter: "Alpha(opacity=70)";
+  color: rgba(232, 52, 40, 0.7);
+}
+
+.BillboardTheme.red .icon-link,
+.BillboardTheme.red .icon-mail-alt,
+.BillboardTheme.red .icon-gplus,
+.BillboardTheme.red .icon-facebook-squared,
+.BillboardTheme.red .icon-twitter {
+  color: rgb(232, 52, 40);
+  color: rgba(232, 52, 40, 1);
+}
+
+.BillboardTheme.pink .icon-link:hover,
+.BillboardTheme.pink .icon-mail-alt:hover,
+.BillboardTheme.pink .icon-gplus:hover,
+.BillboardTheme.pink .icon-facebook-squared:hover,
+.BillboardTheme.pink .icon-twitter:hover{
+  color: rgb(254, 105, 96);
+  -ms-filter: "Alpha(opacity=70)";
+  color: rgba(254, 105, 96, 0.7);
+}
+
+.BillboardTheme.pink .icon-link,
+.BillboardTheme.pink .icon-mail-alt,
+.BillboardTheme.pink .icon-gplus,
+.BillboardTheme.pink .icon-facebook-squared,
+.BillboardTheme.pink .icon-twitter {
+  color: rgb(254, 105, 96);
+  color: rgba(254, 105, 96, 1);
+}
+
+.FoldableTheme.red .icon-link,
+.TabTheme.red .icon-link,
+.JewelryBoxTheme.red .icon-link,
+.FoldableTheme.red .icon-mail-alt,
+.TabTheme.red .icon-mail-alt,
+.JewelryBoxTheme.red .icon-mail-alt,
+.FoldableTheme.red .icon-gplus,
+.TabTheme.red .icon-gplus,
+.JewelryBoxTheme.red .icon-gplus,
+.FoldableTheme.red .icon-facebook-squared,
+.TabTheme.red .icon-facebook-squared,
+.JewelryBoxTheme.red .icon-facebook-squared,
+.FoldableTheme.red .icon-twitter,
+.TabTheme.red .icon-twitter,
+.JewelryBoxTheme.red .icon-twitter {
+  color: rgb(201, 46, 73);
   color: rgba(201, 46, 73, 1);
 }
 
+.JewelryBoxTheme.red .jimu-on-screen-widget-panel > .jimu-panel-title,
+.FoldableTheme.red .jimu-on-screen-widget-panel > .jimu-panel-title,
+.TabTheme.red .jimu-on-screen-widget-panel > .jimu-panel-title {
+  background-color: rgb(201, 46, 73);
+  background-color: rgba(201, 46, 73, 1);
+}
+
+.FoldableTheme.red .icon-link:hover,
+.TabTheme.red .icon-link:hover,
+.JewelryBoxTheme.red .icon-link:hover,
+.FoldableTheme.red .icon-mail-alt:hover,
+.TabTheme.red .icon-mail-alt:hover,
+.JewelryBoxTheme.red .icon-mail-alt:hover,
+.FoldableTheme.red .icon-gplus:hover,
+.TabTheme.red .icon-gplus:hover,
+.JewelryBoxTheme.red .icon-gplus:hover,
+.FoldableTheme.red .icon-facebook-squared:hover,
+.TabTheme.red .icon-facebook-squared:hover,
+.JewelryBoxTheme.red .icon-facebook-squared:hover,
+.FoldableTheme.red .icon-twitter:hover,
+.TabTheme.red .icon-twitter:hover,
+.JewelryBoxTheme.red .icon-twitter:hover {
+  color: rgb(201, 46, 73);
+  -ms-filter: "Alpha(opacity=70)";
+  color: rgba(201, 46, 73, 0.7);
+}
+
+.BoxTheme.red .icon-link,
+.BoxTheme.red .icon-mail-alt,
+.BoxTheme.red .icon-gplus,
+.BoxTheme.red .icon-facebook-squared,
+.BoxTheme.red .icon-twitter {
+  color: rgb(207, 0, 0);
+  color: rgba(207, 0, 0, 1);
+}
+
+.BoxTheme.red .icon-link:hover,
+.BoxTheme.red .icon-mail-alt:hover,
+.BoxTheme.red .icon-gplus:hover,
+.BoxTheme.red .icon-facebook-squared:hover,
+.BoxTheme.red .icon-twitter:hover {
+  color: rgb(207, 0, 0);
+  -ms-filter: "Alpha(opacity=70)";
+  color: rgba(207, 0, 0, 0.7);
+}
+
+.BoxTheme.pink .icon-link,
+.BoxTheme.pink .icon-mail-alt,
+.BoxTheme.pink .icon-gplus,
+.BoxTheme.pink .icon-facebook-squared,
+.BoxTheme.pink .icon-twitter {
+  color: rgb(237, 0, 140);
+  color: rgba(237, 0, 140, 1);
+}
+
+.BoxTheme.pink .icon-link:hover,
+.BoxTheme.pink .icon-mail-alt:hover,
+.BoxTheme.pink .icon-gplus:hover,
+.BoxTheme.pink .icon-facebook-squared:hover,
+.BoxTheme.pink .icon-twitter:hover {
+  color: rgb(237, 0, 140);
+  -ms-filter: "Alpha(opacity=70)";
+  color: rgba(237, 0, 140, 0.7);
+}
+
+.FoldableTheme.yellow .icon-link,
+.TabTheme.yellow .icon-link,
+.JewelryBoxTheme.yellow .icon-link,
+.FoldableTheme.yellow .icon-mail-alt,
+.TabTheme.yellow .icon-mail-alt,
+.JewelryBoxTheme.yellow .icon-mail-alt,
+.FoldableTheme.yellow .icon-gplus,
+.TabTheme.yellow .icon-gplus,
+.JewelryBoxTheme.yellow .icon-gplus,
+.FoldableTheme.yellow .icon-facebook-squared,
+.TabTheme.yellow .icon-facebook-squared,
+.JewelryBoxTheme.yellow .icon-facebook-squared,
+.FoldableTheme.yellow .icon-twitter,
+.TabTheme.yellow .icon-twitter,
+.JewelryBoxTheme.yellow .icon-twitter {
+  color: rgb(208, 125, 14);
+  color: rgba(208, 125, 14, 1);
+}
+
+.JewelryBoxTheme.yellow .jimu-on-screen-widget-panel > .jimu-panel-title,
+.FoldableTheme.yellow .jimu-on-screen-widget-panel > .jimu-panel-title,
+.TabTheme.yellow .jimu-on-screen-widget-panel > .jimu-panel-title {
+  background-color: rgb(208, 125, 14);
+  background-color: rgba(208, 125, 14, 1);
+}
+
+.FoldableTheme.yellow .icon-link:hover,
+.TabTheme.yellow .icon-link:hover,
+.JewelryBoxTheme.yellow .icon-link:hover,
+.FoldableTheme.yellow .icon-mail-alt:hover,
+.TabTheme.yellow .icon-mail-alt:hover,
+.JewelryBoxTheme.yellow .icon-mail-alt:hover,
+.FoldableTheme.yellow .icon-gplus:hover,
+.TabTheme.yellow .icon-gplus:hover,
+.JewelryBoxTheme.yellow .icon-gplus:hover,
+.FoldableTheme.yellow .icon-facebook-squared:hover,
+.TabTheme.yellow .icon-facebook-squared:hover,
+.JewelryBoxTheme.yellow .icon-facebook-squared:hover,
+.FoldableTheme.yellow .icon-twitter:hover,
+.TabTheme.yellow .icon-twitter:hover,
+.JewelryBoxTheme.yellow .icon-twitter:hover {
+  color: rgb(208, 125, 14);
+  -ms-filter: "Alpha(opacity=70)";
+  color: rgba(208, 125, 14, 0.7);
+}
+
+.FoldableTheme.blue .icon-link,
+.TabTheme.blue .icon-link,
+.JewelryBoxTheme.blue .icon-link,
+.FoldableTheme.blue .icon-mail-alt,
+.TabTheme.blue .icon-mail-alt,
+.JewelryBoxTheme.blue .icon-mail-alt,
+.FoldableTheme.blue .icon-gplus,
+.TabTheme.blue .icon-gplus,
+.JewelryBoxTheme.blue .icon-gplus,
+.FoldableTheme.blue .icon-facebook-squared,
+.TabTheme.blue .icon-facebook-squared,
+.JewelryBoxTheme.blue .icon-facebook-squared,
+.FoldableTheme.blue .icon-twitter,
+.TabTheme.blue .icon-twitter,
+.JewelryBoxTheme.blue .icon-twitter {
+  color: rgb(0, 95, 162);
+  color: rgba(0, 95, 162, 1);
+}
+
+.JewelryBoxTheme.blue .jimu-on-screen-widget-panel > .jimu-panel-title,
+.FoldableTheme.blue .jimu-on-screen-widget-panel > .jimu-panel-title,
+.TabTheme.blue .jimu-on-screen-widget-panel > .jimu-panel-title {
+  background-color: rgb(0, 95, 162);
+  background-color: rgba(0, 95, 162, 1);
+}
+
+.FoldableTheme.blue .icon-link:hover,
+.TabTheme.blue .icon-link:hover,
+.JewelryBoxTheme.blue .icon-link:hover,
+.FoldableTheme.blue .icon-mail-alt:hover,
+.TabTheme.blue .icon-mail-alt:hover,
+.JewelryBoxTheme.blue .icon-mail-alt:hover,
+.FoldableTheme.blue .icon-gplus:hover,
+.TabTheme.blue .icon-gplus:hover,
+.JewelryBoxTheme.blue .icon-gplus:hover,
+.FoldableTheme.blue .icon-facebook-squared:hover,
+.TabTheme.blue .icon-facebook-squared:hover,
+.JewelryBoxTheme.blue .icon-facebook-squared:hover,
+.FoldableTheme.blue .icon-twitter:hover,
+.TabTheme.blue .icon-twitter:hover,
+.JewelryBoxTheme.blue .icon-twitter:hover{
+  color: rgb(0, 95, 162);
+  -ms-filter: "Alpha(opacity=70)";
+  color: rgba(0, 95, 162, 0.7);
+}
+
+.BoxTheme.blue .icon-link,
+.BoxTheme.blue .icon-mail-alt,
+.BoxTheme.blue .icon-gplus,
+.BoxTheme.blue .icon-facebook-squared,
+.BoxTheme.blue .icon-twitter {
+  color: rgb(45, 112, 228);
+  color: rgba(45, 112, 228, 1);
+}
+
+.BoxTheme.blue .icon-link:hover,
+.BoxTheme.blue .icon-mail-alt:hover,
+.BoxTheme.blue .icon-gplus:hover,
+.BoxTheme.blue .icon-facebook-squared:hover,
+.BoxTheme.blue .icon-twitter:hover {
+  color: rgb(45, 112, 228);
+  -ms-filter: "Alpha(opacity=70)";
+  color: rgba(45, 112, 228, 0.7);
+}
+
 .FoldableTheme.purple .icon-link,
-.TabTheme.purple .icon-link {
-  color: rgba(171, 109, 174, 0.5);
+.TabTheme.purple .icon-link,
+.JewelryBoxTheme.purple .icon-link,
+.FoldableTheme.purple .icon-mail-alt,
+.TabTheme.purple .icon-mail-alt,
+.JewelryBoxTheme.purple .icon-mail-alt,
+.FoldableTheme.purple .icon-gplus,
+.TabTheme.purple .icon-gplus,
+.JewelryBoxTheme.purple .icon-gplus,
+.FoldableTheme.purple .icon-facebook-squared,
+.TabTheme.purple .icon-facebook-squared,
+.JewelryBoxTheme.purple .icon-facebook-squared,
+.FoldableTheme.purple .icon-twitter,
+.TabTheme.purple .icon-twitter,
+.JewelryBoxTheme.purple .icon-twitter {
+  color: rgb(171, 109, 174);
+  color: rgba(171, 109, 174, 1);
+}
+
+.JewelryBoxTheme.purple .jimu-on-screen-widget-panel > .jimu-panel-title,
+.FoldableTheme.purple .jimu-on-screen-widget-panel > .jimu-panel-title,
+.TabTheme.purple .jimu-on-screen-widget-panel > .jimu-panel-title {
+  background-color: rgb(171, 109, 174);
+  background-color: rgba(171, 109, 174, 1);
 }
 
 .FoldableTheme.purple .icon-link:hover,
-.TabTheme.purple .icon-link:hover {
-  color: rgba(171, 109, 174, 1);
+.TabTheme.purple .icon-link:hover,
+.JewelryBoxTheme.purple .icon-link:hover,
+.FoldableTheme.purple .icon-mail-alt:hover,
+.TabTheme.purple .icon-mail-alt:hover,
+.JewelryBoxTheme.purple .icon-mail-alt:hover,
+.FoldableTheme.purple .icon-gplus:hover,
+.TabTheme.purple .icon-gplus:hover,
+.JewelryBoxTheme.purple .icon-gplus:hover,
+.FoldableTheme.purple .icon-facebook-squared:hover,
+.TabTheme.purple .icon-facebook-squared:hover,
+.JewelryBoxTheme.purple .icon-facebook-squared:hover,
+.FoldableTheme.purple .icon-twitter:hover,
+.TabTheme.purple .icon-twitter:hover,
+.JewelryBoxTheme.purple .icon-twitter:hover{
+  color: rgb(171, 109, 174);
+  -ms-filter: "Alpha(opacity=70)";
+  color: rgba(171, 109, 174, 0.7);
+}
+
+.BoxTheme.purple .icon-link,
+.BoxTheme.purple .icon-mail-alt,
+.BoxTheme.purple .icon-gplus,
+.BoxTheme.purple .icon-facebook-squared,
+.BoxTheme.purple .icon-twitter,
+.BillboardTheme.purple .icon-link,
+.BillboardTheme.purple .icon-mail-alt,
+.BillboardTheme.purple .icon-gplus,
+.BillboardTheme.purple .icon-facebook-squared,
+.BillboardTheme.purple .icon-twitter{
+  color: rgb(136, 97, 151);
+  color: rgba(136, 97, 151, 1);
+}
+
+.BoxTheme.purple .icon-link:hover,
+.BoxTheme.purple .icon-mail-alt:hover,
+.BoxTheme.purple .icon-gplus:hover,
+.BoxTheme.purple .icon-facebook-squared:hover,
+.BoxTheme.purple .icon-twitter:hover,
+.BillboardTheme.purple .icon-link:hover,
+.BillboardTheme.purple .icon-mail-alt:hover,
+.BillboardTheme.purple .icon-gplus:hover,
+.BillboardTheme.purple .icon-facebook-squared:hover,
+.BillboardTheme.purple .icon-twitter:hover{
+  color: rgb(136, 97, 151);
+  -ms-filter: "Alpha(opacity=70)";
+  color: rgba(136, 97, 151, 0.7);
+}
+
+.LaunchpadTheme.style2 .icon-link,
+.LaunchpadTheme.default .icon-link,
+.LaunchpadTheme.default .icon-mail-alt,
+.LaunchpadTheme.style2 .icon-mail-alt,
+.LaunchpadTheme.style2 .icon-gplus,
+.LaunchpadTheme.default .icon-gplus,
+.LaunchpadTheme.default .icon-facebook-squared,
+.LaunchpadTheme.style2 .icon-facebook-squared,
+.LaunchpadTheme.style2 .icon-twitter,
+.LaunchpadTheme.default .icon-twitter {
+  color: rgb(51, 51, 51);
+  color: rgba(51, 51, 51, 1);
+}
+
+.LaunchpadTheme.style2 .icon-link:hover,
+.LaunchpadTheme.default .icon-link:hover,
+.LaunchpadTheme.default .icon-mail-alt:hover,
+.LaunchpadTheme.style2 .icon-mail-alt:hover,
+.LaunchpadTheme.style2 .icon-gplus:hover,
+.LaunchpadTheme.default .icon-gplus:hover,
+.LaunchpadTheme.default .icon-facebook-squared:hover,
+.LaunchpadTheme.style2 .icon-facebook-squared:hover,
+.LaunchpadTheme.style2 .icon-twitter:hover,
+.LaunchpadTheme.default .icon-twitter:hover{
+  color: rgb(51, 51, 51);
+  -ms-filter: "Alpha(opacity=70)";
+  color: rgba(51, 51, 51, 0.7);
+}
+
+a:hover.share-dialog-icon,
+a:visited:hover.share-dialog-icon{
+  text-decoration: none;
 }
 
 /*Icon Fonts*/

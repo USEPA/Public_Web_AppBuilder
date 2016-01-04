@@ -22,7 +22,7 @@ define(
     'jimu/BaseWidgetSetting',
     'jimu/dijit/CheckBox',
     'dojo/text!./Edit.html',
-    "jimu/SpatialReference/utils",
+    "jimu/SpatialReference/srUtils",
     'dijit/form/ValidationTextBox',
     'dijit/form/Select'
   ],

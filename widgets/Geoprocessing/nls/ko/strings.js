@@ -9,6 +9,24 @@
     requiredInfo: "이(가) 필요합니다.",
     drawnOnMap: "결과가 맵에 그려집니다.",
     clear: "지우기",
-    error: "오류"
+    error: "오류",
+    noToolConfig: "미리 구성된 사용 가능한 지오프로세싱 태스크가 없습니다.",
+    useUrlForGPInput: "URL",
+    useUploadForGPInput: "파일 업로드",
+    selectFileToUpload: '파일 선택...',
+    upload: '업로드',
+    rasterFormat: '래스터 데이터 형식',
+    noFileSelected: '선택한 파일 없음',
+    uploadSuccess:'파일 업로드 완료',
+    url: "URL",
+    showLayerContent: "레이어 콘텐츠 보기",
+    invalidUrl: "잘못된 피처 서비스 URL",
+    Feet: "피트",
+    Yards: "야드",
+    Miles: "마일",
+    NauticalMiles: "해리",
+    Meter: "미터",
+    Kilometers: "킬로미터",
+    urlPlaceholder: "기능 모음 URL"
   })
 );

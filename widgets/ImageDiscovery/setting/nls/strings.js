@@ -30,7 +30,10 @@ define({
         bold: "Bold",
         showCloudCoverSort: "Cloud Cover Sort",
         showAcquisitionDateSort: "Acquisition Date Sort",
-        sortingConfiguration: "Sort Configuration"
+        sortingConfiguration: "Sort Configuration",
+        enableWebmapCheckout: "Web Map Checkout",
+        checkoutConfiguration: "Checkout Configuration",
+        enableCSVCheckout: "CSV Export"
     }),
     fr: 1
 });

@@ -3,9 +3,9 @@
     "enableUndoRedo": true,
     "toolbarVisible": true,
     "toolbarOptions": {
-      "mergeVisible": true,
-      "cutVisible": true,
-      "reshapeVisible": true
+      "mergeVisible": false,
+      "cutVisible": false,
+      "reshapeVisible": false
     },
     "layerInfos": []
   }

@@ -1,22 +1,40 @@
 ﻿<div>
-	<div style="margin-top:22px;margin-bottom:16px;font-size:12px;">${nls.resultSettingTip}</div>
-	<div style="margin-bottom:5px;">${nls.resultItemTitle}:</div>	
-	<table style="width:100%;">
+	<div style="margin-top:22px;font-size:12px;">${nls.resultSettingTip}</div>
+	<table class="title-sorting-table">
+		<colgroup>
+			<col width="140px"></col>
+			<col width="auto"></col>
+			<col width="24px"></col>
+		</colgroup>
 		<tbody>
-			<tr>				
-				<td style="width:auto;">
-					<div data-dojo-attach-point="titleTextBox" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props='required:true,trim:true' style="width:430px;" />
+			<tr>
+				<td>
+					<span>${nls.resultItemTitle}:</span>
 				</td>
-				<td style="padding-left:30px;">
-					<div data-dojo-attach-point="btnAddFields" class="add-with-icon enable" data-dojo-attach-event="onclick:_onAddClicked">
-						<span class="add-icon"></span>
-						<span class="add-label">${nls.addField}</span>
-					</div>
+				<td>
+					<div data-dojo-attach-point="titleTextBox" data-dojo-type="dijit/form/ValidationTextBox"
+					data-dojo-props='required:true,trim:true' style="width:100%;" />
+				</td>
+				<td>
+					<div data-dojo-attach-point="btnAddFields" data-dojo-attach-event="onclick:_onAddClicked"
+					  class="btn-add-fields jimu-icon jimu-icon-add jimu-float-trailing"></div>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<span>${nls.resultItemSorting}:</span>
+				</td>
+				<td data-dojo-attach-point="tdSortFields">
+					<div data-dojo-attach-point="sortFieldsDiv" class="sort-fields-div jimu-ellipsis"></div>
+				</td>
+				<td>
+					<div data-dojo-attach-point="btnSortFields" class="btn-sort-fields jimu-float-trailing"
+					data-dojo-attach-event="onclick:_onBtnSortFieldsClicked"></div>
 				</td>
 			</tr>
 		</tbody>
 	</table>
-	<div style="margin-top:16px;">${nls.resultItemContent}:</div>
+	<div style="margin-top:10px;">${nls.resultItemContent}:</div>
 	<div style="margin-top:7px;margin-bottom:8px;font-size:12px;">${nls.fieldsSetTip}</div>
 	<div data-dojo-attach-point="fieldsContainer"></div>
 </div>

@@ -9,6 +9,24 @@
     requiredInfo: "必填项。",
     drawnOnMap: "结果绘制在地图上。",
     clear: "清除",
-    error: "错误"
+    error: "错误",
+    noToolConfig: "无可用的预配置地理处理任务。",
+    useUrlForGPInput: "URL",
+    useUploadForGPInput: "上传文件",
+    selectFileToUpload: '选择文件...',
+    upload: '上传',
+    rasterFormat: '栅格数据格式',
+    noFileSelected: '未选择任何文件!',
+    uploadSuccess:'文件上传成功!',
+    url: "URL",
+    showLayerContent: "显示图层内容",
+    invalidUrl: "无效的要素服务 url",
+    Feet: "英尺",
+    Yards: "码",
+    Miles: "英里",
+    NauticalMiles: "海里",
+    Meter: "米",
+    Kilometers: "公里",
+    urlPlaceholder: "要素集 URL"
   })
 );

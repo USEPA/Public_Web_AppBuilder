@@ -1,12 +1,13 @@
 ﻿define(
    ({
+    id: 'ID',
     state: "Koordinātas pēc noklusējuma tiks rādītas pašreizējās kartes koordinātu sistēmā. Lai koordinātes iegūtu citās koordinātu sistēmās, tās ir jāpievieno un jānorāda attiecīgās transformācijas.",
     outputUnit: "Izvades vienība",
     wkid: "Izvades WKID",
     label: "Izvades koordinātu sistēmas nosaukums",
-    transformationWkid: 'Transformācijas WKID',
-    transformationLabel: 'Transformācijas kartes teksts',
-    transformForward: 'Transformēt uz priekšu',
+    transformationWkid: "Transformācijas WKID",
+    transformationLabel: "Transformācijas kartes teksts",
+    transformForward: "Transformēt uz priekšu",
     actions: "Darbības",
     warning: "Lūdzu, ievadiet derīgu telpiskās atskaites WKID!",
     tfWarning: "Lūdzu, ievadiet derīgu dotā lieluma transformācijas WKID!",

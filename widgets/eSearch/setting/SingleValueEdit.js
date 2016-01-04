@@ -22,13 +22,14 @@ define([
   'esri/lang',
   'dojo/date/locale',
   '../PagingQueryTask',
+  'jimu/utils',
   'dijit/form/FilteringSelect',
   'dijit/form/ValidationTextBox',
   'dijit/form/DateTextBox',
   'dijit/form/NumberTextBox'
 ],
 function(declare, lang, array, html, query, on, json, Memory, Deferred, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin,
-  Tooltip, template, TextBox, esriRequest, esriLang, locale, PagingQueryTask) {
+  Tooltip, template, TextBox, esriRequest, esriLang, locale, PagingQueryTask, jimuUtils) {
   return declare([_WidgetBase,_TemplatedMixin,_WidgetsInTemplateMixin], {
     baseClass: 'widget-esearch-singlevalue-setting',
     templateString:template,
@@ -46,8 +47,6 @@ function(declare, lang, array, html, query, on, json, Memory, Deferred, _WidgetB
     supportFieldTypes: [],
     _def:null,
     _layerInfo:null,
-    xThru:null,
-    xThru2:null,
     isValueRequired:false,
     pagingAttempts:0,
     dayInMS : (24 * 60 * 60 * 1000) - 1000,// 1 sec less than 1 day
@@ -56,6 +55,7 @@ function(declare, lang, array, html, query, on, json, Memory, Deferred, _WidgetB
     layerInfoCache: null,
     len: 0,
     operator: null,
+    isHosted: false,
     OPERATORS:{
       stringOperatorIs:'stringOperatorIs',
       stringOperatorIsNot:'stringOperatorIsNot',
@@ -65,6 +65,7 @@ function(declare, lang, array, html, query, on, json, Memory, Deferred, _WidgetB
       stringOperatorDoesNotContain:'stringOperatorDoesNotContain',
       stringOperatorIsBlank:'stringOperatorIsBlank',
       stringOperatorIsNotBlank:'stringOperatorIsNotBlank',
+      stringOperatorIn:'stringOperatorIn',
       dateOperatorIsOn:'dateOperatorIsOn',
       dateOperatorIsNotOn:'dateOperatorIsNotOn',
       dateOperatorIsBefore:'dateOperatorIsBefore',
@@ -87,7 +88,8 @@ function(declare, lang, array, html, query, on, json, Memory, Deferred, _WidgetB
       numberOperatorIsBetween:'numberOperatorIsBetween',
       numberOperatorIsNotBetween:'numberOperatorIsNotBetween',
       numberOperatorIsBlank:'numberOperatorIsBlank',
-      numberOperatorIsNotBlank:'numberOperatorIsNotBlank'
+      numberOperatorIsNotBlank:'numberOperatorIsNotBlank',
+      numberOperatorIn:'numberOperatorIn'
     },
 
     postMixInProperties:function(){
@@ -108,8 +110,6 @@ function(declare, lang, array, html, query, on, json, Memory, Deferred, _WidgetB
       this._checkExpressionNumbers();
       this.getLayerInfo();
       this._initRadios();
-      this.xThru = 1;
-      this.xThru2 = 1;
     },
 
     getLayerInfo:function(){
@@ -193,12 +193,16 @@ function(declare, lang, array, html, query, on, json, Memory, Deferred, _WidgetB
       this.hintTB.set('value', this.config.textsearchhint || '');
       this.allAnySelect.value = this.config.operator;
       if(this.config.userlist && this.config.userlist.length > 0){
-        this.cbxAskValues.checked = true;
+        this.cbxAskValues.setValue(true);
         this.predefinedRadio.checked = true;
         this.valueRadio.checked = false;
         this.uniqueRadio.checked = false;
         this.uservaluesTable.clear();
         this.unConcatUserListVals(this.config.userlist);
+      }
+      if(this.config.hasOwnProperty('required')){
+        this.cbxValueRequired.setValue(true);
+        this.isValueRequired = true;
       }
     },
 
@@ -224,6 +228,13 @@ function(declare, lang, array, html, query, on, json, Memory, Deferred, _WidgetB
       }
       if (this.predefinedRadio.checked){
         config.userlist = this.concatUserListVals();
+      }
+      if(this.cbxValueRequired.getValue()){
+        config.required = true;
+      }else{
+        if(config.hasOwnProperty('required')){
+          delete config.required;
+        }
       }
       this.config = config;
       return this.config;
@@ -342,7 +353,7 @@ function(declare, lang, array, html, query, on, json, Memory, Deferred, _WidgetB
           return;
         }
         if (this.config.prompt !== ""){
-          this.cbxAskValues.checked = true;
+          this.cbxAskValues.setValue(true);
         }
         this.operatorsSelect.set('value', operation);
         setTimeout(lang.hitch(this,function(){
@@ -453,7 +464,8 @@ function(declare, lang, array, html, query, on, json, Memory, Deferred, _WidgetB
         this.OPERATORS.stringOperatorContains,
         this.OPERATORS.stringOperatorDoesNotContain,
         this.OPERATORS.stringOperatorIsBlank,
-        this.OPERATORS.stringOperatorIsNotBlank];
+        this.OPERATORS.stringOperatorIsNotBlank,
+        this.OPERATORS.stringOperatorIn];
       }
       else if(shortType === 'number'){
         operators = [this.OPERATORS.numberOperatorIs,
@@ -465,7 +477,8 @@ function(declare, lang, array, html, query, on, json, Memory, Deferred, _WidgetB
         this.OPERATORS.numberOperatorIsBetween,
         this.OPERATORS.numberOperatorIsNotBetween,
         this.OPERATORS.numberOperatorIsBlank,
-        this.OPERATORS.numberOperatorIsNotBlank];
+        this.OPERATORS.numberOperatorIsNotBlank,
+        this.OPERATORS.numberOperatorIn];
       }
       else if(shortType === 'date'){
         operators = [this.OPERATORS.dateOperatorIsOn,
@@ -488,15 +501,55 @@ function(declare, lang, array, html, query, on, json, Memory, Deferred, _WidgetB
     },
 
     _onRangeNumberBlur:function(){
-      if(this.numberTextBox1.validate() && this.numberTextBox2.validate()){
+      /*if(this.numberTextBox1.validate() && this.numberTextBox2.validate()){
         var value1 = parseFloat(this.numberTextBox1.get('value'));
         var value2 = parseFloat(this.numberTextBox2.get('value'));
         if(value1 > value2){
           this.numberTextBox1.set('value',value2);
           this.numberTextBox2.set('value',value1);
         }
+      }*/
+      if(this.numberTextBox1.validate() && this.numberTextBox2.validate()){
+        var value1 = this._getValueForNumberTextBox(this.numberTextBox1);
+        var value2 = this._getValueForNumberTextBox(this.numberTextBox2);
+        if(jimuUtils.isValidNumber(value1) && jimuUtils.isValidNumber(value2)){
+          if(value1 > value2){
+            this._setValueForNumberTextBox(this.numberTextBox1, value2);
+            this._setValueForNumberTextBox(this.numberTextBox2, value1);
+          }
+        }
       }
       this._resetByFieldAndOperation();
+    },
+
+    _getProcessedString: function(str){
+      if(jimuUtils.isNotEmptyString(str, true)){
+        return str;
+      }
+      return "";
+    },
+
+    _getProcessedNumber: function(num){
+      if(jimuUtils.isValidNumber(num)){
+        return num;
+      }
+      return null;
+    },
+
+    _setValueForStringTextBox: function(stringTextBox, str){
+      str = this._getProcessedString(str);
+      stringTextBox.set('value', str);
+    },
+
+    _setValueForNumberTextBox: function(numberTextBox, num){
+      if(jimuUtils.isValidNumber(num)){
+        numberTextBox.set('value', num);
+      }
+    },
+
+    _getValueForNumberTextBox: function(numberTextBox){
+      var value = numberTextBox.get('value');
+      return this._getProcessedNumber(value);
     },
 
     _onRangeDateBlur:function(){
@@ -527,6 +580,15 @@ function(declare, lang, array, html, query, on, json, Memory, Deferred, _WidgetB
         };
         this._createUserValue(rowData);
       })));
+      this.cbxAskValues.onChange = lang.hitch(this, this._onCbxAskValuesClicked);
+      this.cbxValueRequired.onChange = lang.hitch(this, function(){
+        this._valueObj = this.config.valueObj;
+        var fieldInfo = (this.fieldsSelect) ? this._getSelectedFilteringItem(this.fieldsSelect) : null;
+        if(fieldInfo && this.layerURL && this.layerUniqueCache[this.layerURL]){
+          delete this.layerUniqueCache[this.layerURL][fieldInfo.name];
+        }
+        this._resetByFieldAndOperation();
+      });
     },
 
     validate:function(showTooltip){
@@ -536,11 +598,13 @@ function(declare, lang, array, html, query, on, json, Memory, Deferred, _WidgetB
         }
         return false;
       }
-      if(lang.trim(this.hintTB.get('value')) === ''){
-        if(showTooltip){
-          this._showTooltip(this.hintTB.domNode,"Please input value.");
+      if(this.cbxAskValues.getValue()){
+        if(lang.trim(this.hintTB.get('value')) === ''){
+          if(showTooltip){
+            this._showTooltip(this.hintTB.domNode,"Please input value.");
+          }
+          return false;
         }
-        return false;
       }
       return true;
     },
@@ -562,15 +626,20 @@ function(declare, lang, array, html, query, on, json, Memory, Deferred, _WidgetB
     },
 
     _initRadios:function(){
-      var group = "radio_"+Math.random();
+      var group = "radio_" + jimuUtils.getRandomString();
       this.valueRadio.name = group;
+
+      jimuUtils.combineRadioCheckBoxWithLabel(this.valueRadio, this.valueLabel);
+
       this.own(on(this.valueRadio,'click',lang.hitch(this,this._resetByFieldAndOperation)));
       if(this.uniqueRadio){
         this.uniqueRadio.name = group;
+        jimuUtils.combineRadioCheckBoxWithLabel(this.uniqueRadio, this.uniqueLabel);
         this.own(on(this.uniqueRadio,'click',lang.hitch(this,this._resetByFieldAndOperation)));
       }
       if(this.predefinedRadio){
         this.predefinedRadio.name = group;
+        jimuUtils.combineRadioCheckBoxWithLabel(this.predefinedRadio, this.predefinedLabel);
         this.own(on(this.predefinedRadio,'click',lang.hitch(this,this._resetByFieldAndOperation)));
       }
 
@@ -582,7 +651,7 @@ function(declare, lang, array, html, query, on, json, Memory, Deferred, _WidgetB
       if(this.uniqueRadio){
         this.uniqueRadio.disabled = false;
       }
-      if(this.predefinedRadio && this.cbxAskValues.checked){
+      if(this.predefinedRadio && this.cbxAskValues.getValue()){
         this.predefinedRadio.disabled = false;
       }
     },
@@ -598,6 +667,7 @@ function(declare, lang, array, html, query, on, json, Memory, Deferred, _WidgetB
     },
 
     _resetByFieldAndOperation:function(/* optional */ valueObj){
+      this.isValueRequired = this.cbxValueRequired.getValue();
       html.setStyle(this.attributeValueContainer,'display','block');
       this._enableRadios();
 
@@ -611,6 +681,7 @@ function(declare, lang, array, html, query, on, json, Memory, Deferred, _WidgetB
           case this.OPERATORS.stringOperatorEndsWith:
           case this.OPERATORS.stringOperatorContains:
           case this.OPERATORS.stringOperatorDoesNotContain:
+          case this.OPERATORS.stringOperatorIn:
             this.uniqueRadio.disabled = true;
             break;
           default:
@@ -621,6 +692,7 @@ function(declare, lang, array, html, query, on, json, Memory, Deferred, _WidgetB
           switch(operator){
           case this.OPERATORS.numberOperatorIsBetween:
           case this.OPERATORS.numberOperatorIsNotBetween:
+          case this.OPERATORS.numberOperatorIn:
             this.valueRadio.checked = true;
             this._disableRadios();
             break;
@@ -648,7 +720,6 @@ function(declare, lang, array, html, query, on, json, Memory, Deferred, _WidgetB
       }
       this.buildSQL();
       this._updateUIOfAttrValueContainer(fieldInfo, operator, valueObj);
-      this.xThru++;
     },
 
     /*_onCbxOverrideSQLClicked:function(){
@@ -661,7 +732,9 @@ function(declare, lang, array, html, query, on, json, Memory, Deferred, _WidgetB
       }*/
       var whereClause = "";
       var prefix, suffix;
-      if (this.uniqueRadio.checked || this.predefinedRadio.checked){
+      var operator = this.operatorsSelect.get('value');
+      if (this.uniqueRadio.checked || this.predefinedRadio.checked ||
+          operator == this.OPERATORS.stringOperatorIn){
         prefix = "";
         suffix = "";
       }else{
@@ -674,14 +747,17 @@ function(declare, lang, array, html, query, on, json, Memory, Deferred, _WidgetB
       var value1 = this._valueObj.value1 || null;
       var value2 = this._valueObj.value2 || null;
       var fieldInfo = (this.fieldsSelect) ? this._getSelectedFilteringItem(this.fieldsSelect) : null;
-      var operator = this.operatorsSelect.get('value');
+
       var shortType = fieldInfo && fieldInfo.shortType;
-      if (this.cbxAskValues.checked === true){
+      if (this.cbxAskValues.getValue()){
         value = '[value]';
       }
 
       if(shortType === "string"){
         switch (operator) {
+          case this.OPERATORS.stringOperatorIn:
+            whereClause = prefix + fieldInfo.name + suffix + " IN (" + prefix + "'" + value.replace(/\'/g, "''") + "'" + suffix + ")";
+            break;
           case this.OPERATORS.stringOperatorIs:
             whereClause = prefix + fieldInfo.name + suffix + " = " + prefix + "'" + value.replace(/\'/g, "''") + "'" + suffix;
             break;
@@ -709,6 +785,9 @@ function(declare, lang, array, html, query, on, json, Memory, Deferred, _WidgetB
         }
       } else if (shortType === "number") {
         switch (operator) {
+          case this.OPERATORS.numberOperatorIn:
+            whereClause = fieldInfo.name + " IN (" + value + ")";
+            break;
           case this.OPERATORS.numberOperatorIs:
             whereClause = fieldInfo.name + " = " + value;
             break;
@@ -741,7 +820,7 @@ function(declare, lang, array, html, query, on, json, Memory, Deferred, _WidgetB
             break;
         }
       } else { //Date
-        if (this.cbxAskValues.checked === false){
+        if (this.cbxAskValues.getValue() === false){
           if(value && value !== '' && value !== '[value]'){
             value = new Date(value);
           }
@@ -766,36 +845,36 @@ function(declare, lang, array, html, query, on, json, Memory, Deferred, _WidgetB
         switch (operator) {
         case this.OPERATORS.dateOperatorIsOn:
           whereClause = fieldInfo.name + " BETWEEN " + (this.isHosted ? "" : "timestamp ") +
-            "'" + (this.cbxAskValues.checked ? "[value]" : this.formatDate(value)) + "' AND " + (this.isHosted ? "" : "timestamp ") +
-            "'" + (this.cbxAskValues.checked ? "[value]" : this.formatDate(this.addDay(value))) + "'";
+            "'" + (this.cbxAskValues.getValue() ? "[value]" : this.formatDate(value)) + "' AND " + (this.isHosted ? "" : "timestamp ") +
+            "'" + (this.cbxAskValues.getValue() ? "[value]" : this.formatDate(this.addDay(value))) + "'";
           break;
         case this.OPERATORS.dateOperatorIsNotOn:
           whereClause = fieldInfo.name +
               " NOT BETWEEN " + (this.isHosted ? "" : "timestamp ") +
-              "'" + (this.cbxAskValues.checked ? "[value]" : this.formatDate(value)) + "' AND " + (this.isHosted ? "" : "timestamp ") +
-              "'" + (this.cbxAskValues.checked ? "[value]" : this.formatDate(this.addDay(value))) + "'";
+              "'" + (this.cbxAskValues.getValue() ? "[value]" : this.formatDate(value)) + "' AND " + (this.isHosted ? "" : "timestamp ") +
+              "'" + (this.cbxAskValues.getValue() ? "[value]" : this.formatDate(this.addDay(value))) + "'";
           break;
         case this.OPERATORS.dateOperatorIsBefore:
           whereClause = fieldInfo.name + " < " +
-             (this.isHosted ? "" : "timestamp ") + "'" + (this.cbxAskValues.checked ? "[value]" : this.formatDate(value)) + "'";
+             (this.isHosted ? "" : "timestamp ") + "'" + (this.cbxAskValues.getValue() ? "[value]" : this.formatDate(value)) + "'";
           break;
         case this.OPERATORS.dateOperatorIsAfter:
           whereClause = fieldInfo.name + " > " +
-             (this.isHosted ? "" : "timestamp ") + "'" + (this.cbxAskValues.checked ? "[value]" : this.formatDate(this.addDay(value))) + "'";
+             (this.isHosted ? "" : "timestamp ") + "'" + (this.cbxAskValues.getValue() ? "[value]" : this.formatDate(this.addDay(value))) + "'";
           break;
           //case this.OPERATORS.dateOperatorInTheLast:
           //case this.OPERATORS.dateOperatorNotInTheLast:
         case this.OPERATORS.dateOperatorIsBetween:
           whereClause = fieldInfo.name + " BETWEEN " +
              (this.isHosted ? "" : "timestamp ") +
-              "'" + (this.cbxAskValues.checked ? "[value1]" : this.formatDate(value1)) + "' AND " + (this.isHosted ? "" : "timestamp ") +
-              "'" + (this.cbxAskValues.checked ? "[value2]" : this.formatDate(this.addDay(value2))) + "'";
+              "'" + (this.cbxAskValues.getValue() ? "[value1]" : this.formatDate(value1)) + "' AND " + (this.isHosted ? "" : "timestamp ") +
+              "'" + (this.cbxAskValues.getValue() ? "[value2]" : this.formatDate(this.addDay(value2))) + "'";
           break;
         case this.OPERATORS.dateOperatorIsNotBetween:
           whereClause = fieldInfo.name + " NOT BETWEEN " +
-             (this.isHosted ? "" : "timestamp ") + "'" + (this.cbxAskValues.checked ? "[value1]" : this.formatDate(value1)) +
+             (this.isHosted ? "" : "timestamp ") + "'" + (this.cbxAskValues.getValue() ? "[value1]" : this.formatDate(value1)) +
               "' AND " + (this.isHosted ? "" : "timestamp ") +
-              "'" + (this.cbxAskValues.checked ? "[value2]" : this.formatDate(this.addDay(value2))) + "'";
+              "'" + (this.cbxAskValues.getValue() ? "[value2]" : this.formatDate(this.addDay(value2))) + "'";
           break;
         case this.OPERATORS.dateOperatorIsBlank:
           whereClause = fieldInfo.name + " IS NULL";
@@ -868,8 +947,8 @@ function(declare, lang, array, html, query, on, json, Memory, Deferred, _WidgetB
             }));
             if(!this.isValueRequired){
               var dataItem2 = lang.mixin({}, {name:'',code:''});
-              dataItem2.id = stringCodedData.length - 1;
-              stringCodedData.push(dataItem2);
+              dataItem2.id = stringCodedData.length;
+              stringCodedData.unshift(dataItem2);
             }
             var stringCodedStore = new Memory({data:stringCodedData});
             this.stringCodedValuesFS.set('store', stringCodedStore);
@@ -892,7 +971,7 @@ function(declare, lang, array, html, query, on, json, Memory, Deferred, _WidgetB
             html.setStyle(this.stringTextBox.domNode,'display','inline-block');
             html.setStyle(this.stringCodedValuesFS.domNode,'display','none');
             if(valueObj){
-              this.stringTextBox.set('value',valueObj.value||'');
+              this._setValueForStringTextBox(this.stringTextBox, valueObj.value);
             }
           }
 
@@ -909,13 +988,23 @@ function(declare, lang, array, html, query, on, json, Memory, Deferred, _WidgetB
             html.setStyle(this.numberRangeTable,'display','table');
             html.setStyle(this.numberCodedValuesFS.domNode,'display','none');
             if(valueObj){
-              if(!isNaN(valueObj.value1) && !isNaN(valueObj.value2)){
-                var num1 = parseFloat(valueObj.value1);
-                var num2 = parseFloat(valueObj.value2);
-                var min = Math.min(num1,num2);
-                var max = Math.max(num1,num2);
+              var num1, num2;
+              var isValidValue1 = jimuUtils.isValidNumber(valueObj.value1);
+              var isValidValue2 = jimuUtils.isValidNumber(valueObj.value2);
+
+              if(isValidValue1 && isValidValue2){
+                num1 = parseFloat(valueObj.value1);
+                num2 = parseFloat(valueObj.value2);
+                var min = Math.min(num1, num2);
+                var max = Math.max(num1, num2);
                 this.numberTextBox1.set('value', min);
                 this.numberTextBox2.set('value', max);
+              }else if(isValidValue1 && !isValidValue2){
+                num1 = parseFloat(valueObj.value1);
+                this.numberTextBox1.set('value', num1);
+              }else if(!isValidValue1 && isValidValue2){
+                num2 = parseFloat(valueObj.value2);
+                this.numberTextBox2.set('value', num2);
               }
             }
           }
@@ -931,6 +1020,11 @@ function(declare, lang, array, html, query, on, json, Memory, Deferred, _WidgetB
                 dataItem.id = index;
                 return dataItem;
               }));
+              if(!this.isValueRequired){
+                var dataItem3 = lang.mixin({}, {name:'',code:''});
+                dataItem3.id = numberCodedData.length;
+                numberCodedData.unshift(dataItem3);
+              }
               var numberCodedStore = new Memory({data:numberCodedData});
               this.numberCodedValuesFS.set('store',numberCodedStore);
               if(valueObj && !isNaN(valueObj.value)){
@@ -1112,7 +1206,7 @@ function(declare, lang, array, html, query, on, json, Memory, Deferred, _WidgetB
               this._showValidationErrorTip(this.dateTextBox2);
               return null;
             }
-            if(this.cbxAskValues.checked){
+            if(this.cbxAskValues.getValue()){
               this._valueObj.value1 = "[value]";
               this._valueObj.value2 = "[value]";
             } else {
@@ -1147,10 +1241,6 @@ function(declare, lang, array, html, query, on, json, Memory, Deferred, _WidgetB
     },
 
     _resetUniqueValuesSelect:function(){
-      var fld = (this.fieldsSelect) ? this._getSelectedFilteringItem(this.fieldsSelect) : null;
-      if(this.config && this.config.fieldObj && fld && fld.name === this.config.fieldObj.name && this.xThru > 1){
-        return;
-      }
       this.uniqueValuesSelect.set('displayedValue','');
       var store = new Memory({data:[]});
       this.uniqueValuesSelect.set('store',store);
@@ -1160,6 +1250,7 @@ function(declare, lang, array, html, query, on, json, Memory, Deferred, _WidgetB
           return;
         }
         var stringCodedData;
+        //console.info(this.layerUniqueCache);
         var uniqueCache = this.layerUniqueCache[this.layerURL];
         if (!uniqueCache){
             uniqueCache = {};
@@ -1180,6 +1271,10 @@ function(declare, lang, array, html, query, on, json, Memory, Deferred, _WidgetB
               if (stringSelectedItems.length > 0) {
                 this.uniqueValuesSelect.set('value', stringSelectedItems[0].id);
               }
+            }else{
+              if(this.isValueRequired){
+                this.uniqueValuesSelect.set('value', 0);
+              }
             }
           }
         }else{
@@ -1188,11 +1283,15 @@ function(declare, lang, array, html, query, on, json, Memory, Deferred, _WidgetB
           this.pagingQueryTask.uri = this.layerURL;
           this.pagingQueryTask.fieldName = item2.name;
           this.pagingQueryTask.dateFormat = '';
+          this.pagingQueryTask.version = this._layerInfo.currentVersion;
+          this.pagingQueryTask.maxRecordCount = this._layerInfo.maxRecordCount;
+          this.pagingQueryTask.isRequired = this.isValueRequired;
           if(this.layerDef){
             this.pagingQueryTask.defExpr = this.layerDef;
           }
-          this.pagingQueryTask.version = this._layerInfo.currentVersion;
           this.pagingQueryTask.on('pagingComplete', lang.hitch(this, function(uniqueValuesArray){
+            html.setStyle(this.uniqueMessageTR, 'display', 'none');
+            this.uniqueMessageNode.innerHTML = '';
             this.pagingAttempts = 0;
             var convert2subtypeVal = false;
             if(this._layerInfo.typeIdField){
@@ -1210,7 +1309,7 @@ function(declare, lang, array, html, query, on, json, Memory, Deferred, _WidgetB
               dataItem.id = index;
               return dataItem;
             }));
-//            console.info(stringCodedData);
+            uniqueCache[uniqueKey] = stringCodedData;
             var stringCodedStore2 = new Memory({
               data: stringCodedData
             });
@@ -1222,6 +1321,12 @@ function(declare, lang, array, html, query, on, json, Memory, Deferred, _WidgetB
                 }));
                 if (stringSelectedItems.length > 0) {
                   this.uniqueValuesSelect.set('value', stringSelectedItems[0].id);
+                  console.info("setting to the value object", this._valueObj.value, stringSelectedItems[0].id);
+                }
+              }else{
+                if(this.isValueRequired){
+                  this.uniqueValuesSelect.set('value', 0);
+                  console.info("setting to 0");
                 }
               }
             }
@@ -1236,12 +1341,25 @@ function(declare, lang, array, html, query, on, json, Memory, Deferred, _WidgetB
               this._hideDijit(this.uniqueValuesSelect);
               //this.stringTextBox.set('value', valueObj.value || '');
               this.stringTextBox.set('value', '');
+              html.setStyle(this.uniqueMessageTR, 'display', 'none');
+              this.uniqueMessageNode.innerHTML = '';
             }
           }));
           this.pagingQueryTask.startup();
           this.pagingQueryTask.execute();
+          html.setStyle(this.uniqueMessageTR, 'display', 'table-row');
+          this.uniqueMessageNode.innerHTML = this.nls.uniqueValues;
+          this.pagingQueryTask.on('featuresTotal', lang.hitch(this, function(){
+            html.setStyle(this.uniqueMessageTR, 'display', 'table-row');
+            this.uniqueMessageNode.innerHTML = this.nls.processingUnique + this.pagingQueryTask.featuresProcessed +
+              this.nls.of + this.pagingQueryTask.featuresTotal;
+          }));
+          this.pagingQueryTask.on('featuresProcessed', lang.hitch(this, function(){
+            html.setStyle(this.uniqueMessageTR, 'display', 'table-row');
+            this.uniqueMessageNode.innerHTML = this.nls.processingUnique + this.pagingQueryTask.featuresProcessed +
+              this.nls.of + this.pagingQueryTask.featuresTotal;
+          }));
         }
-        this.xThru2++;
       }
     },
 
@@ -1274,12 +1392,18 @@ function(declare, lang, array, html, query, on, json, Memory, Deferred, _WidgetB
 
       var operator = this.operatorsSelect.get('value');
       var label = this.nls[operator];
+      /*if(operator === this.OPERATORS.stringOperatorIn){
+        this.cbxAskValues.disabled = true;
+      }*/
       if(operator === this.OPERATORS.stringOperatorIsBlank){
         this.cbxAskValues.disabled = true;
       }
       if(operator === this.OPERATORS.stringOperatorIsNotBlank){
         this.cbxAskValues.disabled = true;
       }
+      /*if(operator === this.OPERATORS.numberOperatorIn){
+        this.cbxAskValues.disabled = true;
+      }*/
       if(operator === this.OPERATORS.numberOperatorIsBlank){
         this.cbxAskValues.disabled = true;
       }
@@ -1294,10 +1418,10 @@ function(declare, lang, array, html, query, on, json, Memory, Deferred, _WidgetB
       }
 
       if(this.cbxAskValues.disabled){
-        this.cbxAskValues.checked = false;
+        this.cbxAskValues.setValue(false);
       }
 
-      if(!this.cbxAskValues.disabled && this.cbxAskValues.checked){
+      if(!this.cbxAskValues.disabled && this.cbxAskValues.getValue()){
         html.setStyle(this.promptTable,'display','table');
         var fieldInfo = (this.fieldsSelect) ? this._getSelectedFilteringItem(this.fieldsSelect) : null;
         if(fieldInfo){

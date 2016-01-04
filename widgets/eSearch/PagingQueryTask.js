@@ -38,10 +38,13 @@ define(['dojo/_base/declare',
       esc: false,
       keyEvent: null,
       isRequired: false,
+      maxRecordCount: 500,
 
       //events:
       //pagingComplete
       //pagingFault
+      //featuresProcessed
+      //featuresTotal
 
       startup: function () {
         this.inherited(arguments);
@@ -65,7 +68,7 @@ define(['dojo/_base/declare',
         this.isQuerying = true;
         this.query.returnGeometry = false;
         this.query.outFields = [this.fieldName];
-        if (this.version >= 10.1) {
+        if (this.version > 10.11) {
           this.query.orderByFields = [this.fieldName];
         }
         this.query.objectIds = null;
@@ -78,14 +81,26 @@ define(['dojo/_base/declare',
           this.emit('pagingFault');
           return;
         }
+        this.queryTask = new QueryTask(this.uri);
         if (this.version >= 10.1) {
-          this.queryTask = new QueryTask(this.uri + "?returnDistinctValues=true");
-        } else {
-          this.queryTask = new QueryTask(this.uri);
-        }
-        if (this.version >= 10.1) {
-          this.allValues = [];
-          this.queryTask.execute(this.query, lang.hitch(this, this.onSearchFinish), lang.hitch(this, this.onSearchError));
+          //need to check if the feature count is over maxRecordCount
+          var cntQuery = new Query();
+          if (this.defExpr && this.defExpr !== "") {
+            cntQuery.where = this.defExpr;
+          } else {
+            cntQuery.where = "1=1";
+          }
+          this.queryTask.executeForCount(cntQuery, lang.hitch(this, function(count){
+            this.featuresTotal = count;
+            if(count <= this.maxRecordCount){
+              this.allValues = [];
+              this.query.returnDistinctValues = true;
+              this.queryTask.execute(this.query, lang.hitch(this, this.onSearchFinish), lang.hitch(this, this.onSearchError));
+            }else{
+              delete this.query.orderByFields;
+              this.queryTask.executeForIds(this.query, lang.hitch(this, this.onSearchIdsFinish), lang.hitch(this, this.onSearchError));
+            }
+          }));
         } else {
           this.queryTask.executeForIds(this.query, lang.hitch(this, this.onSearchIdsFinish), lang.hitch(this, this.onSearchError));
         }
@@ -96,8 +111,9 @@ define(['dojo/_base/declare',
         this.keyEvent.remove();
         this.query.where = "";
         this.query.text = null;
-        if (this.version < 10.1) {
+        if (this.version < 10.1 || this.featuresTotal > this.maxRecordCount) {
           this.featuresProcessed += featureSet.features.length;
+          this.emit('featuresProcessed', this.featuresProcessed);
         }
 
         var resultCount = featureSet.features.length;
@@ -108,14 +124,13 @@ define(['dojo/_base/declare',
           }
         }
 
-        if (this.version >= 10.1) {
+        if (this.version >= 10.1 && this.featuresTotal <= this.maxRecordCount) {
           this.isQuerying = false;
 
           if (this.dateFormat !== "") {
             this.replaceDatesWithStrings();
             return;
           } else {
-            console.info(this.allValues);
             this.uniqueValues = this.getDistinctValues(this.allValues);
             if (this.isRequired === false) {
               if (this.blankStringExists) {
@@ -135,7 +150,6 @@ define(['dojo/_base/declare',
               code: 'allu',
               name: this.allString
             });
-            console.info(this.uniqueValues);
             this.emit('pagingComplete', this.uniqueValues);
             return;
           }
@@ -250,9 +264,10 @@ define(['dojo/_base/declare',
           this.allValues = [];
           this.objectIdsArray = results;
           this.featuresTotal = this.objectIdsArray.length;
+          this.emit('featuresTotal', this.featuresTotal);
           this.query.where = null;
           this.query.text = null;
-          this.query.objectIds = this.objectIdsArray.slice(0, 500); //this.objectIdsArray;
+          this.query.objectIds = this.objectIdsArray.slice(0, this.maxRecordCount);
           this.queryTask.execute(this.query, lang.hitch(this, this.onSearchFinish), lang.hitch(this, this.onSearchError));
         } else {
           console.error('onSearchIdsFinish returned zero length');
@@ -291,21 +306,19 @@ define(['dojo/_base/declare',
           }
           output.push(uVal);
         }
-        sortByKey(output, "value");
+        return sortByKey(output, "code");
 
         function sortByKey(array, key) {
           return array.sort(function (a, b) {
             var x = a[key];
             var y = b[key];
             if (typeof x == "string") {
-              x = x.toLowerCase();
-              y = y.toLowerCase();
+              x = x.toLowerCase().trim();
+              y = y.toLowerCase().trim();
             }
             return ((x < y) ? -1 : ((x > y) ? 1 : 0));
           });
         }
-        return output;
       }
-
     });
   });

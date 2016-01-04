@@ -1,12 +1,13 @@
 ﻿define(
    ({
+    id: 'ID',
     state: "Koordinaterne vises som standard i det aktuelle korts koordinatsystem. Hvis du vil have koordinaterne vist i andre koordinatsystemer, skal du tilføje dem og angive passende transformationer.",
     outputUnit: "Output-enhed",
     wkid: "Output-WKID",
     label: "Oplys navnet på koordinatsystemet",
-    transformationWkid: 'Transformations-WKID',
-    transformationLabel: 'Transformationsetiket',
-    transformForward: 'Transformér fremad',
+    transformationWkid: "Transformations-WKID",
+    transformationLabel: "Transformationsetiket",
+    transformForward: "Transformér fremad",
     actions: "Handlinger",
     warning: "Angiv et gyldigt geografisk reference-WKID!",
     tfWarning: "Angiv et gyldigt WKID for datotransformation!",

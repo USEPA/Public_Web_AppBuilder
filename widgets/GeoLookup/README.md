@@ -1,13 +1,13 @@
 
 
 # GeoEnrich - Enrich local tabular .CSV content with defined poygon feature map services
-The GeoEnrich widget allows users to drag and drop a local comma delimited file that contains point location data (lat/long) per record and will subsequently attach user selected attribution from a uniquely identified polygon feature service. Each point created by the data within the local CSV will be intersected with the polygon data and in turn the user selected fields and respective data from the feature service will mapped, attached and returned as a new enriched .CSV.
+The GeoEnrich widget allows users to drag and drop a local comma delimited file that contains point location data (lat/long) per record and will subsequently attach user selected attribution from a uniquely identified polygon feature service. Each point created by the data within the local CSV will be intersected with the polygon data and in turn the user selected fields and respective data from the feature service will mapped, attached and returned as a new enriched .CSV. 
 
-Usage examples:
+Usage examples: 
 * a telecom needs to determine service levels (offer products and services) from a table of customer locations. service levels are determined by the intersection of customer data with service level polygons from an easy to use interface
 * a sales manager needs to determine which prospective customer locations lie within defined sales territories
 
-Important Note:
+Important Note: 
 ## Sections
 
 * [Features](#features)
@@ -44,7 +44,7 @@ In order to develop and test widgets you need to deploy the BatchEditor folder t
 2. Close Open the Repository in Windows Explorer
 3. Close Github for Windows
 4. Cut and paste the entire BatchEditor folder into the stemapp/widgets folder
-5. Launch Github for Windows and choose the option to locate the repository. This will change the location on disk to the new location.
+5. Launch Github for Windows and choose the option to locate the repository. This will change the location on disk to the new location. 
 
 ### General Help
 [New to Github? Get started here.](http://htmlpreview.github.io/?https://github.com/Esri/esri.github.com/blob/master/help/esri-getting-to-know-github.html)
@@ -61,8 +61,11 @@ In order to develop and test widgets you need to deploy the BatchEditor folder t
 
 Esri welcomes contributions from anyone and everyone. Please see our [guidelines for contributing](https://github.com/esri/contributing).
 
+All web application produced follow Esri's tailcoat style guide
+http://arcgis.github.io/tailcoat/styleguides/css/
+
 If you are using [JS Hint](http://http://www.jshint.com/) there is a .jshintrc file included in the root folder which enforces this style.
-We allow for 120 characters per line instead of the highly restrictive 80.
+We allow for 120 characters per line instead of the highly restrictive 80. 
 
 ## Licensing
 

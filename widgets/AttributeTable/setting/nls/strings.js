@@ -10,10 +10,13 @@ define({
     noLayers: "No feature layers are available",
     back: "Back",
     exportCSV: "Allow exporting to CSV",
+    expand: "Initially expand the widget",
     restore: "Restore to default value",
     ok: "OK",
+    cancel: "Cancel",
+    configureLayerFields: "Configure Layer Fields",
     result: "Saved successfully",
-    warning: "Check to show the layer in the table first.",
+    warning: "Please select the Show option first.",
     fieldCheckWarning: "At least one field must be selected.",
     unsupportQueryWarning: "The layer needs to support query operation to display in Attribute Table widget. Make sure the query capability in the service is turned on.",
     unsupportQueryLayers: "The following layer needs to support query operation to display in Attribute Table widget. Make sure the query capability in the service is turned on.",
@@ -49,5 +52,7 @@ define({
   "th": 1,
   "tr": 1,
   "vi": 1,
-  "zh-cn": 1
+  "zh-cn": 1,
+  "zh-hk": 1,
+  "zh-tw": 1
 });

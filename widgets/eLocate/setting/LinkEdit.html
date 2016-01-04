@@ -1,0 +1,138 @@
+<div style="width:100%;">
+  <div data-dojo-attach-point="singleLinksSection">
+    <table class="input-table" style="width:100%;" cellspacing="0">
+      <tbody>
+        <tr>
+          <td colspan="3">
+            <table style="width:100%;" cellspacing="0">
+              <tr>
+                <td style="width:50%;">
+                  <table style="width:100%;" cellspacing="0">
+                    <tbody>
+                      <tr>
+                        <td style="width:115px;text-align:left;">
+                          <span>${nls.linkAlias}</span>
+                        </td>
+                        <td style="width:auto;">
+                          <input type="text" data-dojo-type="dijit/form/TextBox" data-dojo-attach-point="linkAlias" style="width:100%;" placeholder="Name for the link" />
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+                <td style="width:50%;" />
+              </tr>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="3">
+            <table style="width:100%;" cellspacing="0">
+              <tr>
+                <td style="width:30%;">
+                  <table style="width:100%;" cellspacing="0">
+                    <tbody>
+                      <tr>
+                        <td style="width:115px;">
+                          <div data-dojo-type="jimu/dijit/CheckBox" data-dojo-attach-point="disableNullLinkCbx"
+                               data-dojo-props="label:'${nls.disablenulllink}'"/>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+                <td style="width:30%;">
+                  <table style="width:100%;" cellspacing="0">
+                    <tbody>
+                      <tr>
+                        <td style="width:115px;">
+                          <div data-dojo-type="jimu/dijit/CheckBox" data-dojo-attach-point="disableLinkinPopUpCbx"
+                               data-dojo-props="label:'${nls.disablelinkinpopup}'"/>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+                <td style="width:40%;">
+                  <table style="width:100%;" cellspacing="0">
+                    <tbody>
+                      <tr>
+                        <td style="width:155px;text-align:left;">
+                          <span>${nls.popuplinktype}</span>
+                        </td>
+                        <td style="width:auto;">
+                          <select data-dojo-attach-point="selectLinkType" data-dojo-type="dijit/form/Select" data-dojo-props="style:{width:'200px'}">
+                            <option value="image" selected="selected">${nls.linkimage}</option>
+                            <option value="text">${nls.linktext}</option>
+                          </select>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="3">
+            <table style="width:100%;" cellspacing="0">
+              <tr>
+                <td style="width:100%;">
+                  <table style="width:100%;" cellspacing="0">
+                    <tbody>
+                      <tr>
+                        <td style="width:155px;text-align:left;">
+                          <span>${nls.linkcontent}</span>
+                          <div class="help-icon" style="width:20px;height:20px;padding-left:5px; margin-left:8px;" title="${nls.linkcontenthint}"><span>?</span>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr data-dojo-attach-point="linkContentRow">
+                        <td style="width:100%;">
+                          <textarea style="width:100%;padding:3px 3px;" rows="4" data-dojo-attach-point="linkContentTA"></textarea>
+                        </td>
+                        <td style="width:115px;vertical-align:top;">
+                          <div data-dojo-type="widgets/Identify/setting/AddFieldBtn" data-dojo-attach-point="linkContentAddButton" />
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="3">
+            <table style="width:100%;" cellspacing="0">
+              <tr>
+                <td style="width:100%;">
+                  <table style="width:100%;" cellspacing="0">
+                    <tbody>
+                      <tr>
+                        <td style="width:155px;text-align:left;">
+                          <span>${nls.linkiconcontent}</span>
+                          <div class="help-icon" style="width:20px;height:20px;padding-left:5px; margin-left:8px;" title="${nls.linkiconcontenthint}"><span>?</span>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr data-dojo-attach-point="linkIconContentRow">
+                        <td style="width:100%;">
+                          <textarea style="width:100%;padding:3px 3px;" rows="4" data-dojo-attach-point="linkIconContentTA"></textarea>
+                        </td>
+                        <td style="width:115px;vertical-align:top;">
+                          <div data-dojo-type="widgets/Identify/setting/AddFieldBtn" data-dojo-attach-point="linkIconContentAddButton" />
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

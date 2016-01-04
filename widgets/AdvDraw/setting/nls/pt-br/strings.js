@@ -21,6 +21,18 @@
     squareFeet: "Pés quadrados",
     squareYards: "Jardas quadradas",
     distance: "Distâncias",
-    area: "Áreas"
+    area: "Áreas",
+    kilometersAbbreviation: "km",
+    milesAbbreviation: "milhas",
+    metersAbbreviation: "m",
+    feetAbbreviation: "pés",
+    yardsAbbreviation: "jarda",
+    squareKilometersAbbreviation: "sq km",
+    squareMilesAbbreviation: "sq mi",
+    acresAbbreviation: "ac",
+    hectaresAbbreviation: "ha",
+    squareMetersAbbreviation: "sq m",
+    squareFeetAbbreviation: "sq ft",
+    squareYardsAbbreviation: "sq yd"
   })
 );

@@ -21,11 +21,11 @@
     ok: "Aceptar",
     cancel: "Cancelar",
     result: "Se ha guardado correctamente",
-    spError: "Todos los mapas base agregados a la galería deben tener las mismas referencias espaciales.",
+    spError: "Todos los mapas base agregados a la galería deben tener la misma referencia espacial.",
     invalidTitle1:"Ya existe un mapa base '",
     invalidTitle2:"'. Elige otro título.",
     invalidBasemapUrl1: "Este tipo de capa no se puede usar como mapa base.",
-    invalidBasemapUrl2: "La referencia espacial es diferente a la del mapa actual.",
+    invalidBasemapUrl2: "El mapa base que va a agregar tiene una referencia espacial distinta de la del mapa actual.",
     addBaselayer: "Agregar capa de mapa base"
   })
 );

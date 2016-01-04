@@ -1,0 +1,99 @@
+.jimu-widget-stream{
+
+}
+
+.jimu-widget-stream .layerSelect{
+  margin: 12px 0;
+}
+
+.jimu-widget-stream .controllerLabel{
+  font-size: 1.2em;
+  color: #838383;
+  font-weight: normal;
+  cursor: pointer;
+}
+
+.jimu-widget-stream .filterOption{
+  margin-left: 20px;
+  margin-top: 10px;
+  margin-bottom: 5px;
+}
+
+.jimu-widget-stream .jimu-widget-stream-filterItem{
+  margin-left: 20px;
+  margin-top: 10px;
+  margin-bottom: 5px;
+}
+
+.jimu-widget-stream .controlButton{
+  width: 100%;
+  height: 32px;
+  margin-top: 12px;
+  background-color: #FFFFFF;
+  border: solid 1px #D7D7D7;
+  cursor: pointer;
+}
+
+.jimu-widget-stream .controlButton:hover{
+  background-color: #EAEAEA;
+}
+
+.jimu-widget-stream .drawControl{
+  margin-top: 12px;
+  width: 100%;
+}
+
+.jimu-widget-stream .filterLabel{
+  margin-top: 12px;
+}
+
+.jimu-widget-stream .filterControl{
+  margin: 12px 0;
+  width: 100%;
+}
+
+.jimu-widget-stream .btnLabel{
+  line-height: 32px;
+  cursor: pointer;
+}
+
+.jimu-widget-stream .drawControl .btnLabel{
+  line-height: 40px;
+}
+
+.jimu-widget-stream .controlButton .runningIcon{
+  width: 14px;
+  height: 14px;
+  margin-top: 7px;
+  background: transparent url(images/play_normal.png) center top no-repeat;
+}
+
+.jimu-widget-stream .controlButton:hover .runningIcon{
+  background: url(images/play_over.png);
+}
+
+.jimu-widget-stream .controlButton.stop .runningIcon{
+  width: 14px;
+  height: 14px;
+  margin-top: 7px;
+  background: transparent url(images/stop_normal.png) center top no-repeat;
+}
+
+.jimu-widget-stream .controlButton.stop:hover .runningIcon{
+  background: url(images/stop_over.png);
+}
+
+.jimu-widget-stream .controlButton .clearIcon{
+  width: 14px;
+  height: 14px;
+  margin-top: 7px;
+  background: transparent url(images/clear_normal.png) center top no-repeat;
+}
+
+.jimu-widget-stream .controlButton:hover .clearIcon{
+  background: url(images/clear_over.png);
+}
+
+.jimu-widget-stream .jimu-checkbox .label{
+  font-size: 12px;
+}

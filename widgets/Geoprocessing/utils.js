@@ -16,9 +16,10 @@
 
 define([
   'dojo/_base/array',
-  'dojo/Deferred'
+  'dojo/Deferred',
+  'esri/request'
 ],
-function(array, Deferred) {
+function(array, Deferred, esriRequest) {
   var mo = {};
 
   mo.promisifyGetValue = function(inputEditor){
@@ -37,18 +38,88 @@ function(array, Deferred) {
   };
 
   mo.allowShareResult = function(config){
-    var noDefaultValueOutputParams = array.filter(config.outputParams, function(param){
-      return param.dataType === 'GPFeatureRecordSetLayer' &&
-        (!param.defaultValue || param.defaultValue && !param.defaultValue.geometryType);
+    return array.some(config.outputParams, function(param){
+      return param.dataType === 'GPRecordSet' ||
+          (param.dataType === 'GPFeatureRecordSetLayer' &&
+          param.defaultValue &&
+          param.defaultValue.geometryType);
     });
-    if(noDefaultValueOutputParams.length === 0){
-      return true;
-    }else{
-      //if output parameter has no default value or default has no geometry type,
-      //we dont allow share results.
-      return false;
-    }
   };
+
+  mo.getServiceDescription = function(gpTaskUrl){
+    var args = {
+      url: gpTaskUrl,
+      content: {f: "json"},
+      handleAs:"json",
+      callbackParamName: "callback"
+    };
+
+    var ret;
+
+    return esriRequest(args).then(function(taskInfo){
+      ret = taskInfo;
+      return getGPServerDescription(gpTaskUrl).then(function(serverInfo){
+        ret.serverInfo = serverInfo;
+        ret.useResultMapServer = serverInfo.hasResultMapServer;
+
+        return uploadSupported(serverInfo).then(function(uploadsInfo){
+          ret.serverInfo.supportsUpload = uploadsInfo.supportsUpload;
+          if("maxUploadFileSize" in uploadsInfo){
+            ret.serverInfo.maxUploadFileSize = uploadsInfo.maxUploadFileSize;
+          }
+          return ret;
+        });
+      });
+    });
+  };
+
+  function getGPServerDescription(gpTaskUrl){
+    var args = {
+      url: getGPServerUrl(gpTaskUrl),
+      content: {f: "json"},
+      handleAs:"json"
+    };
+    return esriRequest(args).then(function(serverDescription){
+      var serverInfo = {};
+      serverInfo.currentVersion = serverDescription.currentVersion || 0;
+      serverInfo.url = args.url;
+      serverInfo.hasResultMapServer =
+          serverDescription.executionType === "esriExecutionTypeAsynchronous" &&
+          ('resultMapServerName' in serverDescription) &&
+          serverDescription.resultMapServerName !== '';
+      return serverInfo;
+    });
+  }
+
+  function getGPServerUrl(gpTaskUrl){
+    var lastPathIndex = gpTaskUrl.search(/[\w]+[^\/]*$/g);
+    return gpTaskUrl.substr(0, lastPathIndex);
+  }
+
+  function uploadSupported(serverInfo){
+    if(serverInfo.currentVersion >= 10.1){
+      //get upload info
+      var args = {
+        url: serverInfo.url + 'uploads/info',
+        content: {f: "json"},
+        handleAs:"json"
+      };
+      return esriRequest(args).then(function(uploadsInfo){
+        return {
+          supportsUpload: true,
+          maxUploadFileSize: uploadsInfo.maxUploadFileSize
+        };
+      }, function(){
+        return {
+          supportsUpload: false
+        };
+      });
+    }else{
+      var retDef = new Deferred();
+      retDef.resolve({supportsUpload:false});
+      return retDef;
+    }
+  }
 
   return mo;
 });

@@ -3,7 +3,7 @@
     unit: "Enhet",
     style: "Stil",
     dual: "dobbel",
-    english: "metric",
+    english: "engelsk",
     metric: "metric",
     ruler: "linjal",
     line: "linje"

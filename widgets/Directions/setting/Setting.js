@@ -17,28 +17,30 @@
 define([
     'dojo/_base/declare',
     'dojo/_base/lang',
-    'dojo/_base/array',
     'dojo/_base/html',
-    'dojo/_base/query',
     'dojo/_base/config',
-    'dojo/on',
     'dojo/Deferred',
     'dijit/_WidgetsInTemplateMixin',
     'jimu/BaseWidgetSetting',
-    'jimu/dijit/URLInput',
-    'jimu/dijit/Message',
+    'jimu/utils',
     'jimu/portalUtils',
+    'jimu/dijit/Message',
+    'jimu/dijit/CheckBox',
+    'jimu/dijit/ServiceURLInput',
     'dijit/form/NumberSpinner',
     'dijit/form/ValidationTextBox',
     'dijit/form/Select'
   ],
-  function(declare, lang, array, html, query, dojoConfig, on, Deferred,
-   _WidgetsInTemplateMixin, BaseWidgetSetting, URLInput, Message, portalUtils,
-    NumberSpinner, ValidationTextBox, Select) {/*jshint unused: false*/
+  function(declare, lang, html, dojoConfig, Deferred, _WidgetsInTemplateMixin, BaseWidgetSetting,
+    jimuUtils, portalUtils, Message, CheckBox) {
+
     return declare([BaseWidgetSetting, _WidgetsInTemplateMixin], {
       baseClass: 'jimu-widget-directions-setting',
+      _serviceUrlInputInvalidClass: "jimu-serviceurl-input-invalid",
       _routeTaskUrl:'http://route.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World',
       _locatorUrl:'http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer',
+      _travelModesUrl: "http://logistics.arcgis.com/arcgis/rest/services/World/Utilities/GPServer",
+      _trafficLayerUrl: "http://traffic.arcgis.com/arcgis/rest/services/World/Traffic/MapServer",
 
       postMixInProperties: function(){
         if(!this.nls.complete){
@@ -56,11 +58,79 @@ define([
         if(!this.nls.summaryOnly){
           this.nls.summaryOnly = 'Summary Only';
         }
+        if(!this.nls.travelModesUrl){
+          this.nls.travelModesUrl = "Travel Modes URL";
+        }
       },
 
       postCreate: function(){
         this.inherited(arguments);
+        this.autoComplete = new CheckBox();
+        this.autoComplete.placeAt(this.autoCompleteTd, 'first');
+        html.addClass(this.autoComplete.domNode, 'class', 'jimu-float-leading');
+
         this.portal = portalUtils.getPortal(this.appConfig.portalUrl);
+
+        this.routeUrl.setProcessFunction(lang.hitch(this, function(result){
+          var isRouteLayer = false;
+          if(result && result.data){
+            isRouteLayer = result.data.layerType === 'esriNAServerRouteLayer';
+          }
+          var url = this._getHandledUrlFromServiceUrlInput(this.routeUrl);
+          var reg = /\/rest\/services\/.+\/NAServer/gi;
+          return isRouteLayer && reg.test(url);
+        }));
+
+        this.locatorUrl.setProcessFunction(lang.hitch(this, function(){
+          var url = this._getHandledUrlFromServiceUrlInput(this.locatorUrl);
+          var reg = /\/rest\/services\/.+\/GeocodeServer/gi;
+          return reg.test(url);
+        }));
+
+        this.travelModesUrl.setProcessFunction(lang.hitch(this, function(){
+          var url = this._getHandledUrlFromServiceUrlInput(this.travelModesUrl);
+          var reg = /\/rest\/services\/.+\/GPServer/gi;
+          return reg.test(url);
+        }), lang.hitch(this, function(){
+          if(!this.travelModesUrl.get('value')){
+            html.removeClass(this.travelModesUrl.domNode, this._serviceUrlInputInvalidClass);
+          }
+        }));
+
+        this.trafficLayerUrl.setProcessFunction(lang.hitch(this, function(){
+           var url = this._getHandledUrlFromServiceUrlInput(this.trafficLayerUrl);
+           var reg = /\/rest\/services\/.+\/MapServer/gi;
+           return reg.test(url);
+         }), lang.hitch(this, function(){
+           if(!this.trafficLayerUrl.get('value')){
+             html.removeClass(this.trafficLayerUrl.domNode, this._serviceUrlInputInvalidClass);
+           }
+         }));
+
+        this.portal.loadSelfInfo().then(lang.hitch(this, function(portalSelf){
+          var routeUrlFromPortal = this._getRouteUrlFromPortalSelf(portalSelf);
+          if(routeUrlFromPortal){
+            this.routeUrl.set('placeHolder', routeUrlFromPortal);
+          }
+          var locatorUrlFromPortal = this._getLocatorUrlFromPortalSelf(portalSelf);
+          if(locatorUrlFromPortal){
+            this.locatorUrl.set('placeHolder', locatorUrlFromPortal);
+          }
+          var travelModesUrlFromPortal = this._getTravelModesUrlFromPortalSelf(portalSelf);
+          if(travelModesUrlFromPortal){
+            this.travelModesUrl.set('placeHolder', travelModesUrlFromPortal);
+          }
+          var trafficLayerUrlFromPortal = this._getTrafficLayerUrlFromPortalSelf(portalSelf);
+          if(trafficLayerUrlFromPortal){
+            this.trafficLayerUrl.set('placeHolder', trafficLayerUrlFromPortal);
+          }
+        }));
+      },
+
+      _getHandledUrlFromServiceUrlInput: function(dijit){
+        var value = dijit.get('value');
+        var url = jimuUtils.removeSuffixSlashes(value);
+        return url;
       },
 
       startup: function(){
@@ -75,20 +145,20 @@ define([
         }
 
         var geocoderOptions = this.config.geocoderOptions;
-        if(typeof geocoderOptions === 'object'){
-          this.autoComplete.checked = geocoderOptions.autoComplete === true;
+        if(geocoderOptions && typeof geocoderOptions === 'object'){
+          this.autoComplete.setValue(geocoderOptions.autoComplete === true);
           this.maxLocations.set('value', geocoderOptions.maxLocations);
           this.minCharacters.set('value', geocoderOptions.minCharacters);
           this.searchDelay.set('value', geocoderOptions.searchDelay);
           var geocoders = geocoderOptions.geocoders;
           if(geocoders && geocoders.length > 0){
             var geocodeArgs = geocoders[0];
-            this.placeholder.set('value', geocodeArgs.placeholder||'');
+            this.placeholder.set('value', geocodeArgs.placeholder || '');
           }
         }
 
         var routeOptions = this.config.routeOptions;
-        if(typeof routeOptions === 'object'){
+        if(routeOptions && typeof routeOptions === 'object'){
           var language = routeOptions.directionsLanguage || dojoConfig.locale || "en_us";
           this.directionsLanguage.set('value', language);
           this.directionsLengthUnits.set('value', routeOptions.directionsLengthUnits);
@@ -103,6 +173,21 @@ define([
         this._getLocatorUrl().then(lang.hitch(this, function(locatorUrl){
           this.locatorUrl.set('value', locatorUrl);
         }));
+
+        this._getTravelModesUrl().then(lang.hitch(this, function(travelModesUrl){
+          this.travelModesUrl.set('value', travelModesUrl);
+        }));
+
+        if(!this.config.routeTaskUrl){
+          //it's the first time to open the setting page
+          if(!this.placeholder.get('value')){
+            this.placeholder.set('value', this.nls.searchPlaceholder);
+          }
+        }
+
+        if(this.config.trafficLayerUrl){
+          this.trafficLayerUrl.set('value', this.config.trafficLayerUrl);
+        }
       },
 
       _getRouteTaskUrl: function(){
@@ -112,10 +197,10 @@ define([
         }
         else{
           this.portal.loadSelfInfo().then(lang.hitch(this, function(response){
-            if(response && response.helperServices && response.helperServices.route){
-              def.resolve(response.helperServices.route.url);
-            }
-            else{
+            var url = this._getRouteUrlFromPortalSelf(response);
+            if(url){
+              def.resolve(url);
+            }else{
               def.resolve(this._routeTaskUrl);
             }
           }), lang.hitch(this, function(err){
@@ -124,6 +209,17 @@ define([
           }));
         }
         return def;
+      },
+
+      _getRouteUrlFromPortalSelf: function(portalSelf){
+        var url = "";
+        if(portalSelf && portalSelf.helperServices){
+          var route = portalSelf.helperServices.route;
+          if(route && route.url){
+            url = route.url;
+          }
+        }
+        return url;
       },
 
       _getLocatorUrl: function(){
@@ -137,13 +233,10 @@ define([
         }
         else{
           this.portal.loadSelfInfo().then(lang.hitch(this, function(response){
-            if(response && response.helperServices &&
-             response.helperServices.geocode &&
-              response.helperServices.geocode.length > 0){
-              var geocode = response.helperServices.geocode[0];
-              def.resolve(geocode.url);
-            }
-            else{
+            var urlFromPortal = this._getLocatorUrlFromPortalSelf(response);
+            if(urlFromPortal){
+              def.resolve(urlFromPortal);
+            }else{
               def.resolve(this._locatorUrl);
             }
           }), lang.hitch(this, function(err){
@@ -154,15 +247,88 @@ define([
         return def;
       },
 
+      _getLocatorUrlFromPortalSelf: function(portalSelf){
+        var url = "";
+        if(portalSelf && portalSelf.helperServices){
+          var geocode = portalSelf.helperServices.geocode;
+          if(geocode && geocode.length > 0){
+            if(geocode[0] && geocode[0].url){
+              url = geocode[0].url;
+            }
+          }
+        }
+        return url;
+      },
+
+      _getTravelModesUrl: function(){
+        var def = new Deferred();
+        if(this.config.travelModesUrl){
+          def.resolve(this.config.travelModesUrl);
+        }else{
+          if(this.config.routeTaskUrl){
+            //it's not the first time to open the setting page
+            def.resolve(this.config.travelModesUrl);
+          }else{
+            //only get the default travelModesUrl first time
+            this.portal.loadSelfInfo().then(lang.hitch(this, function(response){
+              var urlFromPortal = this._getTravelModesUrlFromPortalSelf(response);
+              if(urlFromPortal){
+                def.resolve(urlFromPortal);
+              }else{
+                def.resolve("");
+              }
+            }), lang.hitch(this, function(err){
+              console.error(err);
+              def.reject(err);
+            }));
+          }
+        }
+        return def;
+      },
+
+      _getTravelModesUrlFromPortalSelf: function(portalSelf){
+        var url = "";
+        if(portalSelf && portalSelf.helperServices){
+          var routingUtilities = portalSelf.helperServices.routingUtilities;
+          if(routingUtilities && routingUtilities.url){
+            url = routingUtilities.url;
+          }
+        }
+        return url;
+      },
+
+      _getTrafficLayerUrlFromPortalSelf: function(portalSelf){
+        var url = "";
+        if(portalSelf && portalSelf.helperServices){
+          var traffic = portalSelf.helperServices.traffic;
+          if(traffic && traffic.url){
+            url = traffic.url;
+          }
+        }
+        return url;
+      },
+
       getConfig: function() {
-        if(!this.routeUrl.validate()){
+        if(this.routeUrl.getStatus() !== 'valid'){
           this._showValidationErrorTip(this.routeUrl);
           this._showParametersTip();
           return false;
         }
 
-        if(!this.locatorUrl.validate()){
+        if(this.locatorUrl.getStatus() !== 'valid'){
           this._showValidationErrorTip(this.locatorUrl);
+          this._showParametersTip();
+          return false;
+        }
+
+        if(this.travelModesUrl.get('value') && this.travelModesUrl.getStatus() !== 'valid'){
+          this._showValidationErrorTip(this.travelModesUrl);
+          this._showParametersTip();
+          return false;
+        }
+
+        if(this.trafficLayerUrl.get('value') && this.trafficLayerUrl.getStatus() !== 'valid'){
+          this._showValidationErrorTip(this.trafficLayerUrl);
           this._showParametersTip();
           return false;
         }
@@ -192,7 +358,9 @@ define([
         }
 
         this.config = {
-          routeTaskUrl: this.routeUrl.get('value'),
+          routeTaskUrl: this._getHandledUrlFromServiceUrlInput(this.routeUrl),
+          travelModesUrl: this._getHandledUrlFromServiceUrlInput(this.travelModesUrl),
+          trafficLayerUrl: this._getHandledUrlFromServiceUrlInput(this.trafficLayerUrl),
           routeOptions: {
             directionsLanguage: this.directionsLanguage.get('value'),
             directionsLengthUnits: this.directionsLengthUnits.get('value'),
@@ -200,13 +368,13 @@ define([
             impedanceAttribute: this.impedanceAttribute.get('value')
           },
           geocoderOptions: {
-            autoComplete: this.autoComplete.checked,
+            autoComplete: this.autoComplete.getValue(),
             maxLocations: this.maxLocations.get('value'),
             minCharacters: this.minCharacters.get('value'),
             searchDelay: this.searchDelay.get('value'),
             arcgisGeocoder: false,
             geocoders: [{
-              url: this.locatorUrl.get('value'),
+              url: this._getHandledUrlFromServiceUrlInput(this.locatorUrl),
               placeholder: this.placeholder.get('value')
             }]
           }

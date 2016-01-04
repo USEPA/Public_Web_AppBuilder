@@ -31,6 +31,22 @@
     setTask: "Définir",
     setTaskTitle: "Définir une tâche de géotraitement",
     enablePopup: "Activer la fenêtre contextuelle",
-    unSupportGeometryType: "Impossible de définir le moteur de rendu, car le type de géométrie est inconnu."
+    unSupportGeometryType: "Impossible de définir le moteur de rendu, car le type de géométrie est inconnu.",
+    useUrlForGPInput: "URL",
+    useUploadForGPInput: "Télécharger le fichier",
+    selectFileToUpload: "Sélectionner un fichier...",
+    upload: "Charger",
+    rasterFormat: "Format de données raster",
+    noFileSelected: "Aucun fichier sélectionné !",
+    uploadSuccess:"Fichier chargé correctement !",
+    showLayerContent: "Afficher le contenu de la couche",
+    Feet: "Pieds",
+    Yards: "Yards",
+    Miles: "Miles",
+    NauticalMiles: "Milles nautiques",
+    Meter: "Mètres",
+    Kilometers: "Kilomètres",
+    urlPlaceholder: "URL du jeu d\'entités",
+    allowToExport: "Autoriser l\'exportation des résultats"
   })
 );

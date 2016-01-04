@@ -74,6 +74,9 @@ define(
 
       _initSpatRelTable:function(){
         this.SpatialRelationshipTable.clear();
+        this.SpatialRelationshipTable.on('row-click', lang.hitch(this, function(){
+          this._checkSelections();
+        }));
         var spatRels = this.config;
         console.info(this.config);
         array.forEach(this._spatialrelationship, lang.hitch(this, function(spatialRel) {
@@ -92,6 +95,15 @@ define(
           }
         }
         return false;
+      },
+
+      _checkSelections: function(){
+        var trs = this.SpatialRelationshipTable.getRowDataArrayByFieldValue("add",true);
+        if(trs.length === 0){
+          this.popup.disableButton(0);
+        }else{
+          this.popup.enableButton(0);
+        }
       },
 
       _createSpatialRelationship:function(args){

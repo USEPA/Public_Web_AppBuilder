@@ -43,8 +43,12 @@ define([
 
       name: 'Measurement',
       measurement: null,
+      _pcDef: null,
 
       startup: function() {
+        if (this.measurement || this._pcDef) {
+          return;
+        }
         this.inherited(arguments);
 
         var json = this.config.measurement;
@@ -58,13 +62,13 @@ define([
 
         this._processConfig(json).then(lang.hitch(this, function(measurementJson) {
           this.measurement = new Measurement(measurementJson, this.measurementDiv);
-          aspect.after(this.measurement, 'setTool', lang.hitch(this, function() {
+          this.own(aspect.after(this.measurement, 'setTool', lang.hitch(this, function() {
             if (this.measurement.activeTool) {
               this.disableWebMapPopup();
             } else {
               this.enableWebMapPopup();
             }
-          }));
+          })));
 
           this.measurement.startup();
         }), lang.hitch(this, function(err) {
@@ -75,20 +79,25 @@ define([
       },
 
       _processConfig: function(configJson) {
-        var def = new Deferred();
+        this._pcDef = new Deferred();
         if (configJson.defaultLengthUnit && configJson.defaultAreaUnit) {
-          def.resolve(configJson);
+          this._pcDef.resolve(configJson);
         } else {
           PortalUtils.getUnits(this.appConfig.portalUrl).then(lang.hitch(this, function(units) {
             configJson.defaultAreaUnit = units === 'english' ?
               esriUnits.SQUARE_MILES : esriUnits.SQUARE_KILOMETERS;
             configJson.defaultLengthUnit = units === 'english' ?
               esriUnits.MILES : esriUnits.KILOMETERS;
-            def.resolve(configJson);
+            this._pcDef.resolve(configJson);
+          }), lang.hitch(this, function(err) {
+            console.error(err);
+            configJson.defaultAreaUnit = esriUnits.SQUARE_MILES;
+            configJson.defaultLengthUnit = esriUnits.MILES;
+            this._pcDef.resolve(configJson);
           }));
         }
 
-        return def.promise;
+        return this._pcDef.promise;
       },
 
       disableWebMapPopup: function() {
@@ -97,6 +106,10 @@ define([
 
       enableWebMapPopup: function() {
         this.map.setInfoWindowOnClick(true);
+      },
+
+      onDeActive: function() {
+        this.onClose();
       },
 
       onClose: function() {

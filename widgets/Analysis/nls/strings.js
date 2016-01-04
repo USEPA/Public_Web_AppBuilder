@@ -7,7 +7,7 @@ define({
     next: "Next",
     home: "Home",
     jobSubmitted: "submitted.",
-    jobCancelled: "Cancelled.",
+    jobCancelled: "Canceled.",
     jobFailed: "Failed",
     jobSuccess: "Succeeded.",
     executing: "Executing",
@@ -19,7 +19,7 @@ define({
     outputs: "Outputs",
     outputtip: "Note: Feature and table outputs are added in the map as operational layers.",
     outputSaveInPortal: "The data has been saved in your portal.",
-    privilegeError: "You should have Publisher or Administrator role to perform analysis tool."
+    privilegeError: "Your user role cannot perform analysis. In order to perform analysis, the administrator of your organization needs to grant you certain <a href=\"http://doc.arcgis.com/en/arcgis-online/reference/roles.htm\" target=\"_blank\">privileges</a>."
   }),
   "ar": 1,
   "cs": 1,
@@ -47,5 +47,7 @@ define({
   "th": 1,
   "tr": 1,
   "vi": 1,
-  "zh-cn": 1
+  "zh-cn": 1,
+  "zh-hk": 1,
+  "zh-tw": 1
 });

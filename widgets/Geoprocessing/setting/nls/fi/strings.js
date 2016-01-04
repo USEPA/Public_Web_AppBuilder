@@ -31,6 +31,22 @@
     setTask: "Aseta",
     setTaskTitle: "Määritä geoprosessointitehtävä",
     enablePopup: "Ota ponnahdusikkunat käyttöön",
-    unSupportGeometryType: "Renderöintiä ei voi määrittää tuntemattoman geometriatyypin vuoksi."
+    unSupportGeometryType: "Renderöintiä ei voi määrittää tuntemattoman geometriatyypin vuoksi.",
+    useUrlForGPInput: "URL-osoite",
+    useUploadForGPInput: "Lähetä tiedosto",
+    selectFileToUpload: "Valitse tiedosto...",
+    upload: "Lähetä",
+    rasterFormat: "Rasteriaineiston muoto",
+    noFileSelected: "Yhtään tiedostoa ei ole valittu.",
+    uploadSuccess:"Tiedoston lataus onnistui.",
+    showLayerContent: "Näytä karttatason sisältö",
+    Feet: "Jalkaa",
+    Yards: "Jaardia",
+    Miles: "Mailia",
+    NauticalMiles: "Meripeninkulmaa",
+    Meter: "Metriä",
+    Kilometers: "Kilometriä",
+    urlPlaceholder: "kohderyhmän URL-osoite",
+    allowToExport: "Salli tulosten vienti"
   })
 );

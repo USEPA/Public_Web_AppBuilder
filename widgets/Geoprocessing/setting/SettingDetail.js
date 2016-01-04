@@ -24,19 +24,19 @@ define(['dojo/_base/declare',
   'dijit/_WidgetBase',
   'dijit/_TemplatedMixin',
   'dijit/TitlePane',
-  'esri/request',
   'jimu/dijit/ViewStack',
   'jimu/dijit/LoadingShelter',
   'jimu/dijit/Message',
   './ParamSetting',
+  './ParamNodeList',
   './LayerOrder',
   './Options',
   '../utils'
 ],
 function(declare, lang, html, array, on, query, template, _WidgetBase, _TemplatedMixin,
-  TitlePane, esriRequest, ViewStack, LoadingShelter, Message, ParamSetting, LayerOrder, Options,
-  gputils) {
-  return declare([_WidgetBase,_TemplatedMixin], {
+  TitlePane, ViewStack, LoadingShelter, Message, ParamSetting, ParamNodeList, LayerOrder,
+  Options, gputils) {
+  return declare([_WidgetBase, _TemplatedMixin], {
     baseClass: 'jimu-widget-setting-gp-detail',
     templateString: template,
 
@@ -70,18 +70,23 @@ function(declare, lang, html, array, on, query, template, _WidgetBase, _Template
       this.hasInputParam = true;
       if(this.config && this.config.taskUrl === config.taskUrl){
         this.config = config;
-        this._initNavPane();
+        if(!('serverInfo' in config)){
+          this.loadingCover.show();
+          //Load gp server info if it does not exist.
+          gputils.getServiceDescription(this.config.taskUrl).then(lang.hitch(this,
+            function(taskInfo){
+              this.loadingCover.hide();
+              this.config.serverInfo = taskInfo.serverInfo;
+              this._initNavPane();
+            }));
+        }else{
+          this._initNavPane();
+        }
       }else{
         this.config = config;
         this.loadingCover.show();
-        var args = {
-          url: this.config.taskUrl,
-          content: {f: "json"},
-          handleAs:"json",
-          callbackParamName: "callback"
-        };
 
-        esriRequest(args).then(lang.hitch(this, function(taskInfo){
+        gputils.getServiceDescription(this.config.taskUrl).then(lang.hitch(this, function(taskInfo){
           this.loadingCover.hide();
           this._changeTaskInfoToConfig(taskInfo);
           this._initNavPane();
@@ -103,6 +108,11 @@ function(declare, lang, html, array, on, query, template, _WidgetBase, _Template
       }
       this.layerOrder.acceptValue();
       this.options.acceptValue();
+
+      //override the param order through param table
+      this.config.inputParams = this.inputParamNodes.getConfig();
+      this.config.outputParams = this.outputParamNodes.getConfig();
+
       return this.config;
     },
 
@@ -168,8 +178,13 @@ function(declare, lang, html, array, on, query, template, _WidgetBase, _Template
       this.paramSetting.setConfig(this.config);
     },
 
-    _onParamClick: function(param, direction, evt){
-      this._setActiveLinkNode(evt.currentTarget);
+    _onParamChange: function(param, direction){
+      query('.jimu-state-active', this.domNode).removeClass('jimu-state-active');
+      if(direction === 'input'){
+        this._clearParamSelection('output');
+      }else{
+        this._clearParamSelection('input');
+      }
       //accept the current input values
       if(this.paramSetting.param){
         this.paramSetting.acceptValue();
@@ -186,63 +201,44 @@ function(declare, lang, html, array, on, query, template, _WidgetBase, _Template
 
     _setActiveLinkNode: function(node){
       query('.jimu-state-active', this.domNode).removeClass('jimu-state-active');
+      this._clearParamSelection();
       html.addClass(node, 'jimu-state-active');
     },
 
     _createParamsSection: function(direction){
-      var nodes = html.create('div', {
-        'class': 'nodes'
-      });
-      var titlePane = new TitlePane({
-        title: this.nls[direction],
-        content: nodes,
-        open: direction === 'input'
-      });
-      titlePane.placeAt(this.navPaneNode);
       var params = direction === 'input'? this.config.inputParams: this.config.outputParams;
 
-      if(direction === 'input' && params.length === 0){
-        this.hasInputParam = false;
+      var paramNodes = new ParamNodeList({
+        params: params,
+        nls: this.nls,
+        direction: direction
+      });
+
+      this.own(on(paramNodes, 'select-param', lang.hitch(this, this._onParamChange)));
+
+      if(direction === 'input'){
+        this.inputParamNodes = paramNodes;
+      }else{
+        this.outputParamNodes = paramNodes;
       }
-      array.forEach(params, function(param, i){
-        var node = this._createParamLinkNode(param, direction, nodes);
-        //select the first one by default
-        if(this.hasInputParam && i === 0 && direction === 'input' || //first input param
-          this.hasInputParam === false && i === 0 && direction === 'output'){//first output param
-          setTimeout(function(){
-            if(node.click){
-              node.click();
-            }else{
-              on.emit(node, 'click', {
-                cancelable: true,
-                bubble: true
-              });
-            }
-          }, 100);
-        }
 
-      }, this);
-    },
+      var titlePane = new TitlePane({
+        title: this.nls[direction],
+        content: paramNodes.domNode,
+        open: this.inputParamNodes.getSize() > 0 ? direction === 'input' : direction === 'output'
+      });
+      titlePane.placeAt(this.navPaneNode);
 
-    _createParamLinkNode: function(param, direction, containerNode){
-      var node = html.create('div', {
-        'class': 'link-action-node param-node'
-      }, containerNode);
-      html.create('div', {
-        innerHTML: '<span>' + this.nls.name + ':</span><span style="margin-left: 2px" title="' +
-        param.name + '">' + param.name + '</span>'
-      }, node);
-      html.create('div', {
-        innerHTML: '<span>' + this.nls.type + ':</span><span style="margin-left: 2px" title="' +
-        param.dataType + '">' + param.dataType + '</span>'
-      }, node);
-      html.create('div', {
-        innerHTML: '<span>' + this.nls.required + ':</span><span style="margin-left: 2px">' +
-        param.required + '</span>'
-      }, node);
-
-      this.own(on(node, 'click', lang.hitch(this, this._onParamClick, param, direction)));
-      return node;
+      //first input param or first output param
+      if(this.inputParamNodes && this.inputParamNodes.getSize() > 0){
+        setTimeout(lang.hitch(this, function(){
+          this.inputParamNodes.selectDefault();
+        }), 100);
+      }else if(this.outputParamNodes && this.outputParamNodes.getSize() > 0){
+        setTimeout(lang.hitch(this, function(){
+          this.outputParamNodes.selectDefault();
+        }), 100);
+      }
     },
 
     _createLayerOrderNode: function(){
@@ -256,6 +252,7 @@ function(declare, lang, html, array, on, query, template, _WidgetBase, _Template
           this.paramSetting.acceptValue();
         }
         this._setActiveLinkNode(node);
+        this.layerOrder.setConfig(this.config);//update orderable layer table
         this.viewStack.switchView(this.layerOrder);
       })));
     },
@@ -273,7 +270,20 @@ function(declare, lang, html, array, on, query, template, _WidgetBase, _Template
         this._setActiveLinkNode(node);
         this.viewStack.switchView(this.options);
       })));
-    }
+    },
 
+    _clearParamSelection: function(direction){
+      if(direction === 'input' || typeof direction === 'undefined'){
+        if(this.inputParamNodes && this.inputParamNodes.getSize() > 0){
+          this.inputParamNodes.clearSelection();
+        }
+      }
+
+      if(direction === 'output' || typeof direction === 'undefined'){
+        if(this.outputParamNodes && this.outputParamNodes.getSize() > 0){
+          this.outputParamNodes.clearSelection();
+        }
+      }
+    }
   });
 });

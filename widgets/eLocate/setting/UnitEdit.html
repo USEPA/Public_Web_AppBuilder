@@ -1,0 +1,95 @@
+<div style="width:100%;padding-bottom:10px;">
+  <div class="error-message-div" data-dojo-attach-point="errorMessage"></div>
+  <div class="unit-name-section">
+    <table class="unit-table" cellspacing="0">
+      <tbody>
+        <tr>
+          <td class="first">
+            <span>${nls.wkid}</span>
+          </td>
+          <td class="second">
+            <input type="text" data-dojo-type="dijit/form/ValidationTextBox" required="true"
+              placeholder="WKID" data-dojo-attach-event="onChange:onWkidChange"
+              data-dojo-attach-point="wkid" data-dojo-props="style:{width:'100%'}" />
+          </td>
+          <td class="third">
+            <div class="help-icon" style="width:20px;height:20px;padding-left:4px; margin-left:8px;"
+                 title="https://developers.arcgis.com/javascript/jshelp/ref_coordsystems.html">
+              <a href="https://developers.arcgis.com/javascript/jshelp/ref_coordsystems.html" target="blank"><span>?</span></a>
+            </div>
+          </td>
+        </tr>
+        <tr class="example" data-dojo-attach-point="wkidLabel">
+          <td class="first"></td>
+          <td class="second">
+            <span class="example" data-dojo-attach-point="wkidLabel">${nls.cName}</span>
+          </td>
+        </tr>
+        <tr style="display: none;" data-dojo-attach-point="unitWkid4326Ops1">
+          <td class="first">
+            <span>${nls.inputunits}</span>
+          </td>
+          <td class="second">
+            <input type="radio" data-dojo-type="dijit/form/RadioButton" name="wgsOption" id="radioOne" checked value="dd"/>
+            <label for="radioOne">${nls.dd}</label>
+            <input type="radio" data-dojo-type="dijit/form/RadioButton" name="wgsOption" id="radioTwo" value="dms"/>
+            <label for="radioTwo">${nls.dms}</label>
+          </td>
+        </tr>
+        <tr style="display: none;" data-dojo-attach-point="unitWkid4326Ops2">
+          <td class="first"></td>
+          <td class="second">
+            <input type="radio" data-dojo-type="dijit/form/RadioButton" name="wgsOption" id="radioThree" value="dm"/>
+            <label for="radioThree">${nls.dm}</label>
+            <input type="radio" data-dojo-type="dijit/form/RadioButton" name="wgsOption" id="radioFour" value="ddm"/>
+            <label for="radioFour">${nls.ddm}</label>
+          </td>
+        </tr>
+        <tr>
+          <td class="first">
+            <span class="unit-name">${nls.name}</span>
+          </td>
+          <td class="second">
+            <div data-dojo-attach-point="unitnameTB" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props="required:true,trim:true,style:{width:'100%'}"></div>
+          </td>
+        </tr>
+        <tr class="example">
+          <td class="first"></td>
+          <td class="second">
+            <span class="example">${nls.example}: ${nls.nameExample}</span>
+          </td>
+        </tr>
+        <tr>
+          <td class="first">
+            <span class="unit-example">${nls.example}</span>
+          </td>
+          <td class="second">
+            <div data-dojo-attach-point="unitExampleTB" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props="required:true,trim:true,style:{width:'100%'}"></div>
+          </td>
+        </tr>
+        <tr class="example">
+          <td class="first"></td>
+          <td class="second">
+            <span class="example">${nls.example}: ${nls.unitExample}</span>
+          </td>
+        </tr>
+        <tr>
+          <td class="first">
+            <span class="unit-xlabel">${nls.xlabel}</span>
+          </td>
+          <td class="second">
+            <div data-dojo-attach-point="unitXLabelTB" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props="required:true,trim:true,style:{width:'100%'}"></div>
+          </td>
+        </tr>
+        <tr>
+          <td class="first">
+            <span class="unit-ylabel">${nls.ylabel}</span>
+          </td>
+          <td class="second">
+            <div data-dojo-attach-point="unitYLabelTB" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props="required:true,trim:true,style:{width:'100%'}"></div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

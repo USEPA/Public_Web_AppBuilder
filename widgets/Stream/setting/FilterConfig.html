@@ -1,0 +1,22 @@
+<div>
+  <div class="stream-filter-head" style="overflow:hidden;">
+    <div class="jimu-float-leading">
+      <div class="add-with-icon" data-dojo-attach-event="onclick:_addFilter">
+        <span class="jimu-icon jimu-icon-add"></span>
+        <span class="add-label jimu-widget-normal">${nls.addNew}</span>
+      </div>
+    </div>
+  </div>
+  <div class="stream-filterList">
+    <div class="stream-filterList-content">
+      <div class="stream-filter-table" data-dojo-type="jimu/dijit/SimpleTable"
+        data-dojo-attach-point="filterList"
+        data-dojo-attach-event="row-select:_onFilterSelected, row-delete:_onFilterRemoved"
+        data-dojo-props='autoHeight:false,selectable:true,fields:[{name:"name",title:"${nls.name}",width:"auto",type:"text",editable:false},{name:"actions",title:"",width:"70px",type:"actions",actions:["up","down","delete"]}]'
+        style="height:100%;"></div>
+    </div>
+  </div>
+  <div class="single-filter-container" data-dojo-attach-point="singleFilterContainer">
+  </div>
+  <div data-dojo-attach-point="shelter" data-dojo-type="jimu/dijit/LoadingShelter" data-dojo-props='hidden:true'></div>
+</div>

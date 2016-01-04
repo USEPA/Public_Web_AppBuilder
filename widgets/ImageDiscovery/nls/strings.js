@@ -1,5 +1,6 @@
 define({
     root: ({
+        exportCsv: "Export CSV",
         apply: "Apply",
         renderer: "Renderer",
         publish: "Publish",
@@ -116,7 +117,11 @@ define({
         removeFromCart: "Remove From Cart",
         remove: "Remove",
         save: "Save",
-        cannotPublishWebMap: "Cannot publish Web Map. Web Map name already exists."
+        cannotPublishWebMap: "Cannot publish Web Map. Web Map name already exists.",
+        csvExport: "Export CSV",
+        exportResults: "Export Results",
+        imageServices: "Image Services",
+        noLocalDownloadSupport:"Your browser does not support local downloads. Your CSV export will open in a new browser window."
     }),
     fr: 1
 });

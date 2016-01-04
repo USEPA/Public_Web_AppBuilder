@@ -6,9 +6,11 @@
 @import "../base/SearchSourcesWidget/css/style";
 @import "../base/Results/css/style";
 @import "./font/scss/font-awesome";
-.esriSignInDialog{
-  z-index:9999 !important;
+
+.esriSignInDialog {
+  z-index: 9999 !important;
 }
+
 .dijitTooltipDialogPopup {
   z-index: 5000 !important;
 }
@@ -22,7 +24,7 @@
   height: 98%;
   width: 100%;
   min-width: 332px;
-  max-width: 332px;
+  //max-width: 332px;
   .discoveryLogo {
     background: url(../images/discovery-logo.png);
     height: 62px;
@@ -38,6 +40,7 @@
     min-height: 45px;
     width: 100%;
   }
+
   .resultsWidgetContainer {
     height: 100%;
     overflow: auto;
@@ -47,10 +50,9 @@
     }
   }
 
-
 }
 
-.clearDrawAreaIcon,.clearResultsIcon {
+.clearDrawAreaIcon, .clearResultsIcon {
   background: #D80000;
   padding: 5px 0;
 
@@ -71,7 +73,6 @@
   margin-right: 5px;
   cursor: pointer;
 }
-
 
 .imageDiscoveryCheckoutContainer {
   width: 100%;
@@ -99,7 +100,7 @@
     .orderDetailsEntry {
       margin: 2px 0;
       &.cartItemCountLabel {
-        float: right;
+        text-align: right;
         margin-right: 10px;
       }
       &.cartItemTotalCostEntry {
@@ -112,7 +113,6 @@
     }
   }
 }
-
 .imageDiscoveryBeforeSearchInfo, .imageDiscoveryDuringSearchInfo {
   ul {
     @extend %default-list-style;
@@ -320,7 +320,8 @@
   cursor: pointer;
 
 }
-.imageDiscoverySearchFilter .startDateContainer * .dijitArrowButtonInner,.imageDiscoverySearchFilter .endDateContainer * .dijitArrowButtonInner{
+
+.imageDiscoverySearchFilter .startDateContainer * .dijitArrowButtonInner, .imageDiscoverySearchFilter .endDateContainer * .dijitArrowButtonInner {
   border-right: 1px solid #b5bcc7;
 
 }

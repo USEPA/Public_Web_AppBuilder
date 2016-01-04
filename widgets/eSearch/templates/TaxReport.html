@@ -1,0 +1,59 @@
+<div style="width:740px;height:800px;background-color:white;padding-left:10px;padding-right:10px;font-family: Helvetica;font-size: 9pt;" id="main">
+  <img src="http://gis.calhouncounty.org/Parcelviewer3.1/widgets/eSearch/images/Crest.png" style="position:absolute;top:20px;left:10px;" />
+  <div style="width:740px;text-align:center;position: relative;line-height:75px;height:75px;"><h1>Tax Assessment Report</h1></div>
+  <div style="height:10px;width:740px;"></div>
+  <div style="height:20px;width:720px;text-align:left;padding-bottom:5px;padding-left:10px;position: relative;">
+    <div style="position:absolute;text-align:left;"><span>Parcel Number:  </span><span id="ParNum"></span></div><div style="left:620px;width:100px;position:absolute;text-align:left;"><span>Tax Year:  </span><span id="TaxYear"></span></div>
+  </div>
+  <div style="width:720px;text-align:left;padding-bottom:5px;padding-left:10px;"><span>Pin Number:  </span><span id="PPIN"></span></div>
+  <div style="height:10px;width:740px;"></div>
+  <div style="width:720px;text-align:left;padding-left:10px;"><b>Owner Information:</b></div>
+  <hr style="width:740px" />
+  <div style="height:20px;width:720px;text-align:left;padding-bottom:5px;padding-left:20px;">
+    <div style="position:absolute;text-align:left;width:370px;"><span>Owner:  </span><span id="Owner"></span></div><div style="left:390px;width:310px;position:absolute;text-align:left;"><span>Property Address:  </span><span id="PropAdd"></span></div>
+  </div>
+  <div style="width:720px;text-align:left;padding-bottom:5px;padding-left:20px;"><span>Mailing Address:  </span><span id="mAddress"></span></div>
+  <div style="width:720px;text-align:left;padding-bottom:5px;padding-left:20px;"><span style="visibility:hidden;">Mailing Address:  </span><span id="mAddress2" ></span></div>
+  <div style="height:10px;width:740px;"></div>
+  <div style="width:720px;text-align:left;padding-left:10px;"><b>Value and Tax Information:</b> Assessed values are subject to change until permanent abstract is printed on September 2015</div>
+  <hr style="width:740px" />
+  <div style="height:20px;width:720px;text-align:left;padding-bottom:5px;padding-left:20px;position: relative;">
+    <div style="position:absolute;text-align:left;width:370px;"><span>Current Use Value:  </span><span id="cuval"></span></div><div style="left:390px;width:310px;position:absolute;text-align:left;"><span>Total Appraised Value:  </span><span id="taprval"></span></div>
+  </div>
+  <div style="height:20px;width:720px;text-align:left;padding-bottom:5px;padding-left:20px;position: relative;">
+    <div style="position:absolute;text-align:left;width:370px;"><span>Improvement Value:  </span><span id="impval"></span></div><div style="left:390px;width:310px;position:absolute;text-align:left;"><span>Assessed Value:  </span><span id="assesval"></span></div>
+  </div>
+  <div style="height:20px;width:720px;text-align:left;padding-bottom:5px;padding-left:20px;position: relative;">
+    <div style="position:absolute;text-align:left;width:370px;"><span>Land Value:  </span><span id="landval"></span></div><div style="left:390px;width:310px;position:absolute;text-align:left;"><span>Exemption:  </span><span id="exempt"></span></div>
+  </div>
+  <div style="height:20px;width:720px;text-align:left;padding-bottom:5px;padding-left:20px;position: relative;">
+    <div style="position:absolute;text-align:left;width:370px;"><span id="ltaxdue1">2014 Taxes Due:  </span><span id="ltaxdue"></span></div><div style="left:390px;width:310px;position:absolute;text-align:left;"><span id="ltaxpaid1">2014 Taxes Paid:  </span><span id="ltaxpaid"></span></div>
+  </div>
+  <div style="height:10px;width:740px;"></div>
+  <div style="width:720px;text-align:left;padding-left:10px;"><b>Land Information:</b></div>
+  <hr style="width:740px" />
+  <div style="height:20px;width:720px;text-align:left;padding-bottom:5px;padding-left:20px;position: relative;">
+    <div style="position:absolute;text-align:left;width:370px;"><span>Lot Dimensions:  </span><span id="lotdim"></span></div><div style="left:390px;width:310px;position:absolute;text-align:left;"><span>Calculated Acres:  </span><span id="calcacres"></span></div>
+  </div>
+  <div style="width:720px;text-align:left;padding-bottom:5px;padding-left:20px;"><span>Tax District:  </span><span id="taxdist"></span></div>
+  <div style="height:10px;width:740px;"></div>
+  <div style="width:720px;text-align:left;padding-left:10px;"><b>Legal Description:</b></div>
+  <hr style="width:740px" />
+  <div style="width:720px;text-align:left;padding-bottom:5px;padding-left:20px;"><span id="legaldesc"></span></div>
+  <div style="width:720px;text-align:left;padding-bottom:5px;padding-left:20px;"><span>Subdivision Name:  </span><span id="subname"></span></div>
+  <div style="width:720px;text-align:left;padding-bottom:5px;padding-left:20px;"><span>Plat Book / Page:  </span><span id="deedbp"></span></div>
+  <div style="height:10px;width:740px;"></div>
+  <div style="width:720px;text-align:left;padding-left:10px;"><b>Sales Information:</b></div>
+  <hr style="width:740px" />
+  <table class="salesTableCls" id="salesTable">
+    <tbody id="salesTableBody">
+      <tr>
+        <th>Date</th>
+        <th>Sale Price</th>
+        <th>Grantee</th>
+        <th>Deed Book</th>
+        <th>Deed Page</th>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -21,7 +21,7 @@
     tooltip: "QuickInfo",
     visible: "Sichtbar",
     helpUrl: "Hilfe-URL",
-    useResultMapService: "Zeichenoptionen des Ergebnis-Karten-Service verwenden",
+    useResultMapService: "Zeichenoptionen des Ergebnis-Kartenservice verwenden",
     drawOnMap: "Interaktives Zeichnen auf der Karte",
     selectLayer: "Auswahl eines Layers auf der Karte",
     url: "URL",
@@ -31,6 +31,22 @@
     setTask: "Festlegen",
     setTaskTitle: "GV-Task festlegen",
     enablePopup: "Pop-up aktivieren",
-    unSupportGeometryType: "Renderer kann aufgrund des unbekannten Geometrietyps nicht festgelegt werden."
+    unSupportGeometryType: "Renderer kann aufgrund des unbekannten Geometrietyps nicht festgelegt werden.",
+    useUrlForGPInput: "URL",
+    useUploadForGPInput: "Datei hochladen",
+    selectFileToUpload: "Datei auswählen...",
+    upload: "Hochladen",
+    rasterFormat: "Raster-Datenformat",
+    noFileSelected: "Keine Datei ausgewählt!",
+    uploadSuccess:"Datei wurde erfolgreich hochgeladen!",
+    showLayerContent: "Layer-Inhalt anzeigen",
+    Feet: "Fuß",
+    Yards: "Yard",
+    Miles: "Meilen",
+    NauticalMiles: "Seemeilen",
+    Meter: "Meter",
+    Kilometers: "Kilometer",
+    urlPlaceholder: "Feature-Set-URL",
+    allowToExport: "Exportieren von Ergebnissen zulassen"
   })
 );

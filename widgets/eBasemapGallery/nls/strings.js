@@ -1,7 +1,11 @@
 define({
   root: {
     _widgetLabel: "Enhanced Basemap Gallery",
-    hybridmessage: "Create a hybrid basemap by checking 2 basemaps and adjusting the slider to fade between them."
+    add: "Add to hybrid mashup.",
+    remove: "Remove hybrid mashup.",
+    widgetversion: 'eBasemap Gallery Widget Version Info',
+    widgetverstr: 'Widget Version',
+    wabversionmsg: 'Widget is designed to run in Web AppBuilder version'
   },
   "ar": false,
   "cs": true,

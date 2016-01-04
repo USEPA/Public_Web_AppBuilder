@@ -25,7 +25,7 @@
     invalidTitle1:"Mapa bazowa '",
     invalidTitle2:"' już istnieje. Wybierz inny tytuł.",
     invalidBasemapUrl1: "Warstwy tego typu nie można użyć jako mapy bazowej.",
-    invalidBasemapUrl2: "Bieżąca mapa używa innego odniesienia przestrzennego.",
+    invalidBasemapUrl2: "Dodawana mapa bazowa ma inne odniesienie przestrzenne od bieżącej mapy.",
     addBaselayer: "Dodaj warstwę mapy bazowej"
   })
 );

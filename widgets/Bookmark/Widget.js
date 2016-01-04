@@ -64,7 +64,7 @@ function(declare, lang, array, html, BaseWidget, on, aspect, string,
       this.bookmarkList = new TileLayoutContainer({
         strategy: 'fixWidth',
         itemSize: {width: 100, height: 92}, //image size is: 100*60,
-        hmargin: 16,
+        hmargin: 15,
         vmargin: 5
       }, this.bookmarkListNode);
 
@@ -102,7 +102,9 @@ function(declare, lang, array, html, BaseWidget, on, aspect, string,
         }
       }
 
-      this._readBookmarksInWebmap();
+      if(this.bookmarks.length === 0){
+        this._readBookmarksInWebmap();
+      }
       this.displayBookmarks();
     },
 
@@ -122,14 +124,6 @@ function(declare, lang, array, html, BaseWidget, on, aspect, string,
     },
 
     resize: function(){
-      var box = html.getMarginBox(this.domNode);
-      var listHeight = box.h - 37 - 21 - 61;
-
-      //fix for IE8
-      if(listHeight < 0){
-        listHeight = 0;
-      }
-      html.setStyle(this.bookmarkListNode, 'height', listHeight + 'px');
       if(this.bookmarkList){
         this.bookmarkList.resize();
       }
@@ -162,9 +156,8 @@ function(declare, lang, array, html, BaseWidget, on, aspect, string,
       }
       array.forEach(this.map.itemInfo.itemData.bookmarks, function(bookmark){
         bookmark.isInWebmap = true;
-        bookmark.name = bookmark.name;
         var repeat = 0;
-        for (var i = 0; i <this.bookmarks.length; i++ ){
+        for (var i = 0; i < this.bookmarks.length; i++ ){
           if (this.bookmarks[i].name === bookmark.name){
             repeat ++;
           }
@@ -198,9 +191,9 @@ function(declare, lang, array, html, BaseWidget, on, aspect, string,
     _switchPlayStatus: function(status){
       this._playStatus = status;
       if(this._playStatus === 'none' || this._playStatus === 'stop'){
-        this.btnPlay.innerHTML = this.nls.labelPlay;
+        this.btnPlay.innerHTML = utils.stripHTML(this.nls.labelPlay);
       }else{
-        this.btnPlay.innerHTML = this.nls.labelStop;
+        this.btnPlay.innerHTML = utils.stripHTML(this.nls.labelStop);
       }
     },
 
@@ -243,9 +236,6 @@ function(declare, lang, array, html, BaseWidget, on, aspect, string,
       }, this);
 
       array.forEach(this.bookmarks, function(bookmark){
-        if(bookmark.isInWebmap){
-          return;
-        }
         var key = this._getKeysKey() + '.' + bookmark.name;
         keys.push(key);
         store.set(key, bookmark);
@@ -294,7 +284,7 @@ function(declare, lang, array, html, BaseWidget, on, aspect, string,
     _onAddBtnClicked: function() {
       if (string.trim(this.bookmarkName.value).length === 0) {
         html.setStyle(this.errorNode, {visibility: 'visible'});
-        this.errorNode.innerHTML = this.nls.errorNameNull;
+        this.errorNode.innerHTML = utils.stripHTML(this.nls.errorNameNull);
         return;
       }
       if(array.some(this.bookmarks, function(b){
@@ -303,7 +293,7 @@ function(declare, lang, array, html, BaseWidget, on, aspect, string,
         }
       }, this)){
         html.setStyle(this.errorNode, {visibility: 'visible'});
-        this.errorNode.innerHTML = this.nls.errorNameExist;
+        this.errorNode.innerHTML = utils.stripHTML(this.nls.errorNameExist);
         return;
       }
 
@@ -354,7 +344,7 @@ function(declare, lang, array, html, BaseWidget, on, aspect, string,
 
     _onDeleteBtnClicked: function(){
 
-      if(!this._canDelete ||this.currentIndex === -1){
+      if(!this._canDelete || this.currentIndex === -1){
         return;
       }
 

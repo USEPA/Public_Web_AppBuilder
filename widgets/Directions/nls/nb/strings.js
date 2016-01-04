@@ -1,5 +1,6 @@
 ﻿define(
    ({
-    _widgetLabel: 'Beskrivelser'
+    _widgetLabel: "Rutebeskrivelser",
+    searchPlaceholder: "Finn adresse eller sted"
   })
 );

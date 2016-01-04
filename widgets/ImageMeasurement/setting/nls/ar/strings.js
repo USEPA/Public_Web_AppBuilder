@@ -1,0 +1,50 @@
+﻿define(
+   ({
+    layerSelect: "تحديد طبقة الصورة",
+    displayMeasureResultInPopup: "عرض نتائج القياس في نافذة منبثقة",
+    angularUnitSelect: "وحدة قياس الزوايا الافتراضية",
+    linearUnitSelect: "الوحدة الخطية الافتراضية",
+    areaUnitSelect: "وحدة المنطقة الافتراضية",
+    displayOperationSelect: "تحديد عمليات القياس",
+    errorSectionMeasage: "لا تدعم أي من الطبقات إمكانات القياس",
+    unitLabel: {
+      esriInches: "بوصة",
+      esriFeet: "قدم",
+      esriYards: "ياردة",
+      esriMiles: "ميل",
+      esriNauticalMiles: "الأميال البحرية",
+      esriMillimeters: "ميليميتر",
+      esriCentimeters: "سنتيميتر",
+      esriDecimeters: "دسيمتر",
+      esriMeters: "متر",
+      esriKilometers: "كيلومترات",
+      esriDURadians: "التقديرات الدائرية",
+      esriDUDecimalDegrees: "الدرجات",
+      esriSquareInches: "بوصة مكعب",
+      esriSquareFeet: "قدم مكعب",
+      esriSquareYards: "ياردات مكعبة",
+      esriAcres: "أكر",
+      esriSquareMiles: "أميال مكعبة",
+      esriSquareMillimeters: "ميليميتر مكعب",
+      esriSquareCentimeters: "سنتيميتر مكعب",
+      esriSquareDecimeters: "دسيمتر مكعب",
+      esriSquareMeters: "أمتار مكعبة",
+      esriAres: "آر",
+      esriHectares: "هكتار",
+      esriSquareKilometers: "كيلومترات مكعبة"
+    },
+    operationLabel: {
+      esriMensurationPoint: "نقطة",
+      esriMensurationDistanceAndAngle: "المسافة والزاوية",
+      esriMensurationAreaAndPerimeter: "المساحة والمحيط",
+      esriMensurationHeightFromBaseAndTop: "القاعدة لأعلى",
+      esriMensurationHeightFromBaseAndTopShadow: "القاعدة للظل العلوي",
+      esriMensurationHeightFromTopAndTopShadow: "ظل علوي",
+      esriMensurationCentroid: "المركز المتوسط",
+      esriMensurationPoint3D: "نقطة (ثلاثية الأبعاد)",
+      esriMensurationDistanceAndAngle3D: "المسافة والزاوية (ثلاثية الأبعاد)",
+      esriMensurationAreaAndPerimeter3D: "المساحة والمحيط (ثلاثية الأبعاد)",
+      esriMensurationCentroid3D: "المركز المتوسط (ثلاثي الأبعاد)"
+    }
+  })
+);

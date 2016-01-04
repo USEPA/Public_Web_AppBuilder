@@ -1,5 +1,6 @@
 ﻿define(
    ({
-    _widgetLabel: 'Juhised'
+    _widgetLabel: "Juhised",
+    searchPlaceholder: "Otsi aadressi või kohta"
   })
 );

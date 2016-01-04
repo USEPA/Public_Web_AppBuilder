@@ -1,5 +1,6 @@
 ﻿define(
    ({
-    _widgetLabel: 'Maršrutai'
+    _widgetLabel: "Maršrutai",
+    searchPlaceholder: "Surasti adresą arba vietą"
   })
 );

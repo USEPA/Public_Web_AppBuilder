@@ -3,7 +3,7 @@
 	"label": "Critical Infrastructure Chart",
   "type": "widget",
   "platform": "HTML",
-  "version": "",
+  "version": "1.2",
   "author": "Esri R&D Center Beijing",
   "description": "The Critical Infrastructure and Key Resources (CI/KR) widget allows users to determine affected instrastructure and demography based on user-selected location on the map.",
   "copyright": "",

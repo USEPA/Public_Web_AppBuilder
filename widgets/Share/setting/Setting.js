@@ -1,3 +1,7 @@
+///////////////////////////////////////////////////////////////////////////
+// Robert Scheitlin WAB Share Widget
+///////////////////////////////////////////////////////////////////////////
+/*global define, setTimeout*/
 define([
     'dojo/_base/declare',
     'dojo/_base/lang',
@@ -20,7 +24,8 @@ define([
     has,
     dojoQuery,
     _WidgetsInTemplateMixin,
-    BaseWidgetSetting) {
+    BaseWidgetSetting
+    ) {
     return declare([BaseWidgetSetting, _WidgetsInTemplateMixin], {
       baseClass: 'widget-share-setting',
 
@@ -36,7 +41,7 @@ define([
         //hack the 'Learn more about this widget link'
         setTimeout(function(){
           var helpLink = dojoQuery('.help-link');
-          helpLink[0].href = 'http://gis.calhouncounty.org/WAB/V1.1.1/widgets/share/help/share_Help.htm';
+          helpLink[0].href = 'http://gis.calhouncounty.org/WAB/V1.3/widgets/share/help/share_Help.htm';
           html.setStyle(helpLink[0],'display','block');
         },500);
 

@@ -33,7 +33,9 @@ define({
     hectaresAbbreviation: "ha",
     squareMetersAbbreviation: "sq m",
     squareFeetAbbreviation: "sq ft",
-    squareYardsAbbreviation: "sq yd"
+    squareYardsAbbreviation: "sq yd",
+    defineUnits: "Define the measurement units.",
+    operationalLayer: "Add the drawing as an operational layer of the map."
   }),
   "ar": 1,
   "cs": 1,
@@ -61,5 +63,7 @@ define({
   "th": 1,
   "tr": 1,
   "vi": 1,
-  "zh-cn": 1
+  "zh-cn": 1,
+  "zh-hk": 1,
+  "zh-tw": 1
 });

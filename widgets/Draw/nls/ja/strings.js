@@ -39,6 +39,10 @@
     squareFeet: "平方フィート",
     squareYards: "平方ヤード",
     undo: "元に戻す",
-    redo: "やり直し"
+    redo: "やり直し",
+    results: "結果",
+    points: "ポイント",
+    lines: "ライン",
+    areas: "エリア"
   })
 );

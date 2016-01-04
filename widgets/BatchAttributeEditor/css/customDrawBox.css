@@ -1,0 +1,68 @@
+﻿/* css for dijit DrawBox */
+.custom-draw-box {
+	overflow-y: hidden;
+}
+
+.custom-draw-box .draw-items {
+	overflow-y: hidden;
+}
+
+.custom-draw-box .draw-items .draw-item {
+	width: 40px;
+	height: 40px;
+	background-repeat: no-repeat;
+	text-align: center;
+	float: left;
+	margin: 7px;
+}
+
+.jimu-rtl .custom-draw-box .draw-items .draw-item {
+	float: right;
+}
+
+.custom-draw-box .draw-item, .custom-draw-box .draw-item:hover {
+	background-color: rgba(255, 255, 255, 0.5) !important;
+}
+
+.custom-draw-box .draw-item:hover {
+	background-color: #CFCFCF !important;
+}
+
+.custom-draw-box .selected {
+	background-color: #CFCFCF !important;
+}
+
+.custom-draw-box .point-icon {
+	background-image: url(images/point.png);
+}
+
+.custom-draw-box .line-icon {
+	background-image: url(images/line.png);
+}
+
+.custom-draw-box .polyline-icon {
+	background-image: url(images/polyline.png);
+}
+
+.custom-draw-box .freehand-polyline-icon {
+	background-image: url(images/freehand_polyline.png);
+}
+
+.custom-draw-box .extent-icon {
+	background-image: url(images/extent.png);
+}
+
+.custom-draw-box .polygon-icon {
+	background-image: url(images/polygon.png);
+}
+
+.custom-draw-box .freehand-polygon-icon {
+	background-image: url(images/freehand_polygon.png);
+}
+
+.custom-draw-box .drawings-clear {
+	text-decoration: underline;
+	cursor: pointer;
+	display: block;
+	margin-top: 7px;
+}

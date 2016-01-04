@@ -31,6 +31,22 @@
     setTask: "Instellen",
     setTaskTitle: "GP-taak instellen",
     enablePopup: "Pop-up inschakelen",
-    unSupportGeometryType: "Kan geen renderer instellen vanwege onbekend geometrietype."
+    unSupportGeometryType: "Kan geen renderer instellen vanwege onbekend geometrietype.",
+    useUrlForGPInput: ".URL",
+    useUploadForGPInput: "Bestand uploaden",
+    selectFileToUpload: "Bestand selecteren...",
+    upload: "Uploaden",
+    rasterFormat: "Bestandsformaat rooster",
+    noFileSelected: "Geen bestand geselecteerd!",
+    uploadSuccess:"Bestand güpload!",
+    showLayerContent: "Content van de laag weergeven",
+    Feet: "Voet",
+    Yards: "Yard",
+    Miles: "Mijl",
+    NauticalMiles: "Zeemijl",
+    Meter: "Meter",
+    Kilometers: "Kilometer",
+    urlPlaceholder: "Feature set URL",
+    allowToExport: "Resultaten exporteren"
   })
 );

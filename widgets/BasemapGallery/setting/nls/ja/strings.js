@@ -25,7 +25,7 @@
     invalidTitle1:"ベースマップ '",
     invalidTitle2:"' すでに存在しています。別のタイトルを選択してください。",
     invalidBasemapUrl1: "このタイプのレイヤーは、ベースマップとして使用できません。",
-    invalidBasemapUrl2: "現在のマップとは空間参照が異なります。",
+    invalidBasemapUrl2: "追加しているベースマップは、現在のマップとは空間参照が異なります。",
     addBaselayer: "ベースマップ レイヤーの追加"
   })
 );

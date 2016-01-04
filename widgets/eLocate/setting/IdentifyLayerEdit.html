@@ -1,0 +1,122 @@
+<div style="width:100%;padding-bottom:10px;">
+  <div class="error-message-div" data-dojo-attach-point="errorMessage"></div>
+  <div data-dojo-attach-point="singleIdentifySection">
+    <table class="input-table" style="width:100%;" cellspacing="0">
+      <tbody>
+        <tr>
+          <td style="width:115px;text-align:left;">${nls.identifyUrl}</td>
+          <td style="width:auto;">
+            <input type="text" data-dojo-type="jimu/dijit/ServiceURLInput" data-dojo-attach-point="layerUrl" data-dojo-props="style:{width:'100%'}" required="true"/>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="3">
+            <table style="width:100%;" cellspacing="0">
+              <tr>
+                <td style="width:100%;">
+                  <table style="width:100%;" cellspacing="0">
+                    <tbody>
+                      <tr>
+                        <td style="width:115px;text-align:left;">
+                          <span>${nls.layerName}</span>
+                        </td>
+                        <td style="width:auto;">
+                          <input type="text" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-attach-point="layerName"
+                               required="true" data-dojo-props="style:{width:'100%'},intermediateChanges:true"/>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+                <td style="width:10%;"></td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="3">
+            <table style="width:100%;" cellspacing="0">
+              <tr>
+                <td style="width:40%;">
+                  <table style="width:100%;" cellspacing="0">
+                    <tbody>
+                      <tr>
+                        <td style="width:auto;" class="forcescale">
+                          <div data-dojo-type="jimu/dijit/CheckBox" data-dojo-attach-point="forceScaleCbx"
+                               data-dojo-props="label:'${nls.forceScale}'"/>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+                <td style="width:60%;">
+                  <table style="width:100%;" cellspacing="0">
+                    <tbody>
+                      <tr>
+                        <td style="width:190px;text-align:left;">
+                          <span style="margin-left:20px;">${nls.layerZoomScale}</span>
+                        </td>
+                        <td style="width:auto;">
+                          <input type="text" data-dojo-type="dijit/form/TextBox" data-dojo-attach-point="zoomScale" style="width:100%;"/>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <table style="width:100%;margin-top:15px;">
+      <tbody>
+        <tr>
+          <td style="width:171px;vertical-align:top;">
+            <div style="margin-bottom:10px;">${nls.availableFields}</div>
+            <div data-dojo-attach-point="allFieldsTable" data-dojo-type="jimu/dijit/LayerFieldChooser" data-dojo-props="maxHeight:'120px'" style="width:100%;max-height:161px;"></div>
+          </td>
+          <td style="width:75px;vertical-align:middle;padding-left:10px;padding-right:10px;">
+            <div data-dojo-type="widgets/Identify/setting/IncludeButton" data-dojo-attach-point="includeButton" style="margin:10px auto;"></div>
+            <div data-dojo-type="widgets/Identify/setting/IncludeAllButton" data-dojo-attach-point="includeAllButton" style="margin:0 auto;"></div>
+          </td>
+          <td style="width:auto;vertical-align:top;">
+            <div style="margin-bottom:10px;">${nls.includedFields}</div>
+            <div style="width:100%;height:161px;" data-dojo-attach-point="displayFieldsTable" data-dojo-type="widgets/Identify/setting/SimpleTable" data-dojo-props="autoHeight:false,maxHeight:'161px',selectable:false,fields:[{name:'name',title:'${nls.name}',type:'text',editable:false,unique:true,hidden:true},
+                                {name:'alias',title:'${nls.name}',type:'text',editable:false},
+                                {name:'useralias',title:'${nls.alias}',type:'text',editable:true},
+                                {name:'popuponly',title:'${nls.popuponly}',type:'checkbox'},
+                                {name:'actions',width:'150px',title:'${nls.actions}',type:'actions',actions:['up','down','edit','delete']},
+                                {name:'isdate',type:'text',hidden:true},
+                                {name:'isnumber',type:'text',hidden:true},
+                                {name:'useutc',type:'text',hidden:true},
+                                {name:'dateformat',type:'text',hidden:true},
+                                {name:'numberformat',type:'text',hidden:true},
+                                {name:'currencyformat',type:'text',hidden:true}]"></div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <table style="width:100%;margin-top:15px;">
+      <tbody>
+        <tr>
+          <td colspan="3">
+            <table style="width:100%;" cellspacing="0">
+              <tbody>
+                <tr>
+                  <td style="width:auto;vertical-align:top;">
+                    <div class="btn-add-section" data-dojo-attach-point="btnAddLink">
+                      <span class="btn-add-icon"></span>
+                      <span class="btn-add-label">${nls.addLink}</span>
+                    </div>
+                    <div class="link-table" style="width:100%;" data-dojo-attach-point="linksTable" data-dojo-type="jimu/dijit/SimpleTable" data-dojo-props="fields:[{name:'alias',title:'${nls.linksTitle}',type:'text',editable:false},{name:'actions',title:'${nls.actions}','class':'actions',width:'120px',type:'actions',actions:['edit','delete']}]"></div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

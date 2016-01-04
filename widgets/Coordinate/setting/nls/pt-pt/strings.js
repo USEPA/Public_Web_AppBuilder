@@ -1,12 +1,13 @@
 ﻿define(
    ({
+    id: 'ID',
     state: "Por defeito, as coordenadas serão exibidas no sistema de coordenadas do mapa atual. Para obter coordenadas noutros sistemas de coordenadas, necessita de adicioná-las e definir as transformações apropriadas.",
     outputUnit: "Unidade de Saída",
     wkid: "WKID de Saída",
     label: "Nome do Sistema de Coordenadas de Saída",
-    transformationWkid: 'WKID de Transformação',
-    transformationLabel: 'Rótulo de Transformação',
-    transformForward: 'Transformar para a Frente',
+    transformationWkid: "WKID de Transformação",
+    transformationLabel: "Rótulo de Transformação",
+    transformForward: "Transformar para a Frente",
     actions: "Ações",
     warning: "Por favor, insira um WKID de referência espacial válido!",
     tfWarning: "Por favor, insira um datum de transformação WKID válido!",

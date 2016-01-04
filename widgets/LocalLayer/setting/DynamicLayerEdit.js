@@ -89,6 +89,12 @@ define(
         if(config.imageformat){
           this.imgFormat.set('value', config.imageformat);
         }
+        if(config.hasOwnProperty('maxScale')){
+          this.maxScale.set('value', config.maxScale);
+        }
+        if(config.hasOwnProperty('minScale')){
+          this.minScale.set('value', config.minScale);
+        }
       },
 
       _bindEvents: function() {
@@ -168,18 +174,45 @@ define(
       },
 
       _createSubLayer: function(args) {
+        var isGroupLayer = false
         if(args.config.subLayerIds){
-          return null;
+          //return null;
+          isGroupLayer = true;
         }
+
         args.layerSetting = this;
         args.nls = this.nls;
+
+        var hiddenLayer;
+        var isVisible = args.config.defaultVisibility;
+        if(this.config.hasOwnProperty('hidelayers')){
+          if (this.config.hidelayers){
+            hiddenLayer = this.config.hidelayers.split(',');
+          }else{
+            hiddenLayer = [];
+          }
+          if(array.indexOf(hiddenLayer, args.config.id) >= 0){
+            isVisible = false;
+            //isVisible = true;
+          }else{
+            isVisible = true;
+            //isVisible = false;
+          }
+        }
+
         var rowData = {
-          name: (args.config && args.config.name) || ''
+          name: (args.config && args.config.name) || '',
+          visible: isVisible,
+          layerindex: args.config.id,
         };
 
         var result = this.sublayersTable.addRow(rowData);
         if(!result.success){
           return null;
+        }
+
+        if (isGroupLayer){
+          dojo.style(result.tr, "font-weight", "bold")
         }
         result.tr.subLayer = args.config;
         return result.tr;
@@ -197,6 +230,17 @@ define(
       },
 
       getConfig: function() {
+        var rowsData = this.sublayersTable.getData();
+
+        var visibleLayers = [];
+        array.map(rowsData, lang.hitch(this, function (item) {
+          if (item.layerindex == ""){item.layerindex = "0"}
+          if(!item.visible){
+            visibleLayers.push(parseInt(item.layerindex))
+          }
+        }));
+var _hideLayers = visibleLayers.join();
+if (_hideLayers == ""){_hideLayers = null};
         var dynamiclayer = {
           type: 'Dynamic',
           name: this.layerTitle.get('value'),
@@ -206,7 +250,11 @@ define(
           imageformat: this.imgFormat.get('value'),
           popup: this.config.popup,
           imagedpi: this.imgDPI.get('value'),
-          disableclientcaching: this.disableClientCachingCbx.getValue()
+          disableclientcaching: this.disableClientCachingCbx.getValue(),
+          minScale: this.minScale.get('value'),
+          maxScale: this.maxScale.get('value'),
+          //hidelayers: allHiddenLayers.join()
+          hidelayers: _hideLayers
         };
         return [dynamiclayer, this.tr];
       },
@@ -277,33 +325,35 @@ define(
       },
 
       _openPUEdit: function(title, args) {
-        this.popuppuedit = new PopupEdit({
-          wnls: this.nls,
-          config: args.config || {},
-          tr: args.tr,
-          flinfo: null,
-          url: this.layerUrl.get('value') + '/' + args.tr.subLayer.id
-        });
+        if(!args.tr.subLayer.subLayerIds){
+          this.popuppuedit = new PopupEdit({
+            wnls: this.nls,
+            config: args.config || {},
+            tr: args.tr,
+            flinfo: null,
+            url: this.layerUrl.get('value') + '/' + args.tr.subLayer.id
+          });
 
-        this.popup = new Popup({
-          titleLabel: title,
-          autoHeight: true,
-          content: this.popuppuedit,
-          container: 'main-page',
-          width: 840,
-          height: 460,
-          buttons: [{
-            label: this.nls.ok,
-            key: keys.ENTER,
-            onClick: lang.hitch(this, '_onPUEditOk')
-          }, {
-            label: this.nls.cancel,
-            key: keys.ESCAPE
-          }],
-          onClose: lang.hitch(this, '_onPUEditClose')
-        });
-        html.addClass(this.popup.domNode, 'widget-setting-popup');
-        this.popuppuedit.startup();
+          this.popup = new Popup({
+            titleLabel: title,
+            autoHeight: true,
+            content: this.popuppuedit,
+            container: 'main-page',
+            width: 840,
+            height: 460,
+            buttons: [{
+              label: this.nls.ok,
+              key: keys.ENTER,
+              onClick: lang.hitch(this, '_onPUEditOk')
+            }, {
+              label: this.nls.cancel,
+              key: keys.ESCAPE
+            }],
+            onClose: lang.hitch(this, '_onPUEditClose')
+          });
+          html.addClass(this.popup.domNode, 'widget-setting-popup');
+          this.popuppuedit.startup();
+        }
       }
     });
   });

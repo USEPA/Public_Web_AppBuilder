@@ -1,0 +1,50 @@
+﻿define(
+   ({
+    layerSelect: "Pasirinkti atvaizdo sluoksnį",
+    displayMeasureResultInPopup: "Matavimo rezultatus pateikti kontekstiniame lange",
+    angularUnitSelect: "Numatytasis kampinis vienetas",
+    linearUnitSelect: "Numatytasis linijinis vienetas",
+    areaUnitSelect: "Numatytasis ploto vienetas",
+    displayOperationSelect: "Pasirinkti matavimo operacijas",
+    errorSectionMeasage: "Nė vienas sluoksnis nepalaiko matavimo galimybių.",
+    unitLabel: {
+      esriInches: "Coliai",
+      esriFeet: "Pėdos",
+      esriYards: "Jardai",
+      esriMiles: "Mylios",
+      esriNauticalMiles: "Jūrmylės",
+      esriMillimeters: "Milimetrai",
+      esriCentimeters: "Centimetrai",
+      esriDecimeters: "Decimetrai",
+      esriMeters: "Metrai",
+      esriKilometers: "Kilometrai",
+      esriDURadians: "Radianai",
+      esriDUDecimalDegrees: "Laipsniai",
+      esriSquareInches: "Kv. col.",
+      esriSquareFeet: "Kv. pėdos",
+      esriSquareYards: "Kv. jardai",
+      esriAcres: "Akrai",
+      esriSquareMiles: "Kv. mylios",
+      esriSquareMillimeters: "Kv. mm",
+      esriSquareCentimeters: "Kv. cm",
+      esriSquareDecimeters: "Kv. dm",
+      esriSquareMeters: "Kv. metrai",
+      esriAres: "Arai",
+      esriHectares: "Hektarai",
+      esriSquareKilometers: "Kv. kilometrai"
+    },
+    operationLabel: {
+      esriMensurationPoint: "Kyšulys",
+      esriMensurationDistanceAndAngle: "Atstumas ir kampas",
+      esriMensurationAreaAndPerimeter: "Plotas ir perimetras",
+      esriMensurationHeightFromBaseAndTop: "Nuo pagrindo iki viršaus",
+      esriMensurationHeightFromBaseAndTopShadow: "Nuo pagrindo iki viršaus – šešėlis",
+      esriMensurationHeightFromTopAndTopShadow: "Nuo viršaus iki viršaus – šešėlis",
+      esriMensurationCentroid: "Centroidas",
+      esriMensurationPoint3D: "Taškas (3D)",
+      esriMensurationDistanceAndAngle3D: "Atstumas ir kampas (3D)",
+      esriMensurationAreaAndPerimeter3D: "Plotas ir perimetras (3D)",
+      esriMensurationCentroid3D: "Centroidas (3D)"
+    }
+  })
+);

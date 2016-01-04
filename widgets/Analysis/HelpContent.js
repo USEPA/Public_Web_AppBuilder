@@ -33,10 +33,10 @@ function(require, array, declare, lang, kernel, has,
       //on domnode leave close the help window
       var rtlLocales = ["ar", "he"], i, rLocale, url;
       this.onlineHelpMap = {};
-      for(i = 0; i<rtlLocales.length; i=i+1) {
+      for(i = 0; i < rtlLocales.length; i = i + 1) {
         rLocale = rtlLocales[i];
         if (kernel.locale && kernel.locale.indexOf(rLocale) !== -1) {
-          if(kernel.locale.indexOf("-")!== -1) {
+          if(kernel.locale.indexOf("-") !== -1) {
             if(kernel.locale.indexOf(rLocale + "-") !== -1) {
               this._isRightToLeft = true;
             }
@@ -57,12 +57,12 @@ function(require, array, declare, lang, kernel, has,
       if (/^https?\:/i.test(url)) {
         return url;
       } else if (/^\/\//i.test(url)) {
-          // Example: "//dczpx2rvsugxm.cloudfront.net/cdn/2419/js/esri/dijit"
-          // https://devext.arcgis.com/home/webmap/viewer.html?useExisting=1
+        // Example: "//dczpx2rvsugxm.cloudfront.net/cdn/2419/js/esri/dijit"
+        // https://devext.arcgis.com/home/webmap/viewer.html?useExisting=1
         return window.location.protocol + url;
       } else if (/^\//i.test(url)) {
-          // Example: "/jsapi/src/js/esri/dijit"
-          // http://pponnusamy.esri.com:9090/jsapi/mapapps/testing/v34/amd/map-legacy.html
+        // Example: "/jsapi/src/js/esri/dijit"
+        // http://pponnusamy.esri.com:9090/jsapi/mapapps/testing/v34/amd/map-legacy.html
         return window.location.protocol + "//" + window.location.host + url;
       }
     },
@@ -87,7 +87,7 @@ function(require, array, declare, lang, kernel, has,
       return size;
     },
 
-    generateHelpUrl: function(helpFileName,helpId){
+    generateHelpUrl: function(helpFileName, helpId){
       var appLocale, helpLocales, containerAppUrl, helpUrl, locArr,
           env, resourcesHelpLocales;
 
@@ -107,7 +107,7 @@ function(require, array, declare, lang, kernel, has,
       helpUrl = containerAppUrl + helpFileName + ".html";
 
       if (array.indexOf(helpLocales, appLocale) !== -1) {
-        if(appLocale.indexOf("-")!== -1) {
+        if(appLocale.indexOf("-") !== -1) {
           locArr = appLocale.split("-");
           appLocale = locArr[0] + "-" + locArr[1].toUpperCase();
         }
@@ -149,7 +149,7 @@ function(require, array, declare, lang, kernel, has,
       }
 
       if (array.indexOf(helpLocales, appLocale) !== -1) {
-        if(appLocale.indexOf("-")!== -1) {
+        if(appLocale.indexOf("-") !== -1) {
           locArr = appLocale.split("-");
           appLocale = locArr[0] + "-" + locArr[1].toUpperCase();
         }
@@ -158,7 +158,7 @@ function(require, array, declare, lang, kernel, has,
 
       if (array.indexOf(resourcesHelpLocales, appLocale) !== -1) {
         if(this.showLearnMore) {
-          learnMoreUrl = "http://doc" + env + ".arcgis.com/"+ appLocale +
+          learnMoreUrl = "http://doc" + env + ".arcgis.com/" + appLocale +
               "/arcgis-online/use-maps/" + this.onlineHelpMap[this.helpFileName][helpId];
         }
       }
@@ -166,24 +166,24 @@ function(require, array, declare, lang, kernel, has,
 
       size = this._computeSize(helpId);
       this.structure =
-       "<div class='' style='position:relative'>"+
+       "<div class='' style='position:relative'>" +
           "<div class='sizer content'>" +
             "<div class='contentPane'>" +
-             "<iframe frameborder='0'  id='"+ helpId +"' src='"+ helpUrl +"#"+ helpId +
-              "' width='"+ size.w +"' height='"+ size.h  +
-              "' marginheight='0' marginwidth='0'></iframe>"+
+             "<iframe frameborder='0'  id='" + helpId + "' src='" + helpUrl + "#" + helpId +
+              "' width='" + size.w + "' height='" + size.h  +
+              "' marginheight='0' marginwidth='0'></iframe>" +
             "</div>" +
           "</div>" +
           "<div class='sizer'>" +
             "<div class='actionsPane'>" +
-              "<div class='actionList"+ (this.showLearnMore? "'>": " hidden'>") +
-                "<a class='action zoomTo' href='"+
+              "<div class='actionList" + (this.showLearnMore? "'>": " hidden'>") +
+                "<a class='action zoomTo' href='" +
                   (this.showLearnMore? learnMoreUrl : "#")  +
                   "' target='_help'>" + this.nls.learnMore + "</a>" +
               "</div>" +
             "</div>" +
           "</div>" +
-          "</div>"+
+          "</div>" +
         "</div>" ;
     },
 

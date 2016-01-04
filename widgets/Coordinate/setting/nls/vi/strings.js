@@ -1,12 +1,13 @@
 ﻿define(
    ({
+    id: 'ID',
     state: "Theo mặc định, tọa độ sẽ hiển thị trong hệ tọa độ của bản đồ hiện tại. Để lấy tọa độ trong các hệ tọa độ khác, bạn cần thêm chúng vào và chỉ định chuyển đổi thích hợp.",
     outputUnit: "Đơn vị Đầu ra",
     wkid: "WKID Đầu ra",
     label: "Tên Hệ tọa độ Đầu ra",
-    transformationWkid: 'WKID Chuyển đổi',
-    transformationLabel: 'Nhãn Chuyển đổi',
-    transformForward: 'Chuyển đổi Chuyển tiếp',
+    transformationWkid: "WKID Chuyển đổi",
+    transformationLabel: "Nhãn Chuyển đổi",
+    transformForward: "Chuyển đổi Chuyển tiếp",
     actions: "Các hành động",
     warning: "Vui lòng nhập WKID tham chiếu không gian hợp lệ!",
     tfWarning: "Vui lòng nhập WKID chuyển đổi dữ liệu hợp lệ!",

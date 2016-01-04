@@ -5,7 +5,7 @@
     licenceAgree: "Jeg godtar",
     licenceTerm: "Vilkår for ArcGIS webapplikasjon",
     labelContinue: "Fortsett",
-    errorString: "* Du må godta lisensen for å fortsette.",
+    errorString: "*Du må godta lisensen for å kunne fortsette.",
     notShowAgain: "Ikke vis dette velkomstbildet igjen.",
     ok: "OK",
     cancel: "Avbryt"

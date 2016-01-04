@@ -3,8 +3,12 @@ define({
     instruction: "Define the content that displays on the splash screen of your application. The splash screen appears before the application loads. ",
     defaultContent: "Add text, links, and small graphics here.",
     requireConfirm: "Require confirmation to continue",
+    noRequireConfirm: "Do not require confirmation to continue",
+    optionText: "Provide the option to show the splash screen again or not",
     confirmLabel: "Confirmation Texts: ",
-    defaultConfirmText: "I agree to the above terms and conditions"
+    defaultConfirmText: "I agree to the above terms and conditions",
+    confirmOption: "Always show this splash screen every time the app launches",
+    backgroundColor: "Background Color"
   }),
   "ar": 1,
   "cs": 1,
@@ -32,5 +36,7 @@ define({
   "th": 1,
   "tr": 1,
   "vi": 1,
-  "zh-cn": 1
+  "zh-cn": 1,
+  "zh-hk": 1,
+  "zh-tw": 1
 });

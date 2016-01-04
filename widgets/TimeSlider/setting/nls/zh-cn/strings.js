@@ -1,5 +1,5 @@
 ﻿define(
    ({
-    showLayerLabels: "在时间感知型图层的微件上显示图层名称。"
+    showLayerLabels: "在微件上显示时间感知型图层名称。"
   })
 );

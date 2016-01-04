@@ -1,0 +1,50 @@
+﻿define(
+   ({
+    layerSelect: "Velg bildelaget",
+    displayMeasureResultInPopup: "Vis måleresultater i en popup",
+    angularUnitSelect: "Standard vinkelenhet",
+    linearUnitSelect: "Standard lineærenhet",
+    areaUnitSelect: "Standard arealenhet",
+    displayOperationSelect: "Velg måleoperasjoner",
+    errorSectionMeasage: "Ingen av lagene støtter målingsfunksjoner.",
+    unitLabel: {
+      esriInches: "Tommer",
+      esriFeet: "fot",
+      esriYards: "Yards",
+      esriMiles: "Miles",
+      esriNauticalMiles: "Nautiske mil",
+      esriMillimeters: "Millimeter",
+      esriCentimeters: "Centimeter",
+      esriDecimeters: "Desimeter",
+      esriMeters: "meter",
+      esriKilometers: "kilometer",
+      esriDURadians: "Radianer",
+      esriDUDecimalDegrees: "Grader",
+      esriSquareInches: "tommer²",
+      esriSquareFeet: "fot²",
+      esriSquareYards: "yard²",
+      esriAcres: "acre",
+      esriSquareMiles: "miles²",
+      esriSquareMillimeters: "mm²",
+      esriSquareCentimeters: "cm²",
+      esriSquareDecimeters: "dm²",
+      esriSquareMeters: "m²",
+      esriAres: "ar",
+      esriHectares: "hektar",
+      esriSquareKilometers: "km²"
+    },
+    operationLabel: {
+      esriMensurationPoint: "Punkt",
+      esriMensurationDistanceAndAngle: "Avstand og vinkel",
+      esriMensurationAreaAndPerimeter: "Areal og omkrets",
+      esriMensurationHeightFromBaseAndTop: "Bunnen til toppen",
+      esriMensurationHeightFromBaseAndTopShadow: "Bunnen til toppen av skyggen",
+      esriMensurationHeightFromTopAndTopShadow: "Toppen til toppen av skyggen",
+      esriMensurationCentroid: "Tyngdepunkt",
+      esriMensurationPoint3D: "Punkt (3D)",
+      esriMensurationDistanceAndAngle3D: "Avstand og vinkel (3D)",
+      esriMensurationAreaAndPerimeter3D: "Areal og omkrets (3D)",
+      esriMensurationCentroid3D: "Tyngdepunkt (3D)"
+    }
+  })
+);

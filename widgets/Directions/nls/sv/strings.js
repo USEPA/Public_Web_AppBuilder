@@ -1,5 +1,6 @@
 ﻿define(
    ({
-    _widgetLabel: 'Vägbeskr.'
+    _widgetLabel: "Vägbeskr.",
+    searchPlaceholder: "Sök efter adress eller plats"
   })
 );

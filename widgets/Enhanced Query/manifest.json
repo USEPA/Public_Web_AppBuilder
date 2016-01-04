@@ -1,0 +1,10 @@
+{
+  "name": "Enhanced Query",
+  "platform": "HTML",
+  "version": "1.0",
+  "wabVersion": "1.2",
+  "author": "Kevin MacLeod",
+  "description": "Enhanced Query can create a SQL query on any field in any layer for a specified map service.",
+  "copyright": "",
+  "license": "http://www.apache.org/licenses/LICENSE-2.0"
+}

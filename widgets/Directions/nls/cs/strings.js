@@ -1,5 +1,6 @@
 ﻿define(
    ({
-    _widgetLabel: 'Navigace'
+    _widgetLabel: "Navigace",
+    searchPlaceholder: "Najít adresu nebo místo"
   })
 );

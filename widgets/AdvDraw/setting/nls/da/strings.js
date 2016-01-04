@@ -21,6 +21,18 @@
     squareFeet: "Square feet",
     squareYards: "Square yards",
     distance: "Afstande",
-    area: "Områder"
+    area: "Områder",
+    kilometersAbbreviation: "km",
+    milesAbbreviation: "mile",
+    metersAbbreviation: "m",
+    feetAbbreviation: "fod",
+    yardsAbbreviation: "yard",
+    squareKilometersAbbreviation: "kvadrat-km",
+    squareMilesAbbreviation: "kvadrat-miles",
+    acresAbbreviation: "ac",
+    hectaresAbbreviation: "ha",
+    squareMetersAbbreviation: "kvadrat-m",
+    squareFeetAbbreviation: "kvadratfod",
+    squareYardsAbbreviation: "kvadratyard"
   })
 );

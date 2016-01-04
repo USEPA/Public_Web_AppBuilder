@@ -72,16 +72,15 @@ define([
                                 "rectangle": true,
                                 "coordinates": true
                             },
+                            "csvExportEnabled": true,
                             "showLayerManipulation": true,
                             "thumbnailLoadErrorImage": "widgets/ImageDiscovery/base/Results/images/archive_thumb.png",
                             "minDateRangeFilterDelta": 86400000,
                             "defaultCloudCover": 100,
-                            "sortOptions": [
-
-
-                            ],
+                            "sortOptions": [],
                             "webmap": {
-                                "basemapUrl": "http://services.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer"
+                                "basemapUrl": "http://services.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer",
+                                "disabled": false
                             },
                             "utmSearchConfiguration": {
                                 "utmLookupJsonUrl": "widgets/ImageDiscovery/base/SearchByBoundsWidget/config/UTMWKIDLookup.json"
@@ -105,6 +104,8 @@ define([
                     if (this.showCloudCoverSorts.checked) {
                         sortFields = sortFields.concat(this.cloudCoverSortOptions);
                     }
+                    this.config.csvExportEnabled = this.enableCSVCheckout.checked;
+                    this.config.webmap.disabled = !this.enableWebmapCheckout.checked;
                     this.config.sortOptions = sortFields;
                     return this.config;
                 },
@@ -131,7 +132,11 @@ define([
 
                             }
                         }
+                    }
+                    this.enableCSVCheckout.checked = this.config.csvExportEnabled != false;
 
+                    if (this.config.webmap === null || !this.config.webmap.disabled) {
+                        this.enableWebmapCheckout.checked = true;
                     }
                     if (serviceLoadOptions.showAcquisitionDateSort) {
                         this.showAcquisitionDateSorts.checked = true;
@@ -170,7 +175,11 @@ define([
                             return;
                         }
                         this.showServicesContainer();
-                        var currentService = new AddedService({nls: this.nls, serviceDescription: serviceDesc, serviceUrl: serviceUrl});
+                        var currentService = new AddedService({
+                            nls: this.nls,
+                            serviceDescription: serviceDesc,
+                            serviceUrl: serviceUrl
+                        });
                         currentService.setConfig(serviceConfig);
                         currentService.on("deleteService", lang.hitch(this, this.deleteService));
                         this.addedServicesByUrl[serviceUrl.toLowerCase()] = currentService;
@@ -202,7 +211,11 @@ define([
                         }
                         this.showServicesContainer();
                         this.collapseAllAddedServices();
-                        var currentService = new AddedService({nls: this.nls, serviceDescription: serviceDesc, serviceUrl: url});
+                        var currentService = new AddedService({
+                            nls: this.nls,
+                            serviceDescription: serviceDesc,
+                            serviceUrl: url
+                        });
 
                         if (this.showAcquisitionDateSorts.checked) {
                             currentService.showAcquisitionDateSort();

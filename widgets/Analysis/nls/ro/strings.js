@@ -19,6 +19,6 @@
     outputs: "Rezultate",
     outputtip: "Notă: Rezultatele obiectelor spaţiale şi tabelelor sunt adăugate la hartă sub formă de straturi tematice operaţionale.",
     outputSaveInPortal: "Datele au fost salvate la portalul dvs.",
-    privilegeError: "Trebuie să aveţi rol de Editor sau Administrator pentru a utiliza instrumentul de analiză."
+    privilegeError: "Your user role cannot perform analysis. In order to perform analysis, the administrator of your organization needs to grant you certain <a href\"http://doc.arcgis.com/en/arcgis-online/reference/roles.htm\" target=\"_blank\">privileges</a>."
   })
 );

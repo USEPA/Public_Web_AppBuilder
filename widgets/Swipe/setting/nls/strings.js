@@ -1,12 +1,12 @@
 define({
   root: ({
-    styleText: "Choose a style for the swipe tool.",
+    styleText: "Choose a style for the swipe tool",
     vertical: "Vertical bar",
     horizontal: "Horizontal bar",
     scope: "Spyglass",
-    layerText: "Select the layer you want to swipe by default.",
+    layerText: "Select the layer you want to swipe by default",
     spyglassText: "Select the layer to appear within the spyglass by default.",
-    layerHint: "Note: If the layer is hidded by upper layers, swipe won't have any effect."
+    layerHint: "Note: If the layer is hidden by upper layers, swipe won't have any effect."
   }),
   "ar": 1,
   "cs": 1,
@@ -34,5 +34,7 @@ define({
   "th": 1,
   "tr": 1,
   "vi": 1,
-  "zh-cn": 1
+  "zh-cn": 1,
+  "zh-hk": 1,
+  "zh-tw": 1
 });

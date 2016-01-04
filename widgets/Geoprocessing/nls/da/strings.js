@@ -9,6 +9,24 @@
     requiredInfo: "er obligatorisk.",
     drawnOnMap: "Resultatet er tegnet på kortet.",
     clear: "Ryd",
-    error: "Fejl"
+    error: "Fejl",
+    noToolConfig: "Ingen prækonfigureret geoprocesseringsopgave er tilgængelig",
+    useUrlForGPInput: "URL",
+    useUploadForGPInput: "Overfør fil",
+    selectFileToUpload: 'Vælg fil...',
+    upload: 'Overfør',
+    rasterFormat: 'Rasterdataformat',
+    noFileSelected: 'Ingen fil valgt!',
+    uploadSuccess:'Filoverførsel lykkedes!',
+    url: "URL",
+    showLayerContent: "Vis lagindhold",
+    invalidUrl: "Ugyldig featuretjeneste-URL",
+    Feet: "Fod",
+    Yards: "Yards",
+    Miles: "Miles",
+    NauticalMiles: "Sømil",
+    Meter: "Meter",
+    Kilometers: "Kilometer",
+    urlPlaceholder: "objektsæt-URL"
   })
 );

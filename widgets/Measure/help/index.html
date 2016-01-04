@@ -1,0 +1,59 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Measure Help</title>
+<style type="text/css">
+body {
+	background-color:#c8c8c8;
+	font-family:Segoe, "Segoe UI", "DejaVu Sans", "Trebuchet MS", Verdana, sans-serif;
+	width: 1000px;
+	float: none;
+}
+img {
+	float:left;
+	margin:20px;
+}
+</style>
+</head>
+
+<body>
+<p><strong><img src="measurewidget.png" /><h1><center>Measure Widget 1.21<br>for Web App Builder</center></h1>Introduction:</strong> The measure widget was derived from the draw widget for WAB. &nbsp;It makes use of the tools already provided in the draw widget to allow you draw shapes and lines on the map. &nbsp;The widget enhances this experience by interactively measuring the geometry being drawn and leaving the dimensions on the map. The measure widget also makes use of the ArcGIS API for JavaScript's geometryEngine for doing geodesic or planar calculations depending on the projection of your basemap. &nbsp;This means you will get accurate measurements for the shapes you draw.
+<br><br><strong>Quick Start: </strong>Start by selected the type of measurement that you would like to make. &nbsp;Make adjustments to the color, style, transparency and width of the shape being drawn. &nbsp;You can also change the text color and size. The polyline and polygon shapes require you to click or tap at different locations around the map. &nbsp;The other shape types require you to click or tap and drag to draw the shape. &nbsp;With a little practice, you can draw shapes to best suit your needs.
+
+<br><br><strong>Editing: </strong>The Lines, Polylines and Polygons you have drawn are editable.  You can SHIFT click a shape and the vertexes will be displayed that you can click and drag to change the shape.  As you do this, the dimension of the segment(s) will change too.  You can also delete individual measures by doing a CTRL click.  More specific instructions about editing below. Note (10/07/2015): Editing does not work properly on Internet Explorer.  The mouse events don't fire properly when editing a line in IE.
+</p>
+<br><br>
+<p><img src="measuretype.png" width="346" height="138" alt=""/><strong>Select Measure Type: </strong> Use this portion of the dialog to select which type of shape you would like to draw and measure.  The selected tool will be highlighted by displaying a lighter gray background.  With a tool selected you are ready to draw on the map.  When you have completed drawing the desired shape, no tools will be selected.  Clicking the Clear link will remove all measured shapes from the map.
+</p>
+<br><br>
+<p><img src="preview.png" width="347" height="36" alt=""/><strong>Preview: </strong> Displays what the line or polygon will appear when drawn on the map.  As you make changes to the color or size, it will be reflected in the preview.
+</p>
+<br><br>
+<p><img src="predefined.png" width="342" height="140" alt=""/><img src="predefinedpoly.png" width="345" height="136" alt=""/><strong>Predefined Symbols: </strong> These lists display predefined symbols to give you a good starting point for the shape you are going to draw.  You can be more specific about color, line width or type as shown below.
+</p>
+<br><br>
+<p><img src="color.png" width="366" height="256" alt=""/><strong>Color, Outline Color, Font Color: </strong> Click the associated color box to display a color picker dialog that will let you choose any color.  You can be very precise with color values using the RGB, HSV or HEX settings.  This will change the color of the line draw, the fill of a polygon or the color of the text used for measuring.
+</p>
+<br><br><br><br><br><br><br><br><br><br>
+<p><img src="transparency.png" width="343" height="60" alt=""/><strong>Transparency: </strong> Use the slider to set how transparent a line or or fill will be when a shape is drawn. 
+</p>
+<br><br>
+<p><img src="text.png" width="348" height="155" alt=""/><strong>Text Properties: </strong> The preview will display what the text will look like for each measure displayed on the map when drawing a new shape.  The preview text will also interactively update as a segment is being drawn, as will the Text textbox.  You can adjust the size of the text by keying in a numeric value or using the up and down arrows to increase or decrease the size.  Clicking the Font Color box will display a color picker that will allow you to choose the color of the text used for measuring.
+</p>
+<br><br>
+<p><img src="units.png" width="332" height="89" alt=""/><strong>Area Units and Distance Units: </strong> Use the drop down boxes to select your preferred units of measure.
+</p>
+<br><br>
+<p><img src="edit1.png" width="646" height="237" alt=""/><h2>Editing Shapes</h2> You can edit a drawn shape by clicking or tapping on it.  This exposes vertex points that you can drag to new locations.  As you drag, the measurements for the segments associated with the vertex will update.  When you finish dragging, the summary for total distance and area will also be updated.<br><br>
+
+<img src="edit2.png" width="646" height="237" alt=""/>There are two types of vertices.  The gray dots represent a regular vertex and the white dots represent a ghost vertex.  Dragging a ghost vertex splits the segment into two new segments with new measurements.  You can repeat this and create as many vertices as needed for your measurement.<br><br>
+
+<img src="edit3.png" width="646" height="237" alt=""/>You can delete a vertex by right clicking on it. This will display a delete button.  Click the delete button and the vertex will be deleted.  The measurements for the drawn shape will be updated to reflect the new segment.<br><br>
+
+You can also change the properties of the shape.  With a shape selected for editing, you can change the line width, line or fill color and line style.  You can also change the color and size of the text for the shape selected for editing.<br><br>
+
+Note: Editing does not presently work properly on Internet Explorer.  The events needed to capture mouse movements on Internet Explorer are turned off when moving a vertex.  The change in geometry is not reflected in any of the other exposed object when moving a vertex.  This will be reviewed as the ArcGIS API for JavaScript is updated.
+</p>
+</body>
+</html>

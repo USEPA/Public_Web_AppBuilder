@@ -1,0 +1,50 @@
+﻿define(
+   ({
+    layerSelect: "בחר את שכבת התמונות",
+    displayMeasureResultInPopup: "הצג תוצאות מדידה בחלון מוקפץ",
+    angularUnitSelect: "ברירת מחדל ליחידת זווית",
+    linearUnitSelect: "ברירת מחדל ליחידת לינארית",
+    areaUnitSelect: "ברירת מחדל ליחידת שטח",
+    displayOperationSelect: "בחר פעולות מדידה",
+    errorSectionMeasage: "אף אחת מהשכבות אינה תומכת ביכולות מדידה",
+    unitLabel: {
+      esriInches: "אינצ׳ים",
+      esriFeet: "רגל",
+      esriYards: "יארד",
+      esriMiles: "מיילים",
+      esriNauticalMiles: "מיילים ימיים",
+      esriMillimeters: "מילימטרים",
+      esriCentimeters: "סנטימטרים",
+      esriDecimeters: "דצימטרים",
+      esriMeters: "מטרים",
+      esriKilometers: "קילומטרים",
+      esriDURadians: "רדיאנים",
+      esriDUDecimalDegrees: "מעלות",
+      esriSquareInches: "אינטשים רבועים",
+      esriSquareFeet: "רגליים מר\'",
+      esriSquareYards: "יארדים מר\'",
+      esriAcres: "אקרים",
+      esriSquareMiles: "מיילים מר\'",
+      esriSquareMillimeters: "מילימטרים רבועים",
+      esriSquareCentimeters: "סנטימטרים רבועים",
+      esriSquareDecimeters: "דצימטרים רבועים",
+      esriSquareMeters: "מטרים מר\'",
+      esriAres: "עשיריות דונם",
+      esriHectares: "הקטרים",
+      esriSquareKilometers: "קילומטרים מר\'"
+    },
+    operationLabel: {
+      esriMensurationPoint: "נקודה",
+      esriMensurationDistanceAndAngle: "מרחק וזווית",
+      esriMensurationAreaAndPerimeter: "אזור והיקף",
+      esriMensurationHeightFromBaseAndTop: "מהבסיס לחלק העליון",
+      esriMensurationHeightFromBaseAndTopShadow: "צל מהבסיס לחלק העליון",
+      esriMensurationHeightFromTopAndTopShadow: "צל מהחלק העליון לחלק העליון",
+      esriMensurationCentroid: "צנטרואיד",
+      esriMensurationPoint3D: "נקודה (3D)",
+      esriMensurationDistanceAndAngle3D: "מרחק וזווית (3D)",
+      esriMensurationAreaAndPerimeter3D: "אזור והיקף (3D)",
+      esriMensurationCentroid3D: "צנטרואיד (3D)"
+    }
+  })
+);

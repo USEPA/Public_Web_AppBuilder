@@ -1,0 +1,69 @@
+<div onselectstart="return false;">
+   <div class="chart-content" data-dojo-attach-point="content">
+      <div class="chart-tab-node" data-dojo-attach-point="selectTabNode">
+          <div class='sectionHeading'/>${nls.selectAttributeFilters}</div>
+
+        <div id="filterContainer" data-dojo-attach-point="filterContainer">  
+           <ul data-dojo-attach-point="filterList">
+           </ul>
+    
+         </div>
+         
+     <div style='margin:15px 10px 15px 0px;'/>
+        <div class='sectionHeading'>${nls.spatialFilterSelection}</div>
+
+      <div id="filterContainer">
+      <ul data-dojo-attach-point="spatialFilterList">
+        <li><a href="#" id="spatialFilterLink"><div  data-dojo-attach-point="drawSpatialFilter" class='spatialFilterLabel'/>
+          ${nls.drawSelectionArea}
+        </div></a></li>
+        <li><a href="#"  id="currentMapExtentLink"><div  data-dojo-attach-point="currentMapExtent" class='spatialFilterLabel'/>
+            ${nls.currentSelection}
+        </div></a></li>
+          <li class='dynamicRow'><a href="#"  id="censusBlockLink"><div  data-dojo-attach-point="censusBlockGroup" class='spatialFilterLabel'/>
+          ${nls.censusBlockGroup}
+        </div></a></li>
+        <li><a href="#"  id="clearSpatialFilterLink" class="current"><div  data-dojo-attach-point="clearSpatialFilter" class='spatialFilterLabel'/>
+         ${nls.noSpatialFilter}
+        </div></a></li>
+      </ul>
+    </div>
+ </div>
+    <div style='margin:15px 10px 15px 0px;'/>
+      <div class='sectionHeading'>${nls.reviewerSessionFilter}</div>
+      <select data-dojo-type="dijit/form/Select" data-dojo-attach-point="sessionNameSelect" style="width:90%;height:25px;margin: 10px 5px 0px 7px;">
+<option value="All"> ${nls.allSessions}</option>
+      </select>
+    </div>
+     
+      <div class="chart-tab-node" data-dojo-attach-point="resultsTabNode">
+         <div class="results-section" data-dojo-attach-point="resultsSection" style="display:none;">
+            <div class="results-header">
+               <div class="sectionHeading trimContent" style="border:none !important;width:80%;" data-dojo-attach-point="chartTitle"></div>
+               <div style="margin-top: -26px;width: 77px;float: right; display:none;" data-dojo-attach-point="backButtonContainer" >
+                <input type="Button" value="Back" text="Back" style="width:37px;" data-dojo-attach-point="backButton"/>
+                </div>
+               <div class="paging-section" style="margin-top:-30px">
+                  <ul data-dojo-attach-point="pagingUl"></ul>
+               </div>
+            
+            </div> 
+            <div class="chart-section">
+               
+              
+                <div id='mainChartContainer' class="mainChartContainer">
+                  <table>
+                    <tr>
+                    
+                    </tr>
+                    <tr style="border 1px solid;">
+                      <td style="width:320px !important; height:235px;"><div class="chart-section-item chart-container" data-dojo-attach-point="chartContainer"></td>
+                    </tr>
+                  </table>
+                </div>
+               </div>
+               
+            </div>
+      </div>
+   </div>
+</div>

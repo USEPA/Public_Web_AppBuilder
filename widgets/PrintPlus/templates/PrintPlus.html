@@ -3,16 +3,18 @@
     <div data-dojo-type="dijit/form/Form" data-dojo-attach-point="printSettingsFormDijit">
       <table cellspacing="5" style="width:100%;">
         <tr>
-          <td style="width:65px; text-align:right;">
+          <td style="text-align:right;">
             ${nls.title}:
           </td>
           <td>
-            <input id="titleInput" type="text" data-dojo-type="dijit/form/ValidationTextBox" 
-                   data-dojo-props="name:'title',trim:true,required:true,style:'width:100%;',value:'${defaultTitle}'"/>
+            <!--input id="titleInput" type="text" data-dojo-type="dijit/form/ValidationTextBox" 
+                   data-dojo-props="name:'title',trim:true,required:true,style:'width:100%;',value:'${defaultTitle}'"/-->
+            <input type="text" data-dojo-attach-point="titleNode" data-dojo-type="dijit/form/ValidationTextBox" 
+                   data-dojo-props="name:'title',trim:true,required:true,style:'width:100%;'" />
           </td>
         </tr>
         <tr>
-          <td style="width:65px; text-align:right;">
+          <td style="text-align:right;">
             ${nls.layout}:
           </td>
           <td>
@@ -21,12 +23,12 @@
           </td>
         </tr>
         <tr>
-          <td style="width:65px; text-align:right;">
+          <td style="text-align:right;">
             ${nls.format}:
           </td>
           <td>
             <input type="select" data-dojo-type="dijit/form/Select" data-dojo-props="name:'format',style:'width:80px;'"
-            data-dojo-attach-point="formatDijit" />
+                   data-dojo-attach-point="formatDijit" />
             <span style="display:inline-block; width: 3px;"></span>
             <span id="titleBlock">
               ${nls.titleBlock}:
@@ -41,8 +43,13 @@
             </span>
           </td>
         </tr>
+        <tr>
+          <td></td>
+          <td>
+          </td>
+        </tr>
         <tr id="scaleBoxRow"><!-- lcs Print Enhancements - added scale text box -->
-          <td style="width:65px; text-align:right;">
+          <td style="text-align:right;">
             ${nls.scale}:
           </td>
           <td>
@@ -68,7 +75,7 @@
       </table>
     </div>
   </div>
-  <div class="buttonActionBar">
+  <div class="buttonActionBar jimu-align-trailing">
     <div data-dojo-type="dijit/form/DropDownButton" data-dojo-props="iconClass:'settingsIcon',showLabel:true" data-dojo-attach-point="advancedSettingsDropDownDijit" >
       <span>
         ${nls.settings}
@@ -132,8 +139,10 @@
                   ${nls.author}:
                 </td>
                 <td>
-                  <input type="text" data-dojo-type="dijit/form/ValidationTextBox" 
-                         data-dojo-props="name:'author',trim:true,required:false,style:'width:100%;',value:'${defaultAuthor}'" data-dojo-attach-point="authorTB"/>
+                  <!--input type="text" data-dojo-type="dijit/form/ValidationTextBox" 
+                         data-dojo-props="name:'author',trim:true,required:false,style:'width:100%;',value:'${defaultAuthor}'" data-dojo-attach-point="authorTB"/-->
+                  <input type="text" data-dojo-attach-point="authorNode" data-dojo-type="dijit/form/ValidationTextBox" 
+                         data-dojo-props="name:'author',trim:true,required:false,style:'width:100%;'" data-dojo-attach-point="authorTB"/>
                 </td>
               </tr>
               <tr>
@@ -141,8 +150,10 @@
                   ${nls.copyright}:
                 </td>
                 <td>
-                  <input type="text" data-dojo-type="dijit/form/ValidationTextBox" 
-                         data-dojo-props="name:'copyright',trim:true,required:false,style:'width:100%;',value:'${defaultCopyright}'"/>
+                  <!--input type="text" data-dojo-type="dijit/form/ValidationTextBox" 
+                         data-dojo-props="name:'copyright',trim:true,required:false,style:'width:100%;',value:'${defaultCopyright}'"/-->
+                  <input type="text" data-dojo-attach-point="copyrightNode" data-dojo-type="dijit/form/ValidationTextBox" 
+                         data-dojo-props="name:'copyright',trim:true,required:false,style:'width:100%;'" />
                 </td>
               </tr>
             </table>
@@ -233,7 +244,7 @@
   <div data-dojo-attach-point="printResultsNode" class="resultsContainer">
   </div>
   <div data-dojo-attach-point="clearActionBarNode" class="buttonActionBar"
-  style="display:none;padding:0;">
+       style="display:none;padding:0;">
     <div data-dojo-type="dijit/form/Button" data-dojo-props="iconClass:'clearIcon'"
          data-dojo-attach-event="onClick:clearResults">
       ${nls.clearList}

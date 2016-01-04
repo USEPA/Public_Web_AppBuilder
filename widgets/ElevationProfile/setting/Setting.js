@@ -1,3 +1,7 @@
+///////////////////////////////////////////////////////////////////////////
+// Robert Scheitlin WAB Elevation Profile Widget
+///////////////////////////////////////////////////////////////////////////
+/*global define, setTimeout*/
 define([
   'dojo/_base/declare',
   'dojo/_base/lang',
@@ -61,7 +65,7 @@ define([
         //hack the 'Learn more about this widget link'
         setTimeout(function () {
           var helpLink = query('.help-link');
-          helpLink[0].href = 'http://gis.calhouncounty.org/WAB/V1.1/widgets/ElevationProfile/help/elevationprofile_Help.htm';
+          helpLink[0].href = 'http://gis.calhouncounty.org/WAB/V1.3/widgets/ElevationProfile/help/elevationprofile_Help.htm';
           html.setStyle(helpLink[0], 'display', 'block');
         }, 600);
         if (config.profileTaskUrl) {
@@ -88,11 +92,13 @@ define([
         var result = false;
         if (evt.data.tasks && evt.data.tasks[0] === 'Profile') {
           urlDijit.proceedValue = true;
+          this.config.profileTaskUrl = this.urlTextBox.get('value');
           result = true;
         } else {
           urlDijit.proceedValue = false;
           result = false;
           this.errormessage = this.nls.invalidURL;
+          this.config.profileTaskUrl = this.urlTextBox.get('value');
           var urlContainsProfile = (/profile$/i).test(evt.url);
           if (urlContainsProfile) {
             this.errormessage += ", " + this.nls.urlContainsProfile;
@@ -346,7 +352,6 @@ define([
 
         // ARE WE UPDATING OR CREATING THE CHART //
         if (this.profileChart != null) {
-
           // UPDATE CHART //
           this.profileChart.getAxis('y').opt.min = yMin;
           this.profileChart.getAxis('y').opt.max = yMax;

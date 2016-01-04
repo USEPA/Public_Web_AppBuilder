@@ -17,14 +17,15 @@ define([
   'dojo/text!./SingleExpressionEdit.html',
   'dijit/form/TextBox',
   'jimu/dijit/Popup',
-  'jimu/dijit/LayerFieldChooser',
+  'widgets/eSearch/setting/LayerFieldChooser',
   'jimu/dijit/SimpleTable',
   'esri/request',
   './SingleValueEdit',
-  'dojo/keys'
+  'dojo/keys',
+  'jimu/utils'
 ],
 function(declare, lang, array, html, query, on, json, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin,
-  Tooltip, template, TextBox, Popup, LayerFieldChooser, SimpleTable, esriRequest, SingleValueEdit, keys) {/*jshint unused: false*/
+  Tooltip, template, TextBox, Popup, LayerFieldChooser, SimpleTable, esriRequest, SingleValueEdit, keys, jimuUtils) {/*jshint unused: false*/
   return declare([_WidgetBase,_TemplatedMixin, _WidgetsInTemplateMixin], {
     baseClass: 'widget-esearch-singleexpression-setting',
     templateString: template,
@@ -49,6 +50,7 @@ function(declare, lang, array, html, query, on, json, _WidgetBase, _TemplatedMix
       if(!config){
         return;
       }
+      this.isHosted = jimuUtils.isHostedService(this.layerURL);
       this.config = config;
       this.resetAll();
       this.searchLabel.set('value', lang.trim(this.config.textsearchlabel || ''));
@@ -191,7 +193,8 @@ function(declare, lang, array, html, query, on, json, _WidgetBase, _TemplatedMix
         layerUniqueCache: this.layerUniqueCache,
         layerInfoCache: this.layerInfoCache,
         len: tr.len,
-        operator: tr.operator
+        operator: tr.operator,
+        isHosted: this.isHosted
       });
       this.singleValueedit.setConfig(tr.singleValue || {});
       this.popup2 = new Popup({

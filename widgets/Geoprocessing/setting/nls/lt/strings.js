@@ -31,6 +31,22 @@
     setTask: "Nustatyti",
     setTaskTitle: "Nustatyti GP užduotį",
     enablePopup: "Įgalinti informacinį langą",
-    unSupportGeometryType: "Negalima nustatyti vaizdavimo dėl nežinomo geometrijos tipo."
+    unSupportGeometryType: "Negalima nustatyti vaizdavimo dėl nežinomo geometrijos tipo.",
+    useUrlForGPInput: "URL",
+    useUploadForGPInput: "Įkelti failą",
+    selectFileToUpload: "Pasirinkite failą...",
+    upload: "Nusiųsti",
+    rasterFormat: "Rastrinių duomenų formatas",
+    noFileSelected: "Nepasirinktas joks failas!",
+    uploadSuccess:"Failas įkeltas sėkmingai!",
+    showLayerContent: "Rodyti sluoksnio turinį",
+    Feet: "Pėdos",
+    Yards: "Jardai",
+    Miles: "Mylios",
+    NauticalMiles: "Jūrmylės",
+    Meter: "Metrai",
+    Kilometers: "Kilometrai",
+    urlPlaceholder: "elementui nustatytas URL",
+    allowToExport: "Leisti eksportuoti rezultatus"
   })
 );

@@ -39,6 +39,10 @@
     squareFeet: "Square feet",
     squareYards: "Square yards",
     undo: "Fortryd",
-    redo: "Annullér Fortryd"
+    redo: "Annullér Fortryd",
+    results: "Resultater",
+    points: "Punkter",
+    lines: "Linjer",
+    areas: "Områder"
   })
 );

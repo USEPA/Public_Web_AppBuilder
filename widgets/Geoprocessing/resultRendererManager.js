@@ -21,9 +21,9 @@ function(simpleResultRenderers) {
   var mo = {}, map, nls;
 
   mo.createResultRenderer = function(param, value, options) {
-  //summary:
-  //  create result renderer depends on the parameter type.
-  //  renderer can't be in setting page
+    //summary:
+    //  create result renderer depends on the parameter type.
+    //  renderer can't be in setting page
     var resultRenderer;
     var rendererName = getRendererNameFromParam(param);
     var o = {

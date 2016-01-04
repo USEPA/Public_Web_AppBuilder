@@ -1,5 +1,5 @@
 ﻿define(
    ({
-    showLayerLabels: "Vis lagnavne på widget'en for tidsafhængige lag."
+    showLayerLabels: "Vis navne på tidsafhængige lag på widget\'en."
   })
 );

@@ -1,32 +1,31 @@
-.jimu-widget-measure-setting .btn-add-section{
-  display:inline-block;
-  overflow:hidden;
-  height:24px;
-  margin-left:1px;
-  margin-bottom:3px;
-  cursor:pointer;
-  font-size:13px;
-  color:#538ec8;
+.jimu-widget-measure-setting .add-with-icon{
   margin-top:8px;
+  margin-bottom:3px;
 }
 
-.jimu-widget-measure-setting .btn-add-section .btn-add-icon{
-  height:100%;
-  width:14px;
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-image: url(images/add.png);
+.jimu-widget-measure-setting .jimu-tab{
+  position: static;
 }
 
-.jimu-widget-measure-setting .btn-add-section .btn-add-label{
-  height:100%;
-  line-height:24px;
-  vertical-align:middle;
-  margin-left:7px;
-  text-decoration: underline;
+.jimu-widget-measure-setting .jimu-tab>.jimu-viewstack{
+  position: static;
+  top: auto;
+  left: auto;
+  right: auto;
+  bottom: auto;
+  height: auto;
 }
 
-.jimu-rtl .jimu-widget-measure-setting .btn-add-section .btn-add-label{
-  margin-left: 0;
-  margin-right: 7px;
+.jimu-widget-measure-setting .jimu-viewstack>.view{
+  height: auto;
+}
+
+.jimu-widget-measure-setting .tip{
+  color: #596679;
+  font-size: 14px;
+}
+
+.jimu-widget-measure-setting .add-with-icon.jimu-state-disabled{
+  color: #ccc;
+  cursor: default;
 }

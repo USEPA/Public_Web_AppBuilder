@@ -8,6 +8,10 @@
 .jimu-widget-geoprocessing .jimu-viewstack{
   padding: 14px;
 }
+.jimu-widget-geoprocessing .input-node .jimu-viewstack{
+  padding: 0;
+  margin-top: 10px;
+}
 .jimu-widget-geoprocessing .section{
   overflow: visible;
 }
@@ -38,12 +42,13 @@
 }
 .jimu-widget-geoprocessing .input-node, .jimu-widget-geoprocessing .output-node{
   overflow: visible;
-  margin-top: 10px;
+  margin-bottom: 30px;
 }
 .jimu-widget-geoprocessing .input-node>.input-label, .jimu-widget-geoprocessing .output-node>.output-label{
   overflow: hidden;
   font-size: 14px;
   color: #686868;
+  font-weight: bold;
 }
 .jimu-widget-geoprocessing .input-node>.editor-container, .jimu-widget-geoprocessing .output-node>.renderer-container{
   margin-top: 5px;
@@ -60,8 +65,145 @@
 }
 
 .jimu-widget-geoprocessing .error-message{
-  text-align: left;
   width: 100%;
-  margin-top: 10px;
-  color: #FF0000;
+  margin: 14px;
+}
+
+.jimu-widget-geoprocessing .jimu-basic-layer-chooser-from-map .jimu-tree{
+  border: 1px solid #aaaaaa;
+}
+
+.jimu-widget-geoprocessing .jimu-gp-editor-url .jimu-url-input{
+  width: 100%;
+}
+
+.jimu-widget-geoprocessing .file-input-label{
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+.jimu-widget-geoprocessing .jimu-gp-editor-datafile form > .jimu-btn{
+  padding: 0;
+}
+
+/* css for query popup */
+.geoprocessing-popup-title{
+  height: 20px;
+}
+
+.geoprocessing-popup .header{
+  font-weight: bold;
+}
+
+.geoprocessing-popup .hzLine{
+  border-top: 1px solid #333333;
+  margin-top: 6px;
+  margin-bottom: 6px;
+}
+
+.geoprocessing-popup .geoprocessing-popup-table{
+  border-collapse: collapse;
+}
+
+.geoprocessing-popup .geoprocessing-popup-table td{
+  padding:2px 2px 5px 2px;
+}
+
+.geoprocessing-popup .geoprocessing-popup-table .attr-name{
+  color: #888888;
+}
+
+.jimu-widget-geoprocessing .output-node .dgrid .dgrid-cell {
+  width: 80px;
+}
+
+.jimu-widget-geoprocessing .jimu-gp-renderer-draw-feature{
+  position: relative;
+  height: 40px;
+  width: 100%;
+}
+
+.jimu-widget-geoprocessing .export-node {
+  width: 16px;
+  height: 16px;
+  background-image: url(images/download.png);
+  cursor: pointer;
+}
+
+.jimu-widget-geoprocessing .export-node:hover {
+  background-image: url(images/download_hover.png);
+}
+
+.jimu-widget-geoprocessing .clear-node {
+  width: 16px;
+  height: 16px;
+  background-image: url(images/del.png);
+  cursor: pointer;
+}
+
+.jimu-widget-geoprocessing .clear-node:hover {
+  background-image: url(images/del_hover.png);
+}
+
+.jimu-widget-geoprocessing .jimu-gp-renderer-draw-feature .output-label{
+  position: absolute;
+  font-size: 12px;
+  line-height: 30px;
+  left: 0;
+  right: 75px;
+}
+
+.jimu-rtl .jimu-widget-geoprocessing .jimu-gp-renderer-draw-feature .output-label{
+  left: 75px;
+  right: 0;
+}
+
+.jimu-widget-geoprocessing .jimu-gp-renderer-draw-feature .clear-node {
+  position: absolute;
+  top: 50%;
+  margin-top: -8px;
+  right: 20px;
+}
+
+.jimu-rtl .jimu-widget-geoprocessing .jimu-gp-renderer-draw-feature .clear-node{
+  left: 20px;
+  right: auto;
+}
+
+.jimu-widget-geoprocessing .jimu-gp-renderer-draw-feature .export-node {
+  position: absolute;
+  top: 50%;
+  margin-top: -8px;
+  right: 47px;
+}
+
+.jimu-rtl .jimu-widget-geoprocessing .jimu-gp-renderer-draw-feature .export-node{
+  left: 47px;
+  right: auto;
+}
+
+.jimu-widget-geoprocessing .jimu-gp-renderer-table{
+  position: relative;
+  margin-top:30px;
+}
+
+.jimu-widget-geoprocessing .jimu-gp-renderer-table .export-node{
+  position: absolute;
+  top: -30px;
+  right: 20px;
+}
+
+.jimu-rtl .jimu-widget-geoprocessing .jimu-gp-renderer-table .export-node{
+  left: 20px;
+  right: auto;
+}
+
+.jimu-widget-geoprocessing .jimu-gp-renderer-table .table-node{
+  width: 100%;
+}
+
+.jimu-widget-geoprocessing .jimu-export-chooser{
+  z-index: 1;
 }

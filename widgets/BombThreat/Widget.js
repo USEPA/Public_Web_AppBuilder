@@ -13,234 +13,312 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 ///////////////////////////////////////////////////////////////////////////
-
+/*jshint loopfunc: true */
 define([
-    'dojo/_base/declare',
-    'dijit/_WidgetsInTemplateMixin',
-    'jimu/BaseWidget',
-    'jimu/dijit/TabContainer',
-    './List',
-    'jimu/utils',
-    "esri/tasks/query",
-    "esri/tasks/QueryTask",
-    "esri/tasks/Geoprocessor",
-    "esri/tasks/FeatureSet",
-    "esri/tasks/BufferParameters",
-    "esri/layers/GraphicsLayer",
-    "esri/graphic",
-    "esri/geometry/Point",
-    "esri/symbols/SimpleMarkerSymbol",
-    "esri/symbols/PictureMarkerSymbol",
-    "esri/geometry/Polyline",
-    "esri/symbols/SimpleLineSymbol",
-    "esri/geometry/Polygon",
-    "esri/symbols/SimpleFillSymbol",
+    "dojo/_base/declare",
+    "dojo/on",
+    "dojo/_base/lang",
+    "dojo/_base/array",
+    "dojo/_base/Deferred",
+    "dojo/_base/Color",
+    "dojo/dom-style",
+    "dojo/dom-construct",
+    "dojo/dom-class",
+    "dojo/query",
+    "dojo/promise/all",
+
+    "dijit/_WidgetsInTemplateMixin",
+    "dijit/layout/ContentPane",
+    "dijit/form/Select",
+    "dijit/ProgressBar",
+    "dijit/TitlePane",
+    "dijit/layout/AccordionContainer",
+
+    "jimu/BaseWidget",
+
+    "esri/config",
+    "esri/request",
     "esri/toolbars/draw",
     "esri/InfoTemplate",
-    "esri/request",
-    "esri/graphicsUtils",
-    "esri/geometry/webMercatorUtils",
-    "esri/dijit/Geocoder",
     "esri/SpatialReference",
+
+    "esri/graphic",
+    "esri/layers/GraphicsLayer",
+
+    "esri/geometry/Circle",
+    "esri/geometry/geometryEngineAsync",
+
+    "esri/tasks/BufferParameters",
     "esri/tasks/GeometryService",
-    "esri/config",
-    "dojo/_base/Color",
-    "dijit/registry",
-    "dijit/Dialog",
-    "dijit/ProgressBar",
-    "dijit/form/NumberSpinner",
-    'dojo/_base/lang',
-    'dojo/on',
-    'dojo/dom',
-    "dojo/dom-style",
-    "dijit/form/Select",
-    "dijit/form/TextBox",
-    "esri/geometry/jsonUtils",
-    "dojox/charting/Chart", "dojox/charting/axis2d/Default", "dojox/charting/plot2d/Lines", "dojox/charting/plot2d/Bars", "dojox/charting/plot2d/Pie",
-    "dojox/charting/plot2d/Columns", "dojox/charting/action2d/Tooltip", "dojo/fx/easing", "dojox/charting/action2d/MouseIndicator", "dojox/charting/action2d/Highlight",
-    "dojox/charting/action2d/MoveSlice", "dojox/charting/themes/MiamiNice", "dojox/charting/action2d/Magnify",
-    'dojo/_base/array',
-    'dojo/_base/html',
-    "esri/tasks/RelationParameters",
-    "esri/layers/FeatureLayer",
-    'jimu/dijit/DrawBox',
-    'dojo/query',
-    'dojo/dom-construct',
-    './FacilitiesPane'
-],
-    function (declare, _WidgetsInTemplateMixin, BaseWidget, TabContainer, List, utils, Query, QueryTask, Geoprocessor,
-              FeatureSet, BufferParameters, GraphicsLayer, Graphic, Point, SimpleMarkerSymbol, PictureMarkerSymbol,
-              Polyline, SimpleLineSymbol, Polygon, SimpleFillSymbol, Draw, InfoTemplate, esriRequest, graphicsUtils,
-              webMercatorUtils, Geocoder, SpatialReference, GeometryService, esriConfig, Color, registry, Dialog,
-              ProgressBar, NumberSpinner, lang, on, dom, domStyle, Select, TextBox, jsonUtils, Chart, Default, Lines,
-              Bars, Pie, Columns, Tooltip, easing, MouseIndicator, Highlight, MoveSlice, MiamiNice, Magnify, array,
-              html, RelationParameters, FeatureLayer, DrawBox, query, domConstruct, FacilitiesPane) {
+    "esri/tasks/query",
+    "esri/tasks/QueryTask",
+
+    "esri/symbols/SimpleMarkerSymbol",
+    "esri/symbols/SimpleFillSymbol",
+    "esri/symbols/SimpleLineSymbol",
+
+    "./PieChartWidget",
+    "./FacilityWidget"
+
+], function (declare, on, lang, array, Deferred, Color, domStyle, domConstruct, domClass, query, all,
+             _WidgetsInTemplateMixin, ContentPane, Select, ProgressBar, TitlePane, AccordionContainer,
+             BaseWiget,
+             esriConfig, esriRequest, Draw, InfoTemplate, SpatialReference,
+             Graphic, GraphicsLayer,
+             EsriCircle, geometryEngineAsync,
+             BufferParameters, GeometryService, Query, QueryTask,
+             SimpleMarkerSymbol, SimpleFillSymbol, SimpleLineSymbol,
+             PieChartWidget, FacilityWidget) {
+    /**
+     * The Bomb Threat widget allows a user to add a bomb type to the map
+     * @type {*}
+     * @module widgets/BombThreat
+     */
+    var bombThreatClass = declare([BaseWiget, _WidgetsInTemplateMixin], {
+        baseClass: "jimu-widget-bombThreat",
+        name: "bombThreat",
+
+        selectedBombType: null,
+        bombLocationGraphicsLayer: null,
+        bombBufferGraphicsLayer: null,
+        facilitiesGraphicsLayer: null,
+
+        drawToolbar: null,
+
+        widgets: [],
+        bombTypeDistances: null,
+
+        pieChartDataList: [],
+        pieChart: null,
+
+        bombLocationIndex: 0,
+        bombLocationList: [],
+
+        facilitiesDataList: [],
+
+        optionalEvacAreas: [],
+
+        hasResults: false,
+
         /**
-         * The Bomb Threat widget allows a user to add a bomb type to the map
-         * @type {*}
-         * @module widgets/BombThreat
+         * Widget postCreate
          */
-        var clazz = declare([BaseWidget, _WidgetsInTemplateMixin], {
-            // DemoWidget code goes here
+        postCreate: function () {
+            this.inherited(arguments);
+            //Check for valid demographic and infrastructure layer URLs
+            this._checkValidServices().then(lang.hitch(this, function () {
+                //init the geometry service before moving on
+                this._initGeometryService().then(lang.hitch(this, function () {
+                    this._init();
+                }), function (err) {
+                    window.console.error(err);
+                });
+            }), function (err) {
+                window.console.error(err);
+            });
+        },
 
-            //please note that this property is be set by the framework when widget is loaded.
-            //templateString: template,
+        /**
+         * Widget startup
+         */
+        startup: function () {
+            this.inherited(arguments);
+        },
 
-            baseClass: 'jimu-widget-bombThreat',
-            name: 'BombThreat',
-            selectedBombType: null,
-            bombLocationGraphicsLayer: null,
-            addressLocationLayer: null,
-            bufferGraphicsLayer: null,
-            facilitiesGraphicsLayer: null,
-            chartLayer: null,
-            charts: [],
-            currentChartIndex: -1,
+        /**
+         * Widget destroy
+         */
+        destroy: function () {
+            this._cleanUp();
+        },
 
-            startup: function () {
-                this.inherited(arguments);
-//                var geocoder = registry.byId("geocoderWidget");
-//                this.own(on(geocoder, "find-results", lang.hitch(this, this.onAddressReturned)));
-                console.log('startup');
+        /**
+         * Geometry Service error. Display error message to user
+         * @param error
+         */
+        onGeometryServiceOnError: function (error) {
+            window.console.error(error);
+        },
 
-                this.tabContainer = new TabContainer({
-                    tabs: [
-                        {
-                            title: this.nls.tabBombThreat,
-                            content: this.tabNode1
-                        },
-                        {
-                            title: this.nls.tabDemo,
-                            content: this.tabNode2
-                        },
-                        {
-                            title: this.nls.tabFacilities,
-                            content: this.tabNode3
-                        }
-                    ],
-                    selected: this.nls.tabBombThreat
-                }, this.tabBT);
-                this.tabContainer.startup();
-                utils.setVerticalCenter(this.tabContainer.domNode);
+        /**
+         * Create blast zones graphics from results of the geometry service buffer operations.
+         * Inside polygon graphic refers to mandatory evac distance.
+         * Outside polygon graphic refers to shelter in place zone.
+         * @param results
+         */
+        onGeometryServiceBufferComplete: function (results) {
+            var insideSymbol = new SimpleFillSymbol(this.config.bombThreat.symbols.insideFillSymbol);
+            var insideAttr = {"Evac": "Mandatory Evacuation Distance"};
+            var infoTemplate = new InfoTemplate("Evacuation Zone", "Zone: ${Evac}");
+            var insideGraphic = new Graphic(results.geometries[0], insideSymbol, insideAttr, infoTemplate);
 
-                this.own(on(esriConfig.defaults.geometryService, "buffer-complete",
-                    lang.hitch(this, this.geometryServiceBufferComplete)));
-                this.own(on(esriConfig.defaults.geometryService, "error",
-                    lang.hitch(this, this.geometryServiceOnError)));
+            var outsideSymbol = new SimpleFillSymbol(this.config.bombThreat.symbols.outsideFillSymbol);
+            var outsideAttr = {"Evac": "Shelter-in-Place Zone"};
+            var outInfoTemplate = new InfoTemplate("Evacuation Zone", "Zone: ${Evac}");
+            var outsideGraphic = new Graphic(results.geometries[1], outsideSymbol, outsideAttr, outInfoTemplate);
 
-                //Bomb Types
-                var option = [];
-                option[0] = {};
-                option[0].label = "Pipe bomb";
-                option[0].value = "Pipe bomb";
+            this.bombBufferGraphicsLayer.add(outsideGraphic);
+            this.bombBufferGraphicsLayer.add(insideGraphic);
 
-                option[1] = {};
-                option[1].label = "Suicide vest";
-                option[1].value = "Suicide vest";
+            //Capture all optional evac areas for demographic and
+            //infrastructure queries
+            this.optionalEvacAreas.push(outsideGraphic.geometry);
+        },
 
-                option[2] = {};
-                option[2].label = "Briefcase/suitcase bomb";
-                option[2].value = "Briefcase/suitcase bomb";
+        /**
+         * Save bomb type selected by user
+         * @param newValue
+         */
+        onChangeBombType: function (newValue) {
+            this.selectedBombType = newValue;
+        },
 
-                option[3] = {};
-                option[3].label = "Sedan";
-                option[3].value = "Sedan";
-
-                option[4] = {};
-                option[4].label = "SUV/van";
-                option[4].value = "SUV/van";
-
-                option[5] = {};
-                option[5].label = "Small delivery truck";
-                option[5].value = "Small delivery truck";
-
-                option[6] = {};
-                option[6].label = "Container/water truck";
-                option[6].value = "Container/water truck";
-
-                option[7] = {};
-                option[7].label = "Semi-trailer";
-                option[7].value = "Semi-trailer";
-
-                this.bombType.addOption(option);
-                //SELECT MENU Change events wiring...
-                this.own(on(this.bombType, "change", lang.hitch(this, this.onChangeBombType)));
-
-                this.selectedBombType = "Pipe bomb"
-
-                //buffer coverage layer
-                this.bufferGraphicsLayer = new GraphicsLayer();
-                this.map.addLayer(this.bufferGraphicsLayer);
-                this.own(on(this.bufferGraphicsLayer, "mouse-over",
-                    lang.hitch(this, this.bombLocationGraphicsLayerMouseOver)));
-                this.own(on(this.bufferGraphicsLayer, "mouse-out",
-                    lang.hitch(this, this.bombLocationGraphicsLayerMouseOut)));
-
-                //spill location graphics layer
-                this.bombLocationGraphicsLayer = new GraphicsLayer();
-                this.map.addLayer(this.bombLocationGraphicsLayer);
-                this.own(on(this.bombLocationGraphicsLayer, "mouse-over",
-                    lang.hitch(this, this.bombLocationGraphicsLayerMouseOver)));
-                this.own(on(this.bombLocationGraphicsLayer, "mouse-out",
-                    lang.hitch(this, this.bombLocationGraphicsLayerMouseOut)));
-
-                // this.addressLocationLayer = new GraphicsLayer();
-                // this.map.addLayer(this.addressLocationLayer);
-
-                //affected layers
-                // this.facilitiesGraphicsLayer = new GraphicsLayer();
-                // this.map.addLayer(this.facilitiesGraphicsLayer);
-                // this.own(on(this.facilitiesGraphicsLayer, "click", lang.hitch(this, this.facilitiesGraphicsLayerClick)));
-
-                this.drawToolbar = new Draw(this.map);
-                this.own(on(this.drawToolbar, "draw-end", lang.hitch(this, this.addBombLocation)));
-                this.own(on(this.drawSpillInfo, "click", lang.hitch(this, this.bindDrawToolbar)));
-            },
-
-            // CLEAR THE MAP
-            onClearBtnClicked: function () {
-                this.bombLocationGraphicsLayer.clear();
-                //this.addressLocationLayer.clear();
-                this.bufferGraphicsLayer.clear();
-                // this.facilitiesGraphicsLayer.clear();
-                this.chartLayer.clear();
-                this.facilitiesGraphicsLayer.clear();
-                this._clearCharts();
-                html.empty(this.facilitiesListSection);
-            },
-
-            // ADD BOMB LOCATION
-            addBombLocation: function (evt) {
-                //deactivate the toolbar and clear existing graphics
-                this.drawToolbar.deactivate();
-                this.map.enableMapNavigation();
-
-                //point symbol
-                var symbol = new SimpleMarkerSymbol(this.config.bombThreat.symbols.simplemarkersymbol);
-                //var symbol = new PictureMarkerSymbol(this.config.bombThreat.symbols.picturemarkersymbol)
-
-                var attr = {"Evac": this.selectedBombType};
-                var infoTemplate = new InfoTemplate("Evacuation", "Bomb Type: ${Evac}");
-                var graphic = new Graphic(evt.geometry, symbol, attr, infoTemplate);
-                this.bombLocationGraphicsLayer.add(graphic);
-            },
-
-            bindDrawToolbar: function (evt) {
-                if (evt.target.id === "drawSpillInfo") {
-                    return;
+        /**
+         * Zoom to selected bomb location
+         * @param newValue
+         */
+        onChangeBombLocations: function (newValue) {
+            //Iterate through the bomb location list to get the right value
+            var bombLocPt = null;
+            array.forEach(this.bombLocationList, function (bombLocation) {
+                if (bombLocation.value === newValue) {
+                    bombLocPt = bombLocation.geometry;
                 }
-                var tool = evt.target.id.toLowerCase();
-                this.map.disableMapNavigation();
-                this.bombLocationGraphicsLayer.clear();
-                //this.addressLocationLayer.clear();
-                this.drawToolbar.activate(tool);
-            },
+            }, this);
+            var gExtent = new EsriCircle(bombLocPt, {
+                "radius": this.bombTypeDistances[this.selectedBombType].OutdoorEvacDistance
+            });
+            //Zoom to the location
+            this.map.setExtent(gExtent.getExtent());
 
-            // BUFFER THE BOMB LOCATION BASED ON THE SELECTED BOMB TYPE
-            onSolve: function (evt) {
-                var BuildingEvacDistance = 0;
-                var OutdoorEvacDistance = 0;
-                var bufferGeometry = null;
+            //Get the index of the selected option
+            var selectedIndex = 0;
+            array.forEach(this.bombLocations.getOptions(), function (option, idx) {
+                if (option.value === newValue) {
+                    selectedIndex = idx;
+                }
+            }, this);
+
+            //Update the pie chart with the first chart series
+            this.pieChart.updateSeries(this.pieChartDataList[selectedIndex][0]);
+            //Reset the demographics drop down list to the first index
+            this.demoCategoryTypes.setValue(this.demoCategoryTypes.options[0].value);
+            //Update the facilities list
+            this._setFacilitiesDataSource(this.facilitiesDataList[selectedIndex]);
+            this._addFacilitiesToMap(this.facilitiesDataList[selectedIndex]);
+        },
+
+        /**
+         * Update the pie chart based on the selected option from the demographic
+         * drop down list
+         * @param newValue
+         */
+        onChangeDemoCategoryTypes: function (newValue) {
+            //Get the selected index from the bomb location drop down list
+            var selectedIndex = 0;
+            array.forEach(this.bombLocations.options, function (option, idx) {
+                if (option.value === this.bombLocations.attr("value")) {
+                    selectedIndex = idx;
+                }
+            }, this);
+            array.forEach(this.pieChartDataList[selectedIndex], function (chartData) {
+                if (newValue === chartData.name) {
+                    this.pieChart.updateSeries(chartData);
+                }
+            }, this);
+        },
+
+        /**
+         * Create and show an info window when user mouse overs a bomb location graphic
+         * @param evt
+         */
+        onBombLocationGraphicsLayerMouseOver: function (evt) {
+            this.map.infoWindow.setContent(evt.graphic.getContent());
+            this.map.infoWindow.setTitle(evt.graphic.getTitle());
+            this.map.infoWindow.show(evt.screenPoint, this.map.getInfoWindowAnchor(evt.screenPoint));
+        },
+
+        /**
+         * Hide the info window when user hovers away from a bomb location graphic
+         */
+        onBombLocationGraphicsLayerMouseOut: function () {
+            this.map.infoWindow.hide();
+        },
+
+        /**
+         * Create the bomb location point and add to the
+         * bomb location layer
+         * @param evt
+         */
+        onDrawEndAddBombLocation: function (evt) {
+            //Create the bomb type point symbol
+            var symbol = new SimpleMarkerSymbol(this.config.bombThreat.symbols.simplemarkersymbol);
+            //Show selected bomb type for info template attributes
+            var attr = {
+                "Evac": this.selectedBombType
+            };
+            //Create info template, graphic and add graphic to the bomb location layer
+            var title = lang.replace("Bomb Location #{index}", {index: ++this.bombLocationIndex});
+            var infoTemplate = new InfoTemplate(title, "Bomb Type: ${Evac}");
+            var graphic = new Graphic(evt.geometry, symbol, attr, infoTemplate);
+            this.bombLocationGraphicsLayer.add(graphic);
+
+            //Keep a list of bomb locations created by the user
+            this.bombLocationList.push({
+                label: lang.replace("{title} - {bombType}", {title: title, bombType: this.selectedBombType}),
+                value: lang.replace("{title} - {bombType}", {title: title, bombType: this.selectedBombType}),
+                geometry: evt.geometry,
+                bombType: this.selectedBombType
+            });
+        },
+
+        /**
+         * Activates the draw tool for adding bomb locations
+         */
+        onClickDrawBombType: function () {
+            //Disable map navigation
+            this.map.disableMapNavigation();
+            //Activate the draw tool for adding points
+            this.drawToolbar.activate("point");
+            //Disable popups on map
+            this.map.setInfoWindowOnClick(false);
+        },
+
+        /**
+         * Refresh pie chart or set the facilities content pane to 100% width
+         * @param attr
+         * @param oldVal
+         * @param newVal
+         */
+        onAccordionSelectedChildWidget: function (attr, oldVal, newVal) {
+            //Call this to accommodate accordion weird behavior of rendering facilities list and pie chart
+            if (newVal.title === "Demographics") {
+                this.onChangeDemoCategoryTypes(this.demoCategoryTypes.attr("value"));
+            } else {
+                this.cpFacilities.domNode.style.width = "100%";
+            }
+        },
+
+        /**
+         * Called when user clicks the "Run" button. It calls the buffer operations
+         * from the geometry service. Each bomb type has an evacuation distance and is used
+         * to determine the buffer distance for the selected bomb type.
+         */
+        _executeSearch: function () {
+            if (this.bombLocationList.length > 0) {
+                //Clear graphics layer of any old graphics
+                this.bombBufferGraphicsLayer.clear();
+
+                //deactivate the toolbar
+                this.drawToolbar.deactivate();
+                //Enable map navigation
+                this.map.enableMapNavigation();
+                //Enable popups
+                this.map.setInfoWindowOnClick(true);
+
+                //Switch to results tab
+                this._setTab({target: this.resultsTab});
+                this._showResultsSection(true, false, false); //Show the busy signal
 
                 var bufferParams = new BufferParameters();
                 bufferParams.unit = GeometryService.UNIT_FOOT;
@@ -248,811 +326,629 @@ define([
                 bufferParams.bufferSpatialReference = new SpatialReference({wkid: 102004});
                 //bufferParams.geodesic = true;
 
-                if (this.selectedBombType === "Pipe bomb") {
-                    BuildingEvacDistance = 70;
-                    OutdoorEvacDistance = 1200;
-                }
-                else if (this.selectedBombType === "Suicide vest") {
-                    BuildingEvacDistance = 110;
-                    OutdoorEvacDistance = 1750;
-                }
-                else if (this.selectedBombType === "Briefcase/suitcase bomb") {
-                    BuildingEvacDistance = 150;
-                    OutdoorEvacDistance = 1850;
-                }
-                else if (this.selectedBombType === "Sedan") {
-                    BuildingEvacDistance = 320;
-                    OutdoorEvacDistance = 1900;
-                }
-                else if (this.selectedBombType === "SUV/van") {
-                    BuildingEvacDistance = 400;
-                    OutdoorEvacDistance = 2400;
-                }
-                else if (this.selectedBombType === "Small delivery truck") {
-                    BuildingEvacDistance = 640;
-                    OutdoorEvacDistance = 3800;
-                }
-                else if (this.selectedBombType === "Container/water truck") {
-                    BuildingEvacDistance = 860;
-                    OutdoorEvacDistance = 5100;
-                }
-                else if (this.selectedBombType === "Semi-trailer") {
-                    BuildingEvacDistance = 1570;
-                    OutdoorEvacDistance = 9300;
-                }
-                if (BuildingEvacDistance == 0 || OutdoorEvacDistance == 0)
+                var bufferOps = [];
+                array.forEach(this.bombLocationList, function (bombLocation) {
+                    bufferParams.distances = [this.bombTypeDistances[bombLocation.bombType].BuildingEvacDistance,
+                        this.bombTypeDistances[bombLocation.bombType].OutdoorEvacDistance];
+                    bufferParams.geometries = [bombLocation.geometry];
+                    //Perform buffer operation
+                    bufferOps.push(esriConfig.defaults.geometryService.buffer(bufferParams));
+                }, this);
+
+                this.optionalEvacAreas = [];
+
+                all(bufferOps).then(lang.hitch(this, function () {
+                    //Zoom map to the shelter in place polygon graphic extent
+                    if (this.optionalEvacAreas.length > 1) {
+                        geometryEngineAsync.union(this.optionalEvacAreas).then(lang.hitch(this, function (results) {
+                            this.map.setExtent(results.getExtent(), true);
+                        }));
+                    } else {
+                        this.map.setExtent(this.optionalEvacAreas[0].getExtent(), true);
+                    }
+
+                    //Perform demographic queries using the shelter in place zone
+                    //polygon graphic
+                    this._doQuery(this.optionalEvacAreas);
+
+                    //Add the bomb locations to the drop down list control
+                    this.bombLocations.options.length = 0; //clear out options first before adding
+                    this.bombLocations.addOption(this.bombLocationList);
+
+                    this.hasResults = true;
+                }));
+
+            } else {
+                alert("Please add bomb location(s) to the map");
+            }
+        },
+
+        /**
+         * Called when user clicks "Clear" button. Clear graphic layers and results DOM node
+         */
+        onClearBtnClicked: function () {
+            this._clearResults();
+        },
+
+        /**
+         * Perform queries using list of geometries input parameter
+         * @param geometries
+         * @private
+         */
+        _doQuery: function (geometries) {
+            try {
+                //Check if we have the demographic and infrastructure layers
+                if (!this.config.bombThreat.demographicLayer.url) {
+                    this._onQueryError("Demographic layer was defined incorrectly");
                     return;
-
-                if (this.bombLocationGraphicsLayer.graphics.length > 0) {
-                    console.log(this.bombLocationGraphicsLayer.graphics.length)
-                    bufferGeometry = this.bombLocationGraphicsLayer.graphics[0].geometry;
-                    bufferParams.geometries = [bufferGeometry];
                 }
-                // else if(this.addressLocationLayer.graphics.length >0){
-                //   console.log(this.addressLocationLayer.graphics.length)
-                //   bufferGeometry = this.addressLocationLayer.graphics[0].geometry;
-                //   bufferParams.geometries = [bufferGeometry];
-                // }
-
-                bufferParams.distances = [BuildingEvacDistance, OutdoorEvacDistance];
-                esriConfig.defaults.geometryService.buffer(bufferParams);
-            },
-
-            //wigdget control events
-            onChangeBombType: function (newValue) {
-                this.selectedBombType = newValue;
-            },
-
-            // BOMB BUFFER IS RETURNED
-            geometryServiceBufferComplete: function (results) {
-                console.log(results);
-                this.bufferGraphicsLayer.clear();
-
-                var insideSymbol = new SimpleFillSymbol(this.config.bombThreat.symbols.insideFillSymbol);
-                var insideAttr = {"Evac": "Mandatory Evacuation Distance"};
-                var infoTemplate = new InfoTemplate("Evacuation Zone", "Zone: ${Evac}");
-                var insideGraphic = new Graphic(results.geometries[0], insideSymbol, insideAttr, infoTemplate);
-
-                var outsideSymbol = new SimpleFillSymbol(this.config.bombThreat.symbols.outsideFillSymbol);
-                var outsideAttr = {"Evac": "Shelter-in-Place Zone"};
-                var outInfoTemplate = new InfoTemplate("Evacuation Zone", "Zone: ${Evac}");
-                var outsideGraphic = new Graphic(results.geometries[1], outsideSymbol, outsideAttr, outInfoTemplate);
-
-                this.bufferGraphicsLayer.add(outsideGraphic);
-                this.bufferGraphicsLayer.add(insideGraphic);
-
-                this.map.setExtent(outsideGraphic.geometry.getExtent(), true);
-
-                var data = {};
-                data.layerInfo = this.config.bombThreat.demographicLayer;
-                data.geometry = outsideGraphic.geometry;
-                this.publishData(data);
-
-                this._doQuery(outsideGraphic.geometry);
-                this._doFacilitiesQuery(outsideGraphic.geometry)
-            },
-
-            geometryServiceOnError: function (evt) {
-                console.log(evt);
-            },
-
-            //WHEN USER LOCATES AN ADDRESS ON THE MAP
-            onAddressReturned: function (results) {
-                this.bombLocationGraphicsLayer.clear();
-                var address = results.results.results[0];
-                var symbol = new PictureMarkerSymbol(this.config.bombThreat.symbols.picturemarkersymbol)
-
-                var attr = {"Evac": this.selectedBombType};
-                var infoTemplate = new InfoTemplate("Evacuation", "Bomb Type: ${Evac}");
-                var graphic = new Graphic(address.feature.geometry, symbol, attr, infoTemplate);
-                //this.addressLocationLayer.add(graphic);
-                this.bombLocationGraphicsLayer.add(graphic);
-            },
-
-            postCreate: function () {
-                this.inherited(arguments);
-                console.log('postCreate');
-                this._initChartLayer();
-                this._initFacilitiesLayer();
-                this._initResultsTab();
-            },
-
-            bombLocationGraphicsLayerMouseOver: function (evt) {
-                console.log('mouse over');
-
-                this.map.infoWindow.setContent(evt.graphic.getContent());
-                this.map.infoWindow.setTitle(evt.graphic.getTitle());
-                this.map.infoWindow.show(evt.screenPoint, this.map.getInfoWindowAnchor(evt.screenPoint));
-            },
-
-            bombLocationGraphicsLayerMouseOut: function (evt) {
-                this.map.infoWindow.hide();
-            },
-
-            facilitiesGraphicsLayerClick: function (evt) {
-                console.log(evt);
-                var graphic = evt.graphic;
-            },
-
-            onOpen: function () {
-                console.log('onOpen');
-            },
-
-            onClose: function () {
-                console.log('onClose');
-            },
-
-            onMinimize: function () {
-                console.log('onMinimize');
-            },
-
-            onMaximize: function () {
-                console.log('onMaximize');
-            },
-
-            onSignIn: function (credential) {
-                /* jshint unused:false*/
-                console.log('onSignIn');
-            },
-
-            onSignOut: function () {
-                console.log('onSignOut');
-            },
-
-            destroy: function () {
-                if (this.chartLayer) {
-                    this.map.removeLayer(this.chartLayer);
-                    this.chartLayer = null;
+                if (!this.config.bombThreat.infrastructureLayer.url) {
+                    this._onQueryError("Demographic layer was defined incorrectly");
+                    return;
                 }
 
-                if (this.facilitiesGraphicsLayer) {
-                    this.map.removeLayer(this.facilitiesGraphicsLayer);
-                    this.facilitiesGraphicsLayer = null;
+                //Query the demographic and infrastructure layers
+                var queryTaskList = [];
+                for (var idx = 0; idx < geometries.length; idx++) {
+                    //Query demographic layer first
+                    var polyQTask = new QueryTask(this.config.bombThreat.demographicLayer.url);
+                    var polyQ = new Query();
+                    polyQ.returnGeometry = true;
+                    polyQ.outFields = this.config.bombThreat.demographicLayer.fields;
+                    polyQ.geometry = geometries[idx];
+                    queryTaskList.push(polyQTask.execute(polyQ));
                 }
-            },
-
-            _doFacilitiesQuery: function(geometry) {
-                try {
-                    html.setStyle(this.facilitiesListSection, 'display', 'none');
-                    if (this.config.bombThreat.infrastructureLayer.url) {
-                        this._doFacilitiesQueryByUrl(this.config.bombThreat.infrastructureLayer, geometry);
-                    } else {
-                        this._onQueryError("Infrastructure layer was defined incorrectly.")
-                    }
-                } catch (err) {
-                    console.log(err.message);
+                for (var index = 0; index < geometries.length; index++) {
+                    var pointQTask = new QueryTask(this.config.bombThreat.infrastructureLayer.url);
+                    var pointQ = new Query();
+                    pointQ.returnGeometry = true;
+                    pointQ.outFields = this.config.bombThreat.infrastructureLayer.fields;
+                    pointQ.geometry = geometries[index];
+                    queryTaskList.push(pointQTask.execute(pointQ));
                 }
-            },
+                all(queryTaskList).then(lang.hitch(this, this._handleQueryResults));
+            } catch (err) {
+                window.console.error(err.message);
+            }
+        },
 
-            _doFacilitiesQueryByUrl: function(layerInfo, geometry) {
-                var queryTask = new QueryTask(layerInfo.url);
-                var q = new Query();
-                q.returnGeometry = true;
-                q.outFields = layerInfo.fields;
-                q.geometry = geometry;
-                queryTask.execute(q);
-                this.own(on(queryTask, 'complete', lang.hitch(this, this._onFacilitiesQueryComplete)));
-                this.own(on(queryTask, 'error', lang.hitch(this, this._onFacilitiesQueryError)));
-            },
+        /**
+         * Report error to user via console
+         * @param error
+         * @private
+         */
+        _onQueryError: function (error) {
+            window.console.error("ChartWidget query failed", error);
+            domStyle.set(this.progressBar.domNode, 'display', 'none');
+            domStyle.set(this.resultsBombSection, 'display', 'none');
+            domStyle.set(this.noResultsSection, 'display', 'block');
+        },
 
-            _onFacilitiesQueryComplete: function(response) {
-                var features = response.featureSet.features;
-                if (features.length > 0) {
-                    html.empty(this.facilitiesListSection);
-                    var parentHeight = domStyle.get(this.domNode.parentNode.parentNode, "height");
-                    var listContainer = domConstruct.place("<div></div>", this.facilitiesListSection);
-                    var fp = new FacilitiesPane({
-                        resultsList: features,
-                        frameHeight: parentHeight,
-                        gLayer: this.facilitiesGraphicsLayer
-                    }, listContainer);
-                    html.setStyle(this.facilitiesListSection, 'display', 'block');
+        /**
+         * Update pie chart and impacted facilities list from all responses from queries
+         * @param results
+         * @private
+         */
+        _handleQueryResults: function (results) {
+            //Hide the progressbar
+            this._showResultsSection(false, true, false);
 
-                    this.facilitiesGraphicsLayer.clear();
-                    for (var i = 0; i < features.length; i++) {
-                        var f = features[i];
-                        this._setFeatureSymbol(f);
-                        this.facilitiesGraphicsLayer.add(f);
-                    }
-                }
-            },
+            //Reset the facilities and pie chart arrays
+            this.pieChartDataList = [];
+            this.facilitiesDataList = [];
 
-            _onFacilitiesQueryError: function (error) {
-                console.error("Facilities list query failed", error);
-                this._showError("Error");
-            },
-
-            _initChartLayer:function(){
-                this.chartLayer = new GraphicsLayer();
-                this.map.addLayer(this.chartLayer);
-            },
-
-            _initFacilitiesLayer: function() {
-                this.facilitiesGraphicsLayer = new GraphicsLayer();
-                this.map.addLayer(this.facilitiesGraphicsLayer);
-            },
-
-            _initResultsTab:function(){
-                this.own(on(this.pagingUl,'click',lang.hitch(this,function(event){
-                    var target = event.target||event.srcElement;
-                    var tagName = target.tagName.toLowerCase();
-                    if(tagName === 'a'){
-                        var as = query('a',this.pagingUl);
-                        var index = array.indexOf(as,target);
-                        if(index >= 0){
-                            this._showChart(index);
-                        }
-                    }
-                })));
-
-                this.own(on(this.leftArrow,'click',lang.hitch(this,function(){
-                    var index = (this.currentChartIndex - 1 + this.charts.length)%this.charts.length;
-                    if(index >= 0){
-                        this._showChart(index);
-                    }
-                })));
-
-                this.own(on(this.rightArrow,'click',lang.hitch(this,function(){
-                    var index = (this.currentChartIndex + 1 + this.charts.length)%this.charts.length;
-                    if(index >= 0){
-                        this._showChart(index);
-                    }
-                })));
-            },
-
-            _doQuery: function (geometry) {
-                try {
-                    //Change to results tab
-                    this.tabContainer.selectTab(this.nls.tabDemo);
-                    html.setStyle(this.progressBar.domNode, 'display', 'block');
-                    html.setStyle(this.resultsSection, 'display', 'none');
-                    html.setStyle(this.noresultsSection, 'display', 'none');
-
-                    if (this.config.bombThreat.demographicLayer.url) {
-                        this._doQueryByUrl(this.config.bombThreat.demographicLayer, geometry);
-                    } else {
-                        this._onQueryError("Demographic layer was defined incorrectly");
-                    }
-                } catch (err) {
-                    console.log(err.message);
-                }
-            },
-
-            _doQueryByUrl: function (layerInfo, geometry) {
-                var queryTask = new QueryTask(layerInfo.url);
-                var q = new Query();
-                q.returnGeometry = true;
-                q.outFields = layerInfo.fields;
-                q.geometry = geometry;
-                queryTask.execute(q);
-                this.own(on(queryTask, 'complete', lang.hitch(this, this._onQueryComplete)));
-                this.own(on(queryTask, 'error', lang.hitch(this, this._onQueryError)));
-            },
-
-            _onQueryComplete: function (response) {
-                var featureSet = response.featureSet;
-                var features = featureSet.features;
-                this._displayResult(features);
-            },
-
-            _onQueryError: function (error) {
-                html.setStyle(this.progressBar.domNode, 'display', 'none');
-                this._clear();
-                console.error("ChartWidget query failed", error);
-                this._showError("Error");
-                html.setStyle(this.resultsSection, 'display', 'none');
-                html.setStyle(this.noresultsSection, 'display', 'block');
-            },
-
-            _displayResult: function (features) {
-                this.progressBar.domNode.style.display = 'none';
-                //html.setStyle(this.progressBar.domNode,'display','none');
-                this._clear();
-                var length = features.length;
-                if (length > 0) {
-                    html.setStyle(this.resultsSection, 'display', 'block');
-                    html.setStyle(this.noresultsSection, 'display', 'none');
-                    for (var i = 0; i < length; i++) {
-                        var f = features[i];
-                        this._setFeatureSymbol(f);
-                        this.chartLayer.add(f);
-                    }
-                    this._createCharts(features);
+            //Iterate through the results
+            for (var idx = 0; idx < results.length; idx++) {
+                var features = results[idx].features;
+                if (features.length > 0 && results[idx].geometryType === "esriGeometryPolygon") {
+                    //Create the pie chart
+                    this.pieChartDataList.push(this._setPieChartDataSource(features));
                 } else {
-                    html.setStyle(this.resultsSection, 'display', 'none');
-                    html.setStyle(this.noresultsSection, 'display', 'block');
+                    //Create the facilities
+                    this.facilitiesDataList.push(features);
                 }
-            },
+            }
+            //Update the pie chart
+            if (this.pieChartDataList.length > 0) {
+                this.pieChart.updateSeries(this.pieChartDataList[0][0]);
+            }
+            if (this.facilitiesDataList.length > 0) {
+                //Create the facilities list
+                this._setFacilitiesDataSource(this.facilitiesDataList[0]);
+                //Add facilities to the map
+                this._addFacilitiesToMap(this.facilitiesDataList[0]);
+            }
+        },
 
-            _setFeatureSymbol: function (f) {
-                switch (f.geometry.type) {
-                    case 'extent':
-                    case 'polygon':
-                        f.setSymbol(this._getFillSymbol());
-                        break;
-                    case 'polyline':
-                        f.setSymbol(this._getLineSymbol());
-                        break;
-                    default:
-                        f.setSymbol(this._getMarkerSymbol());
-                        break;
+        /**
+         * Create the facilities list component
+         * @param features
+         * @private
+         */
+        _setFacilitiesDataSource: function (features) {
+            //Clear out old results
+            domConstruct.empty(this.facilitiesListSection);
+            if (features.length > 0) {
+                array.forEach(features, function (feature) {
+                    var facilityDiv = domConstruct.create("div", {"class":"jimu-widget-bombThreat featureLabel"},
+                        this.facilitiesListSection, "last");
+                    var facility = new FacilityWidget({
+                        graphicsLayer: this.facilitiesGraphicsLayer,
+                        inputGraphic: feature
+                    }, facilityDiv);
+                    this._trackDijits(facility);
+                }, this);
+            } else {
+                //Add no query results message
+                domConstruct.create("div", {innerHTML: "No impacted facilities"}, this.facilitiesListSection);
+            }
+        },
+
+        /**
+         * Add impacted facilities to the map
+         * @param features
+         * @private
+         */
+        _addFacilitiesToMap: function (features) {
+            this.facilitiesGraphicsLayer.clear();
+            array.forEach(features, function (feature) {
+                var facINFO = "";
+                array.forEach(this.config.bombThreat.infrastructureLayer.fields, function (field) {
+                    facINFO += field + ": " + feature.attributes[field] + "<br>";
+                }, this);
+                var facAttr = {"facInfo": facINFO};
+                var facTemplate = new InfoTemplate("Impacted Facility", "${facInfo}");
+                var facGraphic = new Graphic(feature.geometry, this._getFacilitySymbol(), facAttr, facTemplate);
+                this.facilitiesGraphicsLayer.add(facGraphic);
+            }, this);
+        },
+
+        /**
+         * Create the facility point symbol
+         * @returns {esri.symbols.SimpleMarkerSymbol}
+         * @private
+         */
+        _getFacilitySymbol: function () {
+            var style = SimpleMarkerSymbol.STYLE_CIRCLE;
+            var size = 15;
+            var color = new Color("#FF0000");
+            color.a = 1;
+
+            var outlineSymbol = new SimpleLineSymbol();
+            var outlineColor = new Color("#000000");
+            var outlineWidth = 0;
+            outlineSymbol.setStyle(SimpleLineSymbol.STYLE_SOLID);
+            outlineSymbol.setColor(outlineColor);
+            outlineSymbol.setWidth(outlineWidth);
+
+            var symbol = new SimpleMarkerSymbol(style, size, outlineSymbol, color);
+            return symbol;
+        },
+
+        /**
+         * Create and store data source(s) for pie chart
+         * @param features
+         * @returns {{data: Array, total: number}}
+         * @private
+         */
+        _setPieChartDataSource: function (features) {
+            var categoryList = [];
+            var layerInfo = this.config.bombThreat.demographicLayer;
+
+            for (var key in layerInfo.charts) {
+                if (layerInfo.charts.hasOwnProperty(key)) {
+                    var totalCount = 0, dataList = [], medias = layerInfo.charts[key].medias;
+                    array.forEach(medias, function (media, idx) {
+                        //quick check if field exists
+                        if (this._fieldExists(features, media.chartField)) {
+                            var catCount = 0;
+                            array.forEach(features, function (feature) {
+                                var num = feature.attributes[media.chartField];
+                                catCount += num;
+                                totalCount += num;
+                            }, this);
+                            var newObj = {
+                                id: idx,
+                                text: media.title,
+                                y: catCount
+                            };
+                            dataList.push(newObj);
+                        }
+                    }, this);
+                    if (dataList.length > 0) {
+                        categoryList.push({
+                            data: dataList,
+                            total: totalCount,
+                            name: layerInfo.charts[key].title
+                        });
+                    }
                 }
-            },
+            }
+            return categoryList;
+        },
 
-            _getHighLightColor:function(){
-                var color = new Color('#f5f50e');
-                if(this.config && this.config.bombThreat.highLightColor){
-                    color = new Color(this.config.bombThreat.highLightColor);
+        /**
+         * Quick and dirty way to check if field exists
+         * @param features
+         * @param fieldName
+         * @returns {boolean}
+         * @private
+         */
+        _fieldExists: function (features, fieldName) {
+            return features.some(function (feature) {
+                if (feature.attributes[fieldName] !== undefined) {
+                    return true;
+                } else {
+                    return false;
                 }
-                return color;
-            },
+            });
+        },
 
-            _getMarkerSymbol: function () {
-                var style = SimpleMarkerSymbol.STYLE_CIRCLE;
-                var size = 15;
-                var color = new Color("#FF0000");
-                color.a = 1;
+        /**
+         * Default data source for pie chart after it has been
+         * initialized
+         * @returns {{data: Array, total: number}}
+         * @private
+         */
+        _setDefaultDataSource: function () {
+            return {
+                data: [
+                    {
+                        id: 0,
+                        text: "N/A",
+                        y: 1
+                    }
+                ],
+                total: 1
+            };
+        },
 
-                var outlineSymbol = new SimpleLineSymbol();
-                var outlineColor = new Color("#000000");
-                var outlineWidth = 0;
-                outlineSymbol.setStyle(SimpleLineSymbol.STYLE_SOLID);
-                outlineSymbol.setColor(outlineColor);
-                outlineSymbol.setWidth(outlineWidth);
+        /**
+         * Init pie chart
+         * @private
+         */
+        _initPieChart: function () {
+            this.pieChart = new PieChartWidget({
+                title: this.config.bombThreat.demographicLayer.title,
+                seriesName: "series1"
+            }, this.pieChartSection);
+            this.pieChart.startup();
+            this._trackDijits(this.pieChart);
+        },
 
-                var symbol = new SimpleMarkerSymbol(style, size, outlineSymbol, color);
-                return symbol;
-            },
+        /**
+         * Retrieves chart types for the demographic layer
+         * @private
+         */
+        _populateDemoCategoryType: function () {
+            var demoOptions = [];
+            for (var key in this.config.bombThreat.demographicLayer.charts) {
+                if (this.config.bombThreat.demographicLayer.charts.hasOwnProperty(key)) {
+                    demoOptions.push({
+                        label: this.config.bombThreat.demographicLayer.charts[key].title,
+                        value: this.config.bombThreat.demographicLayer.charts[key].title
+                    });
+                }
+            }
+            this.demoCategoryTypes.addOption(demoOptions);
+        },
 
-            _getHightLightMarkerSymbol: function () {
-                var style = SimpleMarkerSymbol.STYLE_CIRCLE;
-                var size = 15;
-                var color = new Color("#3fafdc");
-                color.a = 1;
+        /**
+         * Bind to geometry events and dijit select events.
+         * Create graphic layer and bind to its events.
+         * Create draw toolbar and bind to its events.
+         * @private
+         */
+        _init: function () {
+            //Bind to geometry events
+            this.own(on(esriConfig.defaults.geometryService, "buffer-complete",
+                lang.hitch(this, this.onGeometryServiceBufferComplete)));
+            this.own(on(esriConfig.defaults.geometryService, "error",
+                lang.hitch(this, this.onGeometryServiceOnError)));
 
-                var outlineSymbol = new SimpleLineSymbol();
-                var outlineColor = this._getHighLightColor();
-                var outlineWidth = 3;
-                outlineSymbol.setStyle(SimpleLineSymbol.STYLE_SOLID);
-                outlineSymbol.setColor(outlineColor);
-                outlineSymbol.setWidth(outlineWidth);
+            //Bind to change event for bomb type drop down list
+            this.own(on(this.bombType, "change", lang.hitch(this, this.onChangeBombType)));
 
-                var symbol = new SimpleMarkerSymbol(style, size, outlineSymbol, color);
-                return symbol;
-            },
+            //Create buffer graphics layer and add to the map
+            this.bombBufferGraphicsLayer = new GraphicsLayer();
+            this.map.addLayer(this.bombBufferGraphicsLayer);
+            //Bind to mouse over and out events for graphics layer
+            this.own(on(this.bombBufferGraphicsLayer, "mouse-over",
+                lang.hitch(this, this.onBombLocationGraphicsLayerMouseOver)));
+            this.own(on(this.bombBufferGraphicsLayer, "mouse-out",
+                lang.hitch(this, this.onBombLocationGraphicsLayerMouseOut)));
 
-            _getLineSymbol: function () {
-                var symbol = new SimpleLineSymbol();
-                var style = SimpleLineSymbol.STYLE_SOLID;
-                var color = new Color("#3fafdc");
-                color.a = 1;
-                var width = 5;
-                symbol.setStyle(style);
-                symbol.setColor(color);
-                symbol.setWidth(width);
-                return symbol;
-            },
+            //Create spill location graphics layer and add to the map
+            this.bombLocationGraphicsLayer = new GraphicsLayer();
+            this.map.addLayer(this.bombLocationGraphicsLayer);
+            //Bind to mouse over and out events for graphics layer
+            this.own(on(this.bombLocationGraphicsLayer, "mouse-over",
+                lang.hitch(this, this.onBombLocationGraphicsLayerMouseOver)));
+            this.own(on(this.bombLocationGraphicsLayer, "mouse-out",
+                lang.hitch(this, this.onBombLocationGraphicsLayerMouseOut)));
 
-            _getHightLightLineSymbol: function () {
-                var symbol = new SimpleLineSymbol();
-                var style = SimpleLineSymbol.STYLE_SOLID;
-                var color = this._getHighLightColor();
-                color.a = 1;
-                var width = 7;
-                symbol.setStyle(style);
-                symbol.setColor(color);
-                symbol.setWidth(width);
-                return symbol;
-            },
+            //Create the facilities graphics layer and add to the map
+            this.facilitiesGraphicsLayer = new GraphicsLayer();
+            this.map.addLayer(this.facilitiesGraphicsLayer);
+            //Bind to mouse over and out events for graphics layer
+            this.own(on(this.facilitiesGraphicsLayer, "mouse-over",
+                lang.hitch(this, this.onBombLocationGraphicsLayerMouseOver)));
+            this.own(on(this.facilitiesGraphicsLayer, "mouse-out",
+                lang.hitch(this, this.onBombLocationGraphicsLayerMouseOut)));
 
-            _getFillSymbol: function () {
-                var style = SimpleFillSymbol.STYLE_SOLID;
-                var color = new Color('#3fafdc');
-                color.a = 0.5;
-                var outlineSymbol = new SimpleLineSymbol();
-                var outlineColor = new Color('#000000');
-                var outlineWidth = 1;
-                outlineSymbol.setStyle(SimpleLineSymbol.STYLE_SOLID);
-                outlineSymbol.setColor(outlineColor);
-                outlineSymbol.setWidth(outlineWidth);
-                var symbol = new SimpleFillSymbol(style, outlineSymbol, color);
-                return symbol;
-            },
+            //Create draw toolbar
+            this.drawToolbar = new Draw(this.map);
+            this._trackDijits(this.drawToolbar); //track dijit
+            //Bind to draw end and click events
+            this.own(on(this.drawToolbar, "draw-end", lang.hitch(this, this.onDrawEndAddBombLocation)));
 
-            _getHightLightFillSymbol: function () {
-                var style = SimpleFillSymbol.STYLE_SOLID;
-                var color = new Color('#3fafdc');
-                color.a = 0.5;
-                var outlineSymbol = new SimpleLineSymbol();
-                var outlineColor = this._getHighLightColor();
-                var outlineWidth = 3;
-                outlineSymbol.setStyle(SimpleLineSymbol.STYLE_SOLID);
-                outlineSymbol.setColor(outlineColor);
-                outlineSymbol.setWidth(outlineWidth);
-                var symbol = new SimpleFillSymbol(style, outlineSymbol, color);
-                return symbol;
-            },
+            //Bind to draw bomb type button
+            this.own(on(this.drawBombType, "click", lang.hitch(this, this.onClickDrawBombType)));
+            //Get building and outdoor distances for bomb types
+            this.bombTypeDistances = this._getBombTypeDistances();
+            //Wire up the change event
+            this.own(on(this.bombLocations, "change", lang.hitch(this, this.onChangeBombLocations)));
+            //Populate the bomb type drop down list
+            this.bombType.addOption(this._getBombTypes());
 
-            _clear: function () {
-                this._clearCharts();
-            },
+            //Bind the click event for the tabs
+            this.own(on(this.bombLocationTab, "click", lang.hitch(this, this._setTab)));
+            this.own(on(this.resultsTab, "click", lang.hitch(this, this._setTab)));
 
-            _clearCharts: function () {
-                try {
-                    this.chartTitle.innerHTML = "";
-                    this.currentChartIndex = -1;
-                    var chartDivs = query('.chart-div',this.chartContainer);
-                    chartDivs.style({display:'none'});
-                    var lis = query("li",this.pagingUl);
-                    if (lis.className != '')
-                        lis.className = ''; //lis.removeClass('selected');
+            //Bind the click events for execute and clear buttons
+            this.own(on(this.btnSearch, "click", lang.hitch(this, this._executeSearch)));
+            this.own(on(this.btnClear, "click", lang.hitch(this, this.onClearBtnClicked)));
 
-                    if (this.charts.length > 0) {
-                        for (var i = 0; i < this.charts.length; i++) {
-                            var chart = this.charts[i];
-                            if (chart) {
-                                chart.destroy();
+            //Show the bomb location tab
+            this._setTab({target: this.bombLocationTab});
+
+            //Init the pie chart
+            this._initPieChart();
+
+            //Populate the chart types from the
+            //demographic layer
+            this._populateDemoCategoryType();
+            //Wire up the change event
+            this.own(on(this.demoCategoryTypes, "change", lang.hitch(this, this.onChangeDemoCategoryTypes)));
+
+            //Set initial bomb type
+            this.selectedBombType = "Pipe bomb";
+
+            //Call this to accommodate accordion weird behavior of rendering facilities list and pie chart
+            this.acResults.watch("selectedChildWidget", lang.hitch(this, this.onAccordionSelectedChildWidget));
+
+            query(".dijitAccordionTitle", this.acResults.domNode).forEach(lang.hitch(this, function (node) {
+                domClass.add(node, "cp");
+            }));
+        },
+
+        /**
+         * Determines which tab was clicked and show appropriate components
+         * @param evt
+         * @private
+         */
+        _setTab: function (evt) {
+            var elements = [{tab: this.bombLocationTab, section: this.bombThreatLocationSection},
+                {tab: this.resultsTab, section: this.resultsSection}];
+            for (var i = 0; i < elements.length; i++) {
+                if (evt.target === elements[i].tab) {
+                    domClass.add(elements[i].tab, "arrow_box");
+                    domStyle.set(elements[i].section.domNode, "display", "block");
+                } else {
+                    domClass.remove(elements[i].tab, "arrow_box");
+                    domStyle.set(elements[i].section.domNode, "display", "none");
+                }
+            }
+            if (this.hasResults) {
+                this._showResultsSection(false, true, false);
+            } else {
+                this._showResultsSection(false, false, true);
+            }
+        },
+
+        /**
+         * Dictionary of building and outdoor distances
+         * @returns {{}}
+         * @private
+         */
+        _getBombTypeDistances: function () {
+            var bombTypeDistances = {};
+            bombTypeDistances["Pipe bomb"] = {
+                BuildingEvacDistance: 70,
+                OutdoorEvacDistance: 1200
+            };
+            bombTypeDistances["Suicide vest"] = {
+                BuildingEvacDistance: 110,
+                OutdoorEvacDistance: 1750
+            };
+            bombTypeDistances["Briefcase/suitcase bomb"] = {
+                BuildingEvacDistance: 150,
+                OutdoorEvacDistance: 1850
+            };
+            bombTypeDistances["Sedan"] = {
+                BuildingEvacDistance: 320,
+                OutdoorEvacDistance: 1900
+            };
+            bombTypeDistances["SUV/van"] = {
+                BuildingEvacDistance: 400,
+                OutdoorEvacDistance: 2400
+            };
+            bombTypeDistances["Small delivery truck"] = {
+                BuildingEvacDistance: 640,
+                OutdoorEvacDistance: 3800
+            };
+            bombTypeDistances["Container/water truck"] = {
+                BuildingEvacDistance: 860,
+                OutdoorEvacDistance: 5100
+            };
+            bombTypeDistances["Semi-trailer"] = {
+                BuildingEvacDistance: 1570,
+                OutdoorEvacDistance: 9300
+            };
+            return bombTypeDistances;
+        },
+
+        /**
+         * Checks if supplied geometry service is valid
+         * @returns {Function}
+         * @private
+         */
+        _initGeometryService: function () {
+            var deferred = new Deferred();
+            if (this.config.bombThreat.geometryService.url) {
+                esriRequest({
+                    url: this.config.bombThreat.geometryService.url,
+                    content: {f: "json"},
+                    handleAs: "json",
+                    callbackParamName: "callback"
+                }).then(lang.hitch(this, function (response) {
+                        if (response.hasOwnProperty("serviceDescription")) {
+                            if (response.serviceDescription !== undefined || response.serviceDescription !== "") {
+                                esriConfig.defaults.geometryService = new GeometryService(this.config.bombThreat.geometryService.url);
+                                deferred.resolve();
+                            } else {
+                                window.console.log("Invalid geometry service supplied. Using default geometry service.");
                             }
                         }
-                    }
-                    this.charts = [];
-                    html.empty(this.pagingUl);
-                    html.empty(this.chartContainer);
-                    html.setStyle(this.resultsSection, 'display', 'none');
-                    html.setStyle(this.noresultsSection, 'display', 'block');
-                } catch (err) {
-                    console.log(err.message);
-                }
-            },
-
-            _setHightLightSymbol:function(g){
-                switch(g.geometry.type){
-                    case 'extent':
-                    case 'polygon':
-                        g.setSymbol(this._getHightLightFillSymbol());
-                        break;
-                    case 'polyline':
-                        g.setSymbol(this._getHightLightLineSymbol());
-                        break;
-                    default:
-                        g.setSymbol(this._getHightLightMarkerSymbol());
-                        break;
-                }
-            },
-
-            _showChart:function(index){
-                this.chartTitle.innerHTML = "";
-                this.currentChartIndex = -1;
-                var chartDivs = query('.chart-div',this.chartContainer);
-                chartDivs.style({display:'none'});
-                var lis = query("li",this.pagingUl);
-                lis.removeClass('selected');
-                if(index < 0){
-                    return;
-                }
-
-                var chartDiv = chartDivs[index];
-                if(chartDiv){
-                    this.currentChartIndex = index;
-                    html.setStyle(chartDiv,{display:'block'});
-                }
-                var chart = this.charts[index];
-                if(chart&&chart.media){
-                    this.chartTitle.innerHTML = chart.media.title;
-                    this.description.innerHTML = chart.media.description||"";
-                }
-                var li = lis[index];
-                if(li){
-                    html.addClass(li,'selected');
-                }
-            },
-
-            _createCharts: function (features) {
-                try {
-                    this._clearCharts();
-                    html.setStyle(this.resultsSection, 'display', 'block');
-                    html.setStyle(this.noresultsSection, 'display', 'none');
-                    //this.tabContainer.selectTab(this.nls.tabDemo);
-                    var layerInfo = this.config.bombThreat.demographicLayer;
-                    var medias = layerInfo.medias;
-                    var labelField = layerInfo.labelField;
-                    var box = html.getMarginBox(this.chartContainer);
-                    var w = box.w+"px";
-                    var h = box.h+"px";
-
-                    var i, chart;
-                    for (i = 0; i < medias.length; i++) {
-                        chart = null;
-                        var media = medias[i];
-                        var type = media.type.toLowerCase();
-                        var chartDiv = html.create('div', {'class': 'chart-div', style: {width: w, height: h}}, this.chartContainer);
-                        if (type === 'barschart') {
-                            chart = this._createBarsChart(chartDiv, media, features, labelField);
-                        }
-                        else if (type === 'columnschart') {
-                            chart = this._createColumnsChart(chartDiv, media, features, labelField);
-                        }
-                        else if (type === 'linechart') {
-                            chart = this._createLineChart(chartDiv, media, features, labelField);
-                        }
-                        else if (type === 'piechart') {
-                            chart = this._createPieChart(chartDiv, media, features, labelField);
-                        }
-
-                        if (chart) {
-                            chart.media = media;
-                            this.charts.push(chart);
-                            html.setStyle(chartDiv, 'display', 'none');
-                        }
-                        else {
-                            html.destroy(chartDiv);
-                        }
-                    }
-
-                    var chartCount = this.charts.length;
-                    for (i = 0; i < chartCount; i++) {
-                        var strLi = "<li><a></a></li>";
-                        var domLi = html.toDom(strLi);
-                        html.place(domLi, this.pagingUl);
-                    }
-
-                    this._showChart(0);
-                } catch (err) {
-                    console.log(err.message);
-                }
-            },
-
-            _createBarsChart: function (chartNode, media, features, labelField) {
-                var series = [];
-
-                //init series
-                for (var i = 0; i < features.length; i++) {
-                    var attributes = features[i].attributes;
-                    var name = attributes[labelField];
-                    var num = attributes[media.chartField];
-                    var ele = {
-                        y: num,
-                        tooltip: "<div style='color:green;margin-right:10px;'><span style='white-space:nowrap;'>" + name + "</span><br/><span>" + num + "</span></div>"
-                    };
-                    series.push(ele);
-                }
-
-                //construct chart
-                var barsChart = new Chart(chartNode);
-
-                barsChart.addPlot('default', {
-                    type: Bars,
-                    animate: {
-                        duration: 2000,
-                        easing: easing.bounceInOut
-                    },
-                    enableCache: true,
-                    markers: true,
-                    minBarSize: 3,
-                    maxBarSize: 20
-                });
-
-                barsChart.addAxis('x', {
-                    vertical: true
-                });
-
-                barsChart.addAxis('y', {
-                    type: Default,
-                    fixLower: "minor",
-                    fixUpper: "minor"
-                });
-
-                barsChart.addSeries(media.title, series, {
-                    stroke: {
-                        color: "#FFFFFF"
-                    },
-                    fill: "#1f77b4"
-                });
-
-                new MoveSlice(barsChart, "default");
-                new Highlight(barsChart, "default");
-                new Tooltip(barsChart, "default");
-
-                barsChart.connectToPlot('default', lang.hitch(this, function (evt) {
-                    var g = this.chartLayer.graphics[evt.index];
-                    if (evt.type === 'onmouseover') {
-                        this._setHightLightSymbol(g);
-                    }
-                    else if (evt.type === 'onmouseout') {
-                        this._setFeatureSymbol(g);
-                    }
-                }));
-                barsChart.render();
-
-                return barsChart;
-            },
-
-            _createColumnsChart: function (chartNode, media, features, labelField) {
-                var series = [];
-
-                //collect series
-                for (var i = 0; i < features.length; i++) {
-                    var attributes = features[i].attributes;
-                    var name = attributes[labelField];
-                    var num = attributes[media.chartField];
-                    var ele = {
-                        y: num,
-                        tooltip: "<div style='color:green;margin-right:10px;'><span style='white-space:nowrap;'>" + name + "</span><br/><span>" + num + "</span></div>"
-                    };
-                    series.push(ele);
-                }
-
-                //construct chart
-                var columnsChart = new Chart(chartNode);
-
-                columnsChart.addPlot('default', {
-                    type: Columns,
-                    animate: {
-                        duration: 2000,
-                        easing: easing.bounceInOut
-                    },
-                    enableCache: true,
-                    markers: true
-                });
-
-                columnsChart.addAxis('x', {
-                    type: Default
-                });
-
-                columnsChart.addAxis('y', {
-                    vertical: true,
-                    fixLower: "minor",
-                    fixUpper: "major",
-                    min: 0
-                });
-
-                columnsChart.addSeries(media.title, series, {
-                    stroke: {
-                        color: "#FFFFFF"
-                    },
-                    fill: "#1f77b4"
-                });
-
-                new MoveSlice(columnsChart, "default");
-                new Highlight(columnsChart, "default");
-                new Tooltip(columnsChart, "default");
-
-                columnsChart.connectToPlot('default', lang.hitch(this, function (evt) {
-                    var g = this.chartLayer.graphics[evt.index];
-                    if (evt.type === 'onmouseover') {
-                        this._setHightLightSymbol(g);
-                    }
-                    else if (evt.type === 'onmouseout') {
-                        this._setFeatureSymbol(g);
-                    }
-                }));
-
-                columnsChart.render();
-
-                return columnsChart;
-            },
-
-            _createLineChart: function (chartNode, media, features, labelField) {
-                var series = [];
-
-                //init series
-                for (var i = 0; i < features.length; i++) {
-                    var attributes = features[i].attributes;
-                    var name = attributes[labelField];
-                    var num = attributes[media.chartField];
-                    var ele = {
-                        y: num,
-                        tooltip: "<div style='color:green;margin-right:10px;'><span style='white-space:nowrap;'>" + name + "</span><br/><span>" + num + "</span></div>"
-                    };
-                    series.push(ele);
-                }
-
-                //construct chart
-                var lineChart = new Chart(chartNode);
-
-                lineChart.addPlot('default', {
-                    type: Lines,
-                    animate: {
-                        duration: 2000,
-                        easing: easing.cubicIn
-                    },
-                    markers: true,
-                    tension: "S"
-                });
-
-                lineChart.addAxis('x', {
-                    type: Default
-                });
-
-                lineChart.addAxis('y', {
-                    vertical: true,
-                    fixUpper: "minor",
-                    fixLower: "minor"
-                });
-
-                lineChart.addSeries(media.title, series, {
-                    stroke: {
-                        color: "#FF7F0E"
-                    },
-                    fill: "#FF7F0E"
-                });
-
-                new Magnify(lineChart, "default");
-                new Highlight(lineChart, "default");
-                new Tooltip(lineChart, "default");
-
-                lineChart.connectToPlot('default', lang.hitch(this, function (evt) {
-                    var g = this.chartLayer.graphics[evt.index];
-                    if (evt.type === 'onmouseover') {
-                        this._setHightLightSymbol(g);
-                    }
-                    else if (evt.type === 'onmouseout') {
-                        this._setFeatureSymbol(g);
-                    }
-                }));
-
-                lineChart.render();
-
-                return lineChart;
-            },
-
-            _createPieChart: function (chartNode, media, features, labelField) {
-                var series = [];
-                var i;
-
-                //init series
-                var sum = 0.0;
-                for (i = 0; i < features.length; i++) {
-                    sum += features[i].attributes[media.chartField];
-                }
-
-                for (i = 0; i < features.length; i++) {
-                    var attributes = features[i].attributes;
-                    var name = attributes[labelField];
-                    var num = attributes[media.chartField];
-                    var percent = (num / sum * 100).toFixed(1) + "%";
-                    var ele = {
-                        y: num,
-                        text: "",
-                        tooltip: "<div style='color:green;margin-right:10px;'><span style='white-space:nowrap;'>" + name + ":" + percent + "</span><br/><span>(" + num + ")</span></div>"
-                    };
-                    series.push(ele);
-                }
-
-                //construct chart
-                var pieChart = new Chart(chartNode);
-
-                pieChart.setTheme(MiamiNice);
-
-                pieChart.addPlot('default', {
-                    type: Pie,
-                    animate: {
-                        duration: 2000,
-                        easing: easing.bounceInOut
-                    },
-                    radius: 100,
-                    markers: true
-                });
-
-                pieChart.addSeries(media.title, series);
-                new MoveSlice(pieChart, "default");
-                new Highlight(pieChart, "default");
-                new Tooltip(pieChart, "default");
-
-                pieChart.connectToPlot('default', lang.hitch(this, function (evt) {
-                    var g = this.chartLayer.graphics[evt.index];
-                    if (evt.type === 'onmouseover') {
-                        this._setHightLightSymbol(g);
-                    }
-                    else if (evt.type === 'onmouseout') {
-                        this._setFeatureSymbol(g);
-                    }
-                }));
-
-                pieChart.render();
-
-                return pieChart;
+                    }), lang.hitch(this, function (error) {
+                        window.console.log(error);
+                        deferred.resolve();
+                    }));
+            } else {
+                deferred.reject(new Error("Invalid geometry service supplied"));
             }
-        });
-        return clazz;
+            return deferred.promise;
+        },
+
+        /**
+         * Checks if services provided in config file are valid
+         * @returns {Function}
+         * @private
+         */
+        _checkValidServices: function () {
+            var deferred = new Deferred();
+            var defList = [];
+            var layerUrls = [this.config.bombThreat.demographicLayer.url, this.config.bombThreat.infrastructureLayer.url];
+            array.forEach(layerUrls, function (layerUrl) {
+                defList.push(esriRequest({
+                        url: layerUrl,
+                        content: {f: "json"},
+                        callbackParamName: "callback"
+                    }));
+            }, this);
+            all(defList).then(lang.hitch(this, function (results) {
+                var hasError = false;
+                array.forEach(results, function (result) {
+                    if (!result.hasOwnProperty("type")) {
+                        hasError = true;
+                    }
+                }, this);
+                if (hasError) {
+                    deferred.reject(new Error("Invalid services supplied"));
+                } else {
+                    deferred.resolve();
+                }
+            }));
+            return deferred.promise;
+        },
+
+        /**
+         * Creates a list of bomb types objects for drop down list
+         * @returns {Array}
+         * @private
+         */
+        _getBombTypes: function () {
+            //Bomb Types
+            var bombTypes = ["Pipe bomb", "Suicide vest", "Briefcase/suitcase bomb", "Sedan", "SUV/van",
+                "Small delivery truck", "Container/water truck", "Semi-trailer"];
+            var bombTypeOptions = [];
+            array.forEach(bombTypes, function (bombType) {
+                var bombTypeOption = {
+                    label: bombType,
+                    value: bombType
+                };
+                bombTypeOptions.push(bombTypeOption);
+            }, this);
+            return bombTypeOptions;
+        },
+
+        /**
+         * Clears the results components and resets everything
+         * @private
+         */
+        _clearResults: function () {
+            try {
+                //deactivate the toolbar
+                this.drawToolbar.deactivate();
+
+                //Clear graphics layers
+                var gLayers = [this.facilitiesGraphicsLayer, this.bombBufferGraphicsLayer, this.bombLocationGraphicsLayer];
+                array.forEach(gLayers, lang.hitch(this, function (gLayer) {
+                    if (gLayer) {
+                        gLayer.clear();
+                    }
+                }));
+
+                //Reset
+                this.bombLocationIndex = 0;
+                this.bombLocations.options.length = 0;
+                this.optionalEvacAreas = [];
+                this.hasResults = false;
+                this.bombLocationList = [];
+                this.pieChartDataList = [];
+                this.facilitiesDataList = [];
+
+                //Hide the results section
+                this._showResultsSection(false, false, true);
+                //Clear infrastructure list
+                domConstruct.empty(this.facilitiesListSection);
+
+            } catch (err) {
+                console.log(err.message);
+            }
+        },
+
+        /**
+         * Shows appropriate components given input parameters
+         * @param showPB
+         * @param showBombResults
+         * @param showNoResults
+         * @private
+         */
+        _showResultsSection: function (showPB, showBombResults, showNoResults) {
+            domStyle.set(this.progressBar.domNode, "display", showPB ? "block" : "none");
+            domStyle.set(this.resultsBombSection, "display", showBombResults ? "block" : "none");
+            domStyle.set(this.noResultsSection, "display", showNoResults ? "block" : "none");
+        },
+
+        /**
+         * Keeps track of dijits created in this widget
+         * @private
+         */
+        _trackDijits: function () {
+            array.forEach(arguments, function (argument) {
+                if (argument && argument.destroyRecursive) {
+                    this.widgets.push(argument);
+                }
+            }, this);
+        },
+
+        /**
+         * Cleans up dijits created in this widget
+         * @private
+         */
+        _cleanUp: function () {
+            array.forEach(this.widgets, function (widget) {
+                if (widget && widget.destroyRecursive) {
+                    widget.destroyRecursive(false);
+                }
+            }, this);
+            this.widgets = [];
+
+            array.forEach(dijit.findWidgets(this.id), function (w) {
+                w.destroyRecursive(false);
+            });
+        }
     });
+    return bombThreatClass;
+});

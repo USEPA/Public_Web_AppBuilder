@@ -4,17 +4,23 @@
       <span class="btn-add-icon"></span>
       <span class="btn-add-label">${nls.editBufferUnit}</span>
     </div>
-    <div class="searches-table" data-dojo-attach-point="bufferUnitsTable" data-dojo-type="jimu/dijit/SimpleTable" data-dojo-props='fields:[{name:"name",title:"${nls.bufferUnitTitle}",class:"search-title",type:"text",editable:false},{name:"actions",title:"${nls.actions}",class:"actions",width:"150px",type:"actions",actions:["up","down"]}]'></div>
+    <div class="searches-table" data-dojo-attach-point="bufferUnitsTable" data-dojo-type="jimu/dijit/SimpleTable"
+         data-dojo-props="_rowHeight:40,autoHeight:true,selectable:true,fields:[{name:'name',title:'${nls.bufferUnitTitle}','class':'search-title',type:'text',editable:false},{name:'actions',title:'${nls.actions}','class':'actions',width:'150px',type:'actions',actions:['up','down']}]"></div>
     <table cellspacing="5">
       <tbody>
         <tr>
           <td style="vertical-align:text-top;">${nls.defaultBufferValue}</td>
           <td style="vertical-align:text-top;">
-            <input type="text" data-dojo-attach-point="defaultBufferValue" data-dojo-type="dijit/form/NumberTextBox" data-dojo-props='required:true,intermediateChanges:true' />
+            <input type="text" data-dojo-attach-point="defaultBufferValue" data-dojo-type="dijit/form/NumberTextBox" data-dojo-props="required:true,intermediateChanges:true" />
           </td>
           <td style="vertical-align:text-top;">${nls.defaultBufferWKID}</td>
           <td style="vertical-align:text-top;">
             <input type="text" data-dojo-attach-point="defaultBufferWKID" data-dojo-type="dijit/form/TextBox" />
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align:text-top;" colspan="4">
+            <div data-dojo-type="jimu/dijit/CheckBox" data-dojo-attach-point="addToLegendCbx" data-dojo-props="label:'${nls.addbuffertolegend}'"></div>
           </td>
         </tr>
         <tr>
@@ -28,3 +34,4 @@
       </tbody>
     </table>
   </div>
+</div>

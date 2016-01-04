@@ -56,7 +56,7 @@
   width: 100%;
   font-size: 12px;
   white-space: normal;
-  height: 28px;
+  height: 35px;
   overflow: hidden;
   text-overflow: ellipsis;
 }
@@ -180,11 +180,6 @@
   margin: 5px 20px;
   border-spacing: 10px;
   border-collapse: separate;
-}
-
-.jimu-Bookmark-Edit .setting-table .thumbnail-img{
-  width: 100px;
-  height: 60px;
 }
 
 .jimu-Bookmark-Edit .setting-table .img-chooser{

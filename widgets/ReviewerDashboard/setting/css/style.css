@@ -1,0 +1,23 @@
+.drs-widget-dashboard-setting{
+  margin:0;
+  padding:0;
+  font-size:15px;
+}
+
+.drs-widget-dashboard-setting .setting-table > thead > tr > th,.drs-widget-dashboard-setting .setting-table > tbody > tr > td{
+  height:40px;
+  line-height:40px;
+  vertical-align:middle;
+}
+
+.drs-widget-dashboard-setting .input-table > tbody > tr > .first{
+  width:auto;
+}
+
+.drs-widget-dashboard-setting .input-table > tbody > tr > .second{
+  width:690px;
+}
+
+.drs-widget-dashboard-setting .input-table > tbody > tr > .third{
+  width:35px;
+}

@@ -31,28 +31,40 @@ define(['dojo/_base/declare',
   ],
   function(declare, lang, html, array, baseFx, on, has, Deferred,
     LayerInfos, BaseWidget, utils, esriLang, TimeExtent, TimeSlider) {
-    /* globals jimuConfig */
-    var criticality = jimuConfig.widthBreaks[0];
+    // box of speed-menu
+    var menuBox = {
+      w: 105,
+      h: 123
+    };
 
     var clazz = declare([BaseWidget], {
       baseClass: 'jimu-widget-timeslider',
       clasName: 'esri.widgets.TimeSlider',
       _showed: false,
-      _enabled: true,
+      // _enabled: true,
       _timeHandles: null,
       layerInfosObj: null,
 
       postCreate: function() {
         this.inherited(arguments);
-        html.setAttr(this.timeIconInner, 'src', this.folderUrl + 'images/icon.png');
-
         this._timeHandles = [];
-        this.getTimeSliderProps(this.map).then(lang.hitch(this, function(props) {
-          if (!props) {
-            this._disableTimeIcon();
-            return;
-          }
+        this.getTimeSliderProps(this.map).then(lang.hitch(this, function() {
+          this._initLayerInfosObj().then(lang.hitch(this, function() {
+              this.processTimeDisableLayer();
+            }));
+        }));
+      },
 
+      startup: function() {
+        this.inherited(arguments);
+        this.own(on(this.map, 'resize', lang.hitch(this, this._onMapResize)));
+      },
+
+      _initLayerInfosObj: function() {
+        var def = new Deferred();
+        if (this.layerInfosObj) {
+          def.resolve(this.layerInfosObj);
+        } else {
           LayerInfos.getInstance(this.map, this.map.itemInfo)
             .then(lang.hitch(this, function(layerInfosObj) {
               this.layerInfosObj = layerInfosObj;
@@ -65,22 +77,11 @@ define(['dojo/_base/declare',
                 'layerInfosChanged',
                 lang.hitch(this, this._onLayerInfosChanged)));
 
-              this.processTimeDisableLayer();
-
-              if (this.hasVisibleTemporalLayer()) {
-                this._enableTimeIcon();
-              } else {
-                this._disableTimeIcon();
-              }
+              def.resolve(this.layerInfosObj);
             }));
-        }));
+        }
 
-        this.own(on(this.timeIconNode, 'click', lang.hitch(this, this.onTimeIconClick)));
-      },
-
-      startup: function() {
-        this.inherited(arguments);
-        this.own(on(this.map, 'resize', lang.hitch(this, this._onMapResize)));
+        return def;
       },
 
       _isTimeTemporalLayer: function(layer, mustVisible) {
@@ -123,7 +124,8 @@ define(['dojo/_base/declare',
       },
 
       processTimeDisableLayer: function() {
-        var i = 0, len, layer, layerId;
+        var i = 0,
+          len, layer, layerId;
         for (i = 0, len = this.map.layerIds.length; i < len; i++) {
           layerId = this.map.layerIds[i];
           layer = this.map.getLayer(layerId);
@@ -186,7 +188,7 @@ define(['dojo/_base/declare',
         if (changedType === 'added') {
           var _layer = this.map.getLayer(layerInfoSelf.id);
           var visibleTimeTemporalLayerChanged = this._isTimeTemporalLayer(_layer, true);
-  
+
           if (visibleTimeTemporalLayerChanged) {
             this._onTimeTemportalLayerChanged();
           }
@@ -196,106 +198,119 @@ define(['dojo/_base/declare',
       },
 
       _onTimeTemportalLayerChanged: function() {
-        if (!this._showed) {
-          if (this.hasVisibleTemporalLayer()) {
-            this._enableTimeIcon();
-          } else {
-            this._disableTimeIcon();
-          }
-        } else {
+        if (this.state !== 'closed') {
           if (this.hasVisibleTemporalLayer()) {
             if (this.timeSlider) {
               this.updateLayerLabel();
             } else {
-              this.createTimeSlider();
+              // this.createTimeSlider();
+              this.showTimeSlider();
             }
           } else {
             if (this.timeSlider) {
               this.closeTimeSlider();
             }
-            this._disableTimeIcon();
+            // html.setStyle(this.noTimeContentNode, 'display', 'block');
           }
         }
       },
 
-      _enableTimeIcon: function() {
-        this._enabled = true;
-        html.removeClass(this.timeIconNode, 'disable-time-icon');
-        html.addClass(this.timeIconNode, 'enable-time-icon');
-        html.setAttr(this.timeIconNode, 'title', this.nls.enableTips);
+      onOpen: function() {
+        this._initLayerInfosObj().then(lang.hitch(this, function() {
+          if (!this.hasVisibleTemporalLayer()) {
+            html.setStyle(this.noTimeContentNode, 'display', 'block');
+            html.setStyle(this.timeContentNode, 'display', 'none');
+            this._showed = true;
+          } else {
+            if (!this._showed) {
+              this.showTimeSlider();
+            }
+          }
+        }));
       },
 
-      _disableTimeIcon: function() {
-        this._enabled = false;
-        html.removeClass(this.timeIconNode, 'enable-time-icon');
-        html.addClass(this.timeIconNode, 'disable-time-icon');
-        html.setAttr(this.timeIconNode, 'title', this.nls.disableTips);
-      },
-
-      onTimeIconClick: function() {
-        if (!this._enabled) {
-          return;
-        }
-
-        if (!this._showed) {
-          this.showTimeSlider();
-        }
-      },
-
-      _onCloseClick: function() {
-        if (this._showed) {
-          this.closeTimeSlider();
-        }
+      onClose: function() {
+        this._initLayerInfosObj().then(lang.hitch(this, function() {
+          if (!this.hasVisibleTemporalLayer()) {
+            html.setStyle(this.noTimeContentNode, 'display', 'none');
+            this._showed = false;
+          } else {
+            if (this._showed) {
+              this.closeTimeSlider();
+            }
+          }
+        }));
       },
 
       _isRunInMobile: function() {
-        var box = html.getMarginBox(this.map.root);
-        return box.w < criticality;
+        return window.appInfo.isRunInMobile;
       },
 
       showTimeSlider: function() {
+        html.setStyle(this.noTimeContentNode, 'display', 'none');
         this.createTimeSlider();
-        this._showed = true;
         html.setStyle(this.timeContentNode, 'display', 'block');
         html.addClass(this.domNode, 'show-time-slider');
-        html.setStyle(this.timeIconNode, 'display', 'none');
 
-        if (has('ie') === 8) {
-          html.setStyle(this.timeContentNode, 'background', '#000');
+        this._adaptResponsive();
+
+        if (has('ie') && has('ie') < 9) {
+          this._showed = true;
+        } else {
+          baseFx.animateProperty({
+            node: this.timeContentNode,
+            properties: {
+              opacity: {
+                start: 0,
+                end: 1
+              }
+            },
+            onEnd: lang.hitch(this, function() {
+              this._showed = true;
+              this._setMenuPosition();
+            }),
+            duration: 500
+          }).play();
         }
-        baseFx.animateProperty({
-          node: this.timeContentNode,
-          properties: {
-            opacity: {
-              start: 0,
-              end: has('ie') === 8 ? 0.4 : 1
-            }
-          },
-          duration: 500
-        }).play();
       },
 
       closeTimeSlider: function() {
-        baseFx.animateProperty({
-          node: this.timeContentNode,
-          properties: {
-            opacity: {
-              start: 1,
-              end: 0
-            }
-          },
-          onEnd: lang.hitch(this, function() {
-            this.removeTimeSlider();
-            this._showed = false;
-            html.removeClass(this.domNode, 'mobile-time-slider');
-            html.removeClass(this.timeContentNode, 'mobile');
+        html.setStyle(this.domNode, 'display', 'block');
+        if (has('ie') && has('ie') < 9) {
+          this._onCloseTimeSliderEnd();
+        } else {
+          baseFx.animateProperty({
+            node: this.timeContentNode,
+            properties: {
+              opacity: {
+                start: 1,
+                end: 0
+              }
+            },
+            onEnd: lang.hitch(this, this._onCloseTimeSliderEnd),
+            duration: 500
+          }).play();
+        }
+      },
 
-            html.setStyle(this.timeContentNode, 'display', 'none');
-            html.removeClass(this.domNode, 'show-time-slider');
-            html.setStyle(this.timeIconNode, 'display', 'block');
-          }),
-          duration: 500
-        }).play();
+      _onCloseTimeSliderEnd: function() {
+        if (this._destroyed) {
+          return;
+        }
+        this.removeTimeSlider();
+        this._showed = false;
+
+        html.setStyle(this.timeContentNode, 'display', 'none');
+        html.removeClass(this.domNode, 'show-time-slider');
+
+        if (this.state !== 'closed') {
+          html.setStyle(this.noTimeContentNode, 'display', 'block');
+        }
+
+        if (this.state === 'closed') {
+          html.removeClass(this.domNode, 'mobile-time-slider');
+          html.removeClass(this.timeContentNode, 'mobile');
+        }
       },
 
       getTimeSliderProps: function(map) {
@@ -315,7 +330,6 @@ define(['dojo/_base/declare',
         if (!this.timeSlider) {
           this.getTimeSliderProps(this.map).then(lang.hitch(this, function(props) {
             this.timeSlider = new TimeSlider({}, this.sliderNode);
-            this._adaptResponsive();
             this.map.setTimeSlider(this.timeSlider);
             var fromTime = new Date(props.startTime);
             var endTime = new Date(props.endTime);
@@ -370,8 +384,33 @@ define(['dojo/_base/declare',
         }
       },
 
+      _setMenuPosition: function() {
+        var sPosition = html.position(this.speedLabelNode);
+        if (sPosition.y - menuBox.h - 2 < 0) {
+          html.setStyle(this.speedMenu, {
+            top: '27px',
+            bottom: 'auto'
+          });
+        }
+
+        var layoutBox = html.getMarginBox(window.jimuConfig.layoutId);
+        if (window.isRTL) {
+          if (sPosition.x - menuBox.w < 0) {
+            html.setStyle(this.speedMenu, {
+              left: 0
+            });
+          }
+        } else {
+          if (sPosition.x + menuBox.w > layoutBox.w) {
+            html.setStyle(this.speedMenu, {
+              right: 0
+            });
+          }
+        }
+      },
+
       _onSpeedLabelClick: function() {
-        html.setStyle(this.speedMenu, 'display', 'block');
+        this._onMouseEnterSpeedContainer();
       },
 
       _onMouseEnterSpeedContainer: function() {
@@ -399,8 +438,11 @@ define(['dojo/_base/declare',
             handle.remove();
           }
         });
-        this.timeSlider.destroy();
-        this.timeSlider = null;
+        if (this.timeSlider && !this.timeSlider._destroyed) {
+          this.timeSlider.destroy();
+          this.timeSlider = null;
+        }
+
         if (this.map) {
           this.map.setTimeExtent(null);
         }
@@ -479,25 +521,33 @@ define(['dojo/_base/declare',
         }
 
         this.timeExtentLabelNode.innerHTML = label;
+        html.setAttr(this.timeExtentLabelNode, 'title', label);
       },
 
       _adaptResponsive: function() {
-        var _w = null;
-        var box = html.getMarginBox(this.map.root);
-        if (box.w < criticality) {
-          html.addClass(this.timeContentNode, 'mobile');
-          html.addClass(this.domNode, 'mobile-time-slider');
-          _w = box.w - 40 - 15;
-        } else {
-          html.removeClass(this.timeContentNode, 'mobile');
-          html.removeClass(this.domNode, 'mobile-time-slider');
-          _w = 600;
+        if (!this.timeSlider) {
+          return;
         }
-        html.setStyle(this.timeSlider.domNode, 'width', _w + 'px');
+        setTimeout(lang.hitch(this, function() {
+          var _w = null;
+          if (window.appInfo.isRunInMobile) {
+            html.addClass(this.timeContentNode, 'mobile');
+            html.addClass(this.domNode, 'mobile-time-slider');
+          } else {
+            html.removeClass(this.timeContentNode, 'mobile');
+            html.removeClass(this.domNode, 'mobile-time-slider');
+          }
+          var sliderContentBox = html.getContentBox(this.sliderContent);
+          var speedBox = html.getMarginBox(this.speedContainerNode);
+
+          _w = sliderContentBox.w - speedBox.w;
+          html.setStyle(this.timeSlider.domNode, 'width', _w + 'px');
+        }), 10);
+
       },
 
       _onMapResize: function() {
-        if (!this._showed) {
+        if (this.state === 'closed') {
           return;
         }
 

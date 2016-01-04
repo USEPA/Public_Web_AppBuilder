@@ -73,7 +73,7 @@
 }
 
 .elevationsProfileLabel {
-    color: #eee;
+    color: #535C17;
     font-weight: bolder;
     font-size: 0.7em;
     line-height: 1.0em;
@@ -84,7 +84,7 @@
     position: absolute;
     bottom: 10px;
     left: 10px;
-    text-align: left;
+    text-align: center;
     white-space: nowrap;
     display: inline-block;
     position: absolute;
@@ -100,7 +100,7 @@
     position: absolute;
     bottom: 10px;
     right: 10px;
-    text-align: right;
+    text-align: center;
     overflow: hidden;
     white-space: nowrap;
     word-break: keep-all;

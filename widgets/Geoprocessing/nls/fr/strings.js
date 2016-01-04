@@ -9,6 +9,24 @@
     requiredInfo: "est obligatoire.",
     drawnOnMap: "Le résultat apparaît sur la carte.",
     clear: "Effacer",
-    error: "Erreur"
+    error: "Erreur",
+    noToolConfig: "Aucune tâche de géotraitement préconfigurée n\'est disponible.",
+    useUrlForGPInput: "URL",
+    useUploadForGPInput: "Télécharger le fichier",
+    selectFileToUpload: 'Sélectionner un fichier...',
+    upload: 'Charger',
+    rasterFormat: 'Format de données raster',
+    noFileSelected: 'Aucun fichier sélectionné !',
+    uploadSuccess:'Chargement du fichier réussi !',
+    url: "URL",
+    showLayerContent: "Afficher le contenu de la couche",
+    invalidUrl: "URL du service d\'entités non valide",
+    Feet: "Pieds",
+    Yards: "Yards",
+    Miles: "Miles",
+    NauticalMiles: "Milles nautiques",
+    Meter: "Mètres",
+    Kilometers: "Kilomètres",
+    urlPlaceholder: "URL du jeu d\'entités"
   })
 );

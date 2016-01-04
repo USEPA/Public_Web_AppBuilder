@@ -39,10 +39,10 @@ define([
             setConfig: function (config) {
                 this.config = config;
                 if (config.elevationSync.url !== undefined) {
-                    this.elevationProfileUrl.set('value', config.elevationSync);
+                    this.elevationProfileUrl.set('value', config.elevationSync.url);
                 }
                 if (config.losSync.url !== undefined) {
-                    this.losUrl.set('value', config.losSync);
+                    this.losUrl.set('value', config.losSync.url);
                 }
             },
 

@@ -19,6 +19,6 @@
     outputs: "Išvestys",
     outputtip: "Pastaba: elementas ir lentelės išvestys pridedami žemėlapyje kaip darbiniai sluoksniai.",
     outputSaveInPortal: "Duomenys įrašyti portale.",
-    privilegeError: "Jei norite naudoti analizės įrankį, turite veikti kaip publikuotojas arba administratorius."
+    privilegeError: "Jūsų vartotojo rolė neturi teisių vykdyti analizę. Tam, kad atlikti analizę, jūsų organizacijos administratorius privalo suteikti šias <a href=\"http://doc.arcgis.com/en/arcgis-online/reference/roles.htm\" target=\"_blank\">privilegijas</a>."
   })
 );

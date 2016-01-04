@@ -1,0 +1,50 @@
+﻿define(
+   ({
+    layerSelect: "Selectaţi stratul tematic de imagini",
+    displayMeasureResultInPopup: "Afişare rezultate măsurare într-o fereastră pop-up",
+    angularUnitSelect: "Unitate unghiulară implicită",
+    linearUnitSelect: "Unitate liniară implicită",
+    areaUnitSelect: "Unitate de suprafaţă implicită",
+    displayOperationSelect: "Selectare operaţiuni măsurare",
+    errorSectionMeasage: "Niciunul din straturile tematice nu acceptă capacităţi de măsurare",
+    unitLabel: {
+      esriInches: "Inci",
+      esriFeet: "Ft",
+      esriYards: "Iarzi",
+      esriMiles: "Mile",
+      esriNauticalMiles: "Mile marine",
+      esriMillimeters: "Milimetri",
+      esriCentimeters: "Centimetri",
+      esriDecimeters: "Decimetri",
+      esriMeters: "Metri",
+      esriKilometers: "Kilometri",
+      esriDURadians: "Radiani",
+      esriDUDecimalDegrees: "Grade",
+      esriSquareInches: "Inci pătraţi",
+      esriSquareFeet: "Ft pătraţi",
+      esriSquareYards: "Iarzi pătraţi",
+      esriAcres: "Acri",
+      esriSquareMiles: "Mile pătrate",
+      esriSquareMillimeters: "Milimetri pătraţi",
+      esriSquareCentimeters: "Centimetri pătraţi",
+      esriSquareDecimeters: "Decimetri pătraţi",
+      esriSquareMeters: "Metri pătraţi",
+      esriAres: "Ari",
+      esriHectares: "Hectare",
+      esriSquareKilometers: "Kilometri pătraţi"
+    },
+    operationLabel: {
+      esriMensurationPoint: "Punct",
+      esriMensurationDistanceAndAngle: "Distanţă şi unghi",
+      esriMensurationAreaAndPerimeter: "Suprafaţă şi perimetru",
+      esriMensurationHeightFromBaseAndTop: "De la bază la vârf",
+      esriMensurationHeightFromBaseAndTopShadow: "Umbră de la bază la vârf",
+      esriMensurationHeightFromTopAndTopShadow: "Umbră de la vârf la vârf",
+      esriMensurationCentroid: "Centroid",
+      esriMensurationPoint3D: "Punct (3D)",
+      esriMensurationDistanceAndAngle3D: "Distanţă şi unghi (3D)",
+      esriMensurationAreaAndPerimeter3D: "Suprafaţă şi perimetru (3D)",
+      esriMensurationCentroid3D: "Centroid (3D)"
+    }
+  })
+);

@@ -33,7 +33,7 @@ define([
 function(declare, _WidgetsInTemplateMixin, lang, array, html, on, keys, query,
   BaseWidgetSetting, Popup, Message, utils, Edit, store) {
   //for now, this setting page suports 2D mark only
-  return declare([BaseWidgetSetting,_WidgetsInTemplateMixin], {
+  return declare([BaseWidgetSetting, _WidgetsInTemplateMixin], {
     //these two properties is defined in the BaseWidget
     baseClass: 'jimu-widget-bookmark-setting',
 
@@ -53,16 +53,16 @@ function(declare, _WidgetsInTemplateMixin, lang, array, html, on, keys, query,
     setConfig: function(config){
       this.config = config;
       this.bookmarks = this.config.bookmarks2D;
-      //add webmap bookmarks
-      if(this.map.itemInfo && this.map.itemInfo.itemData && this.map.itemInfo.itemData.bookmarks){
+      //add webmap bookmarks only if there is no entry in config
+      if(this.bookmarks.length === 0 && this.map.itemInfo &&
+          this.map.itemInfo.itemData && this.map.itemInfo.itemData.bookmarks){
         array.forEach(this.map.itemInfo.itemData.bookmarks, function(bookmark){
           bookmark.isInWebmap = true;
-          bookmark.name = bookmark.name;
           // if (array.indexOf(this.bookmarks, bookmark) === -1){
           //   this.bookmarks.push(bookmark);
           // }
           var repeat = 0;
-          for (var i = 0; i <this.bookmarks.length; i++ ){
+          for (var i = 0; i < this.bookmarks.length; i++ ){
             if (this.bookmarks[i].name === bookmark.name){
               repeat ++;
             }
@@ -100,7 +100,7 @@ function(declare, _WidgetsInTemplateMixin, lang, array, html, on, keys, query,
     _clearBookmarksDiv:function(){
       //html.empty(this.bookmarkListNode);
       var bookmarkItemDoms = query('.mark-item-div', this.domNode);
-      for (var i = 0; i< bookmarkItemDoms.length;i++){
+      for (var i = 0; i < bookmarkItemDoms.length;i++){
         html.destroy(bookmarkItemDoms[i]);
       }
     },
@@ -150,7 +150,8 @@ function(declare, _WidgetsInTemplateMixin, lang, array, html, on, keys, query,
           nls: this.nls,
           folderUrl: this.folderUrl,
           portalUrl : this.appConfig.map.portalUrl,
-          itemId: this.appConfig.map.itemId
+          itemId: this.appConfig.map.itemId,
+          mapOptions: this.appConfig.map.mapOptions
         });
         this.edit.setConfig(bookmark || {});
         this.popup = new Popup({
@@ -165,7 +166,7 @@ function(declare, _WidgetsInTemplateMixin, lang, array, html, on, keys, query,
               key:keys.ENTER,
               disable: true,
               onClick: lang.hitch(this, '_onEditOk')
-            },{
+            }, {
               label: this.nls.cancel,
               key:keys.ESCAPE
             }
@@ -190,7 +191,7 @@ function(declare, _WidgetsInTemplateMixin, lang, array, html, on, keys, query,
           this.displayBookmarks();
           editResult = true;
         }else if (this.popupState === "EDIT"){
-          this.bookmarks.splice(this.editIndex,1,bookmark);
+          this.bookmarks.splice(this.editIndex, 1, bookmark);
           this.displayBookmarks();
           editResult = true;
         }
@@ -218,7 +219,7 @@ function(declare, _WidgetsInTemplateMixin, lang, array, html, on, keys, query,
     _createmarkItems: function() {
       for(var i = 0;i < this.bookmarks.length; i++){
         var markItem = this._createmarkItem(this.bookmarks[i]);
-        html.place(markItem,this.bookmarksDiv);
+        html.place(markItem, this.bookmarksDiv);
       }
     },
 
@@ -234,10 +235,10 @@ function(declare, _WidgetsInTemplateMixin, lang, array, html, on, keys, query,
       var markItem = html.toDom(str);
       var markItemThumbnail = query('.mark-item-thumbnail', markItem)[0];
       var markItemTitle = query('.mark-item-title', markItem)[0];
-      var markItemDeleteIcon = query('.mark-item-delete-icon',markItem)[0];
+      var markItemDeleteIcon = query('.mark-item-delete-icon', markItem)[0];
       this.own(on(markItemDeleteIcon, 'click',
         lang.hitch(this, this._onmarkItemDeleteClick, bookmark.name)));
-      var markItemEditIcon = query('.mark-item-detail-icon',markItem)[0];
+      var markItemEditIcon = query('.mark-item-detail-icon', markItem)[0];
       this.own(on(markItemEditIcon, 'click',
         lang.hitch(this, this._onmarkItemEditClick, bookmark.name)));
       markItem.item = bookmark;
@@ -249,14 +250,14 @@ function(declare, _WidgetsInTemplateMixin, lang, array, html, on, keys, query,
         thumbnail = this.folderUrl + 'images/thumbnail_default.png';
       }
       html.setAttr(markItemThumbnail, 'src', thumbnail);
-      markItemTitle.innerHTML = bookmark.name;
+      markItemTitle.innerHTML = utils.sanitizeHTML(bookmark.name);
       html.setAttr(markItemTitle, 'title', bookmark.name);
       return markItem;
     },
 
     _clearBasemarksDiv:function(){
       var markItemDoms = query('.mark-item-div', this.domNode);
-      for (var i = 0; i< markItemDoms.length;i++){
+      for (var i = 0; i < markItemDoms.length;i++){
         html.destroy(markItemDoms[i]);
       }
     },
@@ -268,7 +269,7 @@ function(declare, _WidgetsInTemplateMixin, lang, array, html, on, keys, query,
     _onmarkItemDeleteClick:function(bookmarkName){
       this.getBookmarkByName(bookmarkName);
       if (this.editIndex !== null){
-        this.bookmarks.splice(this.editIndex,1);
+        this.bookmarks.splice(this.editIndex, 1);
       }
       this.displayBookmarks();
     }

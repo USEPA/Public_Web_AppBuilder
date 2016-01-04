@@ -9,6 +9,24 @@
     requiredInfo: "on nõutav.",
     drawnOnMap: "Tulemus joonistatakse kaardile.",
     clear: "Puhasta",
-    error: "Viga"
+    error: "Viga",
+    noToolConfig: "Eelkonfigureeritud geotöötluse toimingud ei ole saadaval.",
+    useUrlForGPInput: "URL",
+    useUploadForGPInput: "Faili üleslaadimine",
+    selectFileToUpload: 'Vali fail...',
+    upload: 'Lae üles',
+    rasterFormat: 'Rasterandmete formaat',
+    noFileSelected: 'Ühtegi faili pole valitud!',
+    uploadSuccess:'Faili üleslaadimine oli edukas!',
+    url: "URL",
+    showLayerContent: "Kuva kihi sisu",
+    invalidUrl: "Kehtetu objektiteenuse URL",
+    Feet: "Jalad",
+    Yards: "Jardid",
+    Miles: "Miilid",
+    NauticalMiles: "Meremiilid",
+    Meter: "Meetrid",
+    Kilometers: "Kilomeetrid",
+    urlPlaceholder: "objektikomplekti URL"
   })
 );

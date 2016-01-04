@@ -5,7 +5,7 @@ define({
     selectLayer: "Select from layer:",
     selectDrawtool: "Select draw tool:",
     result: "Result:",
-    noresult: "No query results to display chart.",
+    noresult: "No query results to display.",
     nomedia: "There's no media in configuration!",
     envelop: "Draw Rectangle",
     circle: "Draw Circle",

@@ -1,0 +1,34 @@
+{
+  "comment": "Do not change lyr_types unless you have the widget JS code to support them",
+  "geocodeService": {
+    "url": "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer"
+  },
+  "enableRouting": true,
+  "special_layer": {
+    "label": "Weather",
+    "value": "weather",
+    "url": "http://coolmaps.esri.com/Weather/info.php?v=1"
+  },
+  "bufferLabel": "",
+  "bufferRange": {
+    "minimum": 0,
+    "maximum": 100
+  },
+  "distanceUnits": "miles",
+  "distanceSettings": {
+    "miles": 9035,
+    "kilometers": 9036,
+    "feet": 9002,
+    "meters": 9001,
+    "yards": 9037,
+    "nauticalMiles": 9030
+  },
+  "maxDistance": "80",
+  "defaultZoomLevel": 13,
+  "tabs": [{
+    "label": "Weather",
+    "type": "weather",
+    "layers": "",
+    "url": "http://coolmaps.esri.com/Weather/info.php?v=1"
+  }]
+}

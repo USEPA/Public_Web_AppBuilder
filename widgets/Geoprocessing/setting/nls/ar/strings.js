@@ -31,6 +31,22 @@
     setTask: "تعيين",
     setTaskTitle: "تعيين مهمة GP",
     enablePopup: "تمكين عنصر منبثق",
-    unSupportGeometryType: "يتعذر تعيين المُقدّم نظرًا لأن نوع الشكل الهندسي غير معروف."
+    unSupportGeometryType: "يتعذر تعيين المُقدّم نظرًا لأن نوع الشكل الهندسي غير معروف.",
+    useUrlForGPInput: "عنوان URL",
+    useUploadForGPInput: "تحميل الملف",
+    selectFileToUpload: "حدد ملف...",
+    upload: "تحميل",
+    rasterFormat: "تنسيق البيانات النقطية",
+    noFileSelected: "لم يتم تحديد أي ملف!",
+    uploadSuccess:"تم تحميل الملف بنجاح!",
+    showLayerContent: "عرض محتوى الطبقة",
+    Feet: "قدم",
+    Yards: "ياردة",
+    Miles: "ميل",
+    NauticalMiles: "الأميال البحرية",
+    Meter: "متر",
+    Kilometers: "كيلومترات",
+    urlPlaceholder: "عنوان URL لمجموعة المعالم",
+    allowToExport: "السماح بتصدير النتائج"
   })
 );

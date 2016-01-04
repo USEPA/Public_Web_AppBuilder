@@ -30,29 +30,27 @@ define(['dojo/_base/declare',
   'jimu/dijit/CheckBox',
   'jimu/dijit/URLInput',
   'jimu/dijit/DrawBox',
-  'esri/SpatialReference',
+  'jimu/utils',
   'esri/tasks/LinearUnit',
   'esri/tasks/FeatureSet',
-  'esri/tasks/query',
-  'esri/tasks/QueryTask',
-  'esri/request',
   'esri/geometry/Polygon',
   'esri/graphic',
   'esri/graphicsUtils',
-  '../BaseEditor'
+  '../BaseEditor',
+  '../LayerOrderUtil'
 ],
 function(declare, lang, array, html, on, Deferred, all, json, NumberTextBox, Select,
-  Textarea, DateTextBox, TimeTextBox, CheckBox, URLInput, DrawBox, SpatialReference,
-  LinearUnit, FeatureSet, Query, QueryTask, esriRequest,
-  Polygon, Graphic, graphicsUtils, BaseEditor) {
+  Textarea, DateTextBox, TimeTextBox, CheckBox, URLInput, DrawBox, utils,
+  LinearUnit, FeatureSet, Polygon, Graphic, graphicsUtils, BaseEditor, LayerOrderUtil) {
   var mo = {};
 
   mo.UnsupportEditor = declare(BaseEditor, {
     baseClass: 'jimu-gp-editor-base jimu-gp-editor-unsupport',
+    editorName: 'UnsupportEditor',
 
     postCreate: function(){
       this.inherited(arguments);
-      html.setAttr(this.domNode, 'innerHTML', this.message);
+      html.setAttr(this.domNode, 'innerHTML', utils.sanitizeHTML(this.message));
     },
 
     getValue: function(){
@@ -62,10 +60,11 @@ function(declare, lang, array, html, on, Deferred, all, json, NumberTextBox, Sel
 
   mo.ShowMessage = declare(BaseEditor, {
     baseClass: 'jimu-gp-editor-base jimu-gp-editor-message',
+    editorName: 'ShowMessage',
 
     postCreate: function(){
       this.inherited(arguments);
-      html.setAttr(this.domNode, 'innerHTML', this.message);
+      html.setAttr(this.domNode, 'innerHTML', utils.sanitizeHTML(this.message));
     },
 
     getValue: function(){
@@ -75,10 +74,14 @@ function(declare, lang, array, html, on, Deferred, all, json, NumberTextBox, Sel
 
   mo.GeneralEditorWrapperEditor = declare(BaseEditor, {
     baseClass: 'jimu-gp-editor-base jimu-gp-editor-wrapper',
+    editorName: 'GeneralEditorWrapperEditor',
 
     postCreate: function(){
       this.inherited(arguments);
       html.setStyle(this.gEditor.domNode, 'width', '100%');
+      if(this.editorName === 'Select'){
+        html.addClass(this.gEditor.domNode, 'restrict-select-width');
+      }
       this.gEditor.placeAt(this.domNode);
     },
 
@@ -87,10 +90,64 @@ function(declare, lang, array, html, on, Deferred, all, json, NumberTextBox, Sel
     }
   });
 
+  mo.LongNumberEditor = declare(BaseEditor, {
+    baseClass: 'jimu-gp-editor-base jimu-gp-editor-long',
+    editorName: 'LongNumberEditor',
+
+    postCreate: function(){
+      this.inherited(arguments);
+      this.value = this.param.defaultValue === undefined ? NaN : this.param.defaultValue;
+
+      this.editor = new NumberTextBox({
+        value: this.value,
+        constraints: {places:0}
+      });
+
+      this.editor.placeAt(this.domNode);
+    },
+
+    getValue: function(){
+      var ret = this.editor.getValue();
+
+      if(isNaN(ret)){
+        return null;
+      }else{
+        return ret;
+      }
+    }
+  });
+
+  mo.DoubleNumberEditor = declare(BaseEditor, {
+    baseClass: 'jimu-gp-editor-base jimu-gp-editor-double',
+    editorName: 'DoubleNumberEditor',
+
+    postCreate: function(){
+      this.inherited(arguments);
+      this.value = this.param.defaultValue === undefined ? NaN : this.param.defaultValue;
+
+      this.editor = new NumberTextBox({
+        value: this.value
+      });
+
+      this.editor.placeAt(this.domNode);
+    },
+
+    getValue: function(){
+      var ret = this.editor.getValue();
+
+      if(isNaN(ret)){
+        return null;
+      }else{
+        return ret;
+      }
+    }
+  });
+
   mo.MultiValueChooser = declare(BaseEditor, {
-  //this dijit is used to choose multi value from choice list
-  //we support simple value only for now
+    //this dijit is used to choose multi value from choice list
+    //we support simple value only for now
     baseClass: 'jimu-gp-editor-base jimu-gp-editor-multivalue-chooser',
+    editorName: 'MultiValueChooser',
 
     postCreate: function(){
       this.inherited(arguments);
@@ -118,9 +175,10 @@ function(declare, lang, array, html, on, Deferred, all, json, NumberTextBox, Sel
   });
 
   mo.MultiValueEditor = declare(BaseEditor, {
-  //this dijit is used to edit multi value, can add/delete value
-  //we support simple value only for now
+    //this dijit is used to edit multi value, can add/delete value
+    //we support simple value only for now
     baseClass: 'jimu-gp-editor-base jimu-gp-editor-multivalue',
+    editorName: 'MultiValueEditor',
 
     postCreate: function(){
       this.inherited(arguments);
@@ -162,7 +220,7 @@ function(declare, lang, array, html, on, Deferred, all, json, NumberTextBox, Sel
     },
 
     getGPValue: function(){
-      var def = new Deferred(),defs = [];
+      var def = new Deferred(), defs = [];
       array.forEach(this.editors, function(editor){
         defs.push(editor.getGPValue());
       }, this);
@@ -191,7 +249,7 @@ function(declare, lang, array, html, on, Deferred, all, json, NumberTextBox, Sel
         widgetUID: this.widgetUID,
         config: this.config
       });
-      var width = html.getContentBox(this.domNode).w - 30 -3;
+      var width = html.getContentBox(this.domNode).w - 30 - 3;
       html.setStyle(inputEditor.domNode, {
         display: 'inline-block',
         width: width + 'px'
@@ -234,6 +292,7 @@ function(declare, lang, array, html, on, Deferred, all, json, NumberTextBox, Sel
 
   mo.LinerUnitEditor = declare(BaseEditor, {
     baseClass: 'jimu-gp-editor-base jimu-gp-editor-liner-unit',
+    editorName: 'LinerUnitEditor',
 
     postCreate: function(){
       this.inherited(arguments);
@@ -250,14 +309,15 @@ function(declare, lang, array, html, on, Deferred, all, json, NumberTextBox, Sel
       this.selectDijit = new Select({
         value: this.units,
         options: [
-          {label: 'Meters', value: 'esriMeters'},
-          {label: 'Kilometers', value: 'esriKilometers'},
-          {label: 'Feet', value: 'esriFeet'},
-          {label: 'Miles', value: 'esriMiles'},
-          {label: 'NauticalMiles', value: 'esriNauticalMiles'},
-          {label: 'Yards', value: 'esriYards'}
+          {label: this.nls.Meter, value: 'esriMeters'},
+          {label: this.nls.Kilometers, value: 'esriKilometers'},
+          {label: this.nls.Feet, value: 'esriFeet'},
+          {label: this.nls.Miles, value: 'esriMiles'},
+          {label: this.nls.NauticalMiles, value: 'esriNauticalMiles'},
+          {label: this.nls.Yards, value: 'esriYards'}
         ]
       });
+      html.addClass(this.selectDijit.domNode, 'restrict-select-width');
       this.inputDijit.placeAt(this.domNode);
       this.selectDijit.placeAt(this.domNode);
     },
@@ -272,9 +332,9 @@ function(declare, lang, array, html, on, Deferred, all, json, NumberTextBox, Sel
 
   mo.DateTimeEditor = declare(BaseEditor, {
     baseClass: 'jimu-gp-editor-base jimu-gp-editor-datatime',
+    editorName: 'DateTimeEditor',
 
     postCreate: function(){
-      var today = new Date();
       var defaultDt = new Date(this.param.defaultValue);
 
       //we re-create date again because if we use the today/defaultDt directly,
@@ -286,12 +346,7 @@ function(declare, lang, array, html, on, Deferred, all, json, NumberTextBox, Sel
           defaultDt.getHours(),
           defaultDt.getMinutes(),
           defaultDt.getSeconds()):
-        new Date(today.getFullYear(),
-          today.getMonth(),
-          today.getDate(),
-          today.getHours(),
-          today.getMinutes(),
-          today.getSeconds());
+          null;
       this.inherited(arguments);
       this.dateDijit = new DateTextBox({
         value: this.value,
@@ -320,37 +375,48 @@ function(declare, lang, array, html, on, Deferred, all, json, NumberTextBox, Sel
       var ret = new Date();
       var dt = this.dateDijit.getValue();
       var time = this.timeDijit.getValue();
-      ret.setFullYear(dt.getFullYear());
-      ret.setMonth(dt.getMonth());
-      ret.setDate(dt.getDate());
-      ret.setHours(time.getHours());
-      ret.setMinutes(time.getMinutes());
-      ret.setSeconds(time.getSeconds());
-      return ret.getTime();
+
+      if(dt !== null && time !== null){
+        ret.setFullYear(dt.getFullYear());
+        ret.setMonth(dt.getMonth());
+        ret.setDate(dt.getDate());
+        ret.setHours(time.getHours());
+        ret.setMinutes(time.getMinutes());
+        ret.setSeconds(time.getSeconds());
+        return ret.getTime();
+      }else{
+        return null;
+      }
     }
   });
 
   mo.SelectFeatureSetFromDraw = declare([BaseEditor, DrawBox], {
+    editorName: 'SelectFeatureSetFromDraw',
+
     constructor: function(options){
       this.inherited(arguments);
       this.paramName = options.param.name;
       this.drawLayerId = options.widgetUID + options.param.name;
-      this.layerOrder = options.config.layerOrder;
     },
 
     postCreate: function(){
       this.inherited(arguments);
       html.addClass(this.domNode, 'jimu-gp-editor-draw');
       html.addClass(this.domNode, 'jimu-gp-editor-base');
-      this.startup();
 
-      //reorder drawbox layer
-      var inputLayerIndex = this.layerOrder.indexOf(this.paramName);
-      var operationalLayersIndex = this.layerOrder.indexOf('Operational Layers');
-      if(operationalLayersIndex < inputLayerIndex){
-        //input layer below the operational layer
-        this.map.reorderLayer(this.drawLayer, 0);
+      try{
+        var layerOrderUtil = new LayerOrderUtil(this.config, this.map);
+        layerOrderUtil.calculateLayerIndex(this.paramName, this.widgetUID).then(
+            lang.hitch(this, function(layerIndex){
+          if(layerIndex !== -1){
+            this.map.reorderLayer(this.drawLayer, layerIndex);
+          }
+        }));
+      }catch(err){
+        console.error(err.message);
       }
+
+      this.startup();
     },
 
     getValue: function(){
@@ -381,6 +447,8 @@ function(declare, lang, array, html, on, Deferred, all, json, NumberTextBox, Sel
   });
 
   mo.GetUrlObjectFromLayer = declare([BaseEditor, Select], {
+    editorName: 'GetUrlObjectFromLayer',
+
     postCreate: function(){
       this.options = [];
       array.forEach(this.map.graphicsLayerIds, function(layerId){
@@ -420,32 +488,9 @@ function(declare, lang, array, html, on, Deferred, all, json, NumberTextBox, Sel
     }
   });
 
-  mo.SelectFeatureSetFromUrl = declare([BaseEditor, URLInput], {
-    postCreate: function(){
-      this.inherited(arguments);
-      html.addClass(this.domNode, 'jimu-gp-editor-sffu');
-      html.addClass(this.domNode, 'jimu-gp-editor-base');
-    },
-
-    getValue: function(){
-      return this.value;
-    },
-
-    getGPValue: function(){
-      var query = new Query();
-      query.where = '1=1';
-      query.returnGeometry = true;
-      query.outFields = array.map(this.querySetting.fields, function(field){
-        return field.name;
-      }, this);
-      query.outSpatialReference = new SpatialReference(this.querySetting.spatialReference.wkid);
-
-      this.queryTask = new QueryTask(this.getValue());
-      return this.queryTask.execute(query);
-    }
-  });
-
   mo.ObjectUrlEditor = declare([BaseEditor, URLInput], {
+    editorName: 'ObjectUrlEditor',
+
     postCreate: function(){
       this.rest = false;
       this.inherited(arguments);
@@ -470,6 +515,7 @@ function(declare, lang, array, html, on, Deferred, all, json, NumberTextBox, Sel
   });
 
   mo.SimpleJsonEditor = declare([BaseEditor, Textarea], {
+    editorName: 'SimpleJsonEditor',
 
     postMixInProperties: function() {
       this.inherited(arguments);
@@ -497,59 +543,6 @@ function(declare, lang, array, html, on, Deferred, all, json, NumberTextBox, Sel
       }
       value = this.wrapGPValue(value);
       return this.wrapValueToDeferred(value);
-    }
-  });
-
-  mo.LayerFieldChooser = declare([BaseEditor, Select], {
-    postCreate: function(){
-      this.options = [];
-      this.inherited(arguments);
-      this.setValue(this.value);
-      html.addClass(this.domNode, 'jimu-gp-editor-lfc');
-      html.addClass(this.domNode, 'jimu-gp-editor-base');
-    },
-
-    update: function(layerId){
-      this.inherited(arguments);
-      var options = [];
-      var layer;
-
-      this.set('options', []);
-      this.set('value', '');
-
-      array.some(this.map.graphicsLayerIds, function(_layerId){
-        if(_layerId === layerId){
-          layer = this.map.getLayer(layerId);
-          return true;
-        }
-      }, this);
-
-      if(layer){
-        this._requestLayerInfo(layer.url).then(lang.hitch(this,function(response){
-          if(response && response.fields){
-            var fields = array.filter(response.fields,function(item){
-              return item.type !== 'esriFieldTypeOID' && item.type !== 'esriFieldTypeGeometry';
-            });
-
-            options = array.map(fields, function(field){
-              return {
-                label: field.alias || field.name,
-                value: field.name
-              };
-            }, this);
-            this.set('options', options);
-          }
-        }));
-      }
-    },
-
-    _requestLayerInfo:function(url){
-      return esriRequest({
-        url:url,
-        content:{f:"json"},
-        handleAs:"json",
-        callbackParamName:"callback"
-      });
     }
   });
 

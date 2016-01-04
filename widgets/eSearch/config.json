@@ -6,6 +6,8 @@
       "definitionexpression": "ZONING_TYPE = 'RESIDENTIAL'",
       "spatialsearchlayer": true,
       "zoomScale": 10000,
+      "shareResult": false,
+      "addToAttrib": false,
       "expressions": {
         "expression": [
           {
@@ -61,16 +63,38 @@
           },
           {
             "name": "ZONING_CODE",
-            "alias": "ZONING_CODE"
+            "alias": "ZONING_CODE",
+            "popuponly": true
           },
           {
             "name": "ZONING_TYPE",
-            "alias": "ZONING_TYPE"
+            "alias": "ZONING_TYPE",
+            "popuponly": true
           }
         ]
       },
-      "showattachments": false,
-      "layersymbolfrom": "config"
+      "layersymbolfrom": "config",
+      "symbology": {
+        "color": [
+          0,
+          0,
+          255,
+          128
+        ],
+        "outline": {
+          "color": [
+            0,
+            0,
+            255,
+            204
+          ],
+          "width": 2,
+          "type": "esriSLS",
+          "style": "esriSLSSolid"
+        },
+        "type": "esriSFS",
+        "style": "esriSFSSolid"
+      }
     },
     {
       "name": "Traffic Cameras",
@@ -78,6 +102,8 @@
       "definitionexpression": "",
       "spatialsearchlayer": true,
       "zoomScale": 5000,
+      "shareResult": true,
+      "addToAttrib": true,
       "expressions": {
         "expression": [
           {
@@ -141,113 +167,130 @@
           }
         ]
       },
-      "showattachments": false,
       "layersymbolfrom": "server"
     },
     {
-      "name": "SanFransisco 311",
-      "url": "http://sampleserver3.arcgisonline.com/ArcGIS/rest/services/SanFrancisco/311Incidents/FeatureServer/0",
+      "name": "Tax Sales",
+      "url": "http://sampleserver1.arcgisonline.com/ArcGIS/rest/services/TaxParcel/AssessorsLiveLayers/MapServer/1",
       "definitionexpression": "",
       "spatialsearchlayer": false,
       "zoomScale": 10000,
+      "shareResult": false,
+      "addToAttrib": false,
       "expressions": {
         "expression": [
           {
-            "alias": "Incident Status",
-            "textsearchlabel": "Search by Incident Status:",
+            "alias": "Deed Type",
+            "textsearchlabel": "Search By Deed Type",
             "values": {
               "value": [
                 {
                   "fieldObj": {
-                    "name": "status",
-                    "label": "Status",
-                    "shortType": "number",
-                    "type": "esriFieldTypeSmallInteger"
-                  },
-                  "valueObj": {
-                    "value": 1
-                  },
-                  "prompt": "Status is",
-                  "textsearchhint": "Example: New",
-                  "sqltext": "status = [value]",
-                  "operation": "numberOperatorIs"
-                }
-              ]
-            }
-          },
-          {
-            "alias": "Request ID",
-            "textsearchlabel": "Search by Request ID",
-            "values": {
-              "value": [
-                {
-                  "fieldObj": {
-                    "name": "req_id",
-                    "label": "Request ID",
+                    "name": "DOCNAME",
+                    "label": "Document Name",
                     "shortType": "string",
                     "type": "esriFieldTypeString"
                   },
                   "valueObj": {
-                    "value": "508844"
+                    "value": ""
                   },
-                  "prompt": "Request ID is",
-                  "textsearchhint": "Example: 508844",
-                  "sqltext": "Upper(req_id) = Upper('[value]')",
-                  "operation": "stringOperatorIs"
+                  "prompt": "Document Name is",
+                  "textsearchhint": "Choose From List",
+                  "sqltext": "DOCNAME = '[value]'",
+                  "operation": "stringOperatorIs",
+                  "uniquevalsfromfield": "DOCNAME"
+                }
+              ]
+            }
+          },
+          {
+            "alias": "Site Address",
+            "textsearchlabel": "Search By Site Address",
+            "values": {
+              "value": [
+                {
+                  "fieldObj": {
+                    "name": "SITEADDRESS",
+                    "label": "Full Site Address",
+                    "shortType": "string",
+                    "type": "esriFieldTypeString"
+                  },
+                  "valueObj": {
+                    "value": ""
+                  },
+                  "prompt": "Full Site Address contains",
+                  "textsearchhint": "1702 Hickory Bark Ln",
+                  "sqltext": "Upper(SITEADDRESS) LIKE Upper('%[value]%')",
+                  "operation": "stringOperatorContains"
                 }
               ]
             }
           }
         ]
       },
-      "titlefield": "req_type",
+      "titlefield": "PARCELID",
       "fields": {
         "all": false,
         "field": [
           {
-            "name": "req_id",
-            "alias": "Request ID"
+            "name": "PARCELID",
+            "alias": "Parcel Identification Number"
           },
           {
-            "name": "req_type",
-            "alias": "Request Type"
+            "name": "SITEADDRESS",
+            "alias": "Full Site Address"
           },
           {
-            "name": "req_date",
-            "alias": "Request Date"
+            "name": "DOCNAME",
+            "alias": "Document Name"
           },
           {
-            "name": "address",
-            "alias": "Address"
+            "name": "RECORDDT",
+            "alias": "Date Recorded",
+            "isdate": true
           },
           {
-            "name": "district",
-            "alias": "District"
+            "name": "TRANSDT",
+            "alias": "Transaction Date",
+            "isdate": true
           },
           {
-            "name": "status",
-            "alias": "Status",
+            "name": "GRANTOR",
+            "alias": "Grantor"
+          },
+          {
+            "name": "GRANTEE",
+            "alias": "Grantee"
+          },
+          {
+            "name": "LIBER",
+            "alias": "Liber"
+          },
+          {
+            "name": "PAGE",
+            "alias": "Page"
+          },
+          {
+            "name": "SALEAMNT",
+            "alias": "Sale Amount",
             "isnumber": true
-          },
-          {
-            "name": "objectid",
-            "alias": "Object ID"
           }
         ]
       },
-      "showattachments": true,
+      "links": {
+        "link": []
+      },
       "layersymbolfrom": "server"
     }
   ],
-  "zoomScale": 10000,
-  "shareResult": false,
   "initialView": "text",
-  "multipartgraphicsearchchecked": false,
-  "addpointtolerancechecked": false,
-  "keepgraphicalsearchenabled": true,
+  "enablePopupsOnResultClick": true,
+  "limitsearch2mapextentchecked": false,
   "autozoomtoresults": true,
+  "mouseovergraphics": false,
   "toleranceforpointgraphicalselection": 6,
   "bufferDefaults": {
+    "addtolegend": false,
     "bufferUnits": {
       "bufferUnit": [
         {
@@ -300,10 +343,26 @@
       }
     ]
   },
+  "graphicalsearchoptions":{
+    "enablepointselect": true,
+    "enablelineselect": true,
+    "enablepolylineselect": true,
+    "enableextentselect": true,
+    "enablecircleselect": true,
+    "enablepolyselect": true,
+    "showmultigraphicsgraphicaloption": true,
+    "showaddtolerancegraphicaloption": true,
+    "showaddsqltextgraphicaloption": true,
+    "showbuffergraphicaloption": true,
+    "buffercheckedbydefaultgraphicaloption": false,
+    "multipartgraphicsearchchecked": false,
+    "addpointtolerancechecked": false,
+    "keepgraphicalsearchenabled": true
+  },
   "symbols": {
     "simplemarkersymbol": null,
     "picturemarkersymbol": {
-      "url": "/widgets/eSearch/images/i_search.png",
+      "url": "images/i_search.png",
       "height": "20",
       "width": "20",
       "type": "esriPMS",

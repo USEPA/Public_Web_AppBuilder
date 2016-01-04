@@ -19,6 +19,6 @@
     outputs: "Çıktılar",
     outputtip: "Not: Detay ve tablo çıktıları haritaya operasyonel katman olarak eklenir.",
     outputSaveInPortal: "Veriler portalınıza kaydedildi.",
-    privilegeError: "Analiz aracını kullanabilmek için Yayıncı veya Yönetici rolüne sahip olmalısınız."
+    privilegeError: "Kullanıcı rolünüzle analiz yapılamaz. Analiz yapabilmeniz için kuruluş yöneticinizin size belirli <a href=\"http://doc.arcgis.com/en/arcgis-online/reference/roles.htm\" target=\"_blank\">ayrıcalıklar</a> tahsis etmesi gerekir."
   })
 );

@@ -37,8 +37,9 @@ define([
     './utils',
     'dijit/form/HorizontalSlider',
     'dijit/form/HorizontalRuleLabels',
-    './CheckBox',
-    'dojo/dom-construct'
+    'dojo/dom-construct',
+    'dojo/dom-geometry',
+    'dojo/aspect'
   ],
   function(
     declare,
@@ -63,8 +64,9 @@ define([
     utils,
     HorizontalSlider,
     HorizontalRuleLabels,
-    CheckBox,
-    domConstruct) {
+    domConstruct,
+    domGeom,
+    aspect) {
     var clazz = declare([BaseWidget, _WidgetsInTemplateMixin], {
 
       name: 'eBasemapGallery',
@@ -74,13 +76,39 @@ define([
       hybridBasemapArray: null,
       hyBasemap: null,
       defaultBasemapId: null,
-      hybridBasemapArrayLbls: null,
+      secondBasemapId: null,
+      hybridBasemapId: null,
+      selectedBMNode: null,
+      selectedBMNode2: null,
+      selectedBMNode3: null,
+      hybridChangeEvent: false,
+      hybridAdded: false,
+      imgthumbposleft: 0,
+      webmapBasemap: null,
+
+      postCreate: function() {
+        this.own(on(this.domNode, 'mousedown', lang.hitch(this, function (event) {
+          event.stopPropagation();
+          if (event.altKey) {
+            var msgStr = this.nls.widgetverstr + ': ' + this.manifest.version;
+            msgStr += '\n' + this.nls.wabversionmsg + ': ' + this.manifest.wabVersion;
+            msgStr += '\n' + this.manifest.description;
+            new Message({
+              titleLabel: this.nls.widgetversion,
+              message: msgStr
+            });
+          }
+        })));
+      },
 
       startup: function() {
         /*jshint unused: false*/
         this.inherited(arguments);
         this.initBasemaps();
         this.defaultBasemapId = this.map.getBasemap();
+        this.own(
+          aspect.before(this, 'destroy', this.beforeDestroy)
+        );
       },
 
       resize: function() {
@@ -100,6 +128,15 @@ define([
             html.setStyle(node, 'width', 85 + addWidth + 'px');
           });
         }
+        var imgthumbnode = query('.esriBasemapGalleryNode > a > .esriBasemapGalleryThumbnail', this.id)[0];
+        this.imgthumbposleft = parseInt(domGeom.getMarginBox(imgthumbnode).l, 10) + 10;
+
+        query('.bm-addbtn', this.id).forEach(lang.hitch(this,function(node) {
+          html.setStyle(node, 'left', this.imgthumbposleft + 'px');
+        }));
+        var sWidth = (width - 261) / 2;
+        html.setStyle(this.spacer1, 'width', sWidth + 'px');
+        html.setStyle(this.spacer2, 'width', sWidth + 'px');
       },
 
       initBasemaps: function() {
@@ -164,8 +201,8 @@ define([
           if(i === basemaps.length) {
             basemaps.push(webmapBasemap);
           }
-          
-        
+
+
           for (i = 0; i < basemaps.length; i++) {
             var n = basemaps[i].layers.length;
             var layersArray = [];
@@ -199,29 +236,210 @@ define([
           config.bingMapsKey = result.portalSelf.bingKey;
           this.basemapGallery = new BasemapGallery(config, this.basemapGalleryDiv);
           this.basemapGallery.startup();
-          this.own(on(this.basemapGallery,
-                      "selection-change",
-                      lang.hitch(this, this.selectionChange)));
+          this.own(on(this.basemapGallery, "selection-change", lang.hitch(this, this.selectionChange)));
+          this.own(on(this.basemapGallery, "add, remove", lang.hitch(this, this._onAddorRemoveBasemap)));
           this._responsive();
           this._selectWebBasemap();
         }));
       },
-      
-      _selectWebBasemap: function(){
-        var webmapBasemap = this._getWebmapBasemap();
-        array.some(this.basemapGallery.basemaps, lang.hitch(this,function(lyr){
-          if(webmapBasemap.title === lyr.title){
-            var tNode = query('.esriBasemapGalleryNode > .esriBasemapGalleryLabelContainer span[ title = "' + lyr.title + '" ]', this.id).parent().parent()[0];
-            html.addClass(tNode,'esriBasemapGallerySelectedNode');
-            this.defaultBasemapId = lyr.id
-          }
+
+      _onAddorRemoveBasemap: function() {
+        this._responsive();
+
+        query('.esriBasemapGalleryNode', this.id).forEach(lang.hitch(this,function(node) {
+          this.addNode = domConstruct.create('div', {
+            'class': 'bm-addbtn',
+            'id': node.id +'_addBtn',
+            'title': this.nls.add,
+            'style': 'left:' + this.imgthumbposleft + 'px'
+          }, node);
+
+          this.own(
+            on(node, 'mouseover', lang.hitch(this, this._showAddBtn))
+          );
+
+          this.own(
+            on(node, 'mouseout', lang.hitch(this, this._hideAddBtn))
+          );
+
+          this.own(
+            on(this.addNode, 'click', lang.hitch(this, this._addBtnClick))
+          );
         }));
       },
-      
-      _onFaderChanged: function(evt){
-        var currentValue = evt;
-        var floorValue = Math.floor(evt);
 
+      _selectWebBasemap: function(){
+        this.webmapBasemap = this._getWebmapBasemap();
+        var sNode = query(".esriBasemapGalleryLabelContainer span", this.selectedBasemapGalleryNode)[0];
+        var sNode2 = query(".esriBasemapGalleryThumbnail", this.selectedBasemapGalleryNode)[0];
+        array.some(this.basemapGallery.basemaps, lang.hitch(this,function(lyr){
+          if(this.webmapBasemap.title === lyr.title){
+            var tNode = query('.esriBasemapGalleryNode > .esriBasemapGalleryLabelContainer span[ title = "' + lyr.title + '" ]', this.id).parent().parent()[0];
+            this.selectedBMNode = tNode;
+            html.setStyle(tNode,'display','none');
+            var tNode2 = query('.esriBasemapGalleryThumbnail', tNode)[0];
+            html.addClass(tNode,'.esriBasemapGallerySelectedNode');
+            this.defaultBasemapId = lyr.id;
+            sNode.innerHTML = sNode.title = sNode.alt = lyr.title;
+            sNode2.title = sNode2.alt = tNode2.alt;
+            sNode2.src = tNode2.src;
+          }
+        }));
+
+        query('.esriBasemapGalleryNode', this.id).forEach(lang.hitch(this,function(node) {
+          this.addNode = domConstruct.create('div', {
+            'class': 'bm-addbtn',
+            'id': node.id +'_addBtn',
+            'title': this.nls.add,
+            'style': 'left:' + this.imgthumbposleft +'px'
+          }, node);
+
+          this.own(
+            on(node, 'mouseover', lang.hitch(this, this._showAddBtn))
+          );
+
+          this.own(
+            on(node, 'mouseout', lang.hitch(this, this._hideAddBtn))
+          );
+
+          this.own(
+            on(this.addNode, 'click', lang.hitch(this, this._addBtnClick))
+          );
+        }));
+      },
+
+      _removeBtnClick: function(evt) {
+        html.setStyle(this.selectedBasemapGalleryNode, 'visibility', 'visible');
+        html.setStyle(this.selectedBasemap1, 'visibility', 'hidden');
+        html.setStyle(this.selectedBasemap2, 'visibility', 'hidden');
+        html.setStyle(this.faderDiv,'display','none');
+        this._resetBasemaps1and2();
+        this._removeHybridBasemap((evt.target.id === "removeBM1") ? "second" : "primary");
+        this.hybridBasemapArray=[];
+      },
+
+      _resetBasemaps1and2: function(){
+        var sNode = query(".esriBasemapGalleryLabelContainer span", this.selectedBasemap1)[0];
+        var sNode2 = query(".esriBasemapGalleryThumbnail", this.selectedBasemap1)[0];
+
+        var sNode3 = query(".esriBasemapGalleryLabelContainer span", this.selectedBasemap2)[0];
+        var sNode4 = query(".esriBasemapGalleryThumbnail", this.selectedBasemap2)[0];
+
+        sNode3.innerHTML = sNode3.title = sNode3.alt = sNode.innerHTML = sNode.title = sNode.alt = "";
+        sNode4.title = sNode4.alt = sNode2.title = sNode2.alt = "";
+        sNode4.src = sNode2.src = "widgets/eBasemapGallery/images/default.jpg";
+      },
+
+      _addBtnClick: function(evt) {
+        //begin by removing the hybrid basemap if one exists
+        if(this.hybridBasemapId){
+          array.map(this.hyBasemap.getLayers(), lang.hitch(this,function(lyr){
+            lyr.opacity = 1;
+          }));
+          this.basemapGallery.remove(this.hybridBasemapId);
+          this.hybridAdded = false;
+          this.hybridBasemapId = null;
+        }
+        var gItem = this.defaultBasemapId.split("_")[1];
+        this.hybridBasemapArray=[];
+        this.hybridBasemapArray.push(gItem);
+        evt.stopImmediatePropagation();
+        evt.preventDefault();
+
+        if(this.selectedBMNode2){
+          html.setStyle(this.selectedBMNode2, 'display', 'block');
+        }
+        html.setStyle(this.selectedBasemapGalleryNode, 'visibility', 'hidden');
+        var sNode = query(".esriBasemapGalleryLabelContainer span", this.selectedBasemap1)[0];
+        var sNode2 = query(".esriBasemapGalleryThumbnail", this.selectedBasemap1)[0];
+        var sNode3 = query(".esriBasemapGalleryLabelContainer span", this.selectedBasemapGalleryNode)[0];
+        var sNode4 = query(".esriBasemapGalleryLabelContainer span", this.selectedBasemap2)[0];
+        var sNode5 = query(".esriBasemapGalleryThumbnail", this.selectedBasemap2)[0];
+
+        var bm2Node = html.byId(evt.target.id.replace("_addBtn", ""));
+        this.selectedBMNode2 = bm2Node;
+        this.secondBasemapId = bm2Node.id.replace("galleryNode_", "");
+
+        gItem = bm2Node.id.split("_")[2];
+        this.hybridBasemapArray.push(gItem);
+
+        html.setStyle(bm2Node, 'display', 'none');
+        var aNode2 = query('.esriBasemapGalleryThumbnail', bm2Node)[0];
+        sNode4.innerHTML = sNode.title = sNode.alt = aNode2.alt;
+        sNode5.title = sNode5.alt = aNode2.alt;
+        sNode5.src = aNode2.src;
+
+        array.some(this.basemapGallery.basemaps, lang.hitch(this,function(lyr){
+          if(sNode3.title === lyr.title){
+            var tNode = query('.esriBasemapGalleryNode > .esriBasemapGalleryLabelContainer span[ title = "' + lyr.title + '" ]', this.id).parent().parent()[0];
+            var tNode2 = query('.esriBasemapGalleryThumbnail', tNode)[0];
+            sNode.innerHTML = sNode.title = sNode.alt = lyr.title;
+            sNode2.title = sNode2.alt = tNode2.alt;
+            sNode2.src = tNode2.src;
+          }
+        }));
+
+        html.setStyle(this.selectedBasemap1, 'visibility', 'visible');
+        html.setStyle(this.selectedBasemap2, 'visibility', 'visible');
+        html.setStyle(this.faderDiv,'display','inline-block');
+
+        this._addHybridBasemap();
+      },
+
+      _getBasemapNodeFromTarget: function(target) {
+        var retval;
+        if(target.tagName === "A"){
+          retval = target.parentNode;
+        }else if(target.tagName === "IMG"){
+          retval = target.parentNode.parentNode;
+        }else if(target.tagName === "SPAN"){
+          retval = target.parentNode.parentNode;
+        }else if(target.tagName === "DIV"){
+          if(html.hasClass(target, 'esriBasemapGalleryNode')){
+            retval = target;
+          }else if(html.hasClass(target, 'esriBasemapGalleryLabelContainer')){
+            retval = target.parentNode;
+          }else if(html.hasClass(target, 'bm-addbtn')){
+            retval = target.parentNode;
+          }else if(html.hasClass(target, 'bm-removebtn')){
+            retval = target.parentNode;
+          }
+        }
+        return retval;
+      },
+
+      _showAddBtn: function(evt){
+        var node = this._getBasemapNodeFromTarget(evt.target);
+        if(html.hasClass(node, 'currentSelected') || html.hasClass(node, 'basemap1') || html.hasClass(node, 'basemap2')){
+          return;
+        }
+        var addBtnNode = query('.bm-addbtn', node)[0];
+        html.setStyle(addBtnNode, 'display', 'inline-block');
+      },
+
+      _hideAddBtn: function(evt){
+        var node = this._getBasemapNodeFromTarget(evt.target);
+        if(html.hasClass(node, 'currentSelected') || html.hasClass(node, 'basemap1') || html.hasClass(node, 'basemap2')){
+          return;
+        }
+        var addBtnNode = query('.bm-addbtn', node)[0];
+        html.setStyle(addBtnNode, 'display', 'none');
+      },
+
+      _showRemoveBtn: function(evt){
+        var node = this._getBasemapNodeFromTarget(evt.target);
+        var addRemoveNode = query('.bm-removebtn', node)[0];
+        html.setStyle(addRemoveNode, 'display', 'inline-block');
+      },
+
+      _hideRemoveBtn: function(evt){
+        var node = this._getBasemapNodeFromTarget(evt.target);
+        var addRemoveNode = query('.bm-removebtn', node)[0];
+        html.setStyle(addRemoveNode, 'display', 'none');
+      },
+
+      _onFaderChanged: function(evt){
+        var floorValue = Math.floor(evt);
         //loop through the hybrid basemap layers and adjust transparency
         array.map(this.hyBasemap.getLayers(), lang.hitch(this,function(lyr){
           if(lyr.hybrid === 0){
@@ -230,7 +448,8 @@ define([
             lyr.opacity = floorValue / 100;
           }
         }));
-        this.basemapGallery.select("hybrid_basemap");
+        this.hybridChangeEvent = true;
+        this.basemapGallery.select(this.hybridBasemapId);
       },
 
       _getWebmapBasemap: function() {
@@ -248,58 +467,17 @@ define([
           spatialReference: this.map.spatialReference
         };
       },
-      
-      _onhybridCbxChanged: function(){
-        if(this.hybridCbx.getValue()){
-          query('.esriBasemapGalleryNode', this.id).forEach(lang.hitch(this,function(node) {
-            var cb = new CheckBox();
-            cb.startup();
-            this.own(on(cb,
-                    'change',
-                    lang.hitch(this, this._basemapChecked, node)));
-            domConstruct.place(cb.domNode, node, 'first');
-          }));
-          this.hybridBasemapArray=[];
-        } else {
-          query('.esriBasemapGalleryNode > .ebasemapgallery-checkbox', this.id).forEach(function(node) {
-            domConstruct.destroy(node.id);
-          });
-          //html.setStyle(this.hybridCbx.labelNode,'visibility','visible');
-          html.setStyle(this.faderDiv,'display','none');
-          this._removeHybridBasemap();
-        }
-      },
-      
-      _basemapChecked: function(cnode, checked) {
-        var gItem = cnode.id.split("_")[2];
-        if(checked && this.hybridBasemapArray.indexOf(gItem) < 0){
-          this.hybridBasemapArray.push(gItem);
-        }else if(!checked && this.hybridBasemapArray.indexOf(gItem) > -1){
-          this.hybridBasemapArray.splice(this.hybridBasemapArray.indexOf(gItem),1);
-        }
-        var numChecked = 0;
-        query('.esriBasemapGalleryNode > .ebasemapgallery-checkbox > .checked', this.id).forEach(lang.hitch(this,function(node) {
-          numChecked += 1;
-        }));
-        if (numChecked === 2){
-          html.setStyle(this.faderDiv,'display','block');
-          this._addHybridBasemap();
-        } else {
-          html.setStyle(this.faderDiv,'display','none');
-        }
-      },
-      
+
       _addHybridBasemap: function (){
-        this.hybridBasemapArrayLbls=[];
         var bmObj = {
-          id: "hybrid_basemap",
+          id: "basemap_" + this.basemapGallery.basemaps.length.toString(),
           title: "Hybrid Mashup",
-          thumbnailUrl: this.folderUrl + "/images/hybrid.jpg",
+          thumbnailUrl: this.folderUrl + "/images/default.jpg",
           layers: []
         };
+        this.hybridBasemapId = bmObj.id;
         var bmLyrOrder = 0;
         array.map(this.hybridBasemapArray, lang.hitch(this,function(bLyrId){
-          this.hybridBasemapArrayLbls[bmLyrOrder] = this.basemapGallery.basemaps[bLyrId].title.replace(/\s/g, '_');
           array.map(this.basemapGallery.basemaps[bLyrId].getLayers(), lang.hitch(this,function(lyr){
             lyr.visibility = true;
             lyr.opacity = 0.5;
@@ -308,40 +486,126 @@ define([
           }));
           bmLyrOrder++;
         }));
-        this.hybridBasemapArrayLbls.splice(1,0,"50/50");
         this.hyBasemap = new Basemap(bmObj);
         this.basemapGallery.add(this.hyBasemap);
-        this.basemapGallery.select("hybrid_basemap");
+        this.hybridAdded = true;
+        this.hybridChangeEvent = true;
+        this.basemapGallery.select(this.hybridBasemapId);
         this.fader.set('value', 50);
-        var cnt = 0;
-        query('.dijitRuleLabel , .dijitRuleLabelH', this.id).forEach(lang.hitch(this,function(node) {
-          node.innerHTML = this.hybridBasemapArrayLbls[cnt]
-          cnt++
-        }));
+        this.selectedBMNode = html.byId("galleryNode_" + this.defaultBasemapId);
+        this.selectedBMNode2 = html.byId("galleryNode_" + this.secondBasemapId);
+        this.selectedBMNode3 = html.byId("galleryNode_" + this.hybridBasemapId);
+        html.setStyle(this.selectedBMNode, 'display', 'none');
+        html.setStyle(this.selectedBMNode2, 'display', 'none');
+        html.setStyle(this.selectedBMNode3, 'display', 'none');
       },
-      
-      _removeHybridBasemap: function (){
+
+      _removeHybridBasemap: function (which){
         array.map(this.hyBasemap.getLayers(), lang.hitch(this,function(lyr){
           lyr.opacity = 1;
         }));
-        this.basemapGallery.remove("hybrid_basemap");
-        this.basemapGallery.select(this.defaultBasemapId);
+        this.basemapGallery.remove(this.hybridBasemapId);
+        this.hybridAdded = false;
+        this.hybridBasemapId = null;
+        this.hybridChangeEvent = false;
+
+        if(which === "primary"){
+          this.basemapGallery.select(this.defaultBasemapId);
+          this.secondBasemapId = null;
+          this.hybridBasemapId = null;
+          this.selectedBMNode2 = null;
+          this.selectedBMNode3 = null;
+        }else{
+          this.basemapGallery.select(this.secondBasemapId);
+          this.secondBasemapId = null;
+          this.hybridBasemapId = null;
+          this.selectedBMNode2 = null;
+          this.selectedBMNode3 = null;
+        }
+      },
+
+      beforeDestroy: function() {
+        if(this.hybridAdded){
+          array.map(this.hyBasemap.getLayers(), lang.hitch(this,function(lyr){
+            lyr.opacity = 1;
+          }));
+          this.basemapGallery.remove(this.hybridBasemapId);
+        }
+        this.hybridAdded = false;
+        this.hybridBasemapId = null;
+        this.hybridChangeEvent = false;
+        if(this.webmapBasemap){
+          this.basemapGallery.select(this.webmapBasemap);
+        }
+        this.basemapGallery.destroy();
+        this.selectedBMNode = null;
+        this.selectedBMNode2 = null;
+        this.selectedBMNode3 = null;
+        this.webmapBasemap = null;
       },
 
       selectionChange: function() {
-        var basemap = this.basemapGallery.getSelected();
-        if(basemap.id === "hybrid_basemap"){
-          html.setStyle(this.faderDiv,'display','block');
+        if(this.hybridChangeEvent){
+          this.hybridChangeEvent = false;
           return;
-        }else{
-          html.setStyle(this.faderDiv,'display','none');
         }
-        // var layers = basemap.getLayers();
-        // if (layers.length > 0) {
-        //   this.publishData(layers);
-        // }
+        if(this.selectedBMNode){
+          html.setStyle(this.selectedBMNode, 'display', 'unset');
+        }
+        if(this.selectedBMNode2){
+          html.setStyle(this.selectedBMNode2, 'display', 'unset');
+        }
+        var basemap = this.basemapGallery.getSelected();
+        if(basemap.title === "Hybrid Mashup"){
+          basemap = query(".esriBasemapGalleryLabelContainer span", this.selectedBMNode)[0];
+        }
+
+        var sNode = query(".esriBasemapGalleryLabelContainer span", this.selectedBasemapGalleryNode)[0];
+        var sNode2 = query(".esriBasemapGalleryThumbnail", this.selectedBasemapGalleryNode)[0];
+
+        var sNode3 = query(".esriBasemapGalleryLabelContainer span", this.selectedBasemap1)[0];
+        var sNode4 = query(".esriBasemapGalleryThumbnail", this.selectedBasemap1)[0];
+
+        array.some(this.basemapGallery.basemaps, lang.hitch(this,function(lyr){
+          if(basemap.title === lyr.title){
+            var tNode = query('.esriBasemapGalleryNode > .esriBasemapGalleryLabelContainer span[ title = "' +
+                              lyr.title + '" ]', this.id).parent().parent()[0];
+            html.setStyle(tNode, 'display', 'none');
+            this.selectedBMNode = tNode;
+            var tNode2 = query('.esriBasemapGalleryThumbnail', tNode)[0];
+            html.addClass(tNode,'.esriBasemapGallerySelectedNode');
+            this.defaultBasemapId = lyr.id;
+            if(this.hybridAdded){
+              sNode3.innerHTML = sNode3.title = sNode3.alt = lyr.title;
+              sNode4.title = sNode4.alt = tNode2.alt;
+              sNode4.src = tNode2.src;
+            }
+
+            sNode.innerHTML = sNode.title = sNode.alt = lyr.title;
+            sNode2.title = sNode2.alt = tNode2.alt;
+            sNode2.src = tNode2.src;
+          }
+        }));
         if (this.isPreload) {
           PanelManager.getInstance().closePanel(this.id + '_panel');
+        }
+
+        if(this.hybridAdded){
+          //begin by removing the hybrid basemap if one exists
+          if(this.hybridBasemapId){
+            array.map(this.hyBasemap.getLayers(), lang.hitch(this,function(lyr){
+              lyr.opacity = 1;
+            }));
+            this.basemapGallery.remove(this.hybridBasemapId);
+            this.hybridAdded = false;
+            this.hybridBasemapId = null;
+          }
+          var gItem = this.defaultBasemapId.split("_")[1];
+          this.hybridBasemapArray=[];
+          this.hybridBasemapArray.push(gItem);
+          gItem = this.selectedBMNode2.id.split("_")[2];
+          this.hybridBasemapArray.push(gItem);
+          this._addHybridBasemap();
         }
       }
     });

@@ -1,14 +1,14 @@
 define([
         "dojo/_base/declare",
-        "dojo/dom-class" ,
-        "dojo/dom-attr" ,
+        "dojo/dom-class",
+        "dojo/dom-attr",
         "dojo/dom-construct",
         "dojo/query",
         "../../BaseDiscoveryMixin",
         "dijit/ProgressBar"
     ],
     function (declare, domClass, domAttr, domConstruct, query, BaseDiscoveryMixin, ProgressBar) {
-        return declare([ BaseDiscoveryMixin], {
+        return declare([BaseDiscoveryMixin], {
             /**
              * adds message from checkout handler
              * @param messageContainer
@@ -83,43 +83,76 @@ define([
                     domClass.remove(node, "hidden");
                 }
             },
-            showWebmapTab: function () {
-                if (domClass.contains(this.webmapTab, "enabled")) {
+            hideCSVExportTab: function () {
+                this._hideNode(this.csvExportTabContent);
+                domClass.remove(this.csvExportTab, "enabled");
+
+            },
+            showCSVExportTab: function () {
+                if (domClass.contains(this.csvExportTab, "enabled")) {
                     return;
                 }
-//                this.hideReportingTab();
+                this.hideWebmapTab();
                 this.hideDownloadTab();
-                this._showNode(this.webmapTabContent);
-                this.webmapWidget.showInputsContent();
+                this._showNode(this.csvExportTabContent);
+                domClass.add(this.csvExportTab, "enabled");
+                if (this.csvExportWidget) {
+                    this.csvExportWidget.generateExportLinks();
+                }
+            }
+            ,
+            showWebmapTab: function () {
+                if (this.webmapWidget) {
+                    if (domClass.contains(this.webmapTab, "enabled")) {
+                        return;
+                    }
+                    this.hideDownloadTab();
+                    this.hideCSVExportTab();
+                    this._showNode(this.webmapTabContent);
+                    this.webmapWidget.showInputsContent();
+                }
 
                 domClass.add(this.webmapTab, "enabled");
-            },
+            }
+            ,
             hideWebmapTab: function () {
                 this._hideNode(this.webmapTabContent);
                 domClass.remove(this.webmapTab, "enabled");
-            },
+            }
+            ,
             showDownloadTab: function () {
                 if (domClass.contains(this.downloadTab, "enabled")) {
                     return;
                 }
 //                this.hideReportingTab();
                 this.hideWebmapTab();
+                this.hideCSVExportTab();
                 this._showNode(this.downloadTabContent);
                 domClass.add(this.downloadTab, "enabled");
-            },
+            }
+            ,
             hideDownloadTab: function () {
                 this._hideNode(this.downloadTabContent);
                 domClass.remove(this.downloadTab, "enabled");
+            } ,
+            disableCSVExportFunctionality: function () {
+                this._hideNode(this.csvExportTab);
             },
+            disableWebmapFunctionality: function () {
+                this._hideNode(this.webmapTab);
+            }
+            ,
             disableDownload: function () {
                 this._hideNode(this.downloadTabContent);
                 this._hideNode(this.downloadTab);
                 this.showWebmapTab();
-            },
+            }
+            ,
             enableDownload: function () {
                 this._showNode(this.downloadTab);
                 this.showDownloadTab();
-            },
+            }
+            ,
             showReportingTab: function () {
                 /*
                  if (domClass.contains(this.reportingTab, "enabled")) {
@@ -130,11 +163,13 @@ define([
                  this._showNode(this.reportingTabContent);
                  domClass.add(this.reportingTab, "enabled");
                  */
-            },
+            }
+            ,
             hideReportingTab: function () {
 //                this._hideNode(this.reportingTabContent);
 //                domClass.remove(this.reportingTab, "enabled");
             }
 
         });
-    });
+    })
+;

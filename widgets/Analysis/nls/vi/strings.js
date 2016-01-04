@@ -19,6 +19,6 @@
     outputs: "Đầu ra",
     outputtip: "Lưu ý: Đầu ra bảng và đối tượng được thêm trên bản đồ là các lớp đang hoạt động.",
     outputSaveInPortal: "Dữ liệu đã được lưu trong cổng thông tin của bạn.",
-    privilegeError: "Bạn phải có vai trò Nhà xuất bản hoặc Người quản trị để thực hiện công cụ phân tích."
+    privilegeError: "Vai trò người sử dụng của bạn không thể thực hiện phân tích. Để có thể thực hiện phân tích, người quản trị của tổ chức của bạn cần trao cho bạn các <a href=\"http://doc.arcgis.com/en/arcgis-online/reference/roles.htm\" target=\"_blank\">đặc quyền</a> nhất định."
   })
 );

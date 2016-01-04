@@ -19,6 +19,6 @@
     outputs: "Output",
     outputtip: "Bemærk: Objekt- og tabeloutput føjes til kortet som operationelle lag.",
     outputSaveInPortal: "Dataene er blevet gemt på din portal.",
-    privilegeError: "Du skal have en udgiver- eller administratorrolle for at køre analyseværktøjer."
+    privilegeError: "Din brugerrolle kan ikke udføre analyse. For at du kan udføre analyse, skal administratoren for din organisation give dig visse <a href=\"http://doc.arcgis.com/en/arcgis-online/reference/roles.htm\" target=\"_blank\">rettigheder</a>."
   })
 );

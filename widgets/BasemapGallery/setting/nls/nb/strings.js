@@ -1,6 +1,6 @@
 ﻿define(
    ({
-    showArcgisBasemaps: "Vis portalbakgrunnskart",
+    showArcgisBasemaps: "Vis bakgrunnskart fra portal",
     settings: "Innstillinger",
     add: "Klikk for å legge til et nytt bakgrunnskart",
     edit: "Egenskaper",
@@ -21,11 +21,11 @@
     ok: "OK",
     cancel: "Avbryt",
     result: "Lagring vellykket",
-    spError: "Alle bakgrunnskart som legges til i galleriet, må ha den samme geografiske referansen.",
+    spError: "Alle bakgrunnskart som legges til i galleriet, må ha den samme geografiske referansesystem.",
     invalidTitle1:"Bakgrunnskartet",
     invalidTitle2:"finnes allerede. Du må velge en annen tittel.",
     invalidBasemapUrl1: "Denne typen lag kan ikke brukes som bakgrunnskart.",
-    invalidBasemapUrl2: "Annen geografisk referanse fra gjeldende kart.",
+    invalidBasemapUrl2: "Bakgrunnskartet du legger til har en annen geografisk referanse enn det gjeldende kartet.",
     addBaselayer: "Legg til bakgrunnskartlag"
   })
 );

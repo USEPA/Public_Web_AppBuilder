@@ -1,7 +1,7 @@
 ﻿define(
    ({
     _widgetLabel: "Wyświetl",
-    selectDrawMode: "Wybierz tryb wyświetlania",
+    selectDrawMode: "Wybierz tryb rysowania",
     clear: "Wyczyść",
     point: "Punkt",
     line: "Linia",
@@ -39,6 +39,10 @@
     squareFeet: "Stopy kwadratowe",
     squareYards: "Jardy kwadratowe",
     undo: "Cofnij",
-    redo: "Ponów"
+    redo: "Ponów",
+    results: "Wyniki",
+    points: "Punkty",
+    lines: "Linie",
+    areas: "Powierzchnie"
   })
 );

@@ -1,12 +1,13 @@
 ﻿define(
    ({
+    id: 'ID',
     state: "デフォルトでは、座標は現在のマップの座標系で表示されます。その他の座標系の座標を取得するには、座標系を追加して適切な変換方法を指定する必要があります。",
     outputUnit: "出力単位",
     wkid: "出力 WKID",
     label: "出力座標系名",
-    transformationWkid: '変換 WKID',
-    transformationLabel: '変換ラベル',
-    transformForward: '正方向に変換',
+    transformationWkid: "変換 WKID",
+    transformationLabel: "変換ラベル",
+    transformForward: "正方向に変換",
     actions: "アクション",
     warning: "有効な空間参照 WKID を入力してください",
     tfWarning: "有効な測地基準系変換 WKID を入力してください",

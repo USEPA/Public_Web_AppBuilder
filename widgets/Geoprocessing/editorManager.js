@@ -18,7 +18,6 @@ define([
   'dojo/_base/array',
   'dojo/on',
   'dojo/aspect',
-  'dijit/form/NumberTextBox',
   'dijit/form/Select',
   'dijit/form/TextBox',
   'esri/symbols/jsonUtils',
@@ -28,19 +27,23 @@ define([
   './editors/simpleEditors',
   './editors/FeatureSetEditorChooser',
   './editors/FeatureSetResultEditor',
-  './editors/SelectFeatureSetFromLayer'
+  './editors/SelectFeatureSetFromUrl',
+  './editors/SelectFeatureSetFromLayer',
+  './editors/DataFileEditor',
+  './editors/RasterLayerEditor',
+  './editors/RecordSetEditor'
 ],
-function(array, on, aspect, NumberTextBox,
+function(array, on, aspect,
   Select, TextBox, symbolUtils, CheckBox, URLInput, utils, simpleEditors,
-  FeatureSetEditorChooser, FeatureSetResultEditor,
-  SelectFeatureSetFromLayer) {
+  FeatureSetEditorChooser, FeatureSetResultEditor, SelectFeatureSetFromUrl,
+  SelectFeatureSetFromLayer, DataFileEditor, RasterLayerEditor, RecordSetEditor) {
   var mo = {}, map, editors = [], nls;
 
   mo.createEditor = function(param, direction, context, options) {
-  //summary:
-  //  create input eidtor depends on the parameter type.
-  //context: the editor is in the setting page, or the runtime widget page
-  //  setting, widget
+    //summary:
+    //  create input eidtor depends on the parameter type.
+    //context: the editor is in the setting page, or the runtime widget page
+    //  setting, widget
     var editor;
     var editorName = getEditorNameFromParam(param, direction, context);
     var o = {
@@ -61,15 +64,16 @@ function(array, on, aspect, NumberTextBox,
     }else if(editorName === 'ShowMessage'){
       o.message = getRendererTipMessage(param);
       editor = new simpleEditors.UnsupportEditor(o);
+    }else if(editorName === 'RecordSetEditor'){
+      editor = new RecordSetEditor(o);
     }else if(editorName === 'MultiValueChooser'){
       editor = new simpleEditors.MultiValueChooser(o);
     }else if(editorName === 'MultiValueEditor'){
       editor = new simpleEditors.MultiValueEditor(o);
-    }else if(editorName === 'NumberTextBox'){
-      o.gEditor = new NumberTextBox({
-        value: param.defaultValue === undefined? '': param.defaultValue
-      });
-      editor = new simpleEditors.GeneralEditorWrapperEditor(o);
+    }else if(editorName === 'LongNumberTextBox'){
+      editor = new simpleEditors.LongNumberEditor(o);
+    }else if(editorName === 'DoubleNumberTextBox'){
+      editor = new simpleEditors.DoubleNumberEditor(o);
     }else if(editorName === 'Select'){
       o.gEditor = new Select({
         options: array.map(param.choiceList, function(choice) {
@@ -80,6 +84,7 @@ function(array, on, aspect, NumberTextBox,
         }),
         value: param.defaultValue === undefined? '': param.defaultValue
       });
+      o.editorName = 'Select';
       editor = new simpleEditors.GeneralEditorWrapperEditor(o);
     }else if(editorName === 'TextBox'){
       o.gEditor = new TextBox({value: param.defaultValue === undefined? '': param.defaultValue});
@@ -109,6 +114,16 @@ function(array, on, aspect, NumberTextBox,
         o.value = param.defaultValue;
       }
       editor = new simpleEditors.SimpleJsonEditor(o);
+    }else if(editorName === 'DataFileEditor'){
+      if(param.defaultValue){
+        o.value = param.defaultValue;
+      }
+      editor = new DataFileEditor(o);
+    }else if(editorName === 'RasterLayerEditor'){
+      if(param.defaultValue){
+        o.value = param.defaultValue;
+      }
+      editor = new RasterLayerEditor(o);
     }else if(editorName === 'SelectFeatureSetFromDraw'){
       if(param.defaultValue === undefined){
         o.message = 'No defaultValue property.';
@@ -134,15 +149,9 @@ function(array, on, aspect, NumberTextBox,
       editor = new SelectFeatureSetFromLayer(o);
     }else if(editorName === 'SelectFeatureSetFromUrl'){
       o.querySetting = param.defaultValue;
-      o.value = param.featureSetUrl;
-      editor = new simpleEditors.SelectFeatureSetFromUrl(o);
+      editor = new SelectFeatureSetFromUrl(o);
     }else if(editorName === 'FeatureSetEditorChooser'){
       editor = new FeatureSetEditorChooser(o);
-    }else if(editorName === 'LayerFieldChooser'){
-      if(param.defaultValue){
-        o.value = param.defaultValue;
-      }
-      editor = new simpleEditors.LayerFieldChooser(o);
     }else if(editorName === 'FeatureSetResultEditor'){
       editor = new FeatureSetResultEditor(o);
     }else if(editorName === 'GetUrlObjectFromLayer'){
@@ -215,8 +224,10 @@ function(array, on, aspect, NumberTextBox,
     }else if(param.dataType.indexOf('GPMultiValue') > -1 &&
       (!param.choiceList || param.choiceList.length === 0)){
       return 'MultiValueEditor';
-    }else if(param.dataType === 'GPLong' || param.dataType === 'GPDouble'){
-      return 'NumberTextBox';
+    }else if(param.dataType === 'GPLong'){
+      return 'LongNumberTextBox';
+    }else if(param.dataType === 'GPDouble'){
+      return 'DoubleNumberTextBox';
     }else if(param.dataType === 'GPString'){
       if(param.choiceList && param.choiceList.length > 0){
         return 'Select';
@@ -230,9 +241,9 @@ function(array, on, aspect, NumberTextBox,
     }else if(param.dataType === 'GPDate'){
       return 'DateTimeEditor';
     }else if(param.dataType === 'GPDataFile'){
-      return 'ObjectUrlEditor';
+      return 'DataFileEditor';
     }else if(param.dataType === 'GPRasterDataLayer'){
-      return 'ObjectUrlEditor';
+      return 'RasterLayerEditor';
     }else if(param.dataType === 'GPRecordSet'){
       return 'SimpleJsonEditor';
     }else if(param.dataType === 'GPFeatureRecordSetLayer'){
@@ -257,9 +268,11 @@ function(array, on, aspect, NumberTextBox,
   }
 
   function getOutputEditorName(param){
-  //editors for output can only in setting page
+    //editors for output can only in setting page
     if(param.dataType === 'GPFeatureRecordSetLayer'){
       return 'FeatureSetResultEditor';
+    }else if(param.dataType === 'GPRecordSet'){
+      return 'RecordSetEditor';
     }else{
       return 'ShowMessage';
     }

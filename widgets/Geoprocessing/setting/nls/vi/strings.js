@@ -31,6 +31,22 @@
     setTask: "Thiết lập",
     setTaskTitle: "Thiết lập Tác vụ GP",
     enablePopup: "Bật cửa sổ pop-up",
-    unSupportGeometryType: "Không thể thiết lập trình kết xuất vì loại hình học không xác định."
+    unSupportGeometryType: "Không thể thiết lập trình kết xuất vì loại hình học không xác định.",
+    useUrlForGPInput: "URL",
+    useUploadForGPInput: "Tải lên tệp",
+    selectFileToUpload: "Chọn tệp...",
+    upload: "Tải lên",
+    rasterFormat: "Định dạng dữ liệu raster",
+    noFileSelected: "Không có tệp được chọn!",
+    uploadSuccess:"Tải lên tệp thành công!",
+    showLayerContent: "Hiển thị nội dung lớp",
+    Feet: "Feet",
+    Yards: "Thước",
+    Miles: "Dặm",
+    NauticalMiles: "Hải lý",
+    Meter: "Mét",
+    Kilometers: "Kilômét",
+    urlPlaceholder: "URL tập hợp đối tượng",
+    allowToExport: "Cho phép xuất kết quả"
   })
 );

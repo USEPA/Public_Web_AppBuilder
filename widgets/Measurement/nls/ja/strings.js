@@ -1,5 +1,5 @@
 ﻿define(
    ({
-    _widgetLabel: "数値入力"
+    _widgetLabel: "計測"
   })
 );

@@ -1,0 +1,13 @@
+{
+	"name": "BatchAttributeEditor",
+	"platform": "HTML",
+	"version": "1.4",
+	"wabVersion": "1.4",
+	"author": "Esri, Inc.",
+	"description": "A widget to modify a series of features at the same time.",
+	"copyright": "Esri, Inc.",
+	"license": "http://www.apache.org/licenses/LICENSE-2.0",
+  	"properties": {
+      "keepConfigAfterMapSwithched": false
+    }
+}

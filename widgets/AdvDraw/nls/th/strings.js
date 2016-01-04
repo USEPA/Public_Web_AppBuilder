@@ -37,6 +37,8 @@
     hectares: "เฮกตาร์",
     squareMeters: "ตารางเมตร",
     squareFeet: "ตารางนิ้ว",
-    squareYards: "ตารางหลา"
+    squareYards: "ตารางหลา",
+    undo: "ยกเลิก",
+    redo: "ทำอีกครั้ง"
   })
 );

@@ -31,6 +31,22 @@
     setTask: "Angi",
     setTaskTitle: "Angi GP-oppgave:",
     enablePopup: "Aktiver sprettoppvindu",
-    unSupportGeometryType: "Kan ikke angi opptegning på grunn av ukjent geometritype."
+    unSupportGeometryType: "Kan ikke angi opptegning på grunn av ukjent geometritype.",
+    useUrlForGPInput: "URL",
+    useUploadForGPInput: "Last opp fil",
+    selectFileToUpload: "Velg fil...",
+    upload: "Last opp",
+    rasterFormat: "Rasterdataformat",
+    noFileSelected: "Ingen fil er valgt!",
+    uploadSuccess:"Filen er lastet opp.",
+    showLayerContent: "Vis laginnhold",
+    Feet: "fot",
+    Yards: "Yards",
+    Miles: "Miles",
+    NauticalMiles: "Nautiske mil",
+    Meter: "meter",
+    Kilometers: "kilometer",
+    urlPlaceholder: "geoobjektsett-URL",
+    allowToExport: "Tillat eksport av resultater"
   })
 );

@@ -1,7 +1,7 @@
 ﻿define(
    ({
     _widgetLabel: "Piešti",
-    selectDrawMode: "Pasirinkite piešimo režimą",
+    selectDrawMode: "Pasirinkti piešimo režimą",
     clear: "Valyti",
     point: "Taškas",
     line: "Linija",
@@ -11,7 +11,7 @@
     extent: "Apgaubas",
     circle: "Apskritimas",
     ellipse: "Elipsė",
-    polygon: "Poligonas",
+    polygon: "Plotas",
     freehandPolygon: "Laisvai piešiamas poligonas",
     text: "Tekstas",
     style: "Stilius",
@@ -19,7 +19,7 @@
     width: "Plotis",
     size: "Dydis",
     color: "Spalva",
-    markerColor: "Žymiklio spalva",
+    markerColor: "Žymeklio spalva",
     outlineColor: "Kontūro spalva",
     lineColor: "Linijos spalva",
     fillColor: "Užpildo spalva",
@@ -39,6 +39,10 @@
     squareFeet: "Kvadratinė pėda",
     squareYards: "Kvadratiniai jardai",
     undo: "Atšaukti",
-    redo: "Grąžinti"
+    redo: "Grąžinti",
+    results: "Rezultatai",
+    points: "Taškai",
+    lines: "Linijos",
+    areas: "Plotai"
   })
 );

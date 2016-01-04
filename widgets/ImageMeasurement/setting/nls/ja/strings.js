@@ -1,0 +1,50 @@
+﻿define(
+   ({
+    layerSelect: "画像レイヤーの選択",
+    displayMeasureResultInPopup: "計測結果をポップアップに表示",
+    angularUnitSelect: "デフォルトの角度単位",
+    linearUnitSelect: "デフォルトの距離単位",
+    areaUnitSelect: "デフォルトの面積単位",
+    displayOperationSelect: "計測操作の選択",
+    errorSectionMeasage: "測定機能をサポートしているレイヤーがありません",
+    unitLabel: {
+      esriInches: "インチ",
+      esriFeet: "フィート",
+      esriYards: "ヤード",
+      esriMiles: "マイル",
+      esriNauticalMiles: "海里",
+      esriMillimeters: "ミリメートル",
+      esriCentimeters: "センチメートル",
+      esriDecimeters: "デシメートル",
+      esriMeters: "メートル",
+      esriKilometers: "キロメートル",
+      esriDURadians: "ラジアン",
+      esriDUDecimalDegrees: "度",
+      esriSquareInches: "平方インチ",
+      esriSquareFeet: "平方フィート",
+      esriSquareYards: "平方ヤード",
+      esriAcres: "エーカー",
+      esriSquareMiles: "平方マイル",
+      esriSquareMillimeters: "平方ミリメートル",
+      esriSquareCentimeters: "平方センチメートル",
+      esriSquareDecimeters: "平方デシメートル",
+      esriSquareMeters: "平方メートル",
+      esriAres: "アール",
+      esriHectares: "ヘクタール",
+      esriSquareKilometers: "平方キロメートル"
+    },
+    operationLabel: {
+      esriMensurationPoint: "ポイント",
+      esriMensurationDistanceAndAngle: "距離と角度",
+      esriMensurationAreaAndPerimeter: "面積と周囲長",
+      esriMensurationHeightFromBaseAndTop: "底面から最上部",
+      esriMensurationHeightFromBaseAndTopShadow: "底面から最上部 - 影",
+      esriMensurationHeightFromTopAndTopShadow: "最上部から最上部 - 影",
+      esriMensurationCentroid: "重心",
+      esriMensurationPoint3D: "ポイント (3D)",
+      esriMensurationDistanceAndAngle3D: "距離と角度 (3D)",
+      esriMensurationAreaAndPerimeter3D: "面積と周囲長 (3D)",
+      esriMensurationCentroid3D: "重心 (3D)"
+    }
+  })
+);

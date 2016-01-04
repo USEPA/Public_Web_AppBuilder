@@ -1,0 +1,57 @@
+<div style="width:100%;">
+  <table class="setting-table input-table" cellspacing="0">
+    <tbody>
+      <tr>
+        <td class="first  jimu-trailing-padding1">${nls.drsUrl}</td>
+        <td style="width:auto;">
+          <input type="text" data-dojo-type="dijit/form/ValidationTextBox" required="true" 
+          data-dojo-attach-point="drsUrl" style="width:650px;" class="inputBox"/>
+        </td>
+        <td  style="width:80px;">
+            <div data-dojo-attach-event="onclick:_onBtnSetSourceClicked" class="jimu-btn  jimu-float-trailing" style="padding:0px 15px !important;" >${nls.setSource}</div>       
+        </td>
+      </tr>
+      <tr>
+        <td class="first jimu-trailing-padding1">${nls.includeReportedBy}</td>
+        <td class="second">
+           <div>
+              <div class="revTechnician-item jimu-trailing-margin025" data-dojo-attach-point="currentUser">
+                <div data-dojo-type="jimu/dijit/RadioBtn" data-dojo-props="group:'UserName'" data-dojo-attach-point="currentLogin" value="logon" class="jimu-radio"></div>
+                <label class="jimu-leading-margin025">${nls.getCurrentUser}</label>
+              </div>
+              <div class="revTechnician-item jimu-trailing-margin025" data-dojo-attach-point="userName">
+                <div data-dojo-type="jimu/dijit/RadioBtn" data-dojo-props="group:'UserName'" data-dojo-attach-point="defaultUser" value="default" class="jimu-radio"></div>
+                <label class="jimu-leading-margin025">${nls.getDefaultUser}</label>
+              </div>
+              <div class="revTechnician-item jimu-trailing-margin025 " data-dojo-attach-point="userInput">
+                <div data-dojo-type="jimu/dijit/RadioBtn" data-dojo-props="group:'UserName'" data-dojo-attach-point="allowUser" value="user" class="jimu-radio"></div>
+                <label class="jimu-leading-margin025">${nls.getUser}</label>
+              </div>
+          </div>
+        </td>
+       </tr>
+        <div data-dojo-attach-point="userNameSettings" >
+       <tr class='dynamicRow'>
+       <td class="first jimu-trailing-padding1">
+       ${nls.userName}
+       </td>
+       <td class="second">   <input type="text" class="inputBox" data-dojo-type="dijit/form/ValidationTextBox" 
+            data-dojo-attach-point="defaultUserName" placeHolder="Reviewer Technician Name"
+            data-dojo-props='style:{width:"30%"}' /></td>
+       </tr>
+       </div>
+       <tr>
+        <td class="first jimu-trailing-padding1">${nls.defaultSessionId}</td>
+        <td class="second">
+          <select data-dojo-type="dijit/form/Select" data-dojo-attach-point="defaultSessionSelect" class="selectBox">
+        </select>
+        </td>
+        <td class="third">
+          <div class="help-icon"></div>
+        </td>
+      </tr> 
+    </tbody>
+  </table>
+  <div data-dojo-attach-point="tableLayerInfos"></div>
+  <div data-dojo-attach-point="tableNoLayersError" style="display:none"></div>
+</div>

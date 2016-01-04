@@ -1,0 +1,53 @@
+<div>
+  <!--To Do: make buttons fancier with dojo-->
+  <span>Select a map layer field to search:</span>
+
+  <div>
+      <select data-dojo-attach-point="selectLayerNode" data-dojo-type="dijit/form/Select" id="selectLayerNode"></select>
+  </div>
+  <br />
+
+  <br />
+  <span>Select a field to search:</span>
+
+  <div>
+    <select data-dojo-attach-point="selectFieldNode" data-dojo-type="dijit/form/Select"></select>
+  </div>
+  <br />
+  <br />
+  <span>Select features with operator:</span>
+
+  <div>
+    <select data-dojo-attach-point="selectOperatorMathMenuNode" data-dojo-type="dijit/form/Select">
+      <option value="LIKE" title="Use LIKE for text search">LIKE</option>
+      <option value="=" title="Equal To">=</option>
+      <option value=">" title="Greater Than">&gt;</option>
+      <option value="<" title="Less Than">&lt;</option>
+      <option value=">=" title="Greater Than or Equal To">&gt;=</option>
+      <option value="<=" title="Less Than or Equal To">&lt;=</option>
+    </select>
+    <button data-dojo-attach-point="btnAndNode" type="button" data-dojo-type="dijit/form/Button">AND</button>
+    <button data-dojo-attach-point="btnOrNode" type="button" data-dojo-type="dijit/form/Button">OR</button>
+    <button data-dojo-attach-point="btnNotNode" type="button" data-dojo-type="dijit/form/Button">NOT</button>
+    <!--note.. come back and get these buttons out of div, place vertically with css to be beside Operator selection menu-->
+  </div>
+  <br />
+  <br />
+  <span>Expression:</span>
+  <br />
+  <textarea data-dojo-attach-point="myareaExpression" data-dojo-type="dijit/form/SimpleTextarea" rows="5" cols="30"
+            style="width:auto;height:auto;"></textarea>
+
+  <br />
+  <br />
+  <button data-dojo-attach-point="btnAddToQueryNode" type="button" data-dojo-type="dijit/form/Button">&#x2193; Add to Query &#x2193;</button>
+  <br />
+  <!--final query to execute-->
+  <textarea data-dojo-attach-point="myarea" data-dojo-type="dijit/form/SimpleTextarea" rows="5" cols="30"
+            style="width:auto;height:auto;"></textarea>
+  <br />
+  <br />
+  <button data-dojo-attach-point="btnSearchNode" type="button" data-dojo-type="dijit/form/Button">Search</button>&nbsp; &nbsp;
+  <button data-dojo-attach-point="btnClearGfxNode" type="button" data-dojo-type="dijit/form/Button">Clear Map</button>&nbsp; &nbsp;
+  <button data-dojo-attach-point="btnClearQueryBoxNode" type="button" data-dojo-type="dijit/form/Button">Clear Query</button>
+</div>

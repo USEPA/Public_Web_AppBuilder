@@ -19,7 +19,7 @@
   line-height: 19px;
   margin-left: 10px;
   display: inline-block;
-  cursor: pointer; 
+  cursor: pointer;
   text-align: center;
 }
 .jimu-gp-editor-multivalue .add-input{
@@ -43,6 +43,7 @@
 .jimu-gp-editor-sffl{
   height: 30px;
   position: relative;
+  z-index: 1;
 }
 .jimu-gp-editor-sffl .layer-name{
   height: 30px;
@@ -71,5 +72,4 @@
   height: 200px;
   z-index: 1000;
   overflow: auto;
-  border: 1px solid rgba(0,0,0,0.2);
 }

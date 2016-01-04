@@ -1,0 +1,19 @@
+<div>
+  <div data-dojo-attach-point="errorTipPanel" class="jimu-widget" style="display:none">
+    ${nls.noStreamLayer}
+  </div>
+  <div data-dojo-attach-point="selectionPanel">
+    <div>
+      <label class="jimu-widget-title">${nls.selectStreamLayer}</label>
+    </div>
+    <div class="layerSelect">
+      <select data-dojo-type="dijit/form/Select" data-dojo-attach-point="streamSelect"
+              style="width:100%; height:32px"></select>
+    </div>
+  </div>
+  <div data-dojo-attach-point="settingPanel">
+
+  </div>
+  <div data-dojo-attach-point="shelter" data-dojo-type="jimu/dijit/LoadingShelter"
+       data-dojo-props='hidden:true'></div>
+</div>

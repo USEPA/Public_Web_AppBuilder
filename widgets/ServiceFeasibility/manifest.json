@@ -1,0 +1,11 @@
+{
+  "name": "ServiceFeasibility",
+  "platform": "HTML",
+  "version": "1.0",
+  "wabVersion": "1.1",
+  "author": "Esri Inc",
+  "description": "The Service Feasibility widget allows users to select a location on the map and determine the best route to connection point on a network.",
+  "copyright": "Copyright 2015 Esri Inc.",
+  "license": "http://links.esri.com/solutions/license"
+
+}

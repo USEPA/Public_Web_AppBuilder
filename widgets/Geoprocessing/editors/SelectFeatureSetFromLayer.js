@@ -20,17 +20,19 @@ define(['dojo/_base/declare',
   'dojo/_base/html',
   'dojo/on',
   'dijit/_TemplatedMixin',
-  'jimu/dijit/LayerChooserFromMap',
+  'jimu/dijit/FeaturelayerChooserFromMap',
+  'jimu/utils',
   'esri/tasks/FeatureSet',
   'esri/tasks/query',
   '../BaseEditor',
   'dojo/text!./SelectFeatureSetFromLayer.html'
 ],
-function(declare, lang, array, html, on, _TemplatedMixin, LayerChooserFromMap, FeatureSet,
-  Query, BaseEditor,  template) {
+function(declare, lang, array, html, on, _TemplatedMixin, FeaturelayerChooserFromMap,
+  jimuUtils, FeatureSet, Query, BaseEditor,  template) {
   //from layers in map
   var clazz = declare([BaseEditor, _TemplatedMixin], {
     templateString: template,
+    editorName: 'SelectFeatureSetFromLayer',
 
     postCreate: function(){
       this.inherited(arguments);
@@ -39,12 +41,12 @@ function(declare, lang, array, html, on, _TemplatedMixin, LayerChooserFromMap, F
       var args = {
         multiple: false,
         createMapResponse: this.map.webMapResponse,
-        showLayerTypes: ['FeatureLayer'],
-        geometryTypes: this.param.defaultValue && this.param.defaultValue.geometryType?
-                        [this.param.defaultValue.geometryType]:
-                        []
+        showLayerFromFeatureSet: true,
+        types: this.param.defaultValue && this.param.defaultValue.geometryType?
+               [jimuUtils.getTypeByGeometryType(this.param.defaultValue.geometryType)]:
+               ['point', 'polyline', 'polygon']
       };
-      this.layerChooserFromMap = new LayerChooserFromMap(args);
+      this.layerChooserFromMap = new FeaturelayerChooserFromMap(args);
       this.layerChooserFromMap.placeAt(this.layerChooseNode);
       this.layerChooserFromMap.startup();
 
@@ -90,7 +92,7 @@ function(declare, lang, array, html, on, _TemplatedMixin, LayerChooserFromMap, F
       if(layer === null){
         return this.wrapValueToDeferred(null);
       }
-      
+
       if(layer.url){
         var query = new Query();
         query.where = '1=1';

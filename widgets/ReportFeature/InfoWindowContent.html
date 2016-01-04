@@ -1,0 +1,35 @@
+<div>
+  <form data-dojo-attach-point="formNode" class="drs-info-window-form">
+    <div>
+      <label>${nls.layerLabel}</label>
+      <span data-dojo-attach-point="layerNode" style="width:100%; padding: 0 3px 0 0;"></span>
+    </div>
+    <div>
+      <label>${nls.reviewStatusLabel}</label>
+      <select data-dojo-attach-point="statusNode" name="reviewStatus" class="jimu-input drs-infowindow-input drs-infowindow-input">
+        <option></option>
+      </select>
+    </div>
+    <div>
+      <label>${nls.notesLabel}</label>
+      <textarea data-dojo-attach-point="notesNode" name="notes" class="jimu-input drs-infowindow-input" rows="2" ></textarea>
+    </div>
+    <div>
+      <label>${nls.severityLabel}</label>
+      <select data-dojo-attach-point="severityNode" name="severity" class="jimu-input drs-infowindow-input">
+        <option>1</option>
+        <option>2</option>
+        <option>3</option>
+        <option>4</option>
+        <option selected>5</option>
+      </select>
+    </div>
+    <div class="dynamicRow">
+      <label>${nls.reportedByLabel}</label>
+      <input type="text" data-dojo-attach-point="reportedByNode" name="reviewTechnician" class="jimu-input drs-infowindow-input"/>
+    </div>
+    <div class="drs-buttons jimu-align-trailing">
+      <input type="submit" value="${nls.reportButton}" class="jimu-btn"/>
+    </div>
+  </form>
+</div>

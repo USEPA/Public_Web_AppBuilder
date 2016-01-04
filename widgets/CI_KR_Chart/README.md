@@ -1,5 +1,5 @@
 # Critical Infrastructure and Key Resources
-The Critical Infrastructure and Key Resources (CI/KR) widget allows users to determine affected instrastructure and demography based on user-selected location on the map. 
+The Critical Infrastructure and Key Resources (CI/KR) widget allows users to determine affected infrastructure and demography based on user-selected location on the map. 
 
 ## Sections
 
@@ -12,14 +12,18 @@ The Critical Infrastructure and Key Resources (CI/KR) widget allows users to det
 * [Licensing](#licensing)
 
 ## Features
-* Ability to allow user select a location on the map 
-* Displays affected location, demography and facilities
+* Ability to allow user to draw a location on the map to perform demographic and critical infrastructure queries. 
+* Displays demographic information and a list of affected infrastructures within the user drawn location.
 
 ## Requirements
-* ArcGIS WebApp Builder v.1.0
+* ArcGIS WebApp Builder v.1.2
 
 ## Instructions
-In order to develop and test widgets you need to deploy the CI/KR directory to the stemapp/widgets directory in your WebApp Builder installation.
+* In order to develop and test the widget you need to deploy the CI/KR_Chart folder to the stemapp/widgets folder.  The stemapp/widgets folder can be found 
+at \arcgis-web-appbuilder-1.2\client\stemapp\widgets in your WebApp Builder installation folder.
+* Two feature services are necessary for the widget to function properly, a demographic feature service and an infrastructure feature service.  
+* The url's to each service are located in the config.json file under their corresponding sections - "demographicLayer" & "infrastructureLayer"
+* The 'title' field in the demographicLayer and the infrastructureLayer in config.json will be displayed in the corresponding content panes in the results section.
 
 ## Issues
 * Find a bug or want to request a new feature?  Please let us know by submitting an issue.

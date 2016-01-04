@@ -39,6 +39,10 @@
     squareFeet: "제곱피트",
     squareYards: "제곱야드",
     undo: "실행 취소",
-    redo: "다시 실행"
+    redo: "다시 실행",
+    results: "결과",
+    points: "포인트",
+    lines: "라인",
+    areas: "영역"
   })
 );

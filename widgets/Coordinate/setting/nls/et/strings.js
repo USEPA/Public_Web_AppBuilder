@@ -1,12 +1,13 @@
 ﻿define(
    ({
+    id: 'ID',
     state: "Vaikimisi kuvatakse koordinaadid praeguse kaardi koordinaatsüsteemis. Koordinaatide kuvamiseks muudes koordinaatsüsteemides peate need eraldi lisama ja määrama vastavad transformatsioonid.",
     outputUnit: "Väljundi ühik",
     wkid: "Väljundi WKID",
     label: "Väljundi koordinaatsüsteemi nimi",
-    transformationWkid: 'Teisenduse WKID',
-    transformationLabel: 'Transformatsiooni märgis',
-    transformForward: 'Transformeeri edasi',
+    transformationWkid: "Teisenduse WKID",
+    transformationLabel: "Transformatsiooni märgis",
+    transformForward: "Transformeeri edasi",
     actions: "Tegevused",
     warning: "Sisestage koordinaatsüsteemi õige WKID!",
     tfWarning: "Sisestage daatumi transformatsiooni õige WKID!",

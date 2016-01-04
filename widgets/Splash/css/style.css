@@ -1,11 +1,11 @@
 .jimu-widget-splash{
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  margin: auto;
-  z-index: 999;
+  position: absolute !important;
+  top: 0 !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  margin: auto !important;
+  z-index: 110;/*same with loading*/
 }
 .jimu-widget-splash .overlay{
   top: 0;
@@ -22,16 +22,25 @@
 .jimu-widget-splash-mobile .splash-container .jimu-checkbox{
   font-size: 14px;
   color: #fff;
-  max-width: 85%;
   overflow: auto;
-  max-height: 60px;
+  max-height: 50px;
+  min-height: 25px;
+  margin-bottom: 10px;
+  display: block;
 }
 .jimu-widget-splash-desktop .splash-container .jimu-checkbox .label,
 .jimu-widget-splash-mobile .splash-container .jimu-checkbox .label{
   white-space: normal;
   text-indent: 5px;
+  margin-left: 5px;
+  color: #fff;
   float: none !important;
   display: inline;
+}
+.jimu-rtl .jimu-widget-splash-desktop .splash-container .jimu-checkbox .label,
+.jimu-rtl .jimu-widget-splash-mobile .splash-container .jimu-checkbox .label{
+  margin-left: auto;
+  margin-right: 5px;
 }
 .jimu-widget-splash-desktop .envelope,
 .jimu-widget-splash-mobile .envelope{
@@ -51,9 +60,6 @@
   padding: 0;
   width: 60px;
   line-height: 33px;
-  position: absolute;
-  right: 0;
-  bottom: 0;
 }
 .jimu-rtl .jimu-widget-splash-desktop .splash-container .jimu-btn,
 .jimu-rtl .jimu-widget-splash-mobile .splash-container .jimu-btn{
@@ -74,14 +80,10 @@
 }
 
 .jimu-widget-splash-desktop .envelope{
-  min-height: 300px;
   max-height: 500px;
-  min-width: 350px;
-  max-width: 800px;
+  max-width: 640px;
 }
 .jimu-widget-splash-desktop .splash-container{
-  min-width: 350px;
-  max-width: 800px;
   position: absolute;
   display: inline-block;
   background-color: #485566;
@@ -95,14 +97,10 @@
   max-height: 388px;
 }
 .jimu-widget-splash-desktop .splash-container .footer{
-  height: 62px;
-  margin: 0 30px 10px 40px;
+  max-height: 100px;
+  margin: 0 40px 10px 40px;
   position: relative;
-  max-width: 560px;
   overflow: hidden;
-}
-.jimu-widget-splash-desktop .splash-container .jimu-checkbox{
-  margin-bottom: 15px;
 }
 
 
@@ -112,7 +110,6 @@
   box-shadow: 0 0 4px rgba(160, 160, 160, 0.4);
 }
 .jimu-widget-splash-mobile .splash-container{
-  /* width: 100%; */
   height: 100%;
   position: relative;
   display: block;
@@ -129,12 +126,8 @@
 }
 .jimu-widget-splash-mobile .splash-container .footer{
   position: absolute;
-  height: 62px;
+  max-height: 100px;
   bottom: 10px;
   left: 10px;
   right: 10px;
-}
-.jimu-widget-splash-mobile .splash-container .jimu-checkbox{
-  margin-bottom: 8px;
-  max-width: 80%;
 }

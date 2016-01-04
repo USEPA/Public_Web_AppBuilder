@@ -1,0 +1,69 @@
+﻿<div class="ParameterDiv">
+    <div class="fieldHeader">
+        ${nls.outagePanel.outage}</div>
+    <div class="field" title="${nls.outagePanel.isvisible}" data-dojo-attach-point="skippableCheckboxBlock">
+        <div data-dojo-type="jimu/dijit/CheckBox" data-dojo-attach-point="visible" class="jimu-checkbox">
+        </div>
+        <label class="esriCTCheckboxLabel" title="${nls.outagePanel.isvisible}">
+            ${nls.outagePanel.isvisible}</label>
+        <div class="esriCTHintField esriCTCheckboxHint">
+            (${nls.hintText.visibilityHint})</div>
+    </div>
+    <div class="field" title="${nls.outagePanel.bufferDistance}">
+        <label title="${nls.outagePanel.bufferDistance}">
+            ${nls.outagePanel.bufferDistance}</label>
+        <input class="esriCTIntigerNumberTextBoxField" data-dojo-attach-point="overviewBufferDistance"
+            data-dojo-type="dijit/form/NumberTextBox" class="common-input esriCTOutputMinScaleDataClass"
+            data-dojo-props="required: true,  invalidMessage:'Enter numeric value only.'"
+            value="0">
+    </div>
+    <div class="field" title="${nls.outagePanel.esriUnits}">
+        <label title="${nls.outagePanel.esriUnits}">
+            ${nls.outagePanel.esriUnits}</label>
+        <select data-dojo-attach-point="esriUnits" data-dojo-type="dijit/form/Select" class="common-input"
+            style="width: 200px; height: 30px;">
+        </select>
+    </div>
+    <div class="field" title="${nls.outputPanel.outputminScale}">
+        <label title="${nls.outputPanel.outputminScale}">
+            ${nls.outputPanel.outputminScale}</label>
+        <input class="esriCTIntigerNumberTextBoxField common-inputspin esriCTOutputMinScaleDataClass"
+            data-dojo-type="dijit/form/NumberSpinner" data-dojo-attach-point="outputMinScaleData"
+            value="0" data-dojo-props="required: true,smallDelta:1, constraints:{min:0,places:0,pattern: '#'}" />
+    </div>
+    <div class="field" title="${nls.outputPanel.outputmaxScale}">
+        <label title="${nls.outputPanel.outputmaxScale}">
+            ${nls.outputPanel.outputmaxScale}</label>
+        <input class="esriCTIntigerNumberTextBoxField common-inputspin esriCTOutputMaxScaleDataClass"
+            data-dojo-type="dijit/form/NumberSpinner" data-dojo-attach-point="outputMaxScaleData"
+            value="0" data-dojo-props="required: true,smallDelta:1, constraints:{min:0,places:0,pattern: '#'}" />
+    </div>
+    <div class="field esriCTCheckboxField" title="${nls.outputPanel.outputLayer}">
+        <div data-dojo-type="jimu/dijit/CheckBox" data-dojo-attach-point="outputLayer" class="jimu-checkbox">
+        </div>
+        <label class="esriCTCheckboxLabel" title="${nls.outputPanel.outputLayer}">
+            ${nls.outputPanel.outputLayer}</label>
+        <div class="esriCTHintField esriCTCheckboxHint">
+            (${nls.hintText.saveToLayerHint})</div>
+    </div>
+    <div class="field outputTargetLayer esriCTHidden" title="${nls.outputPanel.outputLayerType}"
+        data-dojo-attach-point="selectOutputLayerType">
+        <label title="${nls.outputPanel.outputLayerType}">
+            ${nls.outputPanel.outputLayerType}</label>
+        <select data-dojo-attach-point="outputLayerType" data-dojo-type="dijit/form/Select"
+            class="common-input" style="width: 79%; height: 30px;">
+        </select>
+        <div class="esriCTHintField">
+            ${nls.hintText.outputLayerType}</div>
+    </div>
+    <div class="field" data-dojo-attach-point="outageData">
+    </div>
+    <div class="field" title="${nls.symbol}">
+        <label title="${nls.symbol}">
+            ${nls.symbol}</label>
+        <div class="esriCTPreview" title="${nls.symbolSelecter.symbolPreviewLabal}">
+            ${nls.symbolSelecter.symbolPreviewLabal}:</div>
+        <div class="esriCTSymbolPreview" data-dojo-attach-point="symbolDataPreview">
+        </div>
+    </div>
+</div>

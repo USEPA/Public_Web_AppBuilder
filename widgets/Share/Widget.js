@@ -1,3 +1,7 @@
+///////////////////////////////////////////////////////////////////////////
+// Robert Scheitlin WAB Share Widget
+///////////////////////////////////////////////////////////////////////////
+/*global define, console, window, location*/
 define(['dojo/Evented',
     'dojo/_base/declare',
     'dojo/_base/lang',
@@ -16,32 +20,35 @@ define(['dojo/Evented',
     'dijit/_WidgetsInTemplateMixin',
     'jimu/BaseWidget',
     'jimu/dijit/Message',
+    'esri/SpatialReference',
+    'dojo/Deferred',
+    'esri/config',
     'jimu/dijit/CheckBox'
   ],
-  function(Evented, declare, lang, has, esriNS, html, on, domClass, domStyle, domAttr, domConstruct, esriRequest, urlUtils, number, event, _WidgetsInTemplateMixin, BaseWidget, Message) {
+  function (Evented, declare, lang, has, esriNS, html, on, domClass, domStyle, domAttr, domConstruct, esriRequest, urlUtils, number, event, _WidgetsInTemplateMixin, BaseWidget, Message, SpatialReference, Deferred, esriConfig) {
     var clazz = declare([BaseWidget, _WidgetsInTemplateMixin, Evented], {
       name: 'Share this map',
       baseClass: 'widget-share',
       url: window.location.href,
       embedSizes: [
-          {
-            'width': '100%',
-            'height': '640px'
+        {
+          'width': '100%',
+          'height': '640px'
           }, {
-            'width': '100%',
-            'height': '480px'
+          'width': '100%',
+          'height': '480px'
           }, {
-            'width': '100%',
-            'height': '320px'
+          'width': '100%',
+          'height': '320px'
           }, {
-            'width': '800px',
-            'height': '600px'
+          'width': '800px',
+          'height': '600px'
           }, {
-            'width': '640px',
-            'height': '480px'
+          'width': '640px',
+          'height': '480px'
           }, {
-            'width': '480px',
-            'height': '320px'
+          'width': '480px',
+          'height': '320px'
           }
         ],
       useExtent: null,
@@ -60,9 +67,9 @@ define(['dojo/Evented',
       embedWidth: null,
       extentEvt: null,
 
-      postCreate: function() {
+      postCreate: function () {
         this.inherited(arguments);
-        this.own(on(this._extentInput, 'click', lang.hitch(this, this._useExtentUpdate)));
+        this._extentInput.onChange = lang.hitch(this, this._useExtentUpdate);
         this.useExtent = this.config.useExtent || false;
         this._setExtentChecked();
         this.title = this.config.title || window.document.title;
@@ -80,29 +87,28 @@ define(['dojo/Evented',
 
         this._updateUrl();
         this._shareLink();
+
+        this.own(on(this.domNode, 'mousedown', lang.hitch(this, function (event) {
+          event.stopPropagation();
+          if (event.altKey) {
+            var msgStr = this.nls.widgetverstr + ': ' + this.manifest.version;
+            msgStr += '\n' + this.nls.wabversionmsg + ': ' + this.manifest.wabVersion;
+            msgStr += '\n' + this.manifest.description;
+            new Message({
+              titleLabel: this.nls.widgetversion,
+              message: msgStr
+            });
+          }
+        })));
       },
 
-      startup: function() {
+      startup: function () {
         this.inherited(arguments);
         this._init();
       },
 
-      onOpen: function() {
-        var widgetTitlebar = this.domNode.parentNode.parentNode.parentNode.childNodes[0];
-        if(typeof widgetTitlebar.onmousedown !== "function") {
-           this.own(on(widgetTitlebar, 'mousedown', lang.hitch(this, function(event) {
-            event.stopPropagation();
-            if(event.altKey){
-              var msgStr = this.nls.widgetverstr + ': ' + this.manifest.version;
-              msgStr += '\n' + this.nls.wabversionmsg + ': ' + this.manifest.wabVersion;
-              msgStr += '\n' + this.manifest.description;
-              new Message({
-                titleLabel: this.nls.widgetversion,
-                message: msgStr
-              });
-            }
-          })));
-        }
+      onOpen: function () {
+        this.inherited(arguments);
       },
 
       destroy: function () {
@@ -111,12 +117,12 @@ define(['dojo/Evented',
 
       _setExtentChecked: function () {
         this._extentInput.setValue(this.useExtent);
-        if(this.useExtent){
-          this.extentEvt = this.own(this.map.on('extent-change', lang.hitch(this, function(){
+        if (this.useExtent) {
+          this.extentEvt = this.own(this.map.on('extent-change', lang.hitch(this, function () {
             this._updateUrl();
           })));
-        }else{
-          if(this.extentEvt){
+        } else {
+          if (this.extentEvt) {
             this.extentEvt.remove();
           }
         }
@@ -157,43 +163,66 @@ define(['dojo/Evented',
         // no bitly shortened
         this.set('bitlyUrl', null);
         // vars
-        var map = this.get('map'),
-          url = this.get('url'),
+        var url = this.get('url'),
           useSeparator;
         // get url params
         var urlObject = urlUtils.urlToObject(window.location.href);
         urlObject.query = urlObject.query || {};
+        urlObject.query.extent = null;
         // include extent in url
-        if (this.get('useExtent') && map) {
-          // get map extent in geographic
-          var gExtent = map.geographicExtent;
-          // set extent string
-          urlObject.query.extent = gExtent.xmin.toFixed(4) + ',' + gExtent.ymin.toFixed(4) + ',' + gExtent.xmax.toFixed(4) + ',' + gExtent.ymax.toFixed(4);
-        } else {
-          urlObject.query.extent = null;
-        }
-        // create base url
-        url = window.location.protocol + '//' + window.location.host + window.location.pathname;
-        // each param
-        for (var i in urlObject.query) {
-          if (urlObject.query[i] && urlObject.query[i] !== 'config') {
-            // use separator
-            if (useSeparator) {
-              url += '&';
-            } else {
-              url += '?';
-              useSeparator = true;
-            }
-            url += i + '=' + urlObject.query[i];
+        this._projectGeometry().then(lang.hitch(this, function (result) {
+          if (result) {
+            var gExtent = result;
+            urlObject.query.extent = gExtent.xmin.toFixed(4) + ',' + gExtent.ymin.toFixed(4) + ',' + gExtent.xmax.toFixed(4) + ',' + gExtent.ymax.toFixed(4);
           }
+          // create base url
+          url = window.location.protocol + '//' + window.location.host + window.location.pathname;
+          // each param
+          for (var i in urlObject.query) {
+            if (urlObject.query[i] && urlObject.query[i] !== 'config') {
+              // use separator
+              if (useSeparator) {
+                url += '&';
+              } else {
+                url += '?';
+                useSeparator = true;
+              }
+              url += i + '=' + urlObject.query[i];
+            }
+          }
+          // update url
+          this.set('url', url);
+          // reset embed code
+          this._setEmbedCode();
+          // set url value
+          domAttr.set(this._shareMapUrlText, 'value', url);
+          domAttr.set(this._linkButton, 'href', url);
+        }));
+      },
+
+      _projectGeometry: function () {
+        var deferred = new Deferred();
+        var map = this.get("map");
+        if (this.get("useExtent") && map) {
+          // get map extent in geographic
+          if (map.geographicExtent) {
+            deferred.resolve(map.geographicExtent);
+          } else {
+            //project the extent to geographic
+            var outSR = new SpatialReference({
+              "wkid": 4326
+            });
+            esriConfig.defaults.geometryService.project([map.extent], outSR).then(lang.hitch(this, function (result) {
+              if (result.length) {
+                var projectedExtent = result[0];
+                deferred.resolve(projectedExtent);
+              }
+            }));
+          }
+        } else {
+          deferred.resolve(null);
         }
-        // update url
-        this.set('url', url);
-        // reset embed code
-        this._setEmbedCode();
-        // set url value
-        domAttr.set(this._shareMapUrlText, 'value', url);
-        domAttr.set(this._linkButton, 'href', url);
+        return deferred.promise;
       },
 
       _init: function () {

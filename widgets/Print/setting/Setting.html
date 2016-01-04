@@ -3,11 +3,11 @@
     <table class="setting-table input-table" cellspacing="0">
       <tbody>
         <tr>
-        
+
         <td class="first">*${nls.serviceURL}</td>
           <td class="second">
-            <input type="text" data-dojo-type="dijit/form/ValidationTextBox" 
-            data-dojo-attach-point="serviceURL"  
+            <input type="text" data-dojo-type="dijit/form/ValidationTextBox"
+            data-dojo-attach-point="serviceURL"
             required="true" data-dojo-props="style:{width:'100%'}"/>
           </td>
 
@@ -18,8 +18,8 @@
         <tr>
           <td class="first">${nls.defaultTitle}</td>
           <td class="second" colspan="2">
-            <input type="text" data-dojo-type="dijit/form/ValidationTextBox" 
-            data-dojo-attach-point="defaultTitle" placeHolder="ArcGIS WebMap"
+            <input type="text" data-dojo-type="dijit/form/ValidationTextBox"
+            data-dojo-attach-point="defaultTitle" data-dojo-attach-event="Blur:_onTitleBlur" placeHolder="ArcGIS WebMap"
             data-dojo-props='style:{width:"100%"}'/>
           </td>
         </tr>
@@ -27,14 +27,14 @@
           <td class="first">${nls.defaultAuthor}</td>
           <td class="second" colspan="2">
             <input type="text" data-dojo-type="dijit/form/ValidationTextBox" placeHolder="Web AppBuilder for ArcGIS"
-            data-dojo-attach-point="defaultAuthor" data-dojo-props='style:{width:"100%"}'/>
+            data-dojo-attach-point="defaultAuthor" data-dojo-attach-event="Blur:_onAuthorBlur" data-dojo-props='style:{width:"100%"}'/>
           </td>
       </tr>
       <tr>
           <td class="first">${nls.defaultCopyright}</td>
           <td class="second" colspan="2">
             <input type="text" data-dojo-type="dijit/form/ValidationTextBox"
-            data-dojo-attach-point="defaultCopyright" data-dojo-props='style:{width:"100%"}'/>
+            data-dojo-attach-point="defaultCopyright" data-dojo-attach-event="Blur:_onCopyrightBlur" data-dojo-props='style:{width:"100%"}'/>
           </td>
       </tr>
       <tr style="display: none">

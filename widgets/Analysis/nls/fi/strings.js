@@ -19,6 +19,6 @@
     outputs: "Tulosaineistot",
     outputtip: "Huomautus: Kohteen ja taulun tulosaineistot lisätään karttaan toiminnallisina karttatasoina.",
     outputSaveInPortal: "Aineisto on tallennettu portaaliin.",
-    privilegeError: "Analyysityökalun suoritus edellyttää julkaisijan tai pääkäyttäjän roolia."
+    privilegeError: "Käyttäjäroolisi ei voi suorittaa analyysia. Analyysin suoritus edellyttää, että organisaatiosi pääkäyttäjä myöntää sinulle tietyt <a href=\"http://doc.arcgis.com/en/arcgis-online/reference/roles.htm\" target=\"_blank\">käyttöoikeudet</a>."
   })
 );

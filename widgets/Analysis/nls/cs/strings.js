@@ -7,7 +7,7 @@
     next: "Další",
     home: "Domů",
     jobSubmitted: "Odesláno.",
-    jobCancelled: "Stornováno.",
+    jobCancelled: "Zrušeno.",
     jobFailed: "Selhalo.",
     jobSuccess: "Úspěšně dokončeno.",
     executing: "Probíhá zpracování",
@@ -19,6 +19,6 @@
     outputs: "Výstupy",
     outputtip: "Poznámka: Výstupy prvků a tabulek se přidají do mapy v podobě operačních vrstev.",
     outputSaveInPortal: "Data byla uložena do portálu.",
-    privilegeError: "Spuštění tohoto nástroje analýzy vyžaduje oprávnění vydavatele nebo administrátora."
+    privilegeError: "V rámci role, přiřazené Vašemu uživatelskému účtu, není možné provádět analýzy. Požádejte administrátora Vaší organizace, aby Vám přidělil potřebná <a href=\"http://doc.arcgis.com/en/arcgis-online/reference/roles.htm\" target=\"_blank\">práva</a>."
   })
 );

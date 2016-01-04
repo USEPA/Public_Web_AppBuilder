@@ -15,13 +15,13 @@ define(
   'dijit/Tooltip',
   'dojo/text!./LinkEdit.html',
   'dijit/form/TextBox',
-  'jimu/dijit/LayerFieldChooser',
+  'widgets/Identify/setting//LayerFieldChooser',
   'esri/request',
   'jimu/dijit/CheckBox',
   'widgets/Identify/setting/AddFieldBtn'
   ],
   function(declare,lang,array,html,query,on,Deferred,json,_WidgetBase,_TemplatedMixin,_WidgetsInTemplateMixin,BaseWidgetSetting,
-  Tooltip,template,TextBox,LayerFieldChooser,esriRequest,CheckBox,AddFieldBtn) {
+  Tooltip,template,TextBox,LayerFieldChooser,esriRequest) {
     return declare([BaseWidgetSetting, _WidgetsInTemplateMixin], {
       baseClass: 'link-edit',
       templateString: template,
@@ -69,6 +69,7 @@ define(
         if(data.length > 0){
           this.linkContentAddButton.items = data;
           this.linkIconContentAddButton.items = data;
+          this.linkAliasAddButton.items = data;
         }
       },
 
@@ -117,10 +118,13 @@ define(
 
       _bindEvents:function(){
         this.own(on(this.linkContentAddButton, 'onMenuClick', lang.hitch(this,function(item){
-          this._insertAtCursor(this.linkContentTA,item.key);
+          this._insertAtCursor(this.linkContentTA, item.key);
         })));
         this.own(on(this.linkIconContentAddButton, 'onMenuClick', lang.hitch(this,function(item){
-          this._insertAtCursor(this.linkIconContentTA,item.key);
+          this._insertAtCursor(this.linkIconContentTA, item.key);
+        })));
+        this.own(on(this.linkAliasAddButton, 'onMenuClick', lang.hitch(this,function(item){
+          this._insertAtCursor(this.linkAlias, item.key);
         })));
       },
 
@@ -131,7 +135,8 @@ define(
         if(!this.config){
           return;
         }
-        this.linkAlias.set('value', lang.trim(this.config.alias || ''));
+//        this.linkAlias.set('value', lang.trim(this.config.alias || ''));
+        this.linkAlias.value = lang.trim(this.config.alias || '');
         this.disableNullLinkCbx.setValue(this.config.disablelinksifnull || true);
         this.disableLinkinPopUpCbx.setValue(this.config.disableinpopup || false);
         this.selectLinkType.set('value', this.config.popuptype || 'image');
@@ -144,7 +149,8 @@ define(
           return [false, this.tr];
         }
         var config = {
-          alias:lang.trim(this.linkAlias.get('value')),
+          /*alias:lang.trim(this.linkAlias.get('value')),*/
+          alias:lang.trim(this.linkAlias.value),
           disablelinksifnull: this.disableNullLinkCbx.getValue(),
           disableinpopup: this.disableLinkinPopUpCbx.getValue(),
           popuptype: this.selectLinkType.get('value'),
@@ -156,7 +162,8 @@ define(
       },
 
       resetAll:function(){
-        this.linkAlias.set('value', '');
+        //this.linkAlias.set('value', '');
+        this.linkAlias.value = '';
       },
 
       _insertAtCursor:function(myField, myValue) {
@@ -169,18 +176,24 @@ define(
         }
         //MOZILLA and others
         else if (myField.selectionStart || myField.selectionStart == '0') {
-            var startPos = myField.selectionStart;
-            var endPos = myField.selectionEnd;
-            myField.value = myField.value.substring(0, startPos) + myValue + myField.value.substring(endPos, myField.value.length);
-            myField.selectionStart = startPos + myValue.length;
-            myField.selectionEnd = startPos + myValue.length;
+          var startPos = myField.selectionStart;
+          var endPos = myField.selectionEnd;
+          myField.value = myField.value.substring(0, startPos) + myValue + myField.value.substring(endPos, myField.value.length);
+          myField.selectionStart = startPos + myValue.length;
+          myField.selectionEnd = startPos + myValue.length;
         } else {
-            myField.value += myValue;
+          myField.value += myValue;
         }
       },
 
       validate:function(showTooltip){
-        if(lang.trim(this.linkAlias.get('value')) === ''){
+        /*if(lang.trim(this.linkAlias.get('value')) === ''){
+          if(showTooltip){
+            this._showTooltip(this.linkAlias.domNode, 'Please input value.');
+          }
+          return false;
+        }*/
+        if(lang.trim(this.linkAlias.value) === ''){
           if(showTooltip){
             this._showTooltip(this.linkAlias.domNode, 'Please input value.');
           }

@@ -31,6 +31,22 @@
     setTask: "Nastavit",
     setTaskTitle: "Nastavit GP úlohu",
     enablePopup: "Povolit vyskakovací okna",
-    unSupportGeometryType: "Vykreslovač nelze nastavit, protože je typ geometrie neznámý."
+    unSupportGeometryType: "Vykreslovač nelze nastavit, protože je typ geometrie neznámý.",
+    useUrlForGPInput: "URL",
+    useUploadForGPInput: "Nahrát soubor",
+    selectFileToUpload: "Vybrat soubor…",
+    upload: "Nahrát",
+    rasterFormat: "Formát rastrových dat",
+    noFileSelected: "Nebyl vybrán žádný soubor.",
+    uploadSuccess:"Soubor byl úspěšně nahrán.",
+    showLayerContent: "Zobrazit obsah vrstvy",
+    Feet: "Stopy",
+    Yards: "Yardy",
+    Miles: "Míle",
+    NauticalMiles: "Námořní míle",
+    Meter: "Metry",
+    Kilometers: "Kilometry",
+    urlPlaceholder: "adresa URL sady prvků",
+    allowToExport: "Povolit export výsledků"
   })
 );

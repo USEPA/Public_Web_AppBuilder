@@ -18,6 +18,12 @@ define([
     'dojo/_base/declare',
     'dijit/_WidgetsInTemplateMixin',
     'jimu/BaseWidget',
+    'dojo/on',
+    'dojo/Deferred',
+    'dojo/_base/html',
+    'dojo/_base/lang',
+    'dojo/_base/Color',
+    'dojo/_base/array',
     'esri/config',
     'esri/graphic',
     'esri/geometry/Polyline',
@@ -30,44 +36,100 @@ define([
     'esri/tasks/GeometryService',
     'esri/tasks/AreasAndLengthsParameters',
     'esri/tasks/LengthsParameters',
-    'dojo/_base/lang',
-    'dojo/on',
-    'dojo/Deferred',
-    'dojo/_base/html',
-    'dojo/_base/Color',
-    'dojo/_base/array',
+    'esri/undoManager',
+    'esri/OperationBase',
+    'esri/layers/GraphicsLayer',
+    'esri/layers/FeatureLayer',
     'jimu/dijit/ViewStack',
     'jimu/utils',
     'jimu/SpatialReference/wkidUtils',
+    'jimu/LayerInfos/LayerInfos',
+    'jimu/dijit/LoadingIndicator',
     'jimu/dijit/DrawBox',
     'jimu/dijit/SymbolChooser',
     'dijit/form/Select',
     'dijit/form/NumberSpinner'
   ],
-  function(declare, _WidgetsInTemplateMixin, BaseWidget, esriConfig, Graphic, Polyline, Polygon,
-    TextSymbol, Font, esriUnits, webMercatorUtils, geodesicUtils, GeometryService,
-    AreasAndLengthsParameters, LengthsParameters, lang, on, Deferred, html, Color, array, ViewStack,
-    jimuUtils, wkidUtils) {
+  function(declare, _WidgetsInTemplateMixin, BaseWidget, on, Deferred, html, lang, Color, array,
+    esriConfig, Graphic, Polyline, Polygon, TextSymbol, Font, esriUnits, webMercatorUtils,
+    geodesicUtils, GeometryService, AreasAndLengthsParameters, LengthsParameters, UndoManager,
+    OperationBase, GraphicsLayer, FeatureLayer, ViewStack, jimuUtils, wkidUtils, LayerInfos,
+    LoadingIndicator) {
+    //custom operations
+    var customOp = {};
+    customOp.Add = declare(OperationBase, {
+      label: 'Add Graphic',
+      constructor: function(/*graphicsLayer, addedGraphics*/ params){
+        this._graphicsLayer = params.graphicsLayer;
+        this._addedGraphics = params.addedGraphics;
+      },
+
+      performUndo: function () {
+        array.forEach(this._addedGraphics, lang.hitch(this, function(g){
+          this._graphicsLayer.remove(g);
+        }));
+      },
+
+      performRedo: function () {
+        array.forEach(this._addedGraphics, lang.hitch(this, function(g){
+          this._graphicsLayer.add(g);
+        }));
+      }
+    });
+    customOp.Delete = declare(OperationBase, {
+      label: 'Delete Graphic',
+      constructor: function(/*graphicsLayer, deletedGraphics*/ params){
+        this._graphicsLayer = params.graphicsLayer;
+        this._deletedGraphics = params.deletedGraphics;
+      },
+
+      performUndo: function(){
+        array.forEach(this._deletedGraphics, lang.hitch(this, function(g){
+          this._graphicsLayer.add(g);
+        }));
+      },
+
+      performRedo: function(){
+        array.forEach(this._deletedGraphics, lang.hitch(this, function(g){
+          this._graphicsLayer.remove(g);
+        }));
+      }
+    });
+
     return declare([BaseWidget, _WidgetsInTemplateMixin], {
       name: 'Draw',
       baseClass: 'jimu-widget-draw',
       _gs: null,
       _defaultGsUrl: '//tasks.arcgisonline.com/ArcGIS/rest/services/Geometry/GeometryServer',
+      _undoManager: null,
+      _graphicsLayer: null,
+      _objectIdCounter: 1,
+      _objectIdName: 'OBJECTID',
+      _objectIdType: 'esriFieldTypeOID',
+      _pointLayer: null,
+      _polylineLayer: null,
+      _polygonLayer: null,
+      _labelLayer: null,
 
       postMixInProperties: function(){
         this.inherited(arguments);
+        this.config.isOperationalLayer = !!this.config.isOperationalLayer;
+
         if(esriConfig.defaults.geometryService){
           this._gs = esriConfig.defaults.geometryService;
         }else{
           this._gs = new GeometryService(this._defaultGsUrl);
         }
+
         this._resetUnitsArrays();
-        this._undoList = [];
-        this._redoList = [];
+        this._undoManager = new UndoManager({
+          maxOperations: 0
+        });
       },
 
       postCreate: function() {
         this.inherited(arguments);
+        this._initLayers();
         jimuUtils.combineRadioCheckBoxWithLabel(this.showMeasure, this.showMeasureLabel);
         this.drawBox.setMap(this.map);
 
@@ -79,6 +141,94 @@ define([
 
         this._initUnitSelect();
         this._bindEvents();
+        //let all buttons disable-like
+        this._enableBtn(this.btnUndo, false);
+        this._enableBtn(this.btnRedo, false);
+        this._enableBtn(this.btnClear, false);
+      },
+
+      _initLayers: function(){
+        this._graphicsLayer = new GraphicsLayer();
+
+        if(this.config.isOperationalLayer){
+          var layerDefinition = {
+            "name": "",
+            "geometryType": "",
+            "fields": [{
+              "name": this._objectIdName,
+              "type": this._objectIdType,
+              "alias": this._objectIdName
+            }]
+          };
+          var pointDefinition = lang.clone(layerDefinition);
+          pointDefinition.name = this.nls.points;//this.label + "_" +
+          pointDefinition.geometryType = "esriGeometryPoint";
+          this._pointLayer = new FeatureLayer({
+            layerDefinition: pointDefinition,
+            featureSet: null
+          });
+
+          var polylineDefinition = lang.clone(layerDefinition);
+          polylineDefinition.name = this.nls.lines;
+          polylineDefinition.geometryType = "esriGeometryPolyline";
+          this._polylineLayer = new FeatureLayer({
+            layerDefinition: polylineDefinition,
+            featureSet: null
+          });
+
+          var polygonDefinition = lang.clone(layerDefinition);
+          polygonDefinition.name = this.nls.areas;
+          polygonDefinition.geometryType = "esriGeometryPolygon";
+          this._polygonLayer = new FeatureLayer({
+            layerDefinition: polygonDefinition,
+            featureSet: null
+          });
+
+          var labelDefinition = lang.clone(layerDefinition);
+          labelDefinition.name = this.nls.text;
+          labelDefinition.geometryType = "esriGeometryPoint";
+          this._labelLayer = new FeatureLayer({
+            layerDefinition: labelDefinition,
+            featureSet: null
+          });
+
+          var loading = new LoadingIndicator();
+
+          loading.placeAt(this.domNode);
+
+          LayerInfos.getInstance(this.map, this.map.itemInfo)
+          .then(lang.hitch(this, function(layerInfos){
+            if(!this.domNode){
+              return;
+            }
+
+            loading.destroy();
+            var layers = [this._polygonLayer, this._polylineLayer,
+                          this._pointLayer, this._labelLayer];
+            layerInfos.addFeatureCollection(layers, this.label + "_" + this.nls.results);
+          }), lang.hitch(this, function(err){
+            loading.destroy();
+            console.error("Can not get LayerInfos instance", err);
+          }));
+        }else{
+          this._pointLayer = new GraphicsLayer();
+          this._polylineLayer = new GraphicsLayer();
+          this._polygonLayer = new GraphicsLayer();
+          this._labelLayer = new GraphicsLayer();
+          this.map.addLayer(this._polygonLayer);
+          this.map.addLayer(this._polylineLayer);
+          this.map.addLayer(this._pointLayer);
+          this.map.addLayer(this._labelLayer);
+        }
+      },
+
+      onActive: function(){
+        this.map.setInfoWindowOnClick(false);
+      },
+
+      onDeActive: function(){
+        this.drawBox.deactivate();
+        this.map.setInfoWindowOnClick(true);
       },
 
       _resetUnitsArrays: function(){
@@ -92,28 +242,31 @@ define([
 
       _bindEvents: function() {
         //bind DrawBox
-        this.own(on(this.drawBox,'IconSelected',lang.hitch(this,this._onIconSelected)));
-        this.own(on(this.drawBox,'DrawEnd',lang.hitch(this,this._onDrawEnd)));
+        this.own(on(this.drawBox, 'icon-selected', lang.hitch(this, this._onIconSelected)));
+        this.own(on(this.drawBox, 'DrawEnd', lang.hitch(this, this._onDrawEnd)));
 
         //bind symbol change events
-        this.own(on(this.pointSymChooser,'change',lang.hitch(this,function(){
+        this.own(on(this.pointSymChooser, 'change', lang.hitch(this, function() {
           this._setDrawDefaultSymbols();
         })));
-        this.own(on(this.lineSymChooser,'change',lang.hitch(this,function(){
+        this.own(on(this.lineSymChooser, 'change', lang.hitch(this, function() {
           this._setDrawDefaultSymbols();
         })));
-        this.own(on(this.fillSymChooser,'change',lang.hitch(this,function(){
+        this.own(on(this.fillSymChooser, 'change', lang.hitch(this, function() {
           this._setDrawDefaultSymbols();
         })));
-        this.own(on(this.textSymChooser,'change',lang.hitch(this,function(symbol){
+        this.own(on(this.textSymChooser, 'change', lang.hitch(this, function(symbol) {
           this.drawBox.setTextSymbol(symbol);
         })));
 
         //bind unit events
-        this.own(on(this.showMeasure,'click',lang.hitch(this,this._setMeasureVisibility)));
+        this.own(on(this.showMeasure, 'click', lang.hitch(this, this._setMeasureVisibility)));
+
+        //bind UndoManager events
+        this.own(on(this._undoManager, 'change', lang.hitch(this, this._onUndoManagerChanged)));
       },
 
-      _onIconSelected:function(target,geotype,commontype){
+      _onIconSelected:function(target, geotype, commontype){
         /*jshint unused: false*/
         this._setDrawDefaultSymbols();
         if(commontype === 'point'){
@@ -131,15 +284,21 @@ define([
         this._setMeasureVisibility();
       },
 
-      _onDrawEnd:function(graphic,geotype,commontype){
+      _onDrawEnd:function(graphic, geotype, commontype){
         /*jshint unused: false*/
-        this._disableBtnRedo();
+        this.drawBox.clear();
 
         var geometry = graphic.geometry;
         if(geometry.type === 'extent'){
           var a = geometry;
           var polygon = new Polygon(a.spatialReference);
-          var r=[[a.xmin,a.ymin],[a.xmin,a.ymax],[a.xmax,a.ymax],[a.xmax,a.ymin],[a.xmin,a.ymin]];
+          var r = [
+            [a.xmin, a.ymin],
+            [a.xmin, a.ymax],
+            [a.xmax, a.ymax],
+            [a.xmax, a.ymin],
+            [a.xmin, a.ymin]
+          ];
           polygon.addRing(r);
           geometry = polygon;
           commontype = 'polygon';
@@ -148,17 +307,17 @@ define([
           if(this.showMeasure.checked){
             this._addLineMeasure(geometry, graphic);
           }else{
-            this._pushUndoGraphics([graphic]);
+            this._pushAddOperation([graphic]);
           }
         }
         else if(commontype === 'polygon'){
           if(this.showMeasure.checked){
             this._addPolygonMeasure(geometry, graphic);
           }else{
-            this._pushUndoGraphics([graphic]);
+            this._pushAddOperation([graphic]);
           }
         }else{
-          this._pushUndoGraphics([graphic]);
+          this._pushAddOperation([graphic]);
         }
       },
 
@@ -171,7 +330,7 @@ define([
         var c = this.configAreaUnits;
         var d = this.defaultAreaUnits;
         this.areaUnits = c.length > 0 ? c : d;
-        array.forEach(this.distanceUnits,lang.hitch(this,function(unitInfo){
+        array.forEach(this.distanceUnits, lang.hitch(this, function(unitInfo){
           var option = {
             value:unitInfo.unit,
             label:unitInfo.label
@@ -179,7 +338,7 @@ define([
           this.distanceUnitSelect.addOption(option);
         }));
 
-        array.forEach(this.areaUnits,lang.hitch(this,function(unitInfo){
+        array.forEach(this.areaUnits, lang.hitch(this, function(unitInfo){
           var option = {
             value:unitInfo.unit,
             label:unitInfo.label
@@ -231,7 +390,7 @@ define([
       },
 
       _initConfigUnits:function(){
-        array.forEach(this.config.distanceUnits,lang.hitch(this,function(unitInfo){
+        array.forEach(this.config.distanceUnits, lang.hitch(this, function(unitInfo){
           var unit = unitInfo.unit;
           if(esriUnits[unit]){
             var defaultUnitInfo = this._getDefaultDistanceUnitInfo(unit);
@@ -240,7 +399,7 @@ define([
           }
         }));
 
-        array.forEach(this.config.areaUnits,lang.hitch(this,function(unitInfo){
+        array.forEach(this.config.areaUnits, lang.hitch(this, function(unitInfo){
           var unit = unitInfo.unit;
           if(esriUnits[unit]){
             var defaultUnitInfo = this._getDefaultAreaUnitInfo(unit);
@@ -251,7 +410,7 @@ define([
       },
 
       _getDefaultDistanceUnitInfo:function(unit){
-        for(var i=0;i<this.defaultDistanceUnits.length;i++){
+        for(var i = 0; i < this.defaultDistanceUnits.length; i++){
           var unitInfo = this.defaultDistanceUnits[i];
           if(unitInfo.unit === unit){
             return unitInfo;
@@ -261,7 +420,7 @@ define([
       },
 
       _getDefaultAreaUnitInfo:function(unit){
-        for(var i=0;i<this.defaultAreaUnits.length;i++){
+        for(var i = 0; i < this.defaultAreaUnits.length; i++){
           var unitInfo = this.defaultAreaUnits[i];
           if(unitInfo.unit === unit){
             return unitInfo;
@@ -271,7 +430,7 @@ define([
       },
 
       _getDistanceUnitInfo:function(unit){
-        for(var i=0;i<this.distanceUnits.length;i++){
+        for(var i = 0; i < this.distanceUnits.length; i++){
           var unitInfo = this.distanceUnits[i];
           if(unitInfo.unit === unit){
             return unitInfo;
@@ -281,7 +440,7 @@ define([
       },
 
       _getAreaUnitInfo:function(unit){
-        for(var i=0;i<this.areaUnits.length;i++){
+        for(var i = 0; i < this.areaUnits.length; i++){
           var unitInfo = this.areaUnits[i];
           if(unitInfo.unit === unit){
             return unitInfo;
@@ -291,22 +450,21 @@ define([
       },
 
       _setMeasureVisibility:function(){
-        html.setStyle(this.measureSection,'display','none');
-        html.setStyle(this.areaMeasure,'display','none');
-        html.setStyle(this.distanceMeasure,'display','none');
-        var lineDisplay = html.getStyle(this.lineSection,'display');
-        var polygonDisplay = html.getStyle(this.polygonSection,'display');
-        if(lineDisplay === 'block'){
-          html.setStyle(this.measureSection,'display','block');
-          if(this.showMeasure.checked){
-            html.setStyle(this.distanceMeasure,'display','block');
+        html.setStyle(this.measureSection, 'display', 'none');
+        html.setStyle(this.areaMeasure, 'display', 'none');
+        html.setStyle(this.distanceMeasure, 'display', 'none');
+        var lineDisplay = html.getStyle(this.lineSection, 'display');
+        var polygonDisplay = html.getStyle(this.polygonSection, 'display');
+        if (lineDisplay === 'block') {
+          html.setStyle(this.measureSection, 'display', 'block');
+          if (this.showMeasure.checked) {
+            html.setStyle(this.distanceMeasure, 'display', 'block');
           }
-        }
-        else if(polygonDisplay === 'block'){
-          html.setStyle(this.measureSection,'display','block');
-          if(this.showMeasure.checked){
-            html.setStyle(this.areaMeasure,'display','block');
-            html.setStyle(this.distanceMeasure,'display','block');
+        } else if (polygonDisplay === 'block') {
+          html.setStyle(this.measureSection, 'display', 'block');
+          if (this.showMeasure.checked) {
+            html.setStyle(this.areaMeasure, 'display', 'block');
+            html.setStyle(this.distanceMeasure, 'display', 'block');
           }
         }
       },
@@ -333,10 +491,6 @@ define([
         this.drawBox.setPolygonSymbol(this._getPolygonSymbol());
       },
 
-      onClose: function() {
-        this.drawBox.deactivate();
-      },
-
       _addLineMeasure:function(geometry, graphic){
         this._getLengthAndArea(geometry, false).then(lang.hitch(this, function(result){
           if(!this.domNode){
@@ -346,8 +500,8 @@ define([
           var a = Font.STYLE_ITALIC;
           var b = Font.VARIANT_NORMAL;
           var c = Font.WEIGHT_BOLD;
-          var symbolFont = new Font("16px",a,b,c, "Courier");
-          var fontColor = new Color([0,0,0,1]);
+          var symbolFont = new Font("16px", a, b, c, "Courier");
+          var fontColor = new Color([0, 0, 0, 1]);
           var ext = geometry.getExtent();
           var center = ext.getCenter();
 
@@ -356,16 +510,15 @@ define([
           var localeLength = jimuUtils.localizeNumber(length.toFixed(1));
           var lengthText = localeLength + " " + abbr;
 
-          var textSymbol = new TextSymbol(lengthText,symbolFont,fontColor);
-          var labelGraphic = new Graphic(center,textSymbol,null,null);
-          this.drawBox.addGraphic(labelGraphic);
-          this._pushUndoGraphics([graphic, labelGraphic]);
+          var textSymbol = new TextSymbol(lengthText, symbolFont, fontColor);
+          var labelGraphic = new Graphic(center, textSymbol, null, null);
+          this._pushAddOperation([graphic, labelGraphic]);
         }), lang.hitch(this, function(err){
           console.log(err);
           if(!this.domNode){
             return;
           }
-          this._pushUndoGraphics([graphic]);
+          this._pushAddOperation([graphic]);
         }));
       },
 
@@ -398,14 +551,13 @@ define([
           var text = areaText + "    " + lengthText;
           var textSymbol = new TextSymbol(text, symbolFont, fontColor);
           var labelGraphic = new Graphic(center, textSymbol, null, null);
-          this.drawBox.addGraphic(labelGraphic);
-          this._pushUndoGraphics([graphic, labelGraphic]);
+          this._pushAddOperation([graphic, labelGraphic]);
         }), lang.hitch(this, function(err){
           if(!this.domNode){
             return;
           }
           console.log(err);
-          this._pushUndoGraphics([graphic]);
+          this._pushAddOperation([graphic]);
         }));
       },
 
@@ -437,7 +589,7 @@ define([
           area: null,
           length: null
         };
-        
+
         var lengths = null;
 
         if(isPolygon){
@@ -456,7 +608,10 @@ define([
 
       _getLengthAndArea3857: function(geometry3857, isPolygon, esriAreaUnit, esriLengthUnit){
         var geometry4326 = webMercatorUtils.webMercatorToGeographic(geometry3857);
-        var result = this._getLengthAndArea4326(geometry4326,isPolygon,esriAreaUnit,esriLengthUnit);
+        var result = this._getLengthAndArea4326(geometry4326,
+                                                isPolygon,
+                                                esriAreaUnit,
+                                                esriLengthUnit);
         return result;
       },
 
@@ -556,17 +711,39 @@ define([
       _getPolylineOfPolygon: function(polygon){
         var polyline = new Polyline(polygon.spatialReference);
         var points = polygon.rings[0];
-        points = points.slice(0, points.length - 1);
         polyline.addPath(points);
         return polyline;
       },
 
       destroy: function() {
-        this._undoList = null;
-        this._redoList = null;
+        if(this._undoManager){
+          this._undoManager.destroy();
+          this._undoManager = null;
+        }
         if(this.drawBox){
           this.drawBox.destroy();
           this.drawBox = null;
+        }
+        if(this._graphicsLayer){
+          this._graphicsLayer.clear();
+          this.map.removeLayer(this._graphicsLayer);
+          this._graphicsLayer = null;
+        }
+        if(this._pointLayer){
+          this.map.removeLayer(this._pointLayer);
+          this._pointLayer = null;
+        }
+        if(this._polylineLayer){
+          this.map.removeLayer(this._polylineLayer);
+          this._polylineLayer = null;
+        }
+        if(this._polygonLayer){
+          this.map.removeLayer(this._polygonLayer);
+          this._polygonLayer = null;
+        }
+        if(this._labelLayer){
+          this.map.removeLayer(this._labelLayer);
+          this._labelLayer = null;
         }
         if(this.pointSymChooser){
           this.pointSymChooser.destroy();
@@ -593,42 +770,69 @@ define([
         this.viewStack.switchView(null);
       },
 
-      _addGraphics: function(graphics){
-        array.forEach(graphics, lang.hitch(this, function(g){
-          this.drawBox.addGraphic(g);
+      _getAllGraphics: function(){
+        //return a new array
+        return array.map(this._graphicsLayer.graphics, lang.hitch(this, function(g){
+          return g;
         }));
       },
 
-      _removeGraphics: function(graphics){
+      _onUndoManagerChanged: function(){
+        this._enableBtn(this.btnUndo, this._undoManager.canUndo);
+        this._enableBtn(this.btnRedo, this._undoManager.canRedo);
+        var graphics = this._getAllGraphics();
+        this._enableBtn(this.btnClear, graphics.length > 0);
+        this._syncGraphicsToLayers();
+      },
+
+      _syncGraphicsToLayers: function(){
+        this._pointLayer.clear();
+        this._polylineLayer.clear();
+        this._polygonLayer.clear();
+        this._labelLayer.clear();
+        var graphics = this._getAllGraphics();
         array.forEach(graphics, lang.hitch(this, function(g){
-          this.drawBox.removeGraphic(g);
+          var graphicJson = g.toJson();
+          var clonedGraphic = new Graphic(graphicJson);
+          var geoType = clonedGraphic.geometry.type;
+          var layer = null;
+          if(geoType === 'point'){
+            if(clonedGraphic.symbol && clonedGraphic.symbol.type === 'textsymbol'){
+              layer = this._labelLayer;
+            }else{
+              layer = this._pointLayer;
+            }
+          }else if(geoType === 'polyline'){
+            layer = this._polylineLayer;
+          }else if(geoType === 'polygon' || geoType === 'extent'){
+            layer = this._polygonLayer;
+          }
+          if(layer){
+            layer.add(clonedGraphic);
+          }
         }));
       },
 
-      _pushUndoGraphics: function(graphics){
-        this._undoList.push(graphics);
-        this._enableBtn(this.btnUndo, true);
+      _pushAddOperation: function(graphics){
+        array.forEach(graphics, lang.hitch(this, function(g){
+          var attrs = g.attributes || {};
+          attrs[this._objectIdName] = this._objectIdCounter++;
+          g.setAttributes(attrs);
+          this._graphicsLayer.add(g);
+        }));
+        var addOperation = new customOp.Add({
+          graphicsLayer: this._graphicsLayer,
+          addedGraphics: graphics
+        });
+        this._undoManager.add(addOperation);
       },
 
-      _popUndoGraphics: function(){
-        var graphics = this._undoList.pop();
-        if(this._undoList.length === 0){
-          this._enableBtn(this.btnUndo, false);
-        }
-        return graphics;
-      },
-
-      _pushRedoGraphics: function(graphics){
-        this._redoList.push(graphics);
-        this._enableBtn(this.btnRedo, true);
-      },
-
-      _popRedoGraphics: function(){
-        var graphics = this._redoList.pop();
-        if(this._redoList.length === 0){
-          this._enableBtn(this.btnRedo, false);
-        }
-        return graphics;
+      _pushDeleteOperation: function(graphics){
+        var deleteOperation = new customOp.Delete({
+          graphicsLayer: this._graphicsLayer,
+          deletedGraphics: graphics
+        });
+        this._undoManager.add(deleteOperation);
       },
 
       _enableBtn: function(btn, isEnable){
@@ -639,41 +843,21 @@ define([
         }
       },
 
-      _disableBtnRedo: function(){
-        this._enableBtn(this.btnRedo, false);
-        this._redoList = [];
-      },
-
       _onBtnUndoClicked: function(){
-        if(this._undoList.length === 0){
-          return;
-        }
-
-        var undoGraphics = this._popUndoGraphics();
-        if(undoGraphics && undoGraphics.length > 0){
-          this._pushRedoGraphics(undoGraphics);
-          this._removeGraphics(undoGraphics);
-        }
+        this._undoManager.undo();
       },
 
       _onBtnRedoClicked: function(){
-        if(this._redoList.length === 0){
-          return;
-        }
-
-        var redoGraphics = this._popRedoGraphics();
-        if(redoGraphics && redoGraphics.length > 0){
-          this._addGraphics(redoGraphics);
-          this._pushUndoGraphics(redoGraphics);
-        }
+        this._undoManager.redo();
       },
 
       _onBtnClearClicked: function(){
-        this._undoList = [];
-        this._redoList = [];
-        this._enableBtn(this.btnUndo, false);
-        this._enableBtn(this.btnRedo, false);
-        this.drawBox.clear();
+        var graphics = this._getAllGraphics();
+        if(graphics.length > 0){
+          this._graphicsLayer.clear();
+          this._pushDeleteOperation(graphics);
+        }
+        this._enableBtn(this.btnClear, false);
       }
     });
   });

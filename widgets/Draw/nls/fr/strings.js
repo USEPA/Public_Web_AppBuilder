@@ -39,6 +39,10 @@
     squareFeet: "Pieds carrés",
     squareYards: "Yards carrés",
     undo: "Annuler",
-    redo: "Rétablir"
+    redo: "Rétablir",
+    results: "Résultats",
+    points: "Points",
+    lines: "Lignes",
+    areas: "Surfaces"
   })
 );

@@ -31,6 +31,22 @@
     setTask: "Ustaw",
     setTaskTitle: "Ustaw zadanie geoprzetwarzania",
     enablePopup: "Włącz okno podręczne",
-    unSupportGeometryType: "Nie można skonfigurować modułu renderowania geometrii nieznanego typu."
+    unSupportGeometryType: "Nie można skonfigurować modułu renderowania geometrii nieznanego typu.",
+    useUrlForGPInput: "Adres URL",
+    useUploadForGPInput: "Wczytaj plik",
+    selectFileToUpload: "Wybierz plik...",
+    upload: "Prześlij",
+    rasterFormat: "Format danych wynikowych",
+    noFileSelected: "Nie wybrano pliku!",
+    uploadSuccess:"Pomyślnie przesłano plik!",
+    showLayerContent: "Wyświetl zawartość warstwy",
+    Feet: "Stopy",
+    Yards: "Jardy",
+    Miles: "Mile",
+    NauticalMiles: "Mile morskie",
+    Meter: "Metry",
+    Kilometers: "Kilometry",
+    urlPlaceholder: "adres URL zestawów obiektów",
+    allowToExport: "Udostępnij wyniki do eksportowania"
   })
 );

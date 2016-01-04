@@ -21,11 +21,11 @@
     ok: "OK",
     cancel: "Avbryt",
     result: "Sparad",
-    spError: "Alla baskartor som läggs till i galleriet måste ha samma geografiska referenser.",
+    spError: "Alla baskartor som läggs till i galleriet måste ha samma geografiska referens.",
     invalidTitle1:"Baskartan '",
     invalidTitle2:"' finns redan. Välj en annan titel.",
     invalidBasemapUrl1: "Den här typen av lager går inte att använda som baskarta.",
-    invalidBasemapUrl2: "Annan geografisk referens från den aktuella kartan.",
+    invalidBasemapUrl2: "Den baskarta du lägger till har en annan geografisk referens än den aktuella kartan.",
     addBaselayer: "Lägg till baskartlager"
   })
 );

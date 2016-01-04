@@ -1,5 +1,6 @@
 ﻿define(
    ({
-    _widgetLabel: 'Indicaciones'
+    _widgetLabel: "Indicaciones",
+    searchPlaceholder: "Buscar dirección o lugar"
   })
 );

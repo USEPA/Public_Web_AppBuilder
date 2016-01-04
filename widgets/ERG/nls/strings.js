@@ -1,5 +1,6 @@
 define({
-    root: {
+    root: ({
+        _widgetLabel: "ERG",
         calculateBy: "Calculate by",
         material: "Material",
         spillSize: "Spill Size",
@@ -13,6 +14,5 @@ define({
         tabFacilities: "Facilities",
         tabDemo: "Demographics",
         noresult: "No query results to display chart."
-    }
-    // "zh-cn": true
+    }),
 });

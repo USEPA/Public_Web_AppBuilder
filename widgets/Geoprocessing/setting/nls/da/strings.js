@@ -31,6 +31,22 @@
     setTask: "Indstil",
     setTaskTitle: "Indstil GP-opgave",
     enablePopup: "Aktivér pop-up-vindue",
-    unSupportGeometryType: "Kan ikke indstille gengivelsesværktøj på grund af ukendt geometritype."
+    unSupportGeometryType: "Kan ikke indstille gengivelsesværktøj på grund af ukendt geometritype.",
+    useUrlForGPInput: "URL",
+    useUploadForGPInput: "Overfør fil",
+    selectFileToUpload: "Vælg fil...",
+    upload: "Overfør",
+    rasterFormat: "Rasterdataformat",
+    noFileSelected: "Ingen fil valgt!",
+    uploadSuccess:"Har overført fil uden fejl!",
+    showLayerContent: "Vis lagindhold",
+    Feet: "Fod",
+    Yards: "Yards",
+    Miles: "Miles",
+    NauticalMiles: "Sømil",
+    Meter: "Meter",
+    Kilometers: "Kilometer",
+    urlPlaceholder: "objektsæt-URL",
+    allowToExport: "Tillad eksport af resultater"
   })
 );

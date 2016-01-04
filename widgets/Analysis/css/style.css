@@ -29,6 +29,7 @@
   margin: 0 auto;
   padding-top: 10px;
   width: 100%;
+  border-collapse: collapse; /*to show border-bottom in IE8*/
 }
 
 .jimu-widget-analysis .tool-name{
@@ -60,7 +61,7 @@
 .jimu-widget-analysis .tools-table-tr.disabled{
   background-color: #979797;
   cursor: default;
-  margin-top: 1px;
+  border-bottom: 1px solid #ffffff;
 }
 
 .jimu-widget-analysis .tools-table-tr .icon-div{
@@ -94,16 +95,6 @@
 
 .jimu-widget-analysis .tools-table-tr.disabled:hover{
   background-color: #979797;
-}
-
-.jimu-widget-analysis .no-query-tip{
-  width: 100%;
-  min-height: 150px;
-  margin-top: 30px;
-  margin-left: 15px;
-  margin-right: 15px;
-  color:#ff0000;
-  font-size: 14px;
 }
 
 /*params*/
@@ -192,12 +183,11 @@
 }
 
 .jimu-widget-analysis .tool-panel .esriAnalysisCloseIcon{
-  display:none;
+  display:none !important;
 }
 
 
 .jimu-widget-analysis .jimu-btn{
-  padding: 9px;
   margin-left: 10px;
   margin-right: 10px;
 }
@@ -337,10 +327,10 @@
   cursor:pointer;
   min-width: 70px;
   display:inline-block;
-  padding:8px;
+  padding:6px;
   font-size:15px;
   text-align:center;
-  background:#528cc9;
+  background:#485566;
   vertical-align:middle;
   color:#ffffff;
   -webkit-border-radius:5px;
@@ -368,4 +358,8 @@
 .jimu-rtl .dijitDialog .esriAnalysis .esriAnalysisSubmitButton{
   margin-left: auto;
   margin-right: 10px;
+}
+
+.dijitDialog .esriAnalysis .esriAnalysisCloseIcon{
+  display: none !important;
 }

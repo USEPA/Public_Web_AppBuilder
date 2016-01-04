@@ -1,0 +1,55 @@
+<div>
+  <div data-dojo-attach-point="panelBottom" class="panelBottom">
+    <!--Panel Container -->
+    <div data-dojo-attach-point="panelContainer" class="panelContainer">
+      <!-- Panel Incident -->
+      <div id="SA_tabPanel0" class="SAT_tabPanel">
+        <div class="SAT_tabPanelContent" style="width: 660px">
+            <div id="SA_incidentsLocate" data-dojo-attach-point="incidentsLocate" class="SATcol">
+                <div class="label">
+                    ${nls.locate_incident}
+                </div>
+                <br/>
+                <div class="colBar">
+                    <div data-dojo-attach-point="imgContainer">
+                        <span class="btn32"> <img id="SA_btn0"> </img> </span>
+                        <span class="btn32"> <img id="SA_btn1"> </img> </span>
+                        <span class="btn32"> <img id="SA_btn2"> </img> </span>
+                    </div>
+                    <span class="btn32 btnClear" data-dojo-attach-event="onclick:_clear"> <img id="SA_btn3"> </img> </span>
+                </div>
+            </div>
+          <div id="SA_incidentsDistance" class="SATcol">
+            <div class="label" data-dojo-attach-point="buffer_lbl"></div>
+            <br/>
+            <div class="colBar">
+              <div id="SA_horizontalSliderDiv" data-dojo-attach-point="horizontalSliderDiv"></div>
+              <div style="text-align:center; margin-top: -4px;">
+                <input data-dojo-type="dijit/form/TextBox" style="width:60px;align:left;" data-dojo-attach-point="sliderValue" name="sliderValue" value="15" />
+              </div>
+            </div>
+          </div>
+          <div data-dojo-attach-point="div_reverse_geocoding" class="SATcol" style="visibility:hidden">
+            <div class="label">
+              ${nls.reverse_geocoded_address}
+            </div>
+            </br>
+            <div class="label" style="width:100%;" data-dojo-attach-point="div_reversed_address"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Panel Message -->
+    <div id="SA_panelMessage" data-dojo-attach-point="messageNode">
+      <span id="SA_msgText" data-dojo-attach-point="messageTextNode"></span>
+    </div>
+    <!-- Panel Footer -->
+    <div id="SA_panelFooter" data-dojo-attach-point="footerNode">
+      <div id="SA_panelFooterContent" data-dojo-attach-point="footerContentNode">
+        <!-- Tabs -->
+        <div id="SA_SAT_tabs" data-dojo-attach-point="tabsNode"></div>
+      </div>
+      <div id="SA_panelClose" data-dojo-attach-event="onclick:_close"></div>
+    </div>
+  </div>
+</div>

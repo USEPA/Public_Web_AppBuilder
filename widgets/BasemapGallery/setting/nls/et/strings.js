@@ -25,7 +25,7 @@
     invalidTitle1:"Aluskaart nimega '",
     invalidTitle2:"' on juba olemas. Valige uus pealkiri.",
     invalidBasemapUrl1: "Seda tüüpi kihti ei saa kasutada aluskaardina.",
-    invalidBasemapUrl2: "Praegune kaart kasutab erinevat koordinaatsüsteemi.",
+    invalidBasemapUrl2: "Lisatav aluskaart kasutab praegusest kaardist erinevat koordinaatsüsteemi.",
     addBaselayer: "Lisa aluskaardi kiht"
   })
 );

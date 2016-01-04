@@ -1,8 +1,4 @@
 <div style="width:100%;">
-  <div data-dojo-attach-point="secondPageDiv" style="display:none">
-    <button data-dojo-type="dijit/form/Button" type="button" data-dojo-attach-event="click:backToFirstPage">${nls.back}</button><label data-dojo-attach-point="layername"></label><br>
-    <div data-dojo-attach-point="tableFieldInfos"></div>
-  </div>
   <div data-dojo-attach-point="firstPageDiv">
     <table class="setting-table input-table" cellspacing="0">
       <tbody>
@@ -11,14 +7,14 @@
           <td class="second jimu-leading-padding1">
             <div class="" style="">
               <input data-dojo-attach-point="toolbarVisible" 
-              data-dojo-attach-event="click:onToolbarSelected"
+              data-dojo-attach-event="click:_onToolbarSelected"
               data-dojo-type="dijit/form/CheckBox"/>
             </div>
           </td>
         </tr>
-        <tr data-dojo-attach-point="toolbarOptionsTr">
-          <td class="first jimu-trailing-padding1">${nls.toolbarOptions}</td>
-          <td class="second jimu-leading-padding1">
+        <tr class="toolbar-options-tr" data-dojo-attach-point="toolbarOptionsTr">
+          <td class="first jimu-trailing-padding1  toolbar-options-td" data-dojo-attach-point="toolbarOptionsLabel">${nls.toolbarOptions}</td>
+          <td class="second jimu-leading-padding1  toolbar-options-td" data-dojo-attach-point="toolbarOptionsTd">
             <span class="jimu-trailing-margin05 jimu-float-leading">${nls.mergeVisible}</span>
             <div class="jimu-trailing-margin2 jimu-float-leading">
               <input   data-dojo-attach-point="mergeVisible" 
@@ -43,9 +39,10 @@
               data-dojo-type="dijit/form/CheckBox"/>
             </div>
           </td>
+          <td><div style="height: 40px;"></div></td>
         </tr>
       </tbody>
-    </table><br>
+    </table>
     <div data-dojo-attach-point="tableLayerInfos"></div>
     <div data-dojo-attach-point="tableLayerInfosError" style="display:none; padding: 5px;"></div>
   </div>

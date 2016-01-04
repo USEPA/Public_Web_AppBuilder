@@ -1,5 +1,6 @@
 ﻿define(
    ({
-    _widgetLabel: 'Yönler'
+    _widgetLabel: "Yönler",
+    searchPlaceholder: "Adres veya yer bul"
   })
 );

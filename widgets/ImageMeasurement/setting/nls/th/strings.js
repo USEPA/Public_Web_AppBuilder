@@ -1,0 +1,50 @@
+﻿define(
+   ({
+    layerSelect: "เลือกชั้ลข้อมูลรูปภาพ",
+    displayMeasureResultInPopup: "แสดงผลการวัดในป๊อปอัพ",
+    angularUnitSelect: "ค่าเริ่มต้นหน่วยเชิงมุม",
+    linearUnitSelect: "ค่าเริ่มต้นหน่วยเชิงเส้น",
+    areaUnitSelect: "หน่วยพื้นที่ตั้งต้น",
+    displayOperationSelect: "เลือกการวัด",
+    errorSectionMeasage: "ไม่มีชั้นข้อมูลที่สนับสุนความสามารถในการวัด",
+    unitLabel: {
+      esriInches: "นิ้ว",
+      esriFeet: "ฟุต",
+      esriYards: "หลา",
+      esriMiles: "ไมล์",
+      esriNauticalMiles: "ไมล์ทะเล",
+      esriMillimeters: "มิลลิเมตร",
+      esriCentimeters: "เซ็นติเมตร",
+      esriDecimeters: "เดซิเมตร",
+      esriMeters: "เมตร",
+      esriKilometers: "กิโลเมตร",
+      esriDURadians: "เรเดียน",
+      esriDUDecimalDegrees: "องศา",
+      esriSquareInches: "ตร. นิ้ว",
+      esriSquareFeet: "ตร. ฟุต",
+      esriSquareYards: "ตร. หลา",
+      esriAcres: "เอเคอร์",
+      esriSquareMiles: "ตร. ไมล์",
+      esriSquareMillimeters: "ตร. มิลลิเมตร",
+      esriSquareCentimeters: "ตร. เซนติลิเมตร",
+      esriSquareDecimeters: "ตร. เดซิเมตร",
+      esriSquareMeters: "ตร. เมตร",
+      esriAres: "Ares",
+      esriHectares: "เฮคเตอร์",
+      esriSquareKilometers: "ตร. กิโลเมตร"
+    },
+    operationLabel: {
+      esriMensurationPoint: "จุด",
+      esriMensurationDistanceAndAngle: "ระยะทางและมุม",
+      esriMensurationAreaAndPerimeter: "พื้นที่และเส้นรอบวง",
+      esriMensurationHeightFromBaseAndTop: "จากฐานไปด้านบน",
+      esriMensurationHeightFromBaseAndTopShadow: "จากฐานไปเงาด้านบน",
+      esriMensurationHeightFromTopAndTopShadow: "จากด้านบนไปเงาด้านบน",
+      esriMensurationCentroid: "จุดศูนย์กลาง",
+      esriMensurationPoint3D: "จุด (3 มิติ)",
+      esriMensurationDistanceAndAngle3D: "ระยะทางและมุม (3 มิติ)",
+      esriMensurationAreaAndPerimeter3D: "พื้นที่และเส้นรอบวง(3 มิติ)",
+      esriMensurationCentroid3D: "จุดศูนย์กลาง (3 มิติ)"
+    }
+  })
+);

@@ -1,12 +1,13 @@
 ﻿define(
    ({
+    id: 'ID',
     state: "Ve výchozím nastavení se souřadnice zobrazí v souřadnicovém systému aktuální mapy. Chcete-li souřadnice zobrazovat v jiných souřadnicových systémech, je nutné je nastavit spolu s příslušnými transformacemi.",
     outputUnit: "Výstupní jednotka",
     wkid: "Výstupní WKID",
     label: "Výstupní souřadnicový systém",
-    transformationWkid: 'WKID transformace',
-    transformationLabel: 'Popisek transformace',
-    transformForward: 'Transformovat blíž',
+    transformationWkid: "WKID transformace",
+    transformationLabel: "Popisek transformace",
+    transformForward: "Transformovat blíž",
     actions: "Akce",
     warning: "Zadejte platné WKID souřadnicového systému!",
     tfWarning: "Zadejte platné WKID transformace souřadnic!",

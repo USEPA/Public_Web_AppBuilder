@@ -53,15 +53,14 @@ define([
     usage: 'aggregatePointsUsage',
     analysisLayer:{
       name: 'pointLayer',
-      geomTypes: ['esriGeometryPoint','esriGeometryMultipoint']
+      geomTypes: ['esriGeometryPoint', 'esriGeometryMultipoint']
     },
     requiredParam:{
       name: 'polygonLayers',
       isArray: true,
       geomTypes: ['esriGeometryPolygon']
     },
-    icon: "images/AggregatePoints32.png",
-    inputlayerTip: 'aggregatePointsInputTip'
+    icon: "images/AggregatePoints32.png"
   },
   {
     id:1,
@@ -71,15 +70,14 @@ define([
     usage: 'calculateDensityUsage',
     analysisLayer:{
       name: 'inputLayer',
-      geomTypes: ['esriGeometryPoint','esriGeometryMultipoint','esriGeometryPolyline']
+      geomTypes: ['esriGeometryPoint', 'esriGeometryMultipoint', 'esriGeometryPolyline']
     },
     optionalParams:[{
       name:'boundingPolygonLayers',
       isArray: true,
       geomTypes: ['esriGeometryPolygon']
     }],
-    icon: "images/CreateDensitySurface32.png",
-    inputlayerTip: 'calculateDensityInputTip'
+    icon: "images/CreateDensitySurface32.png"
   },
   {
     id:2,
@@ -97,7 +95,7 @@ define([
       geomTypes: ['esriGeometryPoint']
     },
     icon: "images/ConnectOriginstoDestinations32.png",
-    inputlayerTip: 'connectOriginsToDestinationsInputTip'
+    privileges:['od']
   },
   {
     id:3,
@@ -109,8 +107,7 @@ define([
       name: 'inputLayer',
       geomTypes: ['*']
     },
-    icon: "images/CreateBuffers32.png",
-    inputlayerTip: 'createBuffersInputTip'
+    icon: "images/CreateBuffers32.png"
   },
   {
     id:4,
@@ -123,9 +120,8 @@ define([
       geomTypes: ['esriGeometryPoint']
     },
     icon: "images/CreateDriveTimeAreas32.png",
-    inputlayerTip: 'createDriveTimeAreasInputTip',
     cannotCancel:true,
-    privileges:['networkanalysis']
+    privileges:['drivetimearea']
   },
   {
     id:5,
@@ -138,7 +134,7 @@ define([
       geomTypes: ['esriGeometryPoint']
     },
     icon: "images/Viewshed32.png",
-    inputlayerTip: 'createViewshedInputTip'
+    privileges:['elevation']
   },
   {
     id:6,
@@ -151,7 +147,7 @@ define([
       geomTypes: ['esriGeometryPoint']
     },
     icon: "images/Watershed32.png",
-    inputlayerTip: 'createWatershedsInputTip'
+    privileges:['elevation']
   },
   {
     id:7,
@@ -168,8 +164,7 @@ define([
       isArray: true,
       geomTypes: ['*']
     }],
-    icon: "images/FindNewLocations32.png",
-    inputlayerTip: 'deriveNewLocationsInputTip'
+    icon: "images/FindNewLocations32.png"
   },
   {
     id:8,
@@ -181,8 +176,7 @@ define([
       name: 'inputLayer',
       geomTypes: ['esriGeometryPolygon']
     },
-    icon: "images/DissolveBoundaries32.png",
-    inputlayerTip: 'dissolveBoundariesInputTip'
+    icon: "images/DissolveBoundaries32.png"
   },
   {
     id:9,
@@ -195,7 +189,6 @@ define([
       geomTypes: ['*']
     },
     icon: "images/GeoenrichFeatures32.png",
-    inputlayerTip: 'enrichLayerInputTip',
     privileges:['geoenrichment']
   },
   {
@@ -209,8 +202,7 @@ define([
       isArray: true,
       geomTypes: ['*']
     }],
-    icon: 'images/ClipAndShip32.png',
-    inputlayerTip: 'extractDataInputTip'
+    icon: 'images/ClipAndShip32.png'
   },
   {
     id:11,
@@ -227,8 +219,7 @@ define([
       isArray: true,
       geomTypes: ['*']
     }],
-    icon: "images/FindExistingLocations32.png",
-    inputlayerTip: 'findExistingLocationsInputTip'
+    icon: "images/FindExistingLocations32.png"
   },
   {
     id:12,
@@ -238,19 +229,18 @@ define([
     usage: 'findHotSpotsUsage',
     analysisLayer:{
       name: 'analysisLayer',
-      geomTypes: ['esriGeometryPoint','esriGeometryMultipoint','esriGeometryPolygon']
+      geomTypes: ['esriGeometryPoint', 'esriGeometryMultipoint', 'esriGeometryPolygon']
     },
     optionalParams:[{
       name: 'aggregationPolygonLayers',
       isArray: true,
       geomTypes: ['esriGeometryPolygon']
-    },{
+    }, {
       name: 'boundingPolygonLayers',
       isArray: true,
       geomTypes: ['esriGeometryPolygon']
     }],
-    icon: "images/FindHotSpots32.png",
-    inputlayerTip: 'findHotSpotsInputTip'
+    icon: "images/FindHotSpots32.png"
   },
   {
     id:13,
@@ -268,9 +258,7 @@ define([
       geomTypes: ['*']
     },
     icon: "images/FindNearest32.png",
-    inputlayerTip: 'findNearestInputTip',
-    cannotCancel:true,
-    privileges:['networkanalysis']
+    cannotCancel:true
   },
   {
     id:14,
@@ -287,8 +275,7 @@ define([
       isArray: true,
       geomTypes: ['*']
     }],
-    icon: "images/FindSimilarLocations32.png",
-    inputlayerTip: 'findSimilarLocationsInputTip'
+    icon: "images/FindSimilarLocations32.png"
   },
   {
     id:15,
@@ -298,19 +285,18 @@ define([
     usage: 'interpolatePointsUsage',
     analysisLayer:{
       name: 'inputLayer',
-      geomTypes: ['esriGeometryPoint','esriGeometryMultipoint']
+      geomTypes: ['esriGeometryPoint', 'esriGeometryMultipoint']
     },
     optionalParams:[{
       name: 'boundingPolygonLayers',
       isArray: true,
       geomTypes: ['esriGeometryPolygon']
-    },{
+    }, {
       name: 'predictAtPointLayers',
       isArray: true,
       geomTypes: ['esriGeometryPoint']
     }],
-    icon: "images/CreateInterpolatedSurface32.png",
-    inputlayerTip: 'interpolatePointsInputTip'
+    icon: "images/CreateInterpolatedSurface32.png"
   },
   {
     id:16,
@@ -327,8 +313,7 @@ define([
       isArray: true,
       geomTypes: ['*']
     },
-    icon: "images/MergeLayers32.png",
-    inputlayerTip: 'mergeLayersInputTip'
+    icon: "images/MergeLayers32.png"
   },
   {
     id:17,
@@ -345,8 +330,7 @@ define([
       isArray: true,
       geomTypes: ['*']
     },
-    icon: "images/OverlayLayers32.png",
-    inputlayerTip: 'overlayLayersInputTip'
+    icon: "images/OverlayLayers32.png"
   },
   {
     id:18,
@@ -364,9 +348,8 @@ define([
       geomTypes: ['esriGeometryPoint']
     }],
     icon: "images/PlanRoutes32.png",
-    inputlayerTip: 'planRoutesInputTip',
     cannotCancel:true,
-    privileges:['networkanalysis']
+    privileges:['planroutes']
   },
   {
     id:19,
@@ -383,9 +366,7 @@ define([
       isArray: true,
       geomTypes: ['*']
     },
-    icon: "images/SummarizeNearby32.png",
-    inputlayerTip: 'summarizeNearbyInputTip',
-    privileges:['networkanalysis']
+    icon: "images/SummarizeNearby32.png"
   },
   {
     id:20,
@@ -402,8 +383,7 @@ define([
       isArray: true,
       geomTypes: ['*']
     },
-    icon: "images/SummarizeWithin32.png",
-    inputlayerTip: 'summarizeWithinInputTip'
+    icon: "images/SummarizeWithin32.png"
   },
   {
     id:21,
@@ -421,20 +401,20 @@ define([
       geomTypes: ['esriGeometryPolygon']
     }],
     icon: "images/TraceDownstream32.png",
-    inputlayerTip: 'traceDownstreamInputTip'
+    privileges:['elevation']
   }];
 
   mo.findToolSetting = function(toolName){
     var idx = array.indexOf(_toolNames, toolName);
     if(idx !== -1){
-      return _toolParams[idx];
+      return lang.clone(_toolParams[idx]);
     }else{
       return null;
     }
   };
 
   mo.getToolName = function(row){
-    if(('id' in row) && (row.id>=0 && row.id<_toolNames.length)){
+    if(('id' in row) && (row.id >= 0 && row.id < _toolNames.length)){
       return _toolNames[row.id];
     }else{
       return null;

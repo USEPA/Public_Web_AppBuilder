@@ -41,7 +41,6 @@
   background: white;
   padding: 5px;
   margin: 5px 0;
-  max-width: 350px;
   position: relative; }
   .discoveryResultEntry.bordered {
     -webkit-border-radius: 5px 5px 5px 5px;
@@ -529,13 +528,11 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
       position: relative;
       min-height: 225px;
       width: 98%;
-      height: 100%;
       margin-top: 5px;
       border: 1px solid #DFDFDF;
       background: ghostwhite; }
       .imageDiscoveryCartCheckoutWidget .checkoutWidgetTabContainer .checkoutWidgetTabContentContainer .checkoutWidgetTabContent {
-        padding: 10px;
-        height: 90%; }
+        padding: 10px; }
   .imageDiscoveryCartCheckoutWidget .checkoutStatusHeader {
     font-size: 11pt;
     height: 25px;
@@ -607,7 +604,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
       overflow: visible; }
   .imageDiscoveryCartCheckoutWidget .orderReviewContainer {
     overflow: auto;
-    height: 90%;
+    max-height: 350px;
     max-width: 500px;
     padding: 0 5px; }
     .imageDiscoveryCartCheckoutWidget .orderReviewContainer .orderReviewHeader {
@@ -633,7 +630,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     position: relative;
     height: 100%; }
   .imageDiscoveryCartCheckoutWidget .checkoutContent {
-    height: 75%;
     width: 100%;
     padding: 1%; }
   .imageDiscoveryCartCheckoutWidget .checkoutTallyContainer {
@@ -726,6 +722,17 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     background: gray;
     opacity: .6;
     cursor: default; }
+
+.exportCSVLinksList {
+  list-style-type: none; }
+
+.exportCSVLinksListItem {
+  text-decoration: underline;
+  cursor: pointer;
+  opacity: .7; }
+
+.exportCSVLinksListItem:hover {
+  opacity: 1.0; }
 
 .imageDiscoveryCartCheckoutWidget {
   -webkit-box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
@@ -1014,7 +1021,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
   .imageDiscoveryResultsWidget .toggleFilterVisibilityContainer {
     cursor: pointer; }
   .imageDiscoveryResultsWidget .resultEntriesContainer {
-    height: 98%; }
+    height: 95%; }
     .imageDiscoveryResultsWidget .resultEntriesContainer .dgrid {
       border: 0;
       height: 95%;
@@ -2382,8 +2389,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 .jimu-widget-image-discovery {
   height: 98%;
   width: 100%;
-  min-width: 332px;
-  max-width: 332px; }
+  min-width: 332px; }
   .jimu-widget-image-discovery .discoveryLogo {
     background: url(../images/discovery-logo.png);
     height: 62px;
@@ -2446,7 +2452,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
   .imageDiscoveryCheckoutContainer .orderDetailsContainer .orderDetailsEntry {
     margin: 2px 0; }
     .imageDiscoveryCheckoutContainer .orderDetailsContainer .orderDetailsEntry.cartItemCountLabel {
-      float: right;
+      text-align: right;
       margin-right: 10px; }
     .imageDiscoveryCheckoutContainer .orderDetailsContainer .orderDetailsEntry.cartItemTotalCostEntry {
       padding-top: 8px; }

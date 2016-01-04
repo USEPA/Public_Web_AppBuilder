@@ -67,6 +67,7 @@ define(
         this._bufferDefaults = this.config.bufferDefaults;
         this.defaultBufferValue.set('value',this._bufferDefaults.bufferDefaultValue || 2);
         this.defaultBufferWKID.set('value',this._bufferDefaults.bufferWKID || 102003);
+        this.addToLegendCbx.setValue(this._bufferDefaults.addtolegend || false);
         if(this._bufferDefaults.simplefillsymbol){
           this.layerSymbolPicker.showBySymbol(jsonUtils.fromJson(this._bufferDefaults.simplefillsymbol));
         }else{
@@ -78,6 +79,8 @@ define(
       getConfig:function(){
         this._bufferDefaults.bufferDefaultValue = parseFloat(this.defaultBufferValue.get('value'));
         this._bufferDefaults.bufferWKID = parseInt(this.defaultBufferWKID.get('value'));
+        this._bufferDefaults.addtolegend = this.addToLegendCbx.getValue();
+        this._bufferDefaults.bufferUnits.bufferUnit = this._getAllBufferUnits();
         var config = {
           bufferDefaults:this._bufferDefaults
         };
@@ -120,7 +123,7 @@ define(
       _getAllBufferUnits:function(){
         var trs = this.bufferUnitsTable._getNotEmptyRows();
         var allBufferUnits = array.map(trs,lang.hitch(this,function(item){
-          return item.singleSearch;
+          return item.bufferUnit;
         }));
         return allBufferUnits;
       },

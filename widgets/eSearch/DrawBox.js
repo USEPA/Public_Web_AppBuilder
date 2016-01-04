@@ -14,6 +14,7 @@
 // limitations under the License.
 ///////////////////////////////////////////////////////////////////////////
 /*globals define, window*/
+/*jslint maxlen: 800, -W116 */
 define([
   'dojo/_base/declare',
   'dijit/_WidgetBase',
