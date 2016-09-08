@@ -1,9 +1,0 @@
-{
-  "name": "StreetViewPopup",
-  "platform": "HTML",
-  "version": "1.1.0.1",
-  "author": "Innovate! Inc. and Stan McShinsky - Provo City",
-  "description": "Opens window of streetview, google maps, and bing birdseye imagery of the clicked location",
-  "copyright": "",
-  "license": "http://www.apache.org/licenses/LICENSE-2.0"
-}
